@@ -1,0 +1,6 @@
+micronaut:
+  http:
+    services:
+      kubernetes:
+        path: /api/v1
+        url: http://localhost:8083

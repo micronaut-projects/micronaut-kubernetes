@@ -1,0 +1,3 @@
+rootProject.name = 'micronaut-kubernetes'
+
+include 'core', 'discovery-client'
