@@ -23,6 +23,7 @@ import io.micronaut.kubernetes.client.v1.Address;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.Port;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
+import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
 
@@ -68,7 +69,11 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     @Override
     public Publisher<List<String>> getServiceIds() {
-        return null;
+        return Flowable.fromPublisher(client.listServices())
+                .flatMapIterable(ServiceList::getItems)
+                .map(service -> service.getMetadata().getName())
+                .toList()
+                .toFlowable();
     }
 
     @Override

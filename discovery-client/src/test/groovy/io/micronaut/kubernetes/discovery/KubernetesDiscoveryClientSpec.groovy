@@ -40,4 +40,16 @@ class KubernetesDiscoveryClientSpec extends Specification {
         serviceInstances.find { it.host == '10.1.0.34' }
     }
 
+    void "it can list all services"() {
+        when:
+        List<String> serviceIds = Flowable.fromPublisher(discoveryClient.serviceIds).blockingFirst()
+
+        then:
+        serviceIds.size() == 4
+        serviceIds.contains 'example-service'
+        serviceIds.contains 'kubernetes'
+        serviceIds.contains 'compose-api'
+        serviceIds.contains 'kube-dns'
+    }
+
 }
