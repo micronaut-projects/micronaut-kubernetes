@@ -1,0 +1,5 @@
+micronaut:
+    application:
+        name: micronaut-client
+jackson:
+    module-scan: false

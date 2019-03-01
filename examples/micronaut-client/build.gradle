@@ -27,6 +27,9 @@ dependencies {
     compile "io.micronaut:micronaut-inject"
     compile "io.micronaut:micronaut-validation"
     compile "io.micronaut:micronaut-runtime"
+
+    compile project(':discovery-client')
+
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testCompile "org.junit.jupiter:junit-jupiter-api"
@@ -42,12 +45,12 @@ run.classpath += configurations.developmentOnly
 test.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
 
-mainClassName = "micronaut.service.Application"
+mainClassName = "micronaut.client.Application"
 // use JUnit 5 platform
 test {
     useJUnitPlatform()
 }
-jib.to.image = 'gcr.io/micronaut-service/jib-image'
+jib.to.image = 'gcr.io/micronaut-client/jib-image'
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
