@@ -11,6 +11,7 @@ buildscript {
         classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
         classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:$micronautDocsVersion"
         classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:$micronautDocsVersion"
+        classpath 'com.adarshr:gradle-test-logger-plugin:1.6.0'
     }
 }
 
@@ -138,7 +139,6 @@ subprojects { Project subproject ->
 
     checkstyleTest.enabled = false
 
-    apply from: rootProject.file('gradle/testVerbose.gradle')
 }
 apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v${micronautDocsVersion}/gradle/docs.gradle"
 
@@ -152,6 +152,8 @@ allprojects {
         }
     }
     apply from: rootProject.file('gradle/license.gradle')
+
+    apply plugin: 'com.adarshr.test-logger'
 }
 
 
