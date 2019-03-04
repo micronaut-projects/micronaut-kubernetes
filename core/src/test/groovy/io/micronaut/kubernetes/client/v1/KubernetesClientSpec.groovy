@@ -45,8 +45,8 @@ class KubernetesClientSpec extends Specification {
 
         then:
         service.metadata.name == 'example-service'
-        service.spec.ports.first().port == 8080
-        service.spec.ports.first().targetPort == 8080
+        service.spec.ports.first().port == 8081
+        service.spec.ports.first().targetPort == 8081
         service.spec.clusterIp == InetAddress.getByName(getClusterIp())
     }
 
@@ -69,7 +69,7 @@ class KubernetesClientSpec extends Specification {
         endpoints.metadata.name == 'example-service'
         endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first())
         endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last())
-        endpoints.subsets.first().ports.first().port == 8080
+        endpoints.subsets.first().ports.first().port == 8081
     }
 
     private String getClusterIp() {

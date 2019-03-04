@@ -1,5 +1,6 @@
-package micronaut.service;
+package micronaut.client;
 
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
@@ -19,7 +20,7 @@ public class HelloControllerTest {
     @Test
     public void testIndex() throws Exception {
         try(RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class, embeddedServer.getURL())) {
-            assertTrue(client.toBlocking().exchange("/hello/Alvaro", String.class).body().startsWith("Hello, Alvaro"));
+            assertTrue(client.toBlocking().exchange("/", String.class).body().startsWith("Hello, example-client"));
         }
     }
 }

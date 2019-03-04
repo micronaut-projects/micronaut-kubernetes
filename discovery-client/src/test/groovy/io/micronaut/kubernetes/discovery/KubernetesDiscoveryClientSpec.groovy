@@ -38,7 +38,7 @@ class KubernetesDiscoveryClientSpec extends Specification {
 
         then:
         serviceInstances.size() == ipAddresses.size()
-        serviceInstances.every { it.port == 8080 }
+        serviceInstances.every { it.port == 8081 }
         ipAddresses.every { String ip ->
             serviceInstances.find { it.host == ip }
         }
