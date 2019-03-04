@@ -24,16 +24,26 @@ import org.reactivestreams.Publisher;
 
 public interface KubernetesOperations {
 
+    String DEFAULT_NAMESPACE = "default";
+
     @Get("/services")
     Publisher<ServiceList> listServices();
 
     @Get("/namespaces/{namespace}/services/{serviceName}")
     Publisher<Service> getService(String namespace, String serviceName);
 
+    default Publisher<Service> getService(String serviceName) {
+        return getService(DEFAULT_NAMESPACE, serviceName);
+    }
+
     @Get("/endpoints")
     Publisher<EndpointsList> listEndpoints();
 
     @Get("/namespaces/{namespace}/endpoints/{serviceName}")
     Publisher<Endpoints> getEndpoints(String namespace, String serviceName);
+
+    default Publisher<Endpoints> getEndpoints(String serviceName) {
+        return getEndpoints(DEFAULT_NAMESPACE, serviceName);
+    }
 
 }

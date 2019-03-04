@@ -44,10 +44,15 @@ class KubernetesClientSpec extends Specification {
         Service service = Flowable.fromPublisher(client.getService('default', 'example-service')).blockingFirst()
 
         then:
-        service.metadata.name == 'example-service'
-        service.spec.ports.first().port == 8081
-        service.spec.ports.first().targetPort == 8081
-        service.spec.clusterIp == InetAddress.getByName(getClusterIp())
+        assertThatServiceIsCorrect(service)
+    }
+
+    void "it can get one service from the default namespace"() {
+        when:
+        Service service = Flowable.fromPublisher(client.getService('example-service')).blockingFirst()
+
+        then:
+        assertThatServiceIsCorrect(service)
     }
 
     void "it can list endpoints"() {
@@ -66,10 +71,32 @@ class KubernetesClientSpec extends Specification {
         Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('default', 'example-service')).blockingFirst()
 
         then:
-        endpoints.metadata.name == 'example-service'
-        endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first())
-        endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last())
-        endpoints.subsets.first().ports.first().port == 8081
+        assertThatEndpointsIsCorrect(endpoints, ipAddresses)
+    }
+
+    void "it can get one endpoints from the default namespace"() {
+        given:
+        List<String> ipAddresses = getIps()
+
+        when:
+        Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('example-service')).blockingFirst()
+
+        then:
+        assertThatEndpointsIsCorrect(endpoints, ipAddresses)
+    }
+
+    private boolean assertThatServiceIsCorrect(Service service) {
+        service.metadata.name == 'example-service' &&
+                service.spec.ports.first().port == 8081 &&
+                service.spec.ports.first().targetPort == 8081 &&
+                service.spec.clusterIp == InetAddress.getByName(getClusterIp())
+    }
+
+    private boolean assertThatEndpointsIsCorrect(Endpoints endpoints, List<String> ipAddresses) {
+        endpoints.metadata.name == 'example-service' &&
+                endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first()) &&
+                endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last()) &&
+                endpoints.subsets.first().ports.first().port == 8081
     }
 
     private String getClusterIp() {

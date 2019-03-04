@@ -21,6 +21,7 @@ import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.Address;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
+import io.micronaut.kubernetes.client.v1.KubernetesOperations;
 import io.micronaut.kubernetes.client.v1.Port;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
@@ -32,6 +33,8 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static io.micronaut.kubernetes.client.v1.KubernetesOperations.DEFAULT_NAMESPACE;
 
 /**
  * A {@link DiscoveryClient} implementation for Kubernetes using the API
@@ -53,7 +56,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     @Override
     public Publisher<List<ServiceInstance>> getInstances(String serviceId) {
         //TODO parameterise namespace
-        return Flowable.fromPublisher(client.getEndpoints("default", serviceId))
+        return Flowable.fromPublisher(client.getEndpoints(DEFAULT_NAMESPACE, serviceId))
                 .flatMapIterable(Endpoints::getSubsets)
                 .map(subset -> subset
                         .getPorts()
