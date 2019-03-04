@@ -47,7 +47,16 @@ mainClassName = "micronaut.service.Application"
 test {
     useJUnitPlatform()
 }
-jib.to.image = 'gcr.io/micronaut-service/jib-image'
+jib {
+    from {
+//        image = 'gcr.io/distroless/java:debug'
+        image = 'alvarosanchez/alpine-with-curl'
+    }
+    to {
+        image = 'registry.hub.docker.com/alvarosanchez/example-service'
+        credHelper = 'osxkeychain'
+    }
+}
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
