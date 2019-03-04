@@ -47,7 +47,7 @@ class KubernetesClientSpec extends Specification {
         service.metadata.name == 'example-service'
         service.spec.ports.first().port == 8080
         service.spec.ports.first().targetPort == 8080
-        service.spec.clusterIp == InetAddress.getByName('10.98.36.253')
+        service.spec.clusterIp == InetAddress.getByName(getClusterIp())
     }
 
     void "it can list endpoints"() {
@@ -59,14 +59,33 @@ class KubernetesClientSpec extends Specification {
     }
 
     void "it can get one endpoints"() {
+        given:
+        List<String> ipAddresses = getIps()
+
         when:
         Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('default', 'example-service')).blockingFirst()
 
         then:
         endpoints.metadata.name == 'example-service'
-        endpoints.subsets.first().addresses.first().ip == InetAddress.getByName('10.1.0.60')
-        endpoints.subsets.first().addresses.last().ip == InetAddress.getByName('10.1.0.61')
+        endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first())
+        endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last())
         endpoints.subsets.first().ports.first().port == 8080
+    }
+
+    private String getClusterIp() {
+        return getProcessOutput("kubectl get service example-service | awk 'FNR > 1 { print \$3 }'").trim()
+    }
+
+    private List<String> getIps() {
+        return getProcessOutput("kubectl get endpoints example-service | awk 'FNR > 1 { print \$2 }'")
+                .split('\\,')
+                .collect { it.split(':').first() }
+    }
+
+    private String getProcessOutput(String command) {
+        Process p = ['bash', '-c', command].execute()
+        p.waitFor()
+        return p.text
     }
 
 }

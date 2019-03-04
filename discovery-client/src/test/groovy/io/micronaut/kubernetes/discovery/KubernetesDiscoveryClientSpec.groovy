@@ -30,27 +30,46 @@ class KubernetesDiscoveryClientSpec extends Specification {
     KubernetesDiscoveryClient discoveryClient
 
     void "it can get service instances"() {
+        given:
+        List<String> ipAddresses = getIps()
+
         when:
         List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service')).blockingFirst()
 
         then:
-        serviceInstances.size() == 2
+        serviceInstances.size() == ipAddresses.size()
         serviceInstances.every { it.port == 8080 }
-        serviceInstances.find { it.host == '10.1.0.60' }
-        serviceInstances.find { it.host == '10.1.0.61' }
+        ipAddresses.every { String ip ->
+            serviceInstances.find { it.host == ip }
+        }
     }
 
     void "it can list all services"() {
+        given:
+        List<String> allServices = getServices()
+
         when:
         List<String> serviceIds = Flowable.fromPublisher(discoveryClient.serviceIds).blockingFirst()
 
         then:
-        serviceIds.size() == 5
-        serviceIds.contains 'example-service'
-        serviceIds.contains 'kubernetes'
-        serviceIds.contains 'kubernetes-dashboard'
-        serviceIds.contains 'compose-api'
-        serviceIds.contains 'kube-dns'
+        serviceIds.size() == allServices.size()
+        allServices.every { serviceIds.contains it }
+    }
+
+    private List<String> getServices(){
+        return getProcessOutput("kubectl get services --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
+    }
+
+    private List<String> getIps() {
+        return getProcessOutput("kubectl get endpoints example-service | awk 'FNR > 1 { print \$2 }'")
+                    .split('\\,')
+                    .collect { it.split(':').first() }
+    }
+
+    private String getProcessOutput(String command) {
+        Process p = ['bash', '-c', command].execute()
+        p.waitFor()
+        return p.text
     }
 
 }
