@@ -3,4 +3,4 @@ micronaut:
     services:
       kubernetes:
         path: /api/v1
-        url: http://localhost:8083
+        url: http://localhost:8001

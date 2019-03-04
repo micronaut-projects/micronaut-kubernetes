@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @MicronautTest
 public class HelloControllerTest {
@@ -19,7 +19,7 @@ public class HelloControllerTest {
     @Test
     public void testIndex() throws Exception {
         try(RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class, embeddedServer.getURL())) {
-            assertEquals("Hello, Alvaro", client.toBlocking().exchange("/hello/Alvaro", String.class).body());
+            assertTrue(client.toBlocking().exchange("/hello/Alvaro", String.class).body().startsWith("Hello, Alvaro. From localhost"));
         }
     }
 }

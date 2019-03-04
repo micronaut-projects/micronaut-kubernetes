@@ -36,7 +36,7 @@ class KubernetesClientSpec extends Specification {
         ServiceList serviceList = Flowable.fromPublisher(client.listServices()).blockingFirst()
 
         then:
-        serviceList.items.size() == 4
+        serviceList.items.size() == 5
     }
 
     void "it can get one service"() {
@@ -47,7 +47,7 @@ class KubernetesClientSpec extends Specification {
         service.metadata.name == 'example-service'
         service.spec.ports.first().port == 8080
         service.spec.ports.first().targetPort == 8080
-        service.spec.clusterIp == InetAddress.getByName('10.109.97.98')
+        service.spec.clusterIp == InetAddress.getByName('10.98.36.253')
     }
 
     void "it can list endpoints"() {
@@ -55,7 +55,7 @@ class KubernetesClientSpec extends Specification {
         EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints()).blockingFirst()
 
         then:
-        endpointsList.items.size() == 6
+        endpointsList.items.size() == 7
     }
 
     void "it can get one endpoints"() {
@@ -64,8 +64,8 @@ class KubernetesClientSpec extends Specification {
 
         then:
         endpoints.metadata.name == 'example-service'
-        endpoints.subsets.first().addresses.first().ip == InetAddress.getByName('10.1.0.31')
-        endpoints.subsets.first().addresses.last().ip == InetAddress.getByName('10.1.0.34')
+        endpoints.subsets.first().addresses.first().ip == InetAddress.getByName('10.1.0.60')
+        endpoints.subsets.first().addresses.last().ip == InetAddress.getByName('10.1.0.61')
         endpoints.subsets.first().ports.first().port == 8080
     }
 

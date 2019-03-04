@@ -36,8 +36,8 @@ class KubernetesDiscoveryClientSpec extends Specification {
         then:
         serviceInstances.size() == 2
         serviceInstances.every { it.port == 8080 }
-        serviceInstances.find { it.host == '10.1.0.31' }
-        serviceInstances.find { it.host == '10.1.0.34' }
+        serviceInstances.find { it.host == '10.1.0.60' }
+        serviceInstances.find { it.host == '10.1.0.61' }
     }
 
     void "it can list all services"() {
@@ -45,9 +45,10 @@ class KubernetesDiscoveryClientSpec extends Specification {
         List<String> serviceIds = Flowable.fromPublisher(discoveryClient.serviceIds).blockingFirst()
 
         then:
-        serviceIds.size() == 4
+        serviceIds.size() == 5
         serviceIds.contains 'example-service'
         serviceIds.contains 'kubernetes'
+        serviceIds.contains 'kubernetes-dashboard'
         serviceIds.contains 'compose-api'
         serviceIds.contains 'kube-dns'
     }
