@@ -40,4 +40,12 @@ public class EndpointsSubset {
     public void setPorts(List<Port> ports) {
         this.ports = ports;
     }
+
+    @Override
+    public String toString() {
+        return "EndpointsSubset{" +
+                "addresses=" + addresses +
+                ", ports=" + ports +
+                '}';
+    }
 }

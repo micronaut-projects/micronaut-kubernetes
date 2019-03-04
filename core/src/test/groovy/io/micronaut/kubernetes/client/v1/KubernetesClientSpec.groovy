@@ -36,7 +36,7 @@ class KubernetesClientSpec extends Specification {
         ServiceList serviceList = Flowable.fromPublisher(client.listServices()).blockingFirst()
 
         then:
-        serviceList.items.size() == 5
+        serviceList.items.size() == getServices().size()
     }
 
     void "it can get one service"() {
@@ -60,7 +60,7 @@ class KubernetesClientSpec extends Specification {
         EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints()).blockingFirst()
 
         then:
-        endpointsList.items.size() == 7
+        endpointsList.items.size() == getEndpoints().size()
     }
 
     void "it can get one endpoints"() {
@@ -97,6 +97,14 @@ class KubernetesClientSpec extends Specification {
                 endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first()) &&
                 endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last()) &&
                 endpoints.subsets.first().ports.first().port == 8081
+    }
+
+    private List<String> getEndpoints(){
+        return getProcessOutput("kubectl get endpoints --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
+    }
+
+    private List<String> getServices(){
+        return getProcessOutput("kubectl get services --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
     }
 
     private String getClusterIp() {

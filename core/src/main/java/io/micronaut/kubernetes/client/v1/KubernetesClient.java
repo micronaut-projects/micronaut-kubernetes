@@ -17,5 +17,7 @@ package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.http.client.annotation.Client;
 
-@Client(id = "kubernetes", path = "/api/v1")
-public interface KubernetesClient extends KubernetesOperations{ }
+@Client(id = KubernetesClient.SERVICE_ID, path = "/api/v1")
+public interface KubernetesClient extends KubernetesOperations{
+    String SERVICE_ID = "kubernetes";
+}

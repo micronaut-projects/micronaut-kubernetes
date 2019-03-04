@@ -39,4 +39,12 @@ public class Endpoints {
     public void setSubsets(List<EndpointsSubset> subsets) {
         this.subsets = subsets;
     }
+
+    @Override
+    public String toString() {
+        return "Endpoints{" +
+                "metadata=" + metadata +
+                ", subsets=" + subsets +
+                '}';
+    }
 }

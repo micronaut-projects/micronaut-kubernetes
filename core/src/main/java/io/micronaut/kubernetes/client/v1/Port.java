@@ -53,4 +53,14 @@ public class Port {
     public void setNodePort(int nodePort) {
         this.nodePort = nodePort;
     }
+
+    @Override
+    public String toString() {
+        return "Port{" +
+                "protocol='" + protocol + '\'' +
+                ", port=" + port +
+                ", targetPort=" + targetPort +
+                ", nodePort=" + nodePort +
+                '}';
+    }
 }

@@ -2,4 +2,7 @@
 
 kubectl delete deployments.apps example-service
 kubectl delete service example-service
-kubectl create -f examples/micronaut-service/kubernetes.yml
+kubectl delete deployments.apps example-client
+kubectl delete service example-client
+./gradlew clean jib
+kubectl create -f kubernetes.yml

@@ -46,4 +46,13 @@ public class Metadata {
     public void setLabels(Map<String, String> labels) {
         this.labels = labels;
     }
+
+    @Override
+    public String toString() {
+        return "Metadata{" +
+                "name='" + name + '\'' +
+                ", uid='" + uid + '\'' +
+                ", labels=" + labels +
+                '}';
+    }
 }

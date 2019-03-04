@@ -28,4 +28,11 @@ public class Address {
     public void setIp(InetAddress ip) {
         this.ip = ip;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "ip=" + ip +
+                '}';
+    }
 }
