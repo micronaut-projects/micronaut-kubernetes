@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.filter.ClientFilterChain;
@@ -37,6 +38,7 @@ import java.nio.file.Paths;
  */
 @Requires(env = Environment.KUBERNETES)
 @Requires(condition = TokenFileExists.class)
+@Requires(property = KubernetesConfiguration.PREFIX + ".client-filter.enabled", notEquals = StringUtils.FALSE)
 public class KubernetesClientFilter implements HttpClientFilter {
 
     public static final String TOKEN_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/token";
