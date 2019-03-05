@@ -53,7 +53,6 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     private final KubernetesClient client;
 
-    @Inject
     public KubernetesDiscoveryClient(KubernetesClient client) {
         this.client = client;
     }
