@@ -37,7 +37,7 @@ ext {
 subprojects { Project subproject ->
 
     version project.projectVersion
-    group "io.micronaut.kubernetes"
+    group "io.micronaut.configuration"
     ext {
         isConfiguration = subproject.projectDir.parentFile.name == 'configurations'
         isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
