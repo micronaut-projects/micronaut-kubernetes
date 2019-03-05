@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.v1
 
+import groovy.transform.Memoized
+import spock.lang.Requires
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList
 import io.micronaut.kubernetes.client.v1.services.Service
@@ -31,6 +33,7 @@ class KubernetesClientSpec extends Specification {
     @Inject
     KubernetesClient client
 
+    @Requires({available("http://localhost:8081")})
     void "it can list services"() {
         when:
         ServiceList serviceList = Flowable.fromPublisher(client.listServices()).blockingFirst()
@@ -39,6 +42,7 @@ class KubernetesClientSpec extends Specification {
         serviceList.items.size() == getServices().size()
     }
 
+    @Requires({ available("http://localhost:8081")})
     void "it can get one service"() {
         when:
         Service service = Flowable.fromPublisher(client.getService('default', 'example-service')).blockingFirst()
@@ -47,6 +51,7 @@ class KubernetesClientSpec extends Specification {
         assertThatServiceIsCorrect(service)
     }
 
+    @Requires({ available("http://localhost:8081")})
     void "it can get one service from the default namespace"() {
         when:
         Service service = Flowable.fromPublisher(client.getService('example-service')).blockingFirst()
@@ -55,6 +60,7 @@ class KubernetesClientSpec extends Specification {
         assertThatServiceIsCorrect(service)
     }
 
+    @Requires({ available("http://localhost:8081")})
     void "it can list endpoints"() {
         when:
         EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints()).blockingFirst()
@@ -63,6 +69,7 @@ class KubernetesClientSpec extends Specification {
         endpointsList.items.size() == getEndpoints().size()
     }
 
+    @Requires({ available("http://localhost:8081")})
     void "it can get one endpoints"() {
         given:
         List<String> ipAddresses = getIps()
@@ -74,6 +81,7 @@ class KubernetesClientSpec extends Specification {
         assertThatEndpointsIsCorrect(endpoints, ipAddresses)
     }
 
+    @Requires({ available("http://localhost:8081")})
     void "it can get one endpoints from the default namespace"() {
         given:
         List<String> ipAddresses = getIps()
@@ -121,6 +129,19 @@ class KubernetesClientSpec extends Specification {
         Process p = ['bash', '-c', command].execute()
         p.waitFor()
         return p.text
+    }
+
+    @Memoized
+    static boolean available(String url) {
+        try {
+            url.toURL().openConnection().with {
+                connectTimeout = 1000
+                connect()
+            }
+            true
+        } catch (IOException e) {
+            false
+        }
     }
 
 }
