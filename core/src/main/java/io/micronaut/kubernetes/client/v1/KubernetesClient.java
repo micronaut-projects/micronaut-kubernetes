@@ -16,6 +16,8 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.client.annotation.Client;
 
 /**
@@ -27,6 +29,7 @@ import io.micronaut.http.client.annotation.Client;
  * @since 1.0.0
  */
 @Client(id = KubernetesClient.SERVICE_ID, path = "/api/v1")
+@Requires(property = KubernetesConfiguration.PREFIX + ".client.enabled", notEquals = StringUtils.FALSE)
 public interface KubernetesClient extends KubernetesOperations {
     String SERVICE_ID = "kubernetes";
 }
