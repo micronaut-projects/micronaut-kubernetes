@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
-import io.micronaut.http.annotation.Filter;
 import io.micronaut.http.filter.ClientFilterChain;
-import io.micronaut.http.filter.FilterChain;
 import io.micronaut.http.filter.HttpClientFilter;
-import io.micronaut.http.filter.HttpFilter;
 import org.reactivestreams.Publisher;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * HTTP Client filter which includes an Authorization HTTP Header with value "Bearer XXXX", Being XXXX the token saved in the file {@value #TOKEN_PATH} in every request against the Kubernetes API.
 @Filter(value = "/api/v1/**", serviceId = KubernetesClient.SERVICE_ID)
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 @Requires(env = Environment.KUBERNETES)
 public class KubernetesClientFilter implements HttpClientFilter {
 
@@ -39,18 +42,22 @@ public class KubernetesClientFilter implements HttpClientFilter {
 
     private final String token;
 
+    /**
+     *
+     * @throws IOException if an exception occurs while reading the content of file (@value #TOKEN_PATH).
+     */
     public KubernetesClientFilter() throws IOException {
         this.token = new String(Files.readAllBytes(Paths.get(TOKEN_PATH)));
     }
 
     /**
-     * A variation of {@link HttpFilter#doFilter(HttpRequest, FilterChain)} that receives a {@link MutableHttpRequest}
+     * A variation of {@link io.micronaut.http.filter.HttpFilter#doFilter(io.micronaut.http.HttpRequest, io.micronaut.http.filter.FilterChain)} that receives a {@link MutableHttpRequest}
      * allowing the request to be modified.
      *
      * @param request The request
      * @param chain   The filter chain
      * @return The publisher of the response
-     * @see HttpFilter
+     * @see io.micronaut.http.filter.HttpFilter
      */
     @Override
     public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
