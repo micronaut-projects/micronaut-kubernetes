@@ -1,0 +1,6 @@
+io.micronaut.kubernetes.client.v1
+io.micronaut.kubernetes.client.v1.endpoints
+io.micronaut.kubernetes.client.v1.services
+io.micronaut.kubernetes.discovery
+micronaut.client
+micronaut.service
