@@ -5,5 +5,5 @@ plugins {
 dependencies {
     compile "org.codehaus.groovy:groovy:$groovyVersion"
     compile "io.micronaut:micronaut-http-client:$micronautVersion"
-
+    compileOnly "org.junit.jupiter:junit-jupiter-engine"
 }

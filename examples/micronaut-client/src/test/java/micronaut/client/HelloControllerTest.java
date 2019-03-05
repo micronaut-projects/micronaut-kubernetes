@@ -1,7 +1,7 @@
 package micronaut.client;
 
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.kubernetes.test.EnabledIfAvailable;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
 
@@ -18,7 +18,8 @@ public class HelloControllerTest {
     EmbeddedServer embeddedServer;
 
     @Test
-    public void testIndex() throws Exception {
+    @EnabledIfAvailable("http://localhost:8081")
+    public void testIndex() {
         try(RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class, embeddedServer.getURL())) {
             assertTrue(client.toBlocking().exchange("/", String.class).body().startsWith("Hello, example-client"));
         }
