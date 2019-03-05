@@ -30,7 +30,7 @@ import spock.lang.Specification
 
 import javax.inject.Inject
 
-@MicronautTest(propertySources = 'classpath:application.yml')
+@MicronautTest
 class KubernetesClientSpec extends Specification {
 
     @Inject
