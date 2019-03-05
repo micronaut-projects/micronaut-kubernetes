@@ -36,6 +36,7 @@ import java.nio.file.Paths;
  * @since 1.0.0
  */
 @Requires(env = Environment.KUBERNETES)
+@Requires(condition = TokenFileExists.class)
 public class KubernetesClientFilter implements HttpClientFilter {
 
     public static final String TOKEN_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/token";
