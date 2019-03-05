@@ -1,4 +1,6 @@
-dist: trusty
+# Source: https://github.com/LiliC/travis-minikube
+# We need the systemd for the kubeadm and it's default from 16.04+
+dist: xenial
 addons:
   chrome: stable
 language: java
@@ -8,7 +10,9 @@ jdk:
 sudo: required
 services:
   - docker
+# This moves Kubernetes specific config files.
 env:
+  - CHANGE_MINIKUBE_NONE_USER=true
   global:
     - TERM=dumb
     - MALLOC_ARENA_MAX=1
@@ -16,6 +20,21 @@ env:
     - GIT_NAME="Graeme Rocher"
     - GIT_EMAIL="graeme.rocher@gmail.com"
 install: "/bin/true"
+before_script:
+  # Make root mounted as rshared to fix kube-dns issues.
+  - sudo mount --make-rshared /
+  # Download kubectl, which is a requirement for using minikube.
+  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.12.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+  # Download minikube.
+  - curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.30.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+  - sudo minikube start --vm-driver=none --bootstrapper=kubeadm --kubernetes-version=v1.12.0
+  # Fix the kubectl context, as it's often stale.
+  - minikube update-context
+  # Wait for Kubernetes to be up and ready.
+  - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
+  - kubectl cluster-info
+  - ./gradlew jib
+  - kubectl create -f kubernetes.yml
 script:
   - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-build.sh; fi
