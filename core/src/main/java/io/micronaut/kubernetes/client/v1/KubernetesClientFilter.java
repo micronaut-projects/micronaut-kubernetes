@@ -20,10 +20,12 @@ import java.nio.file.Paths;
 @Requires(env = Environment.KUBERNETES)
 public class KubernetesClientFilter implements HttpClientFilter {
 
+    public static final String TOKEN_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/token";
+
     private final String token;
 
     public KubernetesClientFilter() throws IOException {
-        this.token = new String(Files.readAllBytes(Paths.get("/var/run/secrets/kubernetes.io/serviceaccount/token")));
+        this.token = new String(Files.readAllBytes(Paths.get(TOKEN_PATH)));
     }
 
     /**
