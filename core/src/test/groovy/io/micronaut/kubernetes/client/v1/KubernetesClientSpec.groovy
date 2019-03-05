@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.v1
 
+import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
 import spock.lang.Requires
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
@@ -28,7 +29,7 @@ import spock.lang.Specification
 import javax.inject.Inject
 
 @MicronautTest(propertySources = 'classpath:application.yml')
-class KubernetesClientSpec extends Specification {
+class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     @Inject
     KubernetesClient client
@@ -105,29 +106,5 @@ class KubernetesClientSpec extends Specification {
                 endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first()) &&
                 endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last()) &&
                 endpoints.subsets.first().ports.first().port == 8081
-    }
-
-    private List<String> getEndpoints(){
-        return getProcessOutput("kubectl get endpoints --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
-    }
-
-    private List<String> getServices(){
-        return getProcessOutput("kubectl get services --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
-    }
-
-    private String getClusterIp() {
-        return getProcessOutput("kubectl get service example-service | awk 'FNR > 1 { print \$3 }'").trim()
-    }
-
-    private List<String> getIps() {
-        return getProcessOutput("kubectl get endpoints example-service | awk 'FNR > 1 { print \$2 }'")
-                .split('\\,')
-                .collect { it.split(':').first() }
-    }
-
-    private String getProcessOutput(String command) {
-        Process p = ['bash', '-c', command].execute()
-        p.waitFor()
-        return p.text
     }
 }

@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
+import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
 import io.reactivex.Flowable
@@ -27,7 +28,7 @@ import spock.lang.Specification
 import javax.inject.Inject
 
 @MicronautTest(propertySources = 'classpath:application.yml', environments = [Environment.KUBERNETES])
-class KubernetesDiscoveryClientSpec extends Specification {
+class KubernetesDiscoveryClientSpec extends Specification implements KubectlCommands {
 
     @Inject
     KubernetesDiscoveryClient discoveryClient
@@ -60,21 +61,4 @@ class KubernetesDiscoveryClientSpec extends Specification {
         serviceIds.size() == allServices.size()
         allServices.every { serviceIds.contains it }
     }
-
-    private List<String> getServices(){
-        return getProcessOutput("kubectl get services --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
-    }
-
-    private List<String> getIps() {
-        return getProcessOutput("kubectl get endpoints example-service | awk 'FNR > 1 { print \$2 }'")
-                    .split('\\,')
-                    .collect { it.split(':').first() }
-    }
-
-    private String getProcessOutput(String command) {
-        Process p = ['bash', '-c', command].execute()
-        p.waitFor()
-        return p.text
-    }
-
 }
