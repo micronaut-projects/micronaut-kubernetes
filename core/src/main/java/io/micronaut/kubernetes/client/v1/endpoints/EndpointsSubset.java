@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1.endpoints;
 
 import io.micronaut.kubernetes.client.v1.Address;
@@ -20,23 +21,45 @@ import io.micronaut.kubernetes.client.v1.Port;
 
 import java.util.List;
 
+/**
+ * A group of addresses with a common set of ports.
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class EndpointsSubset {
 
     private List<Address> addresses;
     private List<Port> ports;
 
+    /**
+     *
+     * @return IP addresses which offer the related ports that are marked as ready.
+     */
     public List<Address> getAddresses() {
         return addresses;
     }
 
+    /**
+     *
+     * @param addresses IP addresses
+     */
     public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 
+    /**
+     *
+     * @return Port numbers available on the related IP addresses.
+     */
     public List<Port> getPorts() {
         return ports;
     }
 
+    /**
+     *
+     * @param ports Port numbers available.
+     */
     public void setPorts(List<Port> ports) {
         this.ports = ports;
     }

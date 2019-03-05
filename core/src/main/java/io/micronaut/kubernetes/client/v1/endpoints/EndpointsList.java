@@ -13,15 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1.endpoints;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#endpointslist-v1-core">EndpointsList v1 core</a>.
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class EndpointsList {
 
     private List<Endpoints> items;
 
+    /**
+     *
+     * @return A List of endpoints.
+     */
     public List<Endpoints> getItems() {
         if (items == null) {
             return Collections.emptyList();
@@ -29,6 +40,10 @@ public class EndpointsList {
         return items;
     }
 
+    /**
+     *
+     * @param items Sets a list of endpoints.
+     */
     public void setItems(List<Endpoints> items) {
         this.items = items;
     }

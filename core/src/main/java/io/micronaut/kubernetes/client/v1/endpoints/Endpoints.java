@@ -13,29 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1.endpoints;
 
 import io.micronaut.kubernetes.client.v1.Metadata;
 
 import java.util.List;
 
+/**
+ * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#endpoints-v1-core">Endpoints v1 core</a>.
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class Endpoints {
 
     private Metadata metadata;
     private List<EndpointsSubset> subsets;
 
+    /**
+     *
+     * @return Standard object's metadata.
+     */
     public Metadata getMetadata() {
         return metadata;
     }
 
+    /**
+     *
+     * @param metadata Standard object's metadata.
+     */
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 
+    /**
+     *
+     * @return List of endpoints subsets.
+     */
     public List<EndpointsSubset> getSubsets() {
         return subsets;
     }
 
+    /**
+     *
+     * @param subsets List of endpoints subsets.
+     */
     public void setSubsets(List<EndpointsSubset> subsets) {
         this.subsets = subsets;
     }

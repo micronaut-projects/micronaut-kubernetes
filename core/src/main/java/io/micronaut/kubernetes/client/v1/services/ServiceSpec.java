@@ -21,24 +21,48 @@ import io.micronaut.kubernetes.client.v1.Port;
 import java.net.InetAddress;
 import java.util.List;
 
+/**
+ * @see <a href="https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status">Spec and Status</a>
+ *
+ * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#servicespec-v1-core">Service Spec v1</a>
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class ServiceSpec {
 
     private List<Port> ports;
     private InetAddress clusterIp;
 
+    /**
+     *
+     * @return The list of ports that are exposed by this service.
+     */
     public List<Port> getPorts() {
         return ports;
     }
 
+    /**
+     *
+     * @param ports The list of ports that are exposed by this service
+     */
     public void setPorts(List<Port> ports) {
         this.ports = ports;
     }
 
+    /**
+     *
+     * @return The IP address of the service; usually assigned randomly by the master.
+     */
     @JsonProperty("clusterIP")
     public InetAddress getClusterIp() {
         return clusterIp;
     }
 
+    /**
+     *
+     * @param clusterIp The IP address of the service.
+     */
     @JsonProperty("clusterIP")
     public void setClusterIp(InetAddress clusterIp) {
         this.clusterIp = clusterIp;
