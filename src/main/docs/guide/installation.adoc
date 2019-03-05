@@ -1,0 +1,5 @@
+This project eases https://kubernetes.io[Kubernetes] integration with Micronaut.
+
+To use the `BUILD-SNAPSHOT` version of this library, check the https://docs.micronaut.io/latest/guide/index.html#usingsnapshots[documentation to use snapshots].
+
+Code can be found at the https://github.com/micronaut-projects/micronaut-kubernetes[micronaut-kubernetes] repository.
