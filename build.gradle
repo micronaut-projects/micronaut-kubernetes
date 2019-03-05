@@ -41,8 +41,9 @@ subprojects { Project subproject ->
     ext {
         isConfiguration = subproject.projectDir.parentFile.name == 'configurations'
         isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
+        isExampleProject  = subproject.projectDir.path.contains("examples/${subproject.name}")
+        isTestUtilsProject =  subproject.name == 'test-utils'
     }
-
     repositories {
         //mavenLocal()
         maven { url "https://repo.grails.org/grails/core" }
@@ -61,7 +62,9 @@ subprojects { Project subproject ->
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
-    apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-core/01e2b1ef1255b584e9e5c1965d334e1190e2ade5/gradle/publishing.gradle"
+    if (!isExampleProject && !isTestUtilsProject) {
+        apply from: "https://raw.githubusercontent.com/micronaut-projects/micronaut-core/01e2b1ef1255b584e9e5c1965d334e1190e2ade5/gradle/publishing.gradle"
+    }
 
 
     jar {
@@ -124,21 +127,22 @@ subprojects { Project subproject ->
 
     task allDeps(type: DependencyReportTask) {}
 
-    apply plugin: 'checkstyle'
+    if (!isExampleProject && !isTestUtilsProject) {
+        apply plugin: 'checkstyle'
 
-    checkstyle {
-        toolVersion = 8.10
-        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        checkstyle {
+            toolVersion = 8.10
+            configFile = rootProject.file('config/checkstyle/checkstyle.xml')
 
-        // Per submodule
-        maxErrors = 3
-        maxWarnings = 10
+            // Per submodule
+            maxErrors = 3
+            maxWarnings = 10
 
-        showViolations = true
+            showViolations = true
+        }
+
+        checkstyleTest.enabled = false
     }
-
-    checkstyleTest.enabled = false
-
 }
 apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v${micronautDocsVersion}/gradle/docs.gradle"
 
