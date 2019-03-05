@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
+import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
 import io.reactivex.Flowable
+import spock.lang.Requires
 import spock.lang.Specification
 
 import javax.inject.Inject
@@ -29,6 +32,7 @@ class KubernetesDiscoveryClientSpec extends Specification {
     @Inject
     KubernetesDiscoveryClient discoveryClient
 
+    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001",'/api/v1/services', 'example-service')})
     void "it can get service instances"() {
         given:
         List<String> ipAddresses = getIps()
@@ -44,6 +48,7 @@ class KubernetesDiscoveryClientSpec extends Specification {
         }
     }
 
+    @Requires({ TestUtils.available("http://localhost:8001")})
     void "it can list all services"() {
         given:
         List<String> allServices = getServices()
