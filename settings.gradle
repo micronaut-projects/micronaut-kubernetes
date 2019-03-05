@@ -1,7 +1,0 @@
-rootProject.name = 'micronaut-kubernetes'
-
-include 'core', 'discovery-client'
-file('examples').eachDir {
-    include it.name
-    project(":${it.name}").projectDir = it
-}

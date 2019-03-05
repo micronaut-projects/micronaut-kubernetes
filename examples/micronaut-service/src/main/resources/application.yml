@@ -1,7 +1,0 @@
-micronaut:
-    server:
-        port: 8081
-    application:
-        name: micronaut-service
-jackson:
-    module-scan: false
