@@ -19,6 +19,7 @@ package io.micronaut.kubernetes.discovery;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.async.publisher.Publishers;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.Address;
@@ -36,7 +37,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
-import static io.micronaut.kubernetes.client.v1.KubernetesOperations.DEFAULT_NAMESPACE;
 
 /**
  * A {@link DiscoveryClient} implementation for Kubernetes using the API.
@@ -46,27 +46,32 @@ import static io.micronaut.kubernetes.client.v1.KubernetesOperations.DEFAULT_NAM
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
+@Requires(beans = {KubernetesClient.class, KubernetesDiscoveryClientConfiguration.class})
+@Requires(property = KubernetesDiscoveryClientConfigurationProperties.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
 public class KubernetesDiscoveryClient implements DiscoveryClient {
 
+    public static final String KUBERNETES_URI = "https://kubernetes";
     private final KubernetesClient client;
-
+    private final KubernetesDiscoveryClientConfiguration configuration;
     /**
      *
      * @param client An HTTP Client to query the Kubernetes API.
      */
-    public KubernetesDiscoveryClient(KubernetesClient client) {
+    public KubernetesDiscoveryClient(KubernetesClient client,
+                                     KubernetesDiscoveryClientConfiguration configuration) {
         this.client = client;
+        this.configuration = configuration;
     }
 
     @Override
     public Publisher<List<ServiceInstance>> getInstances(String serviceId) {
         if (SERVICE_ID.equals(serviceId)) {
             return Publishers.just(
-                    Collections.singletonList(ServiceInstance.of(SERVICE_ID, URI.create("https://kubernetes")))
+                    Collections.singletonList(ServiceInstance.of(SERVICE_ID,
+                            URI.create(KUBERNETES_URI)))
             );
         } else {
-            //TODO parameterise namespace
-            return Flowable.fromPublisher(client.getEndpoints(DEFAULT_NAMESPACE, serviceId))
+            return Flowable.fromPublisher(client.getEndpoints(configuration.getNamespace(), serviceId))
                     .doOnError(Throwable::printStackTrace)
                     .flatMapIterable(Endpoints::getSubsets)
                     .map(subset -> subset
