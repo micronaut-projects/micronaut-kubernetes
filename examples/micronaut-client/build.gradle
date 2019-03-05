@@ -28,7 +28,7 @@ dependencies {
     compile "io.micronaut:micronaut-validation"
     compile "io.micronaut:micronaut-runtime"
 
-    compile project(':discovery-client')
+    compile project(':kubernetes-discovery-client')
 
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"

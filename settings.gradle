@@ -1,6 +1,7 @@
 rootProject.name = 'micronaut-kubernetes'
 
-include 'core', 'discovery-client'
+include 'kubernetes-core'
+include 'kubernetes-discovery-client'
 include 'test-utils'
 
 file('examples').eachDir {
