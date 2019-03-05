@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.discovery;
 
-import io.micronaut.context.annotation.Replaces;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.async.publisher.Publishers;
-import io.micronaut.core.naming.NameUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.Address;
@@ -29,8 +28,6 @@ import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
-
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
@@ -42,10 +39,10 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
 import static io.micronaut.kubernetes.client.v1.KubernetesOperations.DEFAULT_NAMESPACE;
 
 /**
- * A {@link DiscoveryClient} implementation for Kubernetes using the API
+ * A {@link DiscoveryClient} implementation for Kubernetes using the API.
  *
- * @author Alvaro Sanchez-Mariscal
- * @since 1.1
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
@@ -53,6 +50,10 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     private final KubernetesClient client;
 
+    /**
+     *
+     * @param client An HTTP Client to query the Kubernetes API.
+     */
     public KubernetesDiscoveryClient(KubernetesClient client) {
         this.client = client;
     }
@@ -81,6 +82,10 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         return ServiceInstance.of(serviceId, address.getIp().getHostAddress(), port.getPort());
     }
 
+    /**
+     *
+     * @return A list of services metadata's name.
+     */
     @Override
     public Publisher<List<String>> getServiceIds() {
         return Flowable.fromPublisher(client.listServices())
