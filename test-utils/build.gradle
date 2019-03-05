@@ -1,0 +1,9 @@
+plugins {
+    id 'groovy'
+}
+
+dependencies {
+    compile "org.codehaus.groovy:groovy:$groovyVersion"
+    compile "io.micronaut:micronaut-http-client:$micronautVersion"
+
+}

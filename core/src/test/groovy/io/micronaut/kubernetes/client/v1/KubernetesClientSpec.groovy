@@ -15,10 +15,8 @@
  */
 package io.micronaut.kubernetes.client.v1
 
-import groovy.transform.Memoized
-import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.HttpClient
-import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.micronaut.kubernetes.test.KubectlCommands
+import io.micronaut.kubernetes.test.TestUtils
 import spock.lang.Requires
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList
@@ -36,7 +34,7 @@ class KubernetesClientSpec extends Specification {
     @Inject
     KubernetesClient client
 
-    @Requires({available("http://localhost:8001")})
+    @Requires({TestUtils.available("http://localhost:8001")})
     void "it can list services"() {
         when:
         ServiceList serviceList = Flowable.fromPublisher(client.listServices()).blockingFirst()
@@ -45,7 +43,7 @@ class KubernetesClientSpec extends Specification {
         serviceList.items.size() == getServices().size()
     }
 
-    @Requires({ available("http://localhost:8001") && serviceExists("http://localhost:8001", '/api/v1/services', 'example-service')})
+    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001", '/api/v1/services', 'example-service')})
     void "it can get one service"() {
         when:
         Service service = Flowable.fromPublisher(client.getService('default', 'example-service')).blockingFirst()
@@ -54,7 +52,7 @@ class KubernetesClientSpec extends Specification {
         assertThatServiceIsCorrect(service)
     }
 
-    @Requires({ available("http://localhost:8001") && serviceExists("http://localhost:8001", '/api/v1/services', 'example-service')})
+    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001", '/api/v1/services', 'example-service')})
     void "it can get one service from the default namespace"() {
         when:
         Service service = Flowable.fromPublisher(client.getService('example-service')).blockingFirst()
@@ -63,7 +61,7 @@ class KubernetesClientSpec extends Specification {
         assertThatServiceIsCorrect(service)
     }
 
-    @Requires({ available("http://localhost:8001")})
+    @Requires({ TestUtils.available("http://localhost:8001")})
     void "it can list endpoints"() {
         when:
         EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints()).blockingFirst()
@@ -72,7 +70,7 @@ class KubernetesClientSpec extends Specification {
         endpointsList.items.size() == getEndpoints().size()
     }
 
-    @Requires({ available("http://localhost:8001") && serviceExists("http://localhost:8001",'/api/v1/services', 'example-service')})
+    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001",'/api/v1/services', 'example-service')})
     void "it can get one endpoints"() {
         given:
         List<String> ipAddresses = getIps()
@@ -84,7 +82,7 @@ class KubernetesClientSpec extends Specification {
         assertThatEndpointsIsCorrect(endpoints, ipAddresses)
     }
 
-    @Requires({ available("http://localhost:8001")})
+    @Requires({ TestUtils.available("http://localhost:8001")})
     void "it can get one endpoints from the default namespace"() {
         given:
         List<String> ipAddresses = getIps()
@@ -109,55 +107,4 @@ class KubernetesClientSpec extends Specification {
                 endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last()) &&
                 endpoints.subsets.first().ports.first().port == 8081
     }
-
-    private List<String> getEndpoints(){
-        return getProcessOutput("kubectl get endpoints --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
-    }
-
-    private List<String> getServices(){
-        return getProcessOutput("kubectl get services --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
-    }
-
-    private String getClusterIp() {
-        return getProcessOutput("kubectl get service example-service | awk 'FNR > 1 { print \$3 }'").trim()
-    }
-
-    private List<String> getIps() {
-        return getProcessOutput("kubectl get endpoints example-service | awk 'FNR > 1 { print \$2 }'")
-                .split('\\,')
-                .collect { it.split(':').first() }
-    }
-
-    private String getProcessOutput(String command) {
-        Process p = ['bash', '-c', command].execute()
-        p.waitFor()
-        return p.text
-    }
-
-    @Memoized
-    static boolean available(String url) {
-        try {
-            url.toURL().openConnection().with {
-                connectTimeout = 1000
-                connect()
-            }
-            true
-        } catch (IOException e) {
-            false
-        }
-    }
-
-    @Memoized
-    static boolean serviceExists(String servicesUrl, String uri, String serviceName) {
-        try {
-            Map payload = HttpClient.create(new URL(servicesUrl))
-                    .toBlocking()
-                    .exchange(HttpRequest.GET(uri), Map)
-                    .body()
-            payload["items"].find { it.metadata.name == serviceName }
-        } catch(HttpClientResponseException e) {
-            return false
-        }
-    }
-
 }

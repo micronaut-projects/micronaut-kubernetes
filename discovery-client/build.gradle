@@ -13,4 +13,5 @@ dependencies {
     testCompile "io.micronaut:micronaut-inject-groovy:$micronautVersion"
     testCompile "io.micronaut:micronaut-inject-java:$micronautVersion"
     testCompile "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    testCompile project(":test-utils")
 }
