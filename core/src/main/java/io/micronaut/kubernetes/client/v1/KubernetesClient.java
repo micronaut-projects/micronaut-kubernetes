@@ -13,11 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.client.annotation.Client;
 
+/**
+ * Provides a HTTP Client against Kubernetes API.
+ *
+ * {@link Client} implementation of {@link KubernetesOperations}.
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 @Client(id = KubernetesClient.SERVICE_ID, path = "/api/v1")
-public interface KubernetesClient extends KubernetesOperations{
+@Requires(property = KubernetesConfiguration.PREFIX + ".client.enabled", notEquals = StringUtils.FALSE)
+public interface KubernetesClient extends KubernetesOperations {
     String SERVICE_ID = "kubernetes";
 }

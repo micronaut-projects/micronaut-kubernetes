@@ -13,27 +13,51 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1.services;
 
 import io.micronaut.kubernetes.client.v1.Metadata;
 
+
+/**
+ * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#service-v1-core">Service v1 core</a>
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class Service {
 
     private Metadata metadata;
     private ServiceSpec spec;
 
+    /**
+     *
+     * @return Standard object's metadata.
+     */
     public Metadata getMetadata() {
         return metadata;
     }
 
+    /**
+     *
+     * @param metadata Standard object's metadata.
+     */
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }
 
+    /**
+     *
+     * @return A Spec which defines the behavior of a service.
+     */
     public ServiceSpec getSpec() {
         return spec;
     }
 
+    /**
+     *
+     * @param spec A Spec which defines the behavior of a service.
+     */
     public void setSpec(ServiceSpec spec) {
         this.spec = spec;
     }

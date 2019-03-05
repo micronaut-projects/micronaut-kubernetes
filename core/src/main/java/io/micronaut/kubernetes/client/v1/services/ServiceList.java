@@ -13,15 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1.services;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#servicelist-v1-core">SeviceList</a>
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class ServiceList {
 
     private List<Service> items;
 
+    /**
+     *
+     * @return List of Services
+     */
     public List<Service> getItems() {
         if (items == null) {
             return Collections.emptyList();
@@ -29,6 +40,10 @@ public class ServiceList {
         return items;
     }
 
+    /**
+     *
+     * @param items Sets a list of service
+     */
     public void setItems(List<Service> items) {
         this.items = items;
     }

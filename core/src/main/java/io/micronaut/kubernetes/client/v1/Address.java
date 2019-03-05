@@ -13,18 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package io.micronaut.kubernetes.client.v1;
 
 import java.net.InetAddress;
 
+/**
+ * Address object.
+ *
+ * @author Álvaro Sánchez-Mariscal
+ * @since 1.0.0
+ */
 public class Address {
 
     private InetAddress ip;
 
+    /**
+     *
+     * @return The IP.
+     */
     public InetAddress getIp() {
         return ip;
     }
 
+    /**
+     *
+     * @param ip An IP
+     */
     public void setIp(InetAddress ip) {
         this.ip = ip;
     }
