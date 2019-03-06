@@ -1,34 +1,32 @@
-# Source: https://github.com/LiliC/travis-minikube
 sudo: required
-# We need the systemd for the kubeadm and it's default from 16.04+
 dist: xenial
 addons:
   chrome: stable
 language: java
 jdk:
-  - openjdk8
-  - openjdk11
+- openjdk8
+- openjdk11
 services:
-  - docker
+- docker
 env:
   global:
-    # This moves Kubernetes specific config files.
-    - CHANGE_MINIKUBE_NONE_USER=true
-    - TERM=dumb
-    - MALLOC_ARENA_MAX=1
-    - GRADLE_OPTS="-Xmx768m -Xms256m -XX:MaxPermSize=372m -XX:+CMSClassUnloadingEnabled"
-    - GIT_NAME="Graeme Rocher"
-    - GIT_EMAIL="graeme.rocher@gmail.com"
+  - CHANGE_MINIKUBE_NONE_USER=true
+  - TERM=dumb
+  - MALLOC_ARENA_MAX=1
+  - GRADLE_OPTS="-Xmx768m -Xms256m -XX:MaxPermSize=372m -XX:+CMSClassUnloadingEnabled"
+  - secure: NORXlwdngmTGQQ0Zee7G9TEG3hLSDpkxA50VHKn/49eyO19DnrjEJ/WyXYaFLHdG0naTvXiX8ETQbOI3XMh2k/U1IHiy50Ef1sfF7CRLazHdAqJ1KSMi1t8r7ouoG8a7Q7DRSmeJ4g6tFe6Ybr3d3sFuSvcBKpEGSvBoXw+wwck2K2Wpg53C3wcCskBN5GN4RlhM203QoxZNN7fMKZy/N9JTmmanZYSPh+xLFFTube87EE5hl9AwvDbZ9Xw+v0AUr9kEtNODnqr9icxCiJvi7YZ3ljJ1m5JGqrzh+khltOUxGpx6BHl+BcRK+CVUXJwOtsgMuqtjYv9v31PfwCJhlhv7D9pgoEiVoWrlwmQiu3gVu1ZbE7JFOSdGtMgZeOE0EHYC4RRTvAXhSKF34KtHIoZL+LjZhEj3Hm5Z2g7SIEfMjzYuND+ph0hVTxj/XNmv3PfUJ2wMK9mctxRJDF54/7ee+NZVpAzxUcgyrxGwerXCC3eScPA6LnoKpuiIOHMJKDNQLccitl7wKByH5lDDKyqVYd6hXIRsHpMO7SaKtfZBJCuJYXZIU3E3XITCG0sUDam+8M9808s0HZ1h5PkQfjaylOYyUV7G3Kv2Obj/nD6Pt82A6pKLNH2yqOQMs1o4J+l1dfvyBSHn8ly7Asx/97w4q173Xepgj7R2W2cMI+c=
+  - secure: AjCpTq2xVnaRLLwgqjPTCILvyMV1Swnf2q1XDlkVA49Iyh5pAgg4yv6bws/JjGsP63smkGqn8s5C+4Nrs4yEV7oHjGpsmIBWJgnn7Q2My7Hoq+7HnLGTPYJWuDz6N9wXIYVRpK5devacJ7hHXAcpimo2HvCGsG0coukZ2uUttPvlQG6jO7S7FCx8D5eiaycrUGR355Rb+bFEdNjlypOj247ZtIn6JZTgkIeWuv8UNWkOO1gFIFJiEpKyX8fI2leMLfm9oU8UluHfboFhJom8MexaCKIURj8JBDkVYqNC4h4SBZEd3FLmtH7tji5EgBjNjze5/TlVSMudbbbLq3meIlGKuFOThieLkZsAj1npe8SsUZX75f+4c2uQYFWF6ecyya6MnqVNKuxHmp0P3lkgJfU9lW2HHDtBUmekp4SpOC2pywK1aF+vHhgFxiKegf6BmgTjPKeFFBC1hyhIake9XEsZNdgLmLV1ekPKE+hDBAfZCBV1IFn78aUXdjZ+rsXlTsJ/WqMstxtK5kVD2iNpIZ3uO125Mh5kNGyu7gJwZtDFhbHd91TAFVY25J/7YZHx1TT+o3EcB7yVps5VM9MRgFSll15K6ULkQP9bzLUKvZ8tuwkr+gy6Fei2m1dxVrDrFx/TD/nPflfiPJteRBSwjlcydLvADaPQft44q1aaQzw=
+  - secure: CvTOJmlrHpPGO7vP/5xRfxAjBhXqpyTEeTlidAoufPgB00Pvh+MCdZPdh4iGzpuEFOTWCUARQh28w+2lec1BiS86yh8AMU7ZvcOd9buFiBLPLY5SUILhx0AVLF7ZWw4lxxUnpREfbLj2eV2ITQG0U0eO+sGl2mtuHHCdtUTMVNgmdj4XORfDh3g+CjArblRbRbs6Ux4IE4ZgPN34id1dIJC3HzOwrTeZ1XYmtSlmYYVRV1+0qQfpYcVOxW0u7q+7fJQYYXX31lV1rKZJWdf5HM6vV9ekcVA+YhUoFmJSLAwDV01bnGsjY2jPVlSiTRM06Z11Jw9WdftLrC1YiODrk2rTnX6naR6cmq1WPqPvipNRdD5ZocqpOEkP/EAuhD9oimN3heIpKVP2AHHNkrZJlTX/tCEJeTSeP+74huo/8YR2luyN0134KK5Ub15NOiUyaXxaeHPjnZvNw9FwLgwMYqGxlMZBWjzsni+aiIr3MZ03RDwnbYM7RrEBTNJ+vU7Wz1iZSkHntjxutpmJnjTle1OUtUctcSkcqUgx4/kYY8V7W6cgfzRYu7xCmk8X0JAJc0pAEaBtYh+4PZf33WlTHNH9soDInEkWMK91cju4qcG5nnqKxdPh/JiJ/vQ35xzXG6IBGPU0mSpfkaDSskHzXQPAx4VPdjliSjHP/P0s3UA=
 install: "/bin/true"
 before_script:
-  - ./travis-setup-kubernetes.sh
+- "./travis-setup-kubernetes.sh"
 script:
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
-  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-build.sh; fi
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
+- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-build.sh; fi
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - "$HOME/.gradle/caches/"
-    - "$HOME/.gradle/wrapper/"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
