@@ -77,7 +77,7 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
             exit $EXIT_STATUS
         fi
 
-        git clone https://${GH_TOKEN}@github.com/micronaut-projects/micronaut-oauth2.git -b gh-pages gh-pages --single-branch > /dev/null
+        git clone https://${GH_TOKEN}@github.com/micronaut-projects/micronaut-kubernetes.git -b gh-pages gh-pages --single-branch > /dev/null
 
         cd gh-pages
 
