@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 # Make root mounted as rshared to fix kube-dns issues.
 sudo mount --make-rshared /
@@ -29,7 +30,8 @@ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin
 kubectl create -f kubernetes.yml
 
 # Wait for Service pod to be up and ready
-kubectl wait --for=condition=Ready pod/`kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }'`
+SERVICE_POD="$()"
+kubectl wait --for=condition=Ready pod/$SERVICE_POD
 
 # Expose the service's port locally
-kubectl port-forward `kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }'` 8081:8081 &
+kubectl port-forward $SERVICE_POD 8081:8081 &
