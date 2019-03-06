@@ -38,4 +38,4 @@ SERVICE_POD="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print
 kubectl wait --for=condition=Ready pod/$SERVICE_POD
 
 # Expose the service's port locally
-kubectl port-forward $SERVICE_POD 8081:8081 &
+kubectl port-forward $SERVICE_POD 8888:8081 &
