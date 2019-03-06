@@ -8,3 +8,5 @@ This project includes integration between [Micronaut](http://micronaut.io) and [
 ## Documentation
 
 See the [Documentation](https://micronaut-projects.github.io/micronaut-kubernetes/latest/guide) for more information.
+
+See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide) for the current development docs.
