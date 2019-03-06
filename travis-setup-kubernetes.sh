@@ -30,6 +30,7 @@ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin
 kubectl create -f kubernetes.yml
 
 # Wait for Service pod to be up and ready
+sleep 5
 SERVICE_POD="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
 kubectl wait --for=condition=Ready pod/$SERVICE_POD
 
