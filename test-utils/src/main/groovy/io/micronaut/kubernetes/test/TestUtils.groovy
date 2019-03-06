@@ -10,7 +10,6 @@ class TestUtils {
     @Memoized
     static boolean available(String url) {
         try {
-            println "Checking if ${url} is available"
             url.toURL().openConnection().with {
                 connectTimeout = 1000
                 readTimeout = 1000

@@ -28,7 +28,7 @@ import spock.lang.Specification
 import javax.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
-class KubernetesDiscoveryClientSpec extends Specification {
+class KubernetesDiscoveryClientSpec extends Specification implements KubectlCommands {
 
     @Inject
     KubernetesDiscoveryClient discoveryClient

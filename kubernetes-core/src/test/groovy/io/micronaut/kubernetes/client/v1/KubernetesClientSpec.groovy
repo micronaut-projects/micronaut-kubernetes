@@ -29,7 +29,7 @@ import spock.lang.Specification
 import javax.inject.Inject
 
 @MicronautTest
-class KubernetesClientSpec extends Specification {
+class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     @Inject
     KubernetesClient client
