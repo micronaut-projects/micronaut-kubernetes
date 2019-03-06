@@ -1,6 +1,8 @@
 #!/bin/bash
 set -x
 
+sudo apt-get install socat
+
 # Make root mounted as rshared to fix kube-dns issues.
 sudo mount --make-rshared /
 
