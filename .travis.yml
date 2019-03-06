@@ -6,7 +6,7 @@ addons:
   chrome: stable
 language: java
 jdk:
-  - oraclejdk8
+  - openjdk8
   - openjdk11
 services:
   - docker
@@ -34,7 +34,7 @@ before_script:
   - JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
   - kubectl cluster-info
   - kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts
-  - ./gradlew jib
+#  - ./gradlew jib
   - kubectl create -f kubernetes.yml
 script:
   - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
