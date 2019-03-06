@@ -2,4 +2,4 @@ micronaut:
   http:
     services:
       example-service:
-        url: http://localhost:8081
+        url: http://localhost:8088
