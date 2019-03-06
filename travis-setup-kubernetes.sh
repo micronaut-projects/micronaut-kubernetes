@@ -28,5 +28,9 @@ kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin
 # Create deployments and services
 kubectl create -f kubernetes.yml
 
+# Wait for Service pod to be up and ready
+SERVICE_POD="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
+JSONPATH='{.status.conditions[?(@.type=="Ready")].status}'; until kubectl get pod $SERVICE_POD -o jsonpath="$JSONPATH" 2>&1 | grep -q "True"; do sleep 1; done
+
 # Expose the service's port locally
 kubectl port-forward `kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }'` 8081:8081 &
