@@ -18,7 +18,7 @@ public class HelloControllerTest {
     EmbeddedServer embeddedServer;
 
     @Test
-    @EnabledIfAvailable("http://localhost:8088")
+    @EnabledIfAvailable("http://localhost:8888")
     public void testIndex() {
         try(RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class, embeddedServer.getURL())) {
             assertTrue(client.toBlocking().exchange("/", String.class).body().startsWith("Hello, example-client"));
