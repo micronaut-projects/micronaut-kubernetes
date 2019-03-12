@@ -47,24 +47,24 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         echo "Publishing archives"
         ./gradlew --stop
 
-#        if [[ -n $TRAVIS_TAG ]]; then
-#            ./gradlew bintrayUpload --no-daemon --stacktrace || EXIT_STATUS=$?
-#            if [ $EXIT_STATUS -ne 0 ]; then
-#                exit $EXIT_STATUS
-#            fi
-#
-#            ./gradlew synchronizeWithMavenCentral --no-daemon || EXIT_STATUS=$?
-#
-#            if [ $EXIT_STATUS -ne 0 ]; then
-#                exit $EXIT_STATUS
-#            fi
-#        else
-#            ./gradlew publish --no-daemon --stacktrace || EXIT_STATUS=$?
-#
-#            if [ $EXIT_STATUS -ne 0 ]; then
-#                exit $EXIT_STATUS
-#            fi
-#        fi
+        if [[ -n $TRAVIS_TAG ]]; then
+            ./gradlew bintrayUpload --no-daemon --stacktrace || EXIT_STATUS=$?
+            if [ $EXIT_STATUS -ne 0 ]; then
+                exit $EXIT_STATUS
+            fi
+
+            ./gradlew synchronizeWithMavenCentral --no-daemon || EXIT_STATUS=$?
+
+            if [ $EXIT_STATUS -ne 0 ]; then
+                exit $EXIT_STATUS
+            fi
+        else
+            ./gradlew publish --no-daemon --stacktrace || EXIT_STATUS=$?
+
+            if [ $EXIT_STATUS -ne 0 ]; then
+                exit $EXIT_STATUS
+            fi
+        fi
 
         git config --global user.name "$GIT_NAME"
         git config --global user.email "$GIT_EMAIL"
