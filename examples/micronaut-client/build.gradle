@@ -1,4 +1,5 @@
 import org.gradle.nativeplatform.platform.OperatingSystem
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
     id "io.spring.dependency-management"
@@ -55,10 +56,13 @@ mainClassName = "micronaut.client.Application"
 test {
     useJUnitPlatform()
 }
+
+OperatingSystem os = DefaultNativePlatform.currentOperatingSystem
+
 jib {
     to {
         image = 'registry.hub.docker.com/alvarosanchez/example-client'
-        if (OperatingSystem.isMacOsX()) {
+        if (os.isMacOsX()) {
             credHelper = 'osxkeychain'
         }
     }
