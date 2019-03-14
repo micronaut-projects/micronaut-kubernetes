@@ -27,7 +27,9 @@ kubectl proxy &
 # Grant system user API access
 kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts
 
-# ./gradlew jib
+# Login to the Docker hub and push the images
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+ ./gradlew jib
 
 # Create deployments and services
 kubectl create -f kubernetes.yml
