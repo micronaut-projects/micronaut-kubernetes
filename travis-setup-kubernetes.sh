@@ -28,10 +28,8 @@ kubectl proxy &
 kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts
 
 # Login to the Docker hub and push the images
-if [ "${TRAVIS_JDK_VERSION}" == "openjdk8" ] ; then
-    echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    ./gradlew jib --stacktrace
-fi
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+./gradlew jib --stacktrace
 
 # Create deployments and services
 kubectl create -f kubernetes.yml
