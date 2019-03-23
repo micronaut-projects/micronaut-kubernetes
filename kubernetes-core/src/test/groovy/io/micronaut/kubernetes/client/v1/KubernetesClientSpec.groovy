@@ -15,15 +15,15 @@
  */
 package io.micronaut.kubernetes.client.v1
 
-import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.TestUtils
-import spock.lang.Requires
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList
 import io.micronaut.kubernetes.client.v1.services.Service
 import io.micronaut.kubernetes.client.v1.services.ServiceList
+import io.micronaut.kubernetes.test.KubectlCommands
+import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
 import io.reactivex.Flowable
+import spock.lang.Requires
 import spock.lang.Specification
 
 import javax.inject.Inject

@@ -2,16 +2,13 @@ package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.v1.KubernetesClient
-import spock.lang.AutoCleanup
-import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 class KubernetesDiscoveryClientEnabledSpec extends Specification {
 
-    @Unroll("KubernetesDiscoveryClientConfiguration #description")
-    void "KubernetesDiscoveryClientConfiguration can be disabled through configuration"(Map<String, Object> conf,
+    @Unroll("KubernetesDiscoveryConfiguration #description")
+    void "KubernetesDiscoveryConfiguration can be disabled through configuration"(Map<String, Object> conf,
                                                                                         boolean beanExists,
                                                                                         String description) {
         given:
@@ -24,9 +21,8 @@ class KubernetesDiscoveryClientEnabledSpec extends Specification {
         applicationContext.close()
 
         where:
-        conf                                            || beanExists
-        [:]                                             || true
-        ['kubernetes.discovery-client.enabled': false]  || false
-        description = conf == [:] ? 'bean exists by default' : 'can be disabled with kubernetes.discovery-client.enabled=false'
+        conf                                            | beanExists    | description
+        [:]                                             | true          | 'bean exists by default'
+        ['kubernetes.discovery.enabled': false]         | false         | 'can be disabled with kubernetes.discovery.enabled=false'
     }
 }

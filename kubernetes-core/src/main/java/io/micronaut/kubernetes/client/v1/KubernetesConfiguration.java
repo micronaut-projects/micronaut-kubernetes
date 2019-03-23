@@ -16,12 +16,51 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
+
+import javax.annotation.Nonnull;
+
 /**
  * Encapsulates constants for Kubernetes configuration.
  *
  * @author Sergio del Amo
+ * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
-public interface KubernetesConfiguration {
-    String PREFIX = "kubernetes";
+@Requires(env = Environment.KUBERNETES)
+@ConfigurationProperties(KubernetesConfiguration.PREFIX)
+@BootstrapContextCompatible
+public class KubernetesConfiguration {
+
+    public static final String PREFIX = "kubernetes";
+
+    /**
+     * The default namespace value.
+     */
+    @SuppressWarnings("WeakerAccess")
+    public static final String DEFAULT_NAMESPACE = "default";
+
+    @Nonnull
+    private String namespace = DEFAULT_NAMESPACE;
+
+
+    /**
+     *
+     * @return the namespace
+     */
+    @Nonnull
+    public String getNamespace() {
+        return namespace;
+    }
+
+    /**
+     *
+     * @param namespace sets the namespace. Default value ({@value #DEFAULT_NAMESPACE}.
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
 }

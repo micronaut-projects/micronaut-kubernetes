@@ -2,7 +2,6 @@ package micronaut.service;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.runtime.server.EmbeddedServer;
 
 import javax.inject.Inject;

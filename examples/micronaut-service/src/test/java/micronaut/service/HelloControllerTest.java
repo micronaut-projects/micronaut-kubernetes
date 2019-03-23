@@ -3,7 +3,6 @@ package micronaut.service;
 import io.micronaut.http.client.RxHttpClient;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.annotation.MicronautTest;
-
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;

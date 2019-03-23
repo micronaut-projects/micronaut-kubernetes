@@ -29,6 +29,7 @@ import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import io.reactivex.Flowable;
 import org.reactivestreams.Publisher;
+
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
@@ -46,19 +47,20 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
-@Requires(beans = {KubernetesClient.class, KubernetesDiscoveryClientConfiguration.class})
-@Requires(property = KubernetesDiscoveryClientConfigurationProperties.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
+@Requires(beans = {KubernetesClient.class, KubernetesDiscoveryConfiguration.class})
+@Requires(property = KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
 public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     public static final String KUBERNETES_URI = "https://kubernetes";
     private final KubernetesClient client;
-    private final KubernetesDiscoveryClientConfiguration configuration;
+    private final KubernetesDiscoveryConfiguration configuration;
+
     /**
-     *
      * @param client An HTTP Client to query the Kubernetes API.
+     * @param configuration The configuration properties
      */
     public KubernetesDiscoveryClient(KubernetesClient client,
-                                     KubernetesDiscoveryClientConfiguration configuration) {
+                                     KubernetesDiscoveryConfiguration configuration) {
         this.client = client;
         this.configuration = configuration;
     }
@@ -71,7 +73,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
                             URI.create(KUBERNETES_URI)))
             );
         } else {
-            return Flowable.fromPublisher(client.getEndpoints(configuration.getNamespace(), serviceId))
+            return Flowable.fromPublisher(client.getEndpoints(configuration.getKubernetesConfiguration().getNamespace(), serviceId))
                     .doOnError(Throwable::printStackTrace)
                     .flatMapIterable(Endpoints::getSubsets)
                     .map(subset -> subset
