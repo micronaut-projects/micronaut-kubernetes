@@ -24,6 +24,7 @@ import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.Address;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
+import io.micronaut.kubernetes.client.v1.Metadata;
 import io.micronaut.kubernetes.client.v1.Port;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
@@ -33,8 +34,10 @@ import org.reactivestreams.Publisher;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
@@ -73,20 +76,24 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
                             URI.create(KUBERNETES_URI)))
             );
         } else {
+            AtomicReference<Metadata> metadata = new AtomicReference<>();
             return Flowable.fromPublisher(client.getEndpoints(configuration.getKubernetesConfiguration().getNamespace(), serviceId))
                     .doOnError(Throwable::printStackTrace)
+                    .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
                     .flatMapIterable(Endpoints::getSubsets)
                     .map(subset -> subset
                             .getPorts()
                             .stream()
-                            .flatMap(port -> subset.getAddresses().stream().map(address -> buildServiceInstance(serviceId, port, address)))
+                            .flatMap(port -> subset.getAddresses().stream().map(address -> buildServiceInstance(serviceId, port, address, metadata.get())))
                             .collect(Collectors.toList()));
         }
     }
 
-    private ServiceInstance buildServiceInstance(String serviceId, Port port, Address address) {
-        //TODO check for SSL
-        return ServiceInstance.of(serviceId, address.getIp().getHostAddress(), port.getPort());
+    private ServiceInstance buildServiceInstance(String serviceId, Port port, Address address, Metadata metadata) {
+        boolean isSecure = port.isSecure() || metadata.isSecure();
+        String scheme = isSecure ? "https://" : "http://";
+        URI uri = URI.create(scheme + address.getIp().getHostAddress() + ":" + port.getPort());
+        return ServiceInstance.of(serviceId, uri);
     }
 
     /**

@@ -25,13 +25,27 @@ package io.micronaut.kubernetes.client.v1;
  */
 public class Port {
 
+    private String name;
     private String protocol;
     private int port;
     private int targetPort = -1;
     private int nodePort = -1;
 
     /**
-     *
+     * @return The name of this port within the service
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name The name of this port within the service
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * @return The IP protocol for this port.
      */
     public String getProtocol() {
@@ -39,7 +53,6 @@ public class Port {
     }
 
     /**
-     *
      * @return Number or name of the port to access on the pods targeted by the service.
      */
     public int getTargetPort() {
@@ -47,7 +60,6 @@ public class Port {
     }
 
     /**
-     *
      * @param protocol The IP protocol for this port.
      */
     public void setProtocol(String protocol) {
@@ -55,7 +67,6 @@ public class Port {
     }
 
     /**
-     *
      * @param nodePort The port on each node on which this service is exposed when type=NodePort or LoadBalancer.
      */
     public void setNodePort(int nodePort) {
@@ -63,7 +74,6 @@ public class Port {
     }
 
     /**
-     *
      * @return The port that will be exposed by this service.
      */
     public int getPort() {
@@ -71,7 +81,6 @@ public class Port {
     }
 
     /**
-     *
      * @param port The port that will be exposed by this service.
      */
     public void setPort(int port) {
@@ -79,7 +88,6 @@ public class Port {
     }
 
     /**
-     *
      * @param targetPort Number or name of the port to access on the pods targeted by the service.
      */
     public void setTargetPort(int targetPort) {
@@ -87,7 +95,6 @@ public class Port {
     }
 
     /**
-     *
      * @return The port on each node on which this service is exposed when type=NodePort or LoadBalancer.
      */
     public int getNodePort() {
@@ -97,10 +104,22 @@ public class Port {
     @Override
     public String toString() {
         return "Port{" +
-                "protocol='" + protocol + '\'' +
+                "name='" + name + '\'' +
+                ", protocol='" + protocol + '\'' +
                 ", port=" + port +
                 ", targetPort=" + targetPort +
                 ", nodePort=" + nodePort +
                 '}';
+    }
+
+    /**
+     * Attempts to guess whether this port should be connected to using SSL. By default, port numbers ending in 443
+     * or port named "https" are considered secure
+     *
+     * @return Whether the port is considered secure
+     */
+    public boolean isSecure() {
+        String port = String.valueOf(this.port);
+        return port.endsWith("443") || "https".equals(this.name);
     }
 }

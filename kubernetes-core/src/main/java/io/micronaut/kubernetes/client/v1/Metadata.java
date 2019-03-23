@@ -86,4 +86,9 @@ public class Metadata {
                 ", labels=" + labels +
                 '}';
     }
+
+    public boolean isSecure() {
+        //TODO check labels
+        return true;
+    }
 }
