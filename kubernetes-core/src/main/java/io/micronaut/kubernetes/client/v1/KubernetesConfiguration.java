@@ -57,8 +57,7 @@ public class KubernetesConfiguration {
     }
 
     /**
-     *
-     * @param namespace sets the namespace. Default value ({@value #DEFAULT_NAMESPACE}.
+     * @param namespace Sets the namespace. Default value: {@value #DEFAULT_NAMESPACE}.
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
