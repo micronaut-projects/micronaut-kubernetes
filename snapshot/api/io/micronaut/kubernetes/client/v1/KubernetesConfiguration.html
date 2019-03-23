@@ -17,6 +17,12 @@
     catch(err) {
     }
 //-->
+var methods = {"i0":10,"i1":10};
+var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
+var altColor = "altColor";
+var rowColor = "rowColor";
+var tableTab = "tableTab";
+var activeTableTab = "activeTableTab";
 </script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -68,14 +74,14 @@
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -85,21 +91,32 @@
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="subTitle">io.micronaut.kubernetes.client.v1</div>
-<h2 title="Interface KubernetesConfiguration" class="title">Interface KubernetesConfiguration</h2>
+<h2 title="Class KubernetesConfiguration" class="title">Class KubernetesConfiguration</h2>
 </div>
 <div class="contentContainer">
+<ul class="inheritance">
+<li>java.lang.Object</li>
+<li>
+<ul class="inheritance">
+<li>io.micronaut.kubernetes.client.v1.KubernetesConfiguration</li>
+</ul>
+</li>
+</ul>
 <div class="description">
 <ul class="blockList">
 <li class="blockList">
 <hr>
 <br>
-<pre>public interface <span class="typeNameLabel">KubernetesConfiguration</span></pre>
+<pre>@Requires(env="k8s")
+ @ConfigurationProperties(value="kubernetes")
+public class <span class="typeNameLabel">KubernetesConfiguration</span>
+extends java.lang.Object</pre>
 <div class="block">Encapsulates constants for Kubernetes configuration.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>1.0.0</dd>
 <dt><span class="simpleTagLabel">Author:</span></dt>
-<dd>Sergio del Amo</dd>
+<dd>Sergio del Amo, Álvaro Sánchez-Mariscal</dd>
 </dl>
 </li>
 </ul>
@@ -121,9 +138,62 @@
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#DEFAULT_NAMESPACE">DEFAULT_NAMESPACE</a></span></code>
+<div class="block">The default namespace value.</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#PREFIX">PREFIX</a></span></code>&nbsp;</td>
 </tr>
 </table>
+</li>
+</ul>
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor.summary">
+<!--   -->
+</a>
+<h3>Constructor Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Constructor Summary table, listing constructors, and an explanation">
+<caption><span>Constructors</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colOne" scope="col">Constructor and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#KubernetesConfiguration--">KubernetesConfiguration</a></span>()</code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
+<!-- ========== METHOD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method.summary">
+<!--   -->
+</a>
+<h3>Method Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
+<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Method and Description</th>
+</tr>
+<tr id="i0" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getNamespace--">getNamespace</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;java.lang.Object</h3>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+</ul>
 </li>
 </ul>
 </li>
@@ -141,13 +211,79 @@
 <a name="PREFIX">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>PREFIX</h4>
-<pre>static final&nbsp;java.lang.String PREFIX</pre>
+<pre>public static final&nbsp;java.lang.String PREFIX</pre>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../constant-values.html#io.micronaut.kubernetes.client.v1.KubernetesConfiguration.PREFIX">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="DEFAULT_NAMESPACE">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>DEFAULT_NAMESPACE</h4>
+<pre>public static final&nbsp;java.lang.String DEFAULT_NAMESPACE</pre>
+<div class="block">The default namespace value.</div>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../../constant-values.html#io.micronaut.kubernetes.client.v1.KubernetesConfiguration.DEFAULT_NAMESPACE">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ========= CONSTRUCTOR DETAIL ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="constructor.detail">
+<!--   -->
+</a>
+<h3>Constructor Detail</h3>
+<a name="KubernetesConfiguration--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>KubernetesConfiguration</h4>
+<pre>public&nbsp;KubernetesConfiguration()</pre>
+</li>
+</ul>
+</li>
+</ul>
+<!-- ============ METHOD DETAIL ========== -->
+<ul class="blockList">
+<li class="blockList"><a name="method.detail">
+<!--   -->
+</a>
+<h3>Method Detail</h3>
+<a name="getNamespace--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNamespace</h4>
+<pre>@Nonnull
+public&nbsp;java.lang.String&nbsp;getNamespace()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the namespace</dd>
+</dl>
+</li>
+</ul>
+<a name="setNamespace-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setNamespace</h4>
+<pre>public&nbsp;void&nbsp;setNamespace(java.lang.String&nbsp;namespace)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - Sets the namespace. Default value: <a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#DEFAULT_NAMESPACE">"default"</a>.</dd>
 </dl>
 </li>
 </ul>
@@ -205,14 +341,14 @@
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
-<li>Constr&nbsp;|&nbsp;</li>
-<li>Method</li>
+<li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
+<li><a href="#method.detail">Method</a></li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">
