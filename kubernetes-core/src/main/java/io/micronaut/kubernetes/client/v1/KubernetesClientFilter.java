@@ -29,14 +29,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * HTTP Client filter which includes an Authorization HTTP Header with value "Bearer XXXX", Being XXXX the token saved in the file {@value #TOKEN_PATH} in every request against the Kubernetes API.
-@Filter(value = "/api/v1/**", serviceId = KubernetesClient.SERVICE_ID)
+ * HTTP Client filter which includes an Authorization HTTP Header with value "Bearer XXXX", Being XXXX the token saved
+ * in the file {@value #TOKEN_PATH} in every request against the Kubernetes API.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
 @Requires(env = Environment.KUBERNETES)
-@Requires(condition = TokenFileExists.class)
+@Requires(resources = "file:" + KubernetesClientFilter.TOKEN_PATH)
 public class KubernetesClientFilter implements HttpClientFilter {
 
     public static final String TOKEN_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/token";
