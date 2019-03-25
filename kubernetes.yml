@@ -98,6 +98,7 @@ spec:
           ports:
             - containerPort: 80
 ---
+#tag::port-name[]
 apiVersion: v1
 kind: Service
 metadata:
@@ -110,7 +111,9 @@ spec:
     - port: 1234
       protocol: TCP
       name: https
+#end::port-name[]
 ---
+#tag::port-number[]
 apiVersion: v1
 kind: Service
 metadata:
@@ -122,7 +125,9 @@ spec:
   ports:
     - port: 443
       protocol: TCP
+#end::port-number[]
 ---
+#tag::labels[]
 apiVersion: v1
 kind: Service
 metadata:
@@ -136,6 +141,7 @@ spec:
   ports:
     - port: 1234
       protocol: TCP
+#end::labels[]
 ---
 apiVersion: v1
 kind: Service

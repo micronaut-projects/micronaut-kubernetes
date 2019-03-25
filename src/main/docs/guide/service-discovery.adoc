@@ -27,3 +27,36 @@ spec:
 This specification will create a new `Service` object named `my-service`, as well as an `Endpoints` object also named `my-service`.
 
 In your HTTP client, you can use `my-service` as Service ID: `@Client("my-service")`.
+
+## Connecting to services using HTTPS
+
+There are three ways for this library to determine whether a service should be connected to using SSL (the following
+examples assume there is a `Deployment` named `secure-deployment`).
+
+### Using `https` as port name
+
+[source,yaml]
+.`my-service.yml`
+----
+include::{sourcedir}/kubernetes.yml[tag=port-name]
+----
+
+### Using a port ending in 443
+
+Port numbers like 443, 8443, etc. will match.
+
+[source,yaml]
+.`my-service.yml`
+----
+include::{sourcedir}/kubernetes.yml[tag=port-number]
+----
+
+### Using labels
+
+Set a label named `secure` with value `true` to have the client use HTTPS.
+
+[source,yaml]
+.`my-service.yml`
+----
+include::{sourcedir}/kubernetes.yml[tag=labels]
+----

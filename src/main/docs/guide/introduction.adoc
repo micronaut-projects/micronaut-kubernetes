@@ -5,3 +5,7 @@ To use the `BUILD-SNAPSHOT` version of this library, check the https://docs.micr
 It adds support for the following features:
 
 * Service Discovery.
+
+The core library for all features can be configured using the following configuration properties:
+
+include::{includedir}configurationProperties/io.micronaut.kubernetes.client.v1.KubernetesConfiguration.adoc[]
