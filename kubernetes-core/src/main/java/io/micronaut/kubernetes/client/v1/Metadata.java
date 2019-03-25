@@ -16,6 +16,8 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.core.util.StringUtils;
+
 import java.util.Map;
 
 /**
@@ -25,6 +27,8 @@ import java.util.Map;
  * @since 1.0.0
  */
 public class Metadata {
+
+    public static final String SECURE_LABEL = "secure";
 
     private String name;
     private String uid;
@@ -88,7 +92,7 @@ public class Metadata {
     }
 
     public boolean isSecure() {
-        //TODO check labels
-        return true;
+        String secure = labels.getOrDefault(SECURE_LABEL, "false");
+        return StringUtils.TRUE.equals(secure);
     }
 }
