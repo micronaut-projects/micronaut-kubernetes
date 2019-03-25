@@ -14,5 +14,6 @@
     </root>
 
     <logger name="io.micronaut.http.client" level="TRACE"/>
+    <logger name="io.micronaut.kubernetes" level="TRACE"/>
 
 </configuration>

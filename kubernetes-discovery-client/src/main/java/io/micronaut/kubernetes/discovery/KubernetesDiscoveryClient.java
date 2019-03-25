@@ -96,7 +96,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         String scheme = isSecure ? "https://" : "http://";
         URI uri = URI.create(scheme + address.getIp().getHostAddress() + ":" + port.getPort());
         if (LOG.isTraceEnabled()) {
-            LOG.trace("ServiceInstance for serviceId={} has URI={}", serviceId, uri.toString());
+            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri.toString());
         }
         return ServiceInstance
                 .builder(serviceId, uri)

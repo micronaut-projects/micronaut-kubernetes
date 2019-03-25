@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.core.util.StringUtils;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -32,7 +33,7 @@ public class Metadata {
 
     private String name;
     private String uid;
-    private Map<String, String> labels;
+    private Map<String, String> labels = Collections.emptyMap();
 
     /**
      *

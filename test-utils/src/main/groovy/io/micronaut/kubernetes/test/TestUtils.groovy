@@ -22,15 +22,23 @@ class TestUtils {
     }
 
     @Memoized
-    static boolean serviceExists(String servicesUrl, String uri, String serviceName) {
+    static boolean serviceExists(String servicesUrl = "http://localhost:8001", String uri = "/api/v1/services", String serviceName) {
         try {
-            Map payload = HttpClient.create(new URL(servicesUrl))
-                    .toBlocking()
-                    .exchange(HttpRequest.GET(uri), Map)
-                    .body()
-            payload["items"].find { it.metadata.name == serviceName }
+            if (kubernetesApiAvailable()) {
+                Map payload = HttpClient.create(new URL(servicesUrl))
+                        .toBlocking()
+                        .exchange(HttpRequest.GET(uri), Map)
+                        .body()
+                payload["items"].find { it.metadata.name == serviceName }
+            } else {
+                return false
+            }
         } catch(HttpClientResponseException e) {
             return false
         }
+    }
+
+    static boolean kubernetesApiAvailable() {
+        available("http://localhost:8001")
     }
 }

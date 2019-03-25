@@ -27,13 +27,16 @@ import spock.lang.Specification
 
 import javax.inject.Inject
 
+import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
+import static io.micronaut.kubernetes.test.TestUtils.serviceExists
+
 @MicronautTest(environments = [Environment.KUBERNETES])
 class KubernetesDiscoveryClientSpec extends Specification implements KubectlCommands {
 
     @Inject
     KubernetesDiscoveryClient discoveryClient
 
-    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001",'/api/v1/services', 'example-service')})
+    @Requires({ serviceExists('example-service')})
     void "it can get service instances"() {
         given:
         List<String> ipAddresses = getIps()
@@ -43,13 +46,16 @@ class KubernetesDiscoveryClientSpec extends Specification implements KubectlComm
 
         then:
         serviceInstances.size() == ipAddresses.size()
-        serviceInstances.every { it.port == 8081 }
+        serviceInstances.every {
+            it.port == 8081
+            it.metadata.get('foo', String).get() == 'bar'
+        }
         ipAddresses.every { String ip ->
             serviceInstances.find { it.host == ip }
         }
     }
 
-    @Requires({ TestUtils.available("http://localhost:8001")})
+    @Requires({ kubernetesApiAvailable()})
     void "it can list all services"() {
         given:
         List<String> allServices = getServices()
@@ -60,5 +66,26 @@ class KubernetesDiscoveryClientSpec extends Specification implements KubectlComm
         then:
         serviceIds.size() == allServices.size()
         allServices.every { serviceIds.contains it }
+    }
+
+    @Requires({ serviceExists('secure-service-port-name') && serviceExists('secure-service-port-number') && serviceExists('secure-service-labels') })
+    void "service #serviceId is secure"(String serviceId) {
+        when:
+        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances(serviceId)).blockingFirst()
+
+        then:
+        serviceInstances.first().secure
+
+        where:
+        serviceId << ['secure-service-port-name', 'secure-service-port-number', 'secure-service-labels']
+    }
+
+    @Requires({ serviceExists('non-secure-service') })
+    void "non-secure-service is not secure"() {
+        when:
+        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('non-secure-service')).blockingFirst()
+
+        then:
+        !serviceInstances.first().secure
     }
 }

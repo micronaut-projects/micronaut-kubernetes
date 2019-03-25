@@ -34,7 +34,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     @Inject
     KubernetesClient client
 
-    @Requires({TestUtils.available("http://localhost:8001")})
+    @Requires({TestUtils.kubernetesApiAvailable()})
     void "it can list services"() {
         when:
         ServiceList serviceList = Flowable.fromPublisher(client.listServices()).blockingFirst()
@@ -43,7 +43,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         serviceList.items.size() == getServices().size()
     }
 
-    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001", '/api/v1/services', 'example-service')})
+    @Requires({ TestUtils.serviceExists('example-service')})
     void "it can get one service"() {
         when:
         Service service = Flowable.fromPublisher(client.getService('default', 'example-service')).blockingFirst()
@@ -52,7 +52,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         assertThatServiceIsCorrect(service)
     }
 
-    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001", '/api/v1/services', 'example-service')})
+    @Requires({ TestUtils.serviceExists('example-service')})
     void "it can get one service from the default namespace"() {
         when:
         Service service = Flowable.fromPublisher(client.getService('example-service')).blockingFirst()
@@ -61,7 +61,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         assertThatServiceIsCorrect(service)
     }
 
-    @Requires({ TestUtils.available("http://localhost:8001")})
+    @Requires({ TestUtils.kubernetesApiAvailable()})
     void "it can list endpoints"() {
         when:
         EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints()).blockingFirst()
@@ -70,7 +70,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         endpointsList.items.size() == getEndpoints().size()
     }
 
-    @Requires({ TestUtils.available("http://localhost:8001") && TestUtils.serviceExists("http://localhost:8001",'/api/v1/services', 'example-service')})
+    @Requires({ TestUtils.serviceExists('example-service')})
     void "it can get one endpoints"() {
         given:
         List<String> ipAddresses = getIps()
@@ -82,7 +82,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         assertThatEndpointsIsCorrect(endpoints, ipAddresses)
     }
 
-    @Requires({ TestUtils.available("http://localhost:8001")})
+    @Requires({ TestUtils.kubernetesApiAvailable()})
     void "it can get one endpoints from the default namespace"() {
         given:
         List<String> ipAddresses = getIps()
