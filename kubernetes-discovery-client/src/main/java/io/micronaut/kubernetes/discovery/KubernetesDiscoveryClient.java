@@ -37,8 +37,10 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -87,7 +89,8 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
                             .getPorts()
                             .stream()
                             .flatMap(port -> subset.getAddresses().stream().map(address -> buildServiceInstance(serviceId, port, address, metadata.get())))
-                            .collect(Collectors.toList()));
+                            .collect(Collectors.toList()))
+                            .onErrorReturn(throwable -> new ArrayList<>());
         }
     }
 

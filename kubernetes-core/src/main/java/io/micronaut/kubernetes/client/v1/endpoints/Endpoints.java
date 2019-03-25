@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.v1.endpoints;
 
 import io.micronaut.kubernetes.client.v1.Metadata;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ import java.util.List;
 public class Endpoints {
 
     private Metadata metadata;
-    private List<EndpointsSubset> subsets;
+    private List<EndpointsSubset> subsets = new ArrayList<>();
 
     /**
      *

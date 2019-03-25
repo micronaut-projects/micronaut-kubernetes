@@ -28,7 +28,7 @@ public class Port {
     private String name;
     private String protocol;
     private int port;
-    private int targetPort = -1;
+    private String targetPort;
     private int nodePort = -1;
 
     /**
@@ -55,7 +55,7 @@ public class Port {
     /**
      * @return Number or name of the port to access on the pods targeted by the service.
      */
-    public int getTargetPort() {
+    public String getTargetPort() {
         return this.targetPort;
     }
 
@@ -90,7 +90,7 @@ public class Port {
     /**
      * @param targetPort Number or name of the port to access on the pods targeted by the service.
      */
-    public void setTargetPort(int targetPort) {
+    public void setTargetPort(String targetPort) {
         this.targetPort = targetPort;
     }
 

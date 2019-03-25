@@ -24,14 +24,12 @@ kubectl cluster-info
 # Run Kubernetes API proxy
 kubectl proxy &
 
-# Grant system user API access
-kubectl create clusterrolebinding permissive-binding --clusterrole=cluster-admin --user=admin --user=kubelet --group=system:serviceaccounts
-
 # Login to the Docker hub and push the images
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 ./gradlew jib --stacktrace
 
-# Create deployments and services
+# Create roles, deployments and services
+kubectl create -f k8s-auth.yml
 kubectl create -f kubernetes.yml
 
 # Wait for Service pod to be up and ready

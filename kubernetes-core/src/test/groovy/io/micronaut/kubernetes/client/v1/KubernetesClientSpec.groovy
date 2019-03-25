@@ -97,7 +97,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     private boolean assertThatServiceIsCorrect(Service service) {
         service.metadata.name == 'example-service' &&
                 service.spec.ports.first().port == 8081 &&
-                service.spec.ports.first().targetPort == 8081 &&
+                service.spec.ports.first().targetPort == "8081" &&
                 service.spec.clusterIp == InetAddress.getByName(getClusterIp())
     }
 

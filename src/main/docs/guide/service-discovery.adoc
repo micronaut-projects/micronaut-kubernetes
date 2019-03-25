@@ -28,6 +28,27 @@ This specification will create a new `Service` object named `my-service`, as wel
 
 In your HTTP client, you can use `my-service` as Service ID: `@Client("my-service")`.
 
+## Kubernetes API authentication
+
+Micronaut connects to the Kubernetes API using the `default` service account, which by default only has permissions over
+the `kube-system` namespace. This service account needs read permission over the `services` and `endpoints` namespace.
+Refer to the https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Kubernetes documentation] for more information
+about Role-based access control (RBAC).
+
+One of the options is to create the following `Role` and `RoleBinding`:
+
+[source,yaml]
+.`auth.yml`
+----
+include::{sourcedir}/k8s-auth.yml[]
+----
+
+[NOTE]
+In Google Cloud's Kubernetes Engine, in order to create the above, you must grant your user the ability to create roles
+in Kubernetes by running the following command:
+
+    kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user yourGoogleAccount@gmail.com
+
 ## Connecting to services using HTTPS
 
 There are three ways for this library to determine whether a service should be connected to using SSL (the following
