@@ -118,6 +118,32 @@
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>The core library for all features can be configured using the following configuration properties:</p>
+</div>
+<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace. Default value: {@value #DEFAULT_NAMESPACE}.</p></td>
+</tr>
+</tbody>
+</table>
 
 
 <h1 id="service-discovery">2 Service Discovery</h1>
@@ -179,6 +205,81 @@ spec:
 </div>
 <div class="paragraph">
 <p>In your HTTP client, you can use <code>my-service</code> as Service ID: <code>@Client("my-service")</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="_connecting_to_services_using_https">Connecting to services using HTTPS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are three ways for this library to determine whether a service should be connected to using SSL (the following
+examples assume there is a <code>Deployment</code> named <code>secure-deployment</code>).</p>
+</div>
+<div class="sect2">
+<h3 id="_using_code_https_code_as_port_name">Using <code>https</code> as port name</h3>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-port-name
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 1234
+      protocol: TCP
+      name: https</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_port_ending_in_443">Using a port ending in 443</h3>
+<div class="paragraph">
+<p>Port numbers like 443, 8443, etc. will match.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-port-number
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 443
+      protocol: TCP</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_labels">Using labels</h3>
+<div class="paragraph">
+<p>Set a label named <code>secure</code> with value <code>true</code> to have the client use HTTPS.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-labels
+  labels:
+    secure: "true"
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 1234
+      protocol: TCP</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     </div>
