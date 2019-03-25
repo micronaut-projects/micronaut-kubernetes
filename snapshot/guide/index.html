@@ -207,6 +207,66 @@ spec:
 <p>In your HTTP client, you can use <code>my-service</code> as Service ID: <code>@Client("my-service")</code>.</p>
 </div>
 <div class="sect1">
+<h2 id="_kubernetes_api_authentication">Kubernetes API authentication</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Micronaut connects to the Kubernetes API using the <code>default</code> service account, which by default only has permissions over
+the <code>kube-system</code> namespace. This service account needs read permission over the <code>services</code> and <code>endpoints</code> namespace.
+Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
+about Role-based access control (RBAC).</p>
+</div>
+<div class="paragraph">
+<p>One of the options is to create the following <code>Role</code> and <code>RoleBinding</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>auth.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-discoverer
+  namespace: default
+rules:
+  - apiGroups: [""]
+    resources: ["services", "endpoints"]
+    verbs: ["get", "watch", "list"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: default-service-discoverer
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: default
+roleRef:
+  kind: Role
+  name: service-discoverer
+  apiGroup: rbac.authorization.k8s.io</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In Google Cloud&#8217;s Kubernetes Engine, in order to create the above, you must grant your user the ability to create roles
+in Kubernetes by running the following command:
+</td>
+</tr>
+</table>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user yourGoogleAccount@gmail.com</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_connecting_to_services_using_https">Connecting to services using HTTPS</h2>
 <div class="sectionbody">
 <div class="paragraph">
