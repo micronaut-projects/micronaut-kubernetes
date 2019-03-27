@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
+import io.micronaut.http.annotation.Filter;
 import io.micronaut.http.filter.ClientFilterChain;
 import io.micronaut.http.filter.HttpClientFilter;
 import org.reactivestreams.Publisher;
@@ -37,6 +38,7 @@ import java.nio.file.Paths;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Filter(value = "/api/v1/**", serviceId = KubernetesClient.SERVICE_ID)
 @Requires(env = Environment.KUBERNETES)
 @Requires(resources = "file:" + KubernetesClientFilter.TOKEN_PATH)
 public class KubernetesClientFilter implements HttpClientFilter {
