@@ -23,6 +23,8 @@ import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.filter.ClientFilterChain;
 import io.micronaut.http.filter.HttpClientFilter;
 import org.reactivestreams.Publisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -41,6 +43,8 @@ public class KubernetesClientFilter implements HttpClientFilter {
 
     public static final String TOKEN_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/token";
 
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesClientFilter.class);
+
     private final String token;
 
     /**
@@ -48,6 +52,9 @@ public class KubernetesClientFilter implements HttpClientFilter {
      * @throws IOException if an exception occurs while reading the content of file (@value #TOKEN_PATH).
      */
     public KubernetesClientFilter() throws IOException {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Reading JWT token from path: {}", TOKEN_PATH);
+        }
         this.token = new String(Files.readAllBytes(Paths.get(TOKEN_PATH)));
     }
 
