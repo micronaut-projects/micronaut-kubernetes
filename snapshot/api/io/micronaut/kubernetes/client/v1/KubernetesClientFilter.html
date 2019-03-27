@@ -111,7 +111,9 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>@Requires(env="k8s") @Requires(resources="file:/var/run/secrets/kubernetes.io/serviceaccount/token")
+<pre>@Filter(value="/api/v1/**",
+        serviceId="kubernetes")
+ @Requires(env="k8s") @Requires(resources="file:/var/run/secrets/kubernetes.io/serviceaccount/token")
 public class <span class="typeNameLabel">KubernetesClientFilter</span>
 extends java.lang.Object
 implements io.micronaut.http.filter.HttpClientFilter</pre>
