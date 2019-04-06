@@ -61,4 +61,12 @@ public class Service {
     public void setSpec(ServiceSpec spec) {
         this.spec = spec;
     }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "metadata=" + metadata +
+                ", spec=" + spec +
+                '}';
+    }
 }

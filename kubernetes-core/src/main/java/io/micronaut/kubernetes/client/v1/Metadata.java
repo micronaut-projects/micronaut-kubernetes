@@ -92,6 +92,10 @@ public class Metadata {
                 '}';
     }
 
+    /**
+     * @return true if there is a label within {@link #labels} named {@link #SECURE_LABEL} and with value "true";
+     *         false otherwise
+     */
     public boolean isSecure() {
         String secure = labels.getOrDefault(SECURE_LABEL, "false");
         return StringUtils.TRUE.equals(secure);

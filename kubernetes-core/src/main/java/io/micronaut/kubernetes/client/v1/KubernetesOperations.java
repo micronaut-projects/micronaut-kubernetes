@@ -36,12 +36,21 @@ public interface KubernetesOperations {
     String DEFAULT_NAMESPACE = "default";
 
     /**
-     * List or watch objects of kind Service.
+     * List services in the default namespace.
      * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#list-all-namespaces-service-v1-core">List all namespaces</a>
      * @return A list of services
      */
-    @Get("/services")
-    Publisher<ServiceList> listServices();
+    default Publisher<ServiceList> listServices() {
+        return listServices(DEFAULT_NAMESPACE);
+    }
+
+    /**
+     * List services in the specified namespace.
+     * @param namespace Object name and auth scope, such as for teams and projects
+     * @return A list of services
+     */
+    @Get("/namespaces/{namespace}/services")
+    Publisher<ServiceList> listServices(String namespace);
 
 
     /**
@@ -55,7 +64,6 @@ public interface KubernetesOperations {
     Publisher<Service> getService(String namespace, String serviceName);
 
     /**
-     *
      * @param serviceName The name of the service
      * @return Service for the specified name in the namespace ({@value #DEFAULT_NAMESPACE}).
      */
@@ -68,8 +76,17 @@ public interface KubernetesOperations {
      * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#list-all-namespaces-endpoints-v1-core">Endpoints v1 core - Read Operations - List All NameSpaces</a>
      * @return A list of endpoints
      */
-    @Get("/endpoints")
-    Publisher<EndpointsList> listEndpoints();
+    default Publisher<EndpointsList> listEndpoints() {
+        return listEndpoints(DEFAULT_NAMESPACE);
+    }
+
+    /**
+     * List endpoints in the given namespace.
+     * @param namespace Object name and auth scope, such as for teams and projects
+     * @return A list of endpoints
+     */
+    @Get("/namespaces/{namespace}/endpoints")
+    Publisher<EndpointsList> listEndpoints(String namespace);
 
     /**
      * Read the specified Endpoints.

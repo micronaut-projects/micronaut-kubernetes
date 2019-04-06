@@ -19,7 +19,6 @@ package io.micronaut.kubernetes.discovery;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.async.publisher.Publishers;
-import io.micronaut.core.convert.value.ConvertibleValues;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
@@ -40,7 +39,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -82,7 +80,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
             AtomicReference<Metadata> metadata = new AtomicReference<>();
             String namespace = configuration.getKubernetesConfiguration().getNamespace();
             return Flowable.fromPublisher(client.getEndpoints(namespace, serviceId))
-                    .doOnError(throwable -> LOG.error("Error while trying to get Kubernetes Endpoints for the service=[" + serviceId + "] in the namespace=[" + namespace + "]", throwable))
+                    .doOnError(throwable -> LOG.error("Error while trying to get Kubernetes Endpoints for the service [" + serviceId + "] in the namespace [" + namespace + "]", throwable))
                     .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
                     .flatMapIterable(Endpoints::getSubsets)
                     .map(subset -> subset
@@ -113,8 +111,9 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      */
     @Override
     public Publisher<List<String>> getServiceIds() {
-        return Flowable.fromPublisher(client.listServices())
-                .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services", throwable))
+        String namespace = configuration.getKubernetesConfiguration().getNamespace();
+        return Flowable.fromPublisher(client.listServices(namespace))
+                .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
                 .flatMapIterable(ServiceList::getItems)
                 .map(service -> service.getMetadata().getName())
                 .toList()

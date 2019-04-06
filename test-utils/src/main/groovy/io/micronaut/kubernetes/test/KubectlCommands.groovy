@@ -3,11 +3,11 @@ package io.micronaut.kubernetes.test
 trait KubectlCommands {
 
     List<String> getEndpoints(){
-        return getProcessOutput("kubectl get endpoints --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
+        return getProcessOutput("kubectl get endpoints | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     List<String> getServices(){
-        return getProcessOutput("kubectl get services --all-namespaces | awk 'FNR > 1 { print \$2 }'").split('\n')
+        return getProcessOutput("kubectl get services | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     String getClusterIp() {
