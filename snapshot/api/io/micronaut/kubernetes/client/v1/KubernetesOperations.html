@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":18,"i1":6,"i2":18,"i3":6,"i4":6,"i5":6};
+var methods = {"i0":18,"i1":6,"i2":18,"i3":6,"i4":18,"i5":6,"i6":18,"i7":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -173,15 +173,27 @@ var activeTableTab = "activeTableTab";
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;</code></td>
+<td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listEndpoints--">listEndpoints</a></span>()</code>
 <div class="block">List or watch objects of kind Endpoints.</div>
 </td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;</code></td>
+<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listEndpoints-java.lang.String-">listEndpoints</a></span>(java.lang.String&nbsp;namespace)</code>
+<div class="block">List endpoints in the given namespace.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listServices--">listServices</a></span>()</code>
-<div class="block">List or watch objects of kind Service.</div>
+<div class="block">List services in the default namespace.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listServices-java.lang.String-">listServices</a></span>(java.lang.String&nbsp;namespace)</code>
+<div class="block">List services in the specified namespace.</div>
 </td>
 </tr>
 </table>
@@ -226,14 +238,30 @@ var activeTableTab = "activeTableTab";
 <ul class="blockList">
 <li class="blockList">
 <h4>listServices</h4>
-<pre>@Get(value="/services")
-org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;&nbsp;listServices()</pre>
-<div class="block">List or watch objects of kind Service.</div>
+<pre>default&nbsp;org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;&nbsp;listServices()</pre>
+<div class="block">List services in the default namespace.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A list of services</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#list-all-namespaces-service-v1-core">List all namespaces</a></dd>
+</dl>
+</li>
+</ul>
+<a name="listServices-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>listServices</h4>
+<pre>@Get(value="/namespaces/{namespace}/services")
+org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;&nbsp;listServices(java.lang.String&nbsp;namespace)</pre>
+<div class="block">List services in the specified namespace.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - Object name and auth scope, such as for teams and projects</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A list of services</dd>
 </dl>
 </li>
 </ul>
@@ -279,14 +307,30 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 <ul class="blockList">
 <li class="blockList">
 <h4>listEndpoints</h4>
-<pre>@Get(value="/endpoints")
-org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;&nbsp;listEndpoints()</pre>
+<pre>default&nbsp;org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;&nbsp;listEndpoints()</pre>
 <div class="block">List or watch objects of kind Endpoints.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A list of endpoints</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#list-all-namespaces-endpoints-v1-core">Endpoints v1 core - Read Operations - List All NameSpaces</a></dd>
+</dl>
+</li>
+</ul>
+<a name="listEndpoints-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>listEndpoints</h4>
+<pre>@Get(value="/namespaces/{namespace}/endpoints")
+org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;&nbsp;listEndpoints(java.lang.String&nbsp;namespace)</pre>
+<div class="block">List endpoints in the given namespace.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - Object name and auth scope, such as for teams and projects</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>A list of endpoints</dd>
 </dl>
 </li>
 </ul>

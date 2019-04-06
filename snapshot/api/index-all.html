@@ -78,6 +78,8 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Address.html#Address--">Address()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Address.html" title="class in io.micronaut.kubernetes.client.v1">Address</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="micronaut/client/HelloController.html#all--">all()</a></span> - Method in class micronaut.client.<a href="micronaut/client/HelloController.html" title="class in micronaut.client">HelloController</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="micronaut/client/Application.html" title="class in micronaut.client"><span class="typeNameLink">Application</span></a> - Class in <a href="micronaut/client/package-summary.html">micronaut.client</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="micronaut/client/Application.html#Application--">Application()</a></span> - Constructor for class micronaut.client.<a href="micronaut/client/Application.html" title="class in micronaut.client">Application</a></dt>
@@ -209,7 +211,7 @@
 <dd>&nbsp;</dd>
 <dt><a href="micronaut/client/HelloController.html" title="class in micronaut.client"><span class="typeNameLink">HelloController</span></a> - Class in <a href="micronaut/client/package-summary.html">micronaut.client</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="micronaut/client/HelloController.html#HelloController-micronaut.client.ExampleClient-">HelloController(ExampleClient)</a></span> - Constructor for class micronaut.client.<a href="micronaut/client/HelloController.html" title="class in micronaut.client">HelloController</a></dt>
+<dt><span class="memberNameLink"><a href="micronaut/client/HelloController.html#HelloController-micronaut.client.ExampleClient-io.micronaut.discovery.DiscoveryClient-">HelloController(ExampleClient, DiscoveryClient)</a></span> - Constructor for class micronaut.client.<a href="micronaut/client/HelloController.html" title="class in micronaut.client">HelloController</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="micronaut/service/HelloController.html" title="class in micronaut.service"><span class="typeNameLink">HelloController</span></a> - Class in <a href="micronaut/service/package-summary.html">micronaut.service</a></dt>
 <dd>&nbsp;</dd>
@@ -290,9 +292,17 @@
 <dd>
 <div class="block">List or watch objects of kind Endpoints.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listEndpoints-java.lang.String-">listEndpoints(String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">List endpoints in the given namespace.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listServices--">listServices()</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
-<div class="block">List or watch objects of kind Service.</div>
+<div class="block">List services in the default namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listServices-java.lang.String-">listServices(String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">List services in the specified namespace.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
@@ -407,6 +417,8 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/Service.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;</div>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -128,7 +128,8 @@ extends java.lang.Object</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../micronaut/client/HelloController.html#HelloController-micronaut.client.ExampleClient-">HelloController</a></span>(<a href="../../micronaut/client/ExampleClient.html" title="interface in micronaut.client">ExampleClient</a>&nbsp;client)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../micronaut/client/HelloController.html#HelloController-micronaut.client.ExampleClient-io.micronaut.discovery.DiscoveryClient-">HelloController</a></span>(<a href="../../micronaut/client/ExampleClient.html" title="interface in micronaut.client">ExampleClient</a>&nbsp;client,
+               io.micronaut.discovery.DiscoveryClient&nbsp;discoveryClient)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -146,6 +147,10 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>org.reactivestreams.Publisher&lt;java.util.List&lt;java.lang.String&gt;&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/HelloController.html#all--">all</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/HelloController.html#index--">index</a></span>()</code>&nbsp;</td>
 </tr>
@@ -171,13 +176,14 @@ extends java.lang.Object</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="HelloController-micronaut.client.ExampleClient-">
+<a name="HelloController-micronaut.client.ExampleClient-io.micronaut.discovery.DiscoveryClient-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>HelloController</h4>
-<pre>public&nbsp;HelloController(<a href="../../micronaut/client/ExampleClient.html" title="interface in micronaut.client">ExampleClient</a>&nbsp;client)</pre>
+<pre>public&nbsp;HelloController(<a href="../../micronaut/client/ExampleClient.html" title="interface in micronaut.client">ExampleClient</a>&nbsp;client,
+                       io.micronaut.discovery.DiscoveryClient&nbsp;discoveryClient)</pre>
 </li>
 </ul>
 </li>
@@ -191,11 +197,21 @@ extends java.lang.Object</pre>
 <a name="index--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>index</h4>
 <pre>@Get(value="/")
 public&nbsp;java.lang.String&nbsp;index()</pre>
+</li>
+</ul>
+<a name="all--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>all</h4>
+<pre>@Get(value="/all")
+public&nbsp;org.reactivestreams.Publisher&lt;java.util.List&lt;java.lang.String&gt;&gt;&nbsp;all()</pre>
 </li>
 </ul>
 </li>
