@@ -31,6 +31,7 @@ echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 # Create roles, deployments and services
 kubectl create -f k8s-auth.yml
 kubectl create -f kubernetes.yml
+kubectl create configmap game-config --from-file=game.properties
 
 # Wait for pods to be up and ready
 sleep 5
