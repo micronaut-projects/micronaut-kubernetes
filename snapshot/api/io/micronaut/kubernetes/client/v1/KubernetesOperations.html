@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":18,"i1":6,"i2":18,"i3":6,"i4":18,"i5":6,"i6":18,"i7":6};
+var methods = {"i0":6,"i1":18,"i2":6,"i3":18,"i4":6,"i5":18,"i6":6,"i7":18,"i8":6,"i9":18,"i10":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -151,46 +151,63 @@ var activeTableTab = "activeTableTab";
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMap</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getConfigMap-java.lang.String-java.lang.String-">getConfigMap</a></span>(java.lang.String&nbsp;namespace,
+            java.lang.String&nbsp;configMapName)</code>
+<div class="block">Read the specified ConfigMap.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">Endpoints</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getEndpoints-java.lang.String-">getEndpoints</a></span>(java.lang.String&nbsp;serviceName)</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">Endpoints</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getEndpoints-java.lang.String-java.lang.String-">getEndpoints</a></span>(java.lang.String&nbsp;namespace,
             java.lang.String&nbsp;serviceName)</code>
 <div class="block">Read the specified Endpoints.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getService-java.lang.String-">getService</a></span>(java.lang.String&nbsp;serviceName)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getService-java.lang.String-java.lang.String-">getService</a></span>(java.lang.String&nbsp;namespace,
           java.lang.String&nbsp;serviceName)</code>
 <div class="block">Read the specified Service.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapList</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listConfigMaps--">listConfigMaps</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapList</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listConfigMaps-java.lang.String-">listConfigMaps</a></span>(java.lang.String&nbsp;namespace)</code>
+<div class="block">List objects of kind ConfigMap.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listEndpoints--">listEndpoints</a></span>()</code>
 <div class="block">List or watch objects of kind Endpoints.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listEndpoints-java.lang.String-">listEndpoints</a></span>(java.lang.String&nbsp;namespace)</code>
 <div class="block">List endpoints in the given namespace.</div>
 </td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>default org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listServices--">listServices</a></span>()</code>
 <div class="block">List services in the default namespace.</div>
 </td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listServices-java.lang.String-">listServices</a></span>(java.lang.String&nbsp;namespace)</code>
 <div class="block">List services in the specified namespace.</div>
@@ -358,15 +375,64 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 <a name="getEndpoints-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getEndpoints</h4>
 <pre>default&nbsp;org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">Endpoints</a>&gt;&nbsp;getEndpoints(java.lang.String&nbsp;serviceName)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>serviceName</code> - name of the endpoints</dd>
+<dd><code>serviceName</code> - name of the endpoints.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Returns the endpoints for the specified name in the namespace (<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#DEFAULT_NAMESPACE">"default"</a>).</dd>
+</dl>
+</li>
+</ul>
+<a name="listConfigMaps-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>listConfigMaps</h4>
+<pre>@Get(value="/namespaces/{namespace}/configmaps")
+org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapList</a>&gt;&nbsp;listConfigMaps(java.lang.String&nbsp;namespace)</pre>
+<div class="block">List objects of kind ConfigMap.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - object name and auth scope, such as for teams and projects</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMapList</code></a></dd>
+</dl>
+</li>
+</ul>
+<a name="listConfigMaps--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>listConfigMaps</h4>
+<pre>default&nbsp;org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapList</a>&gt;&nbsp;listConfigMaps()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMapList</code></a> of the default namespace</dd>
+</dl>
+</li>
+</ul>
+<a name="getConfigMap-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getConfigMap</h4>
+<pre>@Get(value="/namespaces/{namespace}/configmaps/{configMapName}")
+org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMap</a>&gt;&nbsp;getConfigMap(java.lang.String&nbsp;namespace,
+                                                                                                                       java.lang.String&nbsp;configMapName)</pre>
+<div class="block">Read the specified ConfigMap.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - object name and auth scope, such as for teams and projects</dd>
+<dd><code>configMapName</code> - name of the ConfigMap</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMap</code></a></dd>
 </dl>
 </li>
 </ul>
