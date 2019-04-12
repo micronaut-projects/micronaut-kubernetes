@@ -38,6 +38,23 @@ class TestUtils {
         }
     }
 
+    @Memoized
+    static boolean configMapExists(String servicesUrl = "http://localhost:8001", String uri = "/api/v1/namespaces/default/configmaps", String configMapName) {
+        try {
+            if (kubernetesApiAvailable()) {
+                Map payload = HttpClient.create(new URL(servicesUrl))
+                        .toBlocking()
+                        .exchange(HttpRequest.GET(uri), Map)
+                        .body()
+                payload["items"].find { it.metadata.name == configMapName }
+            } else {
+                return false
+            }
+        } catch(HttpClientResponseException e) {
+            return false
+        }
+    }
+
     static boolean kubernetesApiAvailable() {
         available("http://localhost:8001")
     }

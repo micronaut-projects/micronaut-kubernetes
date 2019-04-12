@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.v1
 
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList
 import io.micronaut.kubernetes.client.v1.services.Service
@@ -92,6 +94,26 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
 
         then:
         assertThatEndpointsIsCorrect(endpoints, ipAddresses)
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable()})
+    void "it can list config maps"() {
+        when:
+        ConfigMapList configMapList = Flowable.fromPublisher(client.listConfigMaps()).blockingFirst()
+
+        then:
+        configMapList.items.size() == configMaps.size()
+    }
+
+    @Requires({ TestUtils.configMapExists('game-config')})
+    void "it can get one config map"() {
+        when:
+        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap('default', 'game-config')).blockingFirst()
+
+        then:
+        configMap.metadata.name == 'game-config'
+        configMap.data['game.properties'] == "enemies=aliens\nlives=3\nenemies.cheat=true\nenemies.cheat.level=noGoodRotten\nsecret.code.passphrase=UUDDLRLRBABAS\nsecret.code.allowed=true\nsecret.code.lives=30"
+
     }
 
     private boolean assertThatServiceIsCorrect(Service service) {

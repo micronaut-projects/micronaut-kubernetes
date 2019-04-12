@@ -17,6 +17,8 @@
 package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.http.annotation.Get;
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList;
 import io.micronaut.kubernetes.client.v1.services.Service;
@@ -100,12 +102,37 @@ public interface KubernetesOperations {
     Publisher<Endpoints> getEndpoints(String namespace, String serviceName);
 
     /**
-     *
-     * @param serviceName name of the endpoints
+     * @param serviceName name of the endpoints.
      * @return Returns the endpoints for the specified name in the namespace ({@value #DEFAULT_NAMESPACE}).
      */
     default Publisher<Endpoints> getEndpoints(String serviceName) {
         return getEndpoints(DEFAULT_NAMESPACE, serviceName);
     }
+
+    /**
+     * List objects of kind ConfigMap.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @return a {@link ConfigMapList}
+     */
+    @Get("/namespaces/{namespace}/configmaps")
+    Publisher<ConfigMapList> listConfigMaps(String namespace);
+
+    /**
+     * @return a {@link ConfigMapList} of the default namespace
+     */
+    default Publisher<ConfigMapList> listConfigMaps() {
+        return listConfigMaps(DEFAULT_NAMESPACE);
+    }
+
+    /**
+     * Read the specified ConfigMap.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param configMapName name of the ConfigMap
+     * @return a {@link ConfigMap}
+     */
+    @Get("/namespaces/{namespace}/configmaps/{configMapName}")
+    Publisher<ConfigMap> getConfigMap(String namespace, String configMapName);
 
 }

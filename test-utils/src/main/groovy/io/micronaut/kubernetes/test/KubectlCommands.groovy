@@ -20,6 +20,10 @@ trait KubectlCommands {
                 .collect { it.split(':').first() }
     }
 
+    List<String> getConfigMaps() {
+        return getProcessOutput("kubectl get configmaps | awk 'FNR > 1 { print \$1 }'").split('\n')
+    }
+
     String getProcessOutput(String command) {
         Process p = ['bash', '-c', command].execute()
         p.waitFor()
