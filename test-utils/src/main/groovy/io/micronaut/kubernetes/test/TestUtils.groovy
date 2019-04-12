@@ -22,7 +22,7 @@ class TestUtils {
     }
 
     @Memoized
-    static boolean serviceExists(String servicesUrl = "http://localhost:8001", String uri = "/api/v1/services", String serviceName) {
+    static boolean serviceExists(String servicesUrl = "http://localhost:8001", String uri = "/api/v1/namespaces/default/services", String serviceName) {
         try {
             if (kubernetesApiAvailable()) {
                 Map payload = HttpClient.create(new URL(servicesUrl))

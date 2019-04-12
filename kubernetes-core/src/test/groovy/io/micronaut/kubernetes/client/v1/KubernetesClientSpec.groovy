@@ -84,7 +84,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         assertThatEndpointsIsCorrect(endpoints, ipAddresses)
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable()})
+    @Requires({ TestUtils.serviceExists('example-service')})
     void "it can get one endpoints from the default namespace"() {
         given:
         List<String> ipAddresses = getIps()
