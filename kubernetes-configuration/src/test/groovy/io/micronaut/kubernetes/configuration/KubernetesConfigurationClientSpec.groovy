@@ -21,15 +21,28 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Inject
     ApplicationContext applicationContext
 
-    @Requires({ configMapExists('game-config')})
-    void "it can read config maps"() {
+    @Requires({ configMapExists('game-config-properties')})
+    void "it can read config maps from properties"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingFirst()
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'game.properties' }
 
         then:
         propertySource.name == 'game.properties'
         propertySource.get('enemies') == 'aliens'
         propertySource.get('lives') == '3'
+        propertySource.get('enemies.cheat.level') == 'noGoodRotten'
+    }
+
+    @Requires({ configMapExists('game-config-yml')})
+    void "it can read config maps from yml"() {
+        when:
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'game.yml' }
+
+        then:
+        propertySource.name == 'game.yml'
+        propertySource.get('enemies') == 'aliens'
+        propertySource.get('lives') == 3
+        propertySource.get('enemies.cheat.level') == 'noGoodRotten'
     }
 
 }

@@ -105,15 +105,25 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         configMapList.items.size() == configMaps.size()
     }
 
-    @Requires({ TestUtils.configMapExists('game-config')})
-    void "it can get one config map"() {
+    @Requires({ TestUtils.configMapExists('game-config-properties')})
+    void "it can get one properties config map"() {
         when:
-        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap('default', 'game-config')).blockingFirst()
+        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap('default', 'game-config-properties')).blockingFirst()
 
         then:
-        configMap.metadata.name == 'game-config'
+        configMap.metadata.name == 'game-config-properties'
         configMap.data['game.properties'] == "enemies=aliens\nlives=3\nenemies.cheat=true\nenemies.cheat.level=noGoodRotten\nsecret.code.passphrase=UUDDLRLRBABAS\nsecret.code.allowed=true\nsecret.code.lives=30"
 
+    }
+
+    @Requires({ TestUtils.configMapExists('game-config-yml')})
+    void "it can get one yml config map"() {
+        when:
+        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap('default', 'game-config-yml')).blockingFirst()
+
+        then:
+        configMap.metadata.name == 'game-config-yml'
+        configMap.data['game.yml'].contains "enemies.cheat: true"
     }
 
     private boolean assertThatServiceIsCorrect(Service service) {

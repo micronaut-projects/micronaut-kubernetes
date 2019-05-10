@@ -1,0 +1,14 @@
+---
+lives: 3
+enemies: aliens
+enemies.cheat: true
+---
+enemies:
+  cheat:
+    level: noGoodRotten
+---
+secret:
+  code:
+    passphrase: UUDDLRLRBABAS
+    allowed: true
+    lives: 30

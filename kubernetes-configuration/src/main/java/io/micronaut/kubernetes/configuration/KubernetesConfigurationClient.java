@@ -2,11 +2,11 @@ package io.micronaut.kubernetes.configuration;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
-import io.micronaut.context.env.MapPropertySource;
-import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.env.*;
+import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
+import io.micronaut.jackson.env.JsonPropertySourceLoader;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
@@ -17,14 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.function.Function;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -43,6 +38,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
+    private final List<PropertySourceReader> propertySourceReaders;
 
     /**
      * @param client An HTTP Client to query the Kubernetes API.
@@ -51,6 +47,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     public KubernetesConfigurationClient(KubernetesClient client, KubernetesConfiguration configuration) {
         this.client = client;
         this.configuration = configuration;
+        this.propertySourceReaders = Arrays.asList(new YamlPropertySourceLoader(), new JsonPropertySourceLoader(), new PropertiesPropertySourceLoader());
     }
 
     /**
@@ -82,20 +79,23 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private List<PropertySource> asPropertySources(ConfigMap configMap) {
         return configMap.getData().entrySet()
                 .stream()
-                .map(entryToPropertySource())
+                .flatMap(this::entryToPropertySource)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
 
-    private Function<Map.Entry<String, String>, MapPropertySource> entryToPropertySource() {
-        return entry -> {
-            try {
-                Properties properties = new Properties();
-                properties.load(new StringReader(entry.getValue()));
-                return new MapPropertySource(entry.getKey(), properties);
-            } catch (IOException e) {
-                return null;
-            }
-        };
+    private Stream<? extends PropertySource> entryToPropertySource(Map.Entry<String, String> entry) {
+        String extension = getExtension(entry.getKey()).orElse("yml");
+        return this.propertySourceReaders.stream()
+                .filter(reader -> reader.getExtensions().contains(extension))
+                .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
+                .map(map -> PropertySource.of(entry.getKey(), map));
     }
+
+    private Optional<String> getExtension(String filename) {
+        return Optional.of(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+    }
+
 }
