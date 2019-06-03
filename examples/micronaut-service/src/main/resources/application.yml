@@ -1,4 +1,6 @@
 micronaut:
+  application:
+    name: micronaut-service
   server:
     port: 8081
 jackson:

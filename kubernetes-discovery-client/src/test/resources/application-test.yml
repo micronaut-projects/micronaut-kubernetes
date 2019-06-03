@@ -1,4 +1,6 @@
 micronaut:
+  config-client:
+    enabled: true
   http:
     services:
       kubernetes:
