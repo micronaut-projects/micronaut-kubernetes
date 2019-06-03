@@ -17,8 +17,14 @@ spec:
         - name: example-service
           image: registry.hub.docker.com/alvarosanchez/example-service
           imagePullPolicy: "Always"
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5004"
           ports:
-            - containerPort: 8081
+            - name: http
+              containerPort: 8081
+            - name: "jvm-debug"
+              containerPort: 5004
 ---
 apiVersion: v1
 kind: Service

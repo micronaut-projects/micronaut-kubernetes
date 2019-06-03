@@ -1,0 +1,5 @@
+micronaut:
+  application:
+    name: micronaut-service
+  config-client:
+    enabled: true

@@ -7,7 +7,7 @@ import org.reactivestreams.Publisher;
 
 import java.util.List;
 
-@Controller("/")
+@Controller
 public class HelloController {
 
     private ExampleClient client;
@@ -18,7 +18,7 @@ public class HelloController {
         this.discoveryClient = discoveryClient;
     }
 
-    @Get("/")
+    @Get
     public String index() {
         return client.hello("example-client");
     }
@@ -26,5 +26,10 @@ public class HelloController {
     @Get("/all")
     public Publisher<List<String>> all() {
         return discoveryClient.getServiceIds();
+    }
+
+    @Get("/enemies")
+    public String enemies() {
+        return client.enemiesCheatLevel();
     }
 }

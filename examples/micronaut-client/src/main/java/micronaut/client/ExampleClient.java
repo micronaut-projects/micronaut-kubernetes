@@ -8,4 +8,7 @@ public interface ExampleClient {
 
     @Get("/hello/{name}")
     String hello(String name);
+
+    @Get("/hello/enemies")
+    String enemiesCheatLevel();
 }

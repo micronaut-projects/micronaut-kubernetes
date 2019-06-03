@@ -45,6 +45,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param configuration The configuration properties
      */
     public KubernetesConfigurationClient(KubernetesClient client, KubernetesConfiguration configuration) {
+        LOG.debug("Initializing {}", getClass().getName());
         this.client = client;
         this.configuration = configuration;
         this.propertySourceReaders = Arrays.asList(new YamlPropertySourceLoader(), new JsonPropertySourceLoader(), new PropertiesPropertySourceLoader());

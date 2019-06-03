@@ -28,16 +28,25 @@ public class HelloControllerTest {
         assertTrue(testClient.all().contains("example-service"));
     }
 
+    @Test
+    @EnabledIfAvailable("http://localhost:8888")
+    public void testEnemies() {
+        assertTrue(testClient.enemies().equals("noGoodRotten"));
+    }
+
 
 
     @Client("http://localhost:8888")
     public interface TestClient {
 
-        @Get("/")
+        @Get
         String index();
 
         @Get("/all")
         String all();
+
+        @Get("/enemies")
+        String enemies();
 
     }
 
