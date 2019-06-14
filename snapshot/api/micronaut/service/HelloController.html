@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -147,6 +147,10 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/service/HelloController.html#enemies--">enemies</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/service/HelloController.html#index-java.lang.String-">index</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
 </tr>
 </table>
@@ -191,11 +195,21 @@ extends java.lang.Object</pre>
 <a name="index-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>index</h4>
 <pre>@Get(value="/{name}")
 public&nbsp;java.lang.String&nbsp;index(java.lang.String&nbsp;name)</pre>
+</li>
+</ul>
+<a name="enemies--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>enemies</h4>
+<pre>@Get(value="/enemies")
+public&nbsp;java.lang.String&nbsp;enemies()</pre>
 </li>
 </ul>
 </li>

@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10};
+var methods = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -48,7 +48,7 @@ var activeTableTab = "activeTableTab";
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesClientFilter.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConnectionPoolConfiguration.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" target="_top">Frames</a></li>
@@ -72,7 +72,7 @@ var activeTableTab = "activeTableTab";
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
@@ -98,7 +98,12 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
+<li>io.micronaut.http.client.HttpClientConfiguration</li>
+<li>
+<ul class="inheritance">
 <li>io.micronaut.kubernetes.client.v1.KubernetesConfiguration</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -110,7 +115,7 @@ var activeTableTab = "activeTableTab";
 <pre>@Requires(env="k8s")
  @ConfigurationProperties(value="kubernetes")
 public class <span class="typeNameLabel">KubernetesConfiguration</span>
-extends java.lang.Object</pre>
+extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <div class="block">Encapsulates constants for Kubernetes configuration.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -124,6 +129,34 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<ul class="blockList">
+<li class="blockList"><a name="nested.class.summary">
+<!--   -->
+</a>
+<h3>Nested Class Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Nested Class Summary table, listing nested classes, and an explanation">
+<caption><span>Nested Classes</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Class and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static class&nbsp;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConnectionPoolConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConnectionPoolConfiguration</a></span></code>
+<div class="block">The default connection pool configuration.</div>
+</td>
+</tr>
+</table>
+<ul class="blockList">
+<li class="blockList"><a name="nested.classes.inherited.from.class.io.micronaut.http.client.HttpClientConfiguration">
+<!--   -->
+</a>
+<h3>Nested classes/interfaces inherited from class&nbsp;io.micronaut.http.client.HttpClientConfiguration</h3>
+<code>io.micronaut.http.client.HttpClientConfiguration.ConnectionPoolConfiguration</code></li>
+</ul>
+</li>
+</ul>
 <!-- =========== FIELD SUMMARY =========== -->
 <ul class="blockList">
 <li class="blockList"><a name="field.summary">
@@ -147,6 +180,13 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#PREFIX">PREFIX</a></span></code>&nbsp;</td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="fields.inherited.from.class.io.micronaut.http.client.HttpClientConfiguration">
+<!--   -->
+</a>
+<h3>Fields inherited from class&nbsp;io.micronaut.http.client.HttpClientConfiguration</h3>
+<code>DEFAULT_FOLLOW_REDIRECTS, DEFAULT_MAX_CONTENT_LENGTH, DEFAULT_READ_IDLE_TIMEOUT_MINUTES, DEFAULT_READ_TIMEOUT_SECONDS, DEFAULT_SHUTDOWN_TIMEOUT_MILLISECONDS</code></li>
+</ul>
 </li>
 </ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
@@ -179,14 +219,25 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>io.micronaut.http.client.HttpClientConfiguration.ConnectionPoolConfiguration</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getConnectionPoolConfiguration--">getConnectionPoolConfiguration</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getNamespace--">getNamespace</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.io.micronaut.http.client.HttpClientConfiguration">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;io.micronaut.http.client.HttpClientConfiguration</h3>
+<code>getChannelOptions, getConnectTimeout, getDefaultCharset, getLoggerName, getMaxContentLength, getNumOfThreads, getProxyAddress, getProxyPassword, getProxyType, getProxyUsername, getReadIdleTimeout, getReadTimeout, getShutdownTimeout, getSslConfiguration, getThreadFactory, isFollowRedirects, setChannelOptions, setConnectTimeout, setDefaultCharset, setFollowRedirects, setLoggerName, setMaxContentLength, setNumOfThreads, setProxyAddress, setProxyPassword, setProxyType, setProxyUsername, setReadIdleTimeout, setReadTimeout, setShutdownTimeout, setSslConfiguration, setThreadFactory</code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
@@ -277,13 +328,26 @@ public&nbsp;java.lang.String&nbsp;getNamespace()</pre>
 <a name="setNamespace-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setNamespace</h4>
 <pre>public&nbsp;void&nbsp;setNamespace(java.lang.String&nbsp;namespace)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>namespace</code> - Sets the namespace. Default value: <a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#DEFAULT_NAMESPACE">"default"</a>.</dd>
+</dl>
+</li>
+</ul>
+<a name="getConnectionPoolConfiguration--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getConnectionPoolConfiguration</h4>
+<pre>public&nbsp;io.micronaut.http.client.HttpClientConfiguration.ConnectionPoolConfiguration&nbsp;getConnectionPoolConfiguration()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>getConnectionPoolConfiguration</code>&nbsp;in class&nbsp;<code>io.micronaut.http.client.HttpClientConfiguration</code></dd>
 </dl>
 </li>
 </ul>
@@ -315,7 +379,7 @@ public&nbsp;java.lang.String&nbsp;getNamespace()</pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesClientFilter.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConnectionPoolConfiguration.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" target="_top">Frames</a></li>
@@ -339,7 +403,7 @@ public&nbsp;java.lang.String&nbsp;getNamespace()</pre>
 <div>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
-<li>Nested&nbsp;|&nbsp;</li>
+<li><a href="#nested.class.summary">Nested</a>&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>

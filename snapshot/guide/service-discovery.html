@@ -153,7 +153,7 @@ metadata:
   namespace: default
 rules:
   - apiGroups: [""]
-    resources: ["services", "endpoints"]
+    resources: ["services", "endpoints", "configmaps"]
     verbs: ["get", "watch", "list"]
 ---
 kind: RoleBinding

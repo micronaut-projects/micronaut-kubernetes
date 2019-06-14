@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6};
+var methods = {"i0":6,"i1":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -121,6 +121,10 @@ public interface <span class="typeNameLabel">ExampleClient</span></pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#enemiesCheatLevel--">enemiesCheatLevel</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#hello-java.lang.String-">hello</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
 </tr>
 </table>
@@ -141,11 +145,21 @@ public interface <span class="typeNameLabel">ExampleClient</span></pre>
 <a name="hello-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>hello</h4>
 <pre>@Get(value="/hello/{name}")
 java.lang.String&nbsp;hello(java.lang.String&nbsp;name)</pre>
+</li>
+</ul>
+<a name="enemiesCheatLevel--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>enemiesCheatLevel</h4>
+<pre>@Get(value="/hello/enemies")
+java.lang.String&nbsp;enemiesCheatLevel()</pre>
 </li>
 </ul>
 </li>
