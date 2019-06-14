@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpResponse;
@@ -41,6 +42,7 @@ import java.nio.file.Paths;
 @Filter(value = "/api/v1/**", serviceId = KubernetesClient.SERVICE_ID)
 @Requires(env = Environment.KUBERNETES)
 @Requires(resources = "file:" + KubernetesClientFilter.TOKEN_PATH)
+@BootstrapContextCompatible
 public class KubernetesClientFilter implements HttpClientFilter {
 
     public static final String TOKEN_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/token";

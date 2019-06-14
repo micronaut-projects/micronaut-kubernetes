@@ -38,7 +38,6 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -63,21 +62,24 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     private final KubernetesClient client;
     private final KubernetesDiscoveryConfiguration configuration;
+    private final KubernetesServiceInstanceList instanceList;
 
     /**
      * @param client An HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
+     * @param instanceList
      */
     public KubernetesDiscoveryClient(KubernetesClient client,
-                                     KubernetesDiscoveryConfiguration configuration) {
+                                     KubernetesDiscoveryConfiguration configuration, KubernetesServiceInstanceList instanceList) {
         this.client = client;
         this.configuration = configuration;
+        this.instanceList = instanceList;
     }
 
     @Override
     public Publisher<List<ServiceInstance>> getInstances(String serviceId) {
         if (SERVICE_ID.equals(serviceId)) {
-            return Publishers.just(Collections.singletonList(ServiceInstance.of(SERVICE_ID, URI.create(KUBERNETES_URI))));
+            return Publishers.just(instanceList.getInstances());
         } else {
             AtomicReference<Metadata> metadata = new AtomicReference<>();
             String namespace = configuration.getKubernetesConfiguration().getNamespace();

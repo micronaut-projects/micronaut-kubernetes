@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.http.client.HttpClientConfiguration;
 
 import javax.annotation.Nonnull;
 
@@ -33,7 +34,7 @@ import javax.annotation.Nonnull;
 @Requires(env = Environment.KUBERNETES)
 @ConfigurationProperties(KubernetesConfiguration.PREFIX)
 @BootstrapContextCompatible
-public class KubernetesConfiguration {
+public class KubernetesConfiguration extends HttpClientConfiguration {
 
     public static final String PREFIX = "kubernetes";
 
@@ -46,6 +47,11 @@ public class KubernetesConfiguration {
     @Nonnull
     private String namespace = DEFAULT_NAMESPACE;
 
+    private final KubernetesConnectionPoolConfiguration connectionPoolConfiguration;
+
+    public KubernetesConfiguration() {
+        this.connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
+    }
 
     /**
      *
@@ -61,5 +67,19 @@ public class KubernetesConfiguration {
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+
+    @Override
+    public ConnectionPoolConfiguration getConnectionPoolConfiguration() {
+        return this.connectionPoolConfiguration;
+    }
+
+
+    /**
+     * The default connection pool configuration.
+     */
+    @ConfigurationProperties(ConnectionPoolConfiguration.PREFIX)
+    @BootstrapContextCompatible
+    public static class KubernetesConnectionPoolConfiguration extends ConnectionPoolConfiguration {
     }
 }
