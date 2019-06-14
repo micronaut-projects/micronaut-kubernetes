@@ -19,7 +19,7 @@ spec:
           imagePullPolicy: "Always"
           env:
             - name: JAVA_TOOL_OPTIONS
-              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5004"
+              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5004"
           ports:
             - name: http
               containerPort: 8081
