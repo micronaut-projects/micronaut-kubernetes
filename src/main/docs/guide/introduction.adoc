@@ -5,6 +5,11 @@ To use the `BUILD-SNAPSHOT` version of this library, check the https://docs.micr
 It adds support for the following features:
 
 * Service Discovery.
+* Configuration client.
+
+To get started, you need to declare the following dependency:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:{version}[]
 
 The core library for all features can be configured using the following configuration properties:
 

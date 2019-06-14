@@ -1,0 +1,20 @@
+The Configuration client will read Kubernetes' `ConfigMap`s and make them available as `PropertySource`s in your
+application.
+
+Then, in any bean you can read the configuration values from the `ConfigMap` using `@Value` or
+https://docs.micronaut.io/latest/guide/index.html#config[any other way to read configuration values].
+
+Supported formats are:
+
+* Java `.properties`.
+* YAML.
+
+## Example
+
+You can create a Kubernetes `ConfigMap` off an existing file with the following command:
+
+`kubectl create configmap my-config --from-file=my-config.properties`
+
+Or:
+
+`kubectl create configmap my-config --from-file=my-config.yml`
