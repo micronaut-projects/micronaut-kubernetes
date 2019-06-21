@@ -458,10 +458,16 @@ application.</p>
 <li>
 <p>YAML.</p>
 </li>
+<li>
+<p>JSON.</p>
+</li>
+<li>
+<p>Literal values.</p>
+</li>
 </ul>
 </div>
 <div class="sect1">
-<h2 id="_example">Example</h2>
+<h2 id="_examples">Examples</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>You can create a Kubernetes <code>ConfigMap</code> off an existing file with the following command:</p>
@@ -474,6 +480,18 @@ application.</p>
 </div>
 <div class="paragraph">
 <p><code>kubectl create configmap my-config --from-file=my-config.yml</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.json</code></p>
+</div>
+<div class="paragraph">
+<p>You can also create a <code>ConfigMap</code> from literal values:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-literal=special.how=very --from-literal=special.type=charm</code></p>
 </div>
 </div>
 </div>
