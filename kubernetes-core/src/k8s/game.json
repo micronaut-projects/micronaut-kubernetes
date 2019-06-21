@@ -1,0 +1,12 @@
+{
+  "lives": 7,
+  "enemies": "monsters",
+  "enemies.cheat": true,
+  "secret": {
+    "code": {
+      "passphrase": "UUDDLRLRBABAS",
+      "allowed": true,
+      "lives": 30
+    }
+  }
+}

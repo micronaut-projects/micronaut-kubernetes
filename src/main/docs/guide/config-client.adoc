@@ -8,6 +8,7 @@ Supported formats are:
 
 * Java `.properties`.
 * YAML.
+* JSON.
 * Literal values.
 
 ## Examples
@@ -19,6 +20,10 @@ You can create a Kubernetes `ConfigMap` off an existing file with the following 
 Or:
 
 `kubectl create configmap my-config --from-file=my-config.yml`
+
+Or:
+
+`kubectl create configmap my-config --from-file=my-config.json`
 
 You can also create a `ConfigMap` from literal values:
 

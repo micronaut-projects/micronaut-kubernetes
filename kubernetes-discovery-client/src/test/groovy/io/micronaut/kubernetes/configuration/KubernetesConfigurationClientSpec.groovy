@@ -45,6 +45,17 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
     }
 
+    @Requires({ configMapExists('game-config-json')})
+    void "it can read config maps from json"() {
+        when:
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'game.json' }
+
+        then:
+        propertySource.name == 'game.json'
+        propertySource.get('enemies') == 'monsters'
+        propertySource.get('lives') == 7
+    }
+
     @Requires({ configMapExists('literal-config')})
     void "it can read config maps from literals"() {
         given:
