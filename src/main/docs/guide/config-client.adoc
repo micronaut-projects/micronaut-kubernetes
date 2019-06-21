@@ -8,8 +8,9 @@ Supported formats are:
 
 * Java `.properties`.
 * YAML.
+* Literal values.
 
-## Example
+## Examples
 
 You can create a Kubernetes `ConfigMap` off an existing file with the following command:
 
@@ -18,3 +19,7 @@ You can create a Kubernetes `ConfigMap` off an existing file with the following 
 Or:
 
 `kubectl create configmap my-config --from-file=my-config.yml`
+
+You can also create a `ConfigMap` from literal values:
+
+`kubectl create configmap my-config --from-literal=special.how=very --from-literal=special.type=charm`

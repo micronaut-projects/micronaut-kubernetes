@@ -18,8 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -64,7 +62,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 .doOnNext(configMapList -> LOG.debug("Found {} config maps", configMapList.getItems().size()))
                 .flatMapIterable(ConfigMapList::getItems)
                 .doOnNext(configMap -> LOG.debug("Adding config map with name {}", configMap.getMetadata().getName()))
-                .flatMapIterable(this::asPropertySources);
+                .map(this::asPropertySource);
     }
 
     /**
@@ -77,20 +75,25 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return KubernetesClient.SERVICE_ID;
     }
 
-    private List<PropertySource> asPropertySources(ConfigMap configMap) {
-        return configMap.getData().entrySet()
-                .stream()
-                .flatMap(this::entryToPropertySource)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    private Stream<? extends PropertySource> entryToPropertySource(Map.Entry<String, String> entry) {
-        String extension = getExtension(entry.getKey()).orElse("yml");
-        return this.propertySourceReaders.stream()
-                .filter(reader -> reader.getExtensions().contains(extension))
-                .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
-                .map(map -> PropertySource.of(entry.getKey(), map));
+    private PropertySource asPropertySource(ConfigMap configMap) {
+        LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
+        String name = configMap.getMetadata().getName();
+        Map<String, String> data = configMap.getData();
+        if (data.size() > 1) {
+            LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
+            Map<String, Object> propertySourceData = new HashMap<>(data);
+            return PropertySource.of(name, propertySourceData);
+        } else {
+            LOG.trace("Considering this ConfigMap as containing values from a single file");
+            Map.Entry<String, String> entry = data.entrySet().iterator().next();
+            String extension = getExtension(entry.getKey()).orElse("properties");
+            return this.propertySourceReaders.stream()
+                    .filter(reader -> reader.getExtensions().contains(extension))
+                    .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
+                    .map(map -> PropertySource.of(entry.getKey(), map))
+                    .findFirst()
+                    .orElse(PropertySource.of(Collections.emptyMap()));
+        }
     }
 
     private Optional<String> getExtension(String filename) {
