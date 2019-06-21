@@ -112,7 +112,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
 
         then:
         configMap.metadata.name == 'game-config-properties'
-        configMap.data['game.properties'] == "enemies=aliens\nlives=3\nenemies.cheat=true\nenemies.cheat.level=noGoodRotten\nsecret.code.passphrase=UUDDLRLRBABAS\nsecret.code.allowed=true\nsecret.code.lives=30"
+        configMap.data['game.properties'] == "enemies=zombies\nlives=5\nenemies.cheat=true\nenemies.cheat.level=noGoodRotten\nsecret.code.passphrase=UUDDLRLRBABAS\nsecret.code.allowed=true\nsecret.code.lives=30"
 
     }
 
