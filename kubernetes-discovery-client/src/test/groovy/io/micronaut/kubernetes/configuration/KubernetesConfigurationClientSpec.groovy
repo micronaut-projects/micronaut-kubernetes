@@ -2,7 +2,9 @@ package io.micronaut.kubernetes.configuration
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
+import io.micronaut.context.env.PropertySource
 import io.micronaut.kubernetes.test.KubectlCommands
+import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
 import io.reactivex.Flowable
 import spock.lang.Requires
@@ -69,6 +71,17 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.name == 'literal-config'
         propertySource.get('special.how') == 'very'
         propertySource.get('special.type') == 'charm'
+    }
+
+    @Requires({ TestUtils.secretExists('test-secret')})
+    void "it can read secrets"() {
+        when:
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'test-secret' }
+
+        then:
+        propertySource.get('username') == 'my-app'
+        propertySource.get('password') == '39528$vdg7Jb'
+
     }
 
 }

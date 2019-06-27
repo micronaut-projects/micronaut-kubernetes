@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public class Secret {
 
+    public static final String OPAQUE_SECRET_TYPE = "Opaque";
+
     private Metadata metadata;
     private Map<String, String> data = new HashMap<>();
     private String type;
