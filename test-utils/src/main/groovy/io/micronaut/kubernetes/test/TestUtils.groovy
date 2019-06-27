@@ -55,6 +55,23 @@ class TestUtils {
         }
     }
 
+    @Memoized
+    static boolean secretExists(String servicesUrl = "http://localhost:8001", String uri = "/api/v1/namespaces/default/secrets", String secretName) {
+        try {
+            if (kubernetesApiAvailable()) {
+                Map payload = HttpClient.create(new URL(servicesUrl))
+                        .toBlocking()
+                        .exchange(HttpRequest.GET(uri), Map)
+                        .body()
+                payload["items"].find { it.metadata.name == secretName }
+            } else {
+                return false
+            }
+        } catch(HttpClientResponseException e) {
+            return false
+        }
+    }
+
     static boolean kubernetesApiAvailable() {
         available("http://localhost:8001")
     }

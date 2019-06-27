@@ -31,7 +31,7 @@ echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 # Create roles, deployments and services
 kubectl create -f k8s-auth.yml
 kubectl create -f kubernetes.yml
-./create-config-maps.sh
+./create-config-maps-and-secret.sh
 # Wait for pods to be up and ready
 sleep 5
 SERVICE_POD="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"

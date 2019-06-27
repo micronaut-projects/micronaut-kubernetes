@@ -24,6 +24,10 @@ trait KubectlCommands {
         return getProcessOutput("kubectl get configmaps | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
+    List<String> getSecrets() {
+        return getProcessOutput("kubectl get secrets --field-selector type=Opaque | awk 'FNR > 1 { print \$1 }'").split('\n')
+    }
+
     String getProcessOutput(String command) {
         Process p = ['bash', '-c', command].execute()
         p.waitFor()

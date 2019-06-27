@@ -19,6 +19,8 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList
+import io.micronaut.kubernetes.client.v1.secrets.Secret
+import io.micronaut.kubernetes.client.v1.secrets.SecretList
 import io.micronaut.kubernetes.client.v1.services.Service
 import io.micronaut.kubernetes.client.v1.services.ServiceList
 import io.micronaut.kubernetes.test.KubectlCommands
@@ -124,6 +126,24 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         then:
         configMap.metadata.name == 'game-config-yml'
         configMap.data['game.yml'].contains "enemies.cheat: true"
+    }
+
+    @Requires({ TestUtils.secretExists('test-secret')})
+    void "it can list secrets"() {
+        when:
+        SecretList secretList = Flowable.fromPublisher(client.listSecrets()).blockingFirst()
+
+        then:
+        secretList.items.find { it.getMetadata().getName().equals("test-secret") }
+    }
+
+    @Requires({ TestUtils.secretExists('test-secret')})
+    void "it can get one secret"() {
+        when:
+        Secret secret = Flowable.fromPublisher(client.getSecret('default', 'test-secret')).blockingFirst()
+
+        then:
+        secret.getMetadata().getName().equals("test-secret")
     }
 
     private boolean assertThatServiceIsCorrect(Service service) {

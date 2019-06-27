@@ -21,6 +21,8 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList;
+import io.micronaut.kubernetes.client.v1.secrets.Secret;
+import io.micronaut.kubernetes.client.v1.secrets.SecretList;
 import io.micronaut.kubernetes.client.v1.services.Service;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import org.reactivestreams.Publisher;
@@ -134,5 +136,25 @@ public interface KubernetesOperations {
      */
     @Get("/namespaces/{namespace}/configmaps/{configMapName}")
     Publisher<ConfigMap> getConfigMap(String namespace, String configMapName);
+
+    /**
+     * List objects of kind Secret
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @return a {@link SecretList}
+     */
+    @Get("/namespaces/{namespace}/secrets")
+    Publisher<SecretList> listSecrets(String namespace);
+
+    /**
+     * @return a {@link SecretList} of the default namespace
+     */
+    default Publisher<SecretList> listSecrets() {
+        return listSecrets(DEFAULT_NAMESPACE);
+    }
+
+
+    @Get("/namespaces/{namespace}/secrets/{secretName}")
+    Publisher<Secret> getSecret(String namespace, String secretName);
 
 }

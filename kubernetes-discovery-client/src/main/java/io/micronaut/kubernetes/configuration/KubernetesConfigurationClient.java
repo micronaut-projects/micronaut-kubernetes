@@ -57,12 +57,20 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      */
     @Override
     public Publisher<PropertySource> getPropertySources(Environment environment) {
+        return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
+    }
+
+    private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace()))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .doOnNext(configMapList -> LOG.debug("Found {} config maps", configMapList.getItems().size()))
                 .flatMapIterable(ConfigMapList::getItems)
                 .doOnNext(configMap -> LOG.debug("Adding config map with name {}", configMap.getMetadata().getName()))
                 .map(this::asPropertySource);
+    }
+
+    private Flowable<PropertySource> getPropertySourcesFromSecrets() {
+        return Flowable.empty();
     }
 
     /**
