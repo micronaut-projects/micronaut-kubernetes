@@ -5,7 +5,7 @@ To use the `BUILD-SNAPSHOT` version of this library, check the https://docs.micr
 It adds support for the following features:
 
 * Service Discovery.
-* Configuration client.
+* Configuration client for config maps and secrets.
 
 To get started, you need to declare the following dependency:
 
