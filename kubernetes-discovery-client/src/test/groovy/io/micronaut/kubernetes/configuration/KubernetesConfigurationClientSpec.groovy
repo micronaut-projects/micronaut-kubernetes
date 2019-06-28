@@ -65,10 +65,10 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         println itr*.properties
 
         when:
-        def propertySource = itr.find { it.name == 'literal-config' }
+        def propertySource = itr.find { it.name.startsWith 'literal-config' }
 
         then:
-        propertySource.name == 'literal-config'
+        propertySource.name == 'literal-config (Kubernetes ConfigMap)'
         propertySource.get('special.how') == 'very'
         propertySource.get('special.type') == 'charm'
     }
@@ -76,9 +76,10 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ TestUtils.secretExists('test-secret')})
     void "it can read secrets"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'test-secret' }
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'test-secret' }
 
         then:
+        propertySource.name == 'test-secret (Kubernetes Secret)'
         propertySource.get('username') == 'my-app'
         propertySource.get('password') == '39528$vdg7Jb'
 

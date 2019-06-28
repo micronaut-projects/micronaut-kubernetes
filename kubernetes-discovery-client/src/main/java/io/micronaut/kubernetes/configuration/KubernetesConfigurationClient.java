@@ -96,7 +96,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private PropertySource configMapAsPropertySource(ConfigMap configMap) {
         LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
-        String name = configMap.getMetadata().getName();
+        String name = configMap.getMetadata().getName() + " (Kubernetes ConfigMap)";
         Map<String, String> data = configMap.getData();
         if (data.size() > 1) {
             LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
@@ -123,7 +123,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private PropertySource secretAsPropertySource(Secret secret) {
         LOG.trace("Processing PropertySources for Secret: {}", secret);
-        String name = secret.getMetadata().getName();
+        String name = secret.getMetadata().getName() + " (Kubernetes Secret)";
         Map<String, String> data = secret.getData();
         Map<String, Object> propertySourceData = data.entrySet()
                 .stream()
