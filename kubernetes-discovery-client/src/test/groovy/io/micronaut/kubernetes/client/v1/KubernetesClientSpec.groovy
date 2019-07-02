@@ -78,6 +78,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     void "it can get one endpoints"() {
         given:
         List<String> ipAddresses = getIps()
+        println "Endpoint IP addresses: ${ipAddresses}"
 
         when:
         Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('default', 'example-service')).blockingFirst()
@@ -90,6 +91,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     void "it can get one endpoints from the default namespace"() {
         given:
         List<String> ipAddresses = getIps()
+        println "Endpoint IP addresses: ${ipAddresses}"
 
         when:
         Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('example-service')).blockingFirst()
