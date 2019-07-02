@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.v1
 
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
@@ -32,7 +33,7 @@ import spock.lang.Specification
 
 import javax.inject.Inject
 
-@MicronautTest
+@MicronautTest(environments = [Environment.KUBERNETES])
 class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     @Inject
@@ -78,7 +79,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     void "it can get one endpoints"() {
         given:
         List<String> ipAddresses = getIps()
-        println "Endpoint IP addresses: ${ipAddresses}"
+//        println "Endpoint IP addresses: ${ipAddresses}"
 
         when:
         Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('default', 'example-service')).blockingFirst()
@@ -91,7 +92,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     void "it can get one endpoints from the default namespace"() {
         given:
         List<String> ipAddresses = getIps()
-        println "Endpoint IP addresses: ${ipAddresses}"
+//        println "Endpoint IP addresses: ${ipAddresses}"
 
         when:
         Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints('example-service')).blockingFirst()

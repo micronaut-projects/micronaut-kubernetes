@@ -27,7 +27,7 @@ class KubernetesDiscoveryClientEnabledSpec extends Specification {
         where:
         conf                                            | beanExists    | description
         [:]                                             | true          | 'bean exists by default'
-        ['kubernetes.discovery.enabled': false]         | false         | 'can be disabled with kubernetes.discovery.enabled=false'
+        ['kubernetes.client.discovery.enabled': false]  | false         | 'can be disabled with kubernetes.client.discovery.enabled=false'
     }
 
     boolean existsEnvironmentVariablesKubernetesDiscoveryClient(ApplicationContext applicationContext) {

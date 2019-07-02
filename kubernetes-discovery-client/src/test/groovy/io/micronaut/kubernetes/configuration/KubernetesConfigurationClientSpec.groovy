@@ -62,7 +62,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     void "it can read config maps from literals"() {
         given:
         def itr = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
-        println itr*.properties
+//        println itr*.properties
 
         when:
         def propertySource = itr.find { it.name.startsWith 'literal-config' }

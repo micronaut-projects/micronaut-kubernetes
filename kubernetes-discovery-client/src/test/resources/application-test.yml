@@ -5,4 +5,9 @@ micronaut:
     services:
       kubernetes:
         path: /api/v1
-        url: http://localhost:8001
+---
+kubernetes:
+  client:
+    host: localhost
+    port: 8001
+    secure: false

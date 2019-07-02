@@ -40,13 +40,17 @@ import javax.annotation.Nullable;
 @BootstrapContextCompatible
 public class KubernetesConfiguration extends DiscoveryClientConfiguration {
 
-    public static final String PREFIX = "kubernetes";
+    public static final String PREFIX = "kubernetes.client";
 
     /**
      * The default namespace value.
      */
     @SuppressWarnings("WeakerAccess")
     public static final String DEFAULT_NAMESPACE = "default";
+
+    private static final String KUBERNETES_DEFAULT_HOST = "kubernetes";
+    private static final int KUBERNETES_DEFAULT_PORT = 443;
+    private static final boolean KUBERNETES_DEFAULT_SECURE = true;
 
     @Nonnull
     private String namespace = DEFAULT_NAMESPACE;
@@ -60,6 +64,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     public KubernetesConfiguration() {
         this.connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
         this.discoveryConfiguration = new KubernetesDiscoveryConfiguration();
+        setPort(KUBERNETES_DEFAULT_PORT);
+        setHost(KUBERNETES_DEFAULT_HOST);
+        setSecure(KUBERNETES_DEFAULT_SECURE);
     }
 
     @Nonnull

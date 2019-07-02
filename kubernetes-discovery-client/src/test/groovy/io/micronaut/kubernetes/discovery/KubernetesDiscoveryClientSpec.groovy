@@ -40,7 +40,7 @@ class KubernetesDiscoveryClientSpec extends Specification implements KubectlComm
     void "it can get service instances"() {
         given:
         List<String> ipAddresses = getIps()
-        println "Endpoint IP addresses: ${ipAddresses}"
+//        println "Endpoint IP addresses: ${ipAddresses}"
 
         when:
         List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service')).blockingFirst()

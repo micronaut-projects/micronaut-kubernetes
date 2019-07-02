@@ -56,7 +56,6 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
 @SuppressWarnings("WeakerAccess")
 public class KubernetesDiscoveryClient implements DiscoveryClient {
 
-    public static final String KUBERNETES_URI = "https://kubernetes";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesDiscoveryClient.class);
 
     private final KubernetesClient client;
@@ -83,6 +82,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     @Override
     public Publisher<List<ServiceInstance>> getInstances(String serviceId) {
         if (!discoveryConfiguration.isEnabled()) {
+            LOG.debug("Discovery configuration is not enabled");
             return Publishers.just(Collections.emptyList());
         }
         if (SERVICE_ID.equals(serviceId)) {

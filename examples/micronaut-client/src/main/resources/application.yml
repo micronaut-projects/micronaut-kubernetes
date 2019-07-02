@@ -1,7 +1,7 @@
 micronaut:
-    server:
-        port: 8082
-    application:
-        name: micronaut-client
+  server:
+    port: 8082
+  application:
+    name: micronaut-client
 jackson:
-    module-scan: false
+  module-scan: false

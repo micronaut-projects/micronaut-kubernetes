@@ -1,5 +1,6 @@
 package micronaut.client;
 
+import io.micronaut.context.env.Environment;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.kubernetes.test.EnabledIfAvailable;
@@ -10,7 +11,7 @@ import javax.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@MicronautTest
+@MicronautTest(environments = Environment.KUBERNETES)
 public class HelloControllerTest {
 
     @Inject
