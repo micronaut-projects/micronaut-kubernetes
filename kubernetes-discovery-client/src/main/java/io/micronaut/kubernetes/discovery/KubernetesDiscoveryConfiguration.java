@@ -17,20 +17,4 @@ public class KubernetesDiscoveryConfiguration extends DiscoveryConfiguration {
 
     public static final String PREFIX = KubernetesConfiguration.PREFIX + "." + DiscoveryConfiguration.PREFIX;
 
-    private KubernetesConfiguration kubernetesConfiguration;
-
-    /**
-     * @param kubernetesConfiguration Kubernetes configuration
-     */
-    public KubernetesDiscoveryConfiguration(KubernetesConfiguration kubernetesConfiguration) {
-        this.kubernetesConfiguration = kubernetesConfiguration;
-    }
-
-    /**
-     * @return The Kubernetes configuration
-     */
-    public KubernetesConfiguration getKubernetesConfiguration() {
-        return kubernetesConfiguration;
-    }
-
 }

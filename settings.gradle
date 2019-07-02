@@ -1,6 +1,5 @@
 rootProject.name = 'micronaut-kubernetes'
 
-include 'kubernetes-core'
 include 'kubernetes-discovery-client'
 include 'test-utils'
 

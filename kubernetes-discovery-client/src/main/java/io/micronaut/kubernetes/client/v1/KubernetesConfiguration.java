@@ -20,9 +20,13 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import io.micronaut.http.client.HttpClientConfiguration;
+import io.micronaut.discovery.DiscoveryConfiguration;
+import io.micronaut.discovery.client.DiscoveryClientConfiguration;
+import io.micronaut.discovery.registration.RegistrationConfiguration;
+import io.micronaut.kubernetes.discovery.KubernetesDiscoveryConfiguration;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 /**
  * Encapsulates constants for Kubernetes configuration.
@@ -34,7 +38,7 @@ import javax.annotation.Nonnull;
 @Requires(env = Environment.KUBERNETES)
 @ConfigurationProperties(KubernetesConfiguration.PREFIX)
 @BootstrapContextCompatible
-public class KubernetesConfiguration extends HttpClientConfiguration {
+public class KubernetesConfiguration extends DiscoveryClientConfiguration {
 
     public static final String PREFIX = "kubernetes";
 
@@ -48,9 +52,28 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     private String namespace = DEFAULT_NAMESPACE;
 
     private final KubernetesConnectionPoolConfiguration connectionPoolConfiguration;
+    private final KubernetesDiscoveryConfiguration discoveryConfiguration;
 
     public KubernetesConfiguration() {
         this.connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
+        this.discoveryConfiguration = new KubernetesDiscoveryConfiguration();
+    }
+
+    @Nonnull
+    @Override
+    public DiscoveryConfiguration getDiscovery() {
+        return this.discoveryConfiguration;
+    }
+
+    @Nullable
+    @Override
+    public RegistrationConfiguration getRegistration() {
+        return null;
+    }
+
+    @Override
+    protected String getServiceID() {
+        return KubernetesClient.SERVICE_ID;
     }
 
     /**

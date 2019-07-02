@@ -23,10 +23,7 @@ import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.v1.Address;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.kubernetes.client.v1.Metadata;
-import io.micronaut.kubernetes.client.v1.Port;
+import io.micronaut.kubernetes.client.v1.*;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import io.reactivex.Flowable;
@@ -38,6 +35,7 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -55,13 +53,15 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
 @Requires(beans = {KubernetesClient.class, KubernetesDiscoveryConfiguration.class})
 @Requires(property = KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
 @Replaces(bean = io.micronaut.discovery.kubernetes.KubernetesDiscoveryClient.class)
+@SuppressWarnings("WeakerAccess")
 public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     public static final String KUBERNETES_URI = "https://kubernetes";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesDiscoveryClient.class);
 
     private final KubernetesClient client;
-    private final KubernetesDiscoveryConfiguration configuration;
+    private final KubernetesConfiguration configuration;
+    private final KubernetesDiscoveryConfiguration discoveryConfiguration;
     private final KubernetesServiceInstanceList instanceList;
 
     /**
@@ -70,19 +70,25 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      * @param instanceList
      */
     public KubernetesDiscoveryClient(KubernetesClient client,
-                                     KubernetesDiscoveryConfiguration configuration, KubernetesServiceInstanceList instanceList) {
+                                     KubernetesConfiguration configuration,
+                                     KubernetesDiscoveryConfiguration discoveryConfiguration,
+                                     KubernetesServiceInstanceList instanceList) {
         this.client = client;
         this.configuration = configuration;
+        this.discoveryConfiguration = discoveryConfiguration;
         this.instanceList = instanceList;
     }
 
     @Override
     public Publisher<List<ServiceInstance>> getInstances(String serviceId) {
+        if (!discoveryConfiguration.isEnabled()) {
+            return Publishers.just(Collections.emptyList());
+        }
         if (SERVICE_ID.equals(serviceId)) {
             return Publishers.just(instanceList.getInstances());
         } else {
             AtomicReference<Metadata> metadata = new AtomicReference<>();
-            String namespace = configuration.getKubernetesConfiguration().getNamespace();
+            String namespace = configuration.getNamespace();
             return Flowable.fromPublisher(client.getEndpoints(namespace, serviceId))
                     .doOnError(throwable -> LOG.error("Error while trying to get Kubernetes Endpoints for the service [" + serviceId + "] in the namespace [" + namespace + "]", throwable))
                     .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
@@ -115,7 +121,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      */
     @Override
     public Publisher<List<String>> getServiceIds() {
-        String namespace = configuration.getKubernetesConfiguration().getNamespace();
+        String namespace = configuration.getNamespace();
         return Flowable.fromPublisher(client.listServices(namespace))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
                 .flatMapIterable(ServiceList::getItems)
