@@ -54,6 +54,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     private final KubernetesConnectionPoolConfiguration connectionPoolConfiguration;
     private final KubernetesDiscoveryConfiguration discoveryConfiguration;
 
+    /**
+     * Default constructor.
+     */
     public KubernetesConfiguration() {
         this.connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
         this.discoveryConfiguration = new KubernetesDiscoveryConfiguration();

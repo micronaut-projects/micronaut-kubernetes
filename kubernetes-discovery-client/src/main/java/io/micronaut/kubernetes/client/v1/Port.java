@@ -16,7 +16,6 @@
 
 package io.micronaut.kubernetes.client.v1;
 
-
 /**
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#serviceport-v1-core">Service Port v1 core</a>.
  *

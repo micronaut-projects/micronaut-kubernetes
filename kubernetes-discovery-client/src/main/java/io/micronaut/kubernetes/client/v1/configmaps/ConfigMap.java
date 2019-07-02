@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A resource that holds key-value pairs of configuration data
+ * A resource that holds key-value pairs of configuration data.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0

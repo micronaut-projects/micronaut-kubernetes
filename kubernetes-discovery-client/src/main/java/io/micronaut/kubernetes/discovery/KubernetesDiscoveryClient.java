@@ -67,7 +67,8 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     /**
      * @param client An HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
-     * @param instanceList
+     * @param discoveryConfiguration The discovery configuration properties
+     * @param instanceList The {@link KubernetesServiceInstanceList}
      */
     public KubernetesDiscoveryClient(KubernetesClient client,
                                      KubernetesConfiguration configuration,

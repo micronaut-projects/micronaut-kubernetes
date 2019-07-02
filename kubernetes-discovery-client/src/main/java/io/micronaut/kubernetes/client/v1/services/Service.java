@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.v1.services;
 
 import io.micronaut.kubernetes.client.v1.Metadata;
 
-
 /**
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#service-v1-core">Service v1 core</a>
  *

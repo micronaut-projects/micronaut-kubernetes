@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * The ConfigMap API resource holds key-value pairs of configuration data that can be consumed in pods or used to store
- * configuration data for system components such as controllers
+ * configuration data for system components such as controllers.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0

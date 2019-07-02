@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents a response of type <code>SecretList</code> from the Kubernetes API
+ * Represents a response of type <code>SecretList</code> from the Kubernetes API.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0

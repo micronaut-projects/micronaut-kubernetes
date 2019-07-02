@@ -11,7 +11,7 @@ import io.micronaut.runtime.ApplicationConfiguration;
 import javax.inject.Singleton;
 
 /**
- * A {@link io.micronaut.discovery.ServiceInstanceList} implementation for Kubernetes
+ * A {@link io.micronaut.discovery.ServiceInstanceList} implementation for Kubernetes.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
@@ -28,7 +28,6 @@ public class KubernetesServiceInstanceList extends DiscoveryServerInstanceList {
     public KubernetesServiceInstanceList(DiscoveryClientConfiguration configuration, ApplicationConfiguration.InstanceConfiguration instanceConfiguration) {
         super(configuration, instanceConfiguration);
     }
-
 
     @Override
     public String getID() {

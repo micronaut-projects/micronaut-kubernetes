@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO: javadoc
+ * Kubernetes secret objects let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0

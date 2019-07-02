@@ -138,7 +138,7 @@ public interface KubernetesOperations {
     Publisher<ConfigMap> getConfigMap(String namespace, String configMapName);
 
     /**
-     * List objects of kind Secret
+     * List objects of kind Secret.
      *
      * @param namespace object name and auth scope, such as for teams and projects
      * @return a {@link SecretList}
@@ -153,7 +153,12 @@ public interface KubernetesOperations {
         return listSecrets(DEFAULT_NAMESPACE);
     }
 
-
+    /**
+     * Returns a {@link Secret} of the given namespace.
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param secretName the secret name
+     * @return A {@link Secret} instance
+     */
     @Get("/namespaces/{namespace}/secrets/{secretName}")
     Publisher<Secret> getSecret(String namespace, String secretName);
 

@@ -135,5 +135,4 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return new String(Base64.getDecoder().decode(secretValue));
     }
 
-
 }
