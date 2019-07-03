@@ -17,12 +17,6 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
-var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
-var altColor = "altColor";
-var rowColor = "rowColor";
-var tableTab = "tableTab";
-var activeTableTab = "activeTableTab";
 </script>
 <noscript>
 <div>JavaScript is disabled on your browser.</div>
@@ -75,13 +69,13 @@ var activeTableTab = "activeTableTab";
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.summary">Method</a></li>
+<li><a href="#methods.inherited.from.class.io.micronaut.discovery.DiscoveryConfiguration">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.detail">Method</a></li>
+<li>Method</li>
 </ul>
 </div>
 <a name="skip.navbar.top">
@@ -116,7 +110,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <hr>
 <br>
-<pre>@ConfigurationProperties(value="kubernetes.discovery")
+<pre>@ConfigurationProperties(value="kubernetes.client.discovery")
 public class <span class="typeNameLabel">KubernetesDiscoveryConfiguration</span>
 extends io.micronaut.discovery.DiscoveryConfiguration</pre>
 <div class="block">Configuration class for the discovery client of Kubernetes.</div>
@@ -170,7 +164,7 @@ extends io.micronaut.discovery.DiscoveryConfiguration</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html#KubernetesDiscoveryConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-">KubernetesDiscoveryConfiguration</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;kubernetesConfiguration)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html#KubernetesDiscoveryConfiguration--">KubernetesDiscoveryConfiguration</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -181,17 +175,6 @@ extends io.micronaut.discovery.DiscoveryConfiguration</pre>
 <!--   -->
 </a>
 <h3>Method Summary</h3>
-<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Method Summary table, listing methods, and an explanation">
-<caption><span id="t0" class="activeTableTab"><span>All Methods</span><span class="tabEnd">&nbsp;</span></span><span id="t2" class="tableTab"><span><a href="javascript:show(2);">Instance Methods</a></span><span class="tabEnd">&nbsp;</span></span><span id="t4" class="tableTab"><span><a href="javascript:show(8);">Concrete Methods</a></span><span class="tabEnd">&nbsp;</span></span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th class="colLast" scope="col">Method and Description</th>
-</tr>
-<tr id="i0" class="altColor">
-<td class="colFirst"><code><a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html#getKubernetesConfiguration--">getKubernetesConfiguration</a></span>()</code>&nbsp;</td>
-</tr>
-</table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.io.micronaut.discovery.DiscoveryConfiguration">
 <!--   -->
@@ -241,38 +224,13 @@ extends io.micronaut.discovery.DiscoveryConfiguration</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="KubernetesDiscoveryConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-">
+<a name="KubernetesDiscoveryConfiguration--">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>KubernetesDiscoveryConfiguration</h4>
-<pre>public&nbsp;KubernetesDiscoveryConfiguration(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;kubernetesConfiguration)</pre>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>kubernetesConfiguration</code> - Kubernetes configuration</dd>
-</dl>
-</li>
-</ul>
-</li>
-</ul>
-<!-- ============ METHOD DETAIL ========== -->
-<ul class="blockList">
-<li class="blockList"><a name="method.detail">
-<!--   -->
-</a>
-<h3>Method Detail</h3>
-<a name="getKubernetesConfiguration--">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>getKubernetesConfiguration</h4>
-<pre>public&nbsp;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;getKubernetesConfiguration()</pre>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>The Kubernetes configuration</dd>
-</dl>
+<pre>public&nbsp;KubernetesDiscoveryConfiguration()</pre>
 </li>
 </ul>
 </li>
@@ -330,13 +288,13 @@ extends io.micronaut.discovery.DiscoveryConfiguration</pre>
 <li>Nested&nbsp;|&nbsp;</li>
 <li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.summary">Method</a></li>
+<li><a href="#methods.inherited.from.class.io.micronaut.discovery.DiscoveryConfiguration">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
 <li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
-<li><a href="#method.detail">Method</a></li>
+<li>Method</li>
 </ul>
 </div>
 <a name="skip.navbar.bottom">

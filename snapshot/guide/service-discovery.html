@@ -138,7 +138,7 @@ metadata:
   namespace: default
 rules:
   - apiGroups: [""]
-    resources: ["services", "endpoints", "configmaps"]
+    resources: ["services", "endpoints", "configmaps", "secrets"]
     verbs: ["get", "watch", "list"]
 ---
 kind: RoleBinding

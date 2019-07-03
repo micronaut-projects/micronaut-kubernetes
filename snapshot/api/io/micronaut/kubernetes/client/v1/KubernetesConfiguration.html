@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -101,7 +101,12 @@ var activeTableTab = "activeTableTab";
 <li>io.micronaut.http.client.HttpClientConfiguration</li>
 <li>
 <ul class="inheritance">
+<li>io.micronaut.discovery.client.DiscoveryClientConfiguration</li>
+<li>
+<ul class="inheritance">
 <li>io.micronaut.kubernetes.client.v1.KubernetesConfiguration</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -113,9 +118,9 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>@Requires(env="k8s")
- @ConfigurationProperties(value="kubernetes")
+ @ConfigurationProperties(value="kubernetes.client")
 public class <span class="typeNameLabel">KubernetesConfiguration</span>
-extends io.micronaut.http.client.HttpClientConfiguration</pre>
+extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
 <div class="block">Encapsulates constants for Kubernetes configuration.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -201,7 +206,9 @@ extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#KubernetesConfiguration--">KubernetesConfiguration</a></span>()</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#KubernetesConfiguration--">KubernetesConfiguration</a></span>()</code>
+<div class="block">Default constructor.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -223,14 +230,33 @@ extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getConnectionPoolConfiguration--">getConnectionPoolConfiguration</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>io.micronaut.discovery.DiscoveryConfiguration</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getDiscovery--">getDiscovery</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getNamespace--">getNamespace</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>io.micronaut.discovery.registration.RegistrationConfiguration</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getRegistration--">getRegistration</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
+<td class="colFirst"><code>protected java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getServiceID--">getServiceID</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
 </tr>
 </table>
+<ul class="blockList">
+<li class="blockList"><a name="methods.inherited.from.class.io.micronaut.discovery.client.DiscoveryClientConfiguration">
+<!--   -->
+</a>
+<h3>Methods inherited from class&nbsp;io.micronaut.discovery.client.DiscoveryClientConfiguration</h3>
+<code>getAllZones, getContextPath, getDefaultZone, getHost, getPort, getServiceId, isSecure, isShouldUseDns, setContextPath, setDefaultZone, setHost, setPort, setSecure, setShouldUseDns, setZones, toString</code></li>
+</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.io.micronaut.http.client.HttpClientConfiguration">
 <!--   -->
@@ -243,7 +269,7 @@ extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
-<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
+<code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, wait, wait, wait</code></li>
 </ul>
 </li>
 </ul>
@@ -301,6 +327,7 @@ extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <li class="blockList">
 <h4>KubernetesConfiguration</h4>
 <pre>public&nbsp;KubernetesConfiguration()</pre>
+<div class="block">Default constructor.</div>
 </li>
 </ul>
 </li>
@@ -311,6 +338,47 @@ extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getDiscovery--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getDiscovery</h4>
+<pre>@Nonnull
+public&nbsp;io.micronaut.discovery.DiscoveryConfiguration&nbsp;getDiscovery()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>getDiscovery</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
+</dl>
+</li>
+</ul>
+<a name="getRegistration--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getRegistration</h4>
+<pre>@Nullable
+public&nbsp;io.micronaut.discovery.registration.RegistrationConfiguration&nbsp;getRegistration()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>getRegistration</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
+</dl>
+</li>
+</ul>
+<a name="getServiceID--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getServiceID</h4>
+<pre>protected&nbsp;java.lang.String&nbsp;getServiceID()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>getServiceID</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
+</dl>
+</li>
+</ul>
 <a name="getNamespace--">
 <!--   -->
 </a>

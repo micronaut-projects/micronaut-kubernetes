@@ -1,6 +1,7 @@
 io.micronaut.kubernetes.client.v1
 io.micronaut.kubernetes.client.v1.configmaps
 io.micronaut.kubernetes.client.v1.endpoints
+io.micronaut.kubernetes.client.v1.secrets
 io.micronaut.kubernetes.client.v1.services
 io.micronaut.kubernetes.configuration
 io.micronaut.kubernetes.discovery

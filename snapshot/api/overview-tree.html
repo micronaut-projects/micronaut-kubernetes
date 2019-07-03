@@ -74,6 +74,7 @@
 <li><a href="io/micronaut/kubernetes/client/v1/package-tree.html">io.micronaut.kubernetes.client.v1</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/v1/configmaps/package-tree.html">io.micronaut.kubernetes.client.v1.configmaps</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/v1/endpoints/package-tree.html">io.micronaut.kubernetes.client.v1.endpoints</a>, </li>
+<li><a href="io/micronaut/kubernetes/client/v1/secrets/package-tree.html">io.micronaut.kubernetes.client.v1.secrets</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/v1/services/package-tree.html">io.micronaut.kubernetes.client.v1.services</a>, </li>
 <li><a href="io/micronaut/kubernetes/configuration/package-tree.html">io.micronaut.kubernetes.configuration</a>, </li>
 <li><a href="io/micronaut/kubernetes/discovery/package-tree.html">io.micronaut.kubernetes.discovery</a>, </li>
@@ -96,6 +97,11 @@
 <li type="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesDiscoveryConfiguration</span></a></li>
 </ul>
 </li>
+<li type="circle">io.micronaut.discovery.client.DiscoveryServerInstanceList (implements io.micronaut.context.event.ApplicationEventListener&lt;E&gt;, io.micronaut.core.order.Ordered, io.micronaut.discovery.ServiceInstanceList)
+<ul>
+<li type="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesServiceInstanceList</span></a></li>
+</ul>
+</li>
 <li type="circle">io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints"><span class="typeNameLink">Endpoints</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints"><span class="typeNameLink">EndpointsList</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsSubset.html" title="class in io.micronaut.kubernetes.client.v1.endpoints"><span class="typeNameLink">EndpointsSubset</span></a></li>
@@ -103,7 +109,11 @@
 <li type="circle">micronaut.service.<a href="micronaut/service/HelloController.html" title="class in micronaut.service"><span class="typeNameLink">HelloController</span></a></li>
 <li type="circle">io.micronaut.http.client.HttpClientConfiguration
 <ul>
+<li type="circle">io.micronaut.discovery.client.DiscoveryClientConfiguration
+<ul>
 <li type="circle">io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">KubernetesConfiguration</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li type="circle">io.micronaut.http.client.HttpClientConfiguration.ConnectionPoolConfiguration (implements io.micronaut.core.util.Toggleable)
@@ -114,9 +124,10 @@
 <li type="circle">io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesClientFilter.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">KubernetesClientFilter</span></a> (implements io.micronaut.http.filter.HttpClientFilter)</li>
 <li type="circle">io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration"><span class="typeNameLink">KubernetesConfigurationClient</span></a> (implements io.micronaut.discovery.config.ConfigurationClient)</li>
 <li type="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesDiscoveryClient</span></a> (implements io.micronaut.discovery.DiscoveryClient)</li>
-<li type="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesServiceInstanceList</span></a> (implements io.micronaut.discovery.ServiceInstanceList)</li>
 <li type="circle">io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Metadata</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">Port</span></a></li>
+<li type="circle">io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets"><span class="typeNameLink">Secret</span></a></li>
+<li type="circle">io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html" title="class in io.micronaut.kubernetes.client.v1.secrets"><span class="typeNameLink">SecretList</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services"><span class="typeNameLink">Service</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services"><span class="typeNameLink">ServiceList</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html" title="class in io.micronaut.kubernetes.client.v1.services"><span class="typeNameLink">ServiceSpec</span></a></li>
