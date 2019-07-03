@@ -1,4 +1,4 @@
-The Configuration client will read Kubernetes' `ConfigMap` and `Secret`s and make them available as `PropertySource`s in your
+The Configuration client will read Kubernetes' `ConfigMap` and `Secret`s and make them available as `PropertySource` s in your
 application.
 
 Then, in any bean you can read the configuration values from the `ConfigMap` or `Secret` using `@Value` or
@@ -33,7 +33,7 @@ You can also create a `ConfigMap` from literal values:
 
 ## Secrets
 
-Secrets read from the Kubernetes API will be base64-decoded and made available as `PropertySource`s, so that they can be
+Secrets read from the Kubernetes API will be base64-decoded and made available as `PropertySource` s, so that they can be
 also read with `@Value`, `@ConfigurationProperties`, etc.
 
-NOTE: only `Opaque` secrets will be considered.
+NOTE: Only `Opaque` secrets will be considered.
