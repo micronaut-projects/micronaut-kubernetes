@@ -12,8 +12,8 @@ curl -Lo kind https://github.com/kubernetes-sigs/kind/releases/download/v0.4.0/k
 # Create a cluster
 kind create cluster
 
-# Setup kubectl
-export KUBECONFIG="$(kind get kubeconfig-path)"
+# Configure kubectl
+cp $(kind get kubeconfig-path) $HOME/.kube/config
 
 # Wait for Kubernetes to be up and ready.
 JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
