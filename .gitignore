@@ -7,3 +7,5 @@ build
 .idea/
 *.iml
 .DS_Store
+
+.gradletasknamecache

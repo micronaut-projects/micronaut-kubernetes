@@ -5,7 +5,7 @@
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([example-client]) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
+            <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([example-service-tests]) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
         </encoder>
     </appender>
 
@@ -16,6 +16,7 @@
     <logger name="io.micronaut.http.client" level="TRACE"/>
     <logger name="io.micronaut.kubernetes" level="TRACE"/>
     <logger name="io.micronaut.discovery" level="TRACE"/>
+<!--    <logger name="io.micronaut.context.env" level="TRACE"/>-->
 <!--    <logger name="io.micronaut.context.condition" level="DEBUG"/>-->
 
 </configuration>

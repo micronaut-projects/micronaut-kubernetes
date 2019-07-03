@@ -43,3 +43,4 @@ kubectl wait --for=condition=Ready pod/$CLIENT_POD
 kubectl port-forward $CLIENT_POD 8888:8082 &
 
 kubectl logs -f $SERVICE_POD &
+kubectl logs -f $CLIENT_POD &
