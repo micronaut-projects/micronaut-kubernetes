@@ -41,10 +41,10 @@ trait KubectlCommands {
         p.waitFor()
         String text = p.text
 
-//        println "****"
-//        println "Command: ${command}. Output:\n"
-//        println text
-//        println "****"
+        println "****"
+        println "Command: ${command}. Output:\n"
+        println text
+        println "****"
         return text
     }
 }
