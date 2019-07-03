@@ -3,11 +3,17 @@ set -x
 
 sudo apt-get update
 
-# Download kubectl
-curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.15.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+# Download and install kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
 # Download and install kind
-GO111MODULE="on" go get sigs.k8s.io/kind@v0.4.0 && kind create cluster
+curl -Lo kind https://github.com/kubernetes-sigs/kind/releases/download/v0.4.0/kind-linux-amd64 && chmod +x ./kind && sudo mv kind /usr/local/bin/
+
+# Create a cluster
+kind create cluster
+
+# Setup kubectl
+export KUBECONFIG="$(kind get kubeconfig-path)"
 
 # Wait for Kubernetes to be up and ready.
 JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
