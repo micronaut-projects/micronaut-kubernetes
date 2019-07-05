@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":18,"i2":6,"i3":6,"i4":18,"i5":6,"i6":18,"i7":6,"i8":18,"i9":6,"i10":18,"i11":6,"i12":18,"i13":6};
+var methods = {"i0":6,"i1":18,"i2":6,"i3":6,"i4":18,"i5":6,"i6":18,"i7":6,"i8":18,"i9":6,"i10":18,"i11":6,"i12":18,"i13":6,"i14":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],16:["t5","Default Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -230,6 +230,13 @@ var activeTableTab = "activeTableTab";
 <div class="block">List services in the specified namespace.</div>
 </td>
 </tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#watchConfigMaps-java.lang.String-java.lang.Integer-">watchConfigMaps</a></span>(java.lang.String&nbsp;namespace,
+               java.lang.Integer&nbsp;resourceVersion)</code>
+<div class="block">Watch objects of kind ConfigMap.</div>
+</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -416,6 +423,26 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>namespace</code> - object name and auth scope, such as for teams and projects</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMapList</code></a></dd>
+</dl>
+</li>
+</ul>
+<a name="watchConfigMaps-java.lang.String-java.lang.Integer-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>watchConfigMaps</h4>
+<pre>@Get(value="/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}")
+ @Consumes(value={"application/x-json-stream","application/json"})
+org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a>&gt;&nbsp;watchConfigMaps(java.lang.String&nbsp;namespace,
+                                                                                                                                                                                                                               java.lang.Integer&nbsp;resourceVersion)</pre>
+<div class="block">Watch objects of kind ConfigMap.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - object name and auth scope, such as for teams and projects</dd>
+<dd><code>resourceVersion</code> - the resource version to receive events from. If set to 0, Kubernetes will send all events</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMapList</code></a></dd>
 </dl>
