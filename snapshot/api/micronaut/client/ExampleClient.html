@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6};
+var methods = {"i0":6,"i1":6,"i2":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -121,9 +121,13 @@ public interface <span class="typeNameLabel">ExampleClient</span></pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#enemiesCheatLevel--">enemiesCheatLevel</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#config-java.lang.String-">config</a></span>(java.lang.String&nbsp;key)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#enemiesCheatLevel--">enemiesCheatLevel</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#hello-java.lang.String-">hello</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
 </tr>
@@ -155,11 +159,21 @@ java.lang.String&nbsp;hello(java.lang.String&nbsp;name)</pre>
 <a name="enemiesCheatLevel--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>enemiesCheatLevel</h4>
 <pre>@Get(value="/hello/enemies")
 java.lang.String&nbsp;enemiesCheatLevel()</pre>
+</li>
+</ul>
+<a name="config-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>config</h4>
+<pre>@Get(value="/hello/config/{key}")
+java.lang.String&nbsp;config(java.lang.String&nbsp;key)</pre>
 </li>
 </ul>
 </li>
