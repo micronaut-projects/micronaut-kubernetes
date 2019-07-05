@@ -34,6 +34,7 @@ public class Metadata {
     private String name;
     private String uid;
     private Map<String, String> labels = Collections.emptyMap();
+    private String resourceVersion;
 
     /**
      *
@@ -83,12 +84,21 @@ public class Metadata {
         this.labels = labels;
     }
 
+    public String getResourceVersion() {
+        return resourceVersion;
+    }
+
+    public void setResourceVersion(String resourceVersion) {
+        this.resourceVersion = resourceVersion;
+    }
+
     @Override
     public String toString() {
         return "Metadata{" +
                 "name='" + name + '\'' +
                 ", uid='" + uid + '\'' +
                 ", labels=" + labels +
+                ", resourceVersion=" + resourceVersion +
                 '}';
     }
 

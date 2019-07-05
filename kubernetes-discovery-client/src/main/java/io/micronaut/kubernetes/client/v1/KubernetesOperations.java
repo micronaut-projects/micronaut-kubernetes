@@ -16,9 +16,12 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
@@ -119,6 +122,16 @@ public interface KubernetesOperations {
      */
     @Get("/namespaces/{namespace}/configmaps")
     Publisher<ConfigMapList> listConfigMaps(String namespace);
+
+    /**
+     * Watch objects of kind ConfigMap.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @return a {@link ConfigMapList}
+     */
+    @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}")
+    @Consumes(value = {MediaType.APPLICATION_JSON_STREAM, MediaType.APPLICATION_JSON})
+    Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Integer resourceVersion);
 
     /**
      * @return a {@link ConfigMapList} of the default namespace

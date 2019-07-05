@@ -38,10 +38,16 @@ import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYP
 public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
+    public static final String CONFIG_MAP_RESOURCE_VERSION = "configMapResourceVersion";
+    public static final String KUBERNETES_CONFIG_MAP_NAME_SUFFIX = " (Kubernetes ConfigMap)";
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
-    private final List<PropertySourceReader> propertySourceReaders;
+
+    private static final List<PropertySourceReader> propertySourceReaders = Arrays.asList(
+            new YamlPropertySourceLoader(),
+            new JsonPropertySourceLoader(),
+            new PropertiesPropertySourceLoader());
 
     /**
      * @param client An HTTP Client to query the Kubernetes API.
@@ -51,7 +57,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         LOG.debug("Initializing {}", getClass().getName());
         this.client = client;
         this.configuration = configuration;
-        this.propertySourceReaders = Arrays.asList(new YamlPropertySourceLoader(), new JsonPropertySourceLoader(), new PropertiesPropertySourceLoader());
     }
 
     /**
@@ -68,15 +73,17 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace()))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
+                .onErrorReturn(throwable -> new ConfigMapList())
                 .doOnNext(configMapList -> LOG.debug("Found {} config maps", configMapList.getItems().size()))
                 .flatMapIterable(ConfigMapList::getItems)
                 .doOnNext(configMap -> LOG.debug("Adding config map with name {}", configMap.getMetadata().getName()))
-                .map(this::configMapAsPropertySource);
+                .map(KubernetesConfigurationClient::configMapAsPropertySource);
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
         return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace()))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
+                .onErrorReturn(throwable -> new SecretList())
                 .doOnNext(secretList -> LOG.debug("Found {} secrets. Filtering Opaque secrets", secretList.getItems().size()))
                 .flatMapIterable(SecretList::getItems)
                 .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
@@ -94,10 +101,11 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return KubernetesClient.SERVICE_ID;
     }
 
-    private PropertySource configMapAsPropertySource(ConfigMap configMap) {
+    protected static PropertySource configMapAsPropertySource(ConfigMap configMap) {
         LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
-        String name = configMap.getMetadata().getName() + " (Kubernetes ConfigMap)";
+        String name = getPropertySourceName(configMap);
         Map<String, String> data = configMap.getData();
+        data.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
         if (data.size() > 1) {
             LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
             Map<String, Object> propertySourceData = new HashMap<>(data);
@@ -106,7 +114,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             LOG.trace("Considering this ConfigMap as containing values from a single file");
             Map.Entry<String, String> entry = data.entrySet().iterator().next();
             String extension = getExtension(entry.getKey()).orElse("properties");
-            return this.propertySourceReaders.stream()
+            return propertySourceReaders.stream()
                     .filter(reader -> reader.getExtensions().contains(extension))
                     .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
                     .map(map -> PropertySource.of(entry.getKey(), map))
@@ -115,7 +123,11 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
     }
 
-    private Optional<String> getExtension(String filename) {
+    protected static String getPropertySourceName(ConfigMap configMap) {
+        return configMap.getMetadata().getName() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+    }
+
+    private static Optional<String> getExtension(String filename) {
         return Optional.of(filename)
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
