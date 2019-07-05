@@ -36,12 +36,14 @@ dependencies {
 
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testCompile "org.junit.jupiter:junit-jupiter-api"
-    testCompile "io.micronaut.test:micronaut-test-junit5"
+
+    testCompile("org.spockframework:spock-core") {
+        exclude group: "org.codehaus.groovy", module: "groovy-all"
+    }
+    testCompile "io.micronaut:micronaut-inject-groovy"
+    testCompile "io.micronaut.test:micronaut-test-spock"
 
     testCompile project(":test-utils")
-
-    testRuntime "org.junit.jupiter:junit-jupiter-engine"
 }
 
 shadowJar {
@@ -53,10 +55,6 @@ test.classpath += configurations.developmentOnly
 run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
 
 mainClassName = "micronaut.client.Application"
-// use JUnit 5 platform
-test {
-    useJUnitPlatform()
-}
 
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem
 

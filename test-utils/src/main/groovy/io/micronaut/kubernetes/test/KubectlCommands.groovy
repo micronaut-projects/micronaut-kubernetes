@@ -17,6 +17,8 @@ package io.micronaut.kubernetes.test
 
 import groovy.transform.Memoized
 
+import java.util.concurrent.TimeUnit
+
 trait KubectlCommands {
 
     @Memoized
@@ -51,9 +53,16 @@ trait KubectlCommands {
         return getProcessOutput("kubectl get secrets --field-selector type=Opaque | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
+    static String createConfigMap(String name) {
+        return getProcessOutput("kubectl create configmap ${name} --from-literal=foo=bar")
+    }
+
+    static String deleteConfigMap(String name) {
+        return getProcessOutput("kubectl delete configmap ${name}")
+    }
+
     static String getProcessOutput(String command) {
         Process p = ['bash', '-c', command].execute()
-        p.waitFor()
         String text = p.text
 
         println "****"

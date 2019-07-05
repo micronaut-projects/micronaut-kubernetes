@@ -47,4 +47,9 @@ public class HelloController {
     public String enemies() {
         return client.enemiesCheatLevel();
     }
+
+    @Get("/config/{key}")
+    String config(String key) {
+        return client.config(key);
+    }
 }

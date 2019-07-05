@@ -26,4 +26,7 @@ public interface ExampleClient {
 
     @Get("/hello/enemies")
     String enemiesCheatLevel();
+
+    @Get("/hello/config/{key}")
+    String config(String key);
 }
