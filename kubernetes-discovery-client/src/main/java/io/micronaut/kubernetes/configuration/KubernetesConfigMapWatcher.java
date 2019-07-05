@@ -77,10 +77,16 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     public void onApplicationEvent(ServiceStartedEvent event) {
         int lastResourceVersion = computeLastResourceVersion();
 
-        LOG.debug("Watching for ConfigMap events...");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Watching for ConfigMap events...");
+        }
         Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion))
 //        Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), 0)) //To reproduce https://github.com/micronaut-projects/micronaut-core/issues/1864
-                .doOnNext(e -> LOG.trace("Received ConfigMap watch event: {}", e))
+                .doOnNext(e -> {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Received ConfigMap watch event: {}", e);
+                    }
+                })
                 .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
                 .subscribeOn(Schedulers.from(this.executorService))
                 .subscribe(this::processEvent);

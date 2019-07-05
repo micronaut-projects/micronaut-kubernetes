@@ -74,7 +74,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param configuration The configuration properties
      */
     public KubernetesConfigurationClient(KubernetesClient client, KubernetesConfiguration configuration) {
-        LOG.debug("Initializing {}", getClass().getName());
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Initializing {}", getClass().getName());
+        }
         this.client = client;
         this.configuration = configuration;
     }
@@ -86,16 +88,22 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @return A PropertySource
      */
     static PropertySource configMapAsPropertySource(ConfigMap configMap) {
-        LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
+        }
         String name = getPropertySourceName(configMap);
         Map<String, String> data = configMap.getData();
         data.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
         if (data.size() > 1) {
-            LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
+            }
             Map<String, Object> propertySourceData = new HashMap<>(data);
             return PropertySource.of(name, propertySourceData);
         } else {
-            LOG.trace("Considering this ConfigMap as containing values from a single file");
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Considering this ConfigMap as containing values from a single file");
+            }
             Map.Entry<String, String> entry = data.entrySet().iterator().next();
             String extension = getExtension(entry.getKey()).orElse("properties");
             return PROPERTY_SOURCE_READERS.stream()
@@ -132,9 +140,17 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace()))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
-                .doOnNext(configMapList -> LOG.debug("Found {} config maps", configMapList.getItems().size()))
+                .doOnNext(configMapList -> {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Found {} config maps", configMapList.getItems().size());
+                    }
+                })
                 .flatMapIterable(ConfigMapList::getItems)
-                .doOnNext(configMap -> LOG.debug("Adding config map with name {}", configMap.getMetadata().getName()))
+                .doOnNext(configMap -> {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
+                    }
+                })
                 .map(KubernetesConfigurationClient::configMapAsPropertySource);
     }
 
@@ -142,10 +158,18 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace()))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new SecretList())
-                .doOnNext(secretList -> LOG.debug("Found {} secrets. Filtering Opaque secrets", secretList.getItems().size()))
+                .doOnNext(secretList -> {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Found {} secrets. Filtering Opaque secrets", secretList.getItems().size());
+                    }
+                })
                 .flatMapIterable(SecretList::getItems)
                 .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
-                .doOnNext(secret -> LOG.debug("Adding secret with name {}", secret.getMetadata().getName()))
+                .doOnNext(secret -> {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
+                    }
+                })
                 .map(this::secretAsPropertySource);
     }
 
@@ -160,7 +184,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private PropertySource secretAsPropertySource(Secret secret) {
-        LOG.trace("Processing PropertySources for Secret: {}", secret);
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Processing PropertySources for Secret: {}", secret);
+        }
         String name = secret.getMetadata().getName() + " (Kubernetes Secret)";
         Map<String, String> data = secret.getData();
         Map<String, Object> propertySourceData = data.entrySet()

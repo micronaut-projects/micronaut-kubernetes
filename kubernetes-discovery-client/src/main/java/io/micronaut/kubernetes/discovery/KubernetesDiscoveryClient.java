@@ -82,7 +82,9 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     @Override
     public Publisher<List<ServiceInstance>> getInstances(String serviceId) {
         if (!discoveryConfiguration.isEnabled()) {
-            LOG.debug("Discovery configuration is not enabled");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Discovery configuration is not enabled");
+            }
             return Publishers.just(Collections.emptyList());
         }
         if (SERVICE_ID.equals(serviceId)) {
