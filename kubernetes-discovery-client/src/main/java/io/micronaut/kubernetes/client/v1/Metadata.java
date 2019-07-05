@@ -84,10 +84,16 @@ public class Metadata {
         this.labels = labels;
     }
 
+    /**
+     * @return the resource version
+     */
     public String getResourceVersion() {
         return resourceVersion;
     }
 
+    /**
+     * @param resourceVersion the resource version
+     */
     public void setResourceVersion(String resourceVersion) {
         this.resourceVersion = resourceVersion;
     }

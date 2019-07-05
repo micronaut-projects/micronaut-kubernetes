@@ -127,6 +127,7 @@ public interface KubernetesOperations {
      * Watch objects of kind ConfigMap.
      *
      * @param namespace object name and auth scope, such as for teams and projects
+     * @param resourceVersion the resource version to receive events from. If set to 0, Kubernetes will send all events
      * @return a {@link ConfigMapList}
      */
     @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}")

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017-2019 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.micronaut.kubernetes.configuration;
 
 import io.micronaut.context.annotation.Requires;
@@ -20,7 +36,8 @@ import javax.inject.Singleton;
 import java.util.concurrent.ExecutorService;
 
 /**
- * TODO: javadoc
+ * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
+ * {@link PropertySource}s.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
@@ -38,6 +55,12 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private final KubernetesConfiguration configuration;
     private final ExecutorService executorService;
 
+    /**
+     * @param environment the {@link Environment}
+     * @param client the {{@link KubernetesClient}}
+     * @param configuration the {@link KubernetesConfiguration}
+     * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
+     */
     public KubernetesConfigMapWatcher(Environment environment, KubernetesClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
@@ -62,7 +85,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 .subscribeOn(Schedulers.from(this.executorService))
                 .subscribe(this::processEvent);
     }
-
 
     private int computeLastResourceVersion() {
         int lastResourceVersion = this.environment
@@ -100,6 +122,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 break;
 
             case ERROR:
+            default:
                 processConfigMapErrored(event);
         }
 
