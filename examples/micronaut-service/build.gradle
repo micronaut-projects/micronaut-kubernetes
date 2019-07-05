@@ -30,6 +30,7 @@ dependencies {
     compile "io.micronaut:micronaut-inject"
     compile "io.micronaut:micronaut-validation"
     compile "io.micronaut:micronaut-runtime"
+    compile 'io.micronaut:micronaut-management'
 
     compile project(':kubernetes-discovery-client')
 

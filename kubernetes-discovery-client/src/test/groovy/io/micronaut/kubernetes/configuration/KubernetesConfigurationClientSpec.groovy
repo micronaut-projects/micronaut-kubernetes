@@ -33,6 +33,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get('enemies') == 'zombies'
         propertySource.get('lives') == '5'
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
+        propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
     }
 
     @Requires({ configMapExists('game-config-yml')})
@@ -45,6 +46,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get('enemies') == 'aliens'
         propertySource.get('lives') == 3
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
+        propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
     }
 
     @Requires({ configMapExists('game-config-json')})
@@ -56,6 +58,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.name == 'game.json'
         propertySource.get('enemies') == 'monsters'
         propertySource.get('lives') == 7
+        propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
     }
 
     @Requires({ configMapExists('literal-config')})
@@ -82,7 +85,6 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.name == 'test-secret (Kubernetes Secret)'
         propertySource.get('username') == 'my-app'
         propertySource.get('password') == '39528$vdg7Jb'
-
     }
 
 }

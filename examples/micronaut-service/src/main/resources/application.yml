@@ -5,3 +5,6 @@ micronaut:
     port: 8081
 jackson:
   module-scan: false
+endpoints:
+  env:
+    sensitive: false

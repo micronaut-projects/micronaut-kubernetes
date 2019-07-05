@@ -93,11 +93,11 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
         String name = getPropertySourceName(configMap);
         Map<String, String> data = configMap.getData();
-        data.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
         if (data.size() > 1) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
             }
+            data.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
             Map<String, Object> propertySourceData = new HashMap<>(data);
             return PropertySource.of(name, propertySourceData);
         } else {
@@ -109,6 +109,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             return PROPERTY_SOURCE_READERS.stream()
                     .filter(reader -> reader.getExtensions().contains(extension))
                     .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
+                    .peek(map -> map.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
                     .map(map -> PropertySource.of(entry.getKey(), map))
                     .findFirst()
                     .orElse(PropertySource.of(Collections.emptyMap()));

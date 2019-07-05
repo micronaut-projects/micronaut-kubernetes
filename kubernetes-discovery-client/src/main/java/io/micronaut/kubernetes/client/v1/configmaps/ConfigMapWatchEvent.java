@@ -28,6 +28,19 @@ public class ConfigMapWatchEvent {
     private ConfigMap object;
 
     /**
+     * The default constructor.
+     */
+    public ConfigMapWatchEvent() {
+    }
+
+    /**
+     * @param type the event type
+     */
+    public ConfigMapWatchEvent(EventType type) {
+        this.type = type;
+    }
+
+    /**
      * @return the {@link EventType}
      */
     public EventType getType() {

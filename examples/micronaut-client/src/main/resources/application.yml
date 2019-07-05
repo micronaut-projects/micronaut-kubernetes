@@ -5,3 +5,6 @@ micronaut:
     name: micronaut-client
 jackson:
   module-scan: false
+endpoints:
+  env:
+    sensitive: false
