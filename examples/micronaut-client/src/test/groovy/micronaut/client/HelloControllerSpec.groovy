@@ -3,11 +3,9 @@ package micronaut.client
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.kubernetes.test.EnabledIfAvailable
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
-import spock.lang.Ignore
 import spock.lang.Requires
 import spock.lang.Specification
 
@@ -38,20 +36,18 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
     }
 
     @Requires({ TestUtils.available("http://localhost:8888") })
-    @Ignore
     void "test config"() {
         expect:
         testClient.config("foo").equals("NOTHING")
 
         when:
-        //FIXME this doesn't appear to work. Shoyld use an alternative eg https://github.com/kubernetes-client/java
-        createConfigMap("HelloControllerSpec")
+        createConfigMap("hello-controller-spec")
 
         then:
         testClient.config("foo").equals("bar")
 
         cleanup:
-        deleteConfigMap("HelloControllerSpec")
+        deleteConfigMap("hello-controller-spec")
     }
 }
 

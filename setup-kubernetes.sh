@@ -18,5 +18,5 @@ kubectl port-forward $SERVICE_POD 5004:5004 &
 kubectl port-forward $CLIENT_POD 8888:8082 &
 kubectl port-forward $CLIENT_POD 5005:5005 &
 
-kubectl logs -f $SERVICE_POD &
-kubectl logs -f $CLIENT_POD &
+#kubectl logs -f $SERVICE_POD &
+#kubectl logs -f $CLIENT_POD &

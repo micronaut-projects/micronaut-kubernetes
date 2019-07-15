@@ -15,6 +15,7 @@
  */
 package micronaut.service;
 
+import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.context.env.Environment;
 import io.micronaut.http.annotation.Controller;
@@ -30,7 +31,7 @@ public class HelloController {
     EmbeddedServer embeddedServer;
 
     @Inject
-    Environment environment;
+    ApplicationContext context;
 
     @Value("${enemies.cheat.level:defaultCheatLevel}")
     private String enemiesCheatLevel;
@@ -47,6 +48,6 @@ public class HelloController {
 
     @Get("/config/{key}")
     public String config(String key) {
-        return environment.getProperty(key, String.class).orElse("NOTHING");
+        return context.get(key, String.class).orElse("NOTHING");
     }
 }

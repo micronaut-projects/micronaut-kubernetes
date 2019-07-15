@@ -26,10 +26,10 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ configMapExists('game-config-properties')})
     void "it can read config maps from properties"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'game.properties' }
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.properties' }
 
         then:
-        propertySource.name == 'game.properties'
+        propertySource.name == 'game.properties (Kubernetes ConfigMap)'
         propertySource.get('enemies') == 'zombies'
         propertySource.get('lives') == '5'
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
@@ -39,10 +39,10 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ configMapExists('game-config-yml')})
     void "it can read config maps from yml"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'game.yml' }
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.yml' }
 
         then:
-        propertySource.name == 'game.yml'
+        propertySource.name == 'game.yml (Kubernetes ConfigMap)'
         propertySource.get('enemies') == 'aliens'
         propertySource.get('lives') == 3
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
@@ -52,10 +52,10 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ configMapExists('game-config-json')})
     void "it can read config maps from json"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name == 'game.json' }
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.json' }
 
         then:
-        propertySource.name == 'game.json'
+        propertySource.name == 'game.json (Kubernetes ConfigMap)'
         propertySource.get('enemies') == 'monsters'
         propertySource.get('lives') == 7
         propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)

@@ -93,7 +93,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
         String name = getPropertySourceName(configMap);
         Map<String, String> data = configMap.getData();
-        if (data.size() > 1) {
+        Map.Entry<String, String> entry = data.entrySet().iterator().next();
+        if (data.size() > 1 || !getExtension(entry.getKey()).isPresent()) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
             }
@@ -104,13 +105,12 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Considering this ConfigMap as containing values from a single file");
             }
-            Map.Entry<String, String> entry = data.entrySet().iterator().next();
-            String extension = getExtension(entry.getKey()).orElse("properties");
+            String extension = getExtension(entry.getKey()).get();
             return PROPERTY_SOURCE_READERS.stream()
                     .filter(reader -> reader.getExtensions().contains(extension))
                     .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
                     .peek(map -> map.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
-                    .map(map -> PropertySource.of(entry.getKey(), map))
+                    .map(map -> PropertySource.of(entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map))
                     .findFirst()
                     .orElse(PropertySource.of(Collections.emptyMap()));
         }

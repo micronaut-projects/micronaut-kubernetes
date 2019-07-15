@@ -16,8 +16,10 @@
 package io.micronaut.kubernetes.test
 
 import groovy.transform.Memoized
-
-import java.util.concurrent.TimeUnit
+import io.fabric8.kubernetes.api.model.ConfigMap
+import io.fabric8.kubernetes.api.model.ObjectMeta
+import io.fabric8.kubernetes.client.DefaultKubernetesClient
+import io.fabric8.kubernetes.client.KubernetesClient
 
 trait KubectlCommands {
 
@@ -53,12 +55,28 @@ trait KubectlCommands {
         return getProcessOutput("kubectl get secrets --field-selector type=Opaque | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
-    static String createConfigMap(String name) {
-        return getProcessOutput("kubectl create configmap ${name} --from-literal=foo=bar")
+    static String createConfigMap(String configMapName) {
+        KubernetesClient client = new DefaultKubernetesClient()
+        ObjectMeta objectMeta = new ObjectMeta()
+        objectMeta.name = configMapName
+        ConfigMap configMap = new ConfigMap()
+        configMap.metadata = objectMeta
+        configMap.data = [foo: 'bar']
+        ConfigMap result = client.configMaps().inNamespace('default').createOrReplace(configMap)
+
+        println "****"
+        println "Result: ${result.toString()}"
+        println "****"
+        return result.toString()
     }
 
-    static String deleteConfigMap(String name) {
-        return getProcessOutput("kubectl delete configmap ${name}")
+    static String deleteConfigMap(String configMapName) {
+        KubernetesClient client = new DefaultKubernetesClient()
+        ObjectMeta objectMeta = new ObjectMeta()
+        objectMeta.name = configMapName
+        ConfigMap configMap = new ConfigMap()
+        configMap.metadata = objectMeta
+        assert client.configMaps().inNamespace('default').delete(configMap)
     }
 
     static String getProcessOutput(String command) {
