@@ -29,7 +29,7 @@ if [ "${TRAVIS_JDK_VERSION}" == "openjdk11" ] ; then
     fi
 
     ./gradlew --stop
-    ./gradlew check --no-daemon --stacktrace || EXIT_STATUS=$?
+    ./gradlew check --no-daemon || EXIT_STATUS=$?
 
     if [ $EXIT_STATUS -ne 0 ]; then
         showLogs
@@ -52,7 +52,7 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         ./gradlew pTML assemble --no-daemon || EXIT_STATUS=$?
     else
         ./gradlew --stop
-        ./gradlew testClasses --no-daemon --stacktrace || EXIT_STATUS=$?
+        ./gradlew testClasses --no-daemon || EXIT_STATUS=$?
 
         if [ $EXIT_STATUS -ne 0 ]; then
             showLogs
@@ -60,7 +60,7 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         fi
 
         ./gradlew --stop
-        ./gradlew check --no-daemon --stacktrace || EXIT_STATUS=$?
+        ./gradlew check --no-daemon || EXIT_STATUS=$?
 
         if [ $EXIT_STATUS -ne 0 ]; then
             showLogs
@@ -76,7 +76,7 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         ./gradlew --stop
 
         if [[ -n $TRAVIS_TAG ]]; then
-            ./gradlew bintrayUpload --no-daemon --stacktrace || EXIT_STATUS=$?
+            ./gradlew bintrayUpload --no-daemon || EXIT_STATUS=$?
             if [ $EXIT_STATUS -ne 0 ]; then
                 exit $EXIT_STATUS
             fi
@@ -87,7 +87,7 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
                 exit $EXIT_STATUS
             fi
         else
-            ./gradlew publish --no-daemon --stacktrace || EXIT_STATUS=$?
+            ./gradlew publish --no-daemon || EXIT_STATUS=$?
 
             if [ $EXIT_STATUS -ne 0 ]; then
                 exit $EXIT_STATUS

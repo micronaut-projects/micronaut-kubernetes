@@ -11,7 +11,7 @@ buildscript {
         classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
         classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:$micronautDocsVersion"
         classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:$micronautDocsVersion"
-        classpath 'com.adarshr:gradle-test-logger-plugin:1.6.0'
+        classpath 'com.adarshr:gradle-test-logger-plugin:1.7.0'
     }
 }
 
@@ -160,6 +160,7 @@ allprojects {
     apply plugin: 'com.adarshr.test-logger'
 
     testlogger {
+        showFullStackTraces true
         showStandardStreams true
     }
 }
