@@ -1,24 +1,47 @@
 #!/bin/bash
 set -e
+set -x
 EXIT_STATUS=0
+
+CLIENT_POD="$(kubectl get pods | grep "example-client" | awk 'FNR <= 1 { print $1 }')"
+SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
+SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"
+
+function showLogs {
+    echo "Build failed! Displaying pod logs"
+    echo "Client pod logs:"
+    kubectl logs $CLIENT_POD
+
+    echo "Service pod #1 logs:"
+    kubectl logs $SERVICE_POD_1
+
+    echo "Service pod #2 logs:"
+    kubectl logs $SERVICE_POD_2
+}
 
 if [ "${TRAVIS_JDK_VERSION}" == "openjdk11" ] ; then
     echo "Check for branch $TRAVIS_BRANCH JDK: $TRAVIS_JDK_VERSION"
-    ./gradlew testClasses --no-daemon || EXIT_STATUS=$?
+    ./gradlew testClasses --no-daemon --stacktrace|| EXIT_STATUS=$?
 
     if [ $EXIT_STATUS -ne 0 ]; then
+        showLogs
        exit $EXIT_STATUS
     fi
 
     ./gradlew --stop
-    ./gradlew check --no-daemon || EXIT_STATUS=$?
+    ./gradlew check --no-daemon --stacktrace || EXIT_STATUS=$?
 
     if [ $EXIT_STATUS -ne 0 ]; then
+        showLogs
        exit $EXIT_STATUS
     fi
 
     ./gradlew --stop
     ./gradlew assemble --no-daemon || EXIT_STATUS=$?
+
+    if [ $EXIT_STATUS -ne 0 ]; then
+        showLogs
+    fi
 
     exit $EXIT_STATUS
 fi
@@ -29,14 +52,19 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         ./gradlew pTML assemble --no-daemon || EXIT_STATUS=$?
     else
         ./gradlew --stop
-        ./gradlew testClasses --no-daemon || EXIT_STATUS=$?
+        ./gradlew testClasses --no-daemon --stacktrace || EXIT_STATUS=$?
 
         if [ $EXIT_STATUS -ne 0 ]; then
+            showLogs
             exit $EXIT_STATUS
         fi
 
         ./gradlew --stop
-        ./gradlew check --no-daemon || EXIT_STATUS=$?
+        ./gradlew check --no-daemon --stacktrace || EXIT_STATUS=$?
+
+        if [ $EXIT_STATUS -ne 0 ]; then
+            showLogs
+        fi
     fi
 fi
 
