@@ -7,6 +7,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
+import spock.lang.PendingFeature
 import spock.lang.Requires
 import spock.lang.Specification
 
@@ -37,6 +38,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
     }
 
     @Requires({ TestUtils.available("http://localhost:8888") })
+    @PendingFeature(reason = "https://github.com/micronaut-projects/micronaut-core/issues/1864")
     void "test config"() {
         given:
         testClient.refresh()

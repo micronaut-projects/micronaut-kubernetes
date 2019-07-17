@@ -140,13 +140,15 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     private void processConfigMapModified(PropertySource propertySource) {
-//        this.environment.removePropertySource(propertySource);
-//        this.environment.addPropertySource(propertySource);
+        //FIXME: workaround for https://github.com/micronaut-projects/micronaut-core/issues/1903
+        this.environment.removePropertySource(propertySource);
+        this.environment.addPropertySource(propertySource);
         this.environment = environment.refresh();
     }
 
     private void processConfigMapDeleted(PropertySource propertySource) {
-//        this.environment.removePropertySource(propertySource);
+        //FIXME: workaround for https://github.com/micronaut-projects/micronaut-core/issues/1903
+        this.environment.removePropertySource(propertySource);
         this.environment = environment.refresh();
     }
 
