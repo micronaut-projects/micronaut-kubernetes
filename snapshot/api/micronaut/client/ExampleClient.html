@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -131,6 +131,10 @@ public interface <span class="typeNameLabel">ExampleClient</span></pre>
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#hello-java.lang.String-">hello</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
 </tr>
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../micronaut/client/ExampleClient.html#refresh--">refresh</a></span>()</code>&nbsp;</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -169,11 +173,21 @@ java.lang.String&nbsp;enemiesCheatLevel()</pre>
 <a name="config-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>config</h4>
 <pre>@Get(value="/hello/config/{key}")
 java.lang.String&nbsp;config(java.lang.String&nbsp;key)</pre>
+</li>
+</ul>
+<a name="refresh--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>refresh</h4>
+<pre>@Post(value="/refresh")
+java.lang.String&nbsp;refresh()</pre>
 </li>
 </ul>
 </li>
