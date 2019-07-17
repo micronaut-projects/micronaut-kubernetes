@@ -18,6 +18,7 @@ package micronaut.client;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import org.reactivestreams.Publisher;
 
 import java.util.List;
@@ -51,5 +52,10 @@ public class HelloController {
     @Get("/config/{key}")
     String config(String key) {
         return client.config(key);
+    }
+
+    @Post("/refreshService")
+    String refresh() {
+        return client.refresh();
     }
 }

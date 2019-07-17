@@ -16,6 +16,7 @@
 package micronaut.client;
 
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;
 
 @Client("example-service")
@@ -29,4 +30,7 @@ public interface ExampleClient {
 
     @Get("/hello/config/{key}")
     String config(String key);
+
+    @Post("/refresh")
+    String refresh();
 }

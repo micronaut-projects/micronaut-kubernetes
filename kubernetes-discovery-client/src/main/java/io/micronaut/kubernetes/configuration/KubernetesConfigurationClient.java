@@ -58,6 +58,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     public static final String CONFIG_MAP_RESOURCE_VERSION = "configMapResourceVersion";
     public static final String KUBERNETES_CONFIG_MAP_NAME_SUFFIX = " (Kubernetes ConfigMap)";
+    public static final String KUBERNETES_SECRET_NAME_SUFFIX = " (Kubernetes Secret)";
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
 
@@ -188,7 +189,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for Secret: {}", secret);
         }
-        String name = secret.getMetadata().getName() + " (Kubernetes Secret)";
+        String name = secret.getMetadata().getName() + KUBERNETES_SECRET_NAME_SUFFIX;
         Map<String, String> data = secret.getData();
         Map<String, Object> propertySourceData = data.entrySet()
                 .stream()

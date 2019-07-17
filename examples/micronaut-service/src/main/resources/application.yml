@@ -8,3 +8,5 @@ jackson:
 endpoints:
   env:
     sensitive: false
+  refresh:
+    sensitive: false

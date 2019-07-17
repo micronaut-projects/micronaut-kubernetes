@@ -2,6 +2,7 @@ package micronaut.client
 
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
+import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
@@ -37,6 +38,9 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
     @Requires({ TestUtils.available("http://localhost:8888") })
     void "test config"() {
+        given:
+        testClient.refresh()
+
         expect:
         testClient.config("foo").equals("NOTHING")
 
@@ -49,6 +53,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
         cleanup:
         deleteConfigMap("hello-controller-spec")
+        testClient.refresh()
     }
 }
 
@@ -67,5 +72,8 @@ interface TestClient {
 
     @Get("/config/{key}")
     String config(String key)
+
+    @Post("/refreshService")
+    String refresh()
 
 }
