@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-./gradlew clean assemble jib
+./gradlew clean assemble jib --refresh-dependencies
 killall -9 kubectl
 kubectl proxy &
 ./recreate.sh

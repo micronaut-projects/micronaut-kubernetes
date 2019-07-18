@@ -55,13 +55,13 @@ trait KubectlCommands {
         return getProcessOutput("kubectl get secrets --field-selector type=Opaque | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
-    static String createConfigMap(String configMapName) {
+    static String createConfigMap(String configMapName, Map data = [foo: 'bar']) {
         KubernetesClient client = new DefaultKubernetesClient()
         ObjectMeta objectMeta = new ObjectMeta()
         objectMeta.name = configMapName
         ConfigMap configMap = new ConfigMap()
         configMap.metadata = objectMeta
-        configMap.data = [foo: 'bar']
+        configMap.data = data
         ConfigMap result = client.configMaps().inNamespace('default').createOrReplace(configMap)
 
         println "****"
@@ -77,6 +77,10 @@ trait KubectlCommands {
         ConfigMap configMap = new ConfigMap()
         configMap.metadata = objectMeta
         assert client.configMaps().inNamespace('default').delete(configMap)
+    }
+
+    static String modifyConfigMap(String configMapName) {
+        createConfigMap(configMapName, [foo: 'baz'])
     }
 
     static String getProcessOutput(String command) {

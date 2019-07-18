@@ -38,24 +38,30 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
     }
 
     @Requires({ TestUtils.available("http://localhost:8888") })
-    @PendingFeature(reason = "https://github.com/micronaut-projects/micronaut-core/issues/1864")
     void "test config"() {
-        given:
-        testClient.refresh()
-
         expect:
         testClient.config("foo").equals("NOTHING")
 
         when:
         createConfigMap("hello-controller-spec")
-        sleep 2_000
+        sleep 1_000
 
         then:
         testClient.config("foo").equals("bar")
 
-        cleanup:
+        when:
+        modifyConfigMap("hello-controller-spec")
+        sleep 1_000
+
+        then:
+        testClient.config("foo").equals("baz")
+
+        when:
         deleteConfigMap("hello-controller-spec")
-        testClient.refresh()
+        sleep 1_000
+
+        then:
+        testClient.config("foo").equals("NOTHING")
     }
 }
 
