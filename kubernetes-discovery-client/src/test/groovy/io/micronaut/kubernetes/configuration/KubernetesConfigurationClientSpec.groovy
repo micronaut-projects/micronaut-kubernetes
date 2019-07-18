@@ -23,6 +23,10 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Inject
     ApplicationContext applicationContext
 
+    void setup() {
+        KubernetesConfigurationClient.emptyPropertySourceCache()
+    }
+
     @Requires({ configMapExists('game-config-properties')})
     void "it can read config maps from properties"() {
         when:

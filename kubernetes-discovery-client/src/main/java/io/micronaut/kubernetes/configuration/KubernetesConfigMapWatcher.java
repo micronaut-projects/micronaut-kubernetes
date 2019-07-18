@@ -81,7 +81,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             LOG.debug("Watching for ConfigMap events...");
         }
         Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion))
-//        Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), 0)) //To reproduce https://github.com/micronaut-projects/micronaut-core/issues/1864
                 .doOnNext(e -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Received ConfigMap watch event: {}", e);
@@ -137,18 +136,26 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     private void processConfigMapAdded(PropertySource propertySource) {
         this.environment.addPropertySource(propertySource);
+        KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
     }
 
     private void processConfigMapModified(PropertySource propertySource) {
         //FIXME: workaround for https://github.com/micronaut-projects/micronaut-core/issues/1903
         this.environment.removePropertySource(propertySource);
         this.environment.addPropertySource(propertySource);
+
+        KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+        KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+
         this.environment = environment.refresh();
     }
 
     private void processConfigMapDeleted(PropertySource propertySource) {
         //FIXME: workaround for https://github.com/micronaut-projects/micronaut-core/issues/1903
         this.environment.removePropertySource(propertySource);
+
+        KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+
         this.environment = environment.refresh();
     }
 
