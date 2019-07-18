@@ -68,10 +68,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             new JsonPropertySourceLoader(),
             new PropertiesPropertySourceLoader());
 
+    private static Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
+
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
-
-    private static Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
 
     /**
      * @param client        An HTTP Client to query the Kubernetes API.
@@ -83,6 +83,33 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
         this.client = client;
         this.configuration = configuration;
+    }
+
+    /**
+     * Retrieves all of the {@link PropertySource} registrations for the given environment.
+     *
+     * @param environment The environment
+     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
+     */
+    @Override
+    public Publisher<PropertySource> getPropertySources(Environment environment) {
+        if (!propertySources.isEmpty()) {
+            LOG.trace("Found cached PropertySources. Returning them");
+            return Flowable.fromIterable(propertySources.values());
+        } else {
+            LOG.trace("PropertySource cache is empty");
+            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
+        }
+    }
+
+    /**
+     * A description that describes this object.
+     *
+     * @return The description
+     */
+    @Override
+    public String getDescription() {
+        return KubernetesClient.SERVICE_ID;
     }
 
     /**
@@ -124,6 +151,31 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
     }
 
+    /**
+     * Adds the given {@link PropertySource} to the cache.
+     *
+     * @param propertySource The property source to add
+     */
+    static void addPropertySourceToCache(PropertySource propertySource) {
+        propertySources.put(propertySource.getName(), propertySource);
+    }
+
+    /**
+     * Removes the given {@link PropertySource} name from the cache.
+     *
+     * @param name The property source name
+     */
+    static void removePropertySourceFromCache(String name) {
+        propertySources.remove(name);
+    }
+
+    /**
+     * Clears the property source cache.
+     */
+    static void emptyPropertySourceCache() {
+        propertySources.clear();
+    }
+
     private static String getPropertySourceName(ConfigMap configMap) {
         return configMap.getMetadata().getName() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
     }
@@ -132,23 +184,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return Optional.of(filename)
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
-    }
-
-    /**
-     * Retrieves all of the {@link PropertySource} registrations for the given environment.
-     *
-     * @param environment The environment
-     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
-     */
-    @Override
-    public Publisher<PropertySource> getPropertySources(Environment environment) {
-        if (!propertySources.isEmpty()) {
-            LOG.trace("Found cached PropertySources. Returning them");
-            return Flowable.fromIterable(propertySources.values());
-        } else {
-            LOG.trace("PropertySource cache is empty");
-            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
-        }
     }
 
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
@@ -188,16 +223,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 .map(this::secretAsPropertySource);
     }
 
-    /**
-     * A description that describes this object.
-     *
-     * @return The description
-     */
-    @Override
-    public String getDescription() {
-        return KubernetesClient.SERVICE_ID;
-    }
-
     private PropertySource secretAsPropertySource(Secret secret) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for Secret: {}", secret);
@@ -207,25 +232,13 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Map<String, Object> propertySourceData = data.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> decodeSecret(e.getValue())));
-        PropertySource propertySource =  PropertySource.of(name, propertySourceData);
+        PropertySource propertySource = PropertySource.of(name, propertySourceData);
         addPropertySourceToCache(propertySource);
-        return  propertySource;
+        return propertySource;
     }
 
     private String decodeSecret(String secretValue) {
         return new String(Base64.getDecoder().decode(secretValue));
-    }
-
-    static PropertySource addPropertySourceToCache(PropertySource propertySource) {
-        return propertySources.put(propertySource.getName(), propertySource);
-    }
-
-    static PropertySource removePropertySourceFromCache(String name) {
-        return propertySources.remove(name);
-    }
-
-    static void emptyPropertySourceCache() {
-        propertySources.clear();
     }
 
 }
