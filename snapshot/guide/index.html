@@ -170,6 +170,11 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace. Default value: {@value #DEFAULT_NAMESPACE}.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.connection-pool-configuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConnectionPoolConfiguration.html">KubernetesConfiguration$KubernetesConnectionPoolConfiguration</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the connection pool configuration</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ssl-configuration</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/ssl/SslConfiguration.html">SslConfiguration</a></p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -475,12 +480,23 @@ spec:
 
 
 <div class="paragraph">
-<p>The Configuration client will read Kubernetes' <code>ConfigMap</code> and <code>Secret`s and make them available as `PropertySource</code> s in your
-application.</p>
+<p>The Configuration client will read Kubernetes' <code>ConfigMap</code> and <code>Secret</code> instances and make them available as <code>PropertySource</code>
+instances in your application.</p>
 </div>
 <div class="paragraph">
 <p>Then, in any bean you can read the configuration values from the <code>ConfigMap</code> or <code>Secret</code> using <code>@Value</code> or
 <a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
+</div>
+<div class="paragraph">
+<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the following
+in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config-client:
+    enabled: true</code></pre>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_configmaps">ConfigMaps</h2>
@@ -503,6 +519,9 @@ application.</p>
 <p>Literal values.</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>The configuration client will read all the ConfigMaps for the specified namespace (or <code>default</code> if not specified).</p>
 </div>
 <div class="sect2">
 <h3 id="_examples">Examples</h3>
@@ -551,6 +570,20 @@ Only <code>Opaque</code> secrets will be considered.
 </td>
 </tr>
 </table>
+</div>
+<div class="paragraph">
+<p>By default, secrets access is diabled. To enable them, set in <code>bootstrap.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration client will read all the Secrets for the specified namespace (or <code>default</code> if not specified).</p>
 </div>
 </div>
 </div>

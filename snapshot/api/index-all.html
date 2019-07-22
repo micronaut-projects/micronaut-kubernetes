@@ -262,6 +262,8 @@
 <dd>
 <div class="block">Returns a <a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets"><code>Secret</code></a> of the given namespace.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getSecrets--">getSecrets()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getService-java.lang.String-java.lang.String-">getService(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">Read the specified Service.</div>
@@ -324,6 +326,8 @@
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a> - package io.micronaut.kubernetes.discovery</dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#isEnabled--">isEnabled()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#isSecure--">isSecure()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#isSecure--">isSecure()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
@@ -370,6 +374,14 @@
 <dd>
 <div class="block">The default connection pool configuration.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">KubernetesConfiguration.KubernetesDiscoveryConfiguration</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/package-summary.html">io.micronaut.kubernetes.client.v1</a></dt>
+<dd>
+<div class="block">Configuration class for the discovery client of Kubernetes.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">KubernetesConfiguration.KubernetesSecretsConfiguration</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/package-summary.html">io.micronaut.kubernetes.client.v1</a></dt>
+<dd>
+<div class="block">Kubernetes secrets configuration properties.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration"><span class="typeNameLink">KubernetesConfigurationClient</span></a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
 <div class="block">A <code>ConfigurationClient</code> implementation that provides <code>PropertySource</code>s read from Kubernetes ConfigMap's.</div>
@@ -382,18 +394,16 @@
 <dd>
 <div class="block">A <code>DiscoveryClient</code> implementation for Kubernetes using the API.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.discovery.KubernetesDiscoveryConfiguration-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">KubernetesDiscoveryClient(KubernetesClient, KubernetesConfiguration, KubernetesDiscoveryConfiguration, KubernetesServiceInstanceList)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">KubernetesDiscoveryClient(KubernetesClient, KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, KubernetesServiceInstanceList)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesDiscoveryConfiguration</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
-<dd>
-<div class="block">Configuration class for the discovery client of Kubernetes.</div>
-</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html#KubernetesDiscoveryConfiguration--">KubernetesDiscoveryConfiguration()</a></span> - Constructor for class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryConfiguration</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#KubernetesDiscoveryConfiguration--">KubernetesDiscoveryConfiguration()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">KubernetesOperations</span></a> - Interface in <a href="io/micronaut/kubernetes/client/v1/package-summary.html">io.micronaut.kubernetes.client.v1</a></dt>
 <dd>
 <div class="block">Defines the HTTP requests to query the Kubernetes API.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#KubernetesSecretsConfiguration--">KubernetesSecretsConfiguration()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesServiceInstanceList</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
 <div class="block">A <code>ServiceInstanceList</code> implementation for Kubernetes.</div>
@@ -474,9 +484,9 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#Port--">Port()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryConfiguration</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:R">
@@ -524,9 +534,15 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#setClusterIp-java.net.InetAddress-">setClusterIp(InetAddress)</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceSpec</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setConnectionPoolConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConnectionPoolConfiguration-">setConnectionPoolConfiguration(KubernetesConfiguration.KubernetesConnectionPoolConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html#setData-java.util.Map-">setData(Map&lt;String, String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#setData-java.util.Map-">setData(Map&lt;String, String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery(KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setEnabled-boolean-">setEnabled(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Address.html#setIp-java.net.InetAddress-">setIp(InetAddress)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Address.html" title="class in io.micronaut.kubernetes.client.v1">Address</a></dt>
 <dd>&nbsp;</dd>
@@ -567,6 +583,8 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#setProtocol-java.lang.String-">setProtocol(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#setResourceVersion-java.lang.String-">setResourceVersion(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecrets-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesSecretsConfiguration-">setSecrets(KubernetesConfiguration.KubernetesSecretsConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/Service.html#setSpec-io.micronaut.kubernetes.client.v1.services.ServiceSpec-">setSpec(ServiceSpec)</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a></dt>
 <dd>&nbsp;</dd>
