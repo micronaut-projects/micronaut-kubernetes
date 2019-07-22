@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.configuration
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.PropertySource
 import io.micronaut.kubernetes.test.KubectlCommands
@@ -69,7 +70,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     void "it can read config maps from literals"() {
         given:
         def itr = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
-//        println itr*.properties
+        println itr*.properties
 
         when:
         def propertySource = itr.find { it.name.startsWith 'literal-config' }
@@ -81,14 +82,12 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     }
 
     @Requires({ TestUtils.secretExists('test-secret')})
-    void "it can read secrets"() {
+    void "secret access is disabled by default"() {
         when:
         def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'test-secret' }
 
         then:
-        propertySource.name == 'test-secret (Kubernetes Secret)'
-        propertySource.get('username') == 'my-app'
-        propertySource.get('password') == '39528$vdg7Jb'
+        !propertySource
     }
 
 }

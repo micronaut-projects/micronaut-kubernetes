@@ -50,8 +50,8 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
-@Requires(beans = {KubernetesClient.class, KubernetesDiscoveryConfiguration.class})
-@Requires(property = KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
+@Requires(beans = {KubernetesClient.class, KubernetesConfiguration.KubernetesDiscoveryConfiguration.class})
+@Requires(property = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
 @Replaces(bean = io.micronaut.discovery.kubernetes.KubernetesDiscoveryClient.class)
 @SuppressWarnings("WeakerAccess")
 public class KubernetesDiscoveryClient implements DiscoveryClient {
@@ -60,7 +60,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
-    private final KubernetesDiscoveryConfiguration discoveryConfiguration;
+    private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
     private final KubernetesServiceInstanceList instanceList;
 
     /**
@@ -71,7 +71,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      */
     public KubernetesDiscoveryClient(KubernetesClient client,
                                      KubernetesConfiguration configuration,
-                                     KubernetesDiscoveryConfiguration discoveryConfiguration,
+                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
                                      KubernetesServiceInstanceList instanceList) {
         this.client = client;
         this.configuration = configuration;

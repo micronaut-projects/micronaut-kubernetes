@@ -20,10 +20,10 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.util.Toggleable;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.discovery.client.DiscoveryClientConfiguration;
 import io.micronaut.discovery.registration.RegistrationConfiguration;
-import io.micronaut.kubernetes.discovery.KubernetesDiscoveryConfiguration;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,15 +55,14 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     @Nonnull
     private String namespace = DEFAULT_NAMESPACE;
 
-    private final KubernetesConnectionPoolConfiguration connectionPoolConfiguration;
-    private final KubernetesDiscoveryConfiguration discoveryConfiguration;
+    private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
+    private KubernetesDiscoveryConfiguration discoveryConfiguration = new KubernetesDiscoveryConfiguration();
+    private KubernetesSecretsConfiguration secretsConfiguration = new KubernetesSecretsConfiguration();
 
     /**
      * Default constructor.
      */
     public KubernetesConfiguration() {
-        this.connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
-        this.discoveryConfiguration = new KubernetesDiscoveryConfiguration();
         setPort(KUBERNETES_DEFAULT_PORT);
         setHost(KUBERNETES_DEFAULT_HOST);
         setSecure(KUBERNETES_DEFAULT_SECURE);
@@ -73,6 +72,13 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     @Override
     public DiscoveryConfiguration getDiscovery() {
         return this.discoveryConfiguration;
+    }
+
+    /**
+     * @param discoveryConfiguration The discovery configuration
+     */
+    public void setDiscovery(KubernetesDiscoveryConfiguration discoveryConfiguration) {
+        this.discoveryConfiguration = discoveryConfiguration;
     }
 
     @Nullable
@@ -87,7 +93,6 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     }
 
     /**
-     *
      * @return the namespace
      */
     @Nonnull
@@ -107,6 +112,38 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         return this.connectionPoolConfiguration;
     }
 
+    /**
+     * @param connectionPoolConfiguration the connection pool configuration
+     */
+    public void setConnectionPoolConfiguration(KubernetesConnectionPoolConfiguration connectionPoolConfiguration) {
+        this.connectionPoolConfiguration = connectionPoolConfiguration;
+    }
+
+    /**
+     * @return the {@link KubernetesSecretsConfiguration}.
+     */
+    @Nonnull
+    public KubernetesSecretsConfiguration getSecrets() {
+        return secretsConfiguration;
+    }
+
+    /**
+     * @param secretsConfiguration the {@link KubernetesSecretsConfiguration}.
+     */
+    public void setSecrets(KubernetesSecretsConfiguration secretsConfiguration) {
+        this.secretsConfiguration = secretsConfiguration;
+    }
+
+    /**
+     * Configuration class for the discovery client of Kubernetes.
+     */
+    @ConfigurationProperties(DiscoveryConfiguration.PREFIX)
+    @BootstrapContextCompatible
+    public static class KubernetesDiscoveryConfiguration extends DiscoveryConfiguration {
+
+        public static final String PREFIX = KubernetesConfiguration.PREFIX + "." + DiscoveryConfiguration.PREFIX;
+
+    }
 
     /**
      * The default connection pool configuration.
@@ -114,5 +151,31 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     @ConfigurationProperties(ConnectionPoolConfiguration.PREFIX)
     @BootstrapContextCompatible
     public static class KubernetesConnectionPoolConfiguration extends ConnectionPoolConfiguration {
+    }
+
+    /**
+     * Kubernetes secrets configuration properties.
+     */
+    @ConfigurationProperties(KubernetesSecretsConfiguration.PREFIX)
+    @BootstrapContextCompatible
+    public static class KubernetesSecretsConfiguration implements Toggleable {
+
+        static final String PREFIX = "secrets";
+
+        static final boolean DEFAULT_ENABLED = false;
+
+        private boolean enabled = DEFAULT_ENABLED;
+
+        @Override
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        /**
+         * @param enabled enabled flag.
+         */
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
     }
 }

@@ -1,8 +1,18 @@
-The Configuration client will read Kubernetes' `ConfigMap` and `Secret`s and make them available as `PropertySource` s in your
-application.
+The Configuration client will read Kubernetes' `ConfigMap` and `Secret` instances and make them available as `PropertySource`
+instances in your application.
 
 Then, in any bean you can read the configuration values from the `ConfigMap` or `Secret` using `@Value` or
 https://docs.micronaut.io/latest/guide/index.html#config[any other way to read configuration values].
+
+Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the following
+in `bootstrap.yml` (or `.properties`, `.json`, etc):
+
+[source,yaml]
+----
+micronaut:
+  config-client:
+    enabled: true
+----
 
 ## ConfigMaps
 
@@ -12,6 +22,8 @@ Supported formats for `ConfigMap` are:
 * YAML.
 * JSON.
 * Literal values.
+
+The configuration client will read all the ConfigMaps for the specified namespace (or `default` if not specified).
 
 ### Examples
 
@@ -37,3 +49,15 @@ Secrets read from the Kubernetes API will be base64-decoded and made available a
 also read with `@Value`, `@ConfigurationProperties`, etc.
 
 NOTE: Only `Opaque` secrets will be considered.
+
+By default, secrets access is diabled. To enable them, set in `bootstrap.yml`:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    secrets:
+      enabled: true
+----
+
+The configuration client will read all the Secrets for the specified namespace (or `default` if not specified).

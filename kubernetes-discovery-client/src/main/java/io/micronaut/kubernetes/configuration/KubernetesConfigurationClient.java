@@ -205,22 +205,29 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
-        return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace()))
-                .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
-                .onErrorReturn(throwable -> new SecretList())
-                .doOnNext(secretList -> {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Found {} secrets. Filtering Opaque secrets", secretList.getItems().size());
-                    }
-                })
-                .flatMapIterable(SecretList::getItems)
-                .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
-                .doOnNext(secret -> {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
-                    }
-                })
-                .map(this::secretAsPropertySource);
+        if (configuration.getSecrets().isEnabled()) {
+            return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace()))
+                    .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
+                    .onErrorReturn(throwable -> new SecretList())
+                    .doOnNext(secretList -> {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Found {} secrets. Filtering Opaque secrets", secretList.getItems().size());
+                        }
+                    })
+                    .flatMapIterable(SecretList::getItems)
+                    .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
+                    .doOnNext(secret -> {
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
+                        }
+                    })
+                    .map(this::secretAsPropertySource);
+        } else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Kubernetes secrets access is disabled");
+            }
+            return Flowable.empty();
+        }
     }
 
     private PropertySource secretAsPropertySource(Secret secret) {
