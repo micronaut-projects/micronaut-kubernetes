@@ -17,10 +17,6 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
         KubernetesConfigurationClient.emptyPropertySourceCache()
     }
 
-    void cleanup() {
-        setup()
-    }
-
     @Requires({ TestUtils.secretExists('test-secret')})
     void "it can read secrets"() {
         given:
@@ -34,6 +30,9 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
         propertySource.name == 'test-secret (Kubernetes Secret)'
         propertySource.get('username') == 'my-app'
         propertySource.get('password') == '39528$vdg7Jb'
+
+        cleanup:
+        applicationContext.close()
     }
 
     @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getSecrets().size() })
@@ -50,6 +49,9 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
 
         and:
         !propertySources.find { it.name.startsWith 'test-secret'}
+
+        cleanup:
+        applicationContext.close()
     }
 
     @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getSecrets().size() })
@@ -66,5 +68,8 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
 
         and:
         !propertySources.find { it.name.startsWith 'another-secret'}
+
+        cleanup:
+        applicationContext.close()
     }
 }

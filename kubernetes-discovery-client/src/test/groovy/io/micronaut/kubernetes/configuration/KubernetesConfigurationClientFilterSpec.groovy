@@ -31,6 +31,9 @@ class KubernetesConfigurationClientFilterSpec extends Specification implements K
         !propertySources.find { it.name.startsWith 'game.json'}
         !propertySources.find { it.name.startsWith 'game.properties'}
         !propertySources.find { it.name.startsWith 'game.yml'}
+
+        cleanup:
+        applicationContext.close()
     }
 
     @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getConfigMaps().size() })
@@ -49,6 +52,9 @@ class KubernetesConfigurationClientFilterSpec extends Specification implements K
         propertySources.find { it.name.startsWith 'game.json'}
         propertySources.find { it.name.startsWith 'game.properties'}
         propertySources.find { it.name.startsWith 'game.yml'}
+
+        cleanup:
+        applicationContext.close()
     }
 
     @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getConfigMaps().size() })
@@ -67,6 +73,9 @@ class KubernetesConfigurationClientFilterSpec extends Specification implements K
         !propertySources.find { it.name.startsWith 'literal-config'}
         !propertySources.find { it.name.startsWith 'game.json'}
         !propertySources.find { it.name.startsWith 'game.properties'}
+
+        cleanup:
+        applicationContext.close()
     }
 
 }
