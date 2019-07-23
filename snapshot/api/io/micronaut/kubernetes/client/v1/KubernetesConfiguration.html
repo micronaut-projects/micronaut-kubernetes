@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -245,7 +245,7 @@ extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getConfigMapsConfiguration--">getConfigMapsConfiguration</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getConfigMaps--">getConfigMaps</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>io.micronaut.http.client.HttpClientConfiguration.ConnectionPoolConfiguration</code></td>
@@ -277,21 +277,17 @@ extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setConnectionPoolConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConnectionPoolConfiguration-">setConnectionPoolConfiguration</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConnectionPoolConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConnectionPoolConfiguration</a>&nbsp;connectionPoolConfiguration)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
-</tr>
-<tr id="i11" class="rowColor">
-<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecrets-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesSecretsConfiguration-">setSecrets</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a>&nbsp;secretsConfiguration)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -478,19 +474,6 @@ public&nbsp;java.lang.String&nbsp;getNamespace()</pre>
 </dl>
 </li>
 </ul>
-<a name="setConnectionPoolConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConnectionPoolConfiguration-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setConnectionPoolConfiguration</h4>
-<pre>public&nbsp;void&nbsp;setConnectionPoolConfiguration(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConnectionPoolConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConnectionPoolConfiguration</a>&nbsp;connectionPoolConfiguration)</pre>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>connectionPoolConfiguration</code> - the connection pool configuration</dd>
-</dl>
-</li>
-</ul>
 <a name="getSecrets--">
 <!--   -->
 </a>
@@ -518,13 +501,14 @@ public&nbsp;<a href="../../../../../io/micronaut/kubernetes/client/v1/Kubernetes
 </dl>
 </li>
 </ul>
-<a name="getConfigMapsConfiguration--">
+<a name="getConfigMaps--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>getConfigMapsConfiguration</h4>
-<pre>public&nbsp;<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a>&nbsp;getConfigMapsConfiguration()</pre>
+<h4>getConfigMaps</h4>
+<pre>@Nonnull
+public&nbsp;<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a>&nbsp;getConfigMaps()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>The config maps configuration properties</dd>

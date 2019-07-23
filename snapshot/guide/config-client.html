@@ -147,8 +147,7 @@ is not specified). You can further filter which config map names are processed b
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     config-maps:
-      excludes:
-        - not-this-config-map</code></pre>
+      excludes: not-this-config-map</code></pre>
 </div>
 </div>
 <div class="sect2">
@@ -211,7 +210,30 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 </div>
 <div class="paragraph">
-<p>The configuration client will read all the Secrets for the specified namespace (or <code>default</code> if not specified).</p>
+<p>The configuration client, by default, will read all the Secrets for the specified namespace (or <code>default</code> if the namespace
+is not specified). You can further filter which config map names are processed by defining
+<code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      includes: this-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      excludes: not-this-secret</code></pre>
+</div>
 </div>
 </div>
 </div>
