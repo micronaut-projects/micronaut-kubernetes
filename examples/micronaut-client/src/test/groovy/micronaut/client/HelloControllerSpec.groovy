@@ -43,21 +43,21 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
         when:
         createConfigMap("hello-controller-spec")
-        sleep 1_000
+        sleep 2_000
 
         then:
         testClient.config("foo").equals("bar")
 
         when:
         modifyConfigMap("hello-controller-spec")
-        sleep 1_000
+        sleep 2_000
 
         then:
         testClient.config("foo").equals("baz")
 
         when:
         deleteConfigMap("hello-controller-spec")
-        sleep 1_000
+        sleep 2_000
 
         then:
         testClient.config("foo").equals("NOTHING")

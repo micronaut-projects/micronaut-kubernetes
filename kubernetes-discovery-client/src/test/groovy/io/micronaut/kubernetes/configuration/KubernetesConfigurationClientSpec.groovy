@@ -26,6 +26,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
 
     void setup() {
         KubernetesConfigurationClient.emptyPropertySourceCache()
+        applicationContext.environment.refresh()
     }
 
     void cleanup() {
