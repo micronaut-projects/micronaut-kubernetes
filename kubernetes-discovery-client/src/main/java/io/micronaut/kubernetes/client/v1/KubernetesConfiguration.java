@@ -28,7 +28,9 @@ import io.micronaut.discovery.registration.RegistrationConfiguration;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Encapsulates constants for Kubernetes configuration.
@@ -178,6 +180,7 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     private static abstract class AbstractKubernetesConfiguration {
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
+        private Collection<Map<String, String>> labels;
 
         /**
          * @return the names to include
@@ -205,6 +208,23 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
          */
         public void setExcludes(Collection<String> excludes) {
             this.excludes = excludes;
+        }
+
+        /**
+         * @return labels to match
+         */
+        public Collection<Map<String, String>> getLabels() {
+            if (labels == null) {
+                return Collections.emptyList();
+            }
+            return labels;
+        }
+
+        /**
+         * @param labels labels to match
+         */
+        public void setLabels(Collection<Map<String, String>> labels) {
+            this.labels = labels;
         }
     }
 

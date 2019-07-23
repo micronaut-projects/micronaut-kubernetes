@@ -25,7 +25,7 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     ApplicationContext applicationContext
 
     void setup() {
-        KubernetesConfigurationClient.emptyPropertySourceCache()
+        KubernetesConfigurationClient.propertySourceCache.clear()
         applicationContext.environment.refresh()
     }
 
@@ -73,12 +73,8 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
 
     @Requires({ configMapExists('literal-config')})
     void "it can read config maps from literals"() {
-        given:
-        def itr = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
-        println itr*.properties
-
         when:
-        def propertySource = itr.find { it.name.startsWith 'literal-config' }
+        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'literal-config' }
 
         then:
         propertySource.name == 'literal-config (Kubernetes ConfigMap)'

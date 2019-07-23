@@ -12,7 +12,7 @@ import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 class KubernetesConfigurationClientFilterSpec extends Specification implements KubectlCommands {
 
     void setup() {
-        KubernetesConfigurationClient.emptyPropertySourceCache()
+        KubernetesConfigurationClient.propertySourceCache.clear()
     }
 
     @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getConfigMaps().size() })

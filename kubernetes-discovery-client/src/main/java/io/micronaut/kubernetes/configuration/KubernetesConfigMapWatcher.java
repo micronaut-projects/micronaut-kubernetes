@@ -33,7 +33,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
+
+import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -96,7 +99,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         int lastResourceVersion = this.environment
                 .getPropertySources()
                 .stream()
-                .filter(propertySource -> propertySource.getName().endsWith(KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX))
+                .filter(propertySource -> propertySource.getName().endsWith(KUBERNETES_CONFIG_MAP_NAME_SUFFIX))
                 .map(propertySource -> propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION))
                 .map(o -> Integer.parseInt(o.toString()))
                 .max(Integer::compareTo)
@@ -135,32 +138,67 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     private void processConfigMapAdded(PropertySource propertySource) {
-        this.environment.addPropertySource(propertySource);
-        KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+        String configMapName = getConfigMapName(propertySource.getName());
+        if (passesIncludesExcludesFilters(configMapName)) {
+            this.environment.addPropertySource(propertySource);
+            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            this.environment = environment.refresh();
+        }
     }
 
     private void processConfigMapModified(PropertySource propertySource) {
-        //FIXME: workaround for https://github.com/micronaut-projects/micronaut-core/issues/1903
-        this.environment.removePropertySource(propertySource);
-        this.environment.addPropertySource(propertySource);
-
-        KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
-        KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-
-        this.environment = environment.refresh();
+        String configMapName = getConfigMapName(propertySource.getName());
+        if (passesIncludesExcludesFilters(configMapName)) {
+            this.environment.removePropertySource(propertySource);
+            this.environment.addPropertySource(propertySource);
+            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            this.environment = environment.refresh();
+        }
     }
 
     private void processConfigMapDeleted(PropertySource propertySource) {
-        //FIXME: workaround for https://github.com/micronaut-projects/micronaut-core/issues/1903
-        this.environment.removePropertySource(propertySource);
-
-        KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
-
-        this.environment = environment.refresh();
+        String configMapName = getConfigMapName(propertySource.getName());
+        if (passesIncludesExcludesFilters(configMapName)) {
+            this.environment.removePropertySource(propertySource);
+            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            this.environment = environment.refresh();
+        }
     }
 
     private void processConfigMapErrored(ConfigMapWatchEvent event) {
         LOG.error("Kubernetes API returned an error for a ConfigMap watch event: {}", event.toString());
+    }
+
+    private String getConfigMapName(String propertySourceName) {
+        int index = propertySourceName.lastIndexOf(KUBERNETES_CONFIG_MAP_NAME_SUFFIX);
+        if (index > 0) {
+            return propertySourceName.substring(0, index);
+        }
+        return propertySourceName;
+    }
+
+    private boolean passesIncludesExcludesFilters(String configMapName) {
+        Collection<String> includes = configuration.getConfigMaps().getIncludes();
+        Collection<String> excludes = configuration.getConfigMaps().getExcludes();
+        boolean process = true;
+        if (!includes.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("ConfigMap includes: {}", includes);
+            }
+            process = includes.contains(configMapName);
+        } else if (!excludes.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("ConfigMap excludes: {}", excludes);
+            }
+            process = !excludes.contains(configMapName);
+        }
+
+        if (!process && LOG.isTraceEnabled()) {
+            LOG.trace("ConfigMap {} not added because it doesn't match includes/excludes filter", configMapName);
+        }
+
+        return process;
     }
 
 }

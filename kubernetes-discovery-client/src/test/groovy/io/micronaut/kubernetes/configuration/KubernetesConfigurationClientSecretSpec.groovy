@@ -14,7 +14,7 @@ import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 class KubernetesConfigurationClientSecretSpec extends Specification implements KubectlCommands {
 
     void setup() {
-        KubernetesConfigurationClient.emptyPropertySourceCache()
+        KubernetesConfigurationClient.propertySourceCache.clear()
     }
 
     @Requires({ TestUtils.secretExists('test-secret')})

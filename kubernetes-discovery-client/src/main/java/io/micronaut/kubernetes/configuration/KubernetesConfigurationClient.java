@@ -173,8 +173,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     /**
      * Clears the property source cache.
      */
-    static void emptyPropertySourceCache() {
-        propertySources.clear();
+    static Map<String, PropertySource> getPropertySourceCache() {
+        return propertySources;
     }
 
     private static String getPropertySourceName(ConfigMap configMap) {

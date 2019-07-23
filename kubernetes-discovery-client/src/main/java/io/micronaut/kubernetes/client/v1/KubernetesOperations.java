@@ -30,6 +30,8 @@ import io.micronaut.kubernetes.client.v1.services.Service;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import org.reactivestreams.Publisher;
 
+import javax.annotation.Nullable;
+
 /**
  * Defines the HTTP requests to query the Kubernetes API.
  *
@@ -120,8 +122,22 @@ public interface KubernetesOperations {
      * @param namespace object name and auth scope, such as for teams and projects
      * @return a {@link ConfigMapList}
      */
-    @Get("/namespaces/{namespace}/configmaps")
-    Publisher<ConfigMapList> listConfigMaps(String namespace);
+    @Get("/namespaces/{namespace}/configmaps?labelSelector={labelSelector}")
+    Publisher<ConfigMapList> listConfigMaps(String namespace, @Nullable String labelSelector);
+
+    /**
+     * @return a {@link ConfigMapList} of the given namespace
+     */
+    default Publisher<ConfigMapList> listConfigMaps(String namespace) {
+        return listConfigMaps(namespace, null);
+    }
+
+    /**
+     * @return a {@link ConfigMapList} of the default namespace
+     */
+    default Publisher<ConfigMapList> listConfigMaps() {
+        return listConfigMaps(DEFAULT_NAMESPACE);
+    }
 
     /**
      * Watch objects of kind ConfigMap.
@@ -133,13 +149,6 @@ public interface KubernetesOperations {
     @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}")
     @Consumes(value = {MediaType.APPLICATION_JSON_STREAM, MediaType.APPLICATION_JSON})
     Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Integer resourceVersion);
-
-    /**
-     * @return a {@link ConfigMapList} of the default namespace
-     */
-    default Publisher<ConfigMapList> listConfigMaps() {
-        return listConfigMaps(DEFAULT_NAMESPACE);
-    }
 
     /**
      * Read the specified ConfigMap.
