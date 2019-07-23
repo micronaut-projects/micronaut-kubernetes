@@ -120,12 +120,14 @@ public interface KubernetesOperations {
      * List objects of kind ConfigMap.
      *
      * @param namespace object name and auth scope, such as for teams and projects
+     * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return a {@link ConfigMapList}
      */
     @Get("/namespaces/{namespace}/configmaps?labelSelector={labelSelector}")
     Publisher<ConfigMapList> listConfigMaps(String namespace, @Nullable String labelSelector);
 
     /**
+     * @param namespace object name and auth scope, such as for teams and projects
      * @return a {@link ConfigMapList} of the given namespace
      */
     default Publisher<ConfigMapList> listConfigMaps(String namespace) {

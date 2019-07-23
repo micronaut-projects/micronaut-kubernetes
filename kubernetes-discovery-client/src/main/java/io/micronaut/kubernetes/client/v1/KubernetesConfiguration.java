@@ -177,7 +177,7 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     public static class KubernetesConnectionPoolConfiguration extends ConnectionPoolConfiguration {
     }
 
-    private static abstract class AbstractKubernetesConfiguration {
+    private abstract static class AbstractKubernetesConfiguration {
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
         private Collection<Map<String, String>> labels;
