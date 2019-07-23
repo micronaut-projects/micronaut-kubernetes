@@ -125,7 +125,31 @@ in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, 
 </ul>
 </div>
 <div class="paragraph">
-<p>The configuration client will read all the ConfigMaps for the specified namespace (or <code>default</code> if not specified).</p>
+<p>The configuration client by default will read all the ConfigMaps for the specified namespace (or <code>default</code> if namespace
+is not specified). You can further filter which config map names are processed by defining
+<code>kubernetes.client.config-maps.includes</code> or <code>kubernetes.client.config-maps.excludes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      includes:
+        - my-config-map
+        - other-config-map</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      excludes:
+        - not-this-config-map</code></pre>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_examples">Examples</h3>
