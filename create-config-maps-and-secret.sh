@@ -4,6 +4,7 @@ kubectl delete configmaps game-config-properties
 kubectl delete configmaps game-config-yml
 kubectl delete configmaps game-config-json
 kubectl delete configmaps literal-config
+kubectl delete configmaps hello-controller-spec
 kubectl delete secret test-secret
 
 kubectl create configmap game-config-properties --from-file=kubernetes-discovery-client/src/k8s/game.properties

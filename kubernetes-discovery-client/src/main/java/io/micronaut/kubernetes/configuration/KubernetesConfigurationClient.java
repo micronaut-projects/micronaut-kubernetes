@@ -33,6 +33,7 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.client.v1.secrets.SecretList;
 import io.reactivex.Flowable;
+import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -187,15 +188,36 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
+        Collection<String> includes = configuration.getConfigMapsConfiguration().getIncludes();
+        Collection<String> excludes = configuration.getConfigMapsConfiguration().getExcludes();
+        Predicate<ConfigMap> includesFilter = configMap -> true;
+        Predicate<ConfigMap> excludesFilter = configMap -> true;
+
+        if (!includes.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("ConfigMap includes: {}", includes);
+            }
+            includesFilter = configMap -> includes.contains(configMap.getMetadata().getName());
+        }
+
+        if (!excludes.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("ConfigMap excludes: {}", excludes);
+            }
+            excludesFilter = configMap -> !excludes.contains(configMap.getMetadata().getName());
+        }
+
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace()))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
                 .doOnNext(configMapList -> {
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("Found {} config maps", configMapList.getItems().size());
+                        LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
                     }
                 })
                 .flatMapIterable(ConfigMapList::getItems)
+                .filter(includesFilter)
+                .filter(excludesFilter)
                 .doOnNext(configMap -> {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());

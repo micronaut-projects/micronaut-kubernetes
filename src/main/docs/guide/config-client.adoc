@@ -23,7 +23,30 @@ Supported formats for `ConfigMap` are:
 * JSON.
 * Literal values.
 
-The configuration client will read all the ConfigMaps for the specified namespace (or `default` if not specified).
+The configuration client by default will read all the ConfigMaps for the specified namespace (or `default` if namespace
+is not specified). You can further filter which config map names are processed by defining
+`kubernetes.client.config-maps.includes` or `kubernetes.client.config-maps.excludes`:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    config-maps:
+      includes:
+        - my-config-map
+        - other-config-map
+----
+
+Or:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    config-maps:
+      excludes:
+        - not-this-config-map
+----
 
 ### Examples
 

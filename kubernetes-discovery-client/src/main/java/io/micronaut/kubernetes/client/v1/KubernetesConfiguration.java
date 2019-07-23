@@ -27,6 +27,8 @@ import io.micronaut.discovery.registration.RegistrationConfiguration;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Encapsulates constants for Kubernetes configuration.
@@ -58,6 +60,7 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
     private KubernetesDiscoveryConfiguration discoveryConfiguration = new KubernetesDiscoveryConfiguration();
     private KubernetesSecretsConfiguration secretsConfiguration = new KubernetesSecretsConfiguration();
+    private KubernetesConfigMapsConfiguration configMapsConfiguration = new KubernetesConfigMapsConfiguration();
 
     /**
      * Default constructor.
@@ -135,6 +138,31 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     }
 
     /**
+     * @return The config maps configuration properties
+     */
+    public KubernetesConfigMapsConfiguration getConfigMapsConfiguration() {
+        return configMapsConfiguration;
+    }
+
+    /**
+     * @param configMapsConfiguration The config maps configuration properties
+     */
+    public void setConfigMaps(KubernetesConfigMapsConfiguration configMapsConfiguration) {
+        this.configMapsConfiguration = configMapsConfiguration;
+    }
+
+    @Override
+    public String toString() {
+        return "KubernetesConfiguration{" +
+                "namespace='" + namespace + '\'' +
+                ", connectionPoolConfiguration=" + connectionPoolConfiguration +
+                ", discoveryConfiguration=" + discoveryConfiguration +
+                ", secretsConfiguration=" + secretsConfiguration +
+                ", configMapsConfiguration=" + configMapsConfiguration +
+                '}';
+    }
+
+    /**
      * Configuration class for the discovery client of Kubernetes.
      */
     @ConfigurationProperties(DiscoveryConfiguration.PREFIX)
@@ -176,6 +204,47 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
          */
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
+        }
+    }
+
+    /**
+     * Kubernetes secrets configuration properties.
+     */
+    @ConfigurationProperties(KubernetesConfigMapsConfiguration.PREFIX)
+    @BootstrapContextCompatible
+    public static class KubernetesConfigMapsConfiguration {
+
+        static final String PREFIX = "config-maps";
+
+        private Collection<String> includes = new HashSet<>();
+        private Collection<String> excludes = new HashSet<>();
+
+        /**
+         * @return the config map names to include
+         */
+        public Collection<String> getIncludes() {
+            return includes;
+        }
+
+        /**
+         * @param includes the config map names to include
+         */
+        public void setIncludes(Collection<String> includes) {
+            this.includes = includes;
+        }
+
+        /**
+         * @return the config map names to exclude
+         */
+        public Collection<String> getExcludes() {
+            return excludes;
+        }
+
+        /**
+         * @param excludes the config map names to exclude
+         */
+        public void setExcludes(Collection<String> excludes) {
+            this.excludes = excludes;
         }
     }
 }
