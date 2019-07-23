@@ -12,6 +12,7 @@ SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { prin
 CLIENT_POD="$(kubectl get pods | grep "example-client" | awk 'FNR <= 1 { print $1 }')"
 kubectl wait --for=condition=Ready pod/$SERVICE_POD_1
 kubectl wait --for=condition=Ready pod/$CLIENT_POD
+kubectl wait --for=condition=Ready pod/$SERVICE_POD_2
 
 # Expose ports locally
 kubectl port-forward $SERVICE_POD_1 9999:8081 &

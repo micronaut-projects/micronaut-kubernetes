@@ -175,20 +175,51 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     public static class KubernetesConnectionPoolConfiguration extends ConnectionPoolConfiguration {
     }
 
+    private static abstract class AbstractKubernetesConfiguration {
+        private Collection<String> includes = new HashSet<>();
+        private Collection<String> excludes = new HashSet<>();
+
+        /**
+         * @return the names to include
+         */
+        public Collection<String> getIncludes() {
+            return includes;
+        }
+
+        /**
+         * @param includes the names to include
+         */
+        public void setIncludes(Collection<String> includes) {
+            this.includes = includes;
+        }
+
+        /**
+         * @return the names to exclude
+         */
+        public Collection<String> getExcludes() {
+            return excludes;
+        }
+
+        /**
+         * @param excludes the names to exclude
+         */
+        public void setExcludes(Collection<String> excludes) {
+            this.excludes = excludes;
+        }
+    }
+
     /**
      * Kubernetes secrets configuration properties.
      */
     @ConfigurationProperties(KubernetesSecretsConfiguration.PREFIX)
     @BootstrapContextCompatible
-    public static class KubernetesSecretsConfiguration implements Toggleable {
+    public static class KubernetesSecretsConfiguration extends AbstractKubernetesConfiguration implements Toggleable {
 
         static final String PREFIX = "secrets";
 
         static final boolean DEFAULT_ENABLED = false;
 
         private boolean enabled = DEFAULT_ENABLED;
-        private Collection<String> includes = new HashSet<>();
-        private Collection<String> excludes = new HashSet<>();
 
         @Override
         public boolean isEnabled() {
@@ -201,34 +232,6 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
         }
-
-        /**
-         * @return the secret names to include
-         */
-        public Collection<String> getIncludes() {
-            return includes;
-        }
-
-        /**
-         * @param includes the secret names to include
-         */
-        public void setIncludes(Collection<String> includes) {
-            this.includes = includes;
-        }
-
-        /**
-         * @return the secret names to exclude
-         */
-        public Collection<String> getExcludes() {
-            return excludes;
-        }
-
-        /**
-         * @param excludes the secret names to exclude
-         */
-        public void setExcludes(Collection<String> excludes) {
-            this.excludes = excludes;
-        }
     }
 
     /**
@@ -236,39 +239,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
      */
     @ConfigurationProperties(KubernetesConfigMapsConfiguration.PREFIX)
     @BootstrapContextCompatible
-    public static class KubernetesConfigMapsConfiguration {
+    public static class KubernetesConfigMapsConfiguration extends AbstractKubernetesConfiguration {
 
         static final String PREFIX = "config-maps";
 
-        private Collection<String> includes = new HashSet<>();
-        private Collection<String> excludes = new HashSet<>();
-
-        /**
-         * @return the config map names to include
-         */
-        public Collection<String> getIncludes() {
-            return includes;
-        }
-
-        /**
-         * @param includes the config map names to include
-         */
-        public void setIncludes(Collection<String> includes) {
-            this.includes = includes;
-        }
-
-        /**
-         * @return the config map names to exclude
-         */
-        public Collection<String> getExcludes() {
-            return excludes;
-        }
-
-        /**
-         * @param excludes the config map names to exclude
-         */
-        public void setExcludes(Collection<String> excludes) {
-            this.excludes = excludes;
-        }
     }
 }

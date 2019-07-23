@@ -51,4 +51,20 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
         and:
         !propertySources.find { it.name.startsWith 'test-secret'}
     }
+
+    @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getSecrets().size() })
+    void "it can filter excludes secrets"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.excludes": "another-secret"], Environment.KUBERNETES)
+        KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
+
+        when:
+        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+
+        then:
+        propertySources.find { it.name.startsWith 'test-secret'}
+
+        and:
+        !propertySources.find { it.name.startsWith 'another-secret'}
+    }
 }

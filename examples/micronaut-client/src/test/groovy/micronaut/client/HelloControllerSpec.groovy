@@ -7,7 +7,6 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
-import spock.lang.PendingFeature
 import spock.lang.Requires
 import spock.lang.Specification
 
@@ -62,6 +61,9 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
         then:
         testClient.config("foo").equals("NOTHING")
+
+        cleanup:
+        deleteConfigMap("hello-controller-spec")
     }
 }
 

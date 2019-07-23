@@ -70,13 +70,13 @@ trait KubectlCommands {
         return result.toString()
     }
 
-    static String deleteConfigMap(String configMapName) {
+    static boolean deleteConfigMap(String configMapName) {
         KubernetesClient client = new DefaultKubernetesClient()
         ObjectMeta objectMeta = new ObjectMeta()
         objectMeta.name = configMapName
         ConfigMap configMap = new ConfigMap()
         configMap.metadata = objectMeta
-        assert client.configMaps().inNamespace('default').delete(configMap)
+        client.configMaps().inNamespace('default').delete(configMap)
     }
 
     static String modifyConfigMap(String configMapName) {
