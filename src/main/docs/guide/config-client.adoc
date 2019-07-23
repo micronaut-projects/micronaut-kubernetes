@@ -44,8 +44,7 @@ Or:
 kubernetes:
   client:
     config-maps:
-      excludes:
-        - not-this-config-map
+      excludes: not-this-config-map
 ----
 
 ### Examples
@@ -83,4 +82,26 @@ kubernetes:
       enabled: true
 ----
 
-The configuration client will read all the Secrets for the specified namespace (or `default` if not specified).
+The configuration client, by default, will read all the Secrets for the specified namespace (or `default` if the namespace
+is not specified). You can further filter which config map names are processed by defining
+`kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes`:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    secrets:
+      enabled: true
+      includes: this-secret
+----
+
+Or:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    secrets:
+      enabled: true
+      excludes: not-this-secret
+----

@@ -58,9 +58,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     private String namespace = DEFAULT_NAMESPACE;
 
     private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
-    private KubernetesDiscoveryConfiguration discoveryConfiguration = new KubernetesDiscoveryConfiguration();
-    private KubernetesSecretsConfiguration secretsConfiguration = new KubernetesSecretsConfiguration();
-    private KubernetesConfigMapsConfiguration configMapsConfiguration = new KubernetesConfigMapsConfiguration();
+    private KubernetesDiscoveryConfiguration discovery = new KubernetesDiscoveryConfiguration();
+    private KubernetesSecretsConfiguration secrets = new KubernetesSecretsConfiguration();
+    private KubernetesConfigMapsConfiguration configMaps = new KubernetesConfigMapsConfiguration();
 
     /**
      * Default constructor.
@@ -74,14 +74,14 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     @Nonnull
     @Override
     public DiscoveryConfiguration getDiscovery() {
-        return this.discoveryConfiguration;
+        return this.discovery;
     }
 
     /**
      * @param discoveryConfiguration The discovery configuration
      */
     public void setDiscovery(KubernetesDiscoveryConfiguration discoveryConfiguration) {
-        this.discoveryConfiguration = discoveryConfiguration;
+        this.discovery = discoveryConfiguration;
     }
 
     @Nullable
@@ -116,39 +116,33 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     }
 
     /**
-     * @param connectionPoolConfiguration the connection pool configuration
-     */
-    public void setConnectionPoolConfiguration(KubernetesConnectionPoolConfiguration connectionPoolConfiguration) {
-        this.connectionPoolConfiguration = connectionPoolConfiguration;
-    }
-
-    /**
      * @return the {@link KubernetesSecretsConfiguration}.
      */
     @Nonnull
     public KubernetesSecretsConfiguration getSecrets() {
-        return secretsConfiguration;
+        return secrets;
     }
 
     /**
      * @param secretsConfiguration the {@link KubernetesSecretsConfiguration}.
      */
     public void setSecrets(KubernetesSecretsConfiguration secretsConfiguration) {
-        this.secretsConfiguration = secretsConfiguration;
+        this.secrets = secretsConfiguration;
     }
 
     /**
      * @return The config maps configuration properties
      */
-    public KubernetesConfigMapsConfiguration getConfigMapsConfiguration() {
-        return configMapsConfiguration;
+    @Nonnull
+    public KubernetesConfigMapsConfiguration getConfigMaps() {
+        return configMaps;
     }
 
     /**
      * @param configMapsConfiguration The config maps configuration properties
      */
     public void setConfigMaps(KubernetesConfigMapsConfiguration configMapsConfiguration) {
-        this.configMapsConfiguration = configMapsConfiguration;
+        this.configMaps = configMapsConfiguration;
     }
 
     @Override
@@ -156,9 +150,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         return "KubernetesConfiguration{" +
                 "namespace='" + namespace + '\'' +
                 ", connectionPoolConfiguration=" + connectionPoolConfiguration +
-                ", discoveryConfiguration=" + discoveryConfiguration +
-                ", secretsConfiguration=" + secretsConfiguration +
-                ", configMapsConfiguration=" + configMapsConfiguration +
+                ", discovery=" + discovery +
+                ", secrets=" + secrets +
+                ", configMaps=" + configMaps +
                 '}';
     }
 
@@ -193,6 +187,8 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         static final boolean DEFAULT_ENABLED = false;
 
         private boolean enabled = DEFAULT_ENABLED;
+        private Collection<String> includes = new HashSet<>();
+        private Collection<String> excludes = new HashSet<>();
 
         @Override
         public boolean isEnabled() {
@@ -204,6 +200,34 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
          */
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
+        }
+
+        /**
+         * @return the secret names to include
+         */
+        public Collection<String> getIncludes() {
+            return includes;
+        }
+
+        /**
+         * @param includes the secret names to include
+         */
+        public void setIncludes(Collection<String> includes) {
+            this.includes = includes;
+        }
+
+        /**
+         * @return the secret names to exclude
+         */
+        public Collection<String> getExcludes() {
+            return excludes;
+        }
+
+        /**
+         * @param excludes the secret names to exclude
+         */
+        public void setExcludes(Collection<String> excludes) {
+            this.excludes = excludes;
         }
     }
 

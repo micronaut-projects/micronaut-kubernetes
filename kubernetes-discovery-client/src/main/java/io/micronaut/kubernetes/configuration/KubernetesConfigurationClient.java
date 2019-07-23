@@ -188,8 +188,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
-        Collection<String> includes = configuration.getConfigMapsConfiguration().getIncludes();
-        Collection<String> excludes = configuration.getConfigMapsConfiguration().getExcludes();
+        Collection<String> includes = configuration.getConfigMaps().getIncludes();
+        Collection<String> excludes = configuration.getConfigMaps().getExcludes();
         Predicate<ConfigMap> includesFilter = configMap -> true;
         Predicate<ConfigMap> excludesFilter = configMap -> true;
 
@@ -228,16 +228,37 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
         if (configuration.getSecrets().isEnabled()) {
+            Collection<String> includes = configuration.getSecrets().getIncludes();
+            Collection<String> excludes = configuration.getSecrets().getExcludes();
+            Predicate<Secret> includesFilter = s -> true;
+            Predicate<Secret> excludesFilter = s -> true;
+
+            if (!includes.isEmpty()) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Secret includes: {}", includes);
+                }
+                includesFilter = s -> includes.contains(s.getMetadata().getName());
+            }
+
+            if (!excludes.isEmpty()) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Secret excludes: {}", excludes);
+                }
+                excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
+            }
+
             return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace()))
                     .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                     .onErrorReturn(throwable -> new SecretList())
                     .doOnNext(secretList -> {
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("Found {} secrets. Filtering Opaque secrets", secretList.getItems().size());
+                            LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size());
                         }
                     })
                     .flatMapIterable(SecretList::getItems)
                     .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
+                    .filter(includesFilter)
+                    .filter(excludesFilter)
                     .doOnNext(secret -> {
                         if (LOG.isDebugEnabled()) {
                             LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
