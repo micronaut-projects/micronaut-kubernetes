@@ -252,6 +252,19 @@ is not specified). You can further filter which config map names are processed b
       excludes: not-this-secret</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Similarly to ConfigMaps, labels can also be used to match the desired secrets:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      labels:
+        - app: my-app
+        - env: prod</code></pre>
+</div>
+</div>
 </div>
 </div>
 
