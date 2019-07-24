@@ -150,6 +150,23 @@ is not specified). You can further filter which config map names are processed b
       excludes: not-this-config-map</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
+sources:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      labels:
+        - app: my-app
+        - env: prod</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
+</div>
 <div class="sect2">
 <h3 id="_examples">Examples</h3>
 <div class="paragraph">
