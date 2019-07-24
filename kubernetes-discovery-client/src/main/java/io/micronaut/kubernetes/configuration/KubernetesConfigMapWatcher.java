@@ -25,6 +25,7 @@ import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.discovery.event.ServiceStartedEvent;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
@@ -113,21 +115,17 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     private void processEvent(ConfigMapWatchEvent event) {
-        PropertySource propertySource = null;
-        if (event.getObject() != null) {
-            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(event.getObject());
-        }
         switch (event.getType()) {
             case ADDED:
-                processConfigMapAdded(propertySource);
+                processConfigMapAdded(event.getObject());
                 break;
 
             case MODIFIED:
-                processConfigMapModified(propertySource);
+                processConfigMapModified(event.getObject());
                 break;
 
             case DELETED:
-                processConfigMapDeleted(propertySource);
+                processConfigMapDeleted(event.getObject());
                 break;
 
             case ERROR:
@@ -137,18 +135,24 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     }
 
-    private void processConfigMapAdded(PropertySource propertySource) {
-        String configMapName = getConfigMapName(propertySource.getName());
-        if (passesIncludesExcludesFilters(configMapName)) {
+    private void processConfigMapAdded(ConfigMap configMap) {
+        PropertySource propertySource = null;
+        if (configMap != null) {
+            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(configMap);
+        }
+        if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.addPropertySource(propertySource);
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
             this.environment = environment.refresh();
         }
     }
 
-    private void processConfigMapModified(PropertySource propertySource) {
-        String configMapName = getConfigMapName(propertySource.getName());
-        if (passesIncludesExcludesFilters(configMapName)) {
+    private void processConfigMapModified(ConfigMap configMap) {
+        PropertySource propertySource = null;
+        if (configMap != null) {
+            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(configMap);
+        }
+        if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.removePropertySource(propertySource);
             this.environment.addPropertySource(propertySource);
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
@@ -157,9 +161,12 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         }
     }
 
-    private void processConfigMapDeleted(PropertySource propertySource) {
-        String configMapName = getConfigMapName(propertySource.getName());
-        if (passesIncludesExcludesFilters(configMapName)) {
+    private void processConfigMapDeleted(ConfigMap configMap) {
+        PropertySource propertySource = null;
+        if (configMap != null) {
+            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(configMap);
+        }
+        if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.removePropertySource(propertySource);
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
             this.environment = environment.refresh();
@@ -178,24 +185,34 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         return propertySourceName;
     }
 
-    private boolean passesIncludesExcludesFilters(String configMapName) {
+    private boolean passesIncludesExcludesLabelsFilters(ConfigMap configMap) {
         Collection<String> includes = configuration.getConfigMaps().getIncludes();
         Collection<String> excludes = configuration.getConfigMaps().getExcludes();
+        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+
         boolean process = true;
         if (!includes.isEmpty()) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("ConfigMap includes: {}", includes);
             }
-            process = includes.contains(configMapName);
+            process = includes.contains(configMap.getMetadata().getName());
         } else if (!excludes.isEmpty()) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("ConfigMap excludes: {}", excludes);
             }
-            process = !excludes.contains(configMapName);
+            process = !excludes.contains(configMap.getMetadata().getName());
+        }
+
+        if (!labels.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("ConfigMap required labels: {}", labels);
+                LOG.trace("ConfigMap actual labels: {}", configMap.getMetadata().getLabels());
+            }
+            process = labels.entrySet().stream().allMatch(requiredLabel -> configMap.getMetadata().getLabels().get(requiredLabel.getKey()).equals(requiredLabel.getValue()));
         }
 
         if (!process && LOG.isTraceEnabled()) {
-            LOG.trace("ConfigMap {} not added because it doesn't match includes/excludes filter", configMapName);
+            LOG.trace("ConfigMap {} not added because it doesn't match includes/excludes and/or labels filters", configMap.getMetadata().getName());
         }
 
         return process;
