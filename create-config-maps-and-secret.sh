@@ -14,3 +14,6 @@ kubectl create configmap game-config-json --from-file=kubernetes-discovery-clien
 kubectl create configmap literal-config --from-literal=special.how=very --from-literal=special.type=charm
 kubectl create secret generic test-secret --from-literal=username='my-app' --from-literal=password='39528$vdg7Jb'
 kubectl create secret generic another-secret --from-literal=secretProperty='secretValue'
+
+kubectl label configmap game-config-yml app=game
+kubectl label configmap literal-config app=game

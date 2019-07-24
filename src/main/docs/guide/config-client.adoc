@@ -47,6 +47,22 @@ kubernetes:
       excludes: not-this-config-map
 ----
 
+In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
+sources:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    config-maps:
+      labels:
+        - app: my-app
+        - env: prod
+----
+
+Note that on the resulting config maps, you can still further filter them with includes/excludes properties.
+
+
 ### Examples
 
 You can create a Kubernetes `ConfigMap` off an existing file with the following command:

@@ -180,7 +180,7 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     private abstract static class AbstractKubernetesConfiguration {
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
-        private Collection<Map<String, String>> labels;
+        private Map<String, String> labels;
 
         /**
          * @return the names to include
@@ -213,9 +213,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         /**
          * @return labels to match
          */
-        public Collection<Map<String, String>> getLabels() {
+        public Map<String, String> getLabels() {
             if (labels == null) {
-                return Collections.emptyList();
+                return Collections.emptyMap();
             }
             return labels;
         }
@@ -223,7 +223,7 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         /**
          * @param labels labels to match
          */
-        public void setLabels(Collection<Map<String, String>> labels) {
+        public void setLabels(Map<String, String> labels) {
             this.labels = labels;
         }
     }

@@ -207,7 +207,20 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             excludesFilter = configMap -> !excludes.contains(configMap.getMetadata().getName());
         }
 
-        return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace()))
+        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+        String labelSelector = null;
+        if (!labels.isEmpty()) {
+            labelSelector = labels.entrySet()
+                    .stream()
+                    .map(entry -> entry.getKey() + "=" + entry.getValue())
+                    .collect(Collectors.joining(","));
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("labelSelector: {}", labelSelector);
+            }
+        }
+
+        return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
                 .doOnNext(configMapList -> {
