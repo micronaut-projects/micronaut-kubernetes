@@ -121,3 +121,15 @@ kubernetes:
       enabled: true
       excludes: not-this-secret
 ----
+
+Similarly to ConfigMaps, labels can also be used to match the desired secrets:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    secrets:
+      labels:
+        - app: my-app
+        - env: prod
+----

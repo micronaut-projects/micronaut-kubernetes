@@ -208,17 +208,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
 
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        String labelSelector = null;
-        if (!labels.isEmpty()) {
-            labelSelector = labels.entrySet()
-                    .stream()
-                    .map(entry -> entry.getKey() + "=" + entry.getValue())
-                    .collect(Collectors.joining(","));
-
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("labelSelector: {}", labelSelector);
-            }
-        }
+        String labelSelector = computeLabelSelector(labels);
 
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
@@ -260,7 +250,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
             }
 
-            return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace()))
+            Map<String, String> labels = configuration.getSecrets().getLabels();
+            String labelSelector = computeLabelSelector(labels);
+
+            return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
                     .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                     .onErrorReturn(throwable -> new SecretList())
                     .doOnNext(secretList -> {
@@ -284,6 +277,21 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             }
             return Flowable.empty();
         }
+    }
+
+    private String computeLabelSelector(Map<String, String> labels) {
+        String labelSelector = null;
+        if (!labels.isEmpty()) {
+            labelSelector = labels.entrySet()
+                    .stream()
+                    .map(entry -> entry.getKey() + "=" + entry.getValue())
+                    .collect(Collectors.joining(","));
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("labelSelector: {}", labelSelector);
+            }
+        }
+        return labelSelector;
     }
 
     private PropertySource secretAsPropertySource(Secret secret) {

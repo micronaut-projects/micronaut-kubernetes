@@ -166,10 +166,19 @@ public interface KubernetesOperations {
      * List objects of kind Secret.
      *
      * @param namespace object name and auth scope, such as for teams and projects
+     * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return a {@link SecretList}
      */
-    @Get("/namespaces/{namespace}/secrets")
-    Publisher<SecretList> listSecrets(String namespace);
+    @Get("/namespaces/{namespace}/secrets?labelSelector={labelSelector}")
+    Publisher<SecretList> listSecrets(String namespace, @Nullable String labelSelector);
+
+    /**
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @return a {@link SecretList}
+     */
+    default Publisher<SecretList> listSecrets(String namespace) {
+        return listSecrets(namespace, null);
+    }
 
     /**
      * @return a {@link SecretList} of the default namespace

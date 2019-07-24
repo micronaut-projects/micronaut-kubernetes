@@ -17,3 +17,4 @@ kubectl create secret generic another-secret --from-literal=secretProperty='secr
 
 kubectl label configmap game-config-yml app=game
 kubectl label configmap literal-config app=game
+kubectl label secret another-secret app=game

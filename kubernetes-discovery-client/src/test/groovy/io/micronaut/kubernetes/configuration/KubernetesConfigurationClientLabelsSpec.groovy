@@ -2,7 +2,9 @@ package io.micronaut.kubernetes.configuration
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
+import io.micronaut.context.env.PropertySource
 import io.micronaut.kubernetes.test.KubectlCommands
+import io.micronaut.kubernetes.test.TestUtils
 import io.reactivex.Flowable
 import spock.lang.Requires
 import spock.lang.Specification
@@ -47,6 +49,25 @@ class KubernetesConfigurationClientLabelsSpec extends Specification implements K
 
         then:
         propertySources.size() == 0
+    }
+
+    @Requires({ TestUtils.secretExists('test-secret') && TestUtils.secretExists('another-secret')})
+    void "it can filter secrets by labels"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.labels": [app:"game"]], Environment.KUBERNETES)
+        KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
+
+        when:
+        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+
+        then:
+        propertySources.find { it.name.startsWith 'another-secret' }
+
+        and:
+        !propertySources.find { it.name.startsWith 'test-secret' }
+
+        cleanup:
+        applicationContext.close()
     }
 
 }
