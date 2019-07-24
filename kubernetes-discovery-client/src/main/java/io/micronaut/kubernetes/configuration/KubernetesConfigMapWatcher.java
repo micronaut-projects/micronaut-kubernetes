@@ -35,10 +35,10 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.computeLabelSelector;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -81,11 +81,12 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @Override
     public void onApplicationEvent(ServiceStartedEvent event) {
         int lastResourceVersion = computeLastResourceVersion();
+        String labelSelector = computeLabelSelector(configuration.getConfigMaps().getLabels());
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Watching for ConfigMap events...");
         }
-        Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion))
+        Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
                 .doOnNext(e -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Received ConfigMap watch event: {}", e);
@@ -177,18 +178,9 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         LOG.error("Kubernetes API returned an error for a ConfigMap watch event: {}", event.toString());
     }
 
-    private String getConfigMapName(String propertySourceName) {
-        int index = propertySourceName.lastIndexOf(KUBERNETES_CONFIG_MAP_NAME_SUFFIX);
-        if (index > 0) {
-            return propertySourceName.substring(0, index);
-        }
-        return propertySourceName;
-    }
-
     private boolean passesIncludesExcludesLabelsFilters(ConfigMap configMap) {
         Collection<String> includes = configuration.getConfigMaps().getIncludes();
         Collection<String> excludes = configuration.getConfigMaps().getExcludes();
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
 
         boolean process = true;
         if (!includes.isEmpty()) {
@@ -203,16 +195,8 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             process = !excludes.contains(configMap.getMetadata().getName());
         }
 
-        if (!labels.isEmpty()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("ConfigMap required labels: {}", labels);
-                LOG.trace("ConfigMap actual labels: {}", configMap.getMetadata().getLabels());
-            }
-            process = labels.entrySet().stream().allMatch(requiredLabel -> configMap.getMetadata().getLabels().get(requiredLabel.getKey()).equals(requiredLabel.getValue()));
-        }
-
         if (!process && LOG.isTraceEnabled()) {
-            LOG.trace("ConfigMap {} not added because it doesn't match includes/excludes and/or labels filters", configMap.getMetadata().getName());
+            LOG.trace("ConfigMap {} not added because it doesn't match includes/excludes filters", configMap.getMetadata().getName());
         }
 
         return process;

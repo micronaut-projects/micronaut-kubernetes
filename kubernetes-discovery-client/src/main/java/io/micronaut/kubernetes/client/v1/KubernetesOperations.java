@@ -146,11 +146,12 @@ public interface KubernetesOperations {
      *
      * @param namespace object name and auth scope, such as for teams and projects
      * @param resourceVersion the resource version to receive events from. If set to 0, Kubernetes will send all events
+     * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return a {@link ConfigMapList}
      */
-    @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}")
+    @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&labelSelector={labelSelector}")
     @Consumes(value = {MediaType.APPLICATION_JSON_STREAM, MediaType.APPLICATION_JSON})
-    Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Integer resourceVersion);
+    Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Integer resourceVersion, @Nullable String labelSelector);
 
     /**
      * Read the specified ConfigMap.

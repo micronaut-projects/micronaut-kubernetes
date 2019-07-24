@@ -279,7 +279,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
     }
 
-    private String computeLabelSelector(Map<String, String> labels) {
+    static String computeLabelSelector(Map<String, String> labels) {
         String labelSelector = null;
         if (!labels.isEmpty()) {
             labelSelector = labels.entrySet()
