@@ -1,7 +1,5 @@
 This project eases https://kubernetes.io[Kubernetes] integration with Micronaut.
 
-To use the `BUILD-SNAPSHOT` version of this library, check the https://docs.micronaut.io/latest/guide/index.html#usingsnapshots[documentation to use snapshots].
-
 It adds support for the following features:
 
 * Service Discovery.
@@ -10,6 +8,11 @@ It adds support for the following features:
 To get started, you need to declare the following dependency:
 
 dependency:io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:{version}[]
+
+Note that this configuration module requires at least Micronaut 1.2.
+
+To use the `BUILD-SNAPSHOT` version of this library, check the
+https://docs.micronaut.io/latest/guide/index.html#usingsnapshots[documentation to use snapshots].
 
 The core library for all features can be configured using the following configuration properties:
 
