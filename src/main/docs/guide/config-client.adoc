@@ -62,6 +62,12 @@ kubernetes:
 
 Note that on the resulting config maps, you can still further filter them with includes/excludes properties.
 
+### Watching for changes in ConfigMaps
+
+By default, this configuration module will watch for ConfigMaps added/modified/deleted, and provided that the changes
+match with the above filters, they will be propagated to the `Environment` and refresh it.
+
+This means that those changes will be immediately available in your application without a restart.
 
 ### Examples
 

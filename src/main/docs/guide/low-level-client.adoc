@@ -1,0 +1,29 @@
+In an effort to have zero dependencies and a minimal footprint, this configuration module has its own Kubernetes API
+non-blocking HTTP client. If you need to, you can use it directly in your application:
+
+[source,java]
+----
+import io.micronaut.kubernetes.client.v1.KubernetesClient;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
+import javax.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final KubernetesClient client;
+
+    public MyService(KubernetesClient client) {
+        this.client = client;
+    }
+
+    public void myMethod() {
+        Flowable.fromPublisher(this.client.listServices())
+                .subscribeOn(Schedulers.io())
+                .subscribe(System.out::println);
+    }
+}
+----
+
+Note that the client only contains the Kubernetes API endpoints used by either the Discovery Client or the Configuration
+Client. You can check api:kubernetes.client.v1.KubernetesOperations[the API documentation to see the available methods].

@@ -1,0 +1,16 @@
+If you need to debug the HTTP calls made to the Kubernetes API, you need to set the `io.micronaut.http.client` logger level
+to `TRACE`:
+
+[source,xml]
+----
+<logger name="io.micronaut.http.client" level="TRACE"/>
+----
+
+Also, you can set a higher level (`DEBUG` or `TRACE`) for this configuration module logging.
+
+[source,xml]
+----
+<logger name="io.micronaut.kubernetes" level="TRACE"/>
+----
+
+Other package that might produce relevant logging is `io.micronaut.discovery`, which belongs to Micronaut Core.

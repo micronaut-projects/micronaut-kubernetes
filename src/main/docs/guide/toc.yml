@@ -1,3 +1,5 @@
 introduction: Introduction
 service-discovery: Service Discovery
 config-client: Configuration Client
+low-level-client: Using the low-level Kubernetes API HTTP client
+logging: Logging
