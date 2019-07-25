@@ -35,6 +35,7 @@ public class Metadata {
     private String uid;
     private Map<String, String> labels = Collections.emptyMap();
     private String resourceVersion;
+    private String namespace;
 
     /**
      *
@@ -98,10 +99,25 @@ public class Metadata {
         this.resourceVersion = resourceVersion;
     }
 
+    /**
+     * @return the Kubernetes namespace
+     */
+    public String getNamespace() {
+        return namespace;
+    }
+
+    /**
+     * @param namespace The Kubernetes namespace
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
     @Override
     public String toString() {
         return "Metadata{" +
                 "name='" + name + '\'' +
+                ", namespace='" + namespace + '\'' +
                 ", uid='" + uid + '\'' +
                 ", labels=" + labels +
                 ", resourceVersion=" + resourceVersion +

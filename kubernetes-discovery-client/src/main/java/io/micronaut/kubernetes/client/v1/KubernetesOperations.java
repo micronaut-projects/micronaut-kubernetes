@@ -24,6 +24,7 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList;
+import io.micronaut.kubernetes.client.v1.pods.Pod;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.client.v1.secrets.SecretList;
 import io.micronaut.kubernetes.client.v1.services.Service;
@@ -196,5 +197,14 @@ public interface KubernetesOperations {
      */
     @Get("/namespaces/{namespace}/secrets/{secretName}")
     Publisher<Secret> getSecret(String namespace, String secretName);
+
+    /**
+     * Returns a {@link Pod} of the given name in the given namespace.
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param podName the pod name
+     * @return A {@Pod} instance
+     */
+    @Get("/namespaces/{namespace}/pods/{podName}")
+    Publisher<Pod> getPod(String namespace, String podName);
 
 }

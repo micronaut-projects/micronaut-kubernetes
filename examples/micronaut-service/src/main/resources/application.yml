@@ -10,3 +10,5 @@ endpoints:
     sensitive: false
   refresh:
     sensitive: false
+  health:
+    details-visible: ANONYMOUS

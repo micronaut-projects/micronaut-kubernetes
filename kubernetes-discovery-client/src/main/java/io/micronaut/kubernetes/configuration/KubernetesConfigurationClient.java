@@ -279,6 +279,12 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
     }
 
+    /**
+     * Determines the value of a Kubernetes labelSelector filter based on the passed labels.
+     *
+     * @param labels the labels
+     * @return the value of the labelSelector filter
+     */
     static String computeLabelSelector(Map<String, String> labels) {
         String labelSelector = null;
         if (!labels.isEmpty()) {
