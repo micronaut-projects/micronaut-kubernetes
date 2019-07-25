@@ -38,6 +38,12 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/config-client.html"><strong>3</strong><span>Configuration Client</span></a>
                         </div>
                         
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>5</strong><span>Logging</span></a>
+                        </div>
+                        
                     </div>
                 </div>
             </li>
@@ -61,6 +67,8 @@ function addJsClass() {
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
+                
+                    <div class="toc-item next-right"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span> >></a></div>
                 
 
 
@@ -168,6 +176,16 @@ sources:</p>
 <p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
 </div>
 <div class="sect2">
+<h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
+<div class="paragraph">
+<p>By default, this configuration module will watch for ConfigMaps added/modified/deleted, and provided that the changes
+match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means that those changes will be immediately available in your application without a restart.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_examples">Examples</h3>
 <div class="paragraph">
 <p>You can create a Kubernetes <code>ConfigMap</code> off an existing file with the following command:</p>
@@ -272,6 +290,8 @@ is not specified). You can further filter which config map names are processed b
                 <div style="clear:both;margin-top:15px;"></div>
                 
                     <div class="toc-item prev-left"><a href="../guide/service-discovery.html">&lt;&lt; <strong>2</strong><span>Service Discovery</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

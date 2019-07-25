@@ -49,6 +49,10 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
                                 
+                                <div class="toc-item" style="margin-left:0"><a href="#low-level-client"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>5</strong><span>Logging</span></a></div>
+                                
                             </div>
                         </div>
                     </li>
@@ -85,6 +89,10 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
         
+        <div class="toc-item" style="margin-left:0px" id="toc-item-low-level-client"><a href="#low-level-client"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>5</strong><span>Logging</span></a></div>
+        
         </div>
     </div>
     
@@ -108,9 +116,6 @@
 
 <div class="paragraph">
 <p>This project eases <a href="https://kubernetes.io">Kubernetes</a> integration with Micronaut.</p>
-</div>
-<div class="paragraph">
-<p>To use the <code>BUILD-SNAPSHOT</code> version of this library, check the <a href="https://docs.micronaut.io/latest/guide/index.html#usingsnapshots">documentation to use snapshots</a>.</p>
 </div>
 <div class="paragraph">
 <p>It adds support for the following features:</p>
@@ -144,6 +149,13 @@
 </div>
 </div>
 </p>
+</div>
+<div class="paragraph">
+<p>Note that this configuration module requires at least Micronaut 1.2.</p>
+</div>
+<div class="paragraph">
+<p>To use the <code>BUILD-SNAPSHOT</code> version of this library, check the
+<a href="https://docs.micronaut.io/latest/guide/index.html#usingsnapshots">documentation to use snapshots</a>.</p>
 </div>
 <div class="paragraph">
 <p>The core library for all features can be configured using the following configuration properties:</p>
@@ -563,6 +575,16 @@ sources:</p>
 <p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
 </div>
 <div class="sect2">
+<h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
+<div class="paragraph">
+<p>By default, this configuration module will watch for ConfigMaps added/modified/deleted, and provided that the changes
+match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means that those changes will be immediately available in your application without a restart.</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_examples">Examples</h3>
 <div class="paragraph">
 <p>You can create a Kubernetes <code>ConfigMap</code> off an existing file with the following command:</p>
@@ -661,6 +683,80 @@ is not specified). You can further filter which config map names are processed b
 </div>
 </div>
 </div>
+</div>
+
+
+<h1 id="low-level-client">4 Using the low-level Kubernetes API HTTP client</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/low-level-client.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>In an effort to have zero dependencies and a minimal footprint, this configuration module has its own Kubernetes API
+non-blocking HTTP client. If you need to, you can use it directly in your application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.kubernetes.client.v1.KubernetesClient;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
+import javax.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final KubernetesClient client;
+
+    public MyService(KubernetesClient client) {
+        this.client = client;
+    }
+
+    public void myMethod() {
+        Flowable.fromPublisher(this.client.listServices())
+                .subscribeOn(Schedulers.io())
+                .subscribe(System.out::println);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the client only contains the Kubernetes API endpoints used by either the Discovery Client or the Configuration
+Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesOperations.html">the API documentation to see the available methods</a>.</p>
+</div>
+
+
+<h1 id="logging">5 Logging</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>If you need to debug the HTTP calls made to the Kubernetes API, you need to set the <code>io.micronaut.http.client</code> logger level
+to <code>TRACE</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;logger name="io.micronaut.http.client" level="TRACE"/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also, you can set a higher level (<code>DEBUG</code> or <code>TRACE</code>) for this configuration module logging.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;logger name="io.micronaut.kubernetes" level="TRACE"/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other package that might produce relevant logging is <code>io.micronaut.discovery</code>, which belongs to Micronaut Core.</p>
 </div>
 
     </div>
