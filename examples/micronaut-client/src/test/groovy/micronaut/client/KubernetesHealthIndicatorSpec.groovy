@@ -23,17 +23,20 @@ class KubernetesHealthIndicatorSpec extends Specification implements KubectlComm
 
     @Requires({ TestUtils.available("http://localhost:8888") })
     void "it works"() {
-        expect:
-        client.health().details.kubernetes.name == "micronaut-service"
-        client.health().details.kubernetes.status == "UP"
-        client.health().details.kubernetes.details.namespace == "default"
-        client.health().details.kubernetes.details.podName.startsWith "example-service"
-        client.health().details.kubernetes.details.podPhase == "Running"
-        client.health().details.kubernetes.details.podIP
-        client.health().details.kubernetes.details.hostIP
-        client.health().details.kubernetes.details.containerStatuses.first().name == "example-service"
-        client.health().details.kubernetes.details.containerStatuses.first().image == "registry.hub.docker.com/alvarosanchez/example-service:latest"
-        client.health().details.kubernetes.details.containerStatuses.first().ready == true
+        when:
+        Map details = client.health().details
+
+        then:
+        details.kubernetes.name == "micronaut-service"
+        details.kubernetes.status == "UP"
+        details.kubernetes.details.namespace == "default"
+        details.kubernetes.details.podName.startsWith "example-service"
+        details.kubernetes.details.podPhase == "Running"
+        details.kubernetes.details.podIP
+        details.kubernetes.details.hostIP
+        details.kubernetes.details.containerStatuses.first().name == "example-service"
+        details.kubernetes.details.containerStatuses.first().image == "registry.hub.docker.com/alvarosanchez/example-service:latest"
+        details.kubernetes.details.containerStatuses.first().ready == true
     }
 
     @Client("http://localhost:9999")

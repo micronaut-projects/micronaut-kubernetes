@@ -14,3 +14,7 @@ Also, you can set a higher level (`DEBUG` or `TRACE`) for this configuration mod
 ----
 
 Other package that might produce relevant logging is `io.micronaut.discovery`, which belongs to Micronaut Core.
+
+In addition to that, another source of information is
+https://docs.micronaut.io/latest/guide/index.html#environmentEndpoint[the Environment Endpoint], which outputs all
+the resolved ``PropertySource``s from ``ConfigMap``s, and their corresponding properties.
