@@ -15,8 +15,6 @@ kind create cluster
 # Configure kubectl
 cp $(kind get kubeconfig-path) $HOME/.kube/config
 
-# Wait for Kubernetes to be up and ready.
-JSONPATH='{range .items[*]}{@.metadata.name}:{range @.podStatus.conditions[*]}{@.type}={@.podStatus};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
 kubectl cluster-info
 kubectl version
 
