@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -181,33 +181,41 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#getResourceVersion--">getResourceVersion</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#getNamespace--">getNamespace</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#getUid--">getUid</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#getResourceVersion--">getResourceVersion</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#getUid--">getUid</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#isSecure--">isSecure</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#setLabels-java.util.Map-">setLabels</a></span>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;labels)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#setName-java.lang.String-">setName</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i8" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
+</tr>
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#setResourceVersion-java.lang.String-">setResourceVersion</a></span>(java.lang.String&nbsp;resourceVersion)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#setUid-java.lang.String-">setUid</a></span>(java.lang.String&nbsp;uid)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/Metadata.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -372,6 +380,32 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>resourceVersion</code> - the resource version</dd>
+</dl>
+</li>
+</ul>
+<a name="getNamespace--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getNamespace</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getNamespace()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the Kubernetes namespace</dd>
+</dl>
+</li>
+</ul>
+<a name="setNamespace-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setNamespace</h4>
+<pre>public&nbsp;void&nbsp;setNamespace(java.lang.String&nbsp;namespace)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>namespace</code> - The Kubernetes namespace</dd>
 </dl>
 </li>
 </ul>
