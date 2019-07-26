@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.health;
 
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
 import io.micronaut.health.HealthStatus;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesClientFilter;
@@ -37,7 +38,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
-import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
+import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT;
 
 
 /**
@@ -48,12 +49,14 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
  */
 @Singleton
 @Requires(beans = HealthEndpoint.class)
-@Requires(property = HOSTNAME_ENV_VARIABLE)
+@Requires(env = Environment.KUBERNETES)
+@Requires(property = HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT)
 @Requires(resources = "file:" + KubernetesClientFilter.TOKEN_PATH)
 public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<String, Object>> {
 
     public static final String NAME = "kubernetes";
     public static final String HOSTNAME_ENV_VARIABLE = "HOSTNAME";
+    public static final String HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT = "hostname";
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesHealthIndicator.class);
 
@@ -93,11 +96,11 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
             LOG.trace("Processing pod: {}", pod);
         }
 
-        healthInformation.put("name", pod.getMetadata().getName());
         healthInformation.put("namespace", pod.getMetadata().getNamespace());
-        healthInformation.put("phase", pod.getStatus().getPhase());
-        healthInformation.put("hostIP", pod.getStatus().getHostIP());
+        healthInformation.put("podName", pod.getMetadata().getName());
+        healthInformation.put("podPhase", pod.getStatus().getPhase());
         healthInformation.put("podIP", pod.getStatus().getPodIP());
+        healthInformation.put("hostIP", pod.getStatus().getHostIP());
         healthInformation.put("containerStatuses", pod
                 .getStatus()
                 .getContainerStatuses()
@@ -114,6 +117,7 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
         Map<String, Object> cs = new LinkedHashMap<>();
         cs.put("name", containerStatus.getName());
         cs.put("image", containerStatus.getImage());
+        cs.put("ready", containerStatus.isReady());
         list.add(cs);
     }
 

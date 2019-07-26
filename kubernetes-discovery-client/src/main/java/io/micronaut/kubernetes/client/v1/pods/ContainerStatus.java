@@ -25,6 +25,7 @@ public class ContainerStatus {
 
     private String name;
     private String image;
+    private boolean ready;
 
     /**
      * @return Container name
@@ -52,6 +53,20 @@ public class ContainerStatus {
      */
     public void setImage(String image) {
         this.image = image;
+    }
+
+    /**
+     * @return whether the container is ready
+     */
+    public boolean isReady() {
+        return ready;
+    }
+
+    /**
+     * @param ready whether the container is ready
+     */
+    public void setReady(boolean ready) {
+        this.ready = ready;
     }
 
     @Override

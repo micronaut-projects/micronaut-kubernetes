@@ -1,5 +1,6 @@
 package micronaut.client
 
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
@@ -12,7 +13,10 @@ import spock.lang.Specification
 
 import javax.inject.Inject
 
+import io.micronaut.context.annotation.Requires as MicronautRequires
+
 @MicronautTest(environments = Environment.KUBERNETES)
+@Property(name = "spec.name", value = "HelloControllerSpec")
 class HelloControllerSpec extends Specification implements KubectlCommands {
 
     @Inject
@@ -65,25 +69,25 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         cleanup:
         deleteConfigMap("hello-controller-spec")
     }
-}
 
+    @Client("http://localhost:8888")
+    @MicronautRequires(property = "spec.name", value = "HelloControllerSpec")
+    static interface TestClient {
 
-@Client("http://localhost:8888")
-interface TestClient {
+        @Get
+        String index()
 
-    @Get
-    String index()
+        @Get("/all")
+        String all()
 
-    @Get("/all")
-    String all()
+        @Get("/enemies")
+        String enemies()
 
-    @Get("/enemies")
-    String enemies()
+        @Get("/config/{key}")
+        String config(String key)
 
-    @Get("/config/{key}")
-    String config(String key)
+        @Post("/refreshService")
+        String refresh()
 
-    @Post("/refreshService")
-    String refresh()
-
+    }
 }

@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.test
 import groovy.transform.Memoized
 import io.fabric8.kubernetes.api.model.ConfigMap
 import io.fabric8.kubernetes.api.model.ObjectMeta
+import io.fabric8.kubernetes.api.model.Pod
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 
@@ -81,6 +82,11 @@ trait KubectlCommands {
 
     static String modifyConfigMap(String configMapName) {
         createConfigMap(configMapName, [foo: 'baz'])
+    }
+
+    static List<Pod> getPods() {
+        KubernetesClient client = new DefaultKubernetesClient()
+        return client.pods().inNamespace('default').list().items
     }
 
     static String getProcessOutput(String command) {
