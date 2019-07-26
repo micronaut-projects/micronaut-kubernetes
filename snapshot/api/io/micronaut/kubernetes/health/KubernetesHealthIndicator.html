@@ -117,7 +117,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>@Singleton
- @Requires(beans=io.micronaut.management.endpoint.health.HealthEndpoint.class) @Requires(property="HOSTNAME") @Requires(resources="file:/var/run/secrets/kubernetes.io/serviceaccount/token")
+ @Requires(beans=io.micronaut.management.endpoint.health.HealthEndpoint.class) @Requires(env="k8s") @Requires(property="hostname") @Requires(resources="file:/var/run/secrets/kubernetes.io/serviceaccount/token")
 public class <span class="typeNameLabel">KubernetesHealthIndicator</span>
 extends io.micronaut.management.health.indicator.AbstractHealthIndicator&lt;java.util.Map&lt;java.lang.String,java.lang.Object&gt;&gt;</pre>
 <div class="block">Health indicator to show the current Pod information.</div>
@@ -150,6 +150,10 @@ extends io.micronaut.management.health.indicator.AbstractHealthIndicator&lt;java
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/health/KubernetesHealthIndicator.html#HOSTNAME_ENV_VARIABLE">HOSTNAME_ENV_VARIABLE</a></span></code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/health/KubernetesHealthIndicator.html#HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT">HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT</a></span></code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/health/KubernetesHealthIndicator.html#NAME">NAME</a></span></code>&nbsp;</td>
 </tr>
@@ -263,13 +267,26 @@ extends io.micronaut.management.health.indicator.AbstractHealthIndicator&lt;java
 <a name="HOSTNAME_ENV_VARIABLE">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>HOSTNAME_ENV_VARIABLE</h4>
 <pre>public static final&nbsp;java.lang.String HOSTNAME_ENV_VARIABLE</pre>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../constant-values.html#io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+<a name="HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT</h4>
+<pre>public static final&nbsp;java.lang.String HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT">Constant Field Values</a></dd>
 </dl>
 </li>
 </ul>

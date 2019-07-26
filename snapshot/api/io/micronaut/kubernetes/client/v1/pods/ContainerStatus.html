@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -160,14 +160,22 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#getName--">getName</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setImage-java.lang.String-">setImage</a></span>(java.lang.String&nbsp;image)</code>&nbsp;</td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#isReady--">isReady</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setName-java.lang.String-">setName</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setImage-java.lang.String-">setImage</a></span>(java.lang.String&nbsp;image)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setName-java.lang.String-">setName</a></span>(java.lang.String&nbsp;name)</code>&nbsp;</td>
+</tr>
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setReady-boolean-">setReady</a></span>(boolean&nbsp;ready)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -259,6 +267,32 @@ extends java.lang.Object</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>image</code> - container image</dd>
+</dl>
+</li>
+</ul>
+<a name="isReady--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isReady</h4>
+<pre>public&nbsp;boolean&nbsp;isReady()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>whether the container is ready</dd>
+</dl>
+</li>
+</ul>
+<a name="setReady-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setReady</h4>
+<pre>public&nbsp;void&nbsp;setReady(boolean&nbsp;ready)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>ready</code> - whether the container is ready</dd>
 </dl>
 </li>
 </ul>

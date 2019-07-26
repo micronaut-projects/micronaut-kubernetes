@@ -38,10 +38,13 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/config-client.html"><strong>3</strong><span>Configuration Client</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>5</strong><span>Logging</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>6</strong><span>Logging and debugging</span></a>
                         </div>
                         
                     </div>
@@ -68,7 +71,7 @@ function addJsClass() {
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
-                    <div class="toc-item next-right"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span> >></a></div>
                 
 
 
@@ -92,7 +95,7 @@ function addJsClass() {
 
 
 <div class="paragraph">
-<p>The Configuration client will read Kubernetes' <code>ConfigMap</code> and <code>Secret</code> instances and make them available as <code>PropertySource</code>
+<p>The Configuration client will read Kubernetes' <code>ConfigMap</code>s and <code>Secret</code>s instances and make them available as <code>PropertySource</code>s
 instances in your application.</p>
 </div>
 <div class="paragraph">
@@ -100,8 +103,8 @@ instances in your application.</p>
 <a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
 </div>
 <div class="paragraph">
-<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the following
-in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
+<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
+following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -114,7 +117,7 @@ in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, 
 <h2 id="_configmaps">ConfigMaps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Supported formats for <code>ConfigMap</code> are:</p>
+<p>Supported formats for <code>ConfigMap</code>s are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -178,7 +181,7 @@ sources:</p>
 <div class="sect2">
 <h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
 <div class="paragraph">
-<p>By default, this configuration module will watch for ConfigMaps added/modified/deleted, and provided that the changes
+<p>By default, this configuration module will watch for <code>ConfigMap</code>s added/modified/deleted, and provided that the changes
 match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
 </div>
 <div class="paragraph">
@@ -245,7 +248,7 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 </div>
 <div class="paragraph">
-<p>The configuration client, by default, will read all the Secrets for the specified namespace (or <code>default</code> if the namespace
+<p>The configuration client, by default, will read all the <code>Secret</code>s for the specified namespace (or <code>default</code> if the namespace
 is not specified). You can further filter which config map names are processed by defining
 <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
 </div>
@@ -271,7 +274,7 @@ is not specified). You can further filter which config map names are processed b
 </div>
 </div>
 <div class="paragraph">
-<p>Similarly to ConfigMaps, labels can also be used to match the desired secrets:</p>
+<p>Similarly to <code>ConfigMap</code>s, labels can also be used to match the desired secrets:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -291,7 +294,7 @@ is not specified). You can further filter which config map names are processed b
                 
                     <div class="toc-item prev-left"><a href="../guide/service-discovery.html">&lt;&lt; <strong>2</strong><span>Service Discovery</span></a></div>
                 
-                    <div class="toc-item next-right"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span> >></a></div>
+                    <div class="toc-item next-right"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>

@@ -38,10 +38,13 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/config-client.html"><strong>3</strong><span>Configuration Client</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>5</strong><span>Logging</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>6</strong><span>Logging and debugging</span></a>
                         </div>
                         
                     </div>
@@ -131,7 +134,7 @@ to <code>false</code>.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Micronaut connects to the Kubernetes API using the <code>default</code> service account, which by default only has permissions over
-the <code>kube-system</code> namespace. This service account needs read permission over the <code>services</code> and <code>endpoints</code> namespace.
+the <code>kube-system</code> namespace. The service account used needs some read permissions.
 Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
 about Role-based access control (RBAC).</p>
 </div>

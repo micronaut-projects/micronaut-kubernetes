@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>5 Logging 1.0.0.BUILD-SNAPSHOT</title>
+    <title>6 Logging and debugging 1.0.0.BUILD-SNAPSHOT</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -38,10 +38,13 @@ function addJsClass() {
                         <div class="toc-item" style="margin-left:0"><a href="../guide/config-client.html"><strong>3</strong><span>Configuration Client</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span></a>
                         </div>
                         
-                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>5</strong><span>Logging</span></a>
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>6</strong><span>Logging and debugging</span></a>
                         </div>
                         
                     </div>
@@ -62,7 +65,7 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/low-level-client.html">&lt;&lt; <strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/low-level-client.html">&lt;&lt; <strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
@@ -71,7 +74,7 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>5 Logging</h1>
+                    <h1>6 Logging and debugging</h1>
 
                     <p><strong>Version:</strong> 1.0.0.BUILD-SNAPSHOT</p>
                 </div>
@@ -80,7 +83,7 @@ function addJsClass() {
 
                 
 
-<h1 id="logging">5 Logging</h1>
+<h1 id="logging">6 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
@@ -109,11 +112,16 @@ to <code>TRACE</code>:</p>
 <div class="paragraph">
 <p>Other package that might produce relevant logging is <code>io.micronaut.discovery</code>, which belongs to Micronaut Core.</p>
 </div>
+<div class="paragraph">
+<p>In addition to that, another source of information is
+<a href="https://docs.micronaut.io/latest/guide/index.html#environmentEndpoint">the Environment Endpoint</a>, which outputs all
+the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
+</div>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/low-level-client.html">&lt;&lt; <strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/low-level-client.html">&lt;&lt; <strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
                 
                 <div style="clear:both"></div>
             </div>

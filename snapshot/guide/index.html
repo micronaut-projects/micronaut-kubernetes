@@ -49,9 +49,11 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#low-level-client"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>4</strong><span>Health Checks</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>5</strong><span>Logging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#low-level-client"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
                                 
                             </div>
                         </div>
@@ -89,9 +91,11 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-low-level-client"><a href="#low-level-client"><strong>4</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>4</strong><span>Health Checks</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>5</strong><span>Logging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-low-level-client"><a href="#low-level-client"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
         
         </div>
     </div>
@@ -349,7 +353,7 @@ to <code>false</code>.</p>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Micronaut connects to the Kubernetes API using the <code>default</code> service account, which by default only has permissions over
-the <code>kube-system</code> namespace. This service account needs read permission over the <code>services</code> and <code>endpoints</code> namespace.
+the <code>kube-system</code> namespace. The service account used needs some read permissions.
 Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
 about Role-based access control (RBAC).</p>
 </div>
@@ -491,7 +495,7 @@ spec:
 
 
 <div class="paragraph">
-<p>The Configuration client will read Kubernetes' <code>ConfigMap</code> and <code>Secret</code> instances and make them available as <code>PropertySource</code>
+<p>The Configuration client will read Kubernetes' <code>ConfigMap</code>s and <code>Secret</code>s instances and make them available as <code>PropertySource</code>s
 instances in your application.</p>
 </div>
 <div class="paragraph">
@@ -499,8 +503,8 @@ instances in your application.</p>
 <a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
 </div>
 <div class="paragraph">
-<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the following
-in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
+<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
+following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -513,7 +517,7 @@ in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, 
 <h2 id="_configmaps">ConfigMaps</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Supported formats for <code>ConfigMap</code> are:</p>
+<p>Supported formats for <code>ConfigMap</code>s are:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -577,7 +581,7 @@ sources:</p>
 <div class="sect2">
 <h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
 <div class="paragraph">
-<p>By default, this configuration module will watch for ConfigMaps added/modified/deleted, and provided that the changes
+<p>By default, this configuration module will watch for <code>ConfigMap</code>s added/modified/deleted, and provided that the changes
 match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
 </div>
 <div class="paragraph">
@@ -644,7 +648,7 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 </div>
 <div class="paragraph">
-<p>The configuration client, by default, will read all the Secrets for the specified namespace (or <code>default</code> if the namespace
+<p>The configuration client, by default, will read all the <code>Secret</code>s for the specified namespace (or <code>default</code> if the namespace
 is not specified). You can further filter which config map names are processed by defining
 <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
 </div>
@@ -670,7 +674,7 @@ is not specified). You can further filter which config map names are processed b
 </div>
 </div>
 <div class="paragraph">
-<p>Similarly to ConfigMaps, labels can also be used to match the desired secrets:</p>
+<p>Similarly to <code>ConfigMap</code>s, labels can also be used to match the desired secrets:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -686,7 +690,135 @@ is not specified). You can further filter which config map names are processed b
 </div>
 
 
-<h1 id="low-level-client">4 Using the low-level Kubernetes API HTTP client</h1>
+<h1 id="health-checks">4 Health Checks</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/health-checks.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="sect1">
+<h2 id="_health_indicators">Health Indicators</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This configuration module provides a <a href="../api/io/micronaut/kubernetes/health/KubernetesHealthIndicator.html">health check</a> that probes
+communication with the Kubernetes API, and provides some information about the pod where the application is running from.</p>
+</div>
+<div class="paragraph">
+<p>The service discovery client will also display all the services that were resolved from Kubernetes.</p>
+</div>
+<div class="paragraph">
+<p>An example output of a <code>/health</code> request would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "micronaut-service",
+  "status": "UP",
+  "details": {
+    "kubernetes": {
+      "name": "micronaut-service",
+      "status": "UP",
+      "details": {
+        "namespace": "default",
+        "podName": "example-service-786cd45b78-bzfw5",
+        "podPhase": "Running",
+        "podIP": "10.1.3.124",
+        "hostIP": "192.168.65.3",
+        "containerStatuses": [
+          {
+            "name": "example-service",
+            "image": "registry.hub.docker.com/alvarosanchez/example-service:latest",
+            "ready": true
+          }
+        ]
+      }
+    },
+    "compositeDiscoveryClient(kubernetes)": {
+      "name": "micronaut-service",
+      "status": "UP",
+      "details": {
+        "services": {
+          "example-service": [
+            "http://10.1.3.124:8081",
+            "http://10.1.3.126:8081"
+          ],
+          "non-secure-service": [
+            "http://10.1.3.127:1234"
+          ],
+          "kubernetes": [
+            "https://kubernetes:443"
+          ],
+          "secure-service-port-name": [
+            "https://10.1.3.127:1234"
+          ],
+          "example-client": [
+            "http://10.1.3.125:8082"
+          ],
+          "secure-service-port-number": [
+            "https://10.1.3.127:443"
+          ],
+          "secure-service-labels": [
+            "https://10.1.3.127:1234"
+          ]
+        }
+      }
+    },
+    "diskSpace": {
+      "name": "micronaut-service",
+      "status": "UP",
+      "details": {
+        "total": 109702647808,
+        "free": 69758287872,
+        "threshold": 10485760
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Health checks require the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">compile <span class="hljs-string">'io.micronaut:micronaut-management'</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-management&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Also note that in order to see the full details of the health checks you may need additional configuration. Check
+<a href="https://docs.micronaut.io/latest/guide/index.html#healthEndpoint">the documentation of the Health Endpoint</a> for more
+information about how to configure it.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+
+<h1 id="low-level-client">5 Using the low-level Kubernetes API HTTP client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/low-level-client.adoc"'>
@@ -729,7 +861,7 @@ Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/Kubernet
 </div>
 
 
-<h1 id="logging">5 Logging</h1>
+<h1 id="logging">6 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
@@ -757,6 +889,11 @@ to <code>TRACE</code>:</p>
 </div>
 <div class="paragraph">
 <p>Other package that might produce relevant logging is <code>io.micronaut.discovery</code>, which belongs to Micronaut Core.</p>
+</div>
+<div class="paragraph">
+<p>In addition to that, another source of information is
+<a href="https://docs.micronaut.io/latest/guide/index.html#environmentEndpoint">the Environment Endpoint</a>, which outputs all
+the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
     </div>
