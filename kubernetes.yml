@@ -17,6 +17,10 @@ spec:
         - name: example-service
           image: registry.hub.docker.com/alvarosanchez/example-service
           imagePullPolicy: "Always"
+          volumeMounts:
+            - name: secrets
+              mountPath: "/etc/example-service/secrets"
+              readOnly: true
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5004"
@@ -25,6 +29,11 @@ spec:
               containerPort: 8081
             - name: "jvm-debug"
               containerPort: 5004
+      volumes:
+        - name: secrets
+          secret:
+            secretName: mounted-secret
+            defaultMode: 256
 ---
 apiVersion: v1
 kind: Service

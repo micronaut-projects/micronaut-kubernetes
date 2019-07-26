@@ -70,6 +70,15 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         deleteConfigMap("hello-controller-spec")
     }
 
+    @Requires({ TestUtils.available("http://localhost:8888") })
+    void "test reading secrets from mounted volumes"() {
+        given:
+        testClient.refresh()
+
+        expect:
+        testClient.config("mounted-volume-key").equals("mountedVolumeValue")
+    }
+
     @Client("http://localhost:8888")
     @MicronautRequires(property = "spec.name", value = "HelloControllerSpec")
     static interface TestClient {

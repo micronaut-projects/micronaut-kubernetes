@@ -243,6 +243,8 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         static final boolean DEFAULT_ENABLED = false;
 
         private boolean enabled = DEFAULT_ENABLED;
+        private Collection<String> paths;
+        private boolean useApi;
 
         @Override
         public boolean isEnabled() {
@@ -254,6 +256,37 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
          */
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
+        }
+
+        /**
+         * @return paths where secrets are mounted
+         */
+        public Collection<String> getPaths() {
+            if (paths == null) {
+                return Collections.emptySet();
+            }
+            return paths;
+        }
+
+        /**
+         * @param paths where secrets are mounted
+         */
+        public void setPaths(Collection<String> paths) {
+            this.paths = paths;
+        }
+
+        /**
+         * @return whether to use the API to read secrets when {@link #paths} is used.
+         */
+        public boolean isUseApi() {
+            return useApi;
+        }
+
+        /**
+         * @param useApi whether to use the API to read secrets when {@link #paths} is used.
+         */
+        public void setUseApi(boolean useApi) {
+            this.useApi = useApi;
         }
     }
 

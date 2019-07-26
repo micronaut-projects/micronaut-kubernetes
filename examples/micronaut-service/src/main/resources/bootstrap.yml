@@ -3,3 +3,12 @@ micronaut:
     name: micronaut-service
   config-client:
     enabled: true
+
+kubernetes:
+  client:
+    secrets:
+      enabled: true
+      use-api: true
+      excludes: mounted-secret
+      paths:
+        - /etc/example-service/secrets

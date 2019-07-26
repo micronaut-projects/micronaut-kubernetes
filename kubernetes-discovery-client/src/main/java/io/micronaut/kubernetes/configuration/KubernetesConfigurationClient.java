@@ -39,6 +39,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -230,53 +235,95 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
+        Flowable<PropertySource> propertySourceFlowable = Flowable.empty();
         if (configuration.getSecrets().isEnabled()) {
-            Collection<String> includes = configuration.getSecrets().getIncludes();
-            Collection<String> excludes = configuration.getSecrets().getExcludes();
-            Predicate<Secret> includesFilter = s -> true;
-            Predicate<Secret> excludesFilter = s -> true;
-
-            if (!includes.isEmpty()) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Secret includes: {}", includes);
+            Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
+            if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reading Secrets from the Kubernetes API");
                 }
-                includesFilter = s -> includes.contains(s.getMetadata().getName());
+
+                Collection<String> includes = configuration.getSecrets().getIncludes();
+                Collection<String> excludes = configuration.getSecrets().getExcludes();
+                Predicate<Secret> includesFilter = s -> true;
+                Predicate<Secret> excludesFilter = s -> true;
+
+                if (!includes.isEmpty()) {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Secret includes: {}", includes);
+                    }
+                    includesFilter = s -> includes.contains(s.getMetadata().getName());
+                }
+
+                if (!excludes.isEmpty()) {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Secret excludes: {}", excludes);
+                    }
+                    excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
+                }
+
+                Map<String, String> labels = configuration.getSecrets().getLabels();
+                String labelSelector = computeLabelSelector(labels);
+
+                propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
+                        .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
+                        .onErrorReturn(throwable -> new SecretList())
+                        .doOnNext(secretList -> {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size());
+                            }
+                        })
+                        .flatMapIterable(SecretList::getItems)
+                        .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
+                        .filter(includesFilter)
+                        .filter(excludesFilter)
+                        .doOnNext(secret -> {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
+                            }
+                        })
+                        .map(this::secretAsPropertySource));
+
             }
 
-            if (!excludes.isEmpty()) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Secret excludes: {}", excludes);
+            if (!mountedVolumePaths.isEmpty()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reading Secrets from the following mounted volumes: {}", mountedVolumePaths);
                 }
-                excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
+
+                List<PropertySource> propertySources = new ArrayList<>();
+                mountedVolumePaths.stream()
+                        .map(Paths::get)
+                        .forEach(path -> {
+                            LOG.trace("Processing path: {}", path);
+                            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                                Map<String, Object> propertySourceContents = new HashMap<>();
+                                for (Path file : stream) {
+                                    if (!Files.isDirectory(file)) {
+                                        String key = file.getFileName().toString();
+                                        String value = new String(Files.readAllBytes(file));
+                                        if (LOG.isTraceEnabled()) {
+                                            LOG.trace("Processing key: {}", key);
+                                        }
+                                        propertySourceContents.put(key, value);
+                                    }
+                                }
+                                String propertySourceName = path.toString() + KUBERNETES_SECRET_NAME_SUFFIX;
+                                propertySources.add(PropertySource.of(propertySourceName, propertySourceContents, -10));
+                            } catch (IOException e) {
+                                LOG.warn("Exception occurred when reading secrets from path: {}", path);
+                                LOG.warn(e.getMessage(), e);
+                            }
+                        });
+
+                propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromIterable(propertySources));
             }
-
-            Map<String, String> labels = configuration.getSecrets().getLabels();
-            String labelSelector = computeLabelSelector(labels);
-
-            return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
-                    .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
-                    .onErrorReturn(throwable -> new SecretList())
-                    .doOnNext(secretList -> {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size());
-                        }
-                    })
-                    .flatMapIterable(SecretList::getItems)
-                    .filter(secret -> secret.getType().equals(OPAQUE_SECRET_TYPE))
-                    .filter(includesFilter)
-                    .filter(excludesFilter)
-                    .doOnNext(secret -> {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
-                        }
-                    })
-                    .map(this::secretAsPropertySource);
         } else {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Kubernetes secrets access is disabled");
             }
-            return Flowable.empty();
         }
+        return propertySourceFlowable;
     }
 
     /**

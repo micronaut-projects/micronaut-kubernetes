@@ -10,3 +10,4 @@ kubectl delete configmaps literal-config
 kubectl delete configmaps hello-controller-spec
 kubectl delete secret test-secret
 kubectl delete secret another-secret
+kubectl delete secret mounted-secret
