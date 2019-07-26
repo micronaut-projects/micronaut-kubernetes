@@ -1,11 +1,11 @@
-The Configuration client will read Kubernetes' `ConfigMap` and `Secret` instances and make them available as `PropertySource`
+The Configuration client will read Kubernetes' ``ConfigMap``s and ``Secret``s instances and make them available as ``PropertySource``s
 instances in your application.
 
 Then, in any bean you can read the configuration values from the `ConfigMap` or `Secret` using `@Value` or
 https://docs.micronaut.io/latest/guide/index.html#config[any other way to read configuration values].
 
-Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the following
-in `bootstrap.yml` (or `.properties`, `.json`, etc):
+Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
+following in `bootstrap.yml` (or `.properties`, `.json`, etc):
 
 [source,yaml]
 ----
@@ -16,7 +16,7 @@ micronaut:
 
 ## ConfigMaps
 
-Supported formats for `ConfigMap` are:
+Supported formats for ``ConfigMap``s are:
 
 * Java `.properties`.
 * YAML.
@@ -64,7 +64,7 @@ Note that on the resulting config maps, you can still further filter them with i
 
 ### Watching for changes in ConfigMaps
 
-By default, this configuration module will watch for ConfigMaps added/modified/deleted, and provided that the changes
+By default, this configuration module will watch for ``ConfigMap``s added/modified/deleted, and provided that the changes
 match with the above filters, they will be propagated to the `Environment` and refresh it.
 
 This means that those changes will be immediately available in your application without a restart.
@@ -104,7 +104,7 @@ kubernetes:
       enabled: true
 ----
 
-The configuration client, by default, will read all the Secrets for the specified namespace (or `default` if the namespace
+The configuration client, by default, will read all the ``Secret``s for the specified namespace (or `default` if the namespace
 is not specified). You can further filter which config map names are processed by defining
 `kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes`:
 
@@ -128,7 +128,7 @@ kubernetes:
       excludes: not-this-secret
 ----
 
-Similarly to ConfigMaps, labels can also be used to match the desired secrets:
+Similarly to ``ConfigMap``s, labels can also be used to match the desired secrets:
 
 [source,yaml]
 ----
