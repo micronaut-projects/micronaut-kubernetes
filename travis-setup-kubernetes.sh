@@ -30,6 +30,7 @@ kubectl create -f k8s-auth.yml
 kubectl create -f kubernetes.yml
 ./create-config-maps-and-secret.sh
 # Wait for pods to be up and ready
+sleep 20
 SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"kubectl wait --for=condition=Ready pod/$SERVICE_POD
 kubectl wait --for=condition=Ready pod/$SERVICE_POD_1
