@@ -681,10 +681,123 @@ is not specified). You can further filter which config map names are processed b
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     secrets:
+      enabled: true
       labels:
         - app: my-app
         - env: prod</code></pre>
 </div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reading_code_configmap_code_s_and_code_secret_code_s_from_mounted_volumes">Reading <code>ConfigMap</code>s and <code>Secret</code>s from mounted volumes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the case of <code>Secret</code>s, reading them from the Kubernetes API requires additional permissions, as stated above.
+Therefore, you may want to read them from mounted volumes in the pod.</p>
+</div>
+<div class="paragraph">
+<p>Given the following secret:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It can be mounted as a volume in a pod or deployment definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    secret:
+      secretName: mysecret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will make Kubernetes to create 2 files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/etc/foo/username</code>.</p>
+</li>
+<li>
+<p><code>/etc/foo/password</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Their content will be the decoded strings from the original base-64 encoded values.</p>
+</div>
+<div class="paragraph">
+<p>While you could potentially use the <code>java.io</code> or <code>java.nio</code> APIs to read the contents yourself, this configuration module
+can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
+the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      paths:
+        - /etc/foo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each file in the directory will become the property key, and the file contents, the property value.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When <code>kubernetes.client.secrets.paths</code> is defined, the Kubernetes API will not be used to read any other secret.
+If you still want to read the remaining secrets from the API, set the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      use-api: true
+      excludes: mysecret  # Because it will be read as a mounted volume
+      paths:
+        - /etc/foo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this scenario, if there are property keys defined in both type of secrets, the ones coming from mounted volumes will
+take precedence over the ones coming from the API.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
