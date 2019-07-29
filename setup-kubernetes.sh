@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-kubectl delete namespace micronaut-kubernetes
+kubectl delete namespace micronaut-kubernetes &
 ./gradlew clean assemble jib --refresh-dependencies
 killall -9 kubectl
 

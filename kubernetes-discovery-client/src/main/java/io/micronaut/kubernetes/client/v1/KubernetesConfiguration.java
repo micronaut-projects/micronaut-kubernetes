@@ -20,15 +20,14 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.core.util.Toggleable;
 import io.micronaut.discovery.DiscoveryConfiguration;
-import io.micronaut.discovery.client.DiscoveryClientConfiguration;
-import io.micronaut.discovery.registration.RegistrationConfiguration;
+import io.micronaut.http.client.HttpClientConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,7 +46,7 @@ import java.util.Map;
 @Requires(env = Environment.KUBERNETES)
 @ConfigurationProperties(KubernetesConfiguration.PREFIX)
 @BootstrapContextCompatible
-public class KubernetesConfiguration extends DiscoveryClientConfiguration {
+public class KubernetesConfiguration extends HttpClientConfiguration {
 
     public static final String PREFIX = "kubernetes.client";
     public static final String NAMESPACE_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/namespace";
@@ -63,6 +62,9 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     private static final int KUBERNETES_DEFAULT_PORT = 443;
     private static final boolean KUBERNETES_DEFAULT_SECURE = true;
 
+    private String host = KUBERNETES_DEFAULT_HOST;
+    private int port = KUBERNETES_DEFAULT_PORT;
+    private boolean secure = KUBERNETES_DEFAULT_SECURE;
     private String namespace;
 
     private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
@@ -74,10 +76,6 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
      * Default constructor.
      */
     public KubernetesConfiguration() {
-        setPort(KUBERNETES_DEFAULT_PORT);
-        setHost(KUBERNETES_DEFAULT_HOST);
-        setSecure(KUBERNETES_DEFAULT_SECURE);
-
         if (namespace == null) {
             String namespace = DEFAULT_NAMESPACE;
             try {
@@ -95,8 +93,52 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         }
     }
 
+    /**
+     * @return The Kubernetes API host name
+     **/
     @Nonnull
-    @Override
+    public String getHost() {
+        return host;
+    }
+
+    /**
+     * @param host The Kubernetes API host name
+     */
+    public void setHost(String host) {
+        if (StringUtils.isNotEmpty(host)) {
+            this.host = host;
+        }
+    }
+
+    /**
+     * @return The Kubernetes API port
+     */
+    public int getPort() {
+        return port;
+    }
+
+    /**
+     * @param port The port for the Kubernetes API
+     */
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    /**
+     * @return Is the Kubernetes API server exposed over HTTPS (defaults to true)
+     */
+    public boolean isSecure() {
+        return secure;
+    }
+
+    /**
+     * @param secure Set if the Kubernetes API server is exposed over HTTPS
+     */
+    public void setSecure(boolean secure) {
+        this.secure = secure;
+    }
+
+    @Nonnull
     public DiscoveryConfiguration getDiscovery() {
         return this.discovery;
     }
@@ -106,17 +148,6 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
      */
     public void setDiscovery(KubernetesDiscoveryConfiguration discoveryConfiguration) {
         this.discovery = discoveryConfiguration;
-    }
-
-    @Nullable
-    @Override
-    public RegistrationConfiguration getRegistration() {
-        return null;
-    }
-
-    @Override
-    protected String getServiceID() {
-        return KubernetesClient.SERVICE_ID;
     }
 
     /**

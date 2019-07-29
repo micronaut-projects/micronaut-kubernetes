@@ -19,12 +19,17 @@ package io.micronaut.kubernetes.discovery;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import io.micronaut.discovery.client.DiscoveryClientConfiguration;
-import io.micronaut.discovery.client.DiscoveryServerInstanceList;
+import io.micronaut.discovery.ServiceInstance;
+import io.micronaut.discovery.ServiceInstanceList;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.runtime.ApplicationConfiguration;
+import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A {@link io.micronaut.discovery.ServiceInstanceList} implementation for Kubernetes.
@@ -35,19 +40,27 @@ import javax.inject.Singleton;
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 @BootstrapContextCompatible
-public class KubernetesServiceInstanceList extends DiscoveryServerInstanceList {
+public class KubernetesServiceInstanceList implements ServiceInstanceList {
 
-    /**
-     * @param configuration         The discovery client configuration
-     * @param instanceConfiguration The instance configuration
-     */
-    public KubernetesServiceInstanceList(DiscoveryClientConfiguration configuration, ApplicationConfiguration.InstanceConfiguration instanceConfiguration) {
-        super(configuration, instanceConfiguration);
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceList.class);
+
+    private KubernetesConfiguration configuration;
+
+    public KubernetesServiceInstanceList(KubernetesConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     @Override
     public String getID() {
         return KubernetesClient.SERVICE_ID;
+    }
+
+    @Override
+    public List<ServiceInstance> getInstances() {
+        String spec = (configuration.isSecure() ? "https" : "http") + "://" + configuration.getHost() + ":" + configuration.getPort();
+        return Collections.singletonList(
+                ServiceInstance.builder(getID(), URI.create(spec)).build()
+        );
     }
 
 }
