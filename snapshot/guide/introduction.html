@@ -157,7 +157,7 @@ function addJsClass() {
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace. Default value: {@value #DEFAULT_NAMESPACE}.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ssl-configuration</code></p></td>
@@ -276,6 +276,26 @@ function addJsClass() {
 </tr>
 </tbody>
 </table>
+<div class="sect1">
+<h2 id="_namespace_configuration">Namespace configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a Micronaut application with this configuration module is running within a Pod in a Kubernetes cluster, it will
+infer automatically the namespace it&#8217;s running from by reading it from the service account secret (which will be
+provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</code>).</p>
+</div>
+<div class="paragraph">
+<p>However, the namespace can still be overridden via configuration in <code>bootstrap.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    namespace: other-namespace</code></pre>
+</div>
+</div>
+</div>
+</div>
 
 
                 <div style="clear:both;margin-top:15px;"></div>

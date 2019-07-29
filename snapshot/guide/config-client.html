@@ -136,9 +136,9 @@ following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.jso
 </ul>
 </div>
 <div class="paragraph">
-<p>The configuration client by default will read all the ConfigMaps for the specified namespace (or <code>default</code> if namespace
-is not specified). You can further filter which config map names are processed by defining
-<code>kubernetes.client.config-maps.includes</code> or <code>kubernetes.client.config-maps.excludes</code>:</p>
+<p>The configuration client by default will read all the <code>ConfigMap</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.config-maps.includes</code> or
+<code>kubernetes.client.config-maps.excludes</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -248,9 +248,8 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 </div>
 <div class="paragraph">
-<p>The configuration client, by default, will read all the <code>Secret</code>s for the specified namespace (or <code>default</code> if the namespace
-is not specified). You can further filter which config map names are processed by defining
-<code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
+<p>The configuration client, by default, will read all the <code>Secret</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">

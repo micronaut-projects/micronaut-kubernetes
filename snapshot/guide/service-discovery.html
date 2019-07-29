@@ -148,7 +148,7 @@ about Role-based access control (RBAC).</p>
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: service-discoverer
-  namespace: default
+  namespace: micronaut-kubernetes
 rules:
   - apiGroups: [""]
     resources: ["services", "endpoints", "configmaps", "secrets"]
@@ -158,11 +158,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: default-service-discoverer
-  namespace: default
+  namespace: micronaut-kubernetes
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: default
+    namespace: micronaut-kubernetes
 roleRef:
   kind: Role
   name: service-discoverer

@@ -183,7 +183,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace. Default value: {@value #DEFAULT_NAMESPACE}.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ssl-configuration</code></p></td>
@@ -302,6 +302,26 @@
 </tr>
 </tbody>
 </table>
+<div class="sect1">
+<h2 id="_namespace_configuration">Namespace configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a Micronaut application with this configuration module is running within a Pod in a Kubernetes cluster, it will
+infer automatically the namespace it&#8217;s running from by reading it from the service account secret (which will be
+provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</code>).</p>
+</div>
+<div class="paragraph">
+<p>However, the namespace can still be overridden via configuration in <code>bootstrap.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    namespace: other-namespace</code></pre>
+</div>
+</div>
+</div>
+</div>
 
 
 <h1 id="service-discovery">2 Service Discovery</h1>
@@ -367,7 +387,7 @@ about Role-based access control (RBAC).</p>
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: service-discoverer
-  namespace: default
+  namespace: micronaut-kubernetes
 rules:
   - apiGroups: [""]
     resources: ["services", "endpoints", "configmaps", "secrets"]
@@ -377,11 +397,11 @@ kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: default-service-discoverer
-  namespace: default
+  namespace: micronaut-kubernetes
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: default
+    namespace: micronaut-kubernetes
 roleRef:
   kind: Role
   name: service-discoverer
@@ -536,9 +556,9 @@ following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.jso
 </ul>
 </div>
 <div class="paragraph">
-<p>The configuration client by default will read all the ConfigMaps for the specified namespace (or <code>default</code> if namespace
-is not specified). You can further filter which config map names are processed by defining
-<code>kubernetes.client.config-maps.includes</code> or <code>kubernetes.client.config-maps.excludes</code>:</p>
+<p>The configuration client by default will read all the <code>ConfigMap</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.config-maps.includes</code> or
+<code>kubernetes.client.config-maps.excludes</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -648,9 +668,8 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 </div>
 <div class="paragraph">
-<p>The configuration client, by default, will read all the <code>Secret</code>s for the specified namespace (or <code>default</code> if the namespace
-is not specified). You can further filter which config map names are processed by defining
-<code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
+<p>The configuration client, by default, will read all the <code>Secret</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
