@@ -81,9 +81,13 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         if (namespace == null) {
             String namespace = DEFAULT_NAMESPACE;
             try {
-                LOG.trace("Namespace has not been set. Reading it from file [{}]", NAMESPACE_PATH);
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Namespace has not been set. Reading it from file [{}]", NAMESPACE_PATH);
+                }
                 namespace = new String(Files.readAllBytes(Paths.get(NAMESPACE_PATH)));
-                LOG.debug("Namespace: [{}]", namespace);
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Namespace: [{}]", namespace);
+                }
             } catch (IOException ioe) {
                 LOG.warn("An error has occurred when reading the file: [" + NAMESPACE_PATH + "]. Kubernetes namespace will be set to: " + DEFAULT_NAMESPACE, ioe);
             }
