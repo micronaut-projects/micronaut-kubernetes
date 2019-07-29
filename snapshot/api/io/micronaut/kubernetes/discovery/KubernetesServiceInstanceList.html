@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10};
+var methods = {"i0":10,"i1":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -98,12 +98,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>io.micronaut.discovery.client.DiscoveryServerInstanceList</li>
-<li>
-<ul class="inheritance">
 <li>io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -112,14 +107,15 @@ var activeTableTab = "activeTableTab";
 <li class="blockList">
 <dl>
 <dt>All Implemented Interfaces:</dt>
-<dd>io.micronaut.context.event.ApplicationEventListener&lt;io.micronaut.runtime.server.event.ServerStartupEvent&gt;, io.micronaut.core.order.Ordered, io.micronaut.discovery.ServiceInstanceList, java.util.EventListener</dd>
+<dd>io.micronaut.discovery.ServiceInstanceList</dd>
 </dl>
 <hr>
 <br>
 <pre>@Singleton
  @Requires(env="k8s")
 public class <span class="typeNameLabel">KubernetesServiceInstanceList</span>
-extends io.micronaut.discovery.client.DiscoveryServerInstanceList</pre>
+extends java.lang.Object
+implements io.micronaut.discovery.ServiceInstanceList</pre>
 <div class="block">A <code>ServiceInstanceList</code> implementation for Kubernetes.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -133,21 +129,6 @@ extends io.micronaut.discovery.client.DiscoveryServerInstanceList</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
-<!-- =========== FIELD SUMMARY =========== -->
-<ul class="blockList">
-<li class="blockList"><a name="field.summary">
-<!--   -->
-</a>
-<h3>Field Summary</h3>
-<ul class="blockList">
-<li class="blockList"><a name="fields.inherited.from.class.io.micronaut.core.order.Ordered">
-<!--   -->
-</a>
-<h3>Fields inherited from interface&nbsp;io.micronaut.core.order.Ordered</h3>
-<code>HIGHEST_PRECEDENCE, LOWEST_PRECEDENCE</code></li>
-</ul>
-</li>
-</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -160,8 +141,7 @@ extends io.micronaut.discovery.client.DiscoveryServerInstanceList</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html#KubernetesServiceInstanceList-io.micronaut.discovery.client.DiscoveryClientConfiguration-io.micronaut.runtime.ApplicationConfiguration.InstanceConfiguration-">KubernetesServiceInstanceList</a></span>(io.micronaut.discovery.client.DiscoveryClientConfiguration&nbsp;configuration,
-                             io.micronaut.runtime.ApplicationConfiguration.InstanceConfiguration&nbsp;instanceConfiguration)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html#KubernetesServiceInstanceList-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-">KubernetesServiceInstanceList</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;configuration)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -182,27 +162,17 @@ extends io.micronaut.discovery.client.DiscoveryServerInstanceList</pre>
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html#getID--">getID</a></span>()</code>&nbsp;</td>
 </tr>
+<tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.util.List&lt;io.micronaut.discovery.ServiceInstance&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html#getInstances--">getInstances</a></span>()</code>&nbsp;</td>
+</tr>
 </table>
-<ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.io.micronaut.discovery.client.DiscoveryServerInstanceList">
-<!--   -->
-</a>
-<h3>Methods inherited from class&nbsp;io.micronaut.discovery.client.DiscoveryServerInstanceList</h3>
-<code>getInstances, getOrder, onApplicationEvent</code></li>
-</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;java.lang.Object</h3>
 <code>clone, equals, finalize, getClass, hashCode, notify, notifyAll, toString, wait, wait, wait</code></li>
-</ul>
-<ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.io.micronaut.context.event.ApplicationEventListener">
-<!--   -->
-</a>
-<h3>Methods inherited from interface&nbsp;io.micronaut.context.event.ApplicationEventListener</h3>
-<code>supports</code></li>
 </ul>
 </li>
 </ul>
@@ -218,19 +188,13 @@ extends io.micronaut.discovery.client.DiscoveryServerInstanceList</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="KubernetesServiceInstanceList-io.micronaut.discovery.client.DiscoveryClientConfiguration-io.micronaut.runtime.ApplicationConfiguration.InstanceConfiguration-">
+<a name="KubernetesServiceInstanceList-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>KubernetesServiceInstanceList</h4>
-<pre>public&nbsp;KubernetesServiceInstanceList(io.micronaut.discovery.client.DiscoveryClientConfiguration&nbsp;configuration,
-                                     io.micronaut.runtime.ApplicationConfiguration.InstanceConfiguration&nbsp;instanceConfiguration)</pre>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>configuration</code> - The discovery client configuration</dd>
-<dd><code>instanceConfiguration</code> - The instance configuration</dd>
-</dl>
+<pre>public&nbsp;KubernetesServiceInstanceList(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;configuration)</pre>
 </li>
 </ul>
 </li>
@@ -244,10 +208,27 @@ extends io.micronaut.discovery.client.DiscoveryServerInstanceList</pre>
 <a name="getID--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getID</h4>
 <pre>public&nbsp;java.lang.String&nbsp;getID()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>getID</code>&nbsp;in interface&nbsp;<code>io.micronaut.discovery.ServiceInstanceList</code></dd>
+</dl>
+</li>
+</ul>
+<a name="getInstances--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getInstances</h4>
+<pre>public&nbsp;java.util.List&lt;io.micronaut.discovery.ServiceInstance&gt;&nbsp;getInstances()</pre>
+<dl>
+<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
+<dd><code>getInstances</code>&nbsp;in interface&nbsp;<code>io.micronaut.discovery.ServiceInstanceList</code></dd>
+</dl>
 </li>
 </ul>
 </li>

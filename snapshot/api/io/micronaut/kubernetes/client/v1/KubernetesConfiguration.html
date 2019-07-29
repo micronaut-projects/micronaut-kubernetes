@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -101,12 +101,7 @@ var activeTableTab = "activeTableTab";
 <li>io.micronaut.http.client.HttpClientConfiguration</li>
 <li>
 <ul class="inheritance">
-<li>io.micronaut.discovery.client.DiscoveryClientConfiguration</li>
-<li>
-<ul class="inheritance">
 <li>io.micronaut.kubernetes.client.v1.KubernetesConfiguration</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -120,7 +115,7 @@ var activeTableTab = "activeTableTab";
 <pre>@Requires(env="k8s")
  @ConfigurationProperties(value="kubernetes.client")
 public class <span class="typeNameLabel">KubernetesConfiguration</span>
-extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
+extends io.micronaut.http.client.HttpClientConfiguration</pre>
 <div class="block">Encapsulates constants for Kubernetes configuration.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
@@ -261,48 +256,57 @@ extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getNamespace--">getNamespace</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getHost--">getHost</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>io.micronaut.discovery.registration.RegistrationConfiguration</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getRegistration--">getRegistration</a></span>()</code>&nbsp;</td>
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getNamespace--">getNamespace</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getPort--">getPort</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getSecrets--">getSecrets</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
-<td class="colFirst"><code>protected java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getServiceID--">getServiceID</a></span>()</code>&nbsp;</td>
-</tr>
 <tr id="i7" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setConfigMaps-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration-">setConfigMaps</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a>&nbsp;configMapsConfiguration)</code>&nbsp;</td>
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#isSecure--">isSecure</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setConfigMaps-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration-">setConfigMaps</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a>&nbsp;configMapsConfiguration)</code>&nbsp;</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration)</code>&nbsp;</td>
 </tr>
 <tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecrets-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesSecretsConfiguration-">setSecrets</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a>&nbsp;secretsConfiguration)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setHost-java.lang.String-">setHost</a></span>(java.lang.String&nbsp;host)</code>&nbsp;</td>
 </tr>
 <tr id="i11" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>&nbsp;</td>
+</tr>
+<tr id="i12" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setPort-int-">setPort</a></span>(int&nbsp;port)</code>&nbsp;</td>
+</tr>
+<tr id="i13" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecrets-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesSecretsConfiguration-">setSecrets</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a>&nbsp;secretsConfiguration)</code>&nbsp;</td>
+</tr>
+<tr id="i14" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecure-boolean-">setSecure</a></span>(boolean&nbsp;secure)</code>&nbsp;</td>
+</tr>
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
-<ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.io.micronaut.discovery.client.DiscoveryClientConfiguration">
-<!--   -->
-</a>
-<h3>Methods inherited from class&nbsp;io.micronaut.discovery.client.DiscoveryClientConfiguration</h3>
-<code>getAllZones, getContextPath, getDefaultZone, getHost, getPort, getServiceId, isSecure, isShouldUseDns, setContextPath, setDefaultZone, setHost, setPort, setSecure, setShouldUseDns, setZones</code></li>
-</ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.io.micronaut.http.client.HttpClientConfiguration">
 <!--   -->
@@ -397,6 +401,85 @@ extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
 <!--   -->
 </a>
 <h3>Method Detail</h3>
+<a name="getHost--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getHost</h4>
+<pre>@Nonnull
+public&nbsp;java.lang.String&nbsp;getHost()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The Kubernetes API host name</dd>
+</dl>
+</li>
+</ul>
+<a name="setHost-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setHost</h4>
+<pre>public&nbsp;void&nbsp;setHost(java.lang.String&nbsp;host)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>host</code> - The Kubernetes API host name</dd>
+</dl>
+</li>
+</ul>
+<a name="getPort--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPort</h4>
+<pre>public&nbsp;int&nbsp;getPort()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The Kubernetes API port</dd>
+</dl>
+</li>
+</ul>
+<a name="setPort-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPort</h4>
+<pre>public&nbsp;void&nbsp;setPort(int&nbsp;port)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>port</code> - The port for the Kubernetes API</dd>
+</dl>
+</li>
+</ul>
+<a name="isSecure--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>isSecure</h4>
+<pre>public&nbsp;boolean&nbsp;isSecure()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>Is the Kubernetes API server exposed over HTTPS (defaults to true)</dd>
+</dl>
+</li>
+</ul>
+<a name="setSecure-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setSecure</h4>
+<pre>public&nbsp;void&nbsp;setSecure(boolean&nbsp;secure)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>secure</code> - Set if the Kubernetes API server is exposed over HTTPS</dd>
+</dl>
+</li>
+</ul>
 <a name="getDiscovery--">
 <!--   -->
 </a>
@@ -405,10 +488,6 @@ extends io.micronaut.discovery.client.DiscoveryClientConfiguration</pre>
 <h4>getDiscovery</h4>
 <pre>@Nonnull
 public&nbsp;io.micronaut.discovery.DiscoveryConfiguration&nbsp;getDiscovery()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>getDiscovery</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
-</dl>
 </li>
 </ul>
 <a name="setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">
@@ -421,33 +500,6 @@ public&nbsp;io.micronaut.discovery.DiscoveryConfiguration&nbsp;getDiscovery()</p
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>discoveryConfiguration</code> - The discovery configuration</dd>
-</dl>
-</li>
-</ul>
-<a name="getRegistration--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getRegistration</h4>
-<pre>@Nullable
-public&nbsp;io.micronaut.discovery.registration.RegistrationConfiguration&nbsp;getRegistration()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>getRegistration</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
-</dl>
-</li>
-</ul>
-<a name="getServiceID--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getServiceID</h4>
-<pre>protected&nbsp;java.lang.String&nbsp;getServiceID()</pre>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code>getServiceID</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
 </dl>
 </li>
 </ul>
@@ -554,7 +606,7 @@ public&nbsp;<a href="../../../../../io/micronaut/kubernetes/client/v1/Kubernetes
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
-<dd><code>toString</code>&nbsp;in class&nbsp;<code>io.micronaut.discovery.client.DiscoveryClientConfiguration</code></dd>
+<dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
 </dl>
 </li>
 </ul>
