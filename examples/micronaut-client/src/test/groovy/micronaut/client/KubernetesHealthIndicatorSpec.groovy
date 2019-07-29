@@ -29,7 +29,7 @@ class KubernetesHealthIndicatorSpec extends Specification implements KubectlComm
         then:
         details.kubernetes.name == "micronaut-service"
         details.kubernetes.status == "UP"
-        details.kubernetes.details.namespace == "default"
+        details.kubernetes.details.namespace == "micronaut-kubernetes"
         details.kubernetes.details.podName.startsWith "example-service"
         details.kubernetes.details.podPhase == "Running"
         details.kubernetes.details.podIP

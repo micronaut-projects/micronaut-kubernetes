@@ -17,3 +17,18 @@ https://docs.micronaut.io/latest/guide/index.html#usingsnapshots[documentation t
 The core library for all features can be configured using the following configuration properties:
 
 include::{includedir}configurationProperties/io.micronaut.kubernetes.client.v1.KubernetesConfiguration.adoc[]
+
+## Namespace configuration
+
+When a Micronaut application with this configuration module is running within a Pod in a Kubernetes cluster, it will
+infer automatically the namespace it's running from by reading it from the service account secret (which will be
+provisioned at `/var/run/secrets/kubernetes.io/serviceaccount/namespace`).
+
+However, the namespace can still be overridden via configuration in `bootstrap.yml`:
+
+[source, yaml]
+----
+kubernetes:
+  client:
+    namespace: other-namespace
+----

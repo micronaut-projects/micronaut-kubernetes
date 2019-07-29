@@ -24,9 +24,14 @@ import io.micronaut.core.util.Toggleable;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.discovery.client.DiscoveryClientConfiguration;
 import io.micronaut.discovery.registration.RegistrationConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,19 +50,20 @@ import java.util.Map;
 public class KubernetesConfiguration extends DiscoveryClientConfiguration {
 
     public static final String PREFIX = "kubernetes.client";
+    public static final String NAMESPACE_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/namespace";
 
     /**
      * The default namespace value.
      */
-    @SuppressWarnings("WeakerAccess")
     public static final String DEFAULT_NAMESPACE = "default";
 
-    private static final String KUBERNETES_DEFAULT_HOST = "kubernetes";
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfiguration.class);
+
+    private static final String KUBERNETES_DEFAULT_HOST = "kubernetes.default.svc.cluster.local";
     private static final int KUBERNETES_DEFAULT_PORT = 443;
     private static final boolean KUBERNETES_DEFAULT_SECURE = true;
 
-    @Nonnull
-    private String namespace = DEFAULT_NAMESPACE;
+    private String namespace;
 
     private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
     private KubernetesDiscoveryConfiguration discovery = new KubernetesDiscoveryConfiguration();
@@ -71,6 +77,18 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
         setPort(KUBERNETES_DEFAULT_PORT);
         setHost(KUBERNETES_DEFAULT_HOST);
         setSecure(KUBERNETES_DEFAULT_SECURE);
+
+        if (namespace == null) {
+            String namespace = DEFAULT_NAMESPACE;
+            try {
+                LOG.trace("Namespace has not been set. Reading it from file [{}]", NAMESPACE_PATH);
+                namespace = new String(Files.readAllBytes(Paths.get(NAMESPACE_PATH)));
+                LOG.debug("Namespace: [{}]", namespace);
+            } catch (IOException ioe) {
+                LOG.warn("An error has occurred when reading the file: [" + NAMESPACE_PATH + "]. Kubernetes namespace will be set to: " + DEFAULT_NAMESPACE, ioe);
+            }
+            this.namespace = namespace;
+        }
     }
 
     @Nonnull
@@ -106,7 +124,7 @@ public class KubernetesConfiguration extends DiscoveryClientConfiguration {
     }
 
     /**
-     * @param namespace Sets the namespace. Default value: {@value #DEFAULT_NAMESPACE}.
+     * @param namespace Sets the namespace.
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;

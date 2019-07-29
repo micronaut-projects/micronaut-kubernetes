@@ -30,7 +30,7 @@ import io.micronaut.http.client.annotation.Client;
  * @since 1.0.0
  */
 @Client(id = KubernetesClient.SERVICE_ID, path = "/api/v1")
-@Requires(property = KubernetesConfiguration.PREFIX + ".client.enabled", notEquals = StringUtils.FALSE)
+@Requires(property = KubernetesConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
 @BootstrapContextCompatible
 public interface KubernetesClient extends KubernetesOperations {
     String SERVICE_ID = "kubernetes";

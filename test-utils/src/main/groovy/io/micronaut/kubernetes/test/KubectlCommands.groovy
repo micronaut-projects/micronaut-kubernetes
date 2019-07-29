@@ -26,34 +26,34 @@ trait KubectlCommands {
 
     @Memoized
     static List<String> getEndpoints(){
-        return getProcessOutput("kubectl get endpoints | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return getProcessOutput("kubectl get endpoints --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     @Memoized
     static List<String> getServices(){
-        return getProcessOutput("kubectl get services | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return getProcessOutput("kubectl get services --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     @Memoized
     static String getClusterIp() {
-        return getProcessOutput("kubectl get service example-service | awk 'FNR > 1 { print \$3 }'").trim()
+        return getProcessOutput("kubectl get service example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$3 }'").trim()
     }
 
     @Memoized
     static List<String> getIps() {
-        return getProcessOutput("kubectl get endpoints example-service | awk 'FNR > 1 { print \$2 }'")
+        return getProcessOutput("kubectl get endpoints example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$2 }'")
                 .split('\\,')
                 .collect { it.split(':').first() }
     }
 
     @Memoized
     static List<String> getConfigMaps() {
-        return getProcessOutput("kubectl get configmaps | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return getProcessOutput("kubectl get configmaps --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     @Memoized
     static List<String> getSecrets() {
-        return getProcessOutput("kubectl get secrets --field-selector type=Opaque | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return getProcessOutput("kubectl get secrets --field-selector type=Opaque --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     static String createConfigMap(String configMapName, Map data = [foo: 'bar']) {
@@ -63,7 +63,7 @@ trait KubectlCommands {
         ConfigMap configMap = new ConfigMap()
         configMap.metadata = objectMeta
         configMap.data = data
-        ConfigMap result = client.configMaps().inNamespace('default').createOrReplace(configMap)
+        ConfigMap result = client.configMaps().inNamespace('micronaut-kubernetes').createOrReplace(configMap)
 
         println "****"
         println "Result: ${result.toString()}"
@@ -77,7 +77,7 @@ trait KubectlCommands {
         objectMeta.name = configMapName
         ConfigMap configMap = new ConfigMap()
         configMap.metadata = objectMeta
-        client.configMaps().inNamespace('default').delete(configMap)
+        client.configMaps().inNamespace('micronaut-kubernetes').delete(configMap)
     }
 
     static String modifyConfigMap(String configMapName) {
@@ -86,7 +86,7 @@ trait KubectlCommands {
 
     static List<Pod> getPods() {
         KubernetesClient client = new DefaultKubernetesClient()
-        return client.pods().inNamespace('default').list().items
+        return client.pods().inNamespace('micronaut-kubernetes').list().items
     }
 
     static String getProcessOutput(String command) {

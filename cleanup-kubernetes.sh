@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 killall -9 kubectl
+kubectl delete namespace micronaut-kubernetes
 kubectl delete -f k8s-auth.yml
 kubectl delete -f kubernetes.yml
 kubectl delete configmaps game-config-properties

@@ -43,17 +43,6 @@ import javax.annotation.Nullable;
  */
 public interface KubernetesOperations {
 
-    String DEFAULT_NAMESPACE = "default";
-
-    /**
-     * List services in the default namespace.
-     * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#list-all-namespaces-service-v1-core">List all namespaces</a>
-     * @return A list of services
-     */
-    default Publisher<ServiceList> listServices() {
-        return listServices(DEFAULT_NAMESPACE);
-    }
-
     /**
      * List services in the specified namespace.
      * @param namespace Object name and auth scope, such as for teams and projects
@@ -72,23 +61,6 @@ public interface KubernetesOperations {
      */
     @Get("/namespaces/{namespace}/services/{serviceName}")
     Publisher<Service> getService(String namespace, String serviceName);
-
-    /**
-     * @param serviceName The name of the service
-     * @return Service for the specified name in the namespace ({@value #DEFAULT_NAMESPACE}).
-     */
-    default Publisher<Service> getService(String serviceName) {
-        return getService(DEFAULT_NAMESPACE, serviceName);
-    }
-
-    /**
-     * List or watch objects of kind Endpoints.
-     * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#list-all-namespaces-endpoints-v1-core">Endpoints v1 core - Read Operations - List All NameSpaces</a>
-     * @return A list of endpoints
-     */
-    default Publisher<EndpointsList> listEndpoints() {
-        return listEndpoints(DEFAULT_NAMESPACE);
-    }
 
     /**
      * List endpoints in the given namespace.
@@ -110,14 +82,6 @@ public interface KubernetesOperations {
     Publisher<Endpoints> getEndpoints(String namespace, String serviceName);
 
     /**
-     * @param serviceName name of the endpoints.
-     * @return Returns the endpoints for the specified name in the namespace ({@value #DEFAULT_NAMESPACE}).
-     */
-    default Publisher<Endpoints> getEndpoints(String serviceName) {
-        return getEndpoints(DEFAULT_NAMESPACE, serviceName);
-    }
-
-    /**
      * List objects of kind ConfigMap.
      *
      * @param namespace object name and auth scope, such as for teams and projects
@@ -133,13 +97,6 @@ public interface KubernetesOperations {
      */
     default Publisher<ConfigMapList> listConfigMaps(String namespace) {
         return listConfigMaps(namespace, null);
-    }
-
-    /**
-     * @return a {@link ConfigMapList} of the default namespace
-     */
-    default Publisher<ConfigMapList> listConfigMaps() {
-        return listConfigMaps(DEFAULT_NAMESPACE);
     }
 
     /**
@@ -180,13 +137,6 @@ public interface KubernetesOperations {
      */
     default Publisher<SecretList> listSecrets(String namespace) {
         return listSecrets(namespace, null);
-    }
-
-    /**
-     * @return a {@link SecretList} of the default namespace
-     */
-    default Publisher<SecretList> listSecrets() {
-        return listSecrets(DEFAULT_NAMESPACE);
     }
 
     /**

@@ -1,8 +1,12 @@
 #!/usr/bin/env sh
 
+kubectl delete namespace micronaut-kubernetes
 ./gradlew clean assemble jib --refresh-dependencies
 killall -9 kubectl
+
 kubectl proxy &
+kubectl create namespace micronaut-kubernetes
+kubectl config set-context --current --namespace=micronaut-kubernetes
 ./recreate.sh
 
 # Wait for pods to be up and ready

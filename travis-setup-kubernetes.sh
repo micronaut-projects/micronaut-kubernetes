@@ -21,6 +21,10 @@ kubectl version
 # Run Kubernetes API proxy
 kubectl proxy &
 
+# Create a new namespace and set it as the default
+kubectl create namespace micronaut-kubernetes
+kubectl config set-context --current --namespace=micronaut-kubernetes
+
 # Login to the Docker hub and push the images
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 ./gradlew jib --stacktrace
