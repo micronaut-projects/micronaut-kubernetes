@@ -18,7 +18,7 @@ public class MyService {
     }
 
     public void myMethod() {
-        Flowable.fromPublisher(this.client.listServices())
+        Flowable.fromPublisher(this.client.listServices("default"))
                 .subscribeOn(Schedulers.io())
                 .subscribe(System.out::println);
     }
