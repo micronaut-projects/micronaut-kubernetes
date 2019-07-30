@@ -3,6 +3,7 @@ package io.micronaut.kubernetes.configuration
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import io.micronaut.context.env.EnvironmentPropertySource
 import io.micronaut.context.env.PropertySource
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
@@ -36,10 +37,11 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ configMapExists('game-config-properties')})
     void "it can read config maps from properties"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.properties' }
+        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.properties' }
 
         then:
         propertySource.name == 'game.properties (Kubernetes ConfigMap)'
+        propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('enemies') == 'zombies'
         propertySource.get('lives') == '5'
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
@@ -49,10 +51,11 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ configMapExists('game-config-yml')})
     void "it can read config maps from yml"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.yml' }
+        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.yml' }
 
         then:
         propertySource.name == 'game.yml (Kubernetes ConfigMap)'
+        propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('enemies') == 'aliens'
         propertySource.get('lives') == 3
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
@@ -62,10 +65,11 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     @Requires({ configMapExists('game-config-json')})
     void "it can read config maps from json"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.json' }
+        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.json' }
 
         then:
         propertySource.name == 'game.json (Kubernetes ConfigMap)'
+        propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('enemies') == 'monsters'
         propertySource.get('lives') == 7
         propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
@@ -75,13 +79,13 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
     void "it can read config maps from literals"() {
         given:
         KubernetesConfigurationClient.propertySourceCache.clear()
-//        applicationContext.environment.refresh()
-        
+
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'literal-config' }
+        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'literal-config' }
 
         then:
         propertySource.name == 'literal-config (Kubernetes ConfigMap)'
+        propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('special.how') == 'very'
         propertySource.get('special.type') == 'charm'
     }

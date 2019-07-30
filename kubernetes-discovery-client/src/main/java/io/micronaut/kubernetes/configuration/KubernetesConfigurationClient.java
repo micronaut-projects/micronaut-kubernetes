@@ -18,10 +18,7 @@ package io.micronaut.kubernetes.configuration;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
-import io.micronaut.context.env.PropertiesPropertySourceLoader;
-import io.micronaut.context.env.PropertySource;
-import io.micronaut.context.env.PropertySourceReader;
+import io.micronaut.context.env.*;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
@@ -143,11 +140,12 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 LOG.trace("Considering this ConfigMap as containing values from a single file");
             }
             String extension = getExtension(entry.getKey()).get();
+            int priority = EnvironmentPropertySource.POSITION + 100;
             PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
                     .filter(reader -> reader.getExtensions().contains(extension))
                     .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
                     .peek(map -> map.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
-                    .map(map -> PropertySource.of(entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map))
+                    .map(map -> PropertySource.of(entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map, priority))
                     .findFirst()
                     .orElse(PropertySource.of(Collections.emptyMap()));
 
@@ -356,7 +354,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Map<String, Object> propertySourceData = data.entrySet()
                 .stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> decodeSecret(e.getValue())));
-        PropertySource propertySource = PropertySource.of(name, propertySourceData);
+        int priority = EnvironmentPropertySource.POSITION + 100;
+        PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
         addPropertySourceToCache(propertySource);
         return propertySource;
     }
