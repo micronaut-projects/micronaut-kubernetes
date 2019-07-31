@@ -48,6 +48,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         when:
         createConfigMap("hello-controller-spec")
         sleep 2_000
+        testClient.refresh()
 
         then:
         testClient.config("foo").equals("bar")

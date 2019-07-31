@@ -19,10 +19,8 @@ package io.micronaut.kubernetes.configuration;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.*;
-import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
-import io.micronaut.jackson.env.JsonPropertySourceLoader;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
@@ -43,7 +41,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
 
@@ -65,11 +62,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     public static final String KUBERNETES_SECRET_NAME_SUFFIX = " (Kubernetes Secret)";
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
-
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = Arrays.asList(
-            new YamlPropertySourceLoader(),
-            new JsonPropertySourceLoader(),
-            new PropertiesPropertySourceLoader());
 
     private static Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
 
@@ -116,46 +108,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     /**
-     * Converts a {@link ConfigMap} into a {@link PropertySource}.
-     *
-     * @param configMap the ConfigMap
-     * @return A PropertySource
-     */
-    static PropertySource configMapAsPropertySource(ConfigMap configMap) {
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
-        }
-        String name = getPropertySourceName(configMap);
-        Map<String, String> data = configMap.getData();
-        Map.Entry<String, String> entry = data.entrySet().iterator().next();
-        if (data.size() > 1 || !getExtension(entry.getKey()).isPresent()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
-            }
-            data.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
-            Map<String, Object> propertySourceData = new HashMap<>(data);
-            return PropertySource.of(name, propertySourceData);
-        } else {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Considering this ConfigMap as containing values from a single file");
-            }
-            String extension = getExtension(entry.getKey()).get();
-            int priority = EnvironmentPropertySource.POSITION + 100;
-            PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
-                    .filter(reader -> reader.getExtensions().contains(extension))
-                    .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
-                    .peek(map -> map.putIfAbsent(CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
-                    .map(map -> PropertySource.of(entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map, priority))
-                    .findFirst()
-                    .orElse(PropertySource.of(Collections.emptyMap()));
-
-            addPropertySourceToCache(propertySource);
-
-            return propertySource;
-        }
-    }
-
-    /**
      * Adds the given {@link PropertySource} to the cache.
      *
      * @param propertySource The property source to add
@@ -180,16 +132,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return propertySources;
     }
 
-    private static String getPropertySourceName(ConfigMap configMap) {
-        return configMap.getMetadata().getName() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-    }
-
-    private static Optional<String> getExtension(String filename) {
-        return Optional.of(filename)
-                .filter(f -> f.contains("."))
-                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
-    }
-
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         Collection<String> includes = configuration.getConfigMaps().getIncludes();
         Collection<String> excludes = configuration.getConfigMaps().getExcludes();
@@ -211,7 +153,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
 
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        String labelSelector = computeLabelSelector(labels);
+        String labelSelector = KubernetesConfigurationUtils.computeLabelSelector(labels);
 
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
@@ -229,7 +171,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                         LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
                     }
                 })
-                .map(KubernetesConfigurationClient::configMapAsPropertySource);
+                .map(KubernetesConfigurationUtils::configMapAsPropertySource);
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
@@ -261,7 +203,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 }
 
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                String labelSelector = computeLabelSelector(labels);
+                String labelSelector = KubernetesConfigurationUtils.computeLabelSelector(labels);
 
                 propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
@@ -280,7 +222,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                 LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
                             }
                         })
-                        .map(this::secretAsPropertySource));
+                        .map(KubernetesConfigurationUtils::secretAsPropertySource));
 
             }
 
@@ -307,7 +249,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                     }
                                 }
                                 String propertySourceName = path.toString() + KUBERNETES_SECRET_NAME_SUFFIX;
-                                propertySources.add(PropertySource.of(propertySourceName, propertySourceContents, -10));
+                                int priority = EnvironmentPropertySource.POSITION + 150;
+                                propertySources.add(PropertySource.of(propertySourceName, propertySourceContents, priority));
                             } catch (IOException e) {
                                 LOG.warn("Exception occurred when reading secrets from path: {}", path);
                                 LOG.warn(e.getMessage(), e);
@@ -322,46 +265,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             }
         }
         return propertySourceFlowable;
-    }
-
-    /**
-     * Determines the value of a Kubernetes labelSelector filter based on the passed labels.
-     *
-     * @param labels the labels
-     * @return the value of the labelSelector filter
-     */
-    static String computeLabelSelector(Map<String, String> labels) {
-        String labelSelector = null;
-        if (!labels.isEmpty()) {
-            labelSelector = labels.entrySet()
-                    .stream()
-                    .map(entry -> entry.getKey() + "=" + entry.getValue())
-                    .collect(Collectors.joining(","));
-
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("labelSelector: {}", labelSelector);
-            }
-        }
-        return labelSelector;
-    }
-
-    private PropertySource secretAsPropertySource(Secret secret) {
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Processing PropertySources for Secret: {}", secret);
-        }
-        String name = secret.getMetadata().getName() + KUBERNETES_SECRET_NAME_SUFFIX;
-        Map<String, String> data = secret.getData();
-        Map<String, Object> propertySourceData = data.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> decodeSecret(e.getValue())));
-        int priority = EnvironmentPropertySource.POSITION + 100;
-        PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
-        addPropertySourceToCache(propertySource);
-        return propertySource;
-    }
-
-    private String decodeSecret(String secretValue) {
-        return new String(Base64.getDecoder().decode(secretValue));
     }
 
 }

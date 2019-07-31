@@ -138,6 +138,9 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
         this.secure = secure;
     }
 
+    /**
+     * @return The {@link DiscoveryConfiguration}.
+     */
     @Nonnull
     public DiscoveryConfiguration getDiscovery() {
         return this.discovery;

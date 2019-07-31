@@ -38,7 +38,7 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.computeLabelSelector;
+import static io.micronaut.kubernetes.configuration.KubernetesConfigurationUtils.computeLabelSelector;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -139,7 +139,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processConfigMapAdded(ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
-            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(configMap);
+            propertySource = KubernetesConfigurationUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.addPropertySource(propertySource);
@@ -151,7 +151,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processConfigMapModified(ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
-            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(configMap);
+            propertySource = KubernetesConfigurationUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.removePropertySource(propertySource);
@@ -165,7 +165,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processConfigMapDeleted(ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
-            propertySource = KubernetesConfigurationClient.configMapAsPropertySource(configMap);
+            propertySource = KubernetesConfigurationUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.removePropertySource(propertySource);

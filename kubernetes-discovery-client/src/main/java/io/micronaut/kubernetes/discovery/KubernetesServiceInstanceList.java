@@ -46,6 +46,9 @@ public class KubernetesServiceInstanceList implements ServiceInstanceList {
 
     private KubernetesConfiguration configuration;
 
+    /**
+     * @param configuration The {@link KubernetesConfiguration}.
+     */
     public KubernetesServiceInstanceList(KubernetesConfiguration configuration) {
         this.configuration = configuration;
     }
