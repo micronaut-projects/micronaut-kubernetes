@@ -9,4 +9,9 @@ This project includes integration between [Micronaut](http://micronaut.io) and [
 
 See the [Documentation](https://micronaut-projects.github.io/micronaut-kubernetes/latest/guide) for more information.
 
-See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide) for the current development docs.
+See the [Snapshot Documentation](https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide) for the 
+current development docs.
+
+## Contributing Code
+
+If you wish to contribute to the development of this project please read the [CONTRIBUTING.md](CONTRIBUTING.md)
