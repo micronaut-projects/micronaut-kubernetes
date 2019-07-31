@@ -63,7 +63,7 @@ jib {
         image = 'alvarosanchez/alpine-with-curl'
     }
     to {
-        image = 'registry.hub.docker.com/alvarosanchez/example-service'
+        image = 'micronaut-kubernetes-example-service'
         if (os.isMacOsX()) {
             credHelper = 'osxkeychain'
         }

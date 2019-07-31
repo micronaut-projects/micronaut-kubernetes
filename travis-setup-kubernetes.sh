@@ -25,9 +25,8 @@ kubectl proxy &
 kubectl create namespace micronaut-kubernetes
 kubectl config set-context --current --namespace=micronaut-kubernetes
 
-# Login to the Docker hub and push the images
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-./gradlew jib --stacktrace
+# Build the images
+./gradlew jibDockerBuild --stacktrace
 
 # Create roles, deployments and services
 kubectl create -f k8s-auth.yml
@@ -36,16 +35,14 @@ kubectl create -f kubernetes.yml
 # Wait for pods to be up and ready
 sleep 20
 SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
-SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"kubectl wait --for=condition=Ready pod/$SERVICE_POD
+SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"
 kubectl wait --for=condition=Ready pod/$SERVICE_POD_1
 kubectl wait --for=condition=Ready pod/$CLIENT_POD
 kubectl wait --for=condition=Ready pod/$SERVICE_POD_2
 # Expose ports locally
 kubectl port-forward $SERVICE_POD_1 9999:8081 &
-kubectl port-forward $SERVICE_POD_1 5004:5004 &
 kubectl port-forward $SERVICE_POD_2 9998:8081 &
 kubectl port-forward $CLIENT_POD 8888:8082 &
-kubectl port-forward $CLIENT_POD 5005:5005 &
 
-kubectl logs -f $SERVICE_POD &
+kubectl logs -f $SERVICE_POD_1 &
 kubectl logs -f $CLIENT_POD &

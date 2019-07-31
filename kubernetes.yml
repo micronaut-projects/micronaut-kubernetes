@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: example-service
-          image: registry.hub.docker.com/alvarosanchez/example-service
-          imagePullPolicy: "Always"
+          image: micronaut-kubernetes-example-service
+          imagePullPolicy: "Never"
           volumeMounts:
             - name: secrets
               mountPath: "/etc/example-service/secrets"
@@ -67,8 +67,8 @@ spec:
     spec:
       containers:
         - name: example-client
-          image: registry.hub.docker.com/alvarosanchez/example-client
-          imagePullPolicy: "Always"
+          image: micronaut-kubernetes-example-client
+          imagePullPolicy: "Never"
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"

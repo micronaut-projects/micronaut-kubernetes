@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 kubectl delete namespace micronaut-kubernetes &
-./gradlew clean assemble jib --refresh-dependencies
+./gradlew clean assemble jibDockerBuild --refresh-dependencies
 killall -9 kubectl
 
 kubectl proxy &
