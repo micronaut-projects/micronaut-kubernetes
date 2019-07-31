@@ -370,7 +370,7 @@ metadata:
   namespace: micronaut-kubernetes
 rules:
   - apiGroups: [""]
-    resources: ["services", "endpoints", "configmaps", "secrets"]
+    resources: ["services", "endpoints", "configmaps", "secrets", "pods"]
     verbs: ["get", "watch", "list"]
 ---
 kind: RoleBinding
