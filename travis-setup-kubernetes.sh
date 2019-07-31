@@ -36,6 +36,7 @@ kubectl create -f kubernetes-travis.yml
 
 # Wait for pods to be up and ready
 sleep 20
+CLIENT_POD="$(kubectl get pods | grep "example-client" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"
 kubectl wait --for=condition=Ready pod/$SERVICE_POD_1
