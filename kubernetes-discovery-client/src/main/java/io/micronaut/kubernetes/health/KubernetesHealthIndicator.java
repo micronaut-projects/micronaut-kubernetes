@@ -83,12 +83,14 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
         Single.fromPublisher(this.client.getPod(configuration.getNamespace(), System.getenv(HOSTNAME_ENV_VARIABLE)))
                             .subscribeOn(Schedulers.from(this.executorService))
                             .doOnError(this::processError)
+                            .retry(2)
                             .subscribe(this::processPod);
 
     }
 
     private void processError(Throwable throwable) {
         LOG.warn("Error while getting Pod information", throwable);
+        this.healthInformation.put("error", throwable.getMessage());
         this.healthStatus = HealthStatus.UNKNOWN;
     }
 
