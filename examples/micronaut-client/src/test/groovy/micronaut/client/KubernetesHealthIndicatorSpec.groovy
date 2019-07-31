@@ -35,7 +35,7 @@ class KubernetesHealthIndicatorSpec extends Specification implements KubectlComm
         details.kubernetes.details.podIP
         details.kubernetes.details.hostIP
         details.kubernetes.details.containerStatuses.first().name == "example-service"
-        details.kubernetes.details.containerStatuses.first().image == "registry.hub.docker.com/alvarosanchez/example-service:latest"
+        details.kubernetes.details.containerStatuses.first().image.endsWith "example-service:latest"
         details.kubernetes.details.containerStatuses.first().ready == true
     }
 
