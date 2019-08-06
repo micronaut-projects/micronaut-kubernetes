@@ -33,7 +33,7 @@ env:
   - secure: CXX+AK+Sz7jUooGGEDDTJp0NDD+8ZWa+M5vNe0aqhuwJcNK6tEx06OqoUT7kcT0APwdrr6/U4XWNHQJS2f0Cz2qGsvu1ttP4ISpQ8MFxZdObieWBnJHgGC3ggCI2kDC+QUUdvP15egQNEGEPL5bgf9iMq9Np8oXohKMSOeT+S+IcNQSNgmbWOGLhbklurSotFWzHMFWg7pytcZmaZbdL9tR3425nRS7ERqBFQRnC+SBYZx/vR4bpkZhOH3nqHux6wwZNSboM0VzuIV2txu62tiPtVGE+wlJEEtIy0pxbYiHd6IFAWsUmKr5FJzrETRsxkcP81uiKP4GrfE2ng3UkDxae1FEFP9y2b+cjiHgEGFUh7O7sQv4UyEsxyUjlwYxSGT3JTaPfkFHuuR6TyPMs/yB54nA+7rGKa+aKG9JQzwfHQaDQguHO2weWfC+gEhNP2NyJPnTGJcVLP1t9eDFP+76r/tXNYNqLgcKxU/aHNQNS4h1sZxuH+fAZfiWDiqDwdptf76nLAay/J3gJ7oM/xvt75CMlvZ/3/6ZwMaL3pUA1es1KfirLve/jeleva3kGurL2tJsOgPIrA8ndzq9DG3+Hhy7ahMRwqWR9XmohTWAZMoNp5eOmra99y9ERhK6DiEsbfoEoQpar+KAZIc/oD/VUg0W7kB+R2MZYS3w7HKg=
 install: "/bin/true"
 before_script:
-- "./travis-setup-kubernetes.sh"
+- if [ -z "$TRAVIS_TAG" ]; then bash ./travis-setup-kubernetes.sh; fi
 script:
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis-build-pr.sh; fi
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis-build.sh; fi
