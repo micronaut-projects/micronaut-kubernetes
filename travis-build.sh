@@ -80,12 +80,6 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
             if [ $EXIT_STATUS -ne 0 ]; then
                 exit $EXIT_STATUS
             fi
-
-            ./gradlew synchronizeWithMavenCentral --no-daemon || EXIT_STATUS=$?
-
-            if [ $EXIT_STATUS -ne 0 ]; then
-                exit $EXIT_STATUS
-            fi
         else
             ./gradlew publish --no-daemon || EXIT_STATUS=$?
 
@@ -143,6 +137,12 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         cd ..
 
         rm -rf gh-pages
+
+        if [[ -n $TRAVIS_TAG ]]; then
+            if [ $EXIT_STATUS -ne 0 ]; then
+                ./gradlew synchronizeWithMavenCentral --no-daemon || EXIT_STATUS=$?
+            fi
+        fi        
     fi
 fi
 
