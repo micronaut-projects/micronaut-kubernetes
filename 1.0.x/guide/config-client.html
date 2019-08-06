@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>3 Configuration Client 1.0.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <div class="navTitle">
+        
+        Micronaut Kubernetes
+    </div>
+    <div class="navLinks">
+        <ul>
+            <li>
+                <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                    <a href="../guide/index.html" class="button">Table of contents</a>
+
+                    <div id="nav-summary-childs" style="display:none;">
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/service-discovery.html"><strong>2</strong><span>Service Discovery</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/config-client.html"><strong>3</strong><span>Configuration Client</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/low-level-client.html"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a>
+                        </div>
+                        
+                        <div class="toc-item" style="margin-left:0"><a href="../guide/logging.html"><strong>6</strong><span>Logging and debugging</span></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="separator selected">
+                <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+            </li>
+        </ul>
+    </div>
+
+
+</div>
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/service-discovery.html">&lt;&lt; <strong>2</strong><span>Service Discovery</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>3 Configuration Client</h1>
+
+                    <p><strong>Version:</strong> 1.0.0</p>
+                </div>
+
+                
+
+                
+
+<h1 id="config-client">3 Configuration Client</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/config-client.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Configuration client will read Kubernetes' <code>ConfigMap</code>s and <code>Secret</code>s instances and make them available as <code>PropertySource</code>s
+instances in your application.</p>
+</div>
+<div class="paragraph">
+<p>Then, in any bean you can read the configuration values from the <code>ConfigMap</code> or <code>Secret</code> using <code>@Value</code> or
+<a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
+</div>
+<div class="paragraph">
+<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
+following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config-client:
+    enabled: true</code></pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configmaps">ConfigMaps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Supported formats for <code>ConfigMap</code>s are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java <code>.properties</code>.</p>
+</li>
+<li>
+<p>YAML.</p>
+</li>
+<li>
+<p>JSON.</p>
+</li>
+<li>
+<p>Literal values.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The configuration client by default will read all the <code>ConfigMap</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.config-maps.includes</code> or
+<code>kubernetes.client.config-maps.excludes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      includes:
+        - my-config-map
+        - other-config-map</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      excludes: not-this-config-map</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
+sources:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      labels:
+        - app: my-app
+        - env: prod</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
+</div>
+<div class="sect2">
+<h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
+<div class="paragraph">
+<p>By default, this configuration module will watch for <code>ConfigMap</code>s added/modified/deleted, and provided that the changes
+match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means that those changes will be immediately available in your application without a restart.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples">Examples</h3>
+<div class="paragraph">
+<p>You can create a Kubernetes <code>ConfigMap</code> off an existing file with the following command:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.properties</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.yml</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.json</code></p>
+</div>
+<div class="paragraph">
+<p>You can also create a <code>ConfigMap</code> from literal values:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-literal=special.how=very --from-literal=special.type=charm</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_secrets">Secrets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Secrets read from the Kubernetes API will be base64-decoded and made available as <code>PropertySource</code> s, so that they can be
+also read with <code>@Value</code>, <code>@ConfigurationProperties</code>, etc.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only <code>Opaque</code> secrets will be considered.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>By default, secrets access is diabled. To enable them, set in <code>bootstrap.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration client, by default, will read all the <code>Secret</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      includes: this-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      excludes: not-this-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly to <code>ConfigMap</code>s, labels can also be used to match the desired secrets:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      labels:
+        - app: my-app
+        - env: prod</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reading_code_configmap_code_s_and_code_secret_code_s_from_mounted_volumes">Reading <code>ConfigMap</code>s and <code>Secret</code>s from mounted volumes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the case of <code>Secret</code>s, reading them from the Kubernetes API requires additional permissions, as stated above.
+Therefore, you may want to read them from mounted volumes in the pod.</p>
+</div>
+<div class="paragraph">
+<p>Given the following secret:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It can be mounted as a volume in a pod or deployment definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    secret:
+      secretName: mysecret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will make Kubernetes to create 2 files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/etc/foo/username</code>.</p>
+</li>
+<li>
+<p><code>/etc/foo/password</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Their content will be the decoded strings from the original base-64 encoded values.</p>
+</div>
+<div class="paragraph">
+<p>While you could potentially use the <code>java.io</code> or <code>java.nio</code> APIs to read the contents yourself, this configuration module
+can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
+the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      paths:
+        - /etc/foo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each file in the directory will become the property key, and the file contents, the property value.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When <code>kubernetes.client.secrets.paths</code> is defined, the Kubernetes API will not be used to read any other secret.
+If you still want to read the remaining secrets from the API, set the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      use-api: true
+      excludes: mysecret  # Because it will be read as a mounted volume
+      paths:
+        - /etc/foo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this scenario, if there are property keys defined in both type of secrets, the ones coming from mounted volumes will
+take precedence over the ones coming from the API.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/service-discovery.html">&lt;&lt; <strong>2</strong><span>Service Discovery</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/health-checks.html"><strong>4</strong><span>Health Checks</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>

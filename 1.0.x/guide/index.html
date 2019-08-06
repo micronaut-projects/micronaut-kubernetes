@@ -1,0 +1,1018 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Micronaut Kubernetes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/custom.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <link rel="stylesheet" href="../css/highlight/agate.css">
+    <script src="../js/highlight.pack.js"></script>
+    <script src="../js/guide.js"></script>
+    <script src="../js/multi-language-sample.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <link rel="stylesheet" href="../css/multi-language-sample.css"/>
+    <script src="../js/docs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.13/clipboard.min.js"></script>
+    <script type="text/javascript">
+        function addJsClass(el) {
+            var classes = document.body.className.split(" ");
+            classes.push("js");
+            document.body.className = classes.join(" ");
+        }
+    </script>
+
+</head>
+
+<body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
+
+<div id="table-of-content-nav-link" class="desktop">
+    <a title="Collapse/Open Table of contents" title="Hide Table of Contents" href="javascript:hideTableOfContents();" class="button">[ + ]</a>
+</div>
+
+<div id="main">
+    <div id="navigation" class="no-print">
+        <div class="navTitle">
+            <span id="logo"><a href="http://micronaut.io" title="Go to Micronaut Website"><img src="../img/micronaut-logo-white.svg" alt="Micronaut"/></a></span>
+        </div>
+        <div class="navLinks">
+            <ul>
+                    <li>
+                        <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
+                            <a href="../guide/index.html" class="button">Table of contents</a>
+                            <div id="nav-summary-childs" style="display:none;">
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#service-discovery"><strong>2</strong><span>Service Discovery</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>4</strong><span>Health Checks</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#low-level-client"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
+                                
+                            </div>
+                        </div>
+                    </li>
+
+                <li id="table-of-content-nav-link-mobile" class="mobile">
+                    <a title="Scroll to Table of contents" href="javascript:scrollToTop();" class="button">Toc</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to API documentation" href="../api/index.html" class="button">API</a>
+                </li>
+                <li class="desktop">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Configuration Reference</a>
+                </li>
+                <li class="mobile">
+                    <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Conf</a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+    
+    <div id="table-of-content">
+        <div class="toc-content">
+
+        <h2>Table of Contents</h2>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-service-discovery"><a href="#service-discovery"><strong>2</strong><span>Service Discovery</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>4</strong><span>Health Checks</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-low-level-client"><a href="#low-level-client"><strong>5</strong><span>Using the low-level Kubernetes API HTTP client</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
+        
+        </div>
+    </div>
+    
+    <div class="docs-content">
+    <div class="project">
+        <h1>Micronaut Kubernetes</h1>
+        <p></p>
+        <p>Integration between Micronaut and Kubernetes</p>
+        <p><strong>Version:</strong> 1.0.0</p>
+    </div>
+    
+
+<h1 id="introduction">1 Introduction</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/introduction.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This project eases <a href="https://kubernetes.io">Kubernetes</a> integration with Micronaut.</p>
+</div>
+<div class="paragraph">
+<p>It adds support for the following features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Service Discovery.</p>
+</li>
+<li>
+<p>Configuration client for config maps and secrets.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To get started, you need to declare the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">compile <span class="hljs-string">'io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:1.0.0'</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Note that this configuration module requires at least Micronaut 1.2.</p>
+</div>
+<div class="paragraph">
+<p>To use the <code>BUILD-SNAPSHOT</code> version of this library, check the
+<a href="https://docs.micronaut.io/latest/guide/index.html#usingsnapshots">documentation to use snapshots</a>.</p>
+</div>
+<div class="paragraph">
+<p>The core library for all features can be configured using the following configuration properties:</p>
+</div>
+<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.host</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The Kubernetes API host name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port for the Kubernetes API</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secure</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set if the Kubernetes API server is exposed over HTTPS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ssl-configuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/ssl/SslConfiguration.html">SslConfiguration</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.logger-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.follow-redirects</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.default-charset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.nio.charset.Charset</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.channel-options</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.shutdown-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.read-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.read-idle-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.connect-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.num-of-threads</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Integer</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.thread-factory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Class</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.max-content-length</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.Proxy$Type</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.SocketAddress</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="sect1">
+<h2 id="_namespace_configuration">Namespace configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When a Micronaut application with this configuration module is running within a Pod in a Kubernetes cluster, it will
+infer automatically the namespace it&#8217;s running from by reading it from the service account secret (which will be
+provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</code>).</p>
+</div>
+<div class="paragraph">
+<p>However, the namespace can still be overridden via configuration in <code>bootstrap.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    namespace: other-namespace</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<h1 id="service-discovery">2 Service Discovery</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/service-discovery.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Service Discovery module allows Micronaut HTTP clients to discover Kubernetes services.</p>
+</div>
+<div class="paragraph">
+<p>In any client you can use as Service ID the Kubernetes <code>Endpoints</code> name generated by a Kubernetes <code>Service</code>.</p>
+</div>
+<div class="paragraph">
+<p>Consider the following Kubernetes service definition:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This specification will create a new <code>Service</code> object named <code>my-service</code>, as well as an <code>Endpoints</code> object also named <code>my-service</code>.</p>
+</div>
+<div class="paragraph">
+<p>In your HTTP client, you can use <code>my-service</code> as Service ID: <code>@Client("my-service")</code>.</p>
+</div>
+<div class="paragraph">
+<p>Note that service discovery is enabled by default in Micronaut. To disable it, set <code>kubernetes.client.discovery.enabled</code>
+to <code>false</code>.</p>
+</div>
+<div class="sect1">
+<h2 id="_kubernetes_api_authentication">Kubernetes API authentication</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Micronaut connects to the Kubernetes API using the <code>default</code> service account, which by default only has permissions over
+the <code>kube-system</code> namespace. The service account used needs some read permissions.
+Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
+about Role-based access control (RBAC).</p>
+</div>
+<div class="paragraph">
+<p>One of the options is to create the following <code>Role</code> and <code>RoleBinding</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>auth.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-discoverer
+  namespace: micronaut-kubernetes
+rules:
+  - apiGroups: [""]
+    resources: ["services", "endpoints", "configmaps", "secrets", "pods"]
+    verbs: ["get", "watch", "list"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: default-service-discoverer
+  namespace: micronaut-kubernetes
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: micronaut-kubernetes
+roleRef:
+  kind: Role
+  name: service-discoverer
+  apiGroup: rbac.authorization.k8s.io</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+In Google Cloud&#8217;s Kubernetes Engine, in order to create the above, you must grant your user the ability to create roles
+in Kubernetes by running the following command:
+</td>
+</tr>
+</table>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user yourGoogleAccount@gmail.com</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_connecting_to_services_using_https">Connecting to services using HTTPS</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are three ways for this library to determine whether a service should be connected to using SSL (the following
+examples assume there is a <code>Deployment</code> named <code>secure-deployment</code>).</p>
+</div>
+<div class="sect2">
+<h3 id="_using_code_https_code_as_port_name">Using <code>https</code> as port name</h3>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-port-name
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 1234
+      protocol: TCP
+      name: https</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_a_port_ending_in_443">Using a port ending in 443</h3>
+<div class="paragraph">
+<p>Port numbers like 443, 8443, etc. will match.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-port-number
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 443
+      protocol: TCP</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_labels">Using labels</h3>
+<div class="paragraph">
+<p>Set a label named <code>secure</code> with value <code>true</code> to have the client use HTTPS.</p>
+</div>
+<div class="listingblock">
+<div class="title"><code>my-service.yml</code></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-labels
+  labels:
+    secure: "true"
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 1234
+      protocol: TCP</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<h1 id="config-client">3 Configuration Client</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/config-client.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Configuration client will read Kubernetes' <code>ConfigMap</code>s and <code>Secret</code>s instances and make them available as <code>PropertySource</code>s
+instances in your application.</p>
+</div>
+<div class="paragraph">
+<p>Then, in any bean you can read the configuration values from the <code>ConfigMap</code> or <code>Secret</code> using <code>@Value</code> or
+<a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
+</div>
+<div class="paragraph">
+<p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
+following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config-client:
+    enabled: true</code></pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configmaps">ConfigMaps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Supported formats for <code>ConfigMap</code>s are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java <code>.properties</code>.</p>
+</li>
+<li>
+<p>YAML.</p>
+</li>
+<li>
+<p>JSON.</p>
+</li>
+<li>
+<p>Literal values.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The configuration client by default will read all the <code>ConfigMap</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.config-maps.includes</code> or
+<code>kubernetes.client.config-maps.excludes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      includes:
+        - my-config-map
+        - other-config-map</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      excludes: not-this-config-map</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
+sources:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      labels:
+        - app: my-app
+        - env: prod</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
+</div>
+<div class="sect2">
+<h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
+<div class="paragraph">
+<p>By default, this configuration module will watch for <code>ConfigMap</code>s added/modified/deleted, and provided that the changes
+match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means that those changes will be immediately available in your application without a restart.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples">Examples</h3>
+<div class="paragraph">
+<p>You can create a Kubernetes <code>ConfigMap</code> off an existing file with the following command:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.properties</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.yml</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.json</code></p>
+</div>
+<div class="paragraph">
+<p>You can also create a <code>ConfigMap</code> from literal values:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-literal=special.how=very --from-literal=special.type=charm</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_secrets">Secrets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Secrets read from the Kubernetes API will be base64-decoded and made available as <code>PropertySource</code> s, so that they can be
+also read with <code>@Value</code>, <code>@ConfigurationProperties</code>, etc.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Only <code>Opaque</code> secrets will be considered.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>By default, secrets access is diabled. To enable them, set in <code>bootstrap.yml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The configuration client, by default, will read all the <code>Secret</code>s for the configured namespace. You can further filter
+which config map names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      includes: this-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      excludes: not-this-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly to <code>ConfigMap</code>s, labels can also be used to match the desired secrets:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      labels:
+        - app: my-app
+        - env: prod</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reading_code_configmap_code_s_and_code_secret_code_s_from_mounted_volumes">Reading <code>ConfigMap</code>s and <code>Secret</code>s from mounted volumes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the case of <code>Secret</code>s, reading them from the Kubernetes API requires additional permissions, as stated above.
+Therefore, you may want to read them from mounted volumes in the pod.</p>
+</div>
+<div class="paragraph">
+<p>Given the following secret:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It can be mounted as a volume in a pod or deployment definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    secret:
+      secretName: mysecret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will make Kubernetes to create 2 files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/etc/foo/username</code>.</p>
+</li>
+<li>
+<p><code>/etc/foo/password</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Their content will be the decoded strings from the original base-64 encoded values.</p>
+</div>
+<div class="paragraph">
+<p>While you could potentially use the <code>java.io</code> or <code>java.nio</code> APIs to read the contents yourself, this configuration module
+can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
+the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      paths:
+        - /etc/foo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each file in the directory will become the property key, and the file contents, the property value.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When <code>kubernetes.client.secrets.paths</code> is defined, the Kubernetes API will not be used to read any other secret.
+If you still want to read the remaining secrets from the API, set the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      use-api: true
+      excludes: mysecret  # Because it will be read as a mounted volume
+      paths:
+        - /etc/foo</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this scenario, if there are property keys defined in both type of secrets, the ones coming from mounted volumes will
+take precedence over the ones coming from the API.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+
+<h1 id="health-checks">4 Health Checks</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/health-checks.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="sect1">
+<h2 id="_health_indicators">Health Indicators</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This configuration module provides a <a href="../api/io/micronaut/kubernetes/health/KubernetesHealthIndicator.html">health check</a> that probes
+communication with the Kubernetes API, and provides some information about the pod where the application is running from.</p>
+</div>
+<div class="paragraph">
+<p>The service discovery client will also display all the services that were resolved from Kubernetes.</p>
+</div>
+<div class="paragraph">
+<p>An example output of a <code>/health</code> request would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "name": "micronaut-service",
+  "status": "UP",
+  "details": {
+    "kubernetes": {
+      "name": "micronaut-service",
+      "status": "UP",
+      "details": {
+        "namespace": "default",
+        "podName": "example-service-786cd45b78-bzfw5",
+        "podPhase": "Running",
+        "podIP": "10.1.3.124",
+        "hostIP": "192.168.65.3",
+        "containerStatuses": [
+          {
+            "name": "example-service",
+            "image": "registry.hub.docker.com/alvarosanchez/example-service:latest",
+            "ready": true
+          }
+        ]
+      }
+    },
+    "compositeDiscoveryClient(kubernetes)": {
+      "name": "micronaut-service",
+      "status": "UP",
+      "details": {
+        "services": {
+          "example-service": [
+            "http://10.1.3.124:8081",
+            "http://10.1.3.126:8081"
+          ],
+          "non-secure-service": [
+            "http://10.1.3.127:1234"
+          ],
+          "kubernetes": [
+            "https://kubernetes:443"
+          ],
+          "secure-service-port-name": [
+            "https://10.1.3.127:1234"
+          ],
+          "example-client": [
+            "http://10.1.3.125:8082"
+          ],
+          "secure-service-port-number": [
+            "https://10.1.3.127:443"
+          ],
+          "secure-service-labels": [
+            "https://10.1.3.127:1234"
+          ]
+        }
+      }
+    },
+    "diskSpace": {
+      "name": "micronaut-service",
+      "status": "UP",
+      "details": {
+        "total": 109702647808,
+        "free": 69758287872,
+        "threshold": 10485760
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Health checks require the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">compile <span class="hljs-string">'io.micronaut:micronaut-management'</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-management&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Also note that in order to see the full details of the health checks you may need additional configuration. Check
+<a href="https://docs.micronaut.io/latest/guide/index.html#healthEndpoint">the documentation of the Health Endpoint</a> for more
+information about how to configure it.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+
+<h1 id="low-level-client">5 Using the low-level Kubernetes API HTTP client</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/low-level-client.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>In an effort to have zero dependencies and a minimal footprint, this configuration module has its own Kubernetes API
+non-blocking HTTP client. If you need to, you can use it directly in your application:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.kubernetes.client.v1.KubernetesClient;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
+import javax.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final KubernetesClient client;
+
+    public MyService(KubernetesClient client) {
+        this.client = client;
+    }
+
+    public void myMethod() {
+        Flowable.fromPublisher(this.client.listServices("default"))
+                .subscribeOn(Schedulers.io())
+                .subscribe(System.out::println);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the client only contains the Kubernetes API endpoints used by either the Discovery Client or the Configuration
+Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesOperations.html">the API documentation to see the available methods</a>.</p>
+</div>
+
+
+<h1 id="logging">6 Logging and debugging</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>If you need to debug the HTTP calls made to the Kubernetes API, you need to set the <code>io.micronaut.http.client</code> logger level
+to <code>TRACE</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;logger name="io.micronaut.http.client" level="TRACE"/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also, you can set a higher level (<code>DEBUG</code> or <code>TRACE</code>) for this configuration module logging.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;logger name="io.micronaut.kubernetes" level="TRACE"/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Other package that might produce relevant logging is <code>io.micronaut.discovery</code>, which belongs to Micronaut Core.</p>
+</div>
+<div class="paragraph">
+<p>In addition to that, another source of information is
+<a href="https://docs.micronaut.io/latest/guide/index.html#environmentEndpoint">the Environment Endpoint</a>, which outputs all
+the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
+</div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
