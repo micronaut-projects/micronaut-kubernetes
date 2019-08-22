@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.util.StringUtils;
 
 import java.util.Collections;
@@ -27,6 +28,7 @@ import java.util.Map;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class Metadata {
 
     public static final String SECURE_LABEL = "secure";

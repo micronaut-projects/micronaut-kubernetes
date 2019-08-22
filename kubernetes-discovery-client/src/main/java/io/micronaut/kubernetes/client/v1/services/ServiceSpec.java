@@ -17,6 +17,7 @@
 package io.micronaut.kubernetes.client.v1.services;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.kubernetes.client.v1.Port;
 
 import java.net.InetAddress;
@@ -30,6 +31,7 @@ import java.util.List;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class ServiceSpec {
 
     private List<Port> ports;

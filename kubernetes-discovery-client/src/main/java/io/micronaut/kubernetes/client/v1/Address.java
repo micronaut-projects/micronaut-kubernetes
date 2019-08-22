@@ -16,6 +16,8 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.core.annotation.Introspected;
+
 import java.net.InetAddress;
 
 /**
@@ -24,6 +26,7 @@ import java.net.InetAddress;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class Address {
 
     private InetAddress ip;

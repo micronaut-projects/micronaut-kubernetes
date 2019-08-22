@@ -16,6 +16,8 @@
 
 package io.micronaut.kubernetes.client.v1.endpoints;
 
+import io.micronaut.core.annotation.Introspected;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import java.util.List;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class EndpointsList {
 
     private List<Endpoints> items;

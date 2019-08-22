@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.client.v1.services;
 
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.kubernetes.client.v1.Metadata;
 
 /**
@@ -24,6 +25,7 @@ import io.micronaut.kubernetes.client.v1.Metadata;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class Service {
 
     private Metadata metadata;

@@ -16,12 +16,15 @@
 
 package io.micronaut.kubernetes.client.v1.pods;
 
+import io.micronaut.core.annotation.Introspected;
+
 /**
  * Information about the running container.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class ContainerStatus {
 
     private String name;

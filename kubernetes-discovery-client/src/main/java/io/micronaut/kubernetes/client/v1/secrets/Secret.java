@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.client.v1.secrets;
 
+import io.micronaut.core.annotation.Introspected;
 import io.micronaut.kubernetes.client.v1.Metadata;
 
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import java.util.Map;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class Secret {
 
     public static final String OPAQUE_SECRET_TYPE = "Opaque";

@@ -16,12 +16,15 @@
 
 package io.micronaut.kubernetes.client.v1.configmaps;
 
+import io.micronaut.core.annotation.Introspected;
+
 /**
  * Represents a ConfigMap watch event returned from the Kubernetes API.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class ConfigMapWatchEvent {
 
     private EventType type;

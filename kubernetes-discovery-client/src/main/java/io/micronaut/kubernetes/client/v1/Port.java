@@ -16,12 +16,15 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import io.micronaut.core.annotation.Introspected;
+
 /**
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#serviceport-v1-core">Service Port v1 core</a>.
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class Port {
 
     private String name;

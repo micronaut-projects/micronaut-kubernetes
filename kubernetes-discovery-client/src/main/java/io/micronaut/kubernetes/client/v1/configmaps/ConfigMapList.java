@@ -16,6 +16,8 @@
 
 package io.micronaut.kubernetes.client.v1.configmaps;
 
+import io.micronaut.core.annotation.Introspected;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +28,7 @@ import java.util.List;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
+@Introspected
 public class ConfigMapList {
 
     private List<ConfigMap> items;
