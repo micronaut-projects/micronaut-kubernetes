@@ -113,6 +113,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param propertySource The property source to add
      */
     static void addPropertySourceToCache(PropertySource propertySource) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Adding property source {} to cache", propertySource.getName());
+        }
         propertySources.put(propertySource.getName(), propertySource);
     }
 
@@ -122,6 +125,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param name The property source name
      */
     static void removePropertySourceFromCache(String name) {
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Removing property source {} to cache", name);
+        }
         propertySources.remove(name);
     }
 
@@ -250,7 +256,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                 }
                                 String propertySourceName = path.toString() + KUBERNETES_SECRET_NAME_SUFFIX;
                                 int priority = EnvironmentPropertySource.POSITION + 150;
-                                propertySources.add(PropertySource.of(propertySourceName, propertySourceContents, priority));
+                                PropertySource propertySource = PropertySource.of(propertySourceName, propertySourceContents, priority);
+                                addPropertySourceToCache(propertySource);
+                                propertySources.add(propertySource);
                             } catch (IOException e) {
                                 LOG.warn("Exception occurred when reading secrets from path: {}", path);
                                 LOG.warn(e.getMessage(), e);

@@ -19,11 +19,13 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.runtime.context.scope.Refreshable;
 import io.micronaut.runtime.server.EmbeddedServer;
 
 import javax.inject.Inject;
 
 @Controller("/hello")
+@Refreshable
 public class HelloController {
 
     @Inject
