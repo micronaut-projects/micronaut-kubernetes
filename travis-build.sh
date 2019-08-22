@@ -139,10 +139,8 @@ if [[ $EXIT_STATUS -eq 0 ]]; then
         rm -rf gh-pages
 
         if [[ -n $TRAVIS_TAG ]]; then
-            if [ $EXIT_STATUS -ne 0 ]; then
-                ./gradlew synchronizeWithMavenCentral --no-daemon || EXIT_STATUS=$?
-            fi
-        fi        
+            ./gradlew synchronizeWithMavenCentral --no-daemon || EXIT_STATUS=$?
+        fi
     fi
 fi
 
