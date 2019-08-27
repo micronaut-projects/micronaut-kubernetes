@@ -124,7 +124,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         service.metadata.name == 'example-service' &&
                 service.spec.ports.first().port == 8081 &&
                 service.spec.ports.first().targetPort == "8081" &&
-                service.spec.clusterIp == InetAddress.getByName(getClusterIp())
+                service.spec.clusterIp == getClusterIp()
     }
 
     private boolean assertThatEndpointsIsCorrect(Endpoints endpoints, List<String> ipAddresses) {

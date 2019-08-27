@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.kubernetes.client.v1.Port;
 
-import java.net.InetAddress;
 import java.util.List;
 
 /**
@@ -35,7 +34,7 @@ import java.util.List;
 public class ServiceSpec {
 
     private List<Port> ports;
-    private InetAddress clusterIp;
+    private String clusterIp;
 
     /**
      *
@@ -58,7 +57,7 @@ public class ServiceSpec {
      * @return The IP address of the service; usually assigned randomly by the master.
      */
     @JsonProperty("clusterIP")
-    public InetAddress getClusterIp() {
+    public String getClusterIp() {
         return clusterIp;
     }
 
@@ -67,7 +66,7 @@ public class ServiceSpec {
      * @param clusterIp The IP address of the service.
      */
     @JsonProperty("clusterIP")
-    public void setClusterIp(InetAddress clusterIp) {
+    public void setClusterIp(String clusterIp) {
         this.clusterIp = clusterIp;
     }
 }
