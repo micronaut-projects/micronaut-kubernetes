@@ -7,12 +7,6 @@ import spock.lang.Specification
 
 import javax.inject.Inject
 
-/**
- * TODO: javadoc
- *
- * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
- */
 @MicronautTest
 class InetAddressDeserializerSpec extends Specification {
 

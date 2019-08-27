@@ -17,7 +17,9 @@
 package io.micronaut.kubernetes.client.v1.services;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.kubernetes.client.v1.InetAddressDeserializer;
 import io.micronaut.kubernetes.client.v1.Port;
 
 import java.net.InetAddress;
@@ -58,6 +60,7 @@ public class ServiceSpec {
      * @return The IP address of the service; usually assigned randomly by the master.
      */
     @JsonProperty("clusterIP")
+    @JsonDeserialize(using = InetAddressDeserializer.class)
     public InetAddress getClusterIp() {
         return clusterIp;
     }

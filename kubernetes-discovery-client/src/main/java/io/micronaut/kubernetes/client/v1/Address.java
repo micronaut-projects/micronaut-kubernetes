@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.micronaut.core.annotation.Introspected;
 
 import java.net.InetAddress;
@@ -35,6 +36,7 @@ public class Address {
      *
      * @return The IP.
      */
+    @JsonDeserialize(using = InetAddressDeserializer.class)
     public InetAddress getIp() {
         return ip;
     }

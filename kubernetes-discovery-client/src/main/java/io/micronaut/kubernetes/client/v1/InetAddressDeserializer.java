@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.deser.std.FromStringDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
@@ -12,10 +11,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * TODO: javadoc
+ * Jackson deserializer that handles when Kubernetes returns IP addresses of `None`.
  *
  * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
+ * @since 1.0.2
  */
 public class InetAddressDeserializer extends StdDeserializer<InetAddress> {
 
