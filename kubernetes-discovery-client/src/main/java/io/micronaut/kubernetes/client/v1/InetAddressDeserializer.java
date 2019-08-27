@@ -18,11 +18,17 @@ import java.net.UnknownHostException;
  */
 public class InetAddressDeserializer extends StdDeserializer<InetAddress> {
 
+    /**
+     * Default constructor.
+     */
     public InetAddressDeserializer() {
         this(null);
     }
 
 
+    /**
+     * @param vc The value class
+     */
     public InetAddressDeserializer(Class<?> vc) {
         super(vc);
     }
