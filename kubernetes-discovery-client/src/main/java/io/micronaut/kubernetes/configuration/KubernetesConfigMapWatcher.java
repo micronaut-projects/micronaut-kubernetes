@@ -80,7 +80,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void onApplicationEvent(ServiceStartedEvent event) {
-        int lastResourceVersion = computeLastResourceVersion();
+        long lastResourceVersion = computeLastResourceVersion();
         String labelSelector = computeLabelSelector(configuration.getConfigMaps().getLabels());
 
         if (LOG.isDebugEnabled()) {
@@ -98,15 +98,15 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 .subscribe(this::processEvent);
     }
 
-    private int computeLastResourceVersion() {
-        int lastResourceVersion = this.environment
+    private long computeLastResourceVersion() {
+        long lastResourceVersion = this.environment
                 .getPropertySources()
                 .stream()
                 .filter(propertySource -> propertySource.getName().endsWith(KUBERNETES_CONFIG_MAP_NAME_SUFFIX))
                 .map(propertySource -> propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION))
-                .map(o -> Integer.parseInt(o.toString()))
-                .max(Integer::compareTo)
-                .orElse(0);
+                .map(o -> Long.parseLong(o.toString()))
+                .max(Long::compareTo)
+                .orElse(0L);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Latest resourceVersion is: {}", lastResourceVersion);
