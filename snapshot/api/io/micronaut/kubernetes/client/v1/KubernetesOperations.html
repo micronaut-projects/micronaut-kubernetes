@@ -202,8 +202,8 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i11" class="rowColor">
 <td class="colFirst"><code>org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#watchConfigMaps-java.lang.String-java.lang.Integer-java.lang.String-">watchConfigMaps</a></span>(java.lang.String&nbsp;namespace,
-               java.lang.Integer&nbsp;resourceVersion,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html#watchConfigMaps-java.lang.String-java.lang.Long-java.lang.String-">watchConfigMaps</a></span>(java.lang.String&nbsp;namespace,
+               java.lang.Long&nbsp;resourceVersion,
                java.lang.String&nbsp;labelSelector)</code>
 <div class="block">Watch objects of kind ConfigMap.</div>
 </td>
@@ -334,7 +334,7 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 </dl>
 </li>
 </ul>
-<a name="watchConfigMaps-java.lang.String-java.lang.Integer-java.lang.String-">
+<a name="watchConfigMaps-java.lang.String-java.lang.Long-java.lang.String-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -343,7 +343,7 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 <pre>@Get(value="/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&amp;labelSelector={labelSelector}")
  @Consumes(value={"application/x-json-stream","application/json"})
 org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a>&gt;&nbsp;watchConfigMaps(java.lang.String&nbsp;namespace,
-                                                                                                                                                                                                                                                             java.lang.Integer&nbsp;resourceVersion,
+                                                                                                                                                                                                                                                             java.lang.Long&nbsp;resourceVersion,
                                                                                                                                                                                                                                                              @Nullable
                                                                                                                                                                                                                                                              java.lang.String&nbsp;labelSelector)</pre>
 <div class="block">Watch objects of kind ConfigMap.</div>
