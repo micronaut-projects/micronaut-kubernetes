@@ -109,7 +109,7 @@ public interface KubernetesOperations {
      */
     @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&labelSelector={labelSelector}")
     @Consumes(value = {MediaType.APPLICATION_JSON_STREAM, MediaType.APPLICATION_JSON})
-    Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Integer resourceVersion, @Nullable String labelSelector);
+    Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Long resourceVersion, @Nullable String labelSelector);
 
     /**
      * Read the specified ConfigMap.
