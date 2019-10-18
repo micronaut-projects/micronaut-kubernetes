@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.micronaut.kubernetes.configuration;
+package io.micronaut.kubernetes.util;
 
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertiesPropertySourceLoader;
@@ -22,8 +22,11 @@ import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
+import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
+import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +39,9 @@ import java.util.stream.Collectors;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
-public class KubernetesConfigurationUtils {
+public class KubernetesUtils {
     
-    private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
 
     private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = Arrays.asList(
             new YamlPropertySourceLoader(),
@@ -51,7 +54,7 @@ public class KubernetesConfigurationUtils {
      * @param configMap the ConfigMap
      * @return A PropertySource
      */
-    static PropertySource configMapAsPropertySource(ConfigMap configMap) {
+    public static PropertySource configMapAsPropertySource(ConfigMap configMap) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
         }
@@ -85,23 +88,13 @@ public class KubernetesConfigurationUtils {
         }
     }
 
-    private static String getPropertySourceName(ConfigMap configMap) {
-        return configMap.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-    }
-
-    private static Optional<String> getExtension(String filename) {
-        return Optional.of(filename)
-                .filter(f -> f.contains("."))
-                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
-    }
-
     /**
      * Determines the value of a Kubernetes labelSelector filter based on the passed labels.
      *
      * @param labels the labels
      * @return the value of the labelSelector filter
      */
-    static String computeLabelSelector(Map<String, String> labels) {
+    public static String computeLabelSelector(Map<String, String> labels) {
         String labelSelector = null;
         if (!labels.isEmpty()) {
             labelSelector = labels.entrySet()
@@ -120,7 +113,7 @@ public class KubernetesConfigurationUtils {
      * @param secret The {@link Secret} to transform
      * @return The converted {@link PropertySource}.
      */
-    static PropertySource secretAsPropertySource(Secret secret) {
+    public static PropertySource secretAsPropertySource(Secret secret) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for Secret: {}", secret);
         }
@@ -133,6 +126,50 @@ public class KubernetesConfigurationUtils {
         PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
         KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
         return propertySource;
+    }
+
+    /**
+     * @param includes the objects to include
+     * @return a {@link Predicate} based on a collection of object names to include
+     */
+    public static Predicate<KubernetesObject> getIncludesFilter(Collection<String> includes) {
+        Predicate<KubernetesObject> includesFilter = s -> true;
+
+        if (!includes.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Includes: {}", includes);
+            }
+            includesFilter = s -> includes.contains(s.getMetadata().getName());
+        }
+
+        return includesFilter;
+    }
+
+    /**
+     * @param excludes the objects to excludes
+     * @return a {@link Predicate} based on a collection of object names to excludes
+     */
+    public static Predicate<KubernetesObject> getExcludesFilter(Collection<String> excludes) {
+        Predicate<KubernetesObject> excludesFilter = s -> true;
+
+        if (!excludes.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Excludes: {}", excludes);
+            }
+            excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
+        }
+
+        return excludesFilter;
+    }
+
+    private static String getPropertySourceName(ConfigMap configMap) {
+        return configMap.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+    }
+
+    private static Optional<String> getExtension(String filename) {
+        return Optional.of(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
 
     private static String decodeSecret(String secretValue) {

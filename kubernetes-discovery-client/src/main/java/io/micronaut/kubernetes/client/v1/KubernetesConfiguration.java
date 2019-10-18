@@ -21,7 +21,6 @@ import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.core.util.Toggleable;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.http.client.HttpClientConfiguration;
 import org.slf4j.Logger;
@@ -142,7 +141,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
      * @return The {@link DiscoveryConfiguration}.
      */
     @Nonnull
-    public DiscoveryConfiguration getDiscovery() {
+    public KubernetesDiscoveryConfiguration getDiscovery() {
         return this.discovery;
     }
 
@@ -219,7 +218,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
      */
     @ConfigurationProperties(DiscoveryConfiguration.PREFIX)
     @BootstrapContextCompatible
-    public static class KubernetesDiscoveryConfiguration extends DiscoveryConfiguration {
+    public static class KubernetesDiscoveryConfiguration extends AbstractKubernetesConfiguration {
 
         public static final String PREFIX = KubernetesConfiguration.PREFIX + "." + DiscoveryConfiguration.PREFIX;
 
@@ -236,7 +235,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     /**
      * Base class for other configuration sub-classes.
      */
-    private abstract static class AbstractKubernetesConfiguration {
+    private abstract static class AbstractKubernetesConfiguration extends DiscoveryConfiguration {
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
         private Map<String, String> labels;
@@ -292,7 +291,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
      */
     @ConfigurationProperties(KubernetesSecretsConfiguration.PREFIX)
     @BootstrapContextCompatible
-    public static class KubernetesSecretsConfiguration extends AbstractKubernetesConfiguration implements Toggleable {
+    public static class KubernetesSecretsConfiguration extends AbstractKubernetesConfiguration {
 
         static final String PREFIX = "secrets";
 
@@ -347,7 +346,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     }
 
     /**
-     * Kubernetes secrets configuration properties.
+     * Kubernetes config maps configuration properties.
      */
     @ConfigurationProperties(KubernetesConfigMapsConfiguration.PREFIX)
     @BootstrapContextCompatible

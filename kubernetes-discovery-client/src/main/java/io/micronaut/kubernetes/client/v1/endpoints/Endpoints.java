@@ -17,7 +17,7 @@
 package io.micronaut.kubernetes.client.v1.endpoints;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.Metadata;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,26 +29,9 @@ import java.util.List;
  * @since 1.0.0
  */
 @Introspected
-public class Endpoints {
+public class Endpoints extends KubernetesObject {
 
-    private Metadata metadata;
     private List<EndpointsSubset> subsets = new ArrayList<>();
-
-    /**
-     *
-     * @return Standard object's metadata.
-     */
-    public Metadata getMetadata() {
-        return metadata;
-    }
-
-    /**
-     *
-     * @param metadata Standard object's metadata.
-     */
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
-    }
 
     /**
      *
@@ -69,7 +52,7 @@ public class Endpoints {
     @Override
     public String toString() {
         return "Endpoints{" +
-                "metadata=" + metadata +
+                "metadata=" + getMetadata() +
                 ", subsets=" + subsets +
                 '}';
     }

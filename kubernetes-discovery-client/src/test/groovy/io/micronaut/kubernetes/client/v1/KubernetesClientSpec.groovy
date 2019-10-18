@@ -54,7 +54,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     @Requires({ TestUtils.kubernetesApiAvailable()})
     void "it can list endpoints"() {
         when:
-        EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints(DEFAULT_NAMESPACE)).blockingFirst()
+        EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints(DEFAULT_NAMESPACE, null)).blockingFirst()
 
         then:
         endpointsList.items.size() == getEndpoints().size()

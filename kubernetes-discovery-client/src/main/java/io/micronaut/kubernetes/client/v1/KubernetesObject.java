@@ -14,41 +14,33 @@
  * limitations under the License.
  */
 
-package io.micronaut.kubernetes.client.v1.pods;
+package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 /**
- * Represents a Kubernetes Pod.
+ * Base class for Kubernetes API objects.
  *
  * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
+ * @since 1.0.2
  */
 @Introspected
-public class Pod extends KubernetesObject {
+public abstract class KubernetesObject {
 
-    private PodStatus status;
-
-    /**
-     * @return pod status information
-     */
-    public PodStatus getStatus() {
-        return status;
-    }
+    private Metadata metadata;
 
     /**
-     * @param podStatus pod status information
+     * @return The Metadata
      */
-    public void setStatus(PodStatus podStatus) {
-        this.status = podStatus;
+    public Metadata getMetadata() {
+        return metadata;
     }
 
-    @Override
-    public String toString() {
-        return "Pod{" +
-                "metadata=" + getMetadata() +
-                ", status=" + status +
-                '}';
+    /**
+     * @param metadata The Metadata
+     */
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
+
 }

@@ -46,10 +46,11 @@ public interface KubernetesOperations {
     /**
      * List services in the specified namespace.
      * @param namespace Object name and auth scope, such as for teams and projects
+     * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return A list of services
      */
-    @Get("/namespaces/{namespace}/services")
-    Publisher<ServiceList> listServices(String namespace);
+    @Get("/namespaces/{namespace}/services?labelSelector={labelSelector}")
+    Publisher<ServiceList> listServices(String namespace, @Nullable String labelSelector);
 
 
     /**
@@ -65,10 +66,11 @@ public interface KubernetesOperations {
     /**
      * List endpoints in the given namespace.
      * @param namespace Object name and auth scope, such as for teams and projects
+     * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return A list of endpoints
      */
-    @Get("/namespaces/{namespace}/endpoints")
-    Publisher<EndpointsList> listEndpoints(String namespace);
+    @Get("/namespaces/{namespace}/endpoints?labelSelector={labelSelector}")
+    Publisher<EndpointsList> listEndpoints(String namespace, @Nullable String labelSelector);
 
     /**
      * Read the specified Endpoints.

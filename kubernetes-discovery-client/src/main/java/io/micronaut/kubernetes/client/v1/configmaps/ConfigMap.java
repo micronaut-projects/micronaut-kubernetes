@@ -17,7 +17,7 @@
 package io.micronaut.kubernetes.client.v1.configmaps;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.Metadata;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,24 +29,9 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Introspected
-public class ConfigMap {
+public class ConfigMap extends KubernetesObject {
 
-    private Metadata metadata;
     private Map<String, String> data = new HashMap<>();
-
-    /**
-     * @return The Metadata
-     */
-    public Metadata getMetadata() {
-        return metadata;
-    }
-
-    /**
-     * @param metadata The Metadata
-     */
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
-    }
 
     /**
      * @return A Map where the key is the file name, and the value is a string with all the properties
@@ -65,7 +50,7 @@ public class ConfigMap {
     @Override
     public String toString() {
         return "ConfigMap{" +
-                "metadata=" + metadata +
+                "metadata=" + getMetadata() +
                 ", data=" + data +
                 '}';
     }

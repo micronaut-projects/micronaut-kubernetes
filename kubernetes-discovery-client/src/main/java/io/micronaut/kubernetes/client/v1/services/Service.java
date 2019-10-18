@@ -17,7 +17,7 @@
 package io.micronaut.kubernetes.client.v1.services;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.Metadata;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 /**
  * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#service-v1-core">Service v1 core</a>
@@ -26,26 +26,9 @@ import io.micronaut.kubernetes.client.v1.Metadata;
  * @since 1.0.0
  */
 @Introspected
-public class Service {
+public class Service extends KubernetesObject {
 
-    private Metadata metadata;
     private ServiceSpec spec;
-
-    /**
-     *
-     * @return Standard object's metadata.
-     */
-    public Metadata getMetadata() {
-        return metadata;
-    }
-
-    /**
-     *
-     * @param metadata Standard object's metadata.
-     */
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
-    }
 
     /**
      *
@@ -66,7 +49,7 @@ public class Service {
     @Override
     public String toString() {
         return "Service{" +
-                "metadata=" + metadata +
+                "metadata=" + getMetadata() +
                 ", spec=" + spec +
                 '}';
     }
