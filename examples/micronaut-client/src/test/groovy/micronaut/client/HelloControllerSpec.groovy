@@ -63,6 +63,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         when:
         deleteConfigMap("hello-controller-spec")
         sleep 2_000
+        testClient.refresh()
 
         then:
         testClient.config("foo").equals("NOTHING")
