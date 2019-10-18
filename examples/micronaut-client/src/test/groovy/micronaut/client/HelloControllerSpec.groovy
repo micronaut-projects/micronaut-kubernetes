@@ -62,7 +62,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
         when:
         deleteConfigMap("hello-controller-spec")
-        sleep 2_000
+        sleep 5_000
         testClient.refresh()
 
         then:
