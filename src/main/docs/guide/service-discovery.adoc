@@ -80,3 +80,41 @@ Set a label named `secure` with value `true` to have the client use HTTPS.
 ----
 include::{sourcedir}/kubernetes.yml[tag=labels]
 ----
+
+## Service filtering
+
+You can filter the services discovered by using `kubernetes.client.discovery.includes` or
+`kubernetes.client.discovery.excludes`:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    discovery:
+      includes:
+        - my-service
+        - other-service
+----
+
+Or:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    discovery:
+      excludes: not-this-service
+----
+
+In addition to that, Kubernetes labels can be used to better match the services that should be available for service
+discovery:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    discovery:
+      labels:
+        - app: my-app
+        - env: prod
+----
