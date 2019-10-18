@@ -18,15 +18,17 @@ package io.micronaut.kubernetes.configuration;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.*;
+import io.micronaut.context.env.Environment;
+import io.micronaut.context.env.EnvironmentPropertySource;
+import io.micronaut.context.env.PropertySource;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
-import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.client.v1.secrets.SecretList;
+import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
@@ -112,7 +114,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      *
      * @param propertySource The property source to add
      */
-    static void addPropertySourceToCache(PropertySource propertySource) {
+    public static void addPropertySourceToCache(PropertySource propertySource) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Adding property source {} to cache", propertySource.getName());
         }
@@ -139,27 +141,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
-        Collection<String> includes = configuration.getConfigMaps().getIncludes();
-        Collection<String> excludes = configuration.getConfigMaps().getExcludes();
-        Predicate<ConfigMap> includesFilter = configMap -> true;
-        Predicate<ConfigMap> excludesFilter = configMap -> true;
-
-        if (!includes.isEmpty()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("ConfigMap includes: {}", includes);
-            }
-            includesFilter = configMap -> includes.contains(configMap.getMetadata().getName());
-        }
-
-        if (!excludes.isEmpty()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("ConfigMap excludes: {}", excludes);
-            }
-            excludesFilter = configMap -> !excludes.contains(configMap.getMetadata().getName());
-        }
-
+        Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
+        Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        String labelSelector = KubernetesConfigurationUtils.computeLabelSelector(labels);
+        String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
@@ -177,7 +162,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                         LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
                     }
                 })
-                .map(KubernetesConfigurationUtils::configMapAsPropertySource);
+                .map(KubernetesUtils::configMapAsPropertySource);
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
@@ -189,27 +174,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                     LOG.debug("Reading Secrets from the Kubernetes API");
                 }
 
-                Collection<String> includes = configuration.getSecrets().getIncludes();
-                Collection<String> excludes = configuration.getSecrets().getExcludes();
-                Predicate<Secret> includesFilter = s -> true;
-                Predicate<Secret> excludesFilter = s -> true;
-
-                if (!includes.isEmpty()) {
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("Secret includes: {}", includes);
-                    }
-                    includesFilter = s -> includes.contains(s.getMetadata().getName());
-                }
-
-                if (!excludes.isEmpty()) {
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("Secret excludes: {}", excludes);
-                    }
-                    excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
-                }
-
+                Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
+                Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                String labelSelector = KubernetesConfigurationUtils.computeLabelSelector(labels);
+                String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
                 propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
@@ -228,7 +196,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                 LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
                             }
                         })
-                        .map(KubernetesConfigurationUtils::secretAsPropertySource));
+                        .map(KubernetesUtils::secretAsPropertySource));
 
             }
 

@@ -27,6 +27,7 @@ import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
+import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-import static io.micronaut.kubernetes.configuration.KubernetesConfigurationUtils.computeLabelSelector;
+import static io.micronaut.kubernetes.util.KubernetesUtils.computeLabelSelector;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -139,7 +140,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processConfigMapAdded(ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
-            propertySource = KubernetesConfigurationUtils.configMapAsPropertySource(configMap);
+            propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.addPropertySource(propertySource);
@@ -151,7 +152,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processConfigMapModified(ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
-            propertySource = KubernetesConfigurationUtils.configMapAsPropertySource(configMap);
+            propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.removePropertySource(propertySource);
@@ -165,7 +166,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processConfigMapDeleted(ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
-            propertySource = KubernetesConfigurationUtils.configMapAsPropertySource(configMap);
+            propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
             this.environment.removePropertySource(propertySource);

@@ -17,7 +17,7 @@
 package io.micronaut.kubernetes.client.v1.secrets;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.Metadata;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,27 +29,12 @@ import java.util.Map;
  * @since 1.0.0
  */
 @Introspected
-public class Secret {
+public class Secret extends KubernetesObject {
 
     public static final String OPAQUE_SECRET_TYPE = "Opaque";
 
-    private Metadata metadata;
     private Map<String, String> data = new HashMap<>();
     private String type;
-
-    /**
-     * @return Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
-     */
-    public Metadata getMetadata() {
-        return metadata;
-    }
-
-    /**
-     * @param metadata Standard object's metadata. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
-     */
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
-    }
 
     /**
      * @return Data contains the secret data. Each key must consist of alphanumeric characters, '-', '_' or '.'. The
@@ -86,7 +71,7 @@ public class Secret {
     @Override
     public String toString() {
         return "Secret{" +
-                "metadata=" + metadata +
+                "metadata=" + getMetadata() +
                 ", type='" + type + '\'' +
                 '}';
     }
