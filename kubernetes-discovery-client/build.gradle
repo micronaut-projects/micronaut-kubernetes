@@ -1,6 +1,6 @@
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java:$micronautVersion"
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:1.0.5"
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:1.0.6"
 
     compileOnly "io.micronaut:micronaut-inject-java:$micronautVersion"
     compileOnly "io.micronaut:micronaut-management:$micronautVersion"
