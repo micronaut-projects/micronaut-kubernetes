@@ -29,12 +29,14 @@ to `false`.
 
 ## Kubernetes API authentication
 
-Micronaut connects to the Kubernetes API using the `default` service account, which by default only has permissions over
-the `kube-system` namespace. The service account used needs some read permissions.
-Refer to the https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Kubernetes documentation] for more information
+Micronaut authenticates to the Kubernetes API using the token mounted at `/var/run/secrets/kubernetes.io/serviceaccount/token`.
+Note that by default, the service account used may only have permissions over the `kube-system` namespace. The service discovery
+functionality requires some additiona read permissions. Refer to the 
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Kubernetes documentation] for more information
 about Role-based access control (RBAC).
 
-One of the options is to create the following `Role` and `RoleBinding`:
+One of the options is to create the following `Role` and `RoleBinding` (make sure to apply them to the service account used, 
+if not `default`):
 
 [source,yaml]
 .`auth.yml`
