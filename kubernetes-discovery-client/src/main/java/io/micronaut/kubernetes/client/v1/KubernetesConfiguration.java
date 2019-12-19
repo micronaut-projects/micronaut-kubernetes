@@ -351,8 +351,6 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     @ConfigurationProperties(KubernetesConfigMapsConfiguration.PREFIX)
     @BootstrapContextCompatible
     public static class KubernetesConfigMapsConfiguration extends AbstractKubernetesConfiguration {
-
-        static final String PREFIX = "config-maps";
-
+        public static final String PREFIX = "config-maps";
     }
 }
