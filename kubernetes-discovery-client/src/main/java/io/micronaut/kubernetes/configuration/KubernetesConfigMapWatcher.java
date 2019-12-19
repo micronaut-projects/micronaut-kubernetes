@@ -51,7 +51,7 @@ import static io.micronaut.kubernetes.util.KubernetesUtils.computeLabelSelector;
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = KubernetesClient.class)
-@Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
+@Requires(property = KubernetesConfiguration.PREFIX + "." + KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX + ".watch", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 public class KubernetesConfigMapWatcher implements ApplicationEventListener<ServiceStartedEvent> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
