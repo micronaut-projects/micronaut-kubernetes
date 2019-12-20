@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.discovery
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
 import io.micronaut.kubernetes.test.KubectlCommands
@@ -31,6 +32,7 @@ import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 import static io.micronaut.kubernetes.test.TestUtils.serviceExists
 
 @MicronautTest(environments = [Environment.KUBERNETES])
+@Slf4j
 class KubernetesDiscoveryClientSpec extends Specification implements KubectlCommands {
 
     @Inject
@@ -40,7 +42,6 @@ class KubernetesDiscoveryClientSpec extends Specification implements KubectlComm
     void "it can get service instances"() {
         given:
         List<String> ipAddresses = getIps()
-//        println "Endpoint IP addresses: ${ipAddresses}"
 
         when:
         List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service')).blockingFirst()

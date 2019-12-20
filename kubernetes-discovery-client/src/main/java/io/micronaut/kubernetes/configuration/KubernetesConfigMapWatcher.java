@@ -21,7 +21,6 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.discovery.event.ServiceStartedEvent;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;

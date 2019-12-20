@@ -16,12 +16,14 @@
 package io.micronaut.kubernetes.test
 
 import groovy.transform.Memoized
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.ConfigMap
 import io.fabric8.kubernetes.api.model.ObjectMeta
 import io.fabric8.kubernetes.api.model.Pod
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 
+@Slf4j
 trait KubectlCommands {
 
     @Memoized
@@ -65,9 +67,9 @@ trait KubectlCommands {
         configMap.data = data
         ConfigMap result = client.configMaps().inNamespace('micronaut-kubernetes').createOrReplace(configMap)
 
-        println "****"
-        println "Result: ${result.toString()}"
-        println "****"
+        log.debug "****"
+        log.debug "Result: ${result.toString()}"
+        log.debug "****"
         return result.toString()
     }
 
@@ -93,10 +95,10 @@ trait KubectlCommands {
         Process p = ['bash', '-c', command].execute()
         String text = p.text
 
-        println "****"
-        println "Command: ${command}. Output:\n"
-        println text
-        println "****"
+        log.debug "****"
+        log.debug "Command: ${command}. Output:\n"
+        log.debug text
+        log.debug "****"
         return text
     }
 }

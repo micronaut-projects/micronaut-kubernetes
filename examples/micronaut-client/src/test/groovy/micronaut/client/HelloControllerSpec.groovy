@@ -1,5 +1,6 @@
 package micronaut.client
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
@@ -17,6 +18,7 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 
 @MicronautTest(environments = Environment.KUBERNETES)
 @Property(name = "spec.name", value = "HelloControllerSpec")
+@Slf4j
 class HelloControllerSpec extends Specification implements KubectlCommands {
 
     @Inject

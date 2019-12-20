@@ -11,7 +11,7 @@ buildscript {
         classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
         classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:1.0.12"
         classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:1.0.12"
-        classpath 'com.adarshr:gradle-test-logger-plugin:1.7.1'
+        classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
     }
 }
 
@@ -63,7 +63,7 @@ subprojects { Project subproject ->
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
     if (!isExampleProject && !isTestUtilsProject) {
-        apply from: "https://raw.githubusercontent.com/micronaut-projects/micronaut-core/01e2b1ef1255b584e9e5c1965d334e1190e2ade5/gradle/publishing.gradle"
+        apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-build/v1.0.0/publishing.gradle"
     }
 
 
@@ -167,6 +167,9 @@ allprojects {
     testlogger {
         showFullStackTraces true
         showStandardStreams true
+        showPassedStandardStreams false
+        showSkippedStandardStreams false
+        showFailedStandardStreams true
     }
 }
 

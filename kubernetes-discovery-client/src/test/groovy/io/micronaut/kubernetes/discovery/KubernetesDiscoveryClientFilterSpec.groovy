@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.discovery
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.test.KubectlCommands
@@ -9,6 +10,7 @@ import spock.lang.Specification
 
 import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 
+@Slf4j
 class KubernetesDiscoveryClientFilterSpec extends Specification implements KubectlCommands {
 
     @Requires({ kubernetesApiAvailable() && KubernetesDiscoveryClientFilterSpec.getServices().size() })

@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.configuration
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
@@ -17,6 +18,7 @@ import javax.inject.Inject
 import static io.micronaut.kubernetes.test.TestUtils.configMapExists
 
 @MicronautTest(environments = [Environment.KUBERNETES])
+@Slf4j
 class KubernetesConfigurationClientSpec extends Specification implements KubectlCommands {
 
     @Inject

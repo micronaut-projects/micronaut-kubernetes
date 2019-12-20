@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.v1
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap
@@ -35,6 +36,7 @@ import javax.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "kubernetes.client.namespace", value = "micronaut-kubernetes")
+@Slf4j
 class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     public static final String DEFAULT_NAMESPACE = 'micronaut-kubernetes'

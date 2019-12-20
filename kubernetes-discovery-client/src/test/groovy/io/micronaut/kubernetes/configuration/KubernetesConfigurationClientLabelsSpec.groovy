@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.configuration
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.PropertySource
@@ -11,6 +12,7 @@ import spock.lang.Specification
 
 import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 
+@Slf4j
 class KubernetesConfigurationClientLabelsSpec extends Specification implements KubectlCommands {
 
     void setup() {
