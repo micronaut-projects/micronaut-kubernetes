@@ -9,8 +9,12 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
         classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
         classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
-        classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:1.0.12"
-        classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:1.0.12"
+        classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:1.0.12", {
+            exclude group:"com.github.jengelman.gradle.plugins"
+        }
+        classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:1.0.12", {
+            exclude group:"com.github.jengelman.gradle.plugins"
+        }
         classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
     }
 }
@@ -149,7 +153,7 @@ subprojects { Project subproject ->
         checkstyleTest.enabled = false
     }
 }
-apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.3/gradle/docs.gradle"
+apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.12/gradle/docs.gradle"
 
 allprojects {
     apply plugin: 'idea'
