@@ -19,6 +19,9 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;
 
+import javax.annotation.Nullable;
+import java.util.Map;
+
 @Client("example-service")
 public interface ExampleClient {
 
@@ -33,4 +36,7 @@ public interface ExampleClient {
 
     @Post("/refresh")
     String refresh();
+
+    @Get("/env")
+    String env();
 }

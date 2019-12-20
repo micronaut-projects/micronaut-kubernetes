@@ -86,7 +86,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
                     LOG.debug("Namespace: [{}]", namespace);
                 }
             } catch (IOException ioe) {
-                LOG.warn("An error has occurred when reading the file: [" + NAMESPACE_PATH + "]. Kubernetes namespace will be set to: " + DEFAULT_NAMESPACE, ioe);
+                LOG.warn("An error has occurred when reading the file: [" + NAMESPACE_PATH + "]. Kubernetes namespace will be set to: " + DEFAULT_NAMESPACE);
             }
             this.namespace = namespace;
         }

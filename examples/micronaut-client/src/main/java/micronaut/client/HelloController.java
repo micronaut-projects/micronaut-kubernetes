@@ -21,7 +21,9 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import org.reactivestreams.Publisher;
 
+import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HelloController {
@@ -57,5 +59,10 @@ public class HelloController {
     @Post("/refreshService")
     String refresh() {
         return client.refresh();
+    }
+
+    @Get("/serviceEnv")
+    String env() {
+        return client.env();
     }
 }

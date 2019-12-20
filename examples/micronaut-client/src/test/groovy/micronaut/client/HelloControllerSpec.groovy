@@ -6,12 +6,15 @@ import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
 import spock.lang.Requires
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
+import javax.annotation.Nullable
 import javax.inject.Inject
 
 import io.micronaut.context.annotation.Requires as MicronautRequires
@@ -44,33 +47,42 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
     @Requires({ TestUtils.available("http://localhost:8888") })
     void "test config"() {
+        given:
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        String configMapName = "hello-controller-spec"
+
         expect:
         testClient.config("foo").equals("NOTHING")
+        !testClient.env().contains("configMapName")
 
         when:
-        createConfigMap("hello-controller-spec")
-        sleep 2_000
-        testClient.refresh()
+        createConfigMap(configMapName)
 
         then:
-        testClient.config("foo").equals("bar")
+        conditions.eventually {
+            testClient.config("foo").equals("bar")
+            testClient.env().contains(configMapName)
+        }
 
         when:
-        modifyConfigMap("hello-controller-spec")
-        sleep 2_000
+        modifyConfigMap(configMapName)
 
         then:
-        testClient.config("foo").equals("baz")
+        conditions.eventually {
+            testClient.config("foo").equals("baz")
+            testClient.env().contains(configMapName)
+        }
 
         when:
-        deleteConfigMap("hello-controller-spec")
-        sleep 2_000
+        deleteConfigMap(configMapName)
 
         then:
-        testClient.config("foo").equals("NOTHING")
+        conditions.eventually {
+            !testClient.env().contains(configMapName)
+        }
 
         cleanup:
-        deleteConfigMap("hello-controller-spec")
+        deleteConfigMap(configMapName)
     }
 
     @Requires({ TestUtils.available("http://localhost:8888") })
@@ -100,6 +112,9 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
         @Post("/refreshService")
         String refresh()
+
+        @Get("/serviceEnv")
+        String env()
 
     }
 }
