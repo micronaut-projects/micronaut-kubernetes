@@ -79,11 +79,12 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
         this.executorService = executorService;
         this.client = client;
         this.configuration = configuration;
+        this.healthStatus = HealthStatus.UP;
 
         Single.fromPublisher(this.client.getPod(configuration.getNamespace(), System.getenv(HOSTNAME_ENV_VARIABLE)))
                             .subscribeOn(Schedulers.from(this.executorService))
                             .doOnError(this::processError)
-                            .retry(2)
+                            .retry(5)
                             .subscribe(this::processPod);
 
     }
@@ -99,6 +100,8 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
             LOG.trace("Processing pod: {}", pod);
         }
 
+        this.healthStatus = HealthStatus.UP;
+
         healthInformation.put("namespace", pod.getMetadata().getNamespace());
         healthInformation.put("podName", pod.getMetadata().getName());
         healthInformation.put("podPhase", pod.getStatus().getPhase());
@@ -110,7 +113,6 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
                 .stream()
                 .collect(ArrayList::new, KubernetesHealthIndicator::accumulateContainerStatus, ArrayList::addAll));
 
-        this.healthStatus = HealthStatus.UP;
     }
 
     private static void accumulateContainerStatus(ArrayList<Object> list, ContainerStatus containerStatus) {
