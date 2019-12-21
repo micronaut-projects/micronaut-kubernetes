@@ -28,6 +28,7 @@
 <body class="body" id="docs" onload="addJsClass();" onhashchange="highlightMenu()">
 
 <div id="table-of-content-nav-link" class="desktop">
+    <a id="theme-switcher" title="Switch to dark theme" href="javascript:switchTheme(true)"><i class="fa fa-moon-o"></i></a>
     <a title="Collapse/Open Table of contents" title="Hide Table of Contents" href="javascript:hideTableOfContents();" class="button">[ + ]</a>
 </div>
 
@@ -38,8 +39,7 @@
         </div>
         <div class="navLinks">
             <ul>
-                    <li>
-                        <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
+                    <li class='desktop'><select style='margin-top: 10px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide/index.html'>1.0.4.BUILD-SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.0/guide/index.html'>1.0.0</option></select></li><li><div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)" class="desktop">
                             <a href="../guide/index.html" class="button">Table of contents</a>
                             <div id="nav-summary-childs" style="display:none;">
                                 
@@ -74,7 +74,6 @@
                 <li class="mobile">
                     <a title="Go to Configuration Reference documentation" href="../guide/configurationreference.html" class="button">Conf</a>
                 </li>
-
             </ul>
 
         </div>
@@ -105,11 +104,10 @@
         <h1>Micronaut Kubernetes</h1>
         <p></p>
         <p>Integration between Micronaut and Kubernetes</p>
-        <p><strong>Version:</strong> 1.0.3.BUILD-SNAPSHOT</p>
+        <p><strong>Version:</strong> <select style='margin-top: 10px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide/index.html'>1.0.4.BUILD-SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.0/guide/index.html'>1.0.0</option></select></p>
     </div>
     
-
-<h1 id="introduction">1 Introduction</h1>
+<h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/introduction.adoc"'>
@@ -140,7 +138,7 @@
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">compile <span class="hljs-string">'io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:1.0.3.BUILD-SNAPSHOT'</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="gradle">compile <span class="hljs-string">'io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:1.0.4.BUILD-SNAPSHOT'</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -148,7 +146,7 @@
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
-    &lt;version&gt;1.0.3.BUILD-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;1.0.4.BUILD-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -313,8 +311,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 </div>
 
-
-<h1 id="service-discovery">2 Service Discovery</h1>
+<h1 id="service-discovery"><a class="anchor" href="#service-discovery"></a>2 Service Discovery</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/service-discovery.adoc"'>
@@ -540,8 +537,7 @@ discovery:</p>
 </div>
 </div>
 
-
-<h1 id="config-client">3 Configuration Client</h1>
+<h1 id="config-client"><a class="anchor" href="#config-client"></a>3 Configuration Client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/config-client.adoc"'>
@@ -860,8 +856,7 @@ take precedence over the ones coming from the API.</p>
 </div>
 </div>
 
-
-<h1 id="health-checks">4 Health Checks</h1>
+<h1 id="health-checks"><a class="anchor" href="#health-checks"></a>4 Health Checks</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/health-checks.adoc"'>
@@ -988,8 +983,7 @@ information about how to configure it.</p>
 </div>
 </div>
 
-
-<h1 id="low-level-client">5 Using the low-level Kubernetes API HTTP client</h1>
+<h1 id="low-level-client"><a class="anchor" href="#low-level-client"></a>5 Using the low-level Kubernetes API HTTP client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/low-level-client.adoc"'>
@@ -1031,8 +1025,7 @@ public class MyService {
 Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesOperations.html">the API documentation to see the available methods</a>.</p>
 </div>
 
-
-<h1 id="logging">6 Logging and debugging</h1>
+<h1 id="logging"><a class="anchor" href="#logging"></a>6 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
