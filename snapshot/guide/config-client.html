@@ -196,7 +196,8 @@ match with the above filters, they will be propagated to the <code>Environment</
 <p>This means that those changes will be immediately available in your application without a restart.</p>
 </div>
 <div class="paragraph">
-<p>If you want to disable watching for ConfigMap changes, set <code>kubernetes.client.config-maps.watch</code> to <code>false</code>.</p>
+<p>If you want to disable watching for ConfigMap changes, set <code>kubernetes.client.config-maps.watch</code> to <code>false</code>.
+This should be done in the <code>bootstrap.yml</code> configuration file because the configuration client is initialized during the bootstrap phase, which happens before evaluating the <code>application.yml</code> configuration file.</p>
 </div>
 </div>
 <div class="sect2">
