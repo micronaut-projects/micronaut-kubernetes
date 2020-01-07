@@ -70,7 +70,7 @@ match with the above filters, they will be propagated to the `Environment` and r
 This means that those changes will be immediately available in your application without a restart.
 
 If you want to disable watching for ConfigMap changes, set `kubernetes.client.config-maps.watch` to `false`.
-This should be done in the `bootstrap.yml` because watching for ConfigMap changes is run once before evaluating the `application.yml`.
+This should be done in the `bootstrap.yml` configuration file because the configuration client is initialized during the bootstrap phase, which happens before evaluating the `application.yml` configuration file.
 
 ### Examples
 
