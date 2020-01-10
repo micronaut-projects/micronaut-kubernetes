@@ -12,7 +12,7 @@ buildscript {
         classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:1.0.15", {
             exclude group:"com.github.jengelman.gradle.plugins"
         }
-        classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:1.0.13", {
+        classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:1.0.15", {
             exclude group:"com.github.jengelman.gradle.plugins"
         }
         classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
