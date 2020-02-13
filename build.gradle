@@ -56,7 +56,6 @@ subprojects { Project subproject ->
 
     apply plugin:"groovy"
     apply plugin:"java"
-    apply plugin: "io.spring.dependency-management"
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
@@ -152,7 +151,7 @@ subprojects { Project subproject ->
         checkstyleTest.enabled = false
     }
 }
-apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.12/gradle/docs.gradle"
+apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v1.0.19/gradle/docs.gradle"
 
 allprojects {
     apply plugin: 'idea'
