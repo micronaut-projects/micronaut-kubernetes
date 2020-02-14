@@ -13,7 +13,7 @@ dependencies {
     testImplementation "io.micronaut:micronaut-discovery-client"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-inject-java"
-    testImplementation "io.micronaut.test:micronaut-test-spock:1.1.4"
+    testImplementation "io.micronaut.test:micronaut-test-spock:1.1.5"
 
     testImplementation project(":test-utils")
 }
