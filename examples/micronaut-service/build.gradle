@@ -2,7 +2,6 @@ import org.gradle.nativeplatform.platform.OperatingSystem
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
-    id "io.spring.dependency-management"
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
     id "com.google.cloud.tools.jib" version "0.9.9"
