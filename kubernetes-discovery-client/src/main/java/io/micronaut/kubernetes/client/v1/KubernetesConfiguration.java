@@ -57,7 +57,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfiguration.class);
 
-    private static final String KUBERNETES_DEFAULT_HOST = "kubernetes.default.svc.cluster.local";
+    private static final String KUBERNETES_DEFAULT_HOST = "kubernetes.default.svc";
     private static final int KUBERNETES_DEFAULT_PORT = 443;
     private static final boolean KUBERNETES_DEFAULT_SECURE = true;
 
