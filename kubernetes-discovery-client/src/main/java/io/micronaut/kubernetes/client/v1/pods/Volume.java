@@ -17,54 +17,51 @@
 package io.micronaut.kubernetes.client.v1.pods;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 /**
- * Represents a Kubernetes Pod.
+ * Volume for pod containers.
  *
- * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
+ * @author <Miguel Ferreira>
  */
 @Introspected
-public class Pod extends KubernetesObject {
+public class Volume {
 
-    private PodStatus status;
-    private PodSpec spec;
+    private String name;
+    private SecretVolumeSource secret;
 
     /**
-     * @return pod status information
+     * @return Volume's name.
      */
-    public PodStatus getStatus() {
-        return status;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param podStatus pod status information
+     * @param name Volume's name.
      */
-    public void setStatus(PodStatus podStatus) {
-        this.status = podStatus;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     /**
-     * @return The specification of the desired behavior of the pod
+     * @return Secret that populates this volume.
      */
-    public PodSpec getSpec() {
-        return spec;
+    public SecretVolumeSource getSecret() {
+        return secret;
     }
 
     /**
-     * @param spec The specification of the desired behavior of the pod
+     * @param secret Secret that should populate this volume.
      */
-    public void setSpec(final PodSpec spec) {
-        this.spec = spec;
+    public void setSecret(final SecretVolumeSource secret) {
+        this.secret = secret;
     }
 
     @Override
     public String toString() {
-        return "Pod{" +
-                "metadata=" + getMetadata() +
-                ", status=" + status +
-                ", spec=" + spec +
+        return "Volume{" +
+                "name='" + name + '\'' +
+                ", secret=" + secret +
                 '}';
     }
 }

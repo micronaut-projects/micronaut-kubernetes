@@ -17,54 +17,50 @@
 package io.micronaut.kubernetes.client.v1.pods;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 /**
- * Represents a Kubernetes Pod.
+ * Environment variable to set in a container.
  *
- * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
+ * @author <Miguel Ferreira>
  */
 @Introspected
-public class Pod extends KubernetesObject {
-
-    private PodStatus status;
-    private PodSpec spec;
+public class EnvVar {
+    private String name;
+    private String value;
 
     /**
-     * @return pod status information
+     * @return Name of the environment variable.
      */
-    public PodStatus getStatus() {
-        return status;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param podStatus pod status information
+     * @param name Name of the environment variable.
      */
-    public void setStatus(PodStatus podStatus) {
-        this.status = podStatus;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     /**
-     * @return The specification of the desired behavior of the pod
+     * @return Value of the environment variable.
      */
-    public PodSpec getSpec() {
-        return spec;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * @param spec The specification of the desired behavior of the pod
+     * @param value Value of the environment variable.
      */
-    public void setSpec(final PodSpec spec) {
-        this.spec = spec;
+    public void setValue(final String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return "Pod{" +
-                "metadata=" + getMetadata() +
-                ", status=" + status +
-                ", spec=" + spec +
+        return "EnvVar{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
                 '}';
     }
 }
