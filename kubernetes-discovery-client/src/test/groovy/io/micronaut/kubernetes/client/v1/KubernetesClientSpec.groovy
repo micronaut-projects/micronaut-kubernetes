@@ -195,6 +195,38 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         secret.getMetadata().getName().equals("test-secret")
     }
 
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can create pods"() {
+        given:
+        def name = 'created-pod'
+        Pod body = buildPod(name)
+
+        when:
+        Pod pod = Flowable.fromPublisher(client.createPod(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        then:
+        pod.metadata.uid != null
+        pod.status.phase in ["Pending"]
+
+        cleanup:
+        Flowable.fromPublisher(client.deletePod(DEFAULT_NAMESPACE, name)).blockingFirst()
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can delete pods"() {
+        given:
+        def name = 'deleted-pod'
+        Pod body = buildPod(name)
+        Flowable.fromPublisher(client.createPod(DEFAULT_NAMESPACE, body)).blockingFirst()
+        waitForPodStatus(name, "Succeeded")
+
+        when:
+        Flowable.fromPublisher(client.deletePod(DEFAULT_NAMESPACE, name)).blockingFirst()
+
+        then:
+        ! Flowable.fromPublisher(client.listPods(DEFAULT_NAMESPACE)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+    }
+
     private boolean assertThatServiceIsCorrect(Service service) {
         service.metadata.name == 'example-service' &&
                 service.spec.ports.first().port == 8081 &&
@@ -227,4 +259,31 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         body
     }
 
+    private Pod buildPod(String name) {
+        Pod body = new Pod()
+        Metadata metadata = new Metadata()
+        metadata.name = name
+        body.metadata = metadata
+        PodSpec spec = new PodSpec()
+        spec.restartPolicy = 'Never'
+        Container container = new Container()
+        container.name = 'container'
+        container.image = 'alpine:latest'
+        container.command = ["echo", "This is not a test!"]
+        spec.containers = [container]
+        body.spec = spec
+        body
+    }
+
+
+    private boolean waitForPodStatus(name, status) {
+        IntStream.range(0, 9).any { it ->
+            Pod pod = Flowable.fromPublisher(client.getPod(DEFAULT_NAMESPACE, name)).blockingFirst();
+            if (pod.status.phase == status) {
+                return true
+            } else {
+                sleep(1000);
+            }
+        }
+    }
 }

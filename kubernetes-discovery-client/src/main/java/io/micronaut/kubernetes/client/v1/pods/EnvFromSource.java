@@ -17,54 +17,50 @@
 package io.micronaut.kubernetes.client.v1.pods;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 /**
- * Represents a Kubernetes Pod.
+ * A source of environment variables for a container.
  *
- * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
+ * @author <Miguel Ferreira>
  */
 @Introspected
-public class Pod extends KubernetesObject {
-
-    private PodStatus status;
-    private PodSpec spec;
+public class EnvFromSource {
+    private ConfigMapEnvSource configMapRef;
+    private SecretEnvSource secretRef;
 
     /**
-     * @return pod status information
+     * @return The ConfigMap to select from
      */
-    public PodStatus getStatus() {
-        return status;
+    public ConfigMapEnvSource getConfigMapRef() {
+        return configMapRef;
     }
 
     /**
-     * @param podStatus pod status information
+     * @param configMapRef The ConfigMap to select from
      */
-    public void setStatus(PodStatus podStatus) {
-        this.status = podStatus;
+    public void setConfigMapRef(final ConfigMapEnvSource configMapRef) {
+        this.configMapRef = configMapRef;
     }
 
     /**
-     * @return The specification of the desired behavior of the pod
+     * @return The Secret to select from
      */
-    public PodSpec getSpec() {
-        return spec;
+    public SecretEnvSource getSecretRef() {
+        return secretRef;
     }
 
     /**
-     * @param spec The specification of the desired behavior of the pod
+     * @param secretRef The Secret to select from
      */
-    public void setSpec(final PodSpec spec) {
-        this.spec = spec;
+    public void setSecretRef(final SecretEnvSource secretRef) {
+        this.secretRef = secretRef;
     }
 
     @Override
     public String toString() {
-        return "Pod{" +
-                "metadata=" + getMetadata() +
-                ", status=" + status +
-                ", spec=" + spec +
+        return "EnvFromSource{" +
+                "configMapRef=" + configMapRef +
+                ", secretRef=" + secretRef +
                 '}';
     }
 }

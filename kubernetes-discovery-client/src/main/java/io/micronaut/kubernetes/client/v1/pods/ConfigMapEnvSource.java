@@ -17,54 +17,50 @@
 package io.micronaut.kubernetes.client.v1.pods;
 
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
 /**
- * Represents a Kubernetes Pod.
+ * A source of environment variables for a container backed by a ConfigMap.
  *
- * @author Álvaro Sánchez-Mariscal
- * @since 1.0.0
+ * @author <Miguel Ferreira>
  */
 @Introspected
-public class Pod extends KubernetesObject {
-
-    private PodStatus status;
-    private PodSpec spec;
+public class ConfigMapEnvSource {
+    private String name;
+    private boolean optional;
 
     /**
-     * @return pod status information
+     * @return the name of the ConfigMap
      */
-    public PodStatus getStatus() {
-        return status;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param podStatus pod status information
+     * @param name the name of the ConfigMap
      */
-    public void setStatus(PodStatus podStatus) {
-        this.status = podStatus;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     /**
-     * @return The specification of the desired behavior of the pod
+     * @return Whether the ConfigMap must be defined
      */
-    public PodSpec getSpec() {
-        return spec;
+    public boolean isOptional() {
+        return optional;
     }
 
     /**
-     * @param spec The specification of the desired behavior of the pod
+     * @param optional Specifies whether the ConfigMap must be defined
      */
-    public void setSpec(final PodSpec spec) {
-        this.spec = spec;
+    public void setOptional(final boolean optional) {
+        this.optional = optional;
     }
 
     @Override
     public String toString() {
-        return "Pod{" +
-                "metadata=" + getMetadata() +
-                ", status=" + status +
-                ", spec=" + spec +
+        return "ConfigMapEnvSource{" +
+                "name='" + name + '\'' +
+                ", optional=" + optional +
                 '}';
     }
 }

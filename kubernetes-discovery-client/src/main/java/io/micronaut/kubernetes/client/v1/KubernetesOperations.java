@@ -19,15 +19,18 @@ package io.micronaut.kubernetes.client.v1;
 import javax.annotation.Nullable;
 
 import io.micronaut.http.MediaType;
+import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList;
 import io.micronaut.kubernetes.client.v1.pods.Pod;
+import io.micronaut.kubernetes.client.v1.pods.PodList;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.client.v1.secrets.SecretList;
 import io.micronaut.kubernetes.client.v1.secrets.SecretWatchEvent;
@@ -213,4 +216,40 @@ public interface KubernetesOperations {
     @Get("/namespaces/{namespace}/pods/{podName}")
     Publisher<Pod> getPod(String namespace, String podName);
 
+    /**
+     * List pods in the given namespace.
+     *
+     * @param namespace     Object name and auth scope, such as for teams and projects
+     * @param labelSelector A selector to restrict the list of returned objects by their labels
+     * @return a {@link PodList} of the given namespace
+     */
+    @Get("/namespaces/{namespace}/pods?labelSelector={labelSelector}")
+    Publisher<PodList> listPods(String namespace, @Nullable String labelSelector);
+
+    /**
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @return a {@link PodList} of the given namespace
+     */
+    default Publisher<PodList> listPods(String namespace) {
+        return listPods(namespace, null);
+    }
+
+    /**
+     * Returns the created {@link Pod} in the given namespace.
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param pod the pod to create
+     * @return A {@Pod} instance
+     */
+    @Post("/namespaces/{namespace}/pods")
+    Publisher<Pod> createPod(String namespace, @Body Pod pod);
+
+    /**
+     * Returns the deleted {@link Pod} in the given namespace.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param podName   the pod name
+     * @return A {@Pod} instance
+     */
+    @Delete("/namespaces/{namespace}/pods/{podName}")
+    Publisher<Pod> deletePod(String namespace, String podName);
 }
