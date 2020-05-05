@@ -16,8 +16,11 @@
 
 package io.micronaut.kubernetes.client.v1;
 
+import javax.annotation.Nullable;
+
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Consumes;
+import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
@@ -31,8 +34,6 @@ import io.micronaut.kubernetes.client.v1.secrets.SecretWatchEvent;
 import io.micronaut.kubernetes.client.v1.services.Service;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import org.reactivestreams.Publisher;
-
-import javax.annotation.Nullable;
 
 /**
  * Defines the HTTP requests to query the Kubernetes API.
@@ -125,9 +126,29 @@ public interface KubernetesOperations {
     Publisher<ConfigMap> getConfigMap(String namespace, String configMapName);
 
     /**
-     * List objects of kind Secret.
+     * Create the specified ConfigMap.
      *
      * @param namespace object name and auth scope, such as for teams and projects
+     * @param configMap to create
+     * @return a {@link ConfigMap}
+     */
+    @Post("/namespaces/{namespace}/configmaps")
+    Publisher<ConfigMap> createConfigMap(String namespace, @Body ConfigMap configMap);
+
+    /**
+     * Delete the specified ConfigMap.
+     *
+     * @param namespace     object name and auth scope, such as for teams and projects
+     * @param configMapName name of the ConfigMap
+     * @return a {@link ConfigMap}
+     */
+    @Delete("/namespaces/{namespace}/configmaps/{configMapName}")
+    Publisher<ConfigMap> deleteConfigMap(String namespace, String configMapName);
+
+    /**
+     * List objects of kind Secret.
+     *
+     * @param namespace     object name and auth scope, such as for teams and projects
      * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return a {@link SecretList}
      */
@@ -162,6 +183,26 @@ public interface KubernetesOperations {
      */
     @Get("/namespaces/{namespace}/secrets/{secretName}")
     Publisher<Secret> getSecret(String namespace, String secretName);
+
+    /**
+     * Create the specified Secret.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param secret    the secret
+     * @return A {@link Secret} instance
+     */
+    @Post("/namespaces/{namespace}/secrets/")
+    Publisher<Secret> createSecret(String namespace, @Body Secret secret);
+
+    /**
+     * Delete the specified Secret.
+     *
+     * @param namespace  object name and auth scope, such as for teams and projects
+     * @param secretName the secret name
+     * @return A {@link Secret} instance
+     */
+    @Delete("/namespaces/{namespace}/secrets/{secretName}")
+    Publisher<Secret> deleteSecret(String namespace, String secretName);
 
     /**
      * Returns a {@link Pod} of the given name in the given namespace.

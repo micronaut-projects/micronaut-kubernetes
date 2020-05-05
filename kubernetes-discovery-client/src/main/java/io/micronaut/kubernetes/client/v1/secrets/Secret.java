@@ -19,8 +19,10 @@ package io.micronaut.kubernetes.client.v1.secrets;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Kubernetes secret objects let you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.
@@ -33,7 +35,7 @@ public class Secret extends KubernetesObject {
 
     public static final String OPAQUE_SECRET_TYPE = "Opaque";
 
-    private Map<String, String> data = new HashMap<>();
+    private Map<String, byte[]> data = new HashMap<>();
     private String type;
 
     /**
@@ -41,7 +43,7 @@ public class Secret extends KubernetesObject {
      * serialized form of the secret data is a base64 encoded string, representing the arbitrary (possibly non-string)
      * data value here. Described in https://tools.ietf.org/html/rfc4648#section-4
      */
-    public Map<String, String> getData() {
+    public Map<String, byte[]> getData() {
         return data;
     }
 
@@ -50,7 +52,7 @@ public class Secret extends KubernetesObject {
      * serialized form of the secret data is a base64 encoded string, representing the arbitrary (possibly non-string)
      * data value here. Described in https://tools.ietf.org/html/rfc4648#section-4
      */
-    public void setData(Map<String, String> data) {
+    public void setData(Map<String, byte[]> data) {
         this.data = data;
     }
 
@@ -66,6 +68,14 @@ public class Secret extends KubernetesObject {
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * @return The secret data with the values converted to string
+     */
+    public Map<String, String> getStringData() {
+        return data.entrySet().stream()
+                   .collect(Collectors.toMap(Map.Entry::getKey, e -> new String(e.getValue())));
     }
 
     @Override
