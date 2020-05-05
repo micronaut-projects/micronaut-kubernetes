@@ -118,10 +118,10 @@ public class KubernetesUtils {
             LOG.trace("Processing PropertySources for Secret: {}", secret);
         }
         String name = secret.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_SECRET_NAME_SUFFIX;
-        Map<String, String> data = secret.getData();
+        Map<String, String> data = secret.getStringData();
         Map<String, Object> propertySourceData = data.entrySet()
                 .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> decodeSecret(e.getValue())));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         int priority = EnvironmentPropertySource.POSITION + 100;
         PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
         KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
@@ -170,9 +170,5 @@ public class KubernetesUtils {
         return Optional.of(filename)
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
-    }
-
-    private static String decodeSecret(String secretValue) {
-        return new String(Base64.getDecoder().decode(secretValue));
     }
 }

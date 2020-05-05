@@ -22,6 +22,9 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
 import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList
+import io.micronaut.kubernetes.client.v1.pods.Container
+import io.micronaut.kubernetes.client.v1.pods.Pod
+import io.micronaut.kubernetes.client.v1.pods.PodSpec
 import io.micronaut.kubernetes.client.v1.secrets.Secret
 import io.micronaut.kubernetes.client.v1.secrets.SecretList
 import io.micronaut.kubernetes.client.v1.services.Service
@@ -33,6 +36,7 @@ import spock.lang.Requires
 import spock.lang.Specification
 
 import javax.inject.Inject
+import java.util.stream.IntStream
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "kubernetes.client.namespace", value = "micronaut-kubernetes")
@@ -83,7 +87,42 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         configMapList.items.size() == configMaps.size()
     }
 
-    @Requires({ TestUtils.configMapExists('game-config-properties')})
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can create config maps"() {
+        given:
+
+        def name = 'created-configmap'
+        def data = ['key1': 'value1', 'key2': 'value2']
+
+        ConfigMap body = buildConfigMap(name, data)
+
+        when:
+        ConfigMap configMap = Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        then:
+        configMap.metadata.uid != null
+        configMap.data == data
+
+        cleanup:
+        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can delete config maps"() {
+        given:
+        def name = 'created-configmap'
+        def data = ['key1': 'value1', 'key2': 'value2']
+        ConfigMap body = buildConfigMap(name, data)
+        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        when:
+        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+
+        then:
+        ! Flowable.fromPublisher(client.listConfigMaps(DEFAULT_NAMESPACE)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+    }
+
+    @Requires({ TestUtils.configMapExists('game-config-properties') })
     void "it can get one properties config map"() {
         when:
         ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap(DEFAULT_NAMESPACE, 'game-config-properties')).blockingFirst()
@@ -113,7 +152,41 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         secretList.items.find { it.getMetadata().getName().equals("test-secret") }
     }
 
-    @Requires({ TestUtils.secretExists('test-secret')})
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can create secrets"() {
+
+        given:
+        def name = 'created-secret'
+        def data = ['key1': 'value1'.getBytes(), 'key2': 'value2'.getBytes()]
+        Secret body = buildSecret(name, data)
+
+        when:
+        Secret secret = Flowable.fromPublisher(client.createSecret(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        then:
+        secret.metadata.uid != null
+        secret.data == data
+
+        cleanup:
+        Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can delete secrets"() {
+        given:
+        def name = 'created-secret'
+        def data = ['key1': 'value1'.getBytes(), 'key2': 'value2'.getBytes()]
+        Secret body = buildSecret(name, data)
+        Flowable.fromPublisher(client.createSecret(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        when:
+        Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
+
+        then:
+        ! Flowable.fromPublisher(client.listSecrets(DEFAULT_NAMESPACE)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+    }
+
+    @Requires({ TestUtils.secretExists('test-secret') })
     void "it can get one secret"() {
         when:
         Secret secret = Flowable.fromPublisher(client.getSecret(DEFAULT_NAMESPACE, 'test-secret')).blockingFirst()
@@ -135,4 +208,23 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
                 endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last()) &&
                 endpoints.subsets.first().ports.first().port == 8081
     }
+
+    private Secret buildSecret(String name, LinkedHashMap<String, byte[]> data) {
+        Secret body = new Secret()
+        Metadata metadata = new Metadata()
+        metadata.name = name
+        body.metadata = metadata
+        body.data = data
+        body
+    }
+
+    private ConfigMap buildConfigMap(String name, LinkedHashMap<String, String> data) {
+        ConfigMap body = new ConfigMap()
+        Metadata metadata = new Metadata()
+        metadata.name = name
+        body.metadata = metadata
+        body.data = data
+        body
+    }
+
 }
