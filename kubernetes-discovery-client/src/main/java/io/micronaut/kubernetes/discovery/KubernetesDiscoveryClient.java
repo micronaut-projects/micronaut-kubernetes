@@ -16,7 +16,6 @@
 
 package io.micronaut.kubernetes.discovery;
 
-import io.micronaut.context.annotation.Replaces;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.async.publisher.Publishers;
@@ -56,7 +55,6 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = {KubernetesClient.class, KubernetesConfiguration.KubernetesDiscoveryConfiguration.class})
 @Requires(property = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
-@Replaces(bean = io.micronaut.discovery.kubernetes.KubernetesDiscoveryClient.class)
 @SuppressWarnings("WeakerAccess")
 public class KubernetesDiscoveryClient implements DiscoveryClient {
 

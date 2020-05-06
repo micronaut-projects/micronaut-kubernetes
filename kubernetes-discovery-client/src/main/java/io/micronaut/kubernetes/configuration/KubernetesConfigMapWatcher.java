@@ -21,7 +21,7 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.discovery.event.ServiceStartedEvent;
+import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
@@ -51,7 +51,7 @@ import static io.micronaut.kubernetes.util.KubernetesUtils.computeLabelSelector;
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = KubernetesClient.class)
 @Requires(property = KubernetesConfiguration.PREFIX + "." + KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX + ".watch", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
-public class KubernetesConfigMapWatcher implements ApplicationEventListener<ServiceStartedEvent> {
+public class KubernetesConfigMapWatcher implements ApplicationEventListener<ServiceReadyEvent> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
 
@@ -79,7 +79,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
-    public void onApplicationEvent(ServiceStartedEvent event) {
+    public void onApplicationEvent(ServiceReadyEvent event) {
         long lastResourceVersion = computeLastResourceVersion();
         String labelSelector = computeLabelSelector(configuration.getConfigMaps().getLabels());
 
