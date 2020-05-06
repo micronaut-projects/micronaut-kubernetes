@@ -24,6 +24,7 @@ import io.micronaut.http.annotation.Consumes;
 import io.micronaut.http.annotation.Delete;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Put;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
@@ -139,6 +140,17 @@ public interface KubernetesOperations {
     Publisher<ConfigMap> createConfigMap(String namespace, @Body ConfigMap configMap);
 
     /**
+     * Replace the specified ConfigMap.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param configMapName name of the ConfigMap
+     * @param configMap to replace
+     * @return a {@link ConfigMap}
+     */
+    @Put("/namespaces/{namespace}/configmaps/{configMapName}")
+    Publisher<ConfigMap> replaceConfigMap(String namespace, String configMapName, @Body ConfigMap configMap);
+
+    /**
      * Delete the specified ConfigMap.
      *
      * @param namespace     object name and auth scope, such as for teams and projects
@@ -198,6 +210,17 @@ public interface KubernetesOperations {
     Publisher<Secret> createSecret(String namespace, @Body Secret secret);
 
     /**
+     * Replace the specified Secret.
+     *
+     * @param namespace object name and auth scope, such as for teams and projects
+     * @param secretName the secret name
+     * @param secret    the secret to replace
+     * @return A {@link Secret} instance
+     */
+    @Put("/namespaces/{namespace}/secrets/{secretName}")
+    Publisher<Secret> replaceSecret(String namespace, String secretName, @Body Secret secret);
+
+    /**
      * Delete the specified Secret.
      *
      * @param namespace  object name and auth scope, such as for teams and projects
@@ -211,7 +234,7 @@ public interface KubernetesOperations {
      * Returns a {@link Pod} of the given name in the given namespace.
      * @param namespace object name and auth scope, such as for teams and projects
      * @param podName the pod name
-     * @return A {@Pod} instance
+     * @return A {@link Pod} instance
      */
     @Get("/namespaces/{namespace}/pods/{podName}")
     Publisher<Pod> getPod(String namespace, String podName);
@@ -238,7 +261,7 @@ public interface KubernetesOperations {
      * Returns the created {@link Pod} in the given namespace.
      * @param namespace object name and auth scope, such as for teams and projects
      * @param pod the pod to create
-     * @return A {@Pod} instance
+     * @return A {@link Pod} instance
      */
     @Post("/namespaces/{namespace}/pods")
     Publisher<Pod> createPod(String namespace, @Body Pod pod);
@@ -248,7 +271,7 @@ public interface KubernetesOperations {
      *
      * @param namespace object name and auth scope, such as for teams and projects
      * @param podName   the pod name
-     * @return A {@Pod} instance
+     * @return A {@link Pod} instance
      */
     @Delete("/namespaces/{namespace}/pods/{podName}")
     Publisher<Pod> deletePod(String namespace, String podName);

@@ -18,6 +18,8 @@ package io.micronaut.kubernetes.client.v1
 import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import io.micronaut.http.HttpStatus
+import io.micronaut.http.client.exceptions.HttpClientResponseException
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints
@@ -90,10 +92,8 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
     @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can create config maps"() {
         given:
-
         def name = 'created-configmap'
         def data = ['key1': 'value1', 'key2': 'value2']
-
         ConfigMap body = buildConfigMap(name, data)
 
         when:
@@ -102,6 +102,46 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         then:
         configMap.metadata.uid != null
         configMap.data == data
+
+        cleanup:
+        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it throws a conflict exception when it create config maps twice"() {
+        given:
+        def name = 'created-configmap'
+        def data = ['key1': 'value1', 'key2': 'value2']
+        ConfigMap body = buildConfigMap(name, data)
+        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        when:
+        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+
+        then:
+        HttpClientResponseException e = thrown(HttpClientResponseException)
+        e.getStatus() == HttpStatus.CONFLICT
+
+        cleanup:
+        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can replace config maps"() {
+        given:
+        def name = 'replaced-configmap'
+        def data = ['key1': 'value1', 'key2': 'value2']
+        ConfigMap body = buildConfigMap(name, data)
+        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+        body.data.remove('key1')
+
+        when:
+        ConfigMap configMap = Flowable.fromPublisher(client.replaceConfigMap(DEFAULT_NAMESPACE, name, body)).blockingFirst()
+
+        then:
+        configMap.metadata.uid != null
+        ! configMap.data.containsKey('key1')
+        configMap.data.get('key2') == 'value2'
 
         cleanup:
         Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
@@ -166,6 +206,29 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         then:
         secret.metadata.uid != null
         secret.data == data
+
+        cleanup:
+        Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
+    }
+
+    @Requires({ TestUtils.kubernetesApiAvailable() })
+    void "it can replace secrets"() {
+
+        given:
+        def name = 'replaced-secret'
+        def data = ['key1': 'value1'.getBytes(), 'key2': 'value2'.getBytes()]
+        def body = buildSecret(name, data)
+        Flowable.fromPublisher(client.createSecret(DEFAULT_NAMESPACE, body)).blockingFirst()
+        body.data.remove('key1')
+
+        when:
+        Secret secret = Flowable.fromPublisher(client.replaceSecret(DEFAULT_NAMESPACE, name, body)).blockingFirst()
+
+        then:
+        secret.metadata.uid != null
+        ! secret.data.containsKey('key1')
+        secret.data.containsKey('key2')
+        secret.data.get('key2') == 'value2'.getBytes()
 
         cleanup:
         Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
@@ -278,11 +341,11 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     private boolean waitForPodStatus(name, status) {
         IntStream.range(0, 9).any { it ->
-            Pod pod = Flowable.fromPublisher(client.getPod(DEFAULT_NAMESPACE, name)).blockingFirst();
+            Pod pod = Flowable.fromPublisher(client.getPod(DEFAULT_NAMESPACE, name)).blockingFirst()
             if (pod.status.phase == status) {
                 return true
             } else {
-                sleep(1000);
+                sleep(1000)
             }
         }
     }
