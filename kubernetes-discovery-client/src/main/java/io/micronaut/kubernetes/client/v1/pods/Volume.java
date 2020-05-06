@@ -28,6 +28,8 @@ public class Volume {
 
     private String name;
     private SecretVolumeSource secret;
+    private ConfigMapVolumeSource configMap;
+    private EmptyDirVolumeSource emptyDir;
 
     /**
      * @return Volume's name.
@@ -57,11 +59,41 @@ public class Volume {
         this.secret = secret;
     }
 
+    /**
+     * @return ConfigMap that populates this volume.
+     */
+    public ConfigMapVolumeSource getConfigMap() {
+        return configMap;
+    }
+
+    /**
+     * @param configMap ConfigMap that populates this volume.
+     */
+    public void setConfigMap(final ConfigMapVolumeSource configMap) {
+        this.configMap = configMap;
+    }
+
+    /**
+     * @return EmptyDir represents a temporary directory that shares a pod's lifetime.
+     */
+    public EmptyDirVolumeSource getEmptyDir() {
+        return emptyDir;
+    }
+
+    /**
+     * @param emptyDir EmptyDir represents a temporary directory that shares a pod's lifetime.
+     */
+    public void setEmptyDir(final EmptyDirVolumeSource emptyDir) {
+        this.emptyDir = emptyDir;
+    }
+
     @Override
     public String toString() {
         return "Volume{" +
                 "name='" + name + '\'' +
                 ", secret=" + secret +
+                ", configMap=" + configMap +
+                ", emptyDir=" + emptyDir +
                 '}';
     }
 }
