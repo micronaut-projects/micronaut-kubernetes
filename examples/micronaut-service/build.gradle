@@ -4,7 +4,7 @@ import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
-    id "com.google.cloud.tools.jib" version "2.3.0"
+    id "com.google.cloud.tools.jib" version "0.9.9"
     id "java"
     id "net.ltgt.apt-eclipse" version "0.21"
     id "net.ltgt.apt-idea" version "0.21"
@@ -33,8 +33,7 @@ dependencies {
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-    testImplementation "io.micronaut.test:micronaut-test-junit5:1.1.5"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.6.2"
+    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
 }
 
 shadowJar {

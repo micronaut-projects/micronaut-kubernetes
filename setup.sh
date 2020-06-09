@@ -27,12 +27,12 @@ kubectl config set-context --current --namespace=micronaut-kubernetes
 
 # Login to the Docker hub and push the images
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-./gradlew jib --stacktrace
+./gradlew jibDockerBuild --stacktrace
 
 # Create roles, deployments and services
 kubectl create -f k8s-auth.yml
 ./create-config-maps-and-secret.sh
-kubectl create -f kubernetes-travis.yml
+kubectl create -f kubernetes.yml
 
 # Wait for pods to be up and ready
 sleep 20
