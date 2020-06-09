@@ -7,7 +7,7 @@ sudo apt-get update
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
 # Download and install kind
-curl -Lo kind https://github.com/kubernetes-sigs/kind/releases/download/v0.4.0/kind-linux-amd64 && chmod +x ./kind && sudo mv kind /usr/local/bin/
+curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64" && chmod +x ./kind && sudo mv kind /usr/local/bin/
 
 # Create a cluster
 kind create cluster
@@ -35,13 +35,24 @@ kubectl create -f k8s-auth.yml
 kubectl create -f kubernetes.yml
 
 # Wait for pods to be up and ready
-sleep 60
+sleep 20
 CLIENT_POD="$(kubectl get pods | grep "example-client" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"
-kubectl wait --for=condition=Ready pod/$SERVICE_POD_1
-kubectl wait --for=condition=Ready pod/$CLIENT_POD
-kubectl wait --for=condition=Ready pod/$SERVICE_POD_2
+
+kubectl describe pods
+echo "Client pod logs:"
+kubectl logs $CLIENT_POD
+
+echo "Service pod #1 logs:"
+kubectl logs $SERVICE_POD_1
+
+echo "Service pod #2 logs:"
+kubectl logs $SERVICE_POD_2
+
+kubectl wait --for=condition=Ready pod/$SERVICE_POD_1 --timeout=60s
+kubectl wait --for=condition=Ready pod/$CLIENT_POD --timeout=60s
+kubectl wait --for=condition=Ready pod/$SERVICE_POD_2 --timeout=60s
 
 # Expose ports locally
 kubectl port-forward $SERVICE_POD_1 9999:8081 &
