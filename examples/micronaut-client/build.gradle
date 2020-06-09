@@ -56,7 +56,7 @@ OperatingSystem os = DefaultNativePlatform.currentOperatingSystem
 
 jib {
     to {
-        image = System.getenv('CI') ? 'registry.hub.docker.com/alvarosanchez/example-client' : 'micronaut-kubernetes-example-client'
+        image = 'micronaut-kubernetes-example-client'
         if (os.isMacOsX()) {
             credHelper = 'osxkeychain'
         }

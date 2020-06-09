@@ -59,7 +59,7 @@ jib {
         image = 'alvarosanchez/alpine-with-curl'
     }
     to {
-        image = System.getenv('CI') ? 'registry.hub.docker.com/alvarosanchez/example-service' : 'micronaut-kubernetes-example-service'
+        image = 'micronaut-kubernetes-example-service'
         if (os.isMacOsX()) {
             credHelper = 'osxkeychain'
         }
