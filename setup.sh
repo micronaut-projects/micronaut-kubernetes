@@ -35,7 +35,7 @@ kubectl create -f k8s-auth.yml
 kubectl create -f kubernetes.yml
 
 # Wait for pods to be up and ready
-sleep 20
+sleep 60
 CLIENT_POD="$(kubectl get pods | grep "example-client" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"
