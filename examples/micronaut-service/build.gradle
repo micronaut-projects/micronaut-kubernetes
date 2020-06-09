@@ -33,7 +33,7 @@ dependencies {
     testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    testImplementation "io.micronaut.test:micronaut-test-junit5:$micronautTestVersion"
 }
 
 shadowJar {
