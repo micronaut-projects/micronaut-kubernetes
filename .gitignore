@@ -1,20 +1,31 @@
-# Ignore Gradle project-specific cache directory
-.gradle
-
-# Ignore Gradle build output directory
-build
-
-.idea/
-*.iml
+dist/
 .DS_Store
-
-.gradletasknamecache
+target/
+.gradle/
+.idea/
+build/
+classes/
+out/
+*.db
+*.log
+*.iml
+.classpath
+.factorypath
+bin/
+.settings/
+.project
+*/test/
+*/META-INF/
+*.ipr
+*.iws
+.kotlintest
+*/.kotlintest/
 
 # ignore resources, are downloaded via a gradle task from micronaut_docs
 src/main/docs/resources/css/highlight/*.css
 src/main/docs/resources/css/highlight/*.png
 src/main/docs/resources/css/highlight/*.jpg
 src/main/docs/resources/css/*.css
-src/main/docs/resources/img/*.svg
 src/main/docs/resources/js/*.js
 src/main/docs/resources/style/*.html
+src/main/docs/resources/img/micronaut-logo-white.svg
