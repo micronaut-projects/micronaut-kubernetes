@@ -4,7 +4,7 @@ import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
     id "application"
-    id "com.google.cloud.tools.jib" version "0.9.9"
+    id "com.google.cloud.tools.jib" version "1.7.0"
     id "java"
     id "net.ltgt.apt-eclipse" version "0.21"
     id "net.ltgt.apt-idea" version "0.21"
@@ -34,16 +34,14 @@ dependencies {
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
     testImplementation "io.micronaut.test:micronaut-test-junit5:$micronautTestVersion"
-    testRuntime "org.junit.jupiter:junit-jupiter-engine"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
 }
 
 shadowJar {
     mergeServiceFiles()
 }
 
-run.classpath += configurations.developmentOnly
 test.classpath += configurations.developmentOnly
-run.jvmArgs('-noverify', '-XX:TieredStopAtLevel=1')
 
 mainClassName = "micronaut.service.Application"
 // use JUnit 5 platform
@@ -68,4 +66,9 @@ jib {
 tasks.withType(JavaCompile){
     options.encoding = "UTF-8"
     options.compilerArgs.add('-parameters')
+}
+
+tasks.withType(JavaExec) {
+    classpath += configurations.developmentOnly
+    jvmArgs('-XX:TieredStopAtLevel=1', '-Dcom.sun.management.jmxremote')
 }
