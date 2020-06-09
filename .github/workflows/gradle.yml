@@ -34,7 +34,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Optional setup step
         run: |
-          [ -f ./travis-setup-kubernetes.sh ] && ./travis-setup-kubernetes.sh || true
+          [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
         run: ./gradlew dependencyUpdates check --parallel --continue
         env:

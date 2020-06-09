@@ -1,176 +1,42 @@
 buildscript {
     repositories {
+        gradlePluginPortal()
+        jcenter()
+        maven { url "https://dl.bintray.com/micronaut/core-releases-local" }
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
-        classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "org.grails:grails-docs:$grailsVersion"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
-        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2"
-        classpath "de.marcphilipp.gradle:nexus-publish-plugin:0.4.0"
-        classpath 'io.github.groovylang.groovydoc:groovydoc-gradle-plugin:1.0.1'
-        classpath "io.micronaut.docs:micronaut-docs-asciidoc-extensions:$micronautDocsVersion", {
+        classpath "io.micronaut.build:micronaut-gradle-plugins:2.0.0.RC10", {
             exclude group:"com.github.jengelman.gradle.plugins"
         }
-        classpath "io.micronaut.docs:micronaut-docs-gradle-plugins:$micronautDocsVersion", {
-            exclude group:"com.github.jengelman.gradle.plugins"
-        }
-        classpath 'com.adarshr:gradle-test-logger-plugin:2.0.0'
     }
 }
 
-plugins {
-    id 'com.github.hierynomus.license' version '0.15.0' apply false
-}
-
-repositories {
-    maven { url "https://repo.grails.org/grails/core" }
-    maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
-}
-
-version project.projectVersion
-
-ext {
-    distInstallDir = file("$buildDir/dist-tmp")
-    homeBinDir = file("bin")
-    homeLibDir = file("lib")
-    homeSrcDir = file("src")
-}
 
 subprojects { Project subproject ->
 
-    version project.projectVersion
     group "io.micronaut.kubernetes"
-    ext {
-        isConfiguration = subproject.projectDir.parentFile.name == 'configurations'
-        isBuildSnapshot = version.toString().endsWith("-SNAPSHOT")
-        isExampleProject  = subproject.projectDir.path.contains("examples/${subproject.name}")
-        isTestUtilsProject =  subproject.name == 'test-utils'
-    }
-    repositories {
-        maven { url "https://repo.grails.org/grails/core" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    }
 
-    apply plugin:"groovy"
-    apply plugin:"java"
+    apply plugin: "io.micronaut.build.common"
+    apply plugin: "io.micronaut.build.dependency-updates"
 
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-    if (!isExampleProject && !isTestUtilsProject) {
-        apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-build/v${micronautBuildVersion}/publishing.gradle"
-
-        jar {
-            manifest {
-                attributes('Automatic-Module-Name': "${subproject.group}.${subproject.name}".replaceAll('[^\\w\\.\\$_]', "_"))
-                attributes('Implementation-Version': projectVersion)
-                attributes('Implementation-Title': title)
-            }
+    if (subproject.name in ["test-utils", "micronaut-client", "micronaut-service"]) {
+        tasks.withType(Checkstyle) {
+            enabled = false
         }
-
-        bintray.publish = true
+        return
     }
 
-    tasks.withType(Test) {
-        jvmArgs '-Duser.country=US'
-        jvmArgs '-Duser.language=en'
-        testLogging {
-            exceptionFormat = 'full'
-        }
-        afterSuite {
-            System.out.print(".")
-            System.out.flush()
-        }
+    apply plugin: "io.micronaut.build.publishing"
 
-        reports.html.enabled = !System.getenv("TRAVIS")
-        reports.junitXml.enabled = !System.getenv("TRAVIS")
+//    dependencies {
+//        if(JavaVersion.current().java9Compatible){
+//            // JAX-B dependencies for JDK 9+
+//            implementation "javax.xml.bind:jaxb-api:2.3.1"
+//        }
+//    }
 
-    }
-
-    configurations {
-        documentation
-        all {
-            resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                String group = details.requested.group
-                if(group == 'org.codehaus.groovy') {
-                    details.useVersion(groovyVersion)
-                }
-            }
-        }
-    }
-    dependencies {
-        annotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-        implementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-        testAnnotationProcessor platform("io.micronaut:micronaut-bom:$micronautVersion")
-        testImplementation platform("io.micronaut:micronaut-bom:$micronautVersion")
-
-        documentation "org.codehaus.groovy:groovy-templates:$groovyVersion"
-        documentation "org.codehaus.groovy:groovy-dateutil:$groovyVersion"
-
-        testCompile "cglib:cglib-nodep:3.3.0"
-        testCompile "org.objenesis:objenesis:3.1"
-
-        testCompile("org.spockframework:spock-core:${spockVersion}") {
-            exclude module:'groovy-all'
-        }
-        testCompile "cglib:cglib-nodep:3.3.0"
-        testCompile "org.objenesis:objenesis:3.1"
-
-        testRuntime "ch.qos.logback:logback-classic:1.2.3"
-        testCompile "org.codehaus.groovy:groovy-test:$groovyVersion"
-
-        if(JavaVersion.current().java9Compatible){
-            // JAX-B dependencies for JDK 9+
-            implementation "javax.xml.bind:jaxb-api:2.3.1"
-        }
-    }
-
-    groovydoc {
-        classpath += project.configurations.documentation
-    }
-
-    task allDeps(type: DependencyReportTask) {}
-
-    if (!isExampleProject && !isTestUtilsProject) {
-        apply plugin: 'checkstyle'
-
-        checkstyle {
-            toolVersion = 8.10
-            configFile = rootProject.file('config/checkstyle/checkstyle.xml')
-
-            // Per submodule
-            maxErrors = 3
-            maxWarnings = 10
-
-            showViolations = true
-        }
-
-        checkstyleTest.enabled = false
-    }
-}
-apply from:"https://raw.githubusercontent.com/micronaut-projects/micronaut-docs/v${micronautDocsVersion}/gradle/docs.gradle"
-
-allprojects {
-    apply plugin: 'idea'
-
-    idea {
-        module {
-            outputDir file('build/classes/java/main')
-            testOutputDir file('build/classes/groovy/test')
-        }
-    }
-    apply from: rootProject.file('gradle/license.gradle')
-
-    apply plugin: 'com.adarshr.test-logger'
-
-    testlogger {
-        showFullStackTraces true
-        showStandardStreams true
-        showPassedStandardStreams false
-        showSkippedStandardStreams false
-        showFailedStandardStreams true
-    }
 }
 
-
+apply plugin: "io.micronaut.build.docs"
+apply plugin: "io.micronaut.build.dependency-updates"
