@@ -120,12 +120,24 @@
 <dd>
 <div class="block">Converts a <a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMap</code></a> into a <code>PropertySource</code>.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">ConfigMapEnvSource</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">A source of environment variables for a container backed by a ConfigMap.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html#ConfigMapEnvSource--">ConfigMapEnvSource()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapEnvSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><span class="typeNameLink">ConfigMapList</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/configmaps/package-summary.html">io.micronaut.kubernetes.client.v1.configmaps</a></dt>
 <dd>
 <div class="block">The ConfigMap API resource holds key-value pairs of configuration data that can be consumed in pods or used to store
  configuration data for system components such as controllers.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html#ConfigMapList--">ConfigMapList()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapList.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapList</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">ConfigMapVolumeSource</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">A source of content for a container volume backed by a ConfigMap.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#ConfigMapVolumeSource--">ConfigMapVolumeSource()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><span class="typeNameLink">ConfigMapWatchEvent</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/configmaps/package-summary.html">io.micronaut.kubernetes.client.v1.configmaps</a></dt>
 <dd>
@@ -141,12 +153,30 @@
 <dd>
 <div class="block">The type of the event occurred.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Container</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">Represents a container.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#Container--">Container()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">ContainerStatus</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
 <dd>
 <div class="block">Information about the running container.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#ContainerStatus--">ContainerStatus()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#createConfigMap-java.lang.String-io.micronaut.kubernetes.client.v1.configmaps.ConfigMap-">createConfigMap(String, ConfigMap)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Create the specified ConfigMap.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#createPod-java.lang.String-io.micronaut.kubernetes.client.v1.pods.Pod-">createPod(String, Pod)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Returns the created <a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods"><code>Pod</code></a> in the given namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#createSecret-java.lang.String-io.micronaut.kubernetes.client.v1.secrets.Secret-">createSecret(String, Secret)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Create the specified Secret.</div>
+</dd>
 </dl>
 <a name="I:D">
 <!--   -->
@@ -156,6 +186,18 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#DEFAULT_NAMESPACE">DEFAULT_NAMESPACE</a></span> - Static variable in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>
 <div class="block">The default namespace value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#deleteConfigMap-java.lang.String-java.lang.String-">deleteConfigMap(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Delete the specified ConfigMap.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#deletePod-java.lang.String-java.lang.String-">deletePod(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Returns the deleted <a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods"><code>Pod</code></a> in the given namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#deleteSecret-java.lang.String-java.lang.String-">deleteSecret(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Delete the specified Secret.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/InetAddressDeserializer.html#deserialize-com.fasterxml.jackson.core.JsonParser-com.fasterxml.jackson.databind.DeserializationContext-">deserialize(JsonParser, DeserializationContext)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/InetAddressDeserializer.html" title="class in io.micronaut.kubernetes.client.v1">InetAddressDeserializer</a></dt>
 <dd>&nbsp;</dd>
@@ -170,6 +212,12 @@
 </a>
 <h2 class="title">E</h2>
 <dl>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">EmptyDirVolumeSource</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">Represents an empty directory for a pod.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html#EmptyDirVolumeSource--">EmptyDirVolumeSource()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EmptyDirVolumeSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints"><span class="typeNameLink">Endpoints</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/endpoints/package-summary.html">io.micronaut.kubernetes.client.v1.endpoints</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html#Endpoints--">Endpoints()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">Endpoints</a></dt>
@@ -192,6 +240,18 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="micronaut/client/ExampleClient.html#env--">env()</a></span> - Method in interface micronaut.client.<a href="micronaut/client/ExampleClient.html" title="interface in micronaut.client">ExampleClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">EnvFromSource</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">A source of environment variables for a container.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html#EnvFromSource--">EnvFromSource()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvFromSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">EnvVar</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">Environment variable to set in a container.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html#EnvVar--">EnvVar()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvVar</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="micronaut/client/ExampleClient.html" title="interface in micronaut.client"><span class="typeNameLink">ExampleClient</span></a> - Interface in <a href="micronaut/client/package-summary.html">micronaut.client</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -202,21 +262,35 @@
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsSubset.html#getAddresses--">getAddresses()</a></span> - Method in class io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsSubset.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsSubset</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getArgs--">getArgs()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#getClusterIp--">getClusterIp()</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceSpec</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getCommand--">getCommand()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getConfigMap-java.lang.String-java.lang.String-">getConfigMap(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">Read the specified ConfigMap.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#getConfigMap--">getConfigMap()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html#getConfigMapRef--">getConfigMapRef()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvFromSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getConfigMaps--">getConfigMaps()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getConnectionPoolConfiguration--">getConnectionPoolConfiguration()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#getContainers--">getContainers()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html#getContainerStatuses--">getContainerStatuses()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodStatus</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html#getData--">getData()</a></span> - Method in class io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMap</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#getData--">getData()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#getDefaultMode--">getDefaultMode()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#getDefaultMode--">getDefaultMode()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#getDescription--">getDescription()</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>
@@ -226,10 +300,16 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getDiscovery--">getDiscovery()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#getEmptyDir--">getEmptyDir()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getEndpoints-java.lang.String-java.lang.String-">getEndpoints(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">Read the specified Endpoints.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getEnv--">getEnv()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getEnvFrom--">getEnvFrom()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#getExcludesFilter-java.util.Collection-">getExcludesFilter(Collection&lt;String&gt;)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/health/KubernetesHealthIndicator.html#getHealthInformation--">getHealthInformation()</a></span> - Method in class io.micronaut.kubernetes.health.<a href="io/micronaut/kubernetes/health/KubernetesHealthIndicator.html" title="class in io.micronaut.kubernetes.health">KubernetesHealthIndicator</a></dt>
@@ -240,9 +320,17 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html#getID--">getID()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getImage--">getImage()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#getImage--">getImage()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getImagePullPolicy--">getImagePullPolicy()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#getImagePullSecrets--">getImagePullSecrets()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#getIncludesFilter-java.util.Collection-">getIncludesFilter(Collection&lt;String&gt;)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#getInitContainers--">getInitContainers()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#getInstances-java.lang.String-">getInstances(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
@@ -254,17 +342,47 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html#getItems--">getItems()</a></span> - Method in class io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#getItems--">getItems()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodList.html#getItems--">getItems()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodList.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodList</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#getItems--">getItems()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html#getItems--">getItems()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretList</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/ServiceList.html#getItems--">getItems()</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#getKey--">getKey()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#getLabels--">getLabels()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html#getMedium--">getMedium()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EmptyDirVolumeSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesObject.html#getMetadata--">getMetadata()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html#getMountPath--">getMountPath()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods">VolumeMount</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.v1">LocalObjectReference</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvVar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods">VolumeMount</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
@@ -277,6 +395,10 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#getNodePort--">getNodePort()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html#getObject--">getObject()</a></span> - Method in class io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#getObject--">getObject()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#getPath--">getPath()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#getPaths--">getPaths()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -304,21 +426,35 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#getResourceVersion--">getResourceVersion()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#getRestartPolicy--">getRestartPolicy()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getSecret-java.lang.String-java.lang.String-">getSecret(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">Returns a <a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets"><code>Secret</code></a> of the given namespace.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#getSecret--">getSecret()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#getSecretName--">getSecretName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html#getSecretRef--">getSecretRef()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvFromSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#getSecrets--">getSecrets()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#getService-java.lang.String-java.lang.String-">getService(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">Read the specified Service.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#getServiceAccountName--">getServiceAccountName()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#getServiceIds--">getServiceIds()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Pod.html#getSpec--">getSpec()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods">Pod</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/Service.html#getSpec--">getSpec()</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Pod.html#getStatus--">getStatus()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods">Pod</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#getStringData--">getStringData()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html#getSubsets--">getSubsets()</a></span> - Method in class io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/Endpoints.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">Endpoints</a></dt>
 <dd>&nbsp;</dd>
@@ -328,7 +464,15 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#getType--">getType()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#getType--">getType()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#getUid--">getUid()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html#getValue--">getValue()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvVar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#getVolumeMounts--">getVolumeMounts()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#getVolumes--">getVolumes()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:H">
@@ -392,6 +536,14 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#isEnabled--">isEnabled()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html#isOptional--">isOptional()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#isOptional--">isOptional()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html#isOptional--">isOptional()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#isOptional--">isOptional()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#isReady--">isReady()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#isSecure--">isSecure()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
@@ -410,6 +562,12 @@
 </a>
 <h2 class="title">K</h2>
 <dl>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">KeyToPath</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">A key-value pair in the Data field of the referenced ConfigMap that will be projected into the volume as a file whose name is the key and content is the value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#KeyToPath--">KeyToPath()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_CONFIG_MAP_NAME_SUFFIX">KUBERNETES_CONFIG_MAP_NAME_SUFFIX</a></span> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_SECRET_NAME_SUFFIX">KUBERNETES_SECRET_NAME_SUFFIX</a></span> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
@@ -522,6 +680,12 @@
 <dd>
 <div class="block">List endpoints in the given namespace.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listPods-java.lang.String-java.lang.String-">listPods(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">List pods in the given namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listPods-java.lang.String-">listPods(String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#listSecrets-java.lang.String-java.lang.String-">listSecrets(String, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">List objects of kind Secret.</div>
@@ -532,6 +696,12 @@
 <dd>
 <div class="block">List services in the specified namespace.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.v1"><span class="typeNameLink">LocalObjectReference</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/package-summary.html">io.micronaut.kubernetes.client.v1</a></dt>
+<dd>
+<div class="block">LocalObjectReference.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html#LocalObjectReference--">LocalObjectReference()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.v1">LocalObjectReference</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
 </dl>
@@ -584,6 +754,18 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Pod.html#Pod--">Pod()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods">Pod</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/PodList.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">PodList</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">Represents a response of type <code>PodList</code> from the Kubernetes API.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodList.html#PodList--">PodList()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodList.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodList</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">PodSpec</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">Specification of the desired behavior of the pod.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#PodSpec--">PodSpec()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">PodStatus</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
 <dd>
 <div class="block">Pod status information.</div>
@@ -608,6 +790,14 @@
 <dl>
 <dt><span class="memberNameLink"><a href="micronaut/client/ExampleClient.html#refresh--">refresh()</a></span> - Method in interface micronaut.client.<a href="micronaut/client/ExampleClient.html" title="interface in micronaut.client">ExampleClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#replaceConfigMap-java.lang.String-java.lang.String-io.micronaut.kubernetes.client.v1.configmaps.ConfigMap-">replaceConfigMap(String, String, ConfigMap)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Replace the specified ConfigMap.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#replaceSecret-java.lang.String-java.lang.String-io.micronaut.kubernetes.client.v1.secrets.Secret-">replaceSecret(String, String, Secret)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Replace the specified Secret.</div>
+</dd>
 </dl>
 <a name="I:S">
 <!--   -->
@@ -622,12 +812,38 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#secretAsPropertySource-io.micronaut.kubernetes.client.v1.secrets.Secret-">secretAsPropertySource(Secret)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">SecretEnvSource</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">A source of environment variables for a container backed by a Secret.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html#SecretEnvSource--">SecretEnvSource()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretEnvSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html" title="class in io.micronaut.kubernetes.client.v1.secrets"><span class="typeNameLink">SecretList</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/secrets/package-summary.html">io.micronaut.kubernetes.client.v1.secrets</a></dt>
 <dd>
 <div class="block">Represents a response of type <code>SecretList</code> from the Kubernetes API.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html#SecretList--">SecretList()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretList</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">SecretVolumeSource</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">A source of content for a container volume backed by a Secret.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#SecretVolumeSource--">SecretVolumeSource()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets"><span class="typeNameLink">SecretWatchEvent</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/secrets/package-summary.html">io.micronaut.kubernetes.client.v1.secrets</a></dt>
+<dd>
+<div class="block">Represents a Secret watch event returned from the Kubernetes API.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#SecretWatchEvent--">SecretWatchEvent()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
+<dd>
+<div class="block">The default constructor.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#SecretWatchEvent-io.micronaut.kubernetes.client.v1.secrets.SecretWatchEvent.EventType-">SecretWatchEvent(SecretWatchEvent.EventType)</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.secrets"><span class="typeNameLink">SecretWatchEvent.EventType</span></a> - Enum in <a href="io/micronaut/kubernetes/client/v1/secrets/package-summary.html">io.micronaut.kubernetes.client.v1.secrets</a></dt>
+<dd>
+<div class="block">The type of the event occurred.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#SECURE_LABEL">SECURE_LABEL</a></span> - Static variable in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services"><span class="typeNameLink">Service</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/services/package-summary.html">io.micronaut.kubernetes.client.v1.services</a></dt>
@@ -646,25 +862,53 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsSubset.html#setAddresses-java.util.List-">setAddresses(List&lt;Address&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsSubset.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsSubset</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setArgs-java.util.List-">setArgs(List&lt;String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#setClusterIp-java.net.InetAddress-">setClusterIp(InetAddress)</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceSpec.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceSpec</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setCommand-java.util.List-">setCommand(List&lt;String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#setConfigMap-io.micronaut.kubernetes.client.v1.pods.ConfigMapVolumeSource-">setConfigMap(ConfigMapVolumeSource)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html#setConfigMapRef-io.micronaut.kubernetes.client.v1.pods.ConfigMapEnvSource-">setConfigMapRef(ConfigMapEnvSource)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvFromSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setConfigMaps-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration-">setConfigMaps(KubernetesConfiguration.KubernetesConfigMapsConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#setContainers-java.util.List-">setContainers(List&lt;Container&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html#setContainerStatuses-java.util.List-">setContainerStatuses(List&lt;ContainerStatus&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodStatus</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html#setData-java.util.Map-">setData(Map&lt;String, String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMap</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#setData-java.util.Map-">setData(Map&lt;String, String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#setData-java.util.Map-">setData(Map&lt;String, byte[]&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#setDefaultMode-int-">setDefaultMode(int)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#setDefaultMode-int-">setDefaultMode(int)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery(KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#setEmptyDir-io.micronaut.kubernetes.client.v1.pods.EmptyDirVolumeSource-">setEmptyDir(EmptyDirVolumeSource)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setEnabled-boolean-">setEnabled(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setEnv-java.util.List-">setEnv(List&lt;EnvVar&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setEnvFrom-java.util.List-">setEnvFrom(List&lt;EnvFromSource&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setHost-java.lang.String-">setHost(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html#setHostIP-java.lang.String-">setHostIP(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodStatus</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setImage-java.lang.String-">setImage(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setImage-java.lang.String-">setImage(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setImagePullPolicy-java.lang.String-">setImagePullPolicy(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#setImagePullSecrets-java.util.List-">setImagePullSecrets(List&lt;LocalObjectReference&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#setInitContainers-java.util.List-">setInitContainers(List&lt;Container&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Address.html#setIp-java.net.InetAddress-">setIp(InetAddress)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Address.html" title="class in io.micronaut.kubernetes.client.v1">Address</a></dt>
 <dd>&nbsp;</dd>
@@ -672,17 +916,47 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html#setItems-java.util.List-">setItems(List&lt;Endpoints&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.endpoints.<a href="io/micronaut/kubernetes/client/v1/endpoints/EndpointsList.html" title="class in io.micronaut.kubernetes.client.v1.endpoints">EndpointsList</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#setItems-java.util.List-">setItems(List&lt;KeyToPath&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodList.html#setItems-java.util.List-">setItems(List&lt;Pod&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodList.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodList</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#setItems-java.util.List-">setItems(List&lt;KeyToPath&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html#setItems-java.util.List-">setItems(List&lt;Secret&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretList.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretList</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/ServiceList.html#setItems-java.util.List-">setItems(List&lt;Service&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/ServiceList.html" title="class in io.micronaut.kubernetes.client.v1.services">ServiceList</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#setKey-java.lang.String-">setKey(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#setLabels-java.util.Map-">setLabels(Map&lt;String, String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html#setMedium-java.lang.String-">setMedium(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EmptyDirVolumeSource</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesObject.html#setMetadata-io.micronaut.kubernetes.client.v1.Metadata-">setMetadata(Metadata)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#setMode-java.lang.Integer-">setMode(Integer)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html#setMountPath-java.lang.String-">setMountPath(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods">VolumeMount</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.v1">LocalObjectReference</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvVar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods">VolumeMount</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#setName-java.lang.String-">setName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
@@ -693,6 +967,18 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#setNodePort-int-">setNodePort(int)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html#setObject-io.micronaut.kubernetes.client.v1.configmaps.ConfigMap-">setObject(ConfigMap)</a></span> - Method in class io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#setObject-io.micronaut.kubernetes.client.v1.secrets.Secret-">setObject(Secret)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html#setOptional-boolean-">setOptional(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#setOptional-boolean-">setOptional(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html#setOptional-boolean-">setOptional(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#setOptional-boolean-">setOptional(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#setPath-java.lang.String-">setPath(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setPaths-java.util.Collection-">setPaths(Collection&lt;String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -714,9 +1000,21 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#setResourceVersion-java.lang.String-">setResourceVersion(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#setRestartPolicy-java.lang.String-">setRestartPolicy(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#setSecret-io.micronaut.kubernetes.client.v1.pods.SecretVolumeSource-">setSecret(SecretVolumeSource)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#setSecretName-java.lang.String-">setSecretName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html#setSecretRef-io.micronaut.kubernetes.client.v1.pods.SecretEnvSource-">setSecretRef(SecretEnvSource)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvFromSource</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecrets-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesSecretsConfiguration-">setSecrets(KubernetesConfiguration.KubernetesSecretsConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#setSecure-boolean-">setSecure(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#setServiceAccountName-java.lang.String-">setServiceAccountName(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Pod.html#setSpec-io.micronaut.kubernetes.client.v1.pods.PodSpec-">setSpec(PodSpec)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods">Pod</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/Service.html#setSpec-io.micronaut.kubernetes.client.v1.services.ServiceSpec-">setSpec(ServiceSpec)</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a></dt>
 <dd>&nbsp;</dd>
@@ -730,9 +1028,17 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#setType-java.lang.String-">setType(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#setType-io.micronaut.kubernetes.client.v1.secrets.SecretWatchEvent.EventType-">setType(SecretWatchEvent.EventType)</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#setUid-java.lang.String-">setUid(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setUseApi-boolean-">setUseApi(boolean)</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html#setValue-java.lang.String-">setValue(String)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvVar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#setVolumeMounts-java.util.List-">setVolumeMounts(List&lt;VolumeMount&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#setVolumes-java.util.List-">setVolumes(List&lt;Volume&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:T">
@@ -754,17 +1060,45 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.v1">LocalObjectReference</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Metadata.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ConfigMapVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">ConfigMapVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Container.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Container.html" title="class in io.micronaut.kubernetes.client.v1.pods">Container</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">ContainerStatus</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EmptyDirVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EmptyDirVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvFromSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvFromSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/EnvVar.html" title="class in io.micronaut.kubernetes.client.v1.pods">EnvVar</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods">KeyToPath</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Pod.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Pod.html" title="class in io.micronaut.kubernetes.client.v1.pods">Pod</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodStatus</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretEnvSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretEnvSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/SecretVolumeSource.html" title="class in io.micronaut.kubernetes.client.v1.pods">SecretVolumeSource</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods">VolumeMount</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Port.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/services/Service.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.v1.services.<a href="io/micronaut/kubernetes/client/v1/services/Service.html" title="class in io.micronaut.kubernetes.client.v1.services">Service</a></dt>
 <dd>&nbsp;</dd>
@@ -778,11 +1112,32 @@
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent.EventType</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.EventType.html#values--">values()</a></span> - Static method in enum io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent.EventType</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html#values--">values()</a></span> - Static method in enum io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent.EventType</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Volume</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">Volume for pod containers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/Volume.html#Volume--">Volume()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/Volume.html" title="class in io.micronaut.kubernetes.client.v1.pods">Volume</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">VolumeMount</span></a> - Class in <a href="io/micronaut/kubernetes/client/v1/pods/package-summary.html">io.micronaut.kubernetes.client.v1.pods</a></dt>
+<dd>
+<div class="block">VolumeMount describes a mounting of a Volume within a container.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html#VolumeMount--">VolumeMount()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.pods.<a href="io/micronaut/kubernetes/client/v1/pods/VolumeMount.html" title="class in io.micronaut.kubernetes.client.v1.pods">VolumeMount</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:W">
 <!--   -->
@@ -792,6 +1147,10 @@ the order they are declared.</div>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#watchConfigMaps-java.lang.String-java.lang.Long-java.lang.String-">watchConfigMaps(String, Long, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
 <dd>
 <div class="block">Watch objects of kind ConfigMap.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html#watchSecrets-java.lang.String-java.lang.Long-java.lang.String-">watchSecrets(String, Long, String)</a></span> - Method in interface io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></dt>
+<dd>
+<div class="block">Watch objects of kind Secret.</div>
 </dd>
 </dl>
 <a href="#I:A">A</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>

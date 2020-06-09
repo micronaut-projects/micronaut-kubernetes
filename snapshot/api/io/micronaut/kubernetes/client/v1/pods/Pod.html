@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -47,8 +47,8 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodList.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../../index.html?io/micronaut/kubernetes/client/v1/pods/Pod.html" target="_top">Frames</a></li>
@@ -158,14 +158,22 @@ extends <a href="../../../../../../io/micronaut/kubernetes/client/v1/KubernetesO
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/Pod.html#getSpec--">getSpec</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodStatus</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/Pod.html#getStatus--">getStatus</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/Pod.html#setSpec-io.micronaut.kubernetes.client.v1.pods.PodSpec-">setSpec</a></span>(<a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a>&nbsp;spec)</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/Pod.html#setStatus-io.micronaut.kubernetes.client.v1.pods.PodStatus-">setStatus</a></span>(<a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodStatus</a>&nbsp;podStatus)</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/Pod.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -241,6 +249,32 @@ extends <a href="../../../../../../io/micronaut/kubernetes/client/v1/KubernetesO
 </dl>
 </li>
 </ul>
+<a name="getSpec--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getSpec</h4>
+<pre>public&nbsp;<a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a>&nbsp;getSpec()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The specification of the desired behavior of the pod</dd>
+</dl>
+</li>
+</ul>
+<a name="setSpec-io.micronaut.kubernetes.client.v1.pods.PodSpec-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setSpec</h4>
+<pre>public&nbsp;void&nbsp;setSpec(<a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodSpec.html" title="class in io.micronaut.kubernetes.client.v1.pods">PodSpec</a>&nbsp;spec)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>spec</code> - The specification of the desired behavior of the pod</dd>
+</dl>
+</li>
+</ul>
 <a name="toString--">
 <!--   -->
 </a>
@@ -281,8 +315,8 @@ extends <a href="../../../../../../io/micronaut/kubernetes/client/v1/KubernetesO
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/ContainerStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodStatus.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/KeyToPath.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../../../io/micronaut/kubernetes/client/v1/pods/PodList.html" title="class in io.micronaut.kubernetes.client.v1.pods"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../../index.html?io/micronaut/kubernetes/client/v1/pods/Pod.html" target="_top">Frames</a></li>
