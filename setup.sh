@@ -10,7 +10,7 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64" && chmod +x ./kind && sudo mv kind /usr/local/bin/
 
 # Create a cluster
-kind create cluster
+kind create cluster --wait 5m
 
 # Configure kubectl
 cp $(kind get kubeconfig-path) $HOME/.kube/config
@@ -25,9 +25,11 @@ kubectl proxy &
 kubectl create namespace micronaut-kubernetes
 kubectl config set-context --current --namespace=micronaut-kubernetes
 
-# Login to the Docker hub and push the images
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+# Build the Docker images
 ./gradlew jibDockerBuild --stacktrace
+docker images | grep micronaut
+kind load docker-image micronaut-kubernetes-example-service:latest
+kind load docker-image micronaut-kubernetes-example-client:latest
 
 # Create roles, deployments and services
 kubectl create -f k8s-auth.yml
