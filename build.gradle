@@ -1,17 +1,14 @@
 buildscript {
     repositories {
-        gradlePluginPortal()
+        maven { url "https://oss.jfrog.org/oss-snapshot-local" }
         jcenter()
         maven { url "https://dl.bintray.com/micronaut/core-releases-local" }
         maven { url "https://repo.grails.org/grails/core" }
     }
     dependencies {
-        classpath "io.micronaut.build:micronaut-gradle-plugins:2.0.3", {
-            exclude group:"com.github.jengelman.gradle.plugins"
-        }
+        classpath "io.micronaut.build:micronaut-gradle-plugins:2.0.4.BUILD-SNAPSHOT"
     }
 }
-
 
 subprojects { Project subproject ->
 
