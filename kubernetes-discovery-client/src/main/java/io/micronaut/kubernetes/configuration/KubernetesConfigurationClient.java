@@ -44,6 +44,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
+import static io.micronaut.kubernetes.util.KubernetesUtils.getPodLabels;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -142,7 +143,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+        Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
+        labels.putAll(getPodLabels(client, configuration));
         String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
@@ -175,7 +177,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
-                Map<String, String> labels = configuration.getSecrets().getLabels();
+                Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
+                labels.putAll(getPodLabels(client, configuration));
                 String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
                 propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
