@@ -169,10 +169,11 @@ public class KubernetesUtils {
 
     /**
      * @param client the {@link KubernetesClient}
-     * @param configuration the {@link KubernetesConfiguration}
+     * @param podLabelKeys the list of labels inside a pod
+     * @param namespace in the configuration
      * @return the filtered labels of the current pod
      */
-    public static Map<String, String> getPodLabels(KubernetesClient client, KubernetesConfiguration configuration) {
+    public static Map<String, String> getPodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
         Map<String, String> result = new HashMap<>();
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv("KUBERNETES_SERVICE_HOST");
@@ -181,9 +182,7 @@ public class KubernetesUtils {
             return Collections.emptyMap();
         }
 
-        List<String> podLabelKeys = configuration.getConfigMaps().getPodLabels();
-
-        Pod pod = Single.fromPublisher(client.getPod(configuration.getNamespace(), System.getenv(HOSTNAME_ENV_VARIABLE))).blockingGet();
+        Pod pod = Single.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).blockingGet();
         Map<String, String> podLabels = pod.getMetadata().getLabels();
         for (String key : podLabelKeys) {
             String value = podLabels.get(key);

@@ -84,7 +84,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     public void onApplicationEvent(ServiceReadyEvent event) {
         long lastResourceVersion = computeLastResourceVersion();
         Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-        labels.putAll(getPodLabels(client, configuration));
+        labels.putAll(getPodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
         String labelSelector = computeLabelSelector(labels);
 
         if (LOG.isDebugEnabled()) {

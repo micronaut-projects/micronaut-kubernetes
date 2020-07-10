@@ -144,7 +144,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-        labels.putAll(getPodLabels(client, configuration));
+        labels.putAll(getPodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
         String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
@@ -177,8 +177,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
-                Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-                labels.putAll(getPodLabels(client, configuration));
+                Map<String, String> labels = new HashMap<>(configuration.getSecrets().getLabels());
+                labels.putAll(getPodLabels(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace()));
                 String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
                 propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
