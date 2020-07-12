@@ -291,6 +291,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
             }
             return podLabels;
         }
+
         /**
          * @param podLabels labels to match
          */
