@@ -5,6 +5,6 @@ plugins {
 dependencies {
     compile "org.codehaus.groovy:groovy:$groovyVersion"
     compile "io.micronaut:micronaut-http-client:$micronautVersion"
-    compile 'io.fabric8:kubernetes-client:4.10.2'
+    compile 'io.fabric8:kubernetes-client:4.10.3'
     compileOnly "org.junit.jupiter:junit-jupiter-engine"
 }
