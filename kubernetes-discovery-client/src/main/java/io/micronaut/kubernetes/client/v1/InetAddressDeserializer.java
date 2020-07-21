@@ -31,6 +31,7 @@ import java.net.UnknownHostException;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.2
  */
+@Introspected
 public class InetAddressDeserializer extends StdDeserializer<InetAddress> {
 
     /**
