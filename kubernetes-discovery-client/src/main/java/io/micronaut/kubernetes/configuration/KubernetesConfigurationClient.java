@@ -44,7 +44,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
-import static io.micronaut.kubernetes.util.KubernetesUtils.getPodLabels;
+import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabels;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -144,7 +144,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-        labels.putAll(getPodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
+        labels.putAll(computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
         String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
         return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
@@ -178,7 +178,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = new HashMap<>(configuration.getSecrets().getLabels());
-                labels.putAll(getPodLabels(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace()));
+                labels.putAll(computePodLabels(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace()));
                 String labelSelector = KubernetesUtils.computeLabelSelector(labels);
 
                 propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))

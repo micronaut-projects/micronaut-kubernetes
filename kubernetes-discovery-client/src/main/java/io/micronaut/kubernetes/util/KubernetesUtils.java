@@ -174,7 +174,7 @@ public class KubernetesUtils {
      * @param namespace in the configuration
      * @return the filtered labels of the current pod
      */
-    public static Map<String, String> getPodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
+    public static Map<String, String> computePodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
         Map<String, String> result = new HashMap<>();
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);

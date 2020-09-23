@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computeLabelSelector;
-import static io.micronaut.kubernetes.util.KubernetesUtils.getPodLabels;
+import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabels;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -84,7 +84,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     public void onApplicationEvent(ServiceReadyEvent event) {
         long lastResourceVersion = computeLastResourceVersion();
         Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-        labels.putAll(getPodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
+        labels.putAll(computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
         String labelSelector = computeLabelSelector(labels);
 
         if (LOG.isDebugEnabled()) {
