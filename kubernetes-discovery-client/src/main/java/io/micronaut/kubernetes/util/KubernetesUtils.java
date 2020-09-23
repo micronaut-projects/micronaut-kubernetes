@@ -44,14 +44,16 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
  * @since 1.0.0
  */
 public class KubernetesUtils {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
 
     private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = Arrays.asList(
             new YamlPropertySourceLoader(),
             new JsonPropertySourceLoader(),
             new PropertiesPropertySourceLoader());
-    
+
+    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
+
     /**
      * Converts a {@link ConfigMap} into a {@link PropertySource}.
      *
@@ -175,7 +177,7 @@ public class KubernetesUtils {
     public static Map<String, String> getPodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
         Map<String, String> result = new HashMap<>();
         // determine if we are running inside a pod. This environment variable is always been set.
-        String host = System.getenv("KUBERNETES_SERVICE_HOST");
+        String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
             LOG.info("Not running on k8s");
             return Collections.emptyMap();
