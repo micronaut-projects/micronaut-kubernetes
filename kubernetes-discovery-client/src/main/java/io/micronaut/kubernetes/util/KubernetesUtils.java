@@ -179,7 +179,9 @@ public class KubernetesUtils {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
-            LOG.info("Not running on k8s");
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Not running on k8s");
+            }
             return Collections.emptyMap();
         }
 
@@ -189,9 +191,13 @@ public class KubernetesUtils {
             String value = podLabels.get(key);
             if (value != null) {
                 result.put(key, value);
-                LOG.trace("Including pod label: {}={}", key, value);
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Including pod label: {}={}", key, value);
+                }
             } else {
-                LOG.error("Pod metadata does not contain label: {}", key);
+                if (LOG.isErrorEnabled()) {
+                    LOG.error("Pod metadata does not contain label: {}", key);
+                }
             }
         }
         return result;
