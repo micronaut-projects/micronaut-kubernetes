@@ -83,33 +83,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     /**
-     * Retrieves all of the {@link PropertySource} registrations for the given environment.
-     *
-     * @param environment The environment
-     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
-     */
-    @Override
-    public Publisher<PropertySource> getPropertySources(Environment environment) {
-        if (!propertySources.isEmpty()) {
-            LOG.trace("Found cached PropertySources. Returning them");
-            return Flowable.fromIterable(propertySources.values());
-        } else {
-            LOG.trace("PropertySource cache is empty");
-            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
-        }
-    }
-
-    /**
-     * A description that describes this object.
-     *
-     * @return The description
-     */
-    @Override
-    public String getDescription() {
-        return KubernetesClient.SERVICE_ID;
-    }
-
-    /**
      * Adds the given {@link PropertySource} to the cache.
      *
      * @param propertySource The property source to add
@@ -140,14 +113,43 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return propertySources;
     }
 
+    /**
+     * Retrieves all of the {@link PropertySource} registrations for the given environment.
+     *
+     * @param environment The environment
+     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
+     */
+    @Override
+    public Publisher<PropertySource> getPropertySources(Environment environment) {
+        if (!propertySources.isEmpty()) {
+            LOG.trace("Found cached PropertySources. Returning them");
+            return Flowable.fromIterable(propertySources.values());
+        } else {
+            LOG.trace("PropertySource cache is empty");
+            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
+        }
+    }
+
+    /**
+     * A description that describes this object.
+     *
+     * @return The description
+     */
+    @Override
+    public String getDescription() {
+        return KubernetesClient.SERVICE_ID;
+    }
+
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
-        Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-        labels.putAll(computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
-        String labelSelector = KubernetesUtils.computeLabelSelector(labels);
+        Map<String, String> labels = configuration.getConfigMaps().getLabels();
 
-        return Flowable.fromPublisher(client.listConfigMaps(configuration.getNamespace(), labelSelector))
+        return computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()).flatMap(podLabels -> {
+            podLabels.putAll(labels);
+            String labelSelector = KubernetesUtils.computeLabelSelector(podLabels);
+            return client.listConfigMaps(configuration.getNamespace(), labelSelector);
+        })
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
                 .doOnNext(configMapList -> {
@@ -177,11 +179,12 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
-                Map<String, String> labels = new HashMap<>(configuration.getSecrets().getLabels());
-                labels.putAll(computePodLabels(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace()));
-                String labelSelector = KubernetesUtils.computeLabelSelector(labels);
-
-                propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector))
+                Map<String, String> labels = configuration.getSecrets().getLabels();
+                Flowable<PropertySource> secretListFlowable = computePodLabels(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace()).flatMap(podLabels -> {
+                    podLabels.putAll(labels);
+                    String labelSelector = KubernetesUtils.computeLabelSelector(podLabels);
+                    return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector));
+                })
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                         .onErrorReturn(throwable -> new SecretList())
                         .doOnNext(secretList -> {
@@ -198,8 +201,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                 LOG.debug("Adding secret with name {}", secret.getMetadata().getName());
                             }
                         })
-                        .map(KubernetesUtils::secretAsPropertySource));
+                        .map(KubernetesUtils::secretAsPropertySource);
 
+                propertySourceFlowable = propertySourceFlowable.mergeWith(secretListFlowable);
             }
 
             if (!mountedVolumePaths.isEmpty()) {

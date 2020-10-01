@@ -34,7 +34,6 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
@@ -83,14 +82,18 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @Override
     public void onApplicationEvent(ServiceReadyEvent event) {
         long lastResourceVersion = computeLastResourceVersion();
-        Map<String, String> labels = new HashMap<>(configuration.getConfigMaps().getLabels());
-        labels.putAll(computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()));
-        String labelSelector = computeLabelSelector(labels);
+        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+        Flowable<Map<String, String>> singlePodLabels = computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace());
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Watching for ConfigMap events...");
         }
-        Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
+
+        singlePodLabels.flatMap( podLabels -> {
+            podLabels.putAll(labels);
+            String labelSelector = computeLabelSelector(podLabels);
+            return client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector);
+        })
                 .doOnNext(e -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Received ConfigMap watch event: {}", e);

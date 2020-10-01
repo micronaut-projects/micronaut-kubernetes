@@ -24,10 +24,9 @@ import io.micronaut.jackson.env.JsonPropertySourceLoader;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
-import io.micronaut.kubernetes.client.v1.pods.Pod;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
-import io.reactivex.Single;
+import io.reactivex.Flowable;
 import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,14 +44,12 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
  */
 public class KubernetesUtils {
 
+    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
-
     private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = Arrays.asList(
             new YamlPropertySourceLoader(),
             new JsonPropertySourceLoader(),
             new PropertiesPropertySourceLoader());
-
-    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
 
     /**
      * Converts a {@link ConfigMap} into a {@link PropertySource}.
@@ -169,38 +166,41 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param client the {@link KubernetesClient}
+     * @param client       the {@link KubernetesClient}
      * @param podLabelKeys the list of labels inside a pod
-     * @param namespace in the configuration
+     * @param namespace    in the configuration
      * @return the filtered labels of the current pod
      */
-    public static Map<String, String> computePodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
-        Map<String, String> result = new HashMap<>();
+    public static Flowable<Map<String, String>> computePodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Not running on k8s");
             }
-            return Collections.emptyMap();
+            return Flowable.just(new HashMap<>());
         }
 
-        Pod pod = Single.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).blockingGet();
-        Map<String, String> podLabels = pod.getMetadata().getLabels();
-        for (String key : podLabelKeys) {
-            String value = podLabels.get(key);
-            if (value != null) {
-                result.put(key, value);
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Including pod label: {}={}", key, value);
-                }
-            } else {
-                if (LOG.isErrorEnabled()) {
-                    LOG.error("Pod metadata does not contain label: {}", key);
-                }
-            }
-        }
-        return result;
+        return Flowable.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
+                pod -> {
+                    LOG.info("HELLO FROM THE FCKING SINGLE");
+                    Map<String, String> result = new HashMap<>();
+                    Map<String, String> podLabels = pod.getMetadata().getLabels();
+                    for (String key : podLabelKeys) {
+                        String value = podLabels.get(key);
+                        if (value != null) {
+                            result.put(key, value);
+                            if (LOG.isTraceEnabled()) {
+                                LOG.trace("Including pod label: {}={}", key, value);
+                            }
+                        } else {
+                            if (LOG.isErrorEnabled()) {
+                                LOG.error("Pod metadata does not contain label: {}", key);
+                            }
+                        }
+                    }
+                    return result;
+                });
     }
 
     private static String getPropertySourceName(ConfigMap configMap) {
