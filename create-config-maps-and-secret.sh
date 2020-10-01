@@ -11,3 +11,6 @@ kubectl create secret generic mounted-secret --from-literal=mountedVolumeKey='mo
 kubectl label configmap game-config-yml app=game
 kubectl label configmap literal-config app=game
 kubectl label secret another-secret app=game
+kubectl label configmap game-config-yml app.kubernetes.io/instance=example-service-1337
+kubectl label configmap literal-config app.kubernetes.io/instance=example-service-1337
+kubectl label secret another-secret app.kubernetes.io/instance=example-service-1337
