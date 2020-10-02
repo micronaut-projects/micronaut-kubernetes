@@ -35,11 +35,9 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
@@ -62,21 +60,26 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
+    private final Map<String, KubernetesServiceConfiguration> serviceConfigurations;
     private final KubernetesServiceInstanceList instanceList;
 
     /**
      * @param client An HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
      * @param discoveryConfiguration The discovery configuration properties
+     * @param serviceConfigurations The manual service discovery configurations
      * @param instanceList The {@link KubernetesServiceInstanceList}
      */
     public KubernetesDiscoveryClient(KubernetesClient client,
                                      KubernetesConfiguration configuration,
                                      KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
+                                     List<KubernetesServiceConfiguration> serviceConfigurations,
                                      KubernetesServiceInstanceList instanceList) {
         this.client = client;
         this.configuration = configuration;
         this.discoveryConfiguration = discoveryConfiguration;
+        this.serviceConfigurations = serviceConfigurations.stream()
+                .collect(Collectors.toMap(KubernetesServiceConfiguration::getServiceId, Function.identity()));
         this.instanceList = instanceList;
     }
 
@@ -91,16 +94,23 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         if (SERVICE_ID.equals(serviceId)) {
             return Publishers.just(instanceList.getInstances());
         } else {
-            AtomicReference<Metadata> metadata = new AtomicReference<>();
-            String namespace = configuration.getNamespace();
+            KubernetesServiceConfiguration serviceConfiguration = serviceConfigurations.getOrDefault(
+                    serviceId, new KubernetesServiceConfiguration(serviceId, null, configuration.getNamespace()));
+            String serviceNamespace = serviceConfiguration.getNamespace().orElse(configuration.getNamespace());
+            String serviceName = serviceConfiguration.getName().orElse(serviceId);
             String labelSelector = KubernetesUtils.computeLabelSelector(discoveryConfiguration.getLabels());
+            AtomicReference<Metadata> metadata = new AtomicReference<>();
             Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
             Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
 
-            return Flowable.fromPublisher(client.listEndpoints(namespace, labelSelector))
-                    .doOnError(throwable -> LOG.error("Error while trying to list Kubernetes Endpoints in the namespace [" + namespace + "]", throwable))
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(String.format("Fetching for service %s endpoints in namespace %s", serviceName, serviceNamespace));
+            }
+
+            return Flowable.fromPublisher(client.listEndpoints(serviceNamespace, labelSelector))
+                    .doOnError(throwable -> LOG.error("Error while trying to list Kubernetes Endpoints in the namespace [" + serviceNamespace + "]", throwable))
                     .flatMapIterable(EndpointsList::getItems)
-                    .filter(endpoints -> endpoints.getMetadata().getName().equals(serviceId))
+                    .filter(endpoints -> endpoints.getMetadata().getName().equals(serviceName))
                     .filter(includesFilter)
                     .filter(excludesFilter)
                     .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
@@ -138,14 +148,16 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         String labelSelector = KubernetesUtils.computeLabelSelector(labels);
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
-        return Flowable.fromPublisher(client.listServices(namespace, labelSelector))
-                .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
-                .flatMapIterable(ServiceList::getItems)
-                .filter(includesFilter)
-                .filter(excludesFilter)
-                .map(service -> service.getMetadata().getName())
-                .toList()
-                .toFlowable();
+
+        return Flowable.merge(
+                Flowable.fromIterable(serviceConfigurations.keySet()),
+                Flowable.fromPublisher(client.listServices(namespace, labelSelector))
+                        .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
+                        .flatMapIterable(ServiceList::getItems)
+                        .filter(includesFilter)
+                        .filter(excludesFilter)
+                        .map(service -> service.getMetadata().getName())
+        ).distinct().toList().toFlowable();
     }
 
     @Override

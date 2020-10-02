@@ -12,3 +12,10 @@ kubernetes:
     host: localhost
     port: 8001
     secure: false
+    discovery:
+      services:
+        example-service:
+          namespace: micronaut-kubernetes
+        example-service-in-other-namespace:
+          name: example-service
+          namespace: micronaut-kubernetes-a

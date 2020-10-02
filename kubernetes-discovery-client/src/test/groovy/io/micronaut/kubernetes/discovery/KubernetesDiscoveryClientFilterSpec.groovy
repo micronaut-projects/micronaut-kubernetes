@@ -23,8 +23,10 @@ class KubernetesDiscoveryClientFilterSpec extends Specification implements Kubec
         List<String> serviceIds = Flowable.fromPublisher(discoveryClient.getServiceIds()).blockingFirst()
 
         then:
-        serviceIds.size() == 1
+        serviceIds.size() == 3
         serviceIds.contains("example-client")
+        serviceIds.contains("example-service")
+        serviceIds.contains("example-service-in-other-namespace")
 
         and:
         Flowable.fromPublisher(discoveryClient.getInstances("example-client")).count().blockingGet() == 1
@@ -44,8 +46,10 @@ class KubernetesDiscoveryClientFilterSpec extends Specification implements Kubec
         List<String> serviceIds = Flowable.fromPublisher(discoveryClient.getServiceIds()).blockingFirst()
 
         then:
-        serviceIds.size() == 5
+        serviceIds.size() == 6
         !serviceIds.contains("example-client")
+        serviceIds.contains("example-service")
+        serviceIds.contains("example-service-in-other-namespace")
 
         and:
         Flowable.fromPublisher(discoveryClient.getInstances("example-client")).count().blockingGet() == 0
