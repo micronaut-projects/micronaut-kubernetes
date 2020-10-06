@@ -89,7 +89,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             LOG.debug("Watching for ConfigMap events...");
         }
 
-        singlePodLabels.flatMap( podLabels -> {
+        singlePodLabels.flatMap(podLabels -> {
             podLabels.putAll(labels);
             String labelSelector = computeLabelSelector(podLabels);
             return client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector);
