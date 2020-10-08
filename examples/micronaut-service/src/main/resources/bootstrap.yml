@@ -6,10 +6,6 @@ micronaut:
 
 kubernetes:
   client:
-    config-maps:
-      pod-labels:
-        - "app.kubernetes.io/instance"
-        - "wrongLabel"
     secrets:
       enabled: true
       use-api: true
