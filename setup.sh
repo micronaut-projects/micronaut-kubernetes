@@ -3,11 +3,13 @@ set -x
 
 sudo apt-get update
 
+KIND_VERSION=v0.9.0
+
 # Download and install kubectl
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
 # Download and install kind
-curl -Lo ./kind "https://kind.sigs.k8s.io/dl/v0.8.1/kind-$(uname)-amd64" && chmod +x ./kind && sudo mv kind /usr/local/bin/
+curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ./kind && sudo mv kind /usr/local/bin/
 
 # Create a cluster
 kind create cluster --wait 5m
