@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service
+spec:
+  selector:
+    matchLabels:
+      app: example-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: example-service
+    spec:
+      containers:
+        - name: example-service
+          image: micronaut-kubernetes-example-service
+          imagePullPolicy: "Never"
+          volumeMounts:
+            - name: secrets
+              mountPath: "/etc/example-service/secrets"
+              readOnly: true
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5004"
+          ports:
+            - name: http
+              containerPort: 8081
+            - name: "jvm-debug"
+              containerPort: 5004
+      volumes:
+        - name: secrets
+          secret:
+            secretName: mounted-secret
+            defaultMode: 256
