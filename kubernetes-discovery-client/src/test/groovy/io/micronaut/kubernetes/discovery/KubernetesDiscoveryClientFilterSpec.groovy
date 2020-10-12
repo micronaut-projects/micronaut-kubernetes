@@ -12,7 +12,9 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
 
     void "it can filter includes services"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.discovery.includes": "example-client"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.namespace": namespace,
+                "kubernetes.client.discovery.includes": "example-client"], Environment.KUBERNETES)
         KubernetesDiscoveryClient discoveryClient = applicationContext.getBean(KubernetesDiscoveryClient)
 
         when:
@@ -21,8 +23,6 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
         then:
         serviceIds.size() == 1
         serviceIds.contains("example-client")
-//        serviceIds.contains("example-service")
-//        serviceIds.contains("example-service-in-other-namespace")
 
         and:
         Flowable.fromPublisher(discoveryClient.getInstances("example-client")).count().blockingGet() == 1
@@ -44,7 +44,6 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
         serviceIds.size() == 5
         !serviceIds.contains("example-client")
         serviceIds.contains("example-service")
-        //serviceIds.contains("example-service-in-other-namespace")
 
         and:
         Flowable.fromPublisher(discoveryClient.getInstances("example-client")).count().blockingGet() == 0

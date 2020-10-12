@@ -22,6 +22,8 @@ import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
+import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration;
+import io.micronaut.kubernetes.client.v1.Port;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
@@ -159,6 +161,25 @@ public class KubernetesUtils {
         }
 
         return excludesFilter;
+    }
+
+    /**
+     * @param labels the labels to include
+     * @return a {@link Predicate} based on labels the kubernetes objects has to match to return true
+     */
+    public static Predicate<KubernetesObject> getLabelsFilter(Map<String, String> labels) {
+        Predicate<KubernetesObject> labelsFilter = s -> true;
+        if (!labels.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Filter labels: {}", labels.keySet());
+            }
+            labelsFilter = kubernetesObject -> {
+                Map<String, String> kubernetesObjectLabels = kubernetesObject.getMetadata().getLabels();
+                return labels.entrySet().stream().allMatch(
+                        e -> kubernetesObjectLabels.containsKey(e.getKey()) && kubernetesObjectLabels.get(e.getKey()).equals(e.getValue()));
+            };
+        }
+        return labelsFilter;
     }
 
     private static String getPropertySourceName(ConfigMap configMap) {

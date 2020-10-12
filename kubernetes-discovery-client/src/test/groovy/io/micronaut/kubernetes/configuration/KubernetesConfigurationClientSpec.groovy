@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Slf4j
-@Property(name = "kubernetes.client.namespace", value = "kubernetesconfigurationclientspec")
 class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     @Inject

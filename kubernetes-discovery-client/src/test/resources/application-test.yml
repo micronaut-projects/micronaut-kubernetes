@@ -8,6 +8,7 @@ micronaut:
 ---
 kubernetes:
   client:
+    namespace: micronaut-kubernetes
     host: localhost
     port: 8001
     secure: false

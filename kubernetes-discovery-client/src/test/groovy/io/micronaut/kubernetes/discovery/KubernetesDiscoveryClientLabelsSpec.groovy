@@ -17,8 +17,6 @@ class KubernetesDiscoveryClientLabelsSpec extends KubernetesSpecification{
 
         then:
         serviceIds.size() == 1
-//        serviceIds.contains("example-service")
-//        serviceIds.contains("example-service-in-other-namespace")
 
         and:
         Flowable.fromPublisher(discoveryClient.getInstances("example-client")).count().blockingGet() == 0

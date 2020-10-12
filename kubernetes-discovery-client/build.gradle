@@ -26,10 +26,3 @@ dependencies {
 
     testImplementation project(":test-utils")
 }
-
-//test {
-//    retry {
-//        maxRetries = 3
-//        maxFailures = 20
-//    }
-//}

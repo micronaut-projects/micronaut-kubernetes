@@ -17,14 +17,12 @@
 package io.micronaut.kubernetes.discovery
 
 import groovy.util.logging.Slf4j
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
 import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.test.KubernetesSpecification
-import io.micronaut.test.annotation.MicronautTest
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
-import spock.lang.Ignore
 
 import javax.inject.Inject
 import java.util.stream.Collectors
@@ -32,14 +30,13 @@ import java.util.stream.Stream
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Slf4j
-@Property(name = "kubernetes.client.namespace", value = "kubernetesdiscoveryclientspec")
 class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
     @Inject
     KubernetesDiscoveryClient discoveryClient
 
     @Inject
-    List<KubernetesServiceConfiguration> serviceConfigurations;
+    List<KubernetesServiceConfiguration> serviceConfigurations
 
     void "it can get service instances"() {
         given:
@@ -51,25 +48,6 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
         when:
         List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service')).blockingFirst()
-
-        then:
-        serviceInstances.size() == ipAddresses.size()
-        serviceInstances.every {
-            it.port == 8081
-            it.metadata.get('foo', String).get() == 'bar'
-        }
-        ipAddresses.every { String ip ->
-            serviceInstances.find { it.host == ip }
-        }
-    }
-
-    @Ignore("Needs to be fixed in scope of broader manual service discovery in next pr")
-    void "it can get service instances from other namespace"() {
-        given:
-        List<String> ipAddresses = getIps('micronaut-kubernetes-a')
-
-        when:
-        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service-in-other-namespace')).blockingFirst()
 
         then:
         serviceInstances.size() == ipAddresses.size()

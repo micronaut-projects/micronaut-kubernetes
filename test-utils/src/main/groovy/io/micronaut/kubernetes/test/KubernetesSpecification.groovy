@@ -19,6 +19,7 @@ import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.IntOrString
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
+import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.micronaut.core.io.ResourceResolver
 import io.micronaut.core.io.scan.ClassPathResourceLoader
 import spock.lang.AutoCleanup
@@ -32,6 +33,9 @@ import spock.lang.Specification
 @Slf4j
 abstract class KubernetesSpecification extends Specification {
 
+    public static final String EXAMPLE_SERVICE_DEPLOYMENT = "k8s/example-service-deployment.yml"
+    public static final String DEFAULT_NAMESPACE = "micronaut-kubernetes"
+
     @Shared
     @AutoCleanup
     KubernetesOperations operations = new KubernetesOperations()
@@ -43,7 +47,7 @@ abstract class KubernetesSpecification extends Specification {
      * @return spec namespace
      */
     def resolveNamespace(){
-        getSpecificationContext().getCurrentSpec().name.toLowerCase()
+        return DEFAULT_NAMESPACE
     }
 
     /**
@@ -64,6 +68,7 @@ abstract class KubernetesSpecification extends Specification {
         namespace = resolveNamespace()
         log.info("Configuring default namespace: ${namespace}")
         setupFixture(namespace)
+
     }
 
     def cleanupSpec() {
@@ -92,7 +97,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def createExampleServiceDeployment(String namespace) {
-        operations.createDeploymentFromFile(loadFileFromClasspath("k8s/example-service-deployment.yml"), "example-service", namespace)
+        operations.createDeploymentFromFile(loadFileFromClasspath(EXAMPLE_SERVICE_DEPLOYMENT), "example-service", namespace)
         operations.createService("example-service", namespace,
                 new ServiceSpecBuilder()
                         .withType("LoadBalancer")
@@ -105,6 +110,10 @@ abstract class KubernetesSpecification extends Specification {
                         .withSelector(["app": "example-service"])
                         .build(),
                 ["foo": "bar"])
+    }
+
+    Deployment loadExampleServiceDeployment(String namespace){
+        return operations.getDeployment("example-service", namespace)
     }
 
     def createExampleClientDeployment(String namespace) {
@@ -174,7 +183,7 @@ abstract class KubernetesSpecification extends Specification {
         return Base64.encoder.encodeToString(secret.bytes)
     }
 
-    private URL loadFileFromClasspath(String path){
+    protected static URL loadFileFromClasspath(String path){
         ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
         Optional<URL> resource = loader.getResource("classpath:${path}")
         return resource.orElseThrow(

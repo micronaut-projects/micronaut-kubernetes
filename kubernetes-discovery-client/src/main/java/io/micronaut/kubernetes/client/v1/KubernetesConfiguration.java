@@ -219,8 +219,24 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     @BootstrapContextCompatible
     public static class KubernetesDiscoveryConfiguration extends AbstractKubernetesConfiguration {
 
+        public static final String DEFAULT_MODE = "endpoint";
         public static final String PREFIX = KubernetesConfiguration.PREFIX + "." + DiscoveryConfiguration.PREFIX;
 
+        private String mode = DEFAULT_MODE;
+
+        /**
+         * @return default service discovery mode
+         */
+        public String getMode() {
+            return mode;
+        }
+
+        /**
+         * @param mode default service discovery mode
+         */
+        public void setMode(String mode) {
+            this.mode = mode;
+        }
     }
 
     /**

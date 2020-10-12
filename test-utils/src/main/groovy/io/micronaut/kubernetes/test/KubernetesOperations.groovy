@@ -25,10 +25,13 @@ import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.kubernetes.client.LocalPortForward
 import io.fabric8.kubernetes.client.dsl.RollableScalableResource
 import io.micronaut.core.util.StringUtils
+import spock.util.concurrent.PollingConditions
 
 import java.util.concurrent.TimeUnit
 
 /**
+ * Kubernetes operations using fabric8 client.
+ *
  * @author Pavol Gressa
  * @since 2.2
  */
@@ -52,10 +55,12 @@ class KubernetesOperations implements Closeable {
         return client.namespaces().withName(name).get()
     }
 
-    boolean deleteNamespace(String namespace) {
-        log.debug("Deleting namespace ${namespace}")
-        return client.namespaces()
-                .delete(getNamespace(namespace))
+    boolean deleteNamespace(String name) {
+        log.debug("Deleting namespace ${name}")
+        client.namespaces().delete(getNamespace(name))
+        new PollingConditions(delay: 1).within(60) {
+            assert client.namespaces().withName(name).get() == null
+        }
     }
 
     Role createRole(String name,
@@ -156,7 +161,7 @@ class KubernetesOperations implements Closeable {
         )
     }
 
-    ConfigMapList listConfigMaps(String namespace){
+    ConfigMapList listConfigMaps(String namespace) {
         return client.configMaps().inNamespace(namespace).list()
     }
 
@@ -194,7 +199,8 @@ class KubernetesOperations implements Closeable {
         client.apps().deployments().create(deployment.get())
 
         log.debug("Waiting 60s until ready")
-        return deployment.waitUntilCondition(
+        return client.apps().deployments().inNamespace(deployment.get().getMetadata().getNamespace())
+                .withName(deployment.get().getMetadata().getName()).waitUntilCondition(
                 d -> d.status.availableReplicas == d.spec.replicas,
                 60, TimeUnit.SECONDS)
     }
@@ -203,7 +209,16 @@ class KubernetesOperations implements Closeable {
         return client.apps().deployments().inNamespace(namespace).withName(name).get()
     }
 
-    Service createService(String name, String namespace, ServiceSpec serviceSpec, Map<String, String> labels = [:]){
+    Deployment scaleDeployment(String namespace, String name, int count) {
+        client.apps().deployments().inNamespace(namespace).withName(name).scale(count)
+        return client.apps().deployments().inNamespace(namespace)
+                .withName(name).waitUntilCondition(
+                d -> d.status.availableReplicas == d.spec.replicas,
+                60, TimeUnit.SECONDS)
+    }
+
+    Service createService(String name, String namespace, ServiceSpec serviceSpec,
+                          Map<String, String> labels = [:]) {
         Service service = new ServiceBuilder()
                 .withNewMetadata()
                 .withName(name)
@@ -216,23 +231,23 @@ class KubernetesOperations implements Closeable {
         return client.services().create(service)
     }
 
-    Service getService(String name, String namespace){
+    Service getService(String name, String namespace) {
         return client.services().inNamespace(namespace).withName(name).get()
     }
 
-    ServiceList listServices(String namespace){
+    ServiceList listServices(String namespace) {
         return client.services().inNamespace(namespace).list()
     }
 
-    Endpoints getEndpoints(String name, String namespace){
+    Endpoints getEndpoints(String name, String namespace) {
         return client.endpoints().inNamespace(namespace).withName(name).get()
     }
 
-    EndpointsList listEndpoints(String namespace){
+    EndpointsList listEndpoints(String namespace) {
         return client.endpoints().inNamespace(namespace).list()
     }
 
-    LocalPortForward portForwardService(String name, String namespace, int sourcePort, int targetPort){
+    LocalPortForward portForwardService(String name, String namespace, int sourcePort, int targetPort) {
         Service service = getService(name, namespace)
         service.spec.ports.stream()
                 .filter(s -> s.port == sourcePort)
@@ -247,7 +262,7 @@ class KubernetesOperations implements Closeable {
                 .portForward(sourcePort, targetPort)
         portForwardList.add(lpf)
 
-        if(!lpf.isAlive()){
+        if (!lpf.isAlive()) {
             throw new IllegalArgumentException("Failed to port forward service ${namespace}/${name} " +
                     "port ${sourcePort} -> ${targetPort}")
         }

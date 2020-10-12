@@ -29,23 +29,31 @@ import java.util.Optional;
  */
 @EachProperty(KubernetesServiceConfiguration.PREFIX)
 @BootstrapContextCompatible
-public class KubernetesServiceConfiguration {
+public final class KubernetesServiceConfiguration {
     public static final String NAME = "services";
     public static final String PREFIX = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + "." + NAME;
 
     private String serviceId;
     private String name;
     private String namespace;
+    private String mode;
+    private String port;
 
     @Inject
     public KubernetesServiceConfiguration(@Parameter String serviceId) {
-        this.serviceId = serviceId;
+        this(serviceId, null, null, null, null);
     }
 
     public KubernetesServiceConfiguration(String serviceId, String name, String namespace) {
+        this(serviceId, name, namespace, null, null);
+    }
+
+    public KubernetesServiceConfiguration(String serviceId, String name, String namespace, String mode, String port) {
         this.serviceId = serviceId;
         this.name = name;
         this.namespace = namespace;
+        this.mode = mode;
+        this.port = port;
     }
 
     /**
@@ -73,6 +81,7 @@ public class KubernetesServiceConfiguration {
 
     /**
      * Set service name.
+     *
      * @param name
      */
     public void setName(String name) {
@@ -95,5 +104,21 @@ public class KubernetesServiceConfiguration {
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+
+    public Optional<String> getMode() {
+        return Optional.ofNullable(mode);
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public Optional<String> getPort() {
+        return Optional.ofNullable(port);
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 }

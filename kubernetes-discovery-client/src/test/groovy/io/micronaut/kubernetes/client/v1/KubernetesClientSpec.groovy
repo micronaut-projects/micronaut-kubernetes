@@ -40,7 +40,6 @@ import java.util.stream.Collectors
 import java.util.stream.IntStream
 
 @MicronautTest(environments = [Environment.KUBERNETES])
-@Property(name = "kubernetes.client.namespace", value = "kubernetesclientspec")
 @Slf4j
 class KubernetesClientSpec extends KubernetesSpecification {
 
