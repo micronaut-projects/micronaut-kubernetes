@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-client
+spec:
+  selector:
+    matchLabels:
+      app: example-client
+  template:
+    metadata:
+      labels:
+        app: example-client
+    spec:
+      containers:
+        - name: example-client
+          image: micronaut-kubernetes-example-client
+          imagePullPolicy: "Never"
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+          ports:
+            - name: http
+              containerPort: 8082
+            - name: "jvm-debug"
+              containerPort: 5005

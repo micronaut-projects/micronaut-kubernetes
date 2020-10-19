@@ -57,7 +57,6 @@ public interface KubernetesOperations {
     @Get("/namespaces/{namespace}/services?labelSelector={labelSelector}")
     Publisher<ServiceList> listServices(String namespace, @Nullable String labelSelector);
 
-
     /**
      * Read the specified Service.
      * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#read-service-v1-core">Service v1 core - Read operations - Read</a>

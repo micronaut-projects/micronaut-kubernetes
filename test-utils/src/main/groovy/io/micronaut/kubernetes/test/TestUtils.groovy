@@ -32,8 +32,10 @@ class TestUtils implements KubectlCommands {
                 readTimeout = 1000
                 connect()
             }
+            log.debug("Kubernetes api available at: " + url)
             true
         } catch (IOException e) {
+            log.error("Kubernetes api is not available at: " + url)
             false
         }
     }
@@ -41,6 +43,11 @@ class TestUtils implements KubectlCommands {
     @Memoized
     static boolean serviceExists(String serviceName) {
         kubernetesApiAvailable() && getServices().contains(serviceName)
+    }
+
+    @Memoized
+    static boolean serviceExists(String serviceName, String namespaces) {
+        kubernetesApiAvailable() && getServices(namespaces).contains(serviceName)
     }
 
     @Memoized
