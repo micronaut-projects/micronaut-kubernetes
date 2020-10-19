@@ -393,29 +393,7 @@ if not <code>default</code>):</p>
 <div class="listingblock">
 <div class="title"><code>auth.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: service-discoverer
-  namespace: micronaut-kubernetes
-rules:
-  - apiGroups: [""]
-    resources: ["services", "endpoints", "configmaps", "secrets", "pods"]
-    verbs: ["get", "watch", "list"]
----
-kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: default-service-discoverer
-  namespace: micronaut-kubernetes
-subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: micronaut-kubernetes
-roleRef:
-  kind: Role
-  name: service-discoverer
-  apiGroup: rbac.authorization.k8s.io</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/k8s-auth.yml[]</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -450,18 +428,7 @@ examples assume there is a <code>Deployment</code> named <code>secure-deployment
 <div class="listingblock">
 <div class="title"><code>my-service.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
-kind: Service
-metadata:
-  name: secure-service-port-name
-spec:
-  selector:
-    app: secure-deployment
-  type: NodePort
-  ports:
-    - port: 1234
-      protocol: TCP
-      name: https</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes.yml[tag=port-name]</code></pre>
 </div>
 </div>
 </div>
@@ -473,17 +440,7 @@ spec:
 <div class="listingblock">
 <div class="title"><code>my-service.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
-kind: Service
-metadata:
-  name: secure-service-port-number
-spec:
-  selector:
-    app: secure-deployment
-  type: NodePort
-  ports:
-    - port: 443
-      protocol: TCP</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes.yml[tag=port-number]</code></pre>
 </div>
 </div>
 </div>
@@ -495,19 +452,7 @@ spec:
 <div class="listingblock">
 <div class="title"><code>my-service.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
-kind: Service
-metadata:
-  name: secure-service-labels
-  labels:
-    secure: "true"
-spec:
-  selector:
-    app: secure-deployment
-  type: NodePort
-  ports:
-    - port: 1234
-      protocol: TCP</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes.yml[tag=labels]</code></pre>
 </div>
 </div>
 </div>
