@@ -9,7 +9,10 @@ class KubernetesServiceConfigurationSpec extends Specification {
 
     void "creates service discovery configuration"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                        "kubernetes.client.discovery.services.example-service.namespace": "micronaut-kubernetes",
+                        "kubernetes.client.discovery.services.example-service-in-other-namespace.namespace": "micronaut-kubernetes-a",
+                        "kubernetes.client.discovery.services.example-service-in-other-namespace.name": "example-service"], Environment.KUBERNETES)
 
         when:
         Collection<KubernetesServiceConfiguration> discoveryClients = applicationContext.getBeansOfType(KubernetesServiceConfiguration.class)

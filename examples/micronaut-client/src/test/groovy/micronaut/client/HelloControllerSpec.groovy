@@ -1,49 +1,49 @@
 package micronaut.client
 
-import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.kubernetes.test.KubectlCommands
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
-import spock.lang.Specification
+import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
 import javax.inject.Inject
 
 import io.micronaut.context.annotation.Requires as MicronautRequires
 
-@MicronautTest(environments = Environment.KUBERNETES)
+@MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "HelloControllerSpec")
-@Slf4j
-class HelloControllerSpec extends Specification implements KubectlCommands {
+@Requires({ TestUtils.kubernetesApiAvailable() })
+class HelloControllerSpec extends KubernetesSpecification {
 
     @Inject
+    @Shared
     TestClient testClient
 
-    @Requires({ TestUtils.available("http://localhost:8888") })
+    def setupSpec() {
+        operations.portForwardService("example-client", namespace, 8082, 8888)
+    }
+
     void "test index"() {
         expect:
         testClient.index().startsWith("Hello, example-client")
     }
 
-    @Requires({ TestUtils.available("http://localhost:8888") })
     void "test all"() {
         expect:
         testClient.all().contains("example-service")
     }
 
-    @Requires({ TestUtils.available("http://localhost:8888") })
     void "test enemies"() {
         expect:
         testClient.enemies().equals("noGoodRotten")
     }
 
-    @Requires({ TestUtils.available("http://localhost:8888") })
     void "test config"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
@@ -54,7 +54,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         !testClient.env().contains(configMapName)
 
         when:
-        createConfigMap(configMapName)
+        operations.createConfigMap(configMapName, namespace)
 
         then:
         conditions.eventually {
@@ -63,7 +63,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         }
 
         when:
-        modifyConfigMap(configMapName)
+        operations.modifyConfigMap(configMapName, namespace)
 
         then:
         conditions.eventually {
@@ -72,7 +72,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         }
 
         when:
-        deleteConfigMap(configMapName)
+        operations.deleteConfigMap(configMapName, namespace)
 
         then:
         conditions.eventually {
@@ -80,10 +80,9 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
         }
 
         cleanup:
-        deleteConfigMap(configMapName)
+        operations.deleteConfigMap(configMapName, namespace)
     }
 
-    @Requires({ TestUtils.available("http://localhost:8888") })
     void "test reading secrets from mounted volumes"() {
         given:
         testClient.refresh()
