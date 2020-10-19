@@ -31,6 +31,7 @@ kubectl create configmap game-config-properties --from-file=kubernetes-discovery
 kubectl create configmap game-config-yml --from-file=kubernetes-discovery-client/src/test/resources/k8s/game.yml
 kubectl create configmap game-config-json --from-file=kubernetes-discovery-client/src/test/resources/k8s/game.json
 kubectl create configmap literal-config --from-literal=special.how=very --from-literal=special.type=charm
+
 kubectl create secret generic test-secret --from-literal=username='my-app' --from-literal=password='39528$vdg7Jb'
 kubectl create secret generic another-secret --from-literal=secretProperty='secretValue'
 kubectl create secret generic mounted-secret --from-literal=mountedVolumeKey='mountedVolumeValue'

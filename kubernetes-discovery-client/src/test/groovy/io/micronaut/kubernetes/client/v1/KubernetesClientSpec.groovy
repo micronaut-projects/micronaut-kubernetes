@@ -30,66 +30,62 @@ import io.micronaut.kubernetes.client.v1.pods.PodSpec
 import io.micronaut.kubernetes.client.v1.secrets.Secret
 import io.micronaut.kubernetes.client.v1.secrets.SecretList
 import io.micronaut.kubernetes.client.v1.services.Service
-import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.reactivex.Flowable
-import spock.lang.Requires
-import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 import javax.inject.Inject
+import java.util.stream.Collectors
 import java.util.stream.IntStream
 
 @MicronautTest(environments = [Environment.KUBERNETES])
-@Property(name = "kubernetes.client.namespace", value = "micronaut-kubernetes")
+@Property(name = "kubernetes.client.namespace", value = "kubernetesclientspec")
 @Slf4j
-class KubernetesClientSpec extends Specification implements KubectlCommands {
-
-    public static final String DEFAULT_NAMESPACE = 'micronaut-kubernetes'
+class KubernetesClientSpec extends KubernetesSpecification {
 
     @Inject
     KubernetesClient client
 
-    @Requires({ TestUtils.serviceExists('example-service')})
     void "it can get one service"() {
         when:
-        Service service = Flowable.fromPublisher(client.getService(DEFAULT_NAMESPACE, 'example-service')).blockingFirst()
+        Service service = Flowable.fromPublisher(client.getService(namespace, 'example-service')).blockingFirst()
 
         then:
         assertThatServiceIsCorrect(service)
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable()})
     void "it can list endpoints"() {
         when:
-        EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints(DEFAULT_NAMESPACE, null)).blockingFirst()
+        EndpointsList endpointsList = Flowable.fromPublisher(client.listEndpoints(namespace, null)).blockingFirst()
 
         then:
-        endpointsList.items.size() == getEndpoints().size()
+        endpointsList.items.size() == operations.listEndpoints(namespace).items.size()
     }
 
-    @Requires({ TestUtils.serviceExists('example-service')})
     void "it can get one endpoints"() {
         given:
-        List<String> ipAddresses = getIps()
+        List<String> ipAddresses = operations.getEndpoints("example-service", namespace)
+                .getSubsets()
+                .stream()
+                .flatMap(s -> s.addresses.stream())
+                .map(a -> a.ip).collect(Collectors.toList())
 
         when:
-        Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints(DEFAULT_NAMESPACE, 'example-service')).blockingFirst()
+        Endpoints endpoints = Flowable.fromPublisher(client.getEndpoints(namespace, 'example-service')).blockingFirst()
 
         then:
         assertThatEndpointsIsCorrect(endpoints, ipAddresses)
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable()})
     void "it can list config maps"() {
         when:
-        ConfigMapList configMapList = Flowable.fromPublisher(client.listConfigMaps(DEFAULT_NAMESPACE)).blockingFirst()
+        ConfigMapList configMapList = Flowable.fromPublisher(client.listConfigMaps(namespace)).blockingFirst()
 
         then:
-        configMapList.items.size() == configMaps.size()
+        configMapList.items.size() == operations.listConfigMaps(namespace).items.size()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can create config maps"() {
         given:
         def name = 'created-configmap'
@@ -97,46 +93,44 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         ConfigMap body = buildConfigMap(name, data)
 
         when:
-        ConfigMap configMap = Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+        ConfigMap configMap = Flowable.fromPublisher(client.createConfigMap(namespace, body)).blockingFirst()
 
         then:
         configMap.metadata.uid != null
         configMap.data == data
 
         cleanup:
-        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteConfigMap(namespace, name)).blockingFirst()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it throws a conflict exception when it create config maps twice"() {
         given:
         def name = 'created-configmap'
         def data = ['key1': 'value1', 'key2': 'value2']
         ConfigMap body = buildConfigMap(name, data)
-        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createConfigMap(namespace, body)).blockingFirst()
 
         when:
-        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createConfigMap(namespace, body)).blockingFirst()
 
         then:
         HttpClientResponseException e = thrown(HttpClientResponseException)
         e.getStatus() == HttpStatus.CONFLICT
 
         cleanup:
-        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteConfigMap(namespace, name)).blockingFirst()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can replace config maps"() {
         given:
         def name = 'replaced-configmap'
         def data = ['key1': 'value1', 'key2': 'value2']
         ConfigMap body = buildConfigMap(name, data)
-        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createConfigMap(namespace, body)).blockingFirst()
         body.data.remove('key1')
 
         when:
-        ConfigMap configMap = Flowable.fromPublisher(client.replaceConfigMap(DEFAULT_NAMESPACE, name, body)).blockingFirst()
+        ConfigMap configMap = Flowable.fromPublisher(client.replaceConfigMap(namespace, name, body)).blockingFirst()
 
         then:
         configMap.metadata.uid != null
@@ -144,28 +138,26 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         configMap.data.get('key2') == 'value2'
 
         cleanup:
-        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteConfigMap(namespace, name)).blockingFirst()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can delete config maps"() {
         given:
         def name = 'created-configmap'
         def data = ['key1': 'value1', 'key2': 'value2']
         ConfigMap body = buildConfigMap(name, data)
-        Flowable.fromPublisher(client.createConfigMap(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createConfigMap(namespace, body)).blockingFirst()
 
         when:
-        Flowable.fromPublisher(client.deleteConfigMap(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteConfigMap(namespace, name)).blockingFirst()
 
         then:
-        ! Flowable.fromPublisher(client.listConfigMaps(DEFAULT_NAMESPACE)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+        ! Flowable.fromPublisher(client.listConfigMaps(namespace)).blockingFirst().items.collect { it.metadata.name }.contains(name)
     }
 
-    @Requires({ TestUtils.configMapExists('game-config-properties') })
     void "it can get one properties config map"() {
         when:
-        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap(DEFAULT_NAMESPACE, 'game-config-properties')).blockingFirst()
+        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap(namespace, 'game-config-properties')).blockingFirst()
 
         then:
         configMap.metadata.name == 'game-config-properties'
@@ -173,26 +165,23 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     }
 
-    @Requires({ TestUtils.configMapExists('game-config-yml')})
     void "it can get one yml config map"() {
         when:
-        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap(DEFAULT_NAMESPACE, 'game-config-yml')).blockingFirst()
+        ConfigMap configMap = Flowable.fromPublisher(client.getConfigMap(namespace, 'game-config-yml')).blockingFirst()
 
         then:
         configMap.metadata.name == 'game-config-yml'
         configMap.data['game.yml'].contains "enemies.cheat: true"
     }
 
-    @Requires({ TestUtils.secretExists('test-secret')})
     void "it can list secrets"() {
         when:
-        SecretList secretList = Flowable.fromPublisher(client.listSecrets(DEFAULT_NAMESPACE)).blockingFirst()
+        SecretList secretList = Flowable.fromPublisher(client.listSecrets(namespace)).blockingFirst()
 
         then:
         secretList.items.find { it.getMetadata().getName().equals("test-secret") }
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can create secrets"() {
 
         given:
@@ -201,28 +190,27 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         Secret body = buildSecret(name, data)
 
         when:
-        Secret secret = Flowable.fromPublisher(client.createSecret(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Secret secret = Flowable.fromPublisher(client.createSecret(namespace, body)).blockingFirst()
 
         then:
         secret.metadata.uid != null
         secret.data == data
 
         cleanup:
-        Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteSecret(namespace, name)).blockingFirst()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can replace secrets"() {
 
         given:
         def name = 'replaced-secret'
         def data = ['key1': 'value1'.getBytes(), 'key2': 'value2'.getBytes()]
         def body = buildSecret(name, data)
-        Flowable.fromPublisher(client.createSecret(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createSecret(namespace, body)).blockingFirst()
         body.data.remove('key1')
 
         when:
-        Secret secret = Flowable.fromPublisher(client.replaceSecret(DEFAULT_NAMESPACE, name, body)).blockingFirst()
+        Secret secret = Flowable.fromPublisher(client.replaceSecret(namespace, name, body)).blockingFirst()
 
         then:
         secret.metadata.uid != null
@@ -231,80 +219,79 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         secret.data.get('key2') == 'value2'.getBytes()
 
         cleanup:
-        Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteSecret(namespace, name)).blockingFirst()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can delete secrets"() {
         given:
         def name = 'created-secret'
         def data = ['key1': 'value1'.getBytes(), 'key2': 'value2'.getBytes()]
         Secret body = buildSecret(name, data)
-        Flowable.fromPublisher(client.createSecret(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createSecret(namespace, body)).blockingFirst()
 
         when:
-        Flowable.fromPublisher(client.deleteSecret(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deleteSecret(namespace, name)).blockingFirst()
 
         then:
-        ! Flowable.fromPublisher(client.listSecrets(DEFAULT_NAMESPACE)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+        ! Flowable.fromPublisher(client.listSecrets(namespace)).blockingFirst().items.collect { it.metadata.name }.contains(name)
     }
 
-    @Requires({ TestUtils.secretExists('test-secret') })
     void "it can get one secret"() {
         when:
-        Secret secret = Flowable.fromPublisher(client.getSecret(DEFAULT_NAMESPACE, 'test-secret')).blockingFirst()
+        Secret secret = Flowable.fromPublisher(client.getSecret(namespace, 'test-secret')).blockingFirst()
 
         then:
         secret.getMetadata().getName().equals("test-secret")
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can create pods"() {
         given:
         def name = 'created-pod'
         Pod body = buildPod(name)
 
         when:
-        Pod pod = Flowable.fromPublisher(client.createPod(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Pod pod = Flowable.fromPublisher(client.createPod(namespace, body)).blockingFirst()
 
         then:
         pod.metadata.uid != null
         pod.status.phase in ["Pending"]
 
         cleanup:
-        Flowable.fromPublisher(client.deletePod(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deletePod(namespace, name)).blockingFirst()
     }
 
-    @Requires({ TestUtils.kubernetesApiAvailable() })
     void "it can delete pods"() {
         given:
         def name = 'deleted-pod'
         Pod body = buildPod(name)
-        Flowable.fromPublisher(client.createPod(DEFAULT_NAMESPACE, body)).blockingFirst()
+        Flowable.fromPublisher(client.createPod(namespace, body)).blockingFirst()
         waitForPodStatus(name, "Succeeded")
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
 
         when:
-        Flowable.fromPublisher(client.deletePod(DEFAULT_NAMESPACE, name)).blockingFirst()
+        Flowable.fromPublisher(client.deletePod(namespace, name)).blockingFirst()
 
         then:
-        ! Flowable.fromPublisher(client.listPods(DEFAULT_NAMESPACE)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+        conditions.eventually {
+            ! Flowable.fromPublisher(client.listPods(namespace)).blockingFirst().items.collect { it.metadata.name }.contains(name)
+        }
     }
 
     private boolean assertThatServiceIsCorrect(Service service) {
         service.metadata.name == 'example-service' &&
                 service.spec.ports.first().port == 8081 &&
                 service.spec.ports.first().targetPort == "8081" &&
-                service.spec.clusterIp == InetAddress.getByName(getClusterIp())
+                service.spec.clusterIp == InetAddress.getByName(operations.getService(service.metadata.name, service.metadata.namespace).spec.clusterIP)
     }
 
-    private boolean assertThatEndpointsIsCorrect(Endpoints endpoints, List<String> ipAddresses) {
+    private static boolean assertThatEndpointsIsCorrect(Endpoints endpoints, List<String> ipAddresses) {
         endpoints.metadata.name == 'example-service' &&
                 endpoints.subsets.first().addresses.first().ip == InetAddress.getByName(ipAddresses.first()) &&
                 endpoints.subsets.first().addresses.last().ip == InetAddress.getByName(ipAddresses.last()) &&
                 endpoints.subsets.first().ports.first().port == 8081
     }
 
-    private Secret buildSecret(String name, LinkedHashMap<String, byte[]> data) {
+    private static Secret buildSecret(String name, LinkedHashMap<String, byte[]> data) {
         Secret body = new Secret()
         Metadata metadata = new Metadata()
         metadata.name = name
@@ -313,7 +300,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         body
     }
 
-    private ConfigMap buildConfigMap(String name, LinkedHashMap<String, String> data) {
+    private static ConfigMap buildConfigMap(String name, LinkedHashMap<String, String> data) {
         ConfigMap body = new ConfigMap()
         Metadata metadata = new Metadata()
         metadata.name = name
@@ -322,7 +309,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
         body
     }
 
-    private Pod buildPod(String name) {
+    private static Pod buildPod(String name) {
         Pod body = new Pod()
         Metadata metadata = new Metadata()
         metadata.name = name
@@ -341,7 +328,7 @@ class KubernetesClientSpec extends Specification implements KubectlCommands {
 
     private boolean waitForPodStatus(name, status) {
         IntStream.range(0, 9).any { it ->
-            Pod pod = Flowable.fromPublisher(client.getPod(DEFAULT_NAMESPACE, name)).blockingFirst()
+            Pod pod = Flowable.fromPublisher(client.getPod(namespace, name)).blockingFirst()
             if (pod.status.phase == status) {
                 return true
             } else {

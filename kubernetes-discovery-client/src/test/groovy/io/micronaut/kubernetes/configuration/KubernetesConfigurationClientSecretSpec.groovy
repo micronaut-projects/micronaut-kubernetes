@@ -4,25 +4,19 @@ import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.PropertySource
-import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.TestUtils
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.reactivex.Flowable
-import spock.lang.Requires
-import spock.lang.Specification
-
-import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 
 @Slf4j
-class KubernetesConfigurationClientSecretSpec extends Specification implements KubectlCommands {
+class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
     void setup() {
         KubernetesConfigurationClient.propertySourceCache.clear()
     }
 
-    @Requires({ TestUtils.secretExists('test-secret')})
     void "it can read secrets"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -37,10 +31,9 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
         applicationContext.close()
     }
 
-    @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getSecrets().size() })
     void "it can filter includes secrets"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.includes": "another-secret"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.includes": "another-secret"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -56,10 +49,9 @@ class KubernetesConfigurationClientSecretSpec extends Specification implements K
         applicationContext.close()
     }
 
-    @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getSecrets().size() })
     void "it can filter excludes secrets"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.excludes": "another-secret"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.excludes": "another-secret"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:

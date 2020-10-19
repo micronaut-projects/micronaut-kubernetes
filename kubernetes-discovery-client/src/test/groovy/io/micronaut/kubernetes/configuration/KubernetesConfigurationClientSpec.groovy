@@ -5,20 +5,16 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.EnvironmentPropertySource
 import io.micronaut.context.env.PropertySource
-import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.reactivex.Flowable
-import spock.lang.Requires
-import spock.lang.Specification
 
 import javax.inject.Inject
 
-import static io.micronaut.kubernetes.test.TestUtils.configMapExists
-
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Slf4j
-class KubernetesConfigurationClientSpec extends Specification implements KubectlCommands {
+@Property(name = "kubernetes.client.namespace", value = "kubernetesconfigurationclientspec")
+class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     @Inject
     KubernetesConfigurationClient configurationClient
@@ -35,7 +31,6 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         setup()
     }
 
-    @Requires({ configMapExists('game-config-properties')})
     void "it can read config maps from properties"() {
         when:
         PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.properties' }
@@ -49,7 +44,6 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
     }
 
-    @Requires({ configMapExists('game-config-yml')})
     void "it can read config maps from yml"() {
         when:
         PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.yml' }
@@ -63,7 +57,6 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
     }
 
-    @Requires({ configMapExists('game-config-json')})
     void "it can read config maps from json"() {
         when:
         PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.json' }
@@ -76,7 +69,6 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
     }
 
-    @Requires({ configMapExists('literal-config')})
     void "it can read config maps from literals"() {
         given:
         KubernetesConfigurationClient.propertySourceCache.clear()
@@ -91,7 +83,6 @@ class KubernetesConfigurationClientSpec extends Specification implements Kubectl
         propertySource.get('special.type') == 'charm'
     }
 
-    @Requires({ TestUtils.secretExists('test-secret')})
     void "secret access is disabled by default"() {
         when:
         def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'test-secret' }

@@ -4,24 +4,19 @@ import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.TestUtils
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.reactivex.Flowable
-import spock.lang.Requires
-import spock.lang.Specification
-
-import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 
 @Slf4j
-class KubernetesConfigurationClientLabelsSpec extends Specification implements KubectlCommands {
+class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification implements KubectlCommands {
 
     void setup() {
         KubernetesConfigurationClient.propertySourceCache.clear()
     }
 
-    @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getConfigMaps().size() })
     void "it can filter config maps by labels"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.labels": [app:"game"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.labels": [app:"game"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -39,10 +34,9 @@ class KubernetesConfigurationClientLabelsSpec extends Specification implements K
         applicationContext.close()
     }
 
-    @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getConfigMaps().size() })
     void "non-matching labels don't produce property sources"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.labels": [foo:"bar"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.labels": [foo:"bar"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -52,10 +46,9 @@ class KubernetesConfigurationClientLabelsSpec extends Specification implements K
         propertySources.size() == 0
     }
 
-    @Requires({ TestUtils.secretExists('test-secret') && TestUtils.secretExists('another-secret')})
     void "it can filter secrets by labels"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.labels": [app:"game"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.labels": [app:"game"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -70,5 +63,4 @@ class KubernetesConfigurationClientLabelsSpec extends Specification implements K
         cleanup:
         applicationContext.close()
     }
-
 }

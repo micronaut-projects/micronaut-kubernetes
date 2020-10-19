@@ -32,10 +32,8 @@ class TestUtils implements KubectlCommands {
                 readTimeout = 1000
                 connect()
             }
-            log.debug("Kubernetes api available at: " + url)
             true
         } catch (IOException e) {
-            log.error("Kubernetes api is not available at: " + url)
             false
         }
     }
