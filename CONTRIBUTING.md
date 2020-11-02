@@ -7,6 +7,12 @@ on AWS / GCP / Azure / etc.
 
 ## Setting up the environment
 
+Note: If you're using minikube, run command below which will configure the docker environment to use the minikube docker runtime
+than the system one. This is needed in order to successfully setup the environment:
+```shell script
+eval $(minikube -p minikube docker-env)
+```
+
 There is a script that will take care to create the required resources used in the tests (services, config maps, secrets, 
 etc):
 

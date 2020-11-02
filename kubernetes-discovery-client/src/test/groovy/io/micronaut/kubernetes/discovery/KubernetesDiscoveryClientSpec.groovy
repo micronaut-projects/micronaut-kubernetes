@@ -19,14 +19,16 @@ package io.micronaut.kubernetes.discovery
 import groovy.util.logging.Slf4j
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
+import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.annotation.MicronautTest
 import io.reactivex.Flowable
 import spock.lang.Requires
 import spock.lang.Specification
 
 import javax.inject.Inject
+import java.util.stream.Collectors
+import java.util.stream.Stream
 
 import static io.micronaut.kubernetes.test.TestUtils.kubernetesApiAvailable
 import static io.micronaut.kubernetes.test.TestUtils.serviceExists
@@ -37,6 +39,9 @@ class KubernetesDiscoveryClientSpec extends Specification implements KubectlComm
 
     @Inject
     KubernetesDiscoveryClient discoveryClient
+
+    @Inject
+    List<KubernetesServiceConfiguration> serviceConfigurations;
 
     @Requires({ serviceExists('example-service')})
     void "it can get service instances"() {
@@ -57,10 +62,32 @@ class KubernetesDiscoveryClientSpec extends Specification implements KubectlComm
         }
     }
 
+    @Requires({ serviceExists('example-service', 'micronaut-kubernetes-a')})
+    void "it can get service instances from other namespace"() {
+        given:
+        List<String> ipAddresses = getIps('micronaut-kubernetes-a')
+
+        when:
+        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service-in-other-namespace')).blockingFirst()
+
+        then:
+        serviceInstances.size() == ipAddresses.size()
+        serviceInstances.every {
+            it.port == 8081
+            it.metadata.get('foo', String).get() == 'bar'
+        }
+        ipAddresses.every { String ip ->
+            serviceInstances.find { it.host == ip }
+        }
+    }
+
     @Requires({ kubernetesApiAvailable()})
     void "it can list all services"() {
         given:
-        List<String> allServices = getServices()
+        List<String> allServices = Stream.concat(
+                getServices('micronaut-kubernetes').stream(),
+                serviceConfigurations.stream().map(KubernetesServiceConfiguration::getServiceId) as Stream<? extends String>)
+                .distinct().collect(Collectors.toList())
 
         when:
         List<String> serviceIds = Flowable.fromPublisher(discoveryClient.serviceIds).blockingFirst()

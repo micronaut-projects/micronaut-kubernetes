@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
 
-kubectl delete namespace micronaut-kubernetes &
 ./gradlew clean assemble jibDockerBuild --refresh-dependencies
 killall -9 kubectl
 
 kubectl proxy &
-kubectl create namespace micronaut-kubernetes
-kubectl config set-context --current --namespace=micronaut-kubernetes
-./recreate.sh
 
-# Wait for pods to be up and ready
+./setup-test-namespace.sh micronaut-kubernetes-a true
+./setup-test-namespace.sh micronaut-kubernetes true
+
+# Wait for pods to be up and ready in namespace micronaut-kubernetes
+kubectl config set-context --current --namespace=micronaut-kubernetes
 sleep 10
 SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
 SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"

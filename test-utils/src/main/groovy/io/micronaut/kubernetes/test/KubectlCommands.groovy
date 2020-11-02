@@ -23,6 +23,8 @@ import io.fabric8.kubernetes.api.model.Pod
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 
+import java.util.stream.Collectors
+
 @Slf4j
 trait KubectlCommands {
 
@@ -33,7 +35,22 @@ trait KubectlCommands {
 
     @Memoized
     static List<String> getServices(){
-        return getProcessOutput("kubectl get services --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return getServices("micronaut-kubernetes")
+    }
+
+    @Memoized
+    static List<String> getServices(String namespace) {
+        Objects.requireNonNull(namespace, "Namespace must be configured")
+        return getProcessOutput("kubectl get services --namespace " + namespace + " --no-headers=true -o custom-columns=NAME:.metadata.name").split("\n")
+    }
+
+    @Memoized
+    static List<String> getServices(String namespace, String ...namespaces){
+        List<String> services = getServices(namespace)
+        for(String ns : namespaces){
+            services.addAll(getServices(ns))
+        }
+        return services.stream().distinct().collect(Collectors.toList())
     }
 
     @Memoized
@@ -44,6 +61,13 @@ trait KubectlCommands {
     @Memoized
     static List<String> getIps() {
         return getProcessOutput("kubectl get endpoints example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$2 }'")
+                .split('\\,')
+                .collect { it.split(':').first() }
+    }
+
+    @Memoized
+    static List<String> getIps(String namespace) {
+        return getProcessOutput("kubectl get endpoints example-service --namespace " + namespace + " | awk 'FNR > 1 { print \$2 }'")
                 .split('\\,')
                 .collect { it.split(':').first() }
     }
