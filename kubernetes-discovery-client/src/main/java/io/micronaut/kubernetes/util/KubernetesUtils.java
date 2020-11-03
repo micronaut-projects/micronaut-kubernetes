@@ -193,8 +193,8 @@ public class KubernetesUtils {
                                 LOG.trace("Including pod label: {}={}", key, value);
                             }
                         } else {
-                            if (LOG.isErrorEnabled()) {
-                                LOG.error("Pod metadata does not contain label: {}", key);
+                            if (LOG.isWarnEnabled()) {
+                                LOG.warn("Pod metadata does not contain label: {}", key);
                             }
                         }
                     }
