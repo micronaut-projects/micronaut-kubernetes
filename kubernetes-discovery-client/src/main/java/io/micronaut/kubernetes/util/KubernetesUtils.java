@@ -183,7 +183,6 @@ public class KubernetesUtils {
 
         return Flowable.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
                 pod -> {
-                    LOG.info("HELLO FROM THE FCKING SINGLE");
                     Map<String, String> result = new HashMap<>();
                     Map<String, String> podLabels = pod.getMetadata().getLabels();
                     for (String key : podLabelKeys) {
