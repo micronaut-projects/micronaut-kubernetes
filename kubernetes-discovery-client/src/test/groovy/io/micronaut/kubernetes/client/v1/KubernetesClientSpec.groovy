@@ -32,7 +32,7 @@ import io.micronaut.kubernetes.client.v1.secrets.SecretList
 import io.micronaut.kubernetes.client.v1.services.Service
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
-import io.micronaut.test.annotation.MicronautTest
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
 import spock.lang.Requires
 import spock.lang.Specification

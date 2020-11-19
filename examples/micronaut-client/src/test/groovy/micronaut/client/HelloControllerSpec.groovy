@@ -6,15 +6,13 @@ import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
-import io.micronaut.test.annotation.MicronautTest
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
 import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
-import javax.annotation.Nullable
 import javax.inject.Inject
 
 import io.micronaut.context.annotation.Requires as MicronautRequires
