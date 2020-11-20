@@ -2,13 +2,12 @@ package io.micronaut.kubernetes.configuration
 
 import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.EnvironmentPropertySource
 import io.micronaut.context.env.PropertySource
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.TestUtils
-import io.micronaut.test.annotation.MicronautTest
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
 import spock.lang.Requires
 import spock.lang.Specification
