@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 
-./gradlew clean assemble jibDockerBuild --refresh-dependencies
+set -ex
+
+./gradlew clean dockerBuild --refresh-dependencies
 killall -9 kubectl
 
 kubectl proxy &
