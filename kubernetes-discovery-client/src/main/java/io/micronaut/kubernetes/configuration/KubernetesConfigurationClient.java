@@ -83,6 +83,33 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     /**
+     * Retrieves all of the {@link PropertySource} registrations for the given environment.
+     *
+     * @param environment The environment
+     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
+     */
+    @Override
+    public Publisher<PropertySource> getPropertySources(Environment environment) {
+        if (!propertySources.isEmpty()) {
+            LOG.trace("Found cached PropertySources. Returning them");
+            return Flowable.fromIterable(propertySources.values());
+        } else {
+            LOG.trace("PropertySource cache is empty");
+            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
+        }
+    }
+
+    /**
+     * A description that describes this object.
+     *
+     * @return The description
+     */
+    @Override
+    public String getDescription() {
+        return KubernetesClient.SERVICE_ID;
+    }
+
+    /**
      * Adds the given {@link PropertySource} to the cache.
      *
      * @param propertySource The property source to add
@@ -111,33 +138,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      */
     static Map<String, PropertySource> getPropertySourceCache() {
         return propertySources;
-    }
-
-    /**
-     * Retrieves all of the {@link PropertySource} registrations for the given environment.
-     *
-     * @param environment The environment
-     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
-     */
-    @Override
-    public Publisher<PropertySource> getPropertySources(Environment environment) {
-        if (!propertySources.isEmpty()) {
-            LOG.trace("Found cached PropertySources. Returning them");
-            return Flowable.fromIterable(propertySources.values());
-        } else {
-            LOG.trace("PropertySource cache is empty");
-            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
-        }
-    }
-
-    /**
-     * A description that describes this object.
-     *
-     * @return The description
-     */
-    @Override
-    public String getDescription() {
-        return KubernetesClient.SERVICE_ID;
     }
 
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
