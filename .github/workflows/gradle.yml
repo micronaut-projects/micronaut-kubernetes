@@ -44,6 +44,7 @@ jobs:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
+        if: failure()
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           report_paths: '**/build/test-results/test/TEST-*.xml'
