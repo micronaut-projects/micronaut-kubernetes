@@ -22,8 +22,6 @@ import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
-import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration;
-import io.micronaut.kubernetes.client.v1.Port;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
