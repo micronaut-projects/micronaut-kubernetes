@@ -20,6 +20,7 @@ import io.fabric8.kubernetes.api.model.*
 import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.fabric8.kubernetes.api.model.apps.DoneableDeployment
 import io.fabric8.kubernetes.api.model.rbac.*
+import io.fabric8.kubernetes.client.ConfigBuilder
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.kubernetes.client.LocalPortForward
@@ -38,12 +39,18 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class KubernetesOperations implements Closeable {
 
-    private KubernetesClient client = new DefaultKubernetesClient()
+    private Map<String, KubernetesClient> kubernetesClientMap = new HashMap<>()
     private List<LocalPortForward> portForwardList = new ArrayList<>()
+
+    KubernetesClient getClient(String namespace = null){
+        return kubernetesClientMap.computeIfAbsent(namespace, ns ->
+                new DefaultKubernetesClient(new ConfigBuilder().withNamespace(ns).build())
+        )
+    }
 
     Namespace createNamespace(String name) {
         log.debug("Creating namespace ${name}")
-        return client.namespaces().create(
+        return getClient().namespaces().create(
                 new NamespaceBuilder()
                         .withNewMetadata()
                         .withName(name)
@@ -52,14 +59,14 @@ class KubernetesOperations implements Closeable {
     }
 
     Namespace getNamespace(String name) {
-        return client.namespaces().withName(name).get()
+        return getClient().namespaces().withName(name).get()
     }
 
     boolean deleteNamespace(String name) {
         log.debug("Deleting namespace ${name}")
-        client.namespaces().delete(getNamespace(name))
-        new PollingConditions(delay: 1).within(60) {
-            assert client.namespaces().withName(name).get() == null
+        getClient().namespaces().delete(getNamespace(name))
+        new PollingConditions(delay: 1).within(120) {
+            assert getClient().namespaces().withName(name).get() == null
         }
     }
 
@@ -67,13 +74,14 @@ class KubernetesOperations implements Closeable {
                     String namespace,
                     List<String> verbs = ["get", "list", "watch"],
                     List<String> resources = ["services", "endpoints", "configmaps", "secrets", "pods"]) {
+
         PolicyRule policyRule = new PolicyRuleBuilder()
                 .withApiGroups("")
                 .withResources(resources)
                 .withVerbs(verbs)
                 .build()
         log.debug("Creating Role ${name} ${policyRule}")
-        return client.rbac().roles().create(
+        return getClient(namespace).rbac().roles().create(
                 new RoleBuilder()
                         .withNewMetadata()
                         .withName(name)
@@ -107,11 +115,11 @@ class KubernetesOperations implements Closeable {
                 .withSubjects(Collections.singletonList(ks))
                 .build();
 
-        return client.rbac().roleBindings().create(rb)
+        return getClient(namespace).rbac().roleBindings().create(rb)
     }
 
     ConfigMap getConfigMap(String name, String namespace) {
-        return client.configMaps().inNamespace(namespace).withName(name).get()
+        return getClient(namespace).configMaps().inNamespace(namespace).withName(name).get()
     }
 
     ConfigMap createConfigMap(String name, String namespace,
@@ -125,7 +133,7 @@ class KubernetesOperations implements Closeable {
                 .withData(data)
                 .build()
         log.debug("Creating ${cm}")
-        return client.configMaps().create(cm)
+        return getClient(namespace).configMaps().create(cm)
     }
 
     ConfigMap createConfigMapFromFile(String name, String namespace,
@@ -139,19 +147,19 @@ class KubernetesOperations implements Closeable {
                 .addToData(new File(path.toURI().toString()).name, path.text)
                 .build()
         log.debug("Creating ${cm}")
-        return client.configMaps().create(cm)
+        return getClient(namespace).configMaps().create(cm)
     }
 
     boolean deleteConfigMap(String name, String namespace) {
         log.debug("Deleting config map ${namespace}/${name}")
-        return client.configMaps()
+        return getClient(namespace).configMaps()
                 .inNamespace(namespace)
                 .withName(name)
                 .delete()
     }
 
     String modifyConfigMap(String name, String namespace, Map data = [foo: 'baz']) {
-        return client.configMaps().inNamespace(namespace).withName(name).createOrReplace(
+        return getClient(namespace).configMaps().inNamespace(namespace).withName(name).createOrReplace(
                 new ConfigMapBuilder().
                         withNewMetadata()
                         .withName(name)
@@ -162,11 +170,11 @@ class KubernetesOperations implements Closeable {
     }
 
     ConfigMapList listConfigMaps(String namespace) {
-        return client.configMaps().inNamespace(namespace).list()
+        return getClient(namespace).configMaps().inNamespace(namespace).list()
     }
 
     List<Pod> getPods(String namespace) {
-        return client.pods().inNamespace(namespace).list().items
+        return getClient(namespace).pods().inNamespace(namespace).list().items
     }
 
     Secret createSecret(String name, String namespace, Map<String, String> literals, Map<String, String> labels = [:]) {
@@ -178,11 +186,11 @@ class KubernetesOperations implements Closeable {
                 .endMetadata()
                 .withData(literals).build()
         log.debug("Creating ${secret}")
-        return client.secrets().create(secret)
+        return getClient(namespace).secrets().create(secret)
     }
 
     Secret getSecret(String name, String namespace) {
-        return client.secrets().inNamespace(namespace).withName(name).get()
+        return getClient(namespace).secrets().inNamespace(namespace).withName(name).get()
     }
 
     Deployment createDeploymentFromFile(URL pathToManifest, String name = null, String namespace = null) {
@@ -196,22 +204,22 @@ class KubernetesOperations implements Closeable {
         }
 
         log.debug("Creating deployment ${deployment.get()}")
-        client.apps().deployments().create(deployment.get())
+        getClient(namespace).apps().deployments().create(deployment.get())
 
         log.debug("Waiting 60s until ready")
-        return client.apps().deployments().inNamespace(deployment.get().getMetadata().getNamespace())
+        return getClient(namespace).apps().deployments().inNamespace(deployment.get().getMetadata().getNamespace())
                 .withName(deployment.get().getMetadata().getName()).waitUntilCondition(
                 d -> d.status.availableReplicas == d.spec.replicas,
                 60, TimeUnit.SECONDS)
     }
 
     Deployment getDeployment(String name, String namespace) {
-        return client.apps().deployments().inNamespace(namespace).withName(name).get()
+        return getClient(namespace).apps().deployments().inNamespace(namespace).withName(name).get()
     }
 
     Deployment scaleDeployment(String namespace, String name, int count) {
-        client.apps().deployments().inNamespace(namespace).withName(name).scale(count)
-        return client.apps().deployments().inNamespace(namespace)
+        getClient(namespace).apps().deployments().inNamespace(namespace).withName(name).scale(count)
+        return getClient(namespace).apps().deployments().inNamespace(namespace)
                 .withName(name).waitUntilCondition(
                 d -> d.status.availableReplicas == d.spec.replicas,
                 60, TimeUnit.SECONDS)
@@ -228,23 +236,23 @@ class KubernetesOperations implements Closeable {
                 .withSpec(serviceSpec)
                 .build()
         log.debug("Creating service ${service}")
-        return client.services().create(service)
+        return getClient(namespace).services().create(service)
     }
 
     Service getService(String name, String namespace) {
-        return client.services().inNamespace(namespace).withName(name).get()
+        return getClient(namespace).services().inNamespace(namespace).withName(name).get()
     }
 
     ServiceList listServices(String namespace) {
-        return client.services().inNamespace(namespace).list()
+        return getClient(namespace).services().inNamespace(namespace).list()
     }
 
     Endpoints getEndpoints(String name, String namespace) {
-        return client.endpoints().inNamespace(namespace).withName(name).get()
+        return getClient(namespace).endpoints().inNamespace(namespace).withName(name).get()
     }
 
     EndpointsList listEndpoints(String namespace) {
-        return client.endpoints().inNamespace(namespace).list()
+        return getClient(namespace).endpoints().inNamespace(namespace).list()
     }
 
     LocalPortForward portForwardService(String name, String namespace, int sourcePort, int targetPort) {
@@ -255,7 +263,7 @@ class KubernetesOperations implements Closeable {
                 .orElseThrow(() ->
                         new IllegalArgumentException("Service ${namespace}/${name} doesn't contain port ${sourcePort}"))
 
-        LocalPortForward lpf = client
+        LocalPortForward lpf = getClient(namespace)
                 .services()
                 .inNamespace(namespace)
                 .withName(name)
@@ -273,6 +281,6 @@ class KubernetesOperations implements Closeable {
     @Override
     void close() throws IOException {
         portForwardList.forEach(it -> it.close())
-        client.close()
+        kubernetesClientMap.values().forEach(it -> it.close())
     }
 }
