@@ -60,7 +60,7 @@ kubernetes:
         - env: prod
 ----
 
-Or by including every config map that has the same Kubernetes label as the pod.
+Or by including every config map that has the same Kubernetes label as the pod the Micronaut application is running in.
 This is handy if you use a package manager like https://helm.sh[Helm].
 A good example would be `app.kubernetes.io/instance` which is a unique label identifying the instance of an application:
 
