@@ -31,7 +31,13 @@ import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
@@ -98,7 +104,7 @@ public class KubernetesUtils {
      * @return the value of the labelSelector filter
      */
     public static String computeLabelSelector(Map<String, String> labels) {
-        String labelSelector = null;
+        String labelSelector = "";
         if (!labels.isEmpty()) {
             labelSelector = labels.entrySet()
                     .stream()
@@ -169,16 +175,17 @@ public class KubernetesUtils {
      * @param client       the {@link KubernetesClient}
      * @param podLabelKeys the list of labels inside a pod
      * @param namespace    in the configuration
+     * @param labels       the labels
      * @return the filtered labels of the current pod
      */
-    public static Flowable<Map<String, String>> computePodLabels(KubernetesClient client, List<String> podLabelKeys, String namespace) {
+    public static Flowable<String> computePodLabelSelector(KubernetesClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Not running on k8s");
             }
-            return Flowable.just(new HashMap<>());
+            return Flowable.just(computeLabelSelector(labels));
         }
 
         return Flowable.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
@@ -198,7 +205,8 @@ public class KubernetesUtils {
                             }
                         }
                     }
-                    return result;
+                    result.putAll(labels);
+                    return computeLabelSelector(result);
                 });
     }
 

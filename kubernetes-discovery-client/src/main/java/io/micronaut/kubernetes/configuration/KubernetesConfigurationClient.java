@@ -48,7 +48,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
-import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabels;
+import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -149,11 +149,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
 
-        return computePodLabels(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace()).flatMap(podLabels -> {
-            podLabels.putAll(labels);
-            String labelSelector = KubernetesUtils.computeLabelSelector(podLabels);
-            return client.listConfigMaps(configuration.getNamespace(), labelSelector);
-        })
+        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+                .flatMap(labelSelector -> client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
                 .doOnNext(configMapList -> {
@@ -184,11 +181,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                Flowable<PropertySource> secretListFlowable = computePodLabels(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace()).flatMap(podLabels -> {
-                    podLabels.putAll(labels);
-                    String labelSelector = KubernetesUtils.computeLabelSelector(podLabels);
-                    return Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector));
-                })
+                Flowable<PropertySource> secretListFlowable = computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
+                        .flatMap(labelSelector -> Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector)))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                         .onErrorReturn(throwable -> new SecretList())
                         .doOnNext(secretList -> {
