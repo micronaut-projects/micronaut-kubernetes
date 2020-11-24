@@ -177,6 +177,13 @@ class KubernetesOperations implements Closeable {
         return getClient(namespace).pods().inNamespace(namespace).list().items
     }
 
+<<<<<<< Updated upstream
+=======
+    Pod getPod(String name, String namespace){
+        return getClient(namespace).pods().inNamespace(namespace).withName(name).get()
+    }
+
+>>>>>>> Stashed changes
     Secret createSecret(String name, String namespace, Map<String, String> literals, Map<String, String> labels = [:]) {
         Secret secret = new SecretBuilder()
                 .withNewMetadata()
