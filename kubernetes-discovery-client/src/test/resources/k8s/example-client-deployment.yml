@@ -23,3 +23,17 @@ spec:
               containerPort: 8082
             - name: "jvm-debug"
               containerPort: 5005
+          livenessProbe:
+            httpGet:
+              port: 8082
+              path: /health/liveness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              port: 8082
+              path: /health/readiness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10

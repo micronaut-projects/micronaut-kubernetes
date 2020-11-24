@@ -25,18 +25,14 @@ import io.micronaut.kubernetes.client.v1.pods.ContainerStatus;
 import io.micronaut.kubernetes.client.v1.pods.Pod;
 import io.micronaut.management.endpoint.health.HealthEndpoint;
 import io.micronaut.management.health.indicator.AbstractHealthIndicator;
-import io.micronaut.scheduling.TaskExecutors;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT;
 
@@ -62,45 +58,36 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
-    private Map<String, Object> healthInformation = new LinkedHashMap<>();
 
     /**
      * Constructor.
      *
-     * @param executorService The IO {@link ExecutorService}
      * @param client The Kubernetes client
      * @param configuration The Kubernetes configuration
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public KubernetesHealthIndicator(@Named(TaskExecutors.IO) ExecutorService executorService,
-                                     KubernetesClient client,
+    public KubernetesHealthIndicator(KubernetesClient client,
                                      KubernetesConfiguration configuration) {
-        this.executorService = executorService;
         this.client = client;
         this.configuration = configuration;
         this.healthStatus = HealthStatus.UP;
-
-        Single.fromPublisher(this.client.getPod(configuration.getNamespace(), System.getenv(HOSTNAME_ENV_VARIABLE)))
-                            .subscribeOn(Schedulers.from(this.executorService))
-                            .doOnError(this::processError)
-                            .retry(5)
-                            .subscribe(this::processPod);
-
     }
 
-    private void processError(Throwable throwable) {
+    private Map<String, Object> processError(Throwable throwable) {
         LOG.warn("Error while getting Pod information", throwable);
-        this.healthInformation.put("error", throwable.getMessage());
+        Map<String, Object> healthInformation = new LinkedHashMap<>();
+        healthInformation.put("error", throwable.getMessage());
         this.healthStatus = HealthStatus.UNKNOWN;
+        return healthInformation;
     }
 
-    private void processPod(Pod pod) {
+    private Map<String, Object> processPod(Pod pod) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing pod: {}", pod);
         }
 
         this.healthStatus = HealthStatus.UP;
 
+        Map<String, Object> healthInformation = new LinkedHashMap<>();
         healthInformation.put("namespace", pod.getMetadata().getNamespace());
         healthInformation.put("podName", pod.getMetadata().getName());
         healthInformation.put("podPhase", pod.getStatus().getPhase());
@@ -111,7 +98,7 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
                 .getContainerStatuses()
                 .stream()
                 .collect(ArrayList::new, KubernetesHealthIndicator::accumulateContainerStatus, ArrayList::addAll));
-
+        return healthInformation;
     }
 
     private static void accumulateContainerStatus(ArrayList<Object> list, ContainerStatus containerStatus) {
@@ -127,7 +114,13 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
 
     @Override
     protected Map<String, Object> getHealthInformation() {
-        return healthInformation;
+        try {
+            Pod pod = Single.fromPublisher(this.client.getPod(configuration.getNamespace(),
+                    System.getenv(HOSTNAME_ENV_VARIABLE))).blockingGet();
+            return processPod(pod);
+        } catch (Exception e) {
+            return processError(e);
+        }
     }
 
     @Override
