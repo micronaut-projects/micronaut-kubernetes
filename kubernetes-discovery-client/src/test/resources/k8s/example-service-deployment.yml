@@ -28,6 +28,20 @@ spec:
               containerPort: 8081
             - name: "jvm-debug"
               containerPort: 5004
+          livenessProbe:
+            httpGet:
+              port: 8081
+              path: /health/liveness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              port: 8081
+              path: /health/readiness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10
       volumes:
         - name: secrets
           secret:
