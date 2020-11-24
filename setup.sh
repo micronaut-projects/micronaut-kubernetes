@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set -ex
 
 #
 # Defaults
@@ -60,7 +60,7 @@ kubectl version
 kubectl proxy &
 
 # Build the Docker images
-./gradlew jibDockerBuild --stacktrace
+./gradlew dockerBuild --stacktrace
 docker images | grep micronaut
 kind load docker-image micronaut-kubernetes-example-service:latest
 kind load docker-image micronaut-kubernetes-example-client:latest
