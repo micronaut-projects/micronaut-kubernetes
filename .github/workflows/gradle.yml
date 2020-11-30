@@ -20,7 +20,6 @@ jobs:
     strategy:
       matrix:
         java: ['8', '11', '15']
-        k8s: [ '1.16', '1.17', '1.18', '1.19' ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -34,8 +33,6 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Optional setup step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
@@ -44,9 +41,8 @@ jobs:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
-        if: failure()
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           report_paths: '**/build/test-results/test/TEST-*.xml'
       - name: Publish to JFrog OSS
         if: success() && github.event_name == 'push' && matrix.java == '8'
