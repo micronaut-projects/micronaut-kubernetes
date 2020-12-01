@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -73,13 +73,13 @@ var activeTableTab = "activeTableTab";
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
@@ -122,6 +122,25 @@ extends java.lang.Object</pre>
 <div class="summary">
 <ul class="blockList">
 <li class="blockList">
+<!-- =========== FIELD SUMMARY =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field.summary">
+<!--   -->
+</a>
+<h3>Field Summary</h3>
+<table class="memberSummary" border="0" cellpadding="3" cellspacing="0" summary="Field Summary table, listing fields, and an explanation">
+<caption><span>Fields</span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th class="colLast" scope="col">Field and Description</th>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#ENV_KUBERNETES_SERVICE_HOST">ENV_KUBERNETES_SERVICE_HOST</a></span></code>&nbsp;</td>
+</tr>
+</table>
+</li>
+</ul>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.summary">
@@ -158,20 +177,27 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>static io.reactivex.Flowable&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#computePodLabelSelector-io.micronaut.kubernetes.client.v1.KubernetesClient-java.util.List-java.lang.String-java.util.Map-">computePodLabelSelector</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a>&nbsp;client,
+                       java.util.List&lt;java.lang.String&gt;&nbsp;podLabelKeys,
+                       java.lang.String&nbsp;namespace,
+                       java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;labels)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>static io.micronaut.context.env.PropertySource</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#configMapAsPropertySource-io.micronaut.kubernetes.client.v1.configmaps.ConfigMap-">configMapAsPropertySource</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMap</a>&nbsp;configMap)</code>
 <div class="block">Converts a <a href="../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMap.html" title="class in io.micronaut.kubernetes.client.v1.configmaps"><code>ConfigMap</code></a> into a <code>PropertySource</code>.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>static io.reactivex.functions.Predicate&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#getExcludesFilter-java.util.Collection-">getExcludesFilter</a></span>(java.util.Collection&lt;java.lang.String&gt;&nbsp;excludes)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>static io.reactivex.functions.Predicate&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#getIncludesFilter-java.util.Collection-">getIncludesFilter</a></span>(java.util.Collection&lt;java.lang.String&gt;&nbsp;includes)</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>static io.micronaut.context.env.PropertySource</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#secretAsPropertySource-io.micronaut.kubernetes.client.v1.secrets.Secret-">secretAsPropertySource</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a>&nbsp;secret)</code>&nbsp;</td>
 </tr>
@@ -191,6 +217,27 @@ extends java.lang.Object</pre>
 <div class="details">
 <ul class="blockList">
 <li class="blockList">
+<!-- ============ FIELD DETAIL =========== -->
+<ul class="blockList">
+<li class="blockList"><a name="field.detail">
+<!--   -->
+</a>
+<h3>Field Detail</h3>
+<a name="ENV_KUBERNETES_SERVICE_HOST">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>ENV_KUBERNETES_SERVICE_HOST</h4>
+<pre>public static final&nbsp;java.lang.String ENV_KUBERNETES_SERVICE_HOST</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#io.micronaut.kubernetes.util.KubernetesUtils.ENV_KUBERNETES_SERVICE_HOST">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <ul class="blockList">
 <li class="blockList"><a name="constructor.detail">
@@ -279,7 +326,7 @@ extends java.lang.Object</pre>
 <a name="getExcludesFilter-java.util.Collection-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getExcludesFilter</h4>
 <pre>public static&nbsp;io.reactivex.functions.Predicate&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a>&gt;&nbsp;getExcludesFilter(java.util.Collection&lt;java.lang.String&gt;&nbsp;excludes)</pre>
@@ -288,6 +335,27 @@ extends java.lang.Object</pre>
 <dd><code>excludes</code> - the objects to excludes</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Predicate</code> based on a collection of object names to excludes</dd>
+</dl>
+</li>
+</ul>
+<a name="computePodLabelSelector-io.micronaut.kubernetes.client.v1.KubernetesClient-java.util.List-java.lang.String-java.util.Map-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>computePodLabelSelector</h4>
+<pre>public static&nbsp;io.reactivex.Flowable&lt;java.lang.String&gt;&nbsp;computePodLabelSelector(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a>&nbsp;client,
+                                                                              java.util.List&lt;java.lang.String&gt;&nbsp;podLabelKeys,
+                                                                              java.lang.String&nbsp;namespace,
+                                                                              java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;labels)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>client</code> - the <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1"><code>KubernetesClient</code></a></dd>
+<dd><code>podLabelKeys</code> - the list of labels inside a pod</dd>
+<dd><code>namespace</code> - in the configuration</dd>
+<dd><code>labels</code> - the labels</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the filtered labels of the current pod</dd>
 </dl>
 </li>
 </ul>
@@ -344,13 +412,13 @@ extends java.lang.Object</pre>
 <ul class="subNavList">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.summary">Method</a></li>
 </ul>
 <ul class="subNavList">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field.detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor.detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method.detail">Method</a></li>
 </ul>
