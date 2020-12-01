@@ -1,6 +1,8 @@
 package io.micronaut.kubernetes.configuration
 
+import com.github.stefanbirkner.systemlambda.SystemLambda
 import groovy.util.logging.Slf4j
+import io.fabric8.kubernetes.api.model.Pod
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.test.KubectlCommands
@@ -71,4 +73,49 @@ class KubernetesConfigurationClientLabelsSpec extends Specification implements K
         applicationContext.close()
     }
 
+    @Requires({ kubernetesApiAvailable() && KubernetesConfigurationClientFilterSpec.getConfigMaps().size() })
+    void "it can filter config maps by pod labels"() {
+        given:
+        Pod pod = TestUtils.getPods().find { it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
+                .and("HOSTNAME", pod.metadata.name)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
+        KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
+
+        when:
+        def propertySources = envs.execute(() -> Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable())
+
+        then:
+        propertySources.find { it.name.startsWith 'literal-config' }
+        propertySources.find { it.name.startsWith 'game.yml' }
+
+        and:
+        !propertySources.find { it.name.startsWith 'game.json' }
+        !propertySources.find { it.name.startsWith 'game.properties' }
+
+        cleanup:
+        applicationContext.close()
+    }
+
+    @Requires({ TestUtils.secretExists('test-secret') && TestUtils.secretExists('another-secret') })
+    void "it can filter secrets by pod labels"() {
+        given:
+        Pod pod = TestUtils.getPods().find { it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
+                .and("HOSTNAME", pod.metadata.name)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
+        KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
+
+        when:
+        def propertySources = envs.execute(() -> Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable())
+
+        then:
+        propertySources.find { it.name.startsWith 'another-secret' }
+
+        and:
+        !propertySources.find { it.name.startsWith 'test-secret' }
+
+        cleanup:
+        applicationContext.close()
+    }
 }

@@ -32,6 +32,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -238,6 +239,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
         private Map<String, String> labels;
+        private List<String> podLabels;
 
         /**
          * @return the names to include
@@ -282,6 +284,23 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
          */
         public void setLabels(Map<String, String> labels) {
             this.labels = labels;
+        }
+
+        /**
+         * @return podLabels to match
+         */
+        public List<String> getPodLabels() {
+            if (podLabels == null) {
+                return Collections.emptyList();
+            }
+            return podLabels;
+        }
+
+        /**
+         * @param podLabels labels to match
+         */
+        public void setPodLabels(List<String> podLabels) {
+            this.podLabels = podLabels;
         }
     }
 

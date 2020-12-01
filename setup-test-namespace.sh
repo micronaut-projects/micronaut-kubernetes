@@ -35,9 +35,9 @@ kubectl create secret generic test-secret --from-literal=username='my-app' --fro
 kubectl create secret generic another-secret --from-literal=secretProperty='secretValue'
 kubectl create secret generic mounted-secret --from-literal=mountedVolumeKey='mountedVolumeValue'
 
-kubectl label configmap game-config-yml app=game
-kubectl label configmap literal-config app=game
-kubectl label secret another-secret app=game
+kubectl label configmap game-config-yml app=game app.kubernetes.io/instance=example-service-1337
+kubectl label configmap literal-config app=game app.kubernetes.io/instance=example-service-1337
+kubectl label secret another-secret app=game app.kubernetes.io/instance=example-service-1337
 
 # Create and expose deployment - example service
 kubectl apply -f kubernetes-discovery-client/src/test/resources/k8s/example-service-deployment.yml

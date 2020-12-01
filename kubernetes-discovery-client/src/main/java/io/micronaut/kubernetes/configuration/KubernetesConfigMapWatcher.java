@@ -34,10 +34,11 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-import static io.micronaut.kubernetes.util.KubernetesUtils.computeLabelSelector;
+import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -80,12 +81,14 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @Override
     public void onApplicationEvent(ServiceReadyEvent event) {
         long lastResourceVersion = computeLastResourceVersion();
-        String labelSelector = computeLabelSelector(configuration.getConfigMaps().getLabels());
+        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+        Flowable<String> singleLabelSelector = computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Watching for ConfigMap events...");
         }
-        Flowable.fromPublisher(client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
+
+        singleLabelSelector.flatMap(labelSelector -> client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
                 .doOnNext(e -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Received ConfigMap watch event: {}", e);

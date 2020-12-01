@@ -48,7 +48,7 @@ kubernetes:
 ----
 
 In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
-sources:
+sources. This can be done by defining the label and value directly:
 
 [source,yaml]
 ----
@@ -59,6 +59,20 @@ kubernetes:
         - app: my-app
         - env: prod
 ----
+
+Or by including every config map that has the same Kubernetes label as the pod the Micronaut application is running in.
+This is handy if you use a package manager like https://helm.sh[Helm].
+A good example would be `app.kubernetes.io/instance` which is a unique label identifying the instance of an application:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    config-maps:
+      pod-labels:
+        - "app.kubernetes.io/instance"
+----
+
 
 Note that on the resulting config maps, you can still further filter them with includes/excludes properties.
 
@@ -142,6 +156,19 @@ kubernetes:
         - app: my-app
         - env: prod
 ----
+
+This also works for pod labels:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    secrets:
+      enabled: true
+      pod-labels:
+        - "app.kubernetes.io/instance"
+----
+
 
 ## Reading ``ConfigMap``s and ``Secret``s from mounted volumes
 

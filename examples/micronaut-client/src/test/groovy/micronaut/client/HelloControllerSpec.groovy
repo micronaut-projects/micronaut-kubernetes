@@ -51,7 +51,7 @@ class HelloControllerSpec extends Specification implements KubectlCommands {
 
         expect:
         testClient.config("foo").equals("NOTHING")
-        !testClient.env().contains("configMapName")
+        !testClient.env().contains(configMapName)
 
         when:
         createConfigMap(configMapName)

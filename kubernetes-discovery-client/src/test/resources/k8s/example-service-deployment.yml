@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: example-service
+        app.kubernetes.io/instance: example-service-1337
     spec:
       containers:
         - name: example-service
