@@ -36,16 +36,30 @@ public class KubernetesServiceConfiguration {
     private String serviceId;
     private String name;
     private String namespace;
+    private String mode;
+    private String port;
+    private final boolean manual;
 
     @Inject
     public KubernetesServiceConfiguration(@Parameter String serviceId) {
-        this.serviceId = serviceId;
+        this(serviceId, null, null, null, null, true);
+    }
+
+    public KubernetesServiceConfiguration(String serviceId, boolean manual) {
+        this(serviceId, null, null, null, null, manual);
     }
 
     public KubernetesServiceConfiguration(String serviceId, String name, String namespace) {
+        this(serviceId, name, namespace, null, null, false);
+    }
+
+    public KubernetesServiceConfiguration(String serviceId, String name, String namespace, String mode, String port, boolean manual) {
         this.serviceId = serviceId;
         this.name = name;
         this.namespace = namespace;
+        this.mode = mode;
+        this.port = port;
+        this.manual = manual;
     }
 
     /**
@@ -73,6 +87,7 @@ public class KubernetesServiceConfiguration {
 
     /**
      * Set service name.
+     *
      * @param name
      */
     public void setName(String name) {
@@ -95,5 +110,46 @@ public class KubernetesServiceConfiguration {
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+
+    /**
+     * @return service discovery mode
+     */
+    public Optional<String> getMode() {
+        return Optional.ofNullable(mode);
+    }
+
+    /**
+     * Set service discovery mode.
+     * @param mode mode
+     */
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    /**
+     * Port configuration in case of multi-port resource.
+     *
+     * @return port number
+     */
+    public Optional<String> getPort() {
+        return Optional.ofNullable(port);
+    }
+
+    /**
+     * Sets port number. Required in case of multi-port resource.
+     * @param port port number
+     */
+    public void setPort(String port) {
+        this.port = port;
+    }
+
+    /**
+     * This field is for inner use to mark manually configured services. All configurations
+     * on {@link #PREFIX} are manually configured.
+     * @return true if manually configured otherwise false
+     */
+    public boolean isManual() {
+        return manual;
     }
 }

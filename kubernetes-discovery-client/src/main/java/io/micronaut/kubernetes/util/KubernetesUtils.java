@@ -171,6 +171,25 @@ public class KubernetesUtils {
     }
 
     /**
+     * @param labels the labels to include
+     * @return a {@link Predicate} based on labels the kubernetes objects has to match to return true
+     */
+    public static Predicate<KubernetesObject> getLabelsFilter(Map<String, String> labels) {
+        Predicate<KubernetesObject> labelsFilter = s -> true;
+        if (!labels.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Filter labels: {}", labels.keySet());
+            }
+            labelsFilter = kubernetesObject -> {
+                Map<String, String> kubernetesObjectLabels = kubernetesObject.getMetadata().getLabels();
+                return labels.entrySet().stream().allMatch(
+                        e -> kubernetesObjectLabels.containsKey(e.getKey()) && kubernetesObjectLabels.get(e.getKey()).equals(e.getValue()));
+            };
+        }
+        return labelsFilter;
+    }
+
+    /**
      * @param client       the {@link KubernetesClient}
      * @param podLabelKeys the list of labels inside a pod
      * @param namespace    in the configuration
