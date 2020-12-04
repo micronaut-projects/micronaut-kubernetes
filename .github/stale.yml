@@ -6,6 +6,7 @@ daysUntilClose: 7
 exemptLabels:
  - "type: enhancement"
  - "type: improvement"
+ - "type: task"
 # Label to use when marking an issue as stale
 staleLabel: "status: stale"
 # Comment to post when marking an issue as stale. Set to `false` to disable
