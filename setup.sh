@@ -64,19 +64,3 @@ kubectl proxy &
 docker images | grep micronaut
 kind load docker-image micronaut-kubernetes-example-service:latest
 kind load docker-image micronaut-kubernetes-example-client:latest
-
-# Create two namespces with test services
-./setup-test-namespace.sh micronaut-kubernetes-a true
-./setup-test-namespace.sh micronaut-kubernetes true
-
-# Expose ports locally
-kubectl config set-context --current --namespace=micronaut-kubernetes
-
-# Forward ports for hello world tests
-CLIENT_POD="$(kubectl get pods | grep "example-client" | awk 'FNR <= 1 { print $1 }')"
-SERVICE_POD_1="$(kubectl get pods | grep "example-service" | awk 'FNR <= 1 { print $1 }')"
-SERVICE_POD_2="$(kubectl get pods | grep "example-service" | awk 'FNR > 1 { print $1 }')"
-
-kubectl port-forward "$SERVICE_POD_1" 9999:8081 &
-kubectl port-forward "$SERVICE_POD_2" 9998:8081 &
-kubectl port-forward "$CLIENT_POD" 8888:8082 &

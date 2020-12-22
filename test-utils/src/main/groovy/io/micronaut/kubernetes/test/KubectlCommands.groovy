@@ -110,9 +110,9 @@ trait KubectlCommands {
         createConfigMap(configMapName, [foo: 'baz'])
     }
 
-    static List<Pod> getPods() {
+    static List<Pod> getPods(String namespace = 'micronaut-kubernetes') {
         KubernetesClient client = new DefaultKubernetesClient()
-        return client.pods().inNamespace('micronaut-kubernetes').list().items
+        return client.pods().inNamespace(namespace).list().items
     }
 
     static String getProcessOutput(String command) {

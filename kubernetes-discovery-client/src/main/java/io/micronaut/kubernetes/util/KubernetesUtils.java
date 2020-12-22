@@ -199,6 +199,9 @@ public class KubernetesUtils {
                             }
                         }
                     }
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Computed pod label selectors {}", result);
+                    }
                     result.putAll(labels);
                     return computeLabelSelector(result);
                 });
