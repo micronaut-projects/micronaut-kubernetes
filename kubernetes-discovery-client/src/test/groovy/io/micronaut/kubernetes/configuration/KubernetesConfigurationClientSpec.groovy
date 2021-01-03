@@ -94,4 +94,18 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
         !propertySource
     }
 
+    void "it can read empty config maps"(){
+        given:
+        KubernetesConfigurationClient.propertySourceCache.clear()
+        operations.createConfigMap("empty-map", namespace, [:])
+
+        when:
+        Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'empty-map' }
+
+        then:
+        noExceptionThrown()
+
+        cleanup:
+        operations.deleteConfigMap("empty-map", namespace)
+    }
 }

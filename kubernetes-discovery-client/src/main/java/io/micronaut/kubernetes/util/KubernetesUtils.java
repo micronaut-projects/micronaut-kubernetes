@@ -63,6 +63,11 @@ public class KubernetesUtils {
         }
         String name = getPropertySourceName(configMap);
         Map<String, String> data = configMap.getData();
+
+        if (data == null || data.isEmpty()) {
+            return PropertySource.of(Collections.emptyMap());
+        }
+
         Map.Entry<String, String> entry = data.entrySet().iterator().next();
         if (data.size() > 1 || !getExtension(entry.getKey()).isPresent()) {
             if (LOG.isTraceEnabled()) {
