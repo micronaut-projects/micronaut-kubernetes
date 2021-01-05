@@ -35,11 +35,11 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Optional setup step
         env:
-          K8S_VERSION: ${{ matrix.k8s }}        
+          K8S_VERSION: ${{ matrix.k8s }}
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
-        run: ./gradlew dependencyUpdates check --continue
+        run: ./gradlew dependencyUpdates check --parallel --continue
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to JFrog OSS
