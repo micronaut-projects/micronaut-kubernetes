@@ -35,4 +35,8 @@ tasks {
     dockerBuild {
         images = ['micronaut-kubernetes-example-service']
     }
+
+    nativeImage {
+        args("--initialize-at-build-time=com.sun.jndi.toolkit.ctx.ComponentDirContext")
+    }
 }
