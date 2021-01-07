@@ -110,8 +110,7 @@
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master
-/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -140,7 +139,7 @@
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:2.1.1.BUILD-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:2.0.1.BUILD-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -148,7 +147,7 @@
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
-    &lt;version&gt;2.1.1.BUILD-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;2.0.1.BUILD-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -336,8 +335,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="service-discovery"><a class="anchor" href="#service-discovery"></a>2 Service Discovery</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master
-/src/main/docs/guide/service-discovery.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/service-discovery.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -395,7 +393,29 @@ if not <code>default</code>):</p>
 <div class="listingblock">
 <div class="title"><code>auth.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/k8s-auth.yml[]</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: service-discoverer
+  namespace: micronaut-kubernetes
+rules:
+  - apiGroups: [""]
+    resources: ["services", "endpoints", "configmaps", "secrets", "pods"]
+    verbs: ["get", "watch", "list"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: default-service-discoverer
+  namespace: micronaut-kubernetes
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: micronaut-kubernetes
+roleRef:
+  kind: Role
+  name: service-discoverer
+  apiGroup: rbac.authorization.k8s.io</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -430,7 +450,18 @@ examples assume there is a <code>Deployment</code> named <code>secure-deployment
 <div class="listingblock">
 <div class="title"><code>my-service.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes.yml[tag=port-name]</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-port-name
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 1234
+      protocol: TCP
+      name: https</code></pre>
 </div>
 </div>
 </div>
@@ -442,7 +473,17 @@ examples assume there is a <code>Deployment</code> named <code>secure-deployment
 <div class="listingblock">
 <div class="title"><code>my-service.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes.yml[tag=port-number]</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-port-number
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 443
+      protocol: TCP</code></pre>
 </div>
 </div>
 </div>
@@ -454,7 +495,19 @@ examples assume there is a <code>Deployment</code> named <code>secure-deployment
 <div class="listingblock">
 <div class="title"><code>my-service.yml</code></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">Unresolved directive in &lt;stdin&gt; - include::/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes.yml[tag=labels]</code></pre>
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: secure-service-labels
+  labels:
+    secure: "true"
+spec:
+  selector:
+    app: secure-deployment
+  type: NodePort
+  ports:
+    - port: 1234
+      protocol: TCP</code></pre>
 </div>
 </div>
 </div>
@@ -508,8 +561,7 @@ discovery:</p>
 <h1 id="config-client"><a class="anchor" href="#config-client"></a>3 Configuration Client</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master
-/src/main/docs/guide/config-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/config-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -584,7 +636,7 @@ which config map names are processed by defining <code>kubernetes.client.config-
 </div>
 <div class="paragraph">
 <p>In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
-sources. This can be done by defining the label and value directly:</p>
+sources:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -594,20 +646,6 @@ sources. This can be done by defining the label and value directly:</p>
       labels:
         - app: my-app
         - env: prod</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Or by including every config map that has the same Kubernetes label as the pod the Micronaut application is running in.
-This is handy if you use a package manager like <a href="https://helm.sh">Helm</a>.
-A good example would be <code>app.kubernetes.io/instance</code> which is a unique label identifying the instance of an application:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
-  client:
-    config-maps:
-      pod-labels:
-        - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -723,19 +761,6 @@ which config map names are processed by defining <code>kubernetes.client.secrets
       labels:
         - app: my-app
         - env: prod</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This also works for pod labels:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
-  client:
-    secrets:
-      enabled: true
-      pod-labels:
-        - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
 </div>
@@ -856,8 +881,7 @@ take precedence over the ones coming from the API.</p>
 <h1 id="health-checks"><a class="anchor" href="#health-checks"></a>4 Health Checks</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master
-/src/main/docs/guide/health-checks.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/health-checks.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -985,8 +1009,7 @@ information about how to configure it.</p>
 <h1 id="low-level-client"><a class="anchor" href="#low-level-client"></a>5 Using the low-level Kubernetes API HTTP client</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master
-/src/main/docs/guide/low-level-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/low-level-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1028,8 +1051,7 @@ Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/Kubernet
 <h1 id="logging"><a class="anchor" href="#logging"></a>6 Logging and debugging</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master
-/src/main/docs/guide/logging.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
