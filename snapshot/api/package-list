@@ -8,5 +8,3 @@ io.micronaut.kubernetes.configuration
 io.micronaut.kubernetes.discovery
 io.micronaut.kubernetes.health
 io.micronaut.kubernetes.util
-micronaut.client
-micronaut.service
