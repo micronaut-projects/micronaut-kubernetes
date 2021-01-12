@@ -17,6 +17,7 @@ package micronaut.service;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Value;
+import io.micronaut.core.annotation.ReflectiveAccess;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.context.scope.Refreshable;
@@ -34,6 +35,7 @@ public class HelloController {
     @Inject
     ApplicationContext context;
 
+    @ReflectiveAccess
     @Value("${enemies.cheat.level:defaultCheatLevel}")
     private String enemiesCheatLevel;
 
