@@ -19,6 +19,7 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.retry.annotation.Retryable;
 
 /**
  * Provides a HTTP Client against Kubernetes API.
@@ -31,6 +32,7 @@ import io.micronaut.http.client.annotation.Client;
 @Client(id = KubernetesClient.SERVICE_ID, path = "/api/v1")
 @Requires(property = KubernetesConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE)
 @BootstrapContextCompatible
+@Retryable(attempts = "5", multiplier = "2.0")
 public interface KubernetesClient extends KubernetesOperations {
     String SERVICE_ID = "kubernetes";
 }
