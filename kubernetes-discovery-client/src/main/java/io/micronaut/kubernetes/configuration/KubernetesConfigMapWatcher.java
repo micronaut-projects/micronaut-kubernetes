@@ -95,9 +95,8 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                     }
                 })
                 .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
-                .onErrorReturnItem(new ConfigMapWatchEvent(ConfigMapWatchEvent.EventType.ERROR))
                 .subscribeOn(Schedulers.from(this.executorService))
-                .retry(5)
+                .onErrorReturnItem(new ConfigMapWatchEvent(ConfigMapWatchEvent.EventType.ERROR))
                 .subscribe(this::processEvent);
     }
 
