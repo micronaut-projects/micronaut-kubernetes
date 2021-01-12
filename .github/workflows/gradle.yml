@@ -39,7 +39,7 @@ jobs:
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
-        run: ./gradlew dependencyUpdates check --parallel --continue
+        run: ./gradlew dependencyUpdates check --continue
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to JFrog OSS
