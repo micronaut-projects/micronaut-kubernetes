@@ -101,6 +101,8 @@
         path="/api/v1")
  @Requires(property="kubernetes.client.enabled",
           notEquals="false")
+ @Retryable(attempts="5",
+           multiplier="2.0")
 public interface <span class="typeNameLabel">KubernetesClient</span>
 extends <a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesOperations.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesOperations</a></pre>
 <div class="block">Provides a HTTP Client against Kubernetes API.

@@ -425,12 +425,12 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 <ul class="blockList">
 <li class="blockList">
 <h4>watchConfigMaps</h4>
-<pre>@Get(value="/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&amp;labelSelector={labelSelector}")
+<pre>@Get(value="/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&amp;labelSelector={labelSelector}&amp;watch=true")
  @Consumes(value={"application/x-json-stream","application/json"})
 org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent</a>&gt;&nbsp;watchConfigMaps(java.lang.String&nbsp;namespace,
-                                                                                                                                                                                                                                                             java.lang.Long&nbsp;resourceVersion,
-                                                                                                                                                                                                                                                             @Nullable
-                                                                                                                                                                                                                                                             java.lang.String&nbsp;labelSelector)</pre>
+                                                                                                                                                                                                                                                                  java.lang.Long&nbsp;resourceVersion,
+                                                                                                                                                                                                                                                                  @Nullable
+                                                                                                                                                                                                                                                                  java.lang.String&nbsp;labelSelector)</pre>
 <div class="block">Watch objects of kind ConfigMap.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
@@ -548,12 +548,12 @@ org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes
 <ul class="blockList">
 <li class="blockList">
 <h4>watchSecrets</h4>
-<pre>@Get(value="/watch/namespaces/{namespace}/secrets?resourceVersion={resourceVersion}&amp;labelSelector={labelSelector}")
+<pre>@Get(value="/namespaces/{namespace}/secrets?resourceVersion={resourceVersion}&amp;labelSelector={labelSelector}&amp;watch=true")
  @Consumes(value={"application/x-json-stream","application/json"})
 org.reactivestreams.Publisher&lt;<a href="../../../../../io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.html" title="class in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent</a>&gt;&nbsp;watchSecrets(java.lang.String&nbsp;namespace,
-                                                                                                                                                                                                                                                    java.lang.Long&nbsp;resourceVersion,
-                                                                                                                                                                                                                                                    @Nullable
-                                                                                                                                                                                                                                                    java.lang.String&nbsp;labelSelector)</pre>
+                                                                                                                                                                                                                                                         java.lang.Long&nbsp;resourceVersion,
+                                                                                                                                                                                                                                                         @Nullable
+                                                                                                                                                                                                                                                         java.lang.String&nbsp;labelSelector)</pre>
 <div class="block">Watch objects of kind Secret.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
