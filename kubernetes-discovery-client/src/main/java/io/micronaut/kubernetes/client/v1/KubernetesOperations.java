@@ -113,7 +113,7 @@ public interface KubernetesOperations {
      * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return a {@link ConfigMapList}
      */
-    @Get("/watch/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&labelSelector={labelSelector}")
+    @Get("/namespaces/{namespace}/configmaps?resourceVersion={resourceVersion}&labelSelector={labelSelector}&watch=true")
     @Consumes(value = {MediaType.APPLICATION_JSON_STREAM, MediaType.APPLICATION_JSON})
     Publisher<ConfigMapWatchEvent> watchConfigMaps(String namespace, Long resourceVersion, @Nullable String labelSelector);
 
@@ -176,7 +176,7 @@ public interface KubernetesOperations {
      * @param labelSelector A selector to restrict the list of returned objects by their labels
      * @return a {@link ConfigMapList}
      */
-    @Get("/watch/namespaces/{namespace}/secrets?resourceVersion={resourceVersion}&labelSelector={labelSelector}")
+    @Get("/namespaces/{namespace}/secrets?resourceVersion={resourceVersion}&labelSelector={labelSelector}&watch=true")
     @Consumes(value = {MediaType.APPLICATION_JSON_STREAM, MediaType.APPLICATION_JSON})
     Publisher<SecretWatchEvent> watchSecrets(String namespace, Long resourceVersion, @Nullable String labelSelector);
 

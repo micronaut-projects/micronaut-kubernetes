@@ -63,6 +63,11 @@ public class KubernetesUtils {
         }
         String name = getPropertySourceName(configMap);
         Map<String, String> data = configMap.getData();
+
+        if (data == null || data.isEmpty()) {
+            return PropertySource.of(Collections.emptyMap());
+        }
+
         Map.Entry<String, String> entry = data.entrySet().iterator().next();
         if (data.size() > 1 || !getExtension(entry.getKey()).isPresent()) {
             if (LOG.isTraceEnabled()) {
@@ -163,6 +168,25 @@ public class KubernetesUtils {
         }
 
         return excludesFilter;
+    }
+
+    /**
+     * @param labels the labels to include
+     * @return a {@link Predicate} based on labels the kubernetes objects has to match to return true
+     */
+    public static Predicate<KubernetesObject> getLabelsFilter(Map<String, String> labels) {
+        Predicate<KubernetesObject> labelsFilter = s -> true;
+        if (!labels.isEmpty()) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Filter labels: {}", labels.keySet());
+            }
+            labelsFilter = kubernetesObject -> {
+                Map<String, String> kubernetesObjectLabels = kubernetesObject.getMetadata().getLabels();
+                return labels.entrySet().stream().allMatch(
+                        e -> kubernetesObjectLabels.containsKey(e.getKey()) && kubernetesObjectLabels.get(e.getKey()).equals(e.getValue()));
+            };
+        }
+        return labelsFilter;
     }
 
     /**
