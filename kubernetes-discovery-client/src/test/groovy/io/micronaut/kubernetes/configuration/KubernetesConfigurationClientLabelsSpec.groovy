@@ -24,6 +24,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
+        KubernetesConfigurationClient.propertySourceCache.clear()
         def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
 
         then:
@@ -44,6 +45,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
+        KubernetesConfigurationClient.propertySourceCache.clear()
         def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
 
         then:
@@ -59,6 +61,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
 
         then:
+        KubernetesConfigurationClient.propertySourceCache.clear()
         propertySources.find { it.name.startsWith 'another-secret' }
 
         and:
@@ -77,6 +80,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
+        KubernetesConfigurationClient.propertySourceCache.clear()
         def propertySources = envs.execute(() -> Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable())
 
         then:
@@ -100,6 +104,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
+        KubernetesConfigurationClient.propertySourceCache.clear()
         def propertySources = envs.execute(() -> Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable())
 
         then:

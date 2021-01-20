@@ -239,7 +239,8 @@ class KubernetesOperations implements Closeable {
         log.debug("Creating ${service}")
         service = getClient(namespace).services().create(service)
         // in case of headless service or ExternalName service do now wait
-        if (service.spec.clusterIP || service.spec.externalName) {
+        if (!(service.spec.clusterIP == "None" || service.spec.externalName)) {
+            log.debug("Polling for Endpoints get ready ${service}")
             new PollingConditions().within(10){
                 assert getClient(namespace).endpoints().withName(name).get()
             }
