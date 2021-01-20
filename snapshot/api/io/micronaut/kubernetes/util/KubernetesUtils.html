@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9};
+var methods = {"i0":9,"i1":9,"i2":9,"i3":9,"i4":9,"i5":9,"i6":9};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -198,6 +198,10 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#getIncludesFilter-java.util.Collection-">getIncludesFilter</a></span>(java.util.Collection&lt;java.lang.String&gt;&nbsp;includes)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>static io.reactivex.functions.Predicate&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a>&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#getLabelsFilter-java.util.Map-">getLabelsFilter</a></span>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;labels)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>static io.micronaut.context.env.PropertySource</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/util/KubernetesUtils.html#secretAsPropertySource-io.micronaut.kubernetes.client.v1.secrets.Secret-">secretAsPropertySource</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a>&nbsp;secret)</code>&nbsp;</td>
 </tr>
@@ -335,6 +339,21 @@ extends java.lang.Object</pre>
 <dd><code>excludes</code> - the objects to excludes</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>a <code>Predicate</code> based on a collection of object names to excludes</dd>
+</dl>
+</li>
+</ul>
+<a name="getLabelsFilter-java.util.Map-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getLabelsFilter</h4>
+<pre>public static&nbsp;io.reactivex.functions.Predicate&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesObject.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesObject</a>&gt;&nbsp;getLabelsFilter(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;labels)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>labels</code> - the labels to include</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a <code>Predicate</code> based on labels the kubernetes objects has to match to return true</dd>
 </dl>
 </li>
 </ul>

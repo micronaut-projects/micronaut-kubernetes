@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -159,9 +159,21 @@ extends java.lang.Object</pre>
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#KubernetesServiceConfiguration-java.lang.String-">KubernetesServiceConfiguration</a></span>(java.lang.String&nbsp;serviceId)</code>&nbsp;</td>
 </tr>
 <tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#KubernetesServiceConfiguration-java.lang.String-boolean-">KubernetesServiceConfiguration</a></span>(java.lang.String&nbsp;serviceId,
+                              boolean&nbsp;manual)</code>&nbsp;</td>
+</tr>
+<tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#KubernetesServiceConfiguration-java.lang.String-java.lang.String-java.lang.String-">KubernetesServiceConfiguration</a></span>(java.lang.String&nbsp;serviceId,
                               java.lang.String&nbsp;name,
                               java.lang.String&nbsp;namespace)</code>&nbsp;</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#KubernetesServiceConfiguration-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-boolean-">KubernetesServiceConfiguration</a></span>(java.lang.String&nbsp;serviceId,
+                              java.lang.String&nbsp;name,
+                              java.lang.String&nbsp;namespace,
+                              java.lang.String&nbsp;mode,
+                              java.lang.String&nbsp;port,
+                              boolean&nbsp;manual)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -180,31 +192,59 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#getName--">getName</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#getMode--">getMode</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#getName--">getName</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#getNamespace--">getNamespace</a></span>()</code>
 <div class="block">Namespace of service.</div>
 </td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.lang.String&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#getPort--">getPort</a></span>()</code>
+<div class="block">Port configuration in case of multi-port resource.</div>
+</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#getServiceId--">getServiceId</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#isManual--">isManual</a></span>()</code>
+<div class="block">This field is for inner use to mark manually configured services.</div>
+</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#setMode-java.lang.String-">setMode</a></span>(java.lang.String&nbsp;mode)</code>
+<div class="block">Set service discovery mode.</div>
+</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#setName-java.lang.String-">setName</a></span>(java.lang.String&nbsp;name)</code>
 <div class="block">Set service name.</div>
 </td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i8" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#setNamespace-java.lang.String-">setNamespace</a></span>(java.lang.String&nbsp;namespace)</code>
 <div class="block">Service namespace.</div>
 </td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i9" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#setPort-java.lang.String-">setPort</a></span>(java.lang.String&nbsp;port)</code>
+<div class="block">Sets port number.</div>
+</td>
+</tr>
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#setServiceId-java.lang.String-">setServiceId</a></span>(java.lang.String&nbsp;serviceId)</code>
 <div class="block">Set service id.</div>
@@ -277,7 +317,28 @@ public&nbsp;KubernetesServiceConfiguration(@Parameter
                                               java.lang.String&nbsp;serviceId)</pre>
 </li>
 </ul>
+<a name="KubernetesServiceConfiguration-java.lang.String-boolean-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>KubernetesServiceConfiguration</h4>
+<pre>public&nbsp;KubernetesServiceConfiguration(java.lang.String&nbsp;serviceId,
+                                      boolean&nbsp;manual)</pre>
+</li>
+</ul>
 <a name="KubernetesServiceConfiguration-java.lang.String-java.lang.String-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>KubernetesServiceConfiguration</h4>
+<pre>public&nbsp;KubernetesServiceConfiguration(java.lang.String&nbsp;serviceId,
+                                      java.lang.String&nbsp;name,
+                                      java.lang.String&nbsp;namespace)</pre>
+</li>
+</ul>
+<a name="KubernetesServiceConfiguration-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-boolean-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -285,7 +346,10 @@ public&nbsp;KubernetesServiceConfiguration(@Parameter
 <h4>KubernetesServiceConfiguration</h4>
 <pre>public&nbsp;KubernetesServiceConfiguration(java.lang.String&nbsp;serviceId,
                                       java.lang.String&nbsp;name,
-                                      java.lang.String&nbsp;namespace)</pre>
+                                      java.lang.String&nbsp;namespace,
+                                      java.lang.String&nbsp;mode,
+                                      java.lang.String&nbsp;port,
+                                      boolean&nbsp;manual)</pre>
 </li>
 </ul>
 </li>
@@ -367,7 +431,7 @@ public&nbsp;KubernetesServiceConfiguration(@Parameter
 <a name="setNamespace-java.lang.String-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setNamespace</h4>
 <pre>public&nbsp;void&nbsp;setNamespace(java.lang.String&nbsp;namespace)</pre>
@@ -375,6 +439,76 @@ public&nbsp;KubernetesServiceConfiguration(@Parameter
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>namespace</code> - </dd>
+</dl>
+</li>
+</ul>
+<a name="getMode--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getMode</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.String&gt;&nbsp;getMode()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>service discovery mode</dd>
+</dl>
+</li>
+</ul>
+<a name="setMode-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setMode</h4>
+<pre>public&nbsp;void&nbsp;setMode(java.lang.String&nbsp;mode)</pre>
+<div class="block">Set service discovery mode.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>mode</code> - mode</dd>
+</dl>
+</li>
+</ul>
+<a name="getPort--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getPort</h4>
+<pre>public&nbsp;java.util.Optional&lt;java.lang.String&gt;&nbsp;getPort()</pre>
+<div class="block">Port configuration in case of multi-port resource.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>port number</dd>
+</dl>
+</li>
+</ul>
+<a name="setPort-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setPort</h4>
+<pre>public&nbsp;void&nbsp;setPort(java.lang.String&nbsp;port)</pre>
+<div class="block">Sets port number. Required in case of multi-port resource.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>port</code> - port number</dd>
+</dl>
+</li>
+</ul>
+<a name="isManual--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>isManual</h4>
+<pre>public&nbsp;boolean&nbsp;isManual()</pre>
+<div class="block">This field is for inner use to mark manually configured services. All configurations
+ on <a href="../../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#PREFIX"><code>PREFIX</code></a> are manually configured.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if manually configured otherwise false</dd>
 </dl>
 </li>
 </ul>

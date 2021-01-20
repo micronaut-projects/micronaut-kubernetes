@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -117,7 +117,7 @@ extends java.lang.Object</pre>
 <dd>Álvaro Sánchez-Mariscal</dd>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status">Spec and Status</a>, 
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#servicespec-v1-core">Service Spec v1</a></dd>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#servicespec-v1-core">Service Spec v1</a></dd>
 </dl>
 </li>
 </ul>
@@ -159,16 +159,32 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#getClusterIp--">getClusterIp</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#getExternalName--">getExternalName</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../../../io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#getPorts--">getPorts</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#getType--">getType</a></span>()</code>&nbsp;</td>
+</tr>
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#setClusterIp-java.net.InetAddress-">setClusterIp</a></span>(java.net.InetAddress&nbsp;clusterIp)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i5" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#setExternalName-java.lang.String-">setExternalName</a></span>(java.lang.String&nbsp;externalName)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#setPorts-java.util.List-">setPorts</a></span>(java.util.List&lt;<a href="../../../../../../io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a>&gt;&nbsp;ports)</code>&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code>void</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../io/micronaut/kubernetes/client/v1/services/ServiceSpec.html#setType-java.lang.String-">setType</a></span>(java.lang.String&nbsp;type)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -251,13 +267,65 @@ extends java.lang.Object</pre>
 <a name="setClusterIp-java.net.InetAddress-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setClusterIp</h4>
 <pre>public&nbsp;void&nbsp;setClusterIp(java.net.InetAddress&nbsp;clusterIp)</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>clusterIp</code> - The IP address of the service.</dd>
+</dl>
+</li>
+</ul>
+<a name="getType--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getType</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getType()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The type of service; as of 1.19 the valid options are ExternalName, ClusterIP, NodePort, and LoadBalancer.</dd>
+</dl>
+</li>
+</ul>
+<a name="setType-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>setType</h4>
+<pre>public&nbsp;void&nbsp;setType(java.lang.String&nbsp;type)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>type</code> - The type of service.</dd>
+</dl>
+</li>
+</ul>
+<a name="getExternalName--">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>getExternalName</h4>
+<pre>public&nbsp;java.lang.String&nbsp;getExternalName()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>The external name of service.</dd>
+</dl>
+</li>
+</ul>
+<a name="setExternalName-java.lang.String-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setExternalName</h4>
+<pre>public&nbsp;void&nbsp;setExternalName(java.lang.String&nbsp;externalName)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>externalName</code> - The external name of service.</dd>
 </dl>
 </li>
 </ul>

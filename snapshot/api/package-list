@@ -6,5 +6,6 @@ io.micronaut.kubernetes.client.v1.secrets
 io.micronaut.kubernetes.client.v1.services
 io.micronaut.kubernetes.configuration
 io.micronaut.kubernetes.discovery
+io.micronaut.kubernetes.discovery.provider
 io.micronaut.kubernetes.health
 io.micronaut.kubernetes.util
