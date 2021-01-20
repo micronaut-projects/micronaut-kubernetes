@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * @see <a href="https://git.k8s.io/community/contributors/devel/api-conventions.md#spec-and-status">Spec and Status</a>
  *
- * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.13/#servicespec-v1-core">Service Spec v1</a>
+ * @see <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.19/#servicespec-v1-core">Service Spec v1</a>
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
@@ -37,6 +37,8 @@ public class ServiceSpec {
 
     private List<Port> ports;
     private InetAddress clusterIp;
+    private String type;
+    private String externalName;
 
     /**
      *
@@ -71,5 +73,37 @@ public class ServiceSpec {
     @JsonProperty("clusterIP")
     public void setClusterIp(InetAddress clusterIp) {
         this.clusterIp = clusterIp;
+    }
+
+    /**
+     *
+     * @return The type of service; as of 1.19 the valid options are ExternalName, ClusterIP, NodePort, and LoadBalancer.
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     *
+     * @param type The type of service.
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     *
+     * @return The external name of service.
+     */
+    public String getExternalName() {
+        return externalName;
+    }
+
+    /**
+     *
+     * @param externalName The external name of service.
+     */
+    public void setExternalName(String externalName) {
+        this.externalName = externalName;
     }
 }

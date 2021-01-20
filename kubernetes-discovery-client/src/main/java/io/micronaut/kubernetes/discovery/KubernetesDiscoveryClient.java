@@ -22,9 +22,8 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.*;
-import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
-import io.micronaut.kubernetes.client.v1.endpoints.EndpointsList;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
+import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Predicate;
@@ -32,11 +31,9 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.net.URI;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -61,25 +58,56 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     private final KubernetesConfiguration configuration;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
     private final Map<String, KubernetesServiceConfiguration> serviceConfigurations;
+    private final Map<String, KubernetesServiceInstanceProvider> instanceProviders;
     private final KubernetesServiceInstanceList instanceList;
 
     /**
+     * Creates discovery client that operates with endpoints only, so the discovery modes are not supported.
+     *
      * @param client An HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
      * @param discoveryConfiguration The discovery configuration properties
      * @param serviceConfigurations The manual service discovery configurations
      * @param instanceList The {@link KubernetesServiceInstanceList}
+     * @deprecated
+     * This constructor is no longer used as it doesn't support the discovery modes.
+     * Use {@link KubernetesDiscoveryClient#KubernetesDiscoveryClient(KubernetesClient, KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, List, List, KubernetesServiceInstanceList)} instead.
      */
+    @Deprecated
     public KubernetesDiscoveryClient(KubernetesClient client,
                                      KubernetesConfiguration configuration,
                                      KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
                                      List<KubernetesServiceConfiguration> serviceConfigurations,
+                                     KubernetesServiceInstanceList instanceList){
+        this(client, configuration, discoveryConfiguration, serviceConfigurations,
+                Collections.singletonList(new KubernetesServiceInstanceEndpointProvider(client, discoveryConfiguration)),
+                instanceList);
+    }
+
+    /**
+     * Creates discovery client that supports the discovery modes.
+     *
+     * @param client An HTTP Client to query the Kubernetes API.
+     * @param configuration The configuration properties
+     * @param discoveryConfiguration The discovery configuration properties
+     * @param serviceConfigurations The manual service discovery configurations
+     * @param instanceProviders The service instance provider implementations
+     * @param instanceList The {@link KubernetesServiceInstanceList}
+     */
+    @Inject
+    public KubernetesDiscoveryClient(KubernetesClient client,
+                                     KubernetesConfiguration configuration,
+                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
+                                     List<KubernetesServiceConfiguration> serviceConfigurations,
+                                     List<KubernetesServiceInstanceProvider> instanceProviders,
                                      KubernetesServiceInstanceList instanceList) {
         this.client = client;
         this.configuration = configuration;
         this.discoveryConfiguration = discoveryConfiguration;
         this.serviceConfigurations = serviceConfigurations.stream()
                 .collect(Collectors.toMap(KubernetesServiceConfiguration::getServiceId, Function.identity()));
+        this.instanceProviders = instanceProviders.stream()
+                .collect(Collectors.toMap(KubernetesServiceInstanceProvider::getMode, Function.identity()));
         this.instanceList = instanceList;
     }
 
@@ -94,47 +122,32 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         if (SERVICE_ID.equals(serviceId)) {
             return Publishers.just(instanceList.getInstances());
         } else {
-            KubernetesServiceConfiguration serviceConfiguration = serviceConfigurations.getOrDefault(
-                    serviceId, new KubernetesServiceConfiguration(serviceId, null, configuration.getNamespace()));
-            String serviceNamespace = serviceConfiguration.getNamespace().orElse(configuration.getNamespace());
-            String serviceName = serviceConfiguration.getName().orElse(serviceId);
-            String labelSelector = KubernetesUtils.computeLabelSelector(discoveryConfiguration.getLabels());
-            AtomicReference<Metadata> metadata = new AtomicReference<>();
-            Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
-            Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
+            KubernetesServiceConfiguration serviceConfiguration = serviceConfigurations.computeIfAbsent(
+                    serviceId, key -> new KubernetesServiceConfiguration(key, false));
 
-            if (LOG.isTraceEnabled()) {
-                LOG.trace(String.format("Fetching for service %s endpoints in namespace %s", serviceName, serviceNamespace));
+            if (!serviceConfiguration.getNamespace().isPresent()) {
+                serviceConfiguration.setNamespace(configuration.getNamespace());
             }
 
-            return Flowable.fromPublisher(client.listEndpoints(serviceNamespace, labelSelector))
-                    .doOnError(throwable -> LOG.error("Error while trying to list Kubernetes Endpoints in the namespace [" + serviceNamespace + "]", throwable))
-                    .flatMapIterable(EndpointsList::getItems)
-                    .filter(endpoints -> endpoints.getMetadata().getName().equals(serviceName))
-                    .filter(includesFilter)
-                    .filter(excludesFilter)
-                    .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
-                    .flatMapIterable(Endpoints::getSubsets)
-                    .map(subset -> subset
-                            .getPorts()
-                            .stream()
-                            .flatMap(port -> subset.getAddresses().stream().map(address -> buildServiceInstance(serviceId, port, address, metadata.get())))
-                            .collect(Collectors.toList()))
-                            .onErrorReturn(throwable -> new ArrayList<>());
-        }
-    }
+            if (!serviceConfiguration.getName().isPresent()) {
+                serviceConfiguration.setName(serviceId);
+            }
 
-    private ServiceInstance buildServiceInstance(String serviceId, Port port, Address address, Metadata metadata) {
-        boolean isSecure = port.isSecure() || metadata.isSecure();
-        String scheme = isSecure ? "https://" : "http://";
-        URI uri = URI.create(scheme + address.getIp().getHostAddress() + ":" + port.getPort());
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri.toString());
+            if (!serviceConfiguration.getMode().isPresent()) {
+                serviceConfiguration.setMode(configuration.getDiscovery().getMode());
+            }
+
+            String mode = serviceConfiguration.getMode().get();
+            if (!instanceProviders.containsKey(mode)) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error("Unrecognized kubernetes discovery mode: [" + mode +
+                            "], out of supported ones: [ " + String.join(",", instanceProviders.keySet()) + "]");
+                }
+                return Publishers.just(Collections.emptyList());
+            } else {
+                return instanceProviders.get(mode).getInstances(serviceConfiguration);
+            }
         }
-        return ServiceInstance
-                .builder(serviceId, uri)
-                .metadata(metadata.getLabels())
-                .build();
     }
 
     /**
@@ -166,7 +179,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         //no op
     }
 }
