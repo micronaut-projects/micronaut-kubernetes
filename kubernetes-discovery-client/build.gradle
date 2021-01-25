@@ -19,7 +19,7 @@ dependencies {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    testImplementation "com.github.stefanbirkner:system-lambda:1.1.1"
+    testImplementation "com.github.stefanbirkner:system-lambda:1.2.0"
 
     testImplementation project(":test-utils")
 }
