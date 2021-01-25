@@ -20,6 +20,7 @@ jobs:
     strategy:
       matrix:
         java: ['8', '11', '15']
+        k8s: ['1.16', '1.17', '1.18', '1.19']
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -33,10 +34,12 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Optional setup step
+        env:
+          K8S_VERSION: ${{ matrix.k8s }}
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
-        run: ./gradlew dependencyUpdates check --parallel --continue
+        run: ./gradlew dependencyUpdates check --continue
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to JFrog OSS
