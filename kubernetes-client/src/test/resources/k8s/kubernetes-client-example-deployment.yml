@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-client-example
+spec:
+  selector:
+    matchLabels:
+      app: kubernetes-client-example
+  template:
+    metadata:
+      labels:
+        app: kubernetes-client-example
+    spec:
+      containers:
+        - name: kubernetes-client-example
+          image: micronaut-kubernetes-client-example
+          imagePullPolicy: "Never"
+          ports:
+            - name: http
+              containerPort: 8085
+          livenessProbe:
+            httpGet:
+              port: 8085
+              path: /health/liveness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              port: 8085
+              path: /health/readiness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10

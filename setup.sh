@@ -64,3 +64,4 @@ kubectl proxy &
 docker images | grep micronaut
 kind load docker-image micronaut-kubernetes-example-service:latest
 kind load docker-image micronaut-kubernetes-example-client:latest
+kind load docker-image micronaut-kubernetes-client-example:latest

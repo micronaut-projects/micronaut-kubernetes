@@ -1,0 +1,45 @@
+The `micronaut-kubernetes-client` module gives you the ability to use official https://github.com/kubernetes-client/java[Kubernetes Java SDK] apis objects as a regular Micronaut beans.
+
+First you need add a dependency on the `micronaut-kubernetes-client` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client[]
+
+Then you can simply use Micronaut injection to get configured apis object from package `io.kubernetes.client.openapi.apis` :
+
+[source,java]
+----
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.models.V1PodList;
+import io.reactivex.Flowable;
+import io.reactivex.schedulers.Schedulers;
+import javax.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final CoreV1Api coreV1Api;
+
+    public MyService(CoreV1Api coreV1Api) {
+        this.coreV1Api = coreV1Api;
+    }
+
+    public void myMethod(String namespace) throws ApiException {
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, false);;
+    }
+}
+----
+
+## Authentication
+Micronaut distinguished https://github.com/kubernetes-client/java/blob/master/util/src/main/java/io/kubernetes/client/util/ClientBuilder.java#L243[cluster] and https://github.com/kubernetes-client/java/blob/6a4b5fe0b659beb6bfbacfd8ebaa816d0a3b7f8d/util/src/main/java/io/kubernetes/client/util/ClientBuilder.java#L276[kubeconfig] authentication options. If the environments contains `Environment.KUBERNETS` then the `cluster` authentication is used otherwise `kubeconfig`.
+
+Also you can update the authentication configuration by using `kubernetes.client` properties listed below:
+
+|=======
+|*Name* |*Description*
+|basePath | Kubernetes api base path.
+|caPath | CA file path.
+|tokenPath | Token file path.
+|kubeConfigPath | Kube config file path.
+|verifySsl | Boolean if the api should verify ssl. Default: `true`
+|=======

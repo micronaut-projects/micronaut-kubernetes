@@ -2,5 +2,6 @@ introduction: Introduction
 service-discovery: Service Discovery
 config-client: Configuration Client
 health-checks: Health Checks
-low-level-client: Using the low-level Kubernetes API HTTP client
+low-level-client: (Deprecated) Using the low-level Kubernetes API HTTP client
+kubernetes-client: Kubernetes client
 logging: Logging and debugging
