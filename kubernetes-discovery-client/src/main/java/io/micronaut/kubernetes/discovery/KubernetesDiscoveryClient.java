@@ -78,7 +78,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
                                      KubernetesConfiguration configuration,
                                      KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
                                      List<KubernetesServiceConfiguration> serviceConfigurations,
-                                     KubernetesServiceInstanceList instanceList){
+                                     KubernetesServiceInstanceList instanceList) {
         this(client, configuration, discoveryConfiguration, serviceConfigurations,
                 Collections.singletonList(new KubernetesServiceInstanceEndpointProvider(client, discoveryConfiguration)),
                 instanceList);
