@@ -1,0 +1,14 @@
+micronaut:
+  application:
+    name: micronaut-service
+  server:
+    port: 8085
+jackson:
+  module-scan: false
+endpoints:
+  env:
+    sensitive: false
+  refresh:
+    sensitive: false
+  health:
+    details-visible: ANONYMOUS

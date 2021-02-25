@@ -59,6 +59,7 @@ abstract class KubernetesSpecification extends Specification {
      * @return
      */
     def setupFixture(String namespace) {
+        createNamespaceSafe(namespace)
         createBaseResources(namespace)
         createExampleServiceDeployment(namespace)
         createExampleClientDeployment(namespace)
@@ -75,6 +76,17 @@ abstract class KubernetesSpecification extends Specification {
         }
     }
 
+    /**
+     * Creates namespace. If such namespace already exists then the namespace is deleted first.
+     * @param namespace namespace name
+     */
+    def createNamespaceSafe(String namespace){
+        if (operations.getNamespace(namespace) != null) {
+            operations.deleteNamespace(namespace)
+        }
+        operations.createNamespace(namespace)
+    }
+
     def cleanupSpec() {
         if (reuseNamespace && operations.getNamespace(namespace) != null) {
             log.info("Skipping cleanup of namespace ${namespace}")
@@ -85,11 +97,6 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def createBaseResources(String namespace) {
-        if (operations.getNamespace(namespace) != null) {
-            operations.deleteNamespace(namespace)
-        }
-        operations.createNamespace(namespace)
-
         operations.createRole("service-discoverer", namespace)
         operations.createRoleBinding("default-service-discoverer", namespace, "service-discoverer")
 

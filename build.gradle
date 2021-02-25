@@ -13,7 +13,7 @@ subprojects { Project subproject ->
 
     apply plugin: "io.micronaut.build.internal.common"
 
-    if (subproject.name in ["test-utils", "micronaut-client", "micronaut-service"]) {
+    if (subproject.name in ["test-utils", "micronaut-client", "micronaut-service", "micronaut-kubernetes-client"]) {
         tasks.withType(Checkstyle) {
             enabled = false
         }

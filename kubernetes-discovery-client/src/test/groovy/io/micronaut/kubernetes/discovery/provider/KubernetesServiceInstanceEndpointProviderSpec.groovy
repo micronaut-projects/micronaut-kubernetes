@@ -7,7 +7,6 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
-import io.micronaut.kubernetes.discovery.KubernetesDiscoveryClient
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -96,6 +95,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
 
     void "it can get service from other then app namespace"(){
         given:
+        createNamespaceSafe("other-namespace")
         createBaseResources("other-namespace")
         createExampleServiceDeployment("other-namespace")
 

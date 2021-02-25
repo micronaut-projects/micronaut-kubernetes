@@ -24,6 +24,8 @@ import io.micronaut.http.client.exceptions.HttpClientResponseException
 @Slf4j
 class TestUtils implements KubectlCommands {
 
+    public static final String KUBEPROXY_BASE_PATH = "http://localhost:8001"
+
     @Memoized
     static boolean available(String url) {
         try {
@@ -62,6 +64,6 @@ class TestUtils implements KubectlCommands {
 
     @Memoized
     static boolean kubernetesApiAvailable() {
-        available("http://localhost:8001")
+        available(KUBEPROXY_BASE_PATH)
     }
 }

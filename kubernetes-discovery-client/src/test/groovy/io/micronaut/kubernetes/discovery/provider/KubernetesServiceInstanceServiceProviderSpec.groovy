@@ -94,6 +94,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
     void "it can get service from other then app namespace"(){
         given:
+        createNamespaceSafe("other-namespace")
         createBaseResources("other-namespace")
         createExampleServiceDeployment("other-namespace")
 

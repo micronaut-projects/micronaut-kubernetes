@@ -1,25 +1,21 @@
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
+    annotationProcessor project(":kubernetes-client-processor")
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
-    compileOnly "io.micronaut:micronaut-inject-java"
-    compileOnly "io.micronaut:micronaut-management"
-    compileOnly "org.graalvm.nativeimage:svm"
-
-    implementation "io.micronaut.discovery:micronaut-discovery-client"
+    api "io.micronaut:micronaut-inject"
+    api 'io.kubernetes:client-java:10.0.0'
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
-    testImplementation "io.micronaut.discovery:micronaut-discovery-client"
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut:micronaut-inject-java"
+    testCompileOnly "io.micronaut:micronaut-inject-groovy"
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+    testImplementation "io.micronaut:micronaut-runtime"
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    testImplementation "com.github.stefanbirkner:system-lambda:1.2.0"
-
     testImplementation project(":test-utils")
 }

@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: micronaut-kubernetes-client
+kubernetes:
+  client:
+    verifySsl: true
