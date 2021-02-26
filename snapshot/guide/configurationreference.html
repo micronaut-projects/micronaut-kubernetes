@@ -316,9 +316,9 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration">&#128279;</a>
+<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration/KubernetesConfigMapsConfiguration.html">KubernetesConfigMapsConfiguration</a></caption>
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration/KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -333,34 +333,39 @@
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The config maps configuration properties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The discovery configuration</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.includes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.excludes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.labels</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.pod-labels</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">default service discovery mode</p></td>
 </tr>
 </tbody>
 </table>
@@ -448,9 +453,9 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration">&#128279;</a>
+<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 7. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration/KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
+<caption class="title">Table 7. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration/KubernetesConfigMapsConfiguration.html">KubernetesConfigMapsConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -465,39 +470,34 @@
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The discovery configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The config maps configuration properties</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.enabled</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.includes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.excludes</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.labels</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.pod-labels</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">default service discovery mode</p></td>
 </tr>
 </tbody>
 </table>
