@@ -43,7 +43,7 @@ jobs:
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to Sonatype Snapshots
-        if: success() && github.event_name == 'push' && matrix.java == '8'
+        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
