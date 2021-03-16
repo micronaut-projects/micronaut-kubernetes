@@ -40,11 +40,16 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
+import static io.micronaut.kubernetes.util.KubernetesUtils.configMapAsPropertySource;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -65,7 +70,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
 
-    private static Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
+    private static final Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
@@ -80,33 +85,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         }
         this.client = client;
         this.configuration = configuration;
-    }
-
-    /**
-     * Retrieves all of the {@link PropertySource} registrations for the given environment.
-     *
-     * @param environment The environment
-     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
-     */
-    @Override
-    public Publisher<PropertySource> getPropertySources(Environment environment) {
-        if (!propertySources.isEmpty()) {
-            LOG.trace("Found cached PropertySources. Returning them");
-            return Flowable.fromIterable(propertySources.values());
-        } else {
-            LOG.trace("PropertySource cache is empty");
-            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
-        }
-    }
-
-    /**
-     * A description that describes this object.
-     *
-     * @return The description
-     */
-    @Override
-    public String getDescription() {
-        return KubernetesClient.SERVICE_ID;
     }
 
     /**
@@ -140,29 +118,106 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return propertySources;
     }
 
-    private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
-        Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
-        Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+    /**
+     * Retrieves all of the {@link PropertySource} registrations for the given environment.
+     *
+     * @param environment The environment
+     * @return A {@link Publisher} that emits zero or many {@link PropertySource} instances discovered for the given environment
+     */
+    @Override
+    public Publisher<PropertySource> getPropertySources(Environment environment) {
+        if (!propertySources.isEmpty()) {
+            LOG.trace("Found cached PropertySources. Returning them");
+            return Flowable.fromIterable(propertySources.values());
+        } else {
+            LOG.trace("PropertySource cache is empty");
+            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
+        }
+    }
 
-        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
-                .flatMap(labelSelector -> client.listConfigMaps(configuration.getNamespace(), labelSelector))
-                .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
-                .onErrorReturn(throwable -> new ConfigMapList())
-                .doOnNext(configMapList -> {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
-                    }
-                })
-                .flatMapIterable(ConfigMapList::getItems)
-                .filter(includesFilter)
-                .filter(excludesFilter)
-                .doOnNext(configMap -> {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
-                    }
-                })
-                .map(KubernetesUtils::configMapAsPropertySource);
+    /**
+     * A description that describes this object.
+     *
+     * @return The description
+     */
+    @Override
+    public String getDescription() {
+        return KubernetesClient.SERVICE_ID;
+    }
+
+    private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
+
+        Flowable<PropertySource> propertySourceFlowable = Flowable.empty();
+        if (configuration.getSecrets().isEnabled()) {
+            Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
+            if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reading Secrets from the Kubernetes API");
+                }
+
+
+                Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
+                Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
+                Map<String, String> labels = configuration.getConfigMaps().getLabels();
+
+                propertySourceFlowable = propertySourceFlowable.mergeWith(computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+                        .flatMap(labelSelector -> client.listConfigMaps(configuration.getNamespace(), labelSelector))
+                        .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
+                        .onErrorReturn(throwable -> new ConfigMapList())
+                        .doOnNext(configMapList -> {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
+                            }
+                        })
+                        .flatMapIterable(ConfigMapList::getItems)
+                        .filter(includesFilter)
+                        .filter(excludesFilter)
+                        .doOnNext(configMap -> {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
+                            }
+                        })
+                        .map(KubernetesUtils::configMapAsPropertySource));
+            }
+            if (!mountedVolumePaths.isEmpty()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reading configmap from the following mounted volumes: {}", mountedVolumePaths);
+                }
+
+                List<PropertySource> propertySources = new ArrayList<>();
+                mountedVolumePaths.stream()
+                        .map(Paths::get)
+                        .forEach(path -> {
+                            LOG.trace("Processing path: {}", path);
+                            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                                for (Path file : stream) {
+                                    if (!Files.isDirectory(file)) {
+                                        String key = file.getFileName().toString();
+                                        String value = new String(Files.readAllBytes(file));
+                                        if (LOG.isTraceEnabled()) {
+                                            LOG.trace("Processing key: {}", key);
+                                        }
+                                        final HashMap<String, String> objectObjectHashMap = new HashMap();
+                                        objectObjectHashMap.put(key, value);
+                                        final PropertySource propertySource = configMapAsPropertySource(key, objectObjectHashMap);
+                                        addPropertySourceToCache(propertySource);
+                                        propertySources.add(propertySource);
+                                    }
+                                }
+                            } catch (IOException e) {
+                                LOG.warn("Exception occurred when reading configmap from path: {}", path);
+                                LOG.warn(e.getMessage(), e);
+                            }
+                        });
+
+                propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromIterable(propertySources));
+            }
+        } else {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Kubernetes configmap access is disabled");
+            }
+        }
+        return propertySourceFlowable;
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
