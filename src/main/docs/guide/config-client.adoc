@@ -170,7 +170,7 @@ kubernetes:
 ----
 
 
-## Reading ``ConfigMap``s and ``Secret``s from mounted volumes
+## Reading ``Secret``s from mounted volumes
 
 In the case of ``Secret``s, reading them from the Kubernetes API requires additional permissions, as stated above.
 Therefore, you may want to read them from mounted volumes in the pod.
