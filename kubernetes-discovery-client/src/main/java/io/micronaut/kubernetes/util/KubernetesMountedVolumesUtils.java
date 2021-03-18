@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Utility class with methods to help with ConfigMaps and Secrets read from mounted volumes
+ * Utility class with methods to help with ConfigMaps and Secrets read from mounted volumes.
  *
  * @author Stephane Paulus
  * @since 1.0.0
