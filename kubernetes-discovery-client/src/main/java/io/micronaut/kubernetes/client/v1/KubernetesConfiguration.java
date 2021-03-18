@@ -17,8 +17,6 @@ package io.micronaut.kubernetes.client.v1;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.http.client.HttpClientConfiguration;
@@ -42,7 +40,6 @@ import java.util.Map;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
-@Requires(env = Environment.KUBERNETES)
 @ConfigurationProperties(KubernetesConfiguration.PREFIX)
 @BootstrapContextCompatible
 public class KubernetesConfiguration extends HttpClientConfiguration {
@@ -66,7 +63,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     private boolean secure = KUBERNETES_DEFAULT_SECURE;
     private String namespace;
 
-    private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
+    private final KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
     private KubernetesDiscoveryConfiguration discovery = new KubernetesDiscoveryConfiguration();
     private KubernetesSecretsConfiguration secrets = new KubernetesSecretsConfiguration();
     private KubernetesConfigMapsConfiguration configMaps = new KubernetesConfigMapsConfiguration();

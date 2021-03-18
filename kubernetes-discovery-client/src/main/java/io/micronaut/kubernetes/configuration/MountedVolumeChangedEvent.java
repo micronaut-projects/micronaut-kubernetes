@@ -5,13 +5,15 @@ import io.micronaut.context.event.ApplicationEvent;
 import io.micronaut.core.util.ArgumentUtils;
 import io.micronaut.scheduling.io.watch.event.WatchEventType;
 
-
 import javax.annotation.concurrent.Immutable;
 import java.nio.file.Path;
 import java.nio.file.WatchEvent;
 
 /**
+ * <p>An {@link MountedVolumeChangedEvent} for handling mounted volume changes.</p>
  *
+ * @author Stephane Paulus
+ * @since 1.0.0
  */
 @Immutable
 public class MountedVolumeChangedEvent extends ApplicationEvent {
@@ -22,9 +24,9 @@ public class MountedVolumeChangedEvent extends ApplicationEvent {
     /**
      * Constructs a new file changed event.
      *
-     * @param path      The path
-     * @param isConfigMap      The isConfigMap
-     * @param eventType The event type
+     * @param path        The path
+     * @param isConfigMap The isConfigMap
+     * @param eventType   The event type
      */
     public MountedVolumeChangedEvent(@NonNull Path path, @NonNull boolean isConfigMap, @NonNull WatchEventType eventType) {
         super(path);
@@ -39,9 +41,9 @@ public class MountedVolumeChangedEvent extends ApplicationEvent {
     /**
      * Constructs a new file changed event.
      *
-     * @param path      The path
-     * @param isConfigMap      The isConfigMap
-     * @param eventType The event type
+     * @param path        The path
+     * @param isConfigMap The isConfigMap
+     * @param eventType   The event type
      */
     public MountedVolumeChangedEvent(@NonNull Path path, @NonNull boolean isConfigMap, @NonNull WatchEvent.Kind eventType) {
         this(path, isConfigMap, WatchEventType.of(eventType));

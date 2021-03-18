@@ -96,42 +96,6 @@ public class KubernetesUtils {
         }
     }
 
-    public static PropertySource configMapAsPropertySource(String key, Map<String, String> data) {
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Processing PropertySources for ConfigMap: {}", key);
-        }
-        String name = key + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-
-        if (data == null || data.isEmpty()) {
-            return PropertySource.of(Collections.emptyMap());
-        }
-
-        Map.Entry<String, String> entry = data.entrySet().iterator().next();
-        if (data.size() > 1 || !getExtension(entry.getKey()).isPresent()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
-            }
-            Map<String, Object> propertySourceData = new HashMap<>(data);
-            return PropertySource.of(name, propertySourceData);
-        } else {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Considering this ConfigMap as containing values from a single file");
-            }
-            String extension = getExtension(entry.getKey()).get();
-            int priority = EnvironmentPropertySource.POSITION + 150;
-            PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
-                    .filter(reader -> reader.getExtensions().contains(extension))
-                    .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
-                    .map(map -> PropertySource.of(entry.getKey() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map, priority))
-                    .findFirst()
-                    .orElse(PropertySource.of(Collections.emptyMap()));
-
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-
-            return propertySource;
-        }
-    }
-
     /**
      * Determines the value of a Kubernetes labelSelector filter based on the passed labels.
      *

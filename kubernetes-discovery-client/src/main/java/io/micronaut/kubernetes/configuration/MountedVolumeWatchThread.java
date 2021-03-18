@@ -17,30 +17,26 @@ package io.micronaut.kubernetes.configuration;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import io.micronaut.context.LifeCycle;
+import io.micronaut.context.annotation.Parallel;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
-import io.micronaut.scheduling.io.watch.FileWatchCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.ClosedWatchServiceException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardWatchEventKinds;
 import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
@@ -49,12 +45,17 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import static java.nio.file.StandardWatchEventKinds.ENTRY_MODIFY;
+
 /**
- * Watches for ConfigMap changes.
+ * A watch service that send an event every time a modify event took place in the mounted volumes directory.
+ *
+ *
+ * @author Stephane Paulus
+ * @since 1.0.0
  */
-@Requires(condition = FileWatchCondition.class)
-@Requires(beans = WatchService.class)
-@Requires(property = KubernetesConfiguration.PREFIX + "." + KubernetesConfiguration.PREFIX + ".watch", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
+@Requires(property = KubernetesConfiguration.PREFIX + ".watch", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
+@Parallel
 @Singleton
 public class MountedVolumeWatchThread implements LifeCycle<MountedVolumeWatchThread> {
 
@@ -71,15 +72,13 @@ public class MountedVolumeWatchThread implements LifeCycle<MountedVolumeWatchThr
      *
      * @param eventPublisher The event publisher
      * @param configuration  the configuration
-     * @param watchService   the watch service
      */
     protected MountedVolumeWatchThread(
             ApplicationEventPublisher eventPublisher,
-            KubernetesConfiguration configuration,
-            WatchService watchService) {
+            KubernetesConfiguration configuration) throws IOException {
         this.eventPublisher = eventPublisher;
         this.configuration = configuration;
-        this.watchService = watchService;
+        this.watchService = FileSystems.getDefault().newWatchService();
     }
 
     @Override
@@ -95,26 +94,25 @@ public class MountedVolumeWatchThread implements LifeCycle<MountedVolumeWatchThr
             if (!configMapPaths.isEmpty()) {
                 for (Path path : configMapPaths) {
                     if (path.toFile().exists()) {
-                        addConfigMapWatchDirectory(path);
+                        addMountedVolumeWatchDirectory(path, true);
                     }
                 }
             }
-
             final List<Path> secretPaths = configuration.getSecrets().getPaths().stream().map(Paths::get).collect(Collectors.toList());
             if (!secretPaths.isEmpty()) {
                 for (Path path : secretPaths) {
                     if (path.toFile().exists()) {
-                        addSecretWatchDirectory(path);
+                        addMountedVolumeWatchDirectory(path, false);
                     }
                 }
             }
 
-            if (!configMapWatchKeys.isEmpty()) {
+            if (!(secretWatchKeys.isEmpty() && configMapWatchKeys.isEmpty())) {
                 new Thread(() -> {
                     while (active.get()) {
                         try {
                             WatchKey watchKey = watchService.poll(Duration.ofMillis(300).toMillis(), TimeUnit.MILLISECONDS);
-                            if (watchKey != null && configMapWatchKeys.contains(watchKey)) {
+                            if (watchKey != null && (secretWatchKeys.contains(watchKey) || configMapWatchKeys.contains(watchKey))) {
                                 List<WatchEvent<?>> watchEvents = watchKey.pollEvents();
                                 for (WatchEvent<?> watchEvent : watchEvents) {
                                     WatchEvent.Kind<?> kind = watchEvent.kind();
@@ -125,13 +123,14 @@ public class MountedVolumeWatchThread implements LifeCycle<MountedVolumeWatchThr
                                     } else {
                                         final Object context = watchEvent.context();
                                         if (context instanceof Path) {
-
+                                            Path dir = (Path) watchKey.watchable();
+                                            Path fullPath = dir.resolve(context.toString());
                                             if (LOG.isDebugEnabled()) {
                                                 LOG.debug("File at path {} changed. Firing change event: {}", context, kind);
                                             }
                                             eventPublisher.publishEvent(new MountedVolumeChangedEvent(
-                                                    (Path) context,
-                                                    true,
+                                                    fullPath,
+                                                    configMapWatchKeys.contains(watchKey),
                                                     kind
                                             ));
                                         }
@@ -143,44 +142,7 @@ public class MountedVolumeWatchThread implements LifeCycle<MountedVolumeWatchThr
                             // ignore
                         }
                     }
-                }, "micronaut-configmapwatch-thread").start();
-            }
-
-            if (!secretWatchKeys.isEmpty()) {
-                new Thread(() -> {
-                    while (active.get()) {
-                        try {
-                            WatchKey watchKey = watchService.poll(Duration.ofMillis(300).toMillis(), TimeUnit.MILLISECONDS);
-                            if (watchKey != null && secretWatchKeys.contains(watchKey)) {
-                                List<WatchEvent<?>> watchEvents = watchKey.pollEvents();
-                                for (WatchEvent<?> watchEvent : watchEvents) {
-                                    WatchEvent.Kind<?> kind = watchEvent.kind();
-                                    if (kind == StandardWatchEventKinds.OVERFLOW) {
-                                        if (LOG.isWarnEnabled()) {
-                                            LOG.warn("WatchService Overflow occurred");
-                                        }
-                                    } else {
-                                        final Object context = watchEvent.context();
-                                        if (context instanceof Path) {
-
-                                            if (LOG.isDebugEnabled()) {
-                                                LOG.debug("File at path {} changed. Firing change event: {}", context, kind);
-                                            }
-                                            eventPublisher.publishEvent(new MountedVolumeChangedEvent(
-                                                    (Path) context,
-                                                    false,
-                                                    kind
-                                            ));
-                                        }
-                                    }
-                                }
-                                watchKey.reset();
-                            }
-                        } catch (InterruptedException | ClosedWatchServiceException e) {
-                            // ignore
-                        }
-                    }
-                }, "micronaut-configmapwatch-thread").start();
+                }, "micronaut-mounted-volume-watch-thread").start();
             }
         } catch (IOException e) {
             if (LOG.isErrorEnabled()) {
@@ -224,55 +186,12 @@ public class MountedVolumeWatchThread implements LifeCycle<MountedVolumeWatchThr
         }
     }
 
-    /**
-     * Registers a patch to watch.
-     *
-     * @param dir The directory to watch
-     * @return The watch key
-     * @throws IOException if an error occurs.
-     */
-    protected @NonNull
-    WatchKey registerPath(@NonNull Path dir) throws IOException {
-        return dir.register(watchService,
-                StandardWatchEventKinds.ENTRY_CREATE,
-                StandardWatchEventKinds.ENTRY_DELETE,
-                StandardWatchEventKinds.ENTRY_MODIFY
-        );
-    }
-
-    private boolean isValidDirectoryToMonitor(File file) {
-        return file.isDirectory() && !file.isHidden() && !file.getName().startsWith(".");
-    }
-
-    private Path addConfigMapWatchDirectory(Path p) throws IOException {
-        return Files.walkFileTree(p, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException {
-
-                if (!isValidDirectoryToMonitor(dir.toFile())) {
-                    return FileVisitResult.SKIP_SUBTREE;
-                }
-                WatchKey watchKey = registerPath(dir);
-                configMapWatchKeys.add(watchKey);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-    }
-
-    private Path addSecretWatchDirectory(Path p) throws IOException {
-        return Files.walkFileTree(p, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs)
-                    throws IOException {
-
-                if (!isValidDirectoryToMonitor(dir.toFile())) {
-                    return FileVisitResult.SKIP_SUBTREE;
-                }
-                WatchKey watchKey = registerPath(dir);
-                secretWatchKeys.add(watchKey);
-                return FileVisitResult.CONTINUE;
-            }
-        });
+    private void addMountedVolumeWatchDirectory(Path p, boolean isConfigmap) throws IOException {
+        WatchKey key = p.register(watchService, ENTRY_MODIFY);
+        if (isConfigmap) {
+            configMapWatchKeys.add(key);
+        } else {
+            secretWatchKeys.add(key);
+        }
     }
 }
