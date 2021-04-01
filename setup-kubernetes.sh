@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
-
+######################################
+# Setup script for local developemnt #
+######################################
 set -ex
 
 CLUSTER_NAME=${1:-kind}

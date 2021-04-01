@@ -11,6 +11,7 @@ import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
+import spock.lang.Ignore
 import spock.lang.Requires
 import spock.lang.Shared
 
@@ -174,6 +175,22 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
 
         then:
         instanceList.size() == 2
+
+        cleanup:
+        applicationContext.close()
+    }
+
+    @Ignore
+    void "it doesn't fail when service endpoint has no ip addresses"() {
+        given:
+        operations.createService()
+
+        when:
+        def config = createConfig("example-client", true)
+        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+
+        then:
+        instanceList.size() == 1
 
         cleanup:
         applicationContext.close()
