@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 ######################################
-# Setup script for local developemnt #
+# Setup script for local developemnt   #
 ######################################
 set -ex
 

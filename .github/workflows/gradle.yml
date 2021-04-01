@@ -39,7 +39,9 @@ jobs:
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
-        run: ./gradlew dependencyUpdates check --continue
+        run: |
+          ./gradlew dependencyUpdates check --continue
+          kind delete cluster kind
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to Sonatype Snapshots
