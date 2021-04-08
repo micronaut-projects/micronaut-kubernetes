@@ -80,7 +80,7 @@ jobs:
             --wait-for-state RUNNING \
           --image-id $OCI_RUNNER_IMAGE \
           --availability-domain "${OCI_AV_DOMAIN}" \
-          --shape VM.Standard.E2.4)
+          --shape VM.Standard2.4)
           echo $RESPONSE
           INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
           echo "::set-output name=instance_id::${INSTANCE_ID}"
