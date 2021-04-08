@@ -80,15 +80,15 @@ jobs:
             --wait-for-state RUNNING \
           --image-id $OCI_RUNNER_IMAGE \
           --availability-domain "${OCI_AV_DOMAIN}" \
-          --shape VM.Standard.E4.Flex \
-          --shape-config "{\"ocpus\": 4, \"memoryInGBs\":32}")
+          --shape VM.Standard.E2.4)
+
           INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
           echo "::set-output name=instance_id::${INSTANCE_ID}"
           echo "::set-output name=label::${GITHUB_RUN_ID}"
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner
-    runs-on: ${{ needs.start-runner.label }}
+    runs-on: ${{ needs.start-runner.outputs.label }}
     strategy:
       matrix:
         java: ['8', '11', '15']
