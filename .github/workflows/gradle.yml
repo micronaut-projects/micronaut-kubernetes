@@ -108,12 +108,12 @@ jobs:
       - name: Optional setup step
         env:
           K8S_VERSION: ${{ matrix.k8s }}
+          JAVA_VERSION: ${{ matrix.java }}
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
         run: |
           ./gradlew dependencyUpdates check --continue
-          kind delete cluster kind
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to Sonatype Snapshots

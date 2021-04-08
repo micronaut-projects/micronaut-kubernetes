@@ -49,7 +49,9 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VER
 curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ./kind
 #
 # Create a cluster
-./kind create cluster --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
+KIND_CLUSTER=$(echo $K8S_VERSION | tr -cd '[:alnum:]')
+KIND_CLUSTER_NAME="k8s${KIND_CLUSTER}java${JAVA_VERSION}"
+./kind create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
 ./kubectl cluster-info
 ./kubectl version
 
@@ -60,6 +62,6 @@ curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64
 # Build the Docker images
 ./gradlew dockerBuild --stacktrace
 docker images | grep micronaut
-./kind load docker-image micronaut-kubernetes-example-service:latest
-./kind load docker-image micronaut-kubernetes-example-client:latest
-./kind load docker-image micronaut-kubernetes-client-example:latest
+./kind load docker-image --name ${KIND_CLUSTER_NAME} micronaut-kubernetes-example-service:latest
+./kind load docker-image --name ${KIND_CLUSTER_NAME} micronaut-kubernetes-example-client:latest
+./kind load docker-image --name ${KIND_CLUSTER_NAME} micronaut-kubernetes-client-example:latest
