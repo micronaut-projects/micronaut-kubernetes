@@ -81,11 +81,10 @@ jobs:
           --image-id $OCI_RUNNER_IMAGE \
           --availability-domain "${OCI_AV_DOMAIN}" \
           --shape VM.Standard2.4)
-          echo $RESPONSE
           INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
           echo "::set-output name=instance_id::${INSTANCE_ID}"
           echo "::set-output name=label::${GITHUB_RUN_ID}"
-          sleep 10
+          sleep 20
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner
@@ -179,4 +178,4 @@ jobs:
           RUNNER_LABEL: ${{ needs.start-runner.outputs.label }}
           INSTANCE_ID: ${{ needs.start-runner.outputs.instance_id }}
         run: |
-          echo "oci compute instance terminate --instance-id "${INSTANCE_ID}"  --wait-for-state TERMINATED --force"
+          oci compute instance terminate --instance-id "${INSTANCE_ID}"  --wait-for-state TERMINATED --force

@@ -40,28 +40,26 @@ fi
 KIND_NODE_IMAGE_VERSION="kindest/node:${KIND_NODE_IMAGE_VERSION}"
 echo "KIND_NODE_IMAGE_VERSION = $KIND_NODE_IMAGE_VERSION"
 
-sudo apt-get update
-
 #
 # Download and install kubectl
-curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x kubectl
 
 #
 # Download and install kind
-curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ./kind && sudo mv kind /usr/local/bin/
+curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ./kind
 #
 # Create a cluster
-kind create cluster --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
-kubectl cluster-info
-kubectl version
+./kind create cluster --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
+./kubectl cluster-info
+./kubectl version
 
 #
 # Run Kubernetes API proxy
-kubectl proxy &
+./kubectl proxy &
 
 # Build the Docker images
 ./gradlew dockerBuild --stacktrace
 docker images | grep micronaut
-kind load docker-image micronaut-kubernetes-example-service:latest
-kind load docker-image micronaut-kubernetes-example-client:latest
-kind load docker-image micronaut-kubernetes-client-example:latest
+./kind load docker-image micronaut-kubernetes-example-service:latest
+./kind load docker-image micronaut-kubernetes-example-client:latest
+./kind load docker-image micronaut-kubernetes-client-example:latest
