@@ -67,7 +67,7 @@ jobs:
           curl -o actions-runner-linux-x64-2.277.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.277.1/actions-runner-linux-x64-2.277.1.tar.gz
           tar xzf ./actions-runner-linux-x64-2.277.1.tar.gz
           chown -R github-runner:github-runner .
-          sudo -u github-runner ./config.sh --name ${GITHUB_WORKFLOW}${GITHUB_RUN_ID} --url https://github.com/${GITHUB_REPOSITORY} --token ${RUNNER_TOKEN} --labels ${GITHUB_RUN_ID}
+          sudo -u github-runner ./config.sh --name "${GITHUB_WORKFLOW}${GITHUB_RUN_ID}" --url https://github.com/${GITHUB_REPOSITORY} --token ${RUNNER_TOKEN} --labels ${GITHUB_RUN_ID}
           sudo -u github-runner ./svc.sh install
           sudo -u github-runner ./svc.sh start
           EOM
@@ -82,10 +82,11 @@ jobs:
           --image-id $OCI_RUNNER_IMAGE \
           --availability-domain "${OCI_AV_DOMAIN}" \
           --shape VM.Standard.E2.4)
-
+          echo $RESPONSE
           INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
           echo "::set-output name=instance_id::${INSTANCE_ID}"
           echo "::set-output name=label::${GITHUB_RUN_ID}"
+          sleep 10
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner
