@@ -84,7 +84,7 @@ jobs:
           INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
           echo "::set-output name=instance_id::${INSTANCE_ID}"
           echo "::set-output name=label::${GITHUB_RUN_ID}"
-          sleep 20
+          sleep 60
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner

@@ -57,6 +57,7 @@ KIND_CLUSTER_NAME="k8s${KIND_CLUSTER}java${JAVA_VERSION}"
 
 #
 # Run Kubernetes API proxy
+pkill -9 kubectl || true
 ./kubectl proxy &
 
 # Build the Docker images
