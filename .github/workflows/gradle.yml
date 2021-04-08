@@ -68,7 +68,8 @@ jobs:
           tar xzf ./actions-runner-linux-x64-2.277.1.tar.gz
           chown -R github-runner:github-runner .
           sudo -u github-runner ./config.sh --name ${GITHUB_WORKFLOW}${GITHUB_RUN_ID} --url https://github.com/${GITHUB_REPOSITORY} --token ${RUNNER_TOKEN} --labels ${GITHUB_RUN_ID}
-          sudo -u github-runner ./run.sh &
+          sudo -u github-runner ./svc.sh install
+          sudo -u github-runner ./svc.sh start
           EOM
           )
           USER_DATA=$(echo "$USER_DATA_RAW" | base64 -w 0)
