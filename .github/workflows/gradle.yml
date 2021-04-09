@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       label: ${{ steps.start-runner.outputs.label }}
-      instance_id: ${{ steps.start-runner.outputs.instance_id }}
     steps:
       - name: Install OCI CLI
         run: |
@@ -72,17 +71,19 @@ jobs:
           EOM
           )
           USER_DATA=$(echo "$USER_DATA_RAW" | base64 -w 0)
+          FREEFORM_TAGS="{\"repository\": \"${GITHUB_REPOSITORY}\", \"label\":\"${GITHUB_RUN_ID}\"}"
           INSTANCE_NAME=$( echo "${GITHUB_WORKFLOW}${GITHUB_RUN_ID}" | sed 's/[[:space:]]//g')
           RESPONSE=$(oci compute instance launch --compartment-id "${OCI_COMPARTMENT}" \
             --metadata "{\"user_data\": \"$USER_DATA\"}" \
             --display-name "${INSTANCE_NAME}" \
             --subnet-id "${OCI_SUBNET}" \
             --wait-for-state RUNNING \
-          --image-id $OCI_RUNNER_IMAGE \
-          --availability-domain "${OCI_AV_DOMAIN}" \
-          --shape VM.Standard2.4)
+            --image-id $OCI_RUNNER_IMAGE \
+            --availability-domain "${OCI_AV_DOMAIN}" \
+            --shape VM.Standard2.4 \
+            --freeform-tags "${FREEFORM_TAGS}"
+          )
           INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
-          echo "::set-output name=instance_id::${INSTANCE_ID}"
           echo "::set-output name=label::${GITHUB_RUN_ID}"
           sleep 60
   build:
@@ -183,6 +184,11 @@ jobs:
         env:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           RUNNER_LABEL: ${{ needs.start-runner.outputs.label }}
-          INSTANCE_ID: ${{ needs.start-runner.outputs.instance_id }}
+          OCI_COMPARTMENT: ${{ secrets.OCI_COMPARTMENT }}
         run: |
-          oci compute instance terminate --instance-id "${INSTANCE_ID}"  --wait-for-state TERMINATED --force
+          for ID in $(oci compute instance list --compartment-id $OCI_COMPARTMENT | \
+           jq -r ".data[] | select( .\"freeform-tags\".repository == \"$GITHUB_REPOSITORY\" and .\"freeform-tags\".label == \"$RUNNER_LABEL\" ) | .id")
+          do
+            echo "Deleting instance $ID"
+            oci compute instance terminate --instance-id "$ID"  --wait-for-state TERMINATED --force
+          done
