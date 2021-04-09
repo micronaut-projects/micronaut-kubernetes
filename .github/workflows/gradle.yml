@@ -117,6 +117,12 @@ jobs:
           ./gradlew dependencyUpdates check --continue --no-build-cache
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
+      - name: Optional tear down step
+        env:
+          K8S_VERSION: ${{ matrix.k8s }}
+          JAVA_VERSION: ${{ matrix.java }}
+        run: |
+          [ -f ./teardown.sh ] && ./teardown.sh || true
       - name: Publish to Sonatype Snapshots
         if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
         env:
