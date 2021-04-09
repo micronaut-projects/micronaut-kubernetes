@@ -114,7 +114,7 @@ jobs:
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
         run: |
-          ./gradlew dependencyUpdates check --continue
+          ./gradlew dependencyUpdates check --continue --no-build-cache
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Publish to Sonatype Snapshots
