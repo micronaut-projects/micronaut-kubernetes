@@ -94,6 +94,7 @@ jobs:
         java: ['8', '11', '15']
         k8s: ['1.16', '1.17', '1.18', '1.19']
     steps:
+      - uses: AutoModality/action-clean@v1
       - uses: actions/checkout@v2
       - uses: actions/cache@v2.1.4
         with:
