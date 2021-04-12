@@ -59,7 +59,8 @@ jobs:
           REGISTRATION_TOKEN_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runners/registration-token"
           export RUNNER_TOKEN=$(curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${REGISTRATION_TOKEN_URL}  | jq -r '.token')
 
-          for NUMBER in 1 2 3;
+          RUNNERS_COUNT=${RUNNERS_COUNT:=1}
+          for NUMBER in $(seq ${RUNNERS_COUNT});
           do
             USER_DATA_RAW=$(
               cat <<EOM
