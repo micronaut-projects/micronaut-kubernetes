@@ -16,7 +16,10 @@
 package io.micronaut.kubernetes.discovery;
 
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.v1.*;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
+import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration;
+import io.micronaut.kubernetes.client.v1.Metadata;
+import io.micronaut.kubernetes.client.v1.Port;
 import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,18 +40,19 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesServiceInstanceProvider.class);
 
     /**
-     * Validates the necessity of having port configuration based on numbe of {@code ports}.
-     * @param ports list of ports
+     * Validates the necessity of having port configuration based on number of declared {@code ports}.
+     *
+     * @param ports                list of ports
      * @param serviceConfiguration service configuration
-     * @throws IllegalArgumentException if the configuration is invalid e.g. is missing port configuration
      * @return true if the port configuration is valid otherwise false
      */
     public boolean hasValidPortConfiguration(List<Port> ports, KubernetesServiceConfiguration serviceConfiguration) {
+        final String name = serviceConfiguration.getName().orElse(null);
+        if (name != null && ports != null && ports.size() > 1 && !serviceConfiguration.getPort().isPresent()) {
+            LOG.debug("The resource [" + name + "] has multiple ports declared ["
+                    + ports.stream().map(Port::getName).collect(Collectors.joining(",")) +
+                    "] if you want to to use it in micronaut you have to configure it manually.");
 
-        if (ports != null && ports.size() > 1 && !serviceConfiguration.getPort().isPresent()) {
-            LOG.error("The resource [" + serviceConfiguration.getName().get() + "] has multiple ports specified [" +
-                    ports.stream().map(Port::getName).collect(Collectors.joining(",")) +
-                    "] but none is configured.");
             return false;
         }
         return true;
@@ -58,9 +62,9 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * Builds service instance.
      *
      * @param serviceId service id
-     * @param port port
-     * @param address address
-     * @param metadata metadata
+     * @param port      port
+     * @param address   address
+     * @param metadata  metadata
      * @return service instance
      */
     public ServiceInstance buildServiceInstance(String serviceId, Port port, InetAddress address, Metadata metadata) {
