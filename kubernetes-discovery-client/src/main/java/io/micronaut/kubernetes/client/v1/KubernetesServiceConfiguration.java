@@ -152,4 +152,16 @@ public class KubernetesServiceConfiguration {
     public boolean isManual() {
         return manual;
     }
+
+    @Override
+    public String toString() {
+        return "KubernetesServiceConfiguration{" +
+                "serviceId='" + serviceId + '\'' +
+                ", name='" + name + '\'' +
+                ", namespace='" + namespace + '\'' +
+                ", mode='" + mode + '\'' +
+                ", port='" + port + '\'' +
+                ", manual=" + manual +
+                '}';
+    }
 }
