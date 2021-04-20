@@ -92,6 +92,7 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
                 .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
                 .flatMapIterable(Endpoints::getSubsets)
                 .filter(subset -> hasValidPortConfiguration(subset.getPorts(), serviceConfiguration))
+                .filter(subset -> subset.getAddresses() != null && !subset.getAddresses().isEmpty())
                 .map(subset -> subset
                         .getPorts()
                         .stream()
