@@ -86,7 +86,8 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
         return Flowable.fromPublisher(client.getService(serviceNamespace, serviceName))
                 .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
-                        LOG.error("Error while trying to get Service {}", serviceConfiguration, throwable);
+                        LOG.error("Error while trying to get Service [" + serviceName + "] in the namespace [" +
+                                serviceNamespace + "]", throwable);
                     }
                 })
                 .filter(globalFilter)
