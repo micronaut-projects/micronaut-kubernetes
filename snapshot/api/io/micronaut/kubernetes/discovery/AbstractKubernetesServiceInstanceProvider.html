@@ -198,7 +198,7 @@ implements <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServ
 <td class="colFirst"><code>boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#hasValidPortConfiguration-java.util.List-io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration-">hasValidPortConfiguration</a></span>(java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a>&gt;&nbsp;ports,
                          <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a>&nbsp;serviceConfiguration)</code>
-<div class="block">Validates the necessity of having port configuration based on numbe of <code>ports</code>.</div>
+<div class="block">Validates the necessity of having port configuration based on number of declared <code>ports</code>.</div>
 </td>
 </tr>
 </table>
@@ -272,15 +272,13 @@ implements <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServ
 <h4>hasValidPortConfiguration</h4>
 <pre>public&nbsp;boolean&nbsp;hasValidPortConfiguration(java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/Port.html" title="class in io.micronaut.kubernetes.client.v1">Port</a>&gt;&nbsp;ports,
                                          <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a>&nbsp;serviceConfiguration)</pre>
-<div class="block">Validates the necessity of having port configuration based on numbe of <code>ports</code>.</div>
+<div class="block">Validates the necessity of having port configuration based on number of declared <code>ports</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>ports</code> - list of ports</dd>
 <dd><code>serviceConfiguration</code> - service configuration</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>true if the port configuration is valid otherwise false</dd>
-<dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.lang.IllegalArgumentException</code> - if the configuration is invalid e.g. is missing port configuration</dd>
 </dl>
 </li>
 </ul>
