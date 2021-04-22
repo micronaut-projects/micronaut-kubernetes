@@ -80,14 +80,13 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
         }
 
         if (LOG.isTraceEnabled()) {
-            LOG.trace(String.format("Fetching service %s in namespace %s", serviceName, serviceNamespace));
+            LOG.trace("Fetching Service {}", serviceConfiguration);
         }
 
         return Flowable.fromPublisher(client.getService(serviceNamespace, serviceName))
                 .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
-                        LOG.error("Error while trying to list Kubernetes Services in the namespace [" +
-                                serviceNamespace + "]", throwable);
+                        LOG.error("Error while trying to get Service {}", serviceConfiguration, throwable);
                     }
                 })
                 .filter(globalFilter)

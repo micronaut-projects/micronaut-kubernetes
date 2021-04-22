@@ -78,20 +78,20 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
         }
 
         if (LOG.isTraceEnabled()) {
-            LOG.trace(String.format("Fetching service %s endpoints in namespace %s", serviceName, serviceNamespace));
+            LOG.trace("Fetching Endpoints {}", serviceConfiguration);
         }
 
         return Flowable.fromPublisher(client.getEndpoints(serviceNamespace, serviceName))
                 .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
-                        LOG.error("Error while trying to list Kubernetes Endpoints [" + serviceName +
-                                "] in the namespace [" + serviceNamespace + "]", throwable);
+                        LOG.error("Error while trying to list Endpoints {}", serviceConfiguration, throwable);
                     }
                 })
                 .filter(globalFilter)
                 .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
                 .flatMapIterable(Endpoints::getSubsets)
                 .filter(subset -> hasValidPortConfiguration(subset.getPorts(), serviceConfiguration))
+                .filter(subset -> subset.getAddresses() != null && !subset.getAddresses().isEmpty())
                 .map(subset -> subset
                         .getPorts()
                         .stream()
