@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: AutoModality/action-clean@v1
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v2.1.5
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
