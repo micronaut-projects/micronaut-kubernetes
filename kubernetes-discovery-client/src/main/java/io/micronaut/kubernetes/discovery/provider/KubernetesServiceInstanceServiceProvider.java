@@ -28,8 +28,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 import java.net.InetAddress;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
