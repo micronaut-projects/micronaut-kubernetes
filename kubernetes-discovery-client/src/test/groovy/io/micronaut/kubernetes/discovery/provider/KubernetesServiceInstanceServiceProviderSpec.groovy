@@ -127,8 +127,10 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         then:
         instanceList.size() == 1
-        instanceList.first().URI.toString() == "launch.micronaut.io"
-
+        with(instanceList.first()) {
+            it.toString().startsWith("http://")
+            it.toString().endsWith(":80")
+        }
     }
 
     void "it ignores includes filter for manually configured service"() {
