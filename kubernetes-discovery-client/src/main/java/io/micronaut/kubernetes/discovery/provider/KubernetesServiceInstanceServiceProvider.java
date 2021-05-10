@@ -131,6 +131,9 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
             } else {
                 uriString = service.getSpec().getExternalName();
             }
+            if(LOG.isTraceEnabled()){
+                LOG.trace("Building {} type service: {}", EXTERNAL_NAME, uriString);
+            }
             return ServiceInstance
                     .builder(serviceConfiguration.getServiceId(), new URI(uriString))
                     .metadata(service.getMetadata().getLabels())
