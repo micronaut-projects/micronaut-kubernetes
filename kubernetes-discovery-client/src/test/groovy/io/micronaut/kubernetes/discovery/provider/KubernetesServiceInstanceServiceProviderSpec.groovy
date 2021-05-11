@@ -1,6 +1,8 @@
 package io.micronaut.kubernetes.discovery.provider
 
 import io.fabric8.kubernetes.api.model.IntOrString
+import io.fabric8.kubernetes.api.model.Service
+import io.fabric8.kubernetes.api.model.ServicePort
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
 import io.micronaut.context.ApplicationContext
@@ -113,24 +115,54 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         operations.deleteNamespace("other-namespace")
     }
 
-    void "it can get service externale when using mode service"(){
+    void "it can get external https service when using mode service"(){
         given:
-        operations.createService("external-service", namespace,
+        Service service = operations.createService("external-service-https", namespace,
+                new ServiceSpecBuilder()
+                        .withType("ExternalName")
+                        .withExternalName("launch.micronaut.io")
+                        .withPorts(new ServicePortBuilder()
+                                .withPort(443)
+                                .withTargetPort(new IntOrString(443))
+                                .build())
+                        .build())
+
+        when:
+        def config = createConfig("external-service-https")
+        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+
+        then:
+        instanceList.size() == 1
+        with(instanceList.first().getURI().toString()){
+            it.startsWith("https://")
+            it.endsWith(":443")
+        }
+
+        cleanup:
+        operations.deleteService(service)
+    }
+
+    void "it can get external http service when using mode service"(){
+        given:
+        Service service = operations.createService("external-service-http", namespace,
                 new ServiceSpecBuilder()
                         .withType("ExternalName")
                         .withExternalName("launch.micronaut.io")
                         .build())
 
         when:
-        def config = createConfig("external-service")
+        def config = createConfig("external-service-http")
         def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
 
         then:
         instanceList.size() == 1
-        with(instanceList.first()) {
-            it.toString().startsWith("http://")
-            it.toString().endsWith(":80")
+        with(instanceList.first().getURI().toString()){
+            it.startsWith("http://")
+            it.endsWith(":80")
         }
+
+        cleanup:
+        operations.deleteService(service)
     }
 
     void "it ignores includes filter for manually configured service"() {

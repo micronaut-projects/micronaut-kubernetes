@@ -115,10 +115,6 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
             final List<Port> ports = service.getSpec().getPorts();
             final InetAddress inetAddress = InetAddress.getByName(service.getSpec().getExternalName());
 
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Found {} type service: {}", EXTERNAL_NAME, service.getSpec());
-            }
-
             Port port = null;
             if (ports != null && !ports.isEmpty()) {
                 port = ports.stream()

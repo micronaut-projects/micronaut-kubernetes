@@ -255,6 +255,10 @@ class KubernetesOperations implements Closeable {
     ServiceList listServices(String namespace) {
         return getClient(namespace).services().inNamespace(namespace).list()
     }
+
+    void deleteService(Service service){
+        getClient(service.metadata.namespace).services().delete(service);
+    }
     
     SecretList listSecrets(String namespace){
         return getClient(namespace).secrets().inNamespace(namespace).list()
