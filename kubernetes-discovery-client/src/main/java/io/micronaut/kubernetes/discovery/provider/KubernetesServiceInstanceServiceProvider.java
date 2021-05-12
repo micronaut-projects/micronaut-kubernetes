@@ -27,8 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -103,7 +103,7 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
     }
 
     private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, Service service)
-            throws URISyntaxException {
+            throws UnknownHostException {
 
         if (service.getSpec().getClusterIp() != null) {
             return service.getSpec().getPorts().stream()
@@ -112,11 +112,12 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                     .findFirst().orElse(null);
 
         } else if (service.getSpec().getType().equals(EXTERNAL_NAME)) {
-            String uriString;
-            List<Port> ports = service.getSpec().getPorts();
+            final List<Port> ports = service.getSpec().getPorts();
+            final InetAddress inetAddress = InetAddress.getByName(service.getSpec().getExternalName());
 
+            Port port = null;
             if (ports != null && !ports.isEmpty()) {
-                Port port = ports.stream()
+                port = ports.stream()
                         .filter(p -> !serviceConfiguration.getPort().isPresent() || p.getName().equals(serviceConfiguration.getPort().get()))
                         .findFirst().orElse(null);
                 if (port == null) {
@@ -127,14 +128,9 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                     }
                     return null;
                 }
-                uriString = service.getSpec().getExternalName() + ":" + port.getPort();
-            } else {
-                uriString = service.getSpec().getExternalName();
             }
-            return ServiceInstance
-                    .builder(serviceConfiguration.getServiceId(), new URI(uriString))
-                    .metadata(service.getMetadata().getLabels())
-                    .build();
+
+            return buildServiceInstance(serviceConfiguration.getServiceId(), port, inetAddress, service.getMetadata());
         } else {
             if (LOG.isErrorEnabled()) {
                 LOG.error("Failed to create service instance for [" + serviceConfiguration.getServiceId() + "]");

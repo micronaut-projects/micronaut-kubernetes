@@ -24,6 +24,7 @@ import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.List;
@@ -67,12 +68,13 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @param metadata  metadata
      * @return service instance
      */
-    public ServiceInstance buildServiceInstance(String serviceId, Port port, InetAddress address, Metadata metadata) {
-        boolean isSecure = port.isSecure() || metadata.isSecure();
+    public ServiceInstance buildServiceInstance(String serviceId, @Nullable Port port, InetAddress address, Metadata metadata) {
+        boolean isSecure = (port != null && port.isSecure()) || metadata.isSecure();
         String scheme = isSecure ? "https://" : "http://";
-        URI uri = URI.create(scheme + address.getHostAddress() + ":" + port.getPort());
+        int portNumber = port != null ? port.getPort() : 80;
+        URI uri = URI.create(scheme + address.getHostAddress() + ":" + portNumber);
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri.toString());
+            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri);
         }
         return ServiceInstance
                 .builder(serviceId, uri)
