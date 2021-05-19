@@ -128,7 +128,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      */
     static void removePropertySourceFromCache(String name) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Removing property source {} to cache", name);
+            LOG.trace("Removing property source {} from cache", name);
         }
         propertySources.remove(name);
     }

@@ -144,7 +144,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            environment.addPropertySource(propertySource);
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
             environment.refresh();
         }
@@ -156,8 +155,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            environment.removePropertySource(propertySource);
-            environment.addPropertySource(propertySource);
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
             environment.refresh();
@@ -170,7 +167,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            environment.removePropertySource(propertySource);
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
             environment.refresh();
         }
