@@ -112,7 +112,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>@Singleton
- @Requires(env="k8s") @Requires(beans={<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient.class</a>,<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration.class</a>}) @Requires(property="kubernetes.client.discovery.enabled",notEquals="false")
+ @Requires(env="k8s") @Requires(beans={<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient.class</a>,<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration.class</a>}) @Requires(property="kubernetes.client.discovery.enabled",notEquals="false",defaultValue="true")
 public class <span class="typeNameLabel">KubernetesDiscoveryClient</span>
 extends java.lang.Object
 implements io.micronaut.discovery.DiscoveryClient</pre>
