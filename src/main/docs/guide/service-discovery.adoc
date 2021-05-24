@@ -81,7 +81,7 @@ kubernetes:
   client:
     discovery:
       services:
-      - my-service:
+        my-service:
           port: http
 ----
 
@@ -112,7 +112,7 @@ kubernetes:
   client:
     discovery:
       services:
-      - my-service:
+        my-service:
           mode: endpoint
 ----
 
@@ -138,7 +138,7 @@ kubernetes:
   client:
     discovery:
       services:
-      - my-service:
+        my-service:
           mode: service
 ----
 
