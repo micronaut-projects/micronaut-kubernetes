@@ -19,6 +19,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventListener;
+import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
@@ -26,6 +27,7 @@ import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
@@ -55,18 +57,20 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
 
-    private Environment environment;
+    private final Environment environment;
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
     private final ExecutorService executorService;
+    private final ApplicationEventPublisher eventPublisher;
 
     /**
      * @param environment the {@link Environment}
      * @param client the {{@link KubernetesClient}}
      * @param configuration the {@link KubernetesConfiguration}
      * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
+     * @param eventPublisher the {@link ApplicationEventPublisher}
      */
-    public KubernetesConfigMapWatcher(Environment environment, KubernetesClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService) {
+    public KubernetesConfigMapWatcher(Environment environment, KubernetesClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
@@ -75,6 +79,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         this.client = client;
         this.configuration = configuration;
         this.executorService = executorService;
+        this.eventPublisher = eventPublisher;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -101,7 +106,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     private long computeLastResourceVersion() {
-        long lastResourceVersion = this.environment
+        long lastResourceVersion = environment
                 .getPropertySources()
                 .stream()
                 .filter(propertySource -> propertySource.getName().endsWith(KUBERNETES_CONFIG_MAP_NAME_SUFFIX))
@@ -144,9 +149,8 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            this.environment.addPropertySource(propertySource);
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-            this.environment = environment.refresh();
+            refreshEnvironment();
         }
     }
 
@@ -156,11 +160,9 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            this.environment.removePropertySource(propertySource);
-            this.environment.addPropertySource(propertySource);
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-            this.environment = environment.refresh();
+            refreshEnvironment();
         }
     }
 
@@ -170,9 +172,23 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            this.environment.removePropertySource(propertySource);
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
-            this.environment = environment.refresh();
+            refreshEnvironment();
+        }
+    }
+
+    /**
+     * Send a {@link RefreshEvent} when a {@link ConfigMap} change affects the {@link Environment}
+     *
+     * @see io.micronaut.management.endpoint.refresh.RefreshEndpoint#refresh(Boolean)
+     */
+    private void refreshEnvironment() {
+        final Map<String, Object> changes = environment.refreshAndDiff();
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Changes in ConfigMap property sources: [{}]", String.join(", ", changes.keySet()));
+        }
+        if (!changes.isEmpty()) {
+            eventPublisher.publishEvent(new RefreshEvent(changes));
         }
     }
 
