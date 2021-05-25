@@ -49,7 +49,8 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
 
         then:
-        propertySources.size() == 0
+        propertySources.size() == 1
+        propertySources.first().name == KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_LIST_NAME
     }
 
     void "it can filter secrets by labels"() {
