@@ -45,6 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
+import static java.util.Collections.singletonMap;
 
 /**
  * A {@link ConfigurationClient} implementation that provides {@link PropertySource}s read from Kubernetes ConfigMap's.
@@ -59,7 +60,9 @@ import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelect
 @BootstrapContextCompatible
 public class KubernetesConfigurationClient implements ConfigurationClient {
 
+    public static final String CONFIG_MAP_LIST_RESOURCE_VERSION = "configMapListResourceVersion";
     public static final String CONFIG_MAP_RESOURCE_VERSION = "configMapResourceVersion";
+    public static final String KUBERNETES_CONFIG_MAP_LIST_NAME = "Kubernetes ConfigMapList";
     public static final String KUBERNETES_CONFIG_MAP_NAME_SUFFIX = " (Kubernetes ConfigMap)";
     public static final String KUBERNETES_SECRET_NAME_SUFFIX = " (Kubernetes Secret)";
 
@@ -154,15 +157,30 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                         LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
                     }
                 })
-                .flatMapIterable(ConfigMapList::getItems)
-                .filter(includesFilter)
-                .filter(excludesFilter)
-                .doOnNext(configMap -> {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
-                    }
-                })
-                .map(KubernetesUtils::configMapAsPropertySource);
+                .flatMap(configMapList -> Flowable.just(configMapListAsPropertySource(configMapList))
+                        .mergeWith(Flowable.fromIterable(configMapList.getItems())
+                                .filter(includesFilter)
+                                .filter(excludesFilter)
+                                .doOnNext(configMap -> {
+                                    if (LOG.isDebugEnabled()) {
+                                        LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
+                                    }
+                                })
+                                .map(KubernetesUtils::configMapAsPropertySource)));
+    }
+
+    /**
+     * Converts a {@link ConfigMapList} into a {@link PropertySource}.
+     *
+     * @param configMapList the ConfigMapList
+     * @return A PropertySource
+     */
+    private static PropertySource configMapListAsPropertySource(ConfigMapList configMapList) {
+        String resourceVersion = configMapList.getMetadata().getResourceVersion();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Adding config map list with version {}", resourceVersion);
+        }
+        return PropertySource.of(KUBERNETES_CONFIG_MAP_LIST_NAME, singletonMap(CONFIG_MAP_LIST_RESOURCE_VERSION, resourceVersion), EnvironmentPropertySource.POSITION + 100);
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {

@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
-import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_LIST_NAME;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
 
 /**
@@ -109,8 +109,8 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         long lastResourceVersion = environment
                 .getPropertySources()
                 .stream()
-                .filter(propertySource -> propertySource.getName().endsWith(KUBERNETES_CONFIG_MAP_NAME_SUFFIX))
-                .map(propertySource -> propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION))
+                .filter(propertySource -> propertySource.getName().equals(KUBERNETES_CONFIG_MAP_LIST_NAME))
+                .map(propertySource -> propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_LIST_RESOURCE_VERSION))
                 .map(o -> Long.parseLong(o.toString()))
                 .max(Long::compareTo)
                 .orElse(0L);
