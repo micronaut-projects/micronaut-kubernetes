@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
-import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.getLastConfigMapListResourceVersion;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
 
 /**
@@ -85,7 +85,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void onApplicationEvent(ServiceReadyEvent event) {
-        long lastResourceVersion = computeLastResourceVersion();
+        long lastResourceVersion = getLastConfigMapListResourceVersion();
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
         Flowable<String> singleLabelSelector = computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels);
 
@@ -103,23 +103,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 .subscribeOn(Schedulers.from(this.executorService))
                 .onErrorReturnItem(new ConfigMapWatchEvent(ConfigMapWatchEvent.EventType.ERROR))
                 .subscribe(this::processEvent);
-    }
-
-    private long computeLastResourceVersion() {
-        long lastResourceVersion = environment
-                .getPropertySources()
-                .stream()
-                .filter(propertySource -> propertySource.getName().endsWith(KUBERNETES_CONFIG_MAP_NAME_SUFFIX))
-                .map(propertySource -> propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION))
-                .map(o -> Long.parseLong(o.toString()))
-                .max(Long::compareTo)
-                .orElse(0L);
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Latest resourceVersion is: {}", lastResourceVersion);
-        }
-
-        return lastResourceVersion;
     }
 
     private void processEvent(ConfigMapWatchEvent event) {

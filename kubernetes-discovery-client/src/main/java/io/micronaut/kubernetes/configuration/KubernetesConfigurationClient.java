@@ -42,6 +42,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
@@ -66,6 +67,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
 
     private static Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
+    private static AtomicLong lastConfigMapListResourceVersion = new AtomicLong();
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
@@ -140,6 +142,13 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return propertySources;
     }
 
+    /**
+     * @return the last config map list resource version.
+     */
+    static long getLastConfigMapListResourceVersion() {
+        return lastConfigMapListResourceVersion.get();
+    }
+
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
@@ -150,9 +159,11 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
                 .doOnNext(configMapList -> {
+                    final String resourceVersion = configMapList.getMetadata().getResourceVersion();
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
+                        LOG.debug("Found {} config maps in list version {}. Applying includes/excludes filters (if any)", configMapList.getItems().size(), resourceVersion);
                     }
+                    lastConfigMapListResourceVersion.set(Long.parseLong(resourceVersion));
                 })
                 .flatMapIterable(ConfigMapList::getItems)
                 .filter(includesFilter)
