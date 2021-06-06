@@ -125,15 +125,15 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processEvent(ConfigMapWatchEvent event) {
         switch (event.getType()) {
             case ADDED:
-                processConfigMapAdded(event.getObject());
+                processConfigMapAdded((ConfigMap) event.getObject());
                 break;
 
             case MODIFIED:
-                processConfigMapModified(event.getObject());
+                processConfigMapModified((ConfigMap) event.getObject());
                 break;
 
             case DELETED:
-                processConfigMapDeleted(event.getObject());
+                processConfigMapDeleted((ConfigMap) event.getObject());
                 break;
 
             case ERROR:
