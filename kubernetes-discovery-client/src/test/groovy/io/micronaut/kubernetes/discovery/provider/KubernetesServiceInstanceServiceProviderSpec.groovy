@@ -2,7 +2,6 @@ package io.micronaut.kubernetes.discovery.provider
 
 import io.fabric8.kubernetes.api.model.IntOrString
 import io.fabric8.kubernetes.api.model.Service
-import io.fabric8.kubernetes.api.model.ServicePort
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
 import io.micronaut.context.ApplicationContext
