@@ -16,7 +16,14 @@
 package io.micronaut.kubernetes.client.processor;
 
 import com.squareup.javapoet.*;
+import io.micronaut.annotation.processing.AnnotationUtils;
+import io.micronaut.annotation.processing.GenericUtils;
+import io.micronaut.annotation.processing.ModelUtils;
+import io.micronaut.annotation.processing.PublicMethodVisitor;
+import io.micronaut.annotation.processing.visitor.JavaVisitorContext;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.convert.value.MutableConvertibleValues;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.annotation.processing.*;
@@ -24,14 +31,19 @@ import jakarta.inject.Singleton;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * An annotation processor that generates the Kubernetes APIs factories.
@@ -48,12 +60,16 @@ public class KubernetesApisProcessor extends AbstractProcessor {
 
     private Filer filer;
     private Messager messager;
+    private Elements elements;
+    private Types types;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         this.filer = processingEnv.getFiler();
         this.messager = processingEnv.getMessager();
+        this.elements = processingEnv.getElementUtils();
+        this.types = processingEnv.getTypeUtils();
     }
 
     @Override
@@ -66,6 +82,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                     final String packageName = NameUtils.getPackageName(clientName);
                     final String simpleName = NameUtils.getSimpleName(clientName);
                     writeClientFactory(e, packageName, simpleName);
+                    writeRxJava2Clients(e, packageName, simpleName);
                 }
             }
         }
@@ -96,6 +113,117 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         } catch (IOException ioException) {
             messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Kubernetes " + simpleName + "  factory: " + ioException.getMessage(), e);
         }
+    }
+
+    private void writeRxJava2Clients(Element e, String packageName, String simpleName) {
+        final String rx = simpleName + "RxClient";
+        final String rxPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + ".rxjava2");
+
+        ClassName cn = ClassName.get(rxPackageName, rx);
+        TypeSpec.Builder builder = TypeSpec.classBuilder(cn);
+
+        ClassName clientType = ClassName.get(packageName, simpleName);
+        ClassName rxSingleType = ClassName.get("io.reactivex", "Single");
+        final AnnotationSpec.Builder requiresSpec =
+                AnnotationSpec.builder(Requires.class)
+                        .addMember("beans", "{$T.class}", clientType);
+        builder.addAnnotation(requiresSpec.build());
+        builder.addAnnotation(Singleton.class);
+        builder.addModifiers(Modifier.PUBLIC);
+        builder.addField(clientType, "client", Modifier.FINAL, Modifier.PRIVATE);
+        builder.addMethod(MethodSpec.constructorBuilder()
+                .addParameter(clientType, "client")
+                .addCode("this.client = client;")
+                .build());
+
+        TypeElement typeElement = elements.getTypeElement(clientType.reflectionName());
+        if (typeElement != null) {
+            ModelUtils modelUtils = new ModelUtils(elements, types) {
+            };
+            GenericUtils genericUtils = new GenericUtils(elements, types, modelUtils) {
+            };
+            AnnotationUtils annotationUtils = new AnnotationUtils(processingEnv, elements, messager, types, modelUtils, genericUtils, filer) {
+            };
+            JavaVisitorContext visitorContext = new JavaVisitorContext(
+                    processingEnv,
+                    messager,
+                    elements,
+                    annotationUtils,
+                    types,
+                    modelUtils,
+                    genericUtils,
+                    filer,
+                    MutableConvertibleValues.of(new LinkedHashMap<>())
+            );
+            typeElement.asType().accept(new PublicMethodVisitor<Object, Object>(visitorContext) {
+                @Override
+                protected void accept(DeclaredType type, Element element, Object o) {
+                    ExecutableElement ee = (ExecutableElement) element;
+                    TypeMirror returnType = ee.getReturnType();
+                    if (element.getSimpleName().toString().endsWith("Async")) {
+                        DeclaredType dt = (DeclaredType) returnType;
+                        Element e = dt.asElement();
+                        if (e.getSimpleName().toString().equals("Call")) {
+                            List<? extends VariableElement> parameters = ee.getParameters();
+                            VariableElement fieldElement = parameters.get(parameters.size() - 1);
+                            TypeMirror typeMirror = fieldElement.asType();
+                            if (typeMirror instanceof DeclaredType) {
+                                DeclaredType cdt = (DeclaredType) typeMirror;
+                                List<? extends TypeMirror> typeArguments = cdt.getTypeArguments();
+                                if (typeArguments.size() == 1) {
+                                    TypeMirror ctm = typeArguments.get(0);
+                                    if (ctm instanceof DeclaredType) {
+                                        // resolve the callback response type
+                                        TypeName responseType = ClassName.get(ctm);
+
+                                        // resolve the method name
+                                        String methodName = ee.getSimpleName().toString();
+
+                                        // prepare parameters for the method without tha _callback one
+                                        List<ParameterSpec> parameterSpecs = parameters.stream()
+                                                .filter(va -> !va.getSimpleName().toString().equals("_callback"))
+                                                .map(va -> ParameterSpec.builder(ClassName.get(va.asType()), va.getSimpleName().toString()).build())
+                                                .collect(Collectors.toList());
+
+                                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
+                                                .addModifiers(Modifier.PUBLIC)
+                                                .addParameters(parameterSpecs)
+                                                .returns(
+                                                        ParameterizedTypeName.get(
+                                                                rxSingleType,
+                                                                responseType
+                                                        )
+                                                );
+
+                                        methodBuilder.addCode(CodeBlock.builder()
+                                                .addStatement("return $T.create((emitter) -> {", rxSingleType)
+                                                .add("this.client." + methodName + "(")
+                                                .add(parameterSpecs.stream().map(ps -> ps.name).collect(Collectors.joining(", ")))
+                                                .add(parameterSpecs.isEmpty() ? "" : ", ")
+                                                .add("new ApiCallbackEmitter<>(emitter)")
+                                                .addStatement(")")
+                                                .addStatement("})")
+                                                .build());
+                                        builder.addMethod(methodBuilder.build());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }, null);
+        }
+
+        final JavaFile javaFile = JavaFile.builder(rxPackageName, builder.build()).build();
+        try {
+            final JavaFileObject javaFileObject = filer.createSourceFile(cn.reflectionName(), e);
+            try (Writer writer = javaFileObject.openWriter()) {
+                javaFile.writeTo(writer);
+            }
+        } catch (IOException ioException) {
+            messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Oracle SDK factories: " + ioException.getMessage(), e);
+        }
+
     }
 
     private List<String> resolveClientNames(Element e) {
