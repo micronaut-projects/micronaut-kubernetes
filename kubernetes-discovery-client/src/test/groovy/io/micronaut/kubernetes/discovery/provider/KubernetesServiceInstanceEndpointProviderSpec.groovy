@@ -1,5 +1,7 @@
 package io.micronaut.kubernetes.discovery.provider
 
+import io.fabric8.kubernetes.api.model.Endpoints
+import io.fabric8.kubernetes.api.model.EndpointsBuilder
 import io.fabric8.kubernetes.api.model.IntOrString
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
@@ -11,7 +13,6 @@ import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.reactivex.Flowable
-import spock.lang.Ignore
 import spock.lang.Requires
 import spock.lang.Shared
 
@@ -180,20 +181,20 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         applicationContext.close()
     }
 
-    @Ignore
     void "it doesn't fail when service endpoint has no ip addresses"() {
         given:
-        operations.createService()
+        Endpoints endpoints = operations.getClient(namespace).endpoints().create(new EndpointsBuilder()
+                .withNewMetadata()
+                .withName("empty-endpoint")
+                .endMetadata()
+                .build())
 
         when:
-        def config = createConfig("example-client", true)
+        def config = createConfig("empty-endpoint", true)
         def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
 
         then:
-        instanceList.size() == 1
-
-        cleanup:
-        applicationContext.close()
+        instanceList.size() == 0
     }
 
 

@@ -103,6 +103,7 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
                         LOG.error("Error while processing discovered endpoints [" + serviceName + "]", throwable);
                     }
                     return new ArrayList<>();
-                });
+                })
+                .defaultIfEmpty(new ArrayList<>());
     }
 }
