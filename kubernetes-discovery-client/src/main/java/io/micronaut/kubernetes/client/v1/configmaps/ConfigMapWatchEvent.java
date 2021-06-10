@@ -15,7 +15,11 @@
  */
 package io.micronaut.kubernetes.client.v1.configmaps;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.kubernetes.client.v1.KubernetesObject;
+import io.micronaut.kubernetes.client.v1.Status;
 
 /**
  * Represents a ConfigMap watch event returned from the Kubernetes API.
@@ -27,7 +31,13 @@ import io.micronaut.core.annotation.Introspected;
 public class ConfigMapWatchEvent {
 
     private EventType type;
-    private ConfigMap object;
+
+    @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "kind", defaultImpl = ConfigMap.class)
+    @JsonSubTypes({
+            @JsonSubTypes.Type(value = ConfigMap.class, name = "ConfigMap"),
+            @JsonSubTypes.Type(value = Status.class, name = "Status"),
+    })
+    private KubernetesObject object;
 
     /**
      * The default constructor.
@@ -57,16 +67,16 @@ public class ConfigMapWatchEvent {
     }
 
     /**
-     * @return the {@link ConfigMap} object
+     * @return the {@link KubernetesObject} object
      */
-    public ConfigMap getObject() {
+    public KubernetesObject getObject() {
         return object;
     }
 
     /**
-     * @param object the {@link ConfigMap} object
+     * @param object the {@link KubernetesObject} object
      */
-    public void setObject(ConfigMap object) {
+    public void setObject(KubernetesObject object) {
         this.object = object;
     }
 

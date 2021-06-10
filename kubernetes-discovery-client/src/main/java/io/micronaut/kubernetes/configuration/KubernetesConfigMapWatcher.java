@@ -26,6 +26,7 @@ import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
+import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent.EventType;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.reactivex.Flowable;
@@ -82,9 +83,13 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         this.eventPublisher = eventPublisher;
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void onApplicationEvent(ServiceReadyEvent event) {
+        watch();
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void watch() {
         long lastResourceVersion = computeLastResourceVersion();
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
         Flowable<String> singleLabelSelector = computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels);
@@ -101,7 +106,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 })
                 .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
                 .subscribeOn(Schedulers.from(this.executorService))
-                .onErrorReturnItem(new ConfigMapWatchEvent(ConfigMapWatchEvent.EventType.ERROR))
+                .onErrorReturnItem(new ConfigMapWatchEvent(EventType.ERROR))
                 .subscribe(this::processEvent);
     }
 
@@ -125,15 +130,15 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void processEvent(ConfigMapWatchEvent event) {
         switch (event.getType()) {
             case ADDED:
-                processConfigMapAdded(event.getObject());
+                processConfigMapAdded((ConfigMap) event.getObject());
                 break;
 
             case MODIFIED:
-                processConfigMapModified(event.getObject());
+                processConfigMapModified((ConfigMap) event.getObject());
                 break;
 
             case DELETED:
-                processConfigMapDeleted(event.getObject());
+                processConfigMapDeleted((ConfigMap) event.getObject());
                 break;
 
             case ERROR:
@@ -178,7 +183,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     /**
-     * Send a {@link RefreshEvent} when a {@link ConfigMap} change affects the {@link Environment}
+     * Send a {@link RefreshEvent} when a {@link ConfigMap} change affects the {@link Environment}.
      *
      * @see io.micronaut.management.endpoint.refresh.RefreshEndpoint#refresh(Boolean)
      */
@@ -192,8 +197,16 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         }
     }
 
+    /**
+     * Process {@link EventType#ERROR} events, unconditionally restarting the watch.
+     *
+     * @see <a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes">Efficient detection of changes</a>
+     */
     private void processConfigMapErrored(ConfigMapWatchEvent event) {
         LOG.error("Kubernetes API returned an error for a ConfigMap watch event: {}", event.toString());
+        KubernetesConfigurationClient.getPropertySourceCache().clear();
+        refreshEnvironment();
+        watch();
     }
 
     private boolean passesIncludesExcludesLabelsFilters(ConfigMap configMap) {
