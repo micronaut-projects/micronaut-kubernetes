@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.discovery.provider;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.*;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
+import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import reactor.core.publisher.Flux;

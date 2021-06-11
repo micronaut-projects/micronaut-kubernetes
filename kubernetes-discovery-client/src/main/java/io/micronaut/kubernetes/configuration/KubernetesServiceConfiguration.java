@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.v1;
+package io.micronaut.kubernetes.configuration;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
+import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 
 import jakarta.inject.Inject;
 import java.util.Optional;

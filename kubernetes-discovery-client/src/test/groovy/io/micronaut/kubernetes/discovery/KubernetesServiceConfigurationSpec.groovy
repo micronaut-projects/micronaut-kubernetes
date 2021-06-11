@@ -2,7 +2,7 @@ package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
+import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration
 import spock.lang.Specification
 
 class KubernetesServiceConfigurationSpec extends Specification {

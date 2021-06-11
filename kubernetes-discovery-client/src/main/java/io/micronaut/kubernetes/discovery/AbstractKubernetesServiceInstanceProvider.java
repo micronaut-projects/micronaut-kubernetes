@@ -17,7 +17,7 @@ package io.micronaut.kubernetes.discovery;
 
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
-import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration;
+import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.client.v1.Metadata;
 import io.micronaut.kubernetes.client.v1.Port;
 import org.slf4j.Logger;

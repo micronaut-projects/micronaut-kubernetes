@@ -23,6 +23,7 @@ import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.*;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
+import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import org.reactivestreams.Publisher;
