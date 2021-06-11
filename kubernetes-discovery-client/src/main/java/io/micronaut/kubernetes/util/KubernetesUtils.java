@@ -15,16 +15,19 @@
  */
 package io.micronaut.kubernetes.util;
 
+import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1Secret;
+import io.kubernetes.client.proto.V1.ConfigMap;
+import io.kubernetes.client.proto.V1.Secret;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertiesPropertySourceLoader;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
-import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
-import io.micronaut.kubernetes.client.v1.secrets.Secret;
+
+import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
@@ -57,7 +60,7 @@ public class KubernetesUtils {
      * @param configMap the ConfigMap
      * @return A PropertySource
      */
-    public static PropertySource configMapAsPropertySource(ConfigMap configMap) {
+    public static PropertySource configMapAsPropertySource(V1ConfigMap configMap) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
         }
@@ -118,10 +121,10 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param secret The {@link Secret} to transform
+     * @param secret The {@link V1Secret} to transform
      * @return The converted {@link PropertySource}.
      */
-    public static PropertySource secretAsPropertySource(Secret secret) {
+    public static PropertySource secretAsPropertySource(V1Secret secret) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for Secret: {}", secret);
         }
@@ -218,13 +221,13 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param client       the {@link KubernetesClient}
+     * @param client       the {@link CoreV1ApiRxClient}
      * @param podLabelKeys the list of labels inside a pod
      * @param namespace    in the configuration
      * @param labels       the labels
      * @return the filtered labels of the current pod
      */
-    public static Publisher<String> computePodLabelSelector(KubernetesClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
+    public static Flowable<String> computePodLabelSelector(CoreV1ApiRxClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
@@ -234,10 +237,12 @@ public class KubernetesUtils {
             return Flux.just(computeLabelSelector(labels));
         }
 
-        return Flux.from(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
-                pod -> {
+        final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
+        return client.readNamespacedPodAsync(namespace, podName, null, null, null)
+                .toFlowable()
+                .map( pod -> {
                     Map<String, String> result = new HashMap<>();
-                    Map<String, String> podLabels = pod.getMetadata().getLabels();
+                    Map<String, String> podLabels = Objects.requireNonNull(pod.getMetadata()).getLabels();
                     for (String key : podLabelKeys) {
                         String value = podLabels.get(key);
                         if (value != null) {
@@ -259,7 +264,7 @@ public class KubernetesUtils {
                 });
     }
 
-    private static String getPropertySourceName(ConfigMap configMap) {
+    private static String getPropertySourceName(V1ConfigMap configMap) {
         return configMap.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
     }
 

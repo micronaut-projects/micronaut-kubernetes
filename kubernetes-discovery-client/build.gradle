@@ -11,6 +11,7 @@ dependencies {
 
     implementation "io.micronaut.discovery:micronaut-discovery-client"
     implementation "io.micronaut:micronaut-runtime"
+    implementation project(":kubernetes-client")
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 

@@ -15,14 +15,17 @@
  */
 package io.micronaut.kubernetes.discovery;
 
+import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.models.V1ServiceList;
+import io.kubernetes.client.proto.V1;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.v1.*;
-import io.micronaut.kubernetes.client.v1.services.ServiceList;
+import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
+import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
@@ -49,14 +52,14 @@ import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
-@Requires(beans = {KubernetesClient.class, KubernetesConfiguration.KubernetesDiscoveryConfiguration.class})
+@Requires(beans = {CoreV1ApiRxClient.class, KubernetesConfiguration.KubernetesDiscoveryConfiguration.class})
 @Requires(property = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 @SuppressWarnings("WeakerAccess")
 public class KubernetesDiscoveryClient implements DiscoveryClient {
 
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesDiscoveryClient.class);
 
-    private final KubernetesClient client;
+    private final CoreV1ApiRxClient client;
     private final KubernetesConfiguration configuration;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
     private final Map<String, KubernetesServiceConfiguration> serviceConfigurations;
@@ -73,10 +76,10 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      * @param instanceList The {@link KubernetesServiceInstanceList}
      * @deprecated
      * This constructor is no longer used as it doesn't support the discovery modes.
-     * Use {@link KubernetesDiscoveryClient#KubernetesDiscoveryClient(KubernetesClient, KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, List, List, KubernetesServiceInstanceList)} instead.
+     * Use {@link KubernetesDiscoveryClient#KubernetesDiscoveryClient(CoreV1ApiRxClient, KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, List, List, KubernetesServiceInstanceList)} instead.
      */
     @Deprecated
-    public KubernetesDiscoveryClient(KubernetesClient client,
+    public KubernetesDiscoveryClient(CoreV1ApiRxClient client,
                                      KubernetesConfiguration configuration,
                                      KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
                                      List<KubernetesServiceConfiguration> serviceConfigurations,
@@ -97,7 +100,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      * @param instanceList The {@link KubernetesServiceInstanceList}
      */
     @Inject
-    public KubernetesDiscoveryClient(KubernetesClient client,
+    public KubernetesDiscoveryClient(CoreV1ApiRxClient client,
                                      KubernetesConfiguration configuration,
                                      KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
                                      List<KubernetesServiceConfiguration> serviceConfigurations,
@@ -164,11 +167,12 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
 
-        return Flux.merge(
-                Flux.fromIterable(serviceConfigurations.keySet()),
-                Flux.from(client.listServices(namespace, labelSelector))
+        return Flowable.merge(
+                Flowable.fromIterable(serviceConfigurations.keySet()),
+                client.listNamespacedServiceAsync(namespace, null, null, null, null, labelSelector, null, null, null, null, null)
+                        .toFlowable()
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
-                        .flatMapIterable(ServiceList::getItems)
+                        .flatMapIterable(V1ServiceList::getItems)
                         .filter(includesFilter)
                         .filter(excludesFilter)
                         .map(service -> service.getMetadata().getName())

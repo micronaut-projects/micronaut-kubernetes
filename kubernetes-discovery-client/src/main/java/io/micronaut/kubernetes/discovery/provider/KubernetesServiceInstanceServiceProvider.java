@@ -15,26 +15,27 @@
  */
 package io.micronaut.kubernetes.discovery.provider;
 
+import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.models.V1Service;
+import io.kubernetes.client.openapi.models.V1ServicePort;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.v1.*;
-import io.micronaut.kubernetes.client.v1.services.Service;
+import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
+import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.inject.Singleton;
-import reactor.core.publisher.Flux;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import javax.annotation.Nullable;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,10 +51,10 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
     protected static final String EXTERNAL_NAME = "ExternalName";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceServiceProvider.class);
 
-    private final KubernetesClient client;
+    private final CoreV1ApiRxClient client;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
 
-    public KubernetesServiceInstanceServiceProvider(KubernetesClient client,
+    public KubernetesServiceInstanceServiceProvider(CoreV1ApiRxClient client,
                                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
         this.client = client;
         this.discoveryConfiguration = discoveryConfiguration;
@@ -86,16 +87,20 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
             LOG.trace("Fetching Service {}", serviceConfiguration);
         }
 
-        return Flux.from(client.getService(serviceNamespace, serviceName))
+        return client.readNamespacedServiceAsync(serviceName, serviceNamespace, null, null, null)
+                .toFlowable()
                 .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while trying to get Service {}", serviceConfiguration, throwable);
                     }
                 })
                 .filter(globalFilter)
-                .filter(service -> hasValidPortConfiguration(service.getSpec().getPorts(), serviceConfiguration))
-                .map(service -> buildServiceInstanceList(serviceConfiguration, service))
-                .onErrorResume(throwable -> {
+                .filter(service ->
+                        hasValidPortConfiguration(Optional.ofNullable(service.getSpec().getPorts()).orElse(new ArrayList<>()).stream().map(PortBinder::fromServicePort).collect(Collectors.toList()), serviceConfiguration))
+                .map(service -> Stream.of(buildServiceInstance(serviceConfiguration, service))
+                        .filter(Objects::nonNull)
+                        .collect(Collectors.toList()))
+                .onErrorReturn(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while processing discovered service [" + serviceName + "]", throwable);
                     }
@@ -117,20 +122,18 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
         }
     }
 
-    private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, Service service)
-            throws UnknownHostException {
+    private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
 
-        if (service.getSpec().getClusterIp() != null) {
+        if (service.getSpec().getClusterIP() != null) {
             return service.getSpec().getPorts().stream()
                     .filter(port -> !serviceConfiguration.getPort().isPresent() || port.getName().equals(serviceConfiguration.getPort().get()))
-                    .map(port -> buildServiceInstance(serviceConfiguration.getServiceId(), port, service.getSpec().getClusterIp(), service.getMetadata()))
+                    .map(port -> buildServiceInstance(serviceConfiguration.getServiceId(), PortBinder.fromServicePort(port), service.getSpec().getClusterIP(), service.getMetadata()))
                     .findFirst().orElse(null);
 
         } else if (service.getSpec().getType().equals(EXTERNAL_NAME)) {
-            final List<Port> ports = service.getSpec().getPorts();
-            final InetAddress inetAddress = InetAddress.getByName(service.getSpec().getExternalName());
+            final List<V1ServicePort> ports = service.getSpec().getPorts();
 
-            Port port = null;
+            V1ServicePort port = null;
             if (ports != null && !ports.isEmpty()) {
                 port = ports.stream()
                         .filter(p -> !serviceConfiguration.getPort().isPresent() || p.getName().equals(serviceConfiguration.getPort().get()))
@@ -139,13 +142,13 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Failed to assign ExternalName service [" + serviceConfiguration.getServiceId() +
                                 "] configured port " + serviceConfiguration.getPort().get() + ", no such port in " +
-                                "specification [" + ports.stream().map(Port::getName).collect(Collectors.joining(",")) + "]");
+                                "specification [" + ports.stream().map(V1ServicePort::getName).collect(Collectors.joining(",")) + "]");
                     }
                     return null;
                 }
             }
 
-            return buildServiceInstance(serviceConfiguration.getServiceId(), port, inetAddress, service.getMetadata());
+            return buildServiceInstance(serviceConfiguration.getServiceId(), PortBinder.fromServicePort(port), service.getSpec().getExternalName(), service.getMetadata());
         } else {
             if (LOG.isErrorEnabled()) {
                 LOG.error("Failed to create service instance for [" + serviceConfiguration.getServiceId() + "]");

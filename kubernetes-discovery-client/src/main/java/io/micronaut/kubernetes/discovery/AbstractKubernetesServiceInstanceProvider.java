@@ -15,16 +15,18 @@
  */
 package io.micronaut.kubernetes.discovery;
 
+import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.models.V1EndpointPort;
+import io.kubernetes.client.openapi.models.V1ObjectMeta;
+import io.kubernetes.client.openapi.models.V1ServicePort;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
-import io.micronaut.kubernetes.client.v1.Metadata;
-import io.micronaut.kubernetes.client.v1.Port;
+import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.micronaut.core.annotation.Nullable;
-import java.net.InetAddress;
+import javax.annotation.Nullable;
 import java.net.URI;
 import java.util.List;
 import java.util.function.Predicate;
@@ -38,7 +40,54 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractKubernetesServiceInstanceProvider implements KubernetesServiceInstanceProvider {
 
+    public static final String SECURE_LABEL = "secure";
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesServiceInstanceProvider.class);
+
+    /**
+     * Builds service instance.
+     *
+     * @param serviceId   service id
+     * @param servicePort servicePort
+     * @param address     address
+     * @param metadata    metadata
+     * @return service instance
+     */
+    public ServiceInstance buildServiceInstance(String serviceId, @Nullable PortBinder servicePort, String address, V1ObjectMeta metadata) {
+        boolean isSecure = (servicePort != null && isPortSecure(servicePort)) || isMetadataSecure(metadata);
+        String scheme = isSecure ? "https://" : "http://";
+        int portNumber = servicePort != null ? servicePort.getPort() : 80;
+        URI uri = URI.create(scheme + address + ":" + portNumber);
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri);
+        }
+        return ServiceInstance
+                .builder(serviceId, uri)
+                .metadata(metadata.getLabels())
+                .build();
+    }
+
+    /**
+     * Attempts to guess whether this port should be connected to using SSL. By default, port numbers ending in 443
+     * or port named "https" are considered secure
+     *
+     * @return Whether the port is considered secure
+     */
+    public boolean isPortSecure(PortBinder servicePort) {
+        String port = String.valueOf(servicePort.getPort());
+        return port.endsWith("443") || "https".equals(servicePort.getName());
+    }
+
+    /**
+     * @return true if there is a label within {@link V1ObjectMeta#getLabels()} named {@link #SECURE_LABEL} and with value "true";
+     * false otherwise
+     */
+    public boolean isMetadataSecure(V1ObjectMeta objectMeta) {
+        if (objectMeta.getLabels() != null) {
+            return false;
+        }
+        String secure = objectMeta.getLabels().getOrDefault(SECURE_LABEL, "false");
+        return StringUtils.TRUE.equals(secure);
+    }
 
     /**
      * Validates the necessity of having port configuration based on number of declared {@code ports}.
@@ -47,39 +96,16 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @param serviceConfiguration service configuration
      * @return true if the port configuration is valid otherwise false
      */
-    public boolean hasValidPortConfiguration(List<Port> ports, KubernetesServiceConfiguration serviceConfiguration) {
+    public boolean hasValidPortConfiguration(@Nullable List<PortBinder> ports, KubernetesServiceConfiguration serviceConfiguration) {
         final String name = serviceConfiguration.getName().orElse(null);
         if (name != null && ports != null && ports.size() > 1 && !serviceConfiguration.getPort().isPresent()) {
             LOG.debug("The resource [" + name + "] has multiple ports declared ["
-                    + ports.stream().map(Port::getName).collect(Collectors.joining(",")) +
+                    + ports.stream().map(PortBinder::getName).collect(Collectors.joining(",")) +
                     "] if you want to to use it in micronaut you have to configure it manually.");
 
             return false;
         }
         return true;
-    }
-
-    /**
-     * Builds service instance.
-     *
-     * @param serviceId service id
-     * @param port      port
-     * @param address   address
-     * @param metadata  metadata
-     * @return service instance
-     */
-    public ServiceInstance buildServiceInstance(String serviceId, @Nullable Port port, InetAddress address, Metadata metadata) {
-        boolean isSecure = (port != null && port.isSecure()) || metadata.isSecure();
-        String scheme = isSecure ? "https://" : "http://";
-        int portNumber = port != null ? port.getPort() : 80;
-        URI uri = URI.create(scheme + address.getHostAddress() + ":" + portNumber);
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri);
-        }
-        return ServiceInstance
-                .builder(serviceId, uri)
-                .metadata(metadata.getLabels())
-                .build();
     }
 
     /**
@@ -99,5 +125,41 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
             }
             return true;
         };
+    }
+
+    /**
+     * Utility class for transparent access to {@link V1EndpointPort} and {@link V1ServicePort}.
+     */
+    public static class PortBinder {
+        private final String name;
+        private final int port;
+
+        public PortBinder(String name, int port) {
+            this.name = name;
+            this.port = port;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getPort() {
+            return port;
+        }
+
+        public static PortBinder fromServicePort(@Nullable V1ServicePort servicePort) {
+            if (servicePort == null) {
+                return null;
+            }
+            return new PortBinder(servicePort.getName(), servicePort.getPort());
+        }
+
+        public static PortBinder fromEndpointPort(@Nullable V1EndpointPort endpointPort) {
+            if (endpointPort == null) {
+                return null;
+            }
+            return new PortBinder(endpointPort.getName(), endpointPort.getPort());
+        }
+
     }
 }

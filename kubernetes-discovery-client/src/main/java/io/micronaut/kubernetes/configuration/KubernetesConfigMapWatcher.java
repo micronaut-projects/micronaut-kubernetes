@@ -22,6 +22,7 @@ import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.event.ServiceReadyEvent;
+import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
@@ -60,19 +61,19 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
 
     private final Environment environment;
-    private final KubernetesClient client;
+    private final CoreV1ApiRxClient client;
     private final KubernetesConfiguration configuration;
     private final ExecutorService executorService;
     private final ApplicationEventPublisher eventPublisher;
 
     /**
      * @param environment the {@link Environment}
-     * @param client the {{@link KubernetesClient}}
+     * @param client the {{@link CoreV1ApiRxClient}}
      * @param configuration the {@link KubernetesConfiguration}
      * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
      * @param eventPublisher the {@link ApplicationEventPublisher}
      */
-    public KubernetesConfigMapWatcher(Environment environment, KubernetesClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
+    public KubernetesConfigMapWatcher(Environment environment, CoreV1ApiRxClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
