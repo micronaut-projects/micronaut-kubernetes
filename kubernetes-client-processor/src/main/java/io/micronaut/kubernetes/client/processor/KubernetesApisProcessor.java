@@ -176,8 +176,9 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                                         // resolve the callback response type
                                         TypeName responseType = ClassName.get(ctm);
 
-                                        // resolve the method name
+                                        // resolve the method name by removing the Async suffix
                                         String methodName = ee.getSimpleName().toString();
+                                        String finalMethodName = methodName.replace("Async", "");
 
                                         // prepare parameters for the method without tha _callback one
                                         List<ParameterSpec> parameterSpecs = parameters.stream()
@@ -185,7 +186,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                                                 .map(va -> ParameterSpec.builder(ClassName.get(va.asType()), va.getSimpleName().toString()).build())
                                                 .collect(Collectors.toList());
 
-                                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(methodName)
+                                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(finalMethodName)
                                                 .addModifiers(Modifier.PUBLIC)
                                                 .addParameters(parameterSpecs)
                                                 .returns(

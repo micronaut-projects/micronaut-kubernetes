@@ -29,7 +29,7 @@ class CoreV1ApiRxClientSpec extends KubernetesSpecification {
 
     def "list all config maps"() {
         when:
-        V1ConfigMapList configMapList = apiRxClient.listNamespacedConfigMapAsync(
+        V1ConfigMapList configMapList = apiRxClient.listNamespacedConfigMap(
                 namespace,
                 null,
                 null,
@@ -50,7 +50,7 @@ class CoreV1ApiRxClientSpec extends KubernetesSpecification {
 
     def "list all labeled config maps"() {
         when:
-        V1ConfigMapList configMapList = apiRxClient.listNamespacedConfigMapAsync(
+        V1ConfigMapList configMapList = apiRxClient.listNamespacedConfigMap(
                 namespace,
                 null,
                 null,
