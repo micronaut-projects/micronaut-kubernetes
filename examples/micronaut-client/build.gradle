@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
-    id("io.micronaut.application") version "1.2.0"
-    id("com.google.cloud.tools.jib") version "2.6.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "1.5.0"
 }
 
 repositories {
@@ -26,7 +26,7 @@ dependencies {
     implementation("io.micronaut:micronaut-management")
     implementation project(':kubernetes-discovery-client')
     runtimeOnly("ch.qos.logback:logback-classic")
-    testCompile project(":test-utils")
+    testImplementation project(":test-utils")
 }
 
 application {
