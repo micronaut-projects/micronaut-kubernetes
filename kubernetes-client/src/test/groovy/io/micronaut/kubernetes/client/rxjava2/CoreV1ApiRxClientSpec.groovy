@@ -38,7 +38,6 @@ class CoreV1ApiRxClientSpec extends KubernetesSpecification {
                 null,
                 null,
                 null,
-                null,
                 null).blockingGet()
 
         then:
@@ -57,7 +56,6 @@ class CoreV1ApiRxClientSpec extends KubernetesSpecification {
                 null,
                 null,
                 "label=red",
-                null,
                 null,
                 null,
                 null).blockingGet()

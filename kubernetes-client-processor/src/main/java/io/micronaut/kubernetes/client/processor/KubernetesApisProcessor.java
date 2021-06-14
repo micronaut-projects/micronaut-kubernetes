@@ -183,6 +183,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                                         // prepare parameters for the method without tha _callback one
                                         List<ParameterSpec> parameterSpecs = parameters.stream()
                                                 .filter(va -> !va.getSimpleName().toString().equals("_callback"))
+                                                .filter(va -> !va.getSimpleName().toString().equals("watch"))
                                                 .map(va -> ParameterSpec.builder(ClassName.get(va.asType()), va.getSimpleName().toString()).build())
                                                 .collect(Collectors.toList());
 
@@ -199,9 +200,18 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                                         methodBuilder.addCode(CodeBlock.builder()
                                                 .addStatement("return $T.create((emitter) -> {", rxSingleType)
                                                 .add("this.client." + methodName + "(")
-                                                .add(parameterSpecs.stream().map(ps -> ps.name).collect(Collectors.joining(", ")))
-                                                .add(parameterSpecs.isEmpty() ? "" : ", ")
-                                                .add("new ApiCallbackEmitter<>(emitter)")
+                                                .add(parameters.stream()
+                                                        .map(va -> {
+                                                            String name = va.getSimpleName().toString();
+                                                            if (name.equals("_callback")) {
+                                                                return "new ApiCallbackEmitter<>(emitter)";
+                                                            } else if (name.equals("watch")) {
+                                                                return "Boolean.FALSE";
+                                                            } else {
+                                                                return name;
+                                                            }
+                                                        })
+                                                        .collect(Collectors.joining(", ")))
                                                 .addStatement(")")
                                                 .addStatement("})")
                                                 .build());
