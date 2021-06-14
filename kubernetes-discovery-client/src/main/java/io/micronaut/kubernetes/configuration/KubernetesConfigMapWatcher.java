@@ -15,6 +15,12 @@
  */
 package io.micronaut.kubernetes.configuration;
 
+import com.google.gson.reflect.TypeToken;
+import io.kubernetes.client.openapi.ApiClient;
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.apis.CoreV1Api;
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.util.Watch;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
@@ -30,14 +36,13 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent.EventType;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
-import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
+import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.inject.Named;
-import jakarta.inject.Singleton;
-
+import javax.inject.Named;
+import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -61,25 +66,31 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
 
     private final Environment environment;
-    private final CoreV1ApiRxClient client;
+    private final ApiClient apiClient;
+    private final CoreV1Api coreV1Api;
+    private final CoreV1ApiRxClient coreV1ApiRxClient;
     private final KubernetesConfiguration configuration;
     private final ExecutorService executorService;
     private final ApplicationEventPublisher eventPublisher;
 
     /**
      * @param environment the {@link Environment}
-     * @param client the {{@link CoreV1ApiRxClient}}
+     * @param apiClient the {@link ApiClient}
+     * @param coreV1Api the {@link CoreV1Api}
+     * @param coreV1Api the {@link CoreV1Api}
      * @param configuration the {@link KubernetesConfiguration}
      * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
      * @param eventPublisher the {@link ApplicationEventPublisher}
      */
-    public KubernetesConfigMapWatcher(Environment environment, CoreV1ApiRxClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
+    public KubernetesConfigMapWatcher(Environment environment, ApiClient apiClient, CoreV1Api coreV1Api, CoreV1ApiRxClient coreV1ApiRxClient, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
 
         this.environment = environment;
-        this.client = client;
+        this.apiClient = apiClient;
+        this.coreV1Api = coreV1Api;
+        this.coreV1ApiRxClient = coreV1ApiRxClient;
         this.configuration = configuration;
         this.executorService = executorService;
         this.eventPublisher = eventPublisher;
@@ -92,35 +103,67 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void watch() {
-        long lastResourceVersion = computeLastResourceVersion();
+        String lastResourceVersion = computeLastResourceVersion();
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        Flux<String> singleLabelSelector = Flux.from(computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels));
+        String labelSelector = computePodLabelSelector(coreV1ApiRxClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels).blockingSingle();
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Watching for ConfigMap events...");
         }
 
-        singleLabelSelector.flatMap(labelSelector -> client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
-                .doOnNext(e -> {
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("Received ConfigMap watch event: {}", e);
-                    }
-                })
-                .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
-                .subscribeOn(Schedulers.fromExecutorService(this.executorService))
-                .onErrorReturn(new ConfigMapWatchEvent(EventType.ERROR))
-                .subscribe(this::processEvent);
+        Watch<V1ConfigMap> watch = null;
+        try {
+            watch = Watch.createWatch(
+                    apiClient,
+                    coreV1Api.listNamespacedConfigMapCall(configuration.getNamespace(), null, null, null, null, labelSelector, null, lastResourceVersion, null, null, Boolean.TRUE, null),
+                    new TypeToken<Watch.Response<V1ConfigMap>>() {}.getType());
+        } catch (ApiException e) {
+            if(LOG.isErrorEnabled()){
+                LOG.error("Failed to create the config map watch: " + e.getMessage(), e);
+            }
+            return;
+        }
+
+        try {
+            for (Watch.Response<V1ConfigMap> item : watch) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Received ConfigMap watch event: {}", item);
+                }
+                processEvent(item);
+                System.out.printf("%s : %s%n", item.type, item.object.getMetadata().getName());
+            }
+        } finally {
+            try {
+                watch.close();
+            } catch (IOException e) {
+                if(LOG.isErrorEnabled()){
+                    LOG.error("Failed to close the config map watch: " + e.getMessage(), e);
+                }
+            }
+        }
+//
+//        singleLabelSelector.flatMap(labelSelector -> clientRx.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
+//                .doOnNext(e -> {
+//                    if (LOG.isTraceEnabled()) {
+//                        LOG.trace("Received ConfigMap watch event: {}", e);
+//                    }
+//                })
+//                .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
+//                .subscribeOn(Schedulers.from(this.executorService))
+//                .onErrorReturnItem(new ConfigMapWatchEvent(EventType.ERROR))
+//                .subscribe(this::processEvent);
     }
 
-    private long computeLastResourceVersion() {
-        long lastResourceVersion = environment
+    private String computeLastResourceVersion() {
+        String lastResourceVersion = environment
                 .getPropertySources()
                 .stream()
                 .filter(propertySource -> propertySource.getName().equals(KUBERNETES_CONFIG_MAP_LIST_NAME))
                 .map(propertySource -> propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_LIST_RESOURCE_VERSION))
                 .map(o -> Long.parseLong(o.toString()))
                 .max(Long::compareTo)
-                .orElse(0L);
+                .orElse(0L)
+                .toString();
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Latest resourceVersion is: {}", lastResourceVersion);
@@ -129,28 +172,29 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         return lastResourceVersion;
     }
 
-    private void processEvent(ConfigMapWatchEvent event) {
-        switch (event.getType()) {
-            case ADDED:
-                processConfigMapAdded((ConfigMap) event.getObject());
+    private void processEvent(Watch.Response<V1ConfigMap> event) {
+
+        switch (event.type) {
+            case "ADDED":
+                processConfigMapAdded(event.object);
                 break;
 
-            case MODIFIED:
-                processConfigMapModified((ConfigMap) event.getObject());
+            case "MODIFIED":
+                processConfigMapModified(event.object);
                 break;
 
-            case DELETED:
-                processConfigMapDeleted((ConfigMap) event.getObject());
+            case "DELETED":
+                processConfigMapDeleted(event.object);
                 break;
 
-            case ERROR:
+            case "ERROR":
             default:
                 processConfigMapErrored(event);
         }
 
     }
 
-    private void processConfigMapAdded(ConfigMap configMap) {
+    private void processConfigMapAdded(V1ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
@@ -161,7 +205,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         }
     }
 
-    private void processConfigMapModified(ConfigMap configMap) {
+    private void processConfigMapModified(V1ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
@@ -173,7 +217,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         }
     }
 
-    private void processConfigMapDeleted(ConfigMap configMap) {
+    private void processConfigMapDeleted(V1ConfigMap configMap) {
         PropertySource propertySource = null;
         if (configMap != null) {
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
@@ -204,14 +248,14 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
      *
      * @see <a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes">Efficient detection of changes</a>
      */
-    private void processConfigMapErrored(ConfigMapWatchEvent event) {
+    private void processConfigMapErrored(Watch.Response<V1ConfigMap> event) {
         LOG.error("Kubernetes API returned an error for a ConfigMap watch event: {}", event.toString());
         KubernetesConfigurationClient.getPropertySourceCache().clear();
         refreshEnvironment();
         watch();
     }
 
-    private boolean passesIncludesExcludesLabelsFilters(ConfigMap configMap) {
+    private boolean passesIncludesExcludesLabelsFilters(V1ConfigMap configMap) {
         Collection<String> includes = configuration.getConfigMaps().getIncludes();
         Collection<String> excludes = configuration.getConfigMaps().getExcludes();
 
