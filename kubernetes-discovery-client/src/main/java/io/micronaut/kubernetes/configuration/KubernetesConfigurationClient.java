@@ -27,6 +27,7 @@ import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.secrets.SecretList;
+import io.micronaut.kubernetes.discovery.LabelResolver;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Predicate;
@@ -44,7 +45,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
-import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
 import static java.util.Collections.singletonMap;
 
 /**
@@ -72,17 +72,23 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private final KubernetesClient client;
     private final KubernetesConfiguration configuration;
+    private final LabelResolver labelResolver;
 
     /**
      * @param client        An HTTP Client to query the Kubernetes API.
-     * @param configuration The configuration properties
+     * @param configuration The configuration properties.
+     * @param labelResolver The {@link LabelResolver}.
      */
-    public KubernetesConfigurationClient(KubernetesClient client, KubernetesConfiguration configuration) {
+    public KubernetesConfigurationClient(
+            KubernetesClient client,
+            KubernetesConfiguration configuration,
+            LabelResolver labelResolver) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
         this.client = client;
         this.configuration = configuration;
+        this.labelResolver = labelResolver;
     }
 
     /**
@@ -146,9 +152,13 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
 
-        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+        return labelResolver.resolveCurrentPodLabels(configuration.getConfigMaps().getPodLabels())
+                .doOnNext(podLabels -> {
+                    // put the labels in this order so the manually configured labels takes precedence
+                    podLabels.putAll(configuration.getConfigMaps().getLabels());
+                })
+                .map(KubernetesUtils::computeLabelSelector)
                 .flatMap(labelSelector -> client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
                 .onErrorReturn(throwable -> new ConfigMapList())
@@ -194,8 +204,13 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
-                Map<String, String> labels = configuration.getSecrets().getLabels();
-                Flowable<PropertySource> secretListFlowable = computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
+
+                Flowable<PropertySource> secretListFlowable = labelResolver.resolveCurrentPodLabels(configuration.getSecrets().getPodLabels())
+                        .doOnNext(podLabels -> {
+                            // put the labels in this order so the manually configured labels takes precedence
+                            podLabels.putAll(configuration.getSecrets().getLabels());
+                        })
+                        .map(KubernetesUtils::computeLabelSelector)
                         .flatMap(labelSelector -> Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector)))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                         .onErrorReturn(throwable -> new SecretList())

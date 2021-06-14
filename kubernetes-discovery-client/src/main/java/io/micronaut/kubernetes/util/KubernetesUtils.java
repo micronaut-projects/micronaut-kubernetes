@@ -21,20 +21,22 @@ import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
-import io.reactivex.Flowable;
 import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
 
 /**
  * Utility class with methods to help with ConfigMaps and Secrets.
@@ -190,45 +192,14 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param client       the {@link KubernetesClient}
-     * @param podLabelKeys the list of labels inside a pod
-     * @param namespace    in the configuration
-     * @param labels       the labels
-     * @return the filtered labels of the current pod
+     * Utility method that evaluates whether the application is running inside K8s POD.
+     *
+     * @return {@code true} if runs in Kubernetes otherwise {@code false}.
      */
-    public static Flowable<String> computePodLabelSelector(KubernetesClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
+    public static boolean isRunningInKubernetes() {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
-        if (host == null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Not running on k8s");
-            }
-            return Flowable.just(computeLabelSelector(labels));
-        }
-
-        return Flowable.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
-                pod -> {
-                    Map<String, String> result = new HashMap<>();
-                    Map<String, String> podLabels = pod.getMetadata().getLabels();
-                    for (String key : podLabelKeys) {
-                        String value = podLabels.get(key);
-                        if (value != null) {
-                            result.put(key, value);
-                            if (LOG.isTraceEnabled()) {
-                                LOG.trace("Including pod label: {}={}", key, value);
-                            }
-                        } else {
-                            if (LOG.isWarnEnabled()) {
-                                LOG.warn("Pod metadata does not contain label: {}", key);
-                            }
-                        }
-                    }
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Computed pod label selectors {}", result);
-                    }
-                    result.putAll(labels);
-                    return computeLabelSelector(result);
-                });
+        return host == null;
     }
 
     private static String getPropertySourceName(ConfigMap configMap) {
@@ -240,5 +211,4 @@ public class KubernetesUtils {
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
-
 }
