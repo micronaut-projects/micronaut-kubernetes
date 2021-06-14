@@ -147,7 +147,17 @@ public class KubernetesUtils {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Includes: {}", includes);
             }
-            includesFilter = s -> includes.contains(s.getMetadata().getName());
+            includesFilter = s -> {
+                boolean result = includes.contains(s.getMetadata().getName());
+                if (LOG.isTraceEnabled()) {
+                    if (result) {
+                        LOG.trace("Includes filter matched: {}", s.getMetadata().getName());
+                    } else {
+                        LOG.trace("Includes filter not-matched: {}", s.getMetadata().getName());
+                    }
+                }
+                return result;
+            };
         }
 
         return includesFilter;
@@ -164,7 +174,17 @@ public class KubernetesUtils {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Excludes: {}", excludes);
             }
-            excludesFilter = s -> !excludes.contains(s.getMetadata().getName());
+            excludesFilter = s -> {
+                boolean result = !excludes.contains(s.getMetadata().getName());
+                if (LOG.isTraceEnabled()) {
+                    if (result) {
+                        LOG.trace("Excludes matched: {}", s.getMetadata().getName());
+                    } else {
+                        LOG.trace("Excludes filter not-matched: {}", s.getMetadata().getName());
+                    }
+                }
+                return result;
+            };
         }
 
         return excludesFilter;
@@ -182,8 +202,16 @@ public class KubernetesUtils {
             }
             labelsFilter = kubernetesObject -> {
                 Map<String, String> kubernetesObjectLabels = kubernetesObject.getMetadata().getLabels();
-                return labels.entrySet().stream().allMatch(
+                boolean result = labels.entrySet().stream().allMatch(
                         e -> kubernetesObjectLabels.containsKey(e.getKey()) && kubernetesObjectLabels.get(e.getKey()).equals(e.getValue()));
+                if (LOG.isTraceEnabled()) {
+                    if (result) {
+                        LOG.trace("Filter labels filter matched: {}", kubernetesObject.getMetadata().getName());
+                    } else {
+                        LOG.trace("Filter labels not-matched: {}", kubernetesObject.getMetadata().getName());
+                    }
+                }
+                return result;
             };
         }
         return labelsFilter;
