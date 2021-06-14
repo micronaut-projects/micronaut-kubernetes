@@ -24,8 +24,8 @@ class KubernetesDiscoveryClientLabelsSpec extends KubernetesSpecification{
         serviceIds.size() == 1
 
         and:
-        Flowable.fromPublisher(discoveryClient.getInstances("example-client")).count().blockingGet() == 0
-        Flowable.fromPublisher(discoveryClient.getInstances("example-service")).count().blockingGet() == 1
+        Flowable.fromPublisher(discoveryClient.getInstances("example-client")).blockingFirst().isEmpty()
+        Flowable.fromPublisher(discoveryClient.getInstances("example-service")).blockingFirst().size() == 2  // 2 endpoints
 
         cleanup:
         applicationContext.close()

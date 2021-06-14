@@ -99,7 +99,8 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                         LOG.error("Error while processing discovered service [" + serviceName + "]", throwable);
                     }
                     return new ArrayList<>();
-                });
+                })
+                .defaultIfEmpty(new ArrayList<>());
     }
 
     private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, Service service)

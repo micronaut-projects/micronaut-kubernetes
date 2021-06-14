@@ -80,8 +80,8 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         when: 'no port is specified'
         def config = createConfig("multiport-service")
 
-        then: 'the returned list is zero'
-        Flowable.fromPublisher(provider.getInstances(config)).count().blockingGet() == 0
+        then: 'the returned list is empty'
+        Flowable.fromPublisher(provider.getInstances(config)).blockingFirst().isEmpty()
 
         when: 'http port is specified'
         config.port = 'http'
