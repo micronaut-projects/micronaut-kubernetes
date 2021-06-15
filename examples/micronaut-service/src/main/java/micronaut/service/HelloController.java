@@ -23,7 +23,7 @@ import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.context.scope.Refreshable;
 import io.micronaut.runtime.server.EmbeddedServer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @Controller("/hello")
 @Refreshable

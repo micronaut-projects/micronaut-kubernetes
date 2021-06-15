@@ -11,7 +11,7 @@ import io.reactivex.Flowable
 import spock.lang.Requires
 import spock.lang.Shared
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })

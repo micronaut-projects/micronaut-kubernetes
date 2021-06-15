@@ -13,7 +13,7 @@ import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1PodList;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class MyService {

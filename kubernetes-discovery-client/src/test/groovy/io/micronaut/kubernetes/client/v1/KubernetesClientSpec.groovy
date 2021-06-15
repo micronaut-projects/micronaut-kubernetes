@@ -36,7 +36,7 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 import java.util.stream.Collectors
 import java.util.stream.IntStream
 

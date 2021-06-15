@@ -27,7 +27,7 @@ import io.fabric8.kubernetes.client.dsl.RollableScalableResource
 import io.micronaut.core.util.StringUtils
 import spock.util.concurrent.PollingConditions
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
