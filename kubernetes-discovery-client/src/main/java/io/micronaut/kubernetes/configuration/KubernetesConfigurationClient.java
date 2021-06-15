@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.configuration;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
@@ -35,11 +34,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -184,10 +178,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flowable<PropertySource> getPropertySourcesFromSecrets() {
-        Flowable<PropertySource> propertySourceFlowable = Flowable.empty();
-        if (configuration.getSecrets().isEnabled()) {
-            Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
-            if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {
+        if (configuration.getSecrets().isEnabled() && configuration.getSecrets().isUseApi()) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Reading Secrets from the Kubernetes API");
                 }
@@ -195,7 +186,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                Flowable<PropertySource> secretListFlowable = computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
+                return computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
                         .flatMap(labelSelector -> Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector)))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
                         .onErrorReturn(throwable -> new SecretList())
@@ -214,51 +205,11 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                             }
                         })
                         .map(KubernetesUtils::secretAsPropertySource);
-
-                propertySourceFlowable = propertySourceFlowable.mergeWith(secretListFlowable);
-            }
-
-            if (!mountedVolumePaths.isEmpty()) {
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Reading Secrets from the following mounted volumes: {}", mountedVolumePaths);
-                }
-
-                List<PropertySource> propertySources = new ArrayList<>();
-                mountedVolumePaths.stream()
-                        .map(Paths::get)
-                        .forEach(path -> {
-                            LOG.trace("Processing path: {}", path);
-                            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-                                Map<String, Object> propertySourceContents = new HashMap<>();
-                                for (Path file : stream) {
-                                    if (!Files.isDirectory(file)) {
-                                        String key = file.getFileName().toString();
-                                        String value = new String(Files.readAllBytes(file));
-                                        if (LOG.isTraceEnabled()) {
-                                            LOG.trace("Processing key: {}", key);
-                                        }
-                                        propertySourceContents.put(key, value);
-                                    }
-                                }
-                                String propertySourceName = path.toString() + KUBERNETES_SECRET_NAME_SUFFIX;
-                                int priority = EnvironmentPropertySource.POSITION + 150;
-                                PropertySource propertySource = PropertySource.of(propertySourceName, propertySourceContents, priority);
-                                addPropertySourceToCache(propertySource);
-                                propertySources.add(propertySource);
-                            } catch (IOException e) {
-                                LOG.warn("Exception occurred when reading secrets from path: {}", path);
-                                LOG.warn(e.getMessage(), e);
-                            }
-                        });
-
-                propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromIterable(propertySources));
-            }
         } else {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Kubernetes secrets access is disabled");
             }
+            return Flowable.empty();
         }
-        return propertySourceFlowable;
     }
-
 }
