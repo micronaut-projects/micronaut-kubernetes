@@ -27,9 +27,9 @@ import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent.EventType;
+import io.micronaut.kubernetes.discovery.LabelResolver;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
-import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_LIST_NAME;
-import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -63,6 +62,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private final KubernetesConfiguration configuration;
     private final ExecutorService executorService;
     private final ApplicationEventPublisher eventPublisher;
+    private final LabelResolver labelResolver;
 
     /**
      * @param environment the {@link Environment}
@@ -70,8 +70,14 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
      * @param configuration the {@link KubernetesConfiguration}
      * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
      * @param eventPublisher the {@link ApplicationEventPublisher}
+     * @param labelResolver the {@link LabelResolver}
      */
-    public KubernetesConfigMapWatcher(Environment environment, KubernetesClient client, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
+    public KubernetesConfigMapWatcher(Environment environment,
+                                      KubernetesClient client,
+                                      KubernetesConfiguration configuration,
+                                      @Named("io") ExecutorService executorService,
+                                      ApplicationEventPublisher eventPublisher,
+                                      LabelResolver labelResolver) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
@@ -81,6 +87,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         this.configuration = configuration;
         this.executorService = executorService;
         this.eventPublisher = eventPublisher;
+        this.labelResolver = labelResolver;
     }
 
     @Override
@@ -91,14 +98,20 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void watch() {
         long lastResourceVersion = computeLastResourceVersion();
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        Flowable<String> singleLabelSelector = computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels);
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Watching for ConfigMap events...");
+            LOG.debug("Watching for ConfigMap events since resource version {}", lastResourceVersion);
         }
 
-        singleLabelSelector.flatMap(labelSelector -> client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
+        Map<String, String> labels = configuration.getConfigMaps().getLabels();
+
+        labelResolver.resolveCurrentPodLabels(configuration.getConfigMaps().getPodLabels())
+                .doOnNext(podLabels -> {
+                    // put the labels in this order so the manually configured labels takes precedence
+                    podLabels.putAll(configuration.getConfigMaps().getLabels());
+                })
+                .map(KubernetesUtils::computeLabelSelector)
+                .flatMap(labelSelector -> client.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
                 .doOnNext(e -> {
                     if (LOG.isTraceEnabled()) {
                         LOG.trace("Received ConfigMap watch event: {}", e);
