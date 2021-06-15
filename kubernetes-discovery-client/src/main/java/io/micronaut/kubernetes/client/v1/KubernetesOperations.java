@@ -15,8 +15,9 @@
  */
 package io.micronaut.kubernetes.client.v1;
 
-import javax.annotation.Nullable;
 
+
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Consumes;
