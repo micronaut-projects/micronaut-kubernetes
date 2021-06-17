@@ -22,6 +22,10 @@ subprojects { Project subproject ->
 
     apply plugin: "io.micronaut.build.internal.dependency-updates"
     apply plugin: "io.micronaut.build.internal.publishing"
+
+    dependencies {
+        compileOnly "jakarta.inject:jakarta.inject-api:2.0.0"
+    }
 }
 
 apply plugin: "io.micronaut.build.internal.docs"

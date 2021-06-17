@@ -3,6 +3,8 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-graal"
     annotationProcessor project(":kubernetes-client-processor")
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+    // TODO: remove after release of 3.0.0.M2
+    annotationProcessor "jakarta.inject:jakarta.inject-api:2.0.0"
 
     api "io.micronaut:micronaut-inject"
     api "io.micronaut:micronaut-http-client"

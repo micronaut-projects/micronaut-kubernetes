@@ -27,6 +27,9 @@ dependencies {
     implementation project(':kubernetes-discovery-client')
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation project(":test-utils")
+
+    // TODO: remove after release of 3.0.0.M2
+    compileOnly "jakarta.inject:jakarta.inject-api:2.0.0"
 }
 
 application {

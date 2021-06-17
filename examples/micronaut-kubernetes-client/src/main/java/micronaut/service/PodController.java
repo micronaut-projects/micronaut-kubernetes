@@ -19,12 +19,12 @@ import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1Pod;
 import io.kubernetes.client.openapi.models.V1PodList;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.context.scope.Refreshable;
 
 import jakarta.inject.Inject;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -36,13 +36,13 @@ public class PodController {
     CoreV1Api coreV1Api;
 
     @Get("/{namespace}/{name}")
-    public String getPod(final @NotNull String namespace, final @NotNull String name) throws ApiException {
+    public String getPod(final @NonNull String namespace, final @NonNull String name) throws ApiException {
         V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace, null, null, null);
         return v1Pod.getStatus().getPhase();
     }
 
     @Get("/{namespace}")
-    public Map<String, String> index(final @NotNull String namespace) throws ApiException {
+    public Map<String, String> index(final @NonNull String namespace) throws ApiException {
         V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, false);
         return v1PodList.getItems().stream()
                 .filter(p -> p.getStatus() != null)

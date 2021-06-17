@@ -15,6 +15,8 @@ dependencies {
     }
     implementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
 
+    // TODO: remove after release of 3.0.0.M2
+    compileOnly "jakarta.inject:jakarta.inject-api:2.0.0"
     testAnnotationProcessor "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
