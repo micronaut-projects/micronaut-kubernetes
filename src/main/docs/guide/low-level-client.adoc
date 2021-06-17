@@ -6,7 +6,7 @@ non-blocking HTTP client. If you need to, you can use it directly in your applic
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class MyService {

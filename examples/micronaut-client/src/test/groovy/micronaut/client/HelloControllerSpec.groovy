@@ -12,7 +12,7 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 import io.micronaut.context.annotation.Requires as MicronautRequires
 

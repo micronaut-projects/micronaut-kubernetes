@@ -20,7 +20,7 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.annotation.processing.*;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;

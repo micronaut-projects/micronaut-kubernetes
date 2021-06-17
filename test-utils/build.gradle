@@ -5,16 +5,18 @@ plugins {
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-groovy"
 
-    compile "org.codehaus.groovy:groovy:$groovyVersion"
-    compile "io.micronaut:micronaut-inject-groovy"
-    compile "io.micronaut:micronaut-http-client:$micronautVersion"
-    compile 'io.fabric8:kubernetes-client:4.13.0'
+    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation "io.micronaut:micronaut-inject-groovy"
+    implementation "io.micronaut:micronaut-http-client:$micronautVersion"
+    api 'io.fabric8:kubernetes-client:5.4.1'
     compileOnly "org.junit.jupiter:junit-jupiter-engine"
-    compile("org.spockframework:spock-core:${spockVersion}") {
+    implementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }
-    compile "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    implementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
 
+    // TODO: remove after release of 3.0.0.M2
+    compileOnly "jakarta.inject:jakarta.inject-api:2.0.0"
     testAnnotationProcessor "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"

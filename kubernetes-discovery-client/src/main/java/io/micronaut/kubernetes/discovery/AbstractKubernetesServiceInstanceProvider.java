@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.discovery;
 
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration;
@@ -24,7 +25,6 @@ import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.List;
