@@ -8,7 +8,7 @@ import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
+import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest

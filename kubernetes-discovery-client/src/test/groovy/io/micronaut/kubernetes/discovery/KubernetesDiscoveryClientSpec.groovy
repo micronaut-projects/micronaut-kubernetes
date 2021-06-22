@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
-import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
+import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
