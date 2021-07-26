@@ -5,7 +5,7 @@ import io.micronaut.kubernetes.client.v1.services.ServiceSpec
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Specification
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @MicronautTest
 class InetAddressDeserializerSpec extends Specification {

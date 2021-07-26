@@ -82,7 +82,7 @@ import io.kubernetes.client.openapi.apis.VersionApi;
 
 import io.micronaut.core.annotation.Internal;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 /**
  * @author Pavol Gressa
