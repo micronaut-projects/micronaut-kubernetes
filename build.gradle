@@ -12,10 +12,6 @@ subprojects { Project subproject ->
 
     group "io.micronaut.kubernetes"
 
-    repositories {
-        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
-    }
-
     apply plugin: "io.micronaut.build.internal.common"
 
     if (subproject.name in ["test-utils", "micronaut-client", "micronaut-service", "micronaut-kubernetes-client"]) {
