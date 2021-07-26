@@ -24,7 +24,7 @@ import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
+import io.micronaut.core.annotation.Nullable;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.List;

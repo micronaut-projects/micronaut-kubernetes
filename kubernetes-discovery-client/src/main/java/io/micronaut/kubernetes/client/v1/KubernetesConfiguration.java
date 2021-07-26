@@ -25,7 +25,7 @@ import io.micronaut.http.client.HttpClientConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
+import io.micronaut.core.annotation.NonNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -95,7 +95,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     /**
      * @return The Kubernetes API host name
      **/
-    @Nonnull
+    @NonNull
     public String getHost() {
         return host;
     }
@@ -140,7 +140,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     /**
      * @return The {@link DiscoveryConfiguration}.
      */
-    @Nonnull
+    @NonNull
     public KubernetesDiscoveryConfiguration getDiscovery() {
         return this.discovery;
     }
@@ -155,7 +155,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     /**
      * @return the namespace
      */
-    @Nonnull
+    @NonNull
     public String getNamespace() {
         return namespace;
     }
@@ -175,7 +175,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     /**
      * @return the {@link KubernetesSecretsConfiguration}.
      */
-    @Nonnull
+    @NonNull
     public KubernetesSecretsConfiguration getSecrets() {
         return secrets;
     }
@@ -190,7 +190,7 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     /**
      * @return The config maps configuration properties
      */
-    @Nonnull
+    @NonNull
     public KubernetesConfigMapsConfiguration getConfigMaps() {
         return configMaps;
     }
