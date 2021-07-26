@@ -13,6 +13,7 @@ dependencies {
     testCompileOnly "io.micronaut:micronaut-inject-groovy"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation "io.micronaut:micronaut-runtime"
+    testImplementation "io.micronaut:micronaut-http-client"
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }
