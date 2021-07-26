@@ -26,12 +26,12 @@ import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
 import io.micronaut.kubernetes.client.v1.secrets.Secret;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Predicate;
+import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
@@ -224,17 +224,17 @@ public class KubernetesUtils {
      * @param labels       the labels
      * @return the filtered labels of the current pod
      */
-    public static Flowable<String> computePodLabelSelector(KubernetesClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
+    public static Publisher<String> computePodLabelSelector(KubernetesClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Not running on k8s");
             }
-            return Flowable.just(computeLabelSelector(labels));
+            return Flux.just(computeLabelSelector(labels));
         }
 
-        return Flowable.fromPublisher(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
+        return Flux.from(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
                 pod -> {
                     Map<String, String> result = new HashMap<>();
                     Map<String, String> podLabels = pod.getMetadata().getLabels();

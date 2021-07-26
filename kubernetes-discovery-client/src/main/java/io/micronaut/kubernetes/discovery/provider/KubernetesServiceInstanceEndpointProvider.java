@@ -20,16 +20,17 @@ import io.micronaut.kubernetes.client.v1.*;
 import io.micronaut.kubernetes.client.v1.endpoints.Endpoints;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Predicate;
+import reactor.core.publisher.Flux;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -81,7 +82,7 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
             LOG.trace("Fetching Endpoints {}", serviceConfiguration);
         }
 
-        return Flowable.fromPublisher(client.getEndpoints(serviceNamespace, serviceName))
+        return Flux.from(client.getEndpoints(serviceNamespace, serviceName))
                 .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while trying to list Endpoints {}", serviceConfiguration, throwable);
@@ -98,11 +99,11 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
                         .filter(port -> !serviceConfiguration.getPort().isPresent() || port.getName().equals(serviceConfiguration.getPort().get()))
                         .flatMap(port -> subset.getAddresses().stream().map(address -> buildServiceInstance(serviceConfiguration.getServiceId(), port, address.getIp(), metadata.get())))
                         .collect(Collectors.toList()))
-                .onErrorReturn(throwable -> {
+                .onErrorResume(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while processing discovered endpoints [" + serviceName + "]", throwable);
                     }
-                    return new ArrayList<>();
+                    return Flux.just(Collections.emptyList());
                 })
                 .defaultIfEmpty(new ArrayList<>());
     }

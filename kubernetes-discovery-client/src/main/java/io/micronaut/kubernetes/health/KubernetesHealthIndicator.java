@@ -25,17 +25,14 @@ import io.micronaut.kubernetes.client.v1.pods.ContainerStatus;
 import io.micronaut.kubernetes.client.v1.pods.Pod;
 import io.micronaut.management.endpoint.health.HealthEndpoint;
 import io.micronaut.management.health.indicator.AbstractHealthIndicator;
-import io.reactivex.Single;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import jakarta.inject.Singleton;
+import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT;
-
 
 /**
  * Health indicator to show the current Pod information.
@@ -115,8 +112,8 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
     @Override
     protected Map<String, Object> getHealthInformation() {
         try {
-            Pod pod = Single.fromPublisher(this.client.getPod(configuration.getNamespace(),
-                    System.getenv(HOSTNAME_ENV_VARIABLE))).blockingGet();
+            Pod pod = Mono.from(this.client.getPod(configuration.getNamespace(),
+                    System.getenv(HOSTNAME_ENV_VARIABLE))).block();
             return processPod(pod);
         } catch (Exception e) {
             return processError(e);

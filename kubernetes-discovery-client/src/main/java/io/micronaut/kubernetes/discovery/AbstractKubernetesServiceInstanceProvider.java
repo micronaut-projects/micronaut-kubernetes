@@ -20,7 +20,6 @@ import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.client.v1.Metadata;
 import io.micronaut.kubernetes.client.v1.Port;
-import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +27,7 @@ import io.micronaut.core.annotation.Nullable;
 import java.net.InetAddress;
 import java.net.URI;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**

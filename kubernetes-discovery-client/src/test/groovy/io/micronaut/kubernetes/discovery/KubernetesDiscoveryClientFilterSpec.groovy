@@ -8,7 +8,7 @@ import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.reactivex.Flowable
+import reactor.core.publisher.Flux
 import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])

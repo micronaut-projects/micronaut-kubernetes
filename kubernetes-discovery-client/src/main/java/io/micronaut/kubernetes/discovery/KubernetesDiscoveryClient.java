@@ -25,16 +25,17 @@ import io.micronaut.kubernetes.client.v1.*;
 import io.micronaut.kubernetes.client.v1.services.ServiceList;
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import reactor.core.publisher.Flux;
+
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID;
@@ -162,15 +163,15 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
 
-        return Flowable.merge(
-                Flowable.fromIterable(serviceConfigurations.keySet()),
-                Flowable.fromPublisher(client.listServices(namespace, labelSelector))
+        return Flux.merge(
+                Flux.fromIterable(serviceConfigurations.keySet()),
+                Flux.from(client.listServices(namespace, labelSelector))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
                         .flatMapIterable(ServiceList::getItems)
                         .filter(includesFilter)
                         .filter(excludesFilter)
                         .map(service -> service.getMetadata().getName())
-        ).distinct().toList().toFlowable();
+        ).distinct().collectList();
     }
 
     @Override

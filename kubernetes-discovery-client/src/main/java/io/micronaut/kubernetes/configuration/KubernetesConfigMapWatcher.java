@@ -29,13 +29,14 @@ import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent.EventType;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
-import io.reactivex.Flowable;
-import io.reactivex.schedulers.Schedulers;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -92,7 +93,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void watch() {
         long lastResourceVersion = computeLastResourceVersion();
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        Flowable<String> singleLabelSelector = computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels);
+        Flux<String> singleLabelSelector = Flux.from(computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels));
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Watching for ConfigMap events...");
@@ -105,8 +106,8 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                     }
                 })
                 .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
-                .subscribeOn(Schedulers.from(this.executorService))
-                .onErrorReturnItem(new ConfigMapWatchEvent(EventType.ERROR))
+                .subscribeOn(Schedulers.fromExecutorService(this.executorService))
+                .onErrorReturn(new ConfigMapWatchEvent(EventType.ERROR))
                 .subscribe(this::processEvent);
     }
 
