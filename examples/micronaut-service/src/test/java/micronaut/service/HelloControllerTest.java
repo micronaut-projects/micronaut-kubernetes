@@ -1,6 +1,6 @@
 package micronaut.service;
 
-import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.client.HttpClient;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ public class HelloControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        try(RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class, embeddedServer.getURL())) {
+        try(HttpClient client = embeddedServer.getApplicationContext().createBean(HttpClient.class, embeddedServer.getURL())) {
             assertTrue(client.toBlocking().exchange("/hello/Alvaro", String.class).body().startsWith("Hello, Alvaro"));
         }
     }
