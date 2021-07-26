@@ -18,6 +18,7 @@ package micronaut.service;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.core.annotation.ReflectiveAccess;
+import io.micronaut.core.annotation.TypeHint;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -27,6 +28,9 @@ import io.micronaut.runtime.server.EmbeddedServer;
 
 import jakarta.inject.Inject;
 
+import java.util.Optional;
+
+@TypeHint(Optional.class)
 @Controller("/hello")
 @Refreshable
 public class HelloController {
