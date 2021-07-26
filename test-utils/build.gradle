@@ -5,15 +5,15 @@ plugins {
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-groovy"
 
-    compile "org.codehaus.groovy:groovy:$groovyVersion"
-    compile "io.micronaut:micronaut-inject-groovy"
-    compile "io.micronaut:micronaut-http-client:$micronautVersion"
-    compile 'io.fabric8:kubernetes-client:4.13.0'
+    implementation "org.codehaus.groovy:groovy:$groovyVersion"
+    implementation "io.micronaut:micronaut-inject-groovy"
+    implementation "io.micronaut:micronaut-http-client:$micronautVersion"
+    implementation 'io.fabric8:kubernetes-client:4.13.0'
     compileOnly "org.junit.jupiter:junit-jupiter-engine"
-    compile("org.spockframework:spock-core:${spockVersion}") {
+    implementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }
-    compile "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    implementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-inject-groovy"

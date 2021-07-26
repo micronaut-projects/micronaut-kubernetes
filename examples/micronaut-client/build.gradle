@@ -26,7 +26,7 @@ dependencies {
     implementation("io.micronaut:micronaut-management")
     implementation project(':kubernetes-discovery-client')
     runtimeOnly("ch.qos.logback:logback-classic")
-    testCompile project(":test-utils")
+    testImplementation project(":test-utils")
 }
 
 application {
