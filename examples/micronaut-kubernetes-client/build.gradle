@@ -18,6 +18,7 @@ micronaut {
 }
 
 dependencies {
+    implementation group: 'javax.inject', name: 'javax.inject', version: '1'
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-inject-java")
     implementation("io.micronaut:micronaut-runtime")
