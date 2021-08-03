@@ -1,11 +1,13 @@
 package micronaut.service;
 
-import io.micronaut.http.client.RxHttpClient;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.MediaType;
+import io.micronaut.http.client.HttpClient;
 import io.micronaut.runtime.server.EmbeddedServer;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,8 +19,9 @@ public class HelloControllerTest {
 
     @Test
     public void testIndex() throws Exception {
-        try(RxHttpClient client = embeddedServer.getApplicationContext().createBean(RxHttpClient.class, embeddedServer.getURL())) {
-            assertTrue(client.toBlocking().exchange("/hello/Alvaro", String.class).body().startsWith("Hello, Alvaro"));
+        try(HttpClient client = embeddedServer.getApplicationContext().createBean(HttpClient.class, embeddedServer.getURL())) {
+            HttpRequest<?> request = HttpRequest.GET("/hello/Alvaro").accept(MediaType.TEXT_PLAIN);
+            assertTrue(client.toBlocking().exchange(request, String.class).body().startsWith("Hello, Alvaro"));
         }
     }
 }

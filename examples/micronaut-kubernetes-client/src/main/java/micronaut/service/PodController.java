@@ -23,7 +23,7 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.context.scope.Refreshable;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,7 +43,7 @@ public class PodController {
 
     @Get("/{namespace}")
     public Map<String, String> index(final @NotNull String namespace) throws ApiException {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, false);
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, false);
         return v1PodList.getItems().stream()
                 .filter(p -> p.getStatus() != null)
                 .collect(Collectors.toMap(

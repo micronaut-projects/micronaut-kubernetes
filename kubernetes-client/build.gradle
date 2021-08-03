@@ -5,7 +5,7 @@ dependencies {
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
     api "io.micronaut:micronaut-inject"
-    api 'io.kubernetes:client-java:10.0.0'
+    api 'io.kubernetes:client-java:13.0.0'
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
@@ -13,6 +13,7 @@ dependencies {
     testCompileOnly "io.micronaut:micronaut-inject-groovy"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation "io.micronaut:micronaut-runtime"
+    testImplementation "io.micronaut:micronaut-http-client"
     testImplementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
     }

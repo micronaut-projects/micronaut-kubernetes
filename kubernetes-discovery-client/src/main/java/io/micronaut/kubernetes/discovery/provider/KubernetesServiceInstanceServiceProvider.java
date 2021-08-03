@@ -20,18 +20,20 @@ import io.micronaut.kubernetes.client.v1.*;
 import io.micronaut.kubernetes.client.v1.services.Service;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
+import reactor.core.publisher.Flux;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,7 +85,7 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
             LOG.trace("Fetching Service {}", serviceConfiguration);
         }
 
-        return Flowable.fromPublisher(client.getService(serviceNamespace, serviceName))
+        return Flux.from(client.getService(serviceNamespace, serviceName))
                 .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while trying to get Service {}", serviceConfiguration, throwable);
@@ -91,16 +93,27 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                 })
                 .filter(globalFilter)
                 .filter(service -> hasValidPortConfiguration(service.getSpec().getPorts(), serviceConfiguration))
-                .map(service -> Stream.of(buildServiceInstance(serviceConfiguration, service))
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList()))
-                .onErrorReturn(throwable -> {
+                .map(service -> buildServiceInstanceList(serviceConfiguration, service))
+                .onErrorResume(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while processing discovered service [" + serviceName + "]", throwable);
                     }
-                    return new ArrayList<>();
+                    return Flux.just(Collections.emptyList());
                 })
                 .defaultIfEmpty(new ArrayList<>());
+    }
+
+    private List<ServiceInstance> buildServiceInstanceList(KubernetesServiceConfiguration serviceConfiguration, Service service) {
+        try {
+            return Stream.of(buildServiceInstance(serviceConfiguration, service))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        } catch (UnknownHostException e) {
+            if (LOG.isErrorEnabled()) {
+                LOG.error("UnknownHostException building Service Instance list");
+            }
+            return Collections.emptyList();
+        }
     }
 
     private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, Service service)

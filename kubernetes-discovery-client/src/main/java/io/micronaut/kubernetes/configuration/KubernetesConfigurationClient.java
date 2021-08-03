@@ -28,13 +28,13 @@ import io.micronaut.kubernetes.client.v1.KubernetesObject;
 import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapList;
 import io.micronaut.kubernetes.client.v1.secrets.SecretList;
 import io.micronaut.kubernetes.util.KubernetesUtils;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
+import reactor.core.publisher.Flux;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -42,6 +42,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 
 import static io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE;
 import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelector;
@@ -95,10 +96,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     public Publisher<PropertySource> getPropertySources(Environment environment) {
         if (!propertySources.isEmpty()) {
             LOG.trace("Found cached PropertySources. Returning them");
-            return Flowable.fromIterable(propertySources.values());
+            return Flux.fromIterable(propertySources.values());
         } else {
             LOG.trace("PropertySource cache is empty");
-            return getPropertySourcesFromConfigMaps().mergeWith(getPropertySourcesFromSecrets());
+            return Flux.from(getPropertySourcesFromConfigMaps()).mergeWith(getPropertySourcesFromSecrets());
         }
     }
 
@@ -143,22 +144,22 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return propertySources;
     }
 
-    private Flowable<PropertySource> getPropertySourcesFromConfigMaps() {
+    private Publisher<PropertySource> getPropertySourcesFromConfigMaps() {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
 
-        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+        return Flux.from(computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels))
                 .flatMap(labelSelector -> client.listConfigMaps(configuration.getNamespace(), labelSelector))
                 .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
-                .onErrorReturn(throwable -> new ConfigMapList())
+                .onErrorReturn(new ConfigMapList())
                 .doOnNext(configMapList -> {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
                     }
                 })
-                .flatMap(configMapList -> Flowable.just(configMapListAsPropertySource(configMapList))
-                        .mergeWith(Flowable.fromIterable(configMapList.getItems())
+                .flatMap(configMapList -> Flux.just(configMapListAsPropertySource(configMapList))
+                        .mergeWith(Flux.fromIterable(configMapList.getItems())
                                 .filter(includesFilter)
                                 .filter(excludesFilter)
                                 .doOnNext(configMap -> {
@@ -183,8 +184,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return PropertySource.of(KUBERNETES_CONFIG_MAP_LIST_NAME, singletonMap(CONFIG_MAP_LIST_RESOURCE_VERSION, resourceVersion), EnvironmentPropertySource.POSITION + 100);
     }
 
-    private Flowable<PropertySource> getPropertySourcesFromSecrets() {
-        Flowable<PropertySource> propertySourceFlowable = Flowable.empty();
+    private Publisher<PropertySource> getPropertySourcesFromSecrets() {
+        Flux<PropertySource> propertySourceFlowable = Flux.empty();
         if (configuration.getSecrets().isEnabled()) {
             Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
             if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {
@@ -195,10 +196,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                Flowable<PropertySource> secretListFlowable = computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
-                        .flatMap(labelSelector -> Flowable.fromPublisher(client.listSecrets(configuration.getNamespace(), labelSelector)))
+                Flux<PropertySource> secretListFlowable = Flux.from(computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels))
+                        .flatMap(labelSelector -> Flux.from(client.listSecrets(configuration.getNamespace(), labelSelector)))
                         .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
-                        .onErrorReturn(throwable -> new SecretList())
+                        .onErrorReturn(new SecretList())
                         .doOnNext(secretList -> {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size());
@@ -251,7 +252,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                             }
                         });
 
-                propertySourceFlowable = propertySourceFlowable.mergeWith(Flowable.fromIterable(propertySources));
+                propertySourceFlowable = propertySourceFlowable.mergeWith(Flux.fromIterable(propertySources));
             }
         } else {
             if (LOG.isDebugEnabled()) {

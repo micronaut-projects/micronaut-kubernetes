@@ -18,12 +18,14 @@ package micronaut.service;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.core.annotation.ReflectiveAccess;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Produces;
 import io.micronaut.runtime.context.scope.Refreshable;
 import io.micronaut.runtime.server.EmbeddedServer;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @Controller("/hello")
 @Refreshable
@@ -39,16 +41,19 @@ public class HelloController {
     @Value("${enemies.cheat.level:defaultCheatLevel}")
     private String enemiesCheatLevel;
 
+    @Produces(MediaType.TEXT_PLAIN)
     @Get("/{name}")
     public String index(final String name) {
         return "Hello, " + name + ". From " + embeddedServer.getHost() + ":" + embeddedServer.getPort() + "\n";
     }
 
+    @Produces(MediaType.TEXT_PLAIN)
     @Get("/enemies")
     public String enemies() {
         return enemiesCheatLevel;
     }
 
+    @Produces(MediaType.TEXT_PLAIN)
     @Get("/config/{key}")
     public String config(String key) {
         return context.get(key, String.class).orElse("NOTHING");
