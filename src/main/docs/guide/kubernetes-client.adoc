@@ -11,9 +11,9 @@ Then you can simply use Micronaut injection to get configured apis object from p
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1PodList;
-import io.reactivex.Flowable;
-import io.reactivex.schedulers.Schedulers;
-import javax.inject.Singleton;
+import reactor.core.publisher.Flux;
+import reactor.core.scheduler.Schedulers;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class MyService {

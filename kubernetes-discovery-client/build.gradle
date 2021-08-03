@@ -7,12 +7,14 @@ dependencies {
     compileOnly "io.micronaut:micronaut-management"
     compileOnly "org.graalvm.nativeimage:svm"
 
-    implementation "io.micronaut.discovery:micronaut-discovery-client"
+    implementation "io.projectreactor:reactor-core"
+
+    implementation "io.micronaut.discovery:micronaut-discovery-client:$micronautDiscoveryClientVersion"
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
-    testImplementation "io.micronaut.discovery:micronaut-discovery-client"
+    testImplementation "io.micronaut.discovery:micronaut-discovery-client:$micronautDiscoveryClientVersion"
     testImplementation "io.micronaut:micronaut-inject-groovy"
     testImplementation "io.micronaut:micronaut-inject-java"
     testImplementation("org.spockframework:spock-core:${spockVersion}") {

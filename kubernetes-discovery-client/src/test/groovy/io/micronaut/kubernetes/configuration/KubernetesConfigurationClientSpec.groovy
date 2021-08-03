@@ -7,11 +7,11 @@ import io.micronaut.context.env.PropertySource
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.reactivex.Flowable
+import reactor.core.publisher.Flux
 import spock.lang.Requires
 import spock.lang.Shared
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })

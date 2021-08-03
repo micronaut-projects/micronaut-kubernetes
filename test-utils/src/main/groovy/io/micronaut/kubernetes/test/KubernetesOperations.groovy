@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.test
 import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.*
 import io.fabric8.kubernetes.api.model.apps.Deployment
-import io.fabric8.kubernetes.api.model.apps.DoneableDeployment
 import io.fabric8.kubernetes.api.model.rbac.*
 import io.fabric8.kubernetes.client.ConfigBuilder
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
@@ -28,7 +27,7 @@ import io.fabric8.kubernetes.client.dsl.RollableScalableResource
 import io.micronaut.core.util.StringUtils
 import spock.util.concurrent.PollingConditions
 
-import javax.inject.Singleton
+import jakarta.inject.Singleton
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
@@ -205,7 +204,7 @@ class KubernetesOperations implements Closeable {
     }
 
     Deployment createDeploymentFromFile(URL pathToManifest, String name = null, String namespace = null) {
-        RollableScalableResource<Deployment, DoneableDeployment> deployment = client.apps().deployments().load(pathToManifest)
+        RollableScalableResource<Deployment> deployment = client.apps().deployments().load(pathToManifest)
         if (StringUtils.isNotEmpty(name)) {
             deployment.get().metadata.name = name
         }

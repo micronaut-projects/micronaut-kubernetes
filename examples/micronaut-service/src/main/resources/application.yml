@@ -3,8 +3,6 @@ micronaut:
     name: micronaut-service
   server:
     port: 8081
-jackson:
-  module-scan: false
 endpoints:
   env:
     sensitive: false
