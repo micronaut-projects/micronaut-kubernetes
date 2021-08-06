@@ -143,7 +143,8 @@ kubernetes:
 ----
 
 ## Service discovery modes
-Service discovery mode is a mechanism that allows to support different strategies for the actual service discovery in Kubernetes by implementing link:{sourcedir}/kubernetes-discovery-client/src/main/java/io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.java[KubernetesServiceInstanceProvider] interface.
+
+Service discovery mode is a mechanism that allows to support different strategies for the actual service discovery in Kubernetes by implementing api:kubernetes.discovery.KubernetesServiceInstanceProvider[] interface.
 
 Currently Micronaut Kubernetes implements two discovery modes:
 
