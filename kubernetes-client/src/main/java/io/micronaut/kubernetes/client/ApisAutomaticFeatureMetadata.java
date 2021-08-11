@@ -21,7 +21,7 @@ import io.micronaut.core.annotation.Internal;
  * Causes the Kubernetes apis beans will be generated.
  *
  * @author Pavol Gressa
- * @since 3.0
+ * @since 2.2
  */
 @Apis(kind = Apis.Kind.ASYNC)
 @Internal
