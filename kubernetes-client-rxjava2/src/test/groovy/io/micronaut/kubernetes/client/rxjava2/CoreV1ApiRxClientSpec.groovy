@@ -8,7 +8,7 @@ import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
 
-import javax.inject.Inject
+import jakarta.inject.Inject
 
 @MicronautTest
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -38,6 +38,7 @@ class CoreV1ApiRxClientSpec extends KubernetesSpecification {
                 null,
                 null,
                 null,
+                null,
                 null).blockingGet()
 
         then:
@@ -56,6 +57,7 @@ class CoreV1ApiRxClientSpec extends KubernetesSpecification {
                 null,
                 null,
                 "label=red",
+                null,
                 null,
                 null,
                 null).blockingGet()

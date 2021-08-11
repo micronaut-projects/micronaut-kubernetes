@@ -27,7 +27,10 @@ import io.micronaut.core.convert.value.MutableConvertibleValues;
 import io.micronaut.core.naming.NameUtils;
 
 import javax.annotation.processing.*;
+
+import io.micronaut.inject.visitor.TypeElementVisitor;
 import jakarta.inject.Singleton;
+
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.*;
 import javax.lang.model.type.DeclaredType;
@@ -39,6 +42,7 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +50,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * An annotation processor that generates the Kubernetes APIs factories.
+ * An annotation processor that generates the Kubernetes APIs factories. Based on {@code io.micronaut.kubernetes.client.Apis}
+ * annotation field {@code kind} either {@code Async}, {@code RxJava2} or {@code Reactor} client factories are generated.
  *
  * @author Pavol Gressa
  * @since 2.2
@@ -77,12 +82,26 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         for (TypeElement annotation : annotations) {
             final Set<? extends Element> element = roundEnv.getElementsAnnotatedWith(annotation);
             for (Element e : element) {
-                List<String> apisNames = resolveClientNames(e);
+                final List<String> apisNames = resolveClientNames(e);
+                final String t = resolveClientType(e);
+                final boolean isRxJava2 = t.equals("RXJAVA2");
+                final boolean isReactor = t.equals("REACTOR");
+                final boolean isAsync = t.equals("ASYNC");
                 for (String clientName : apisNames) {
                     final String packageName = NameUtils.getPackageName(clientName);
                     final String simpleName = NameUtils.getSimpleName(clientName);
-                    writeClientFactory(e, packageName, simpleName);
-                    writeRxJava2Clients(e, packageName, simpleName);
+
+                    if (isRxJava2) {
+                        writeRxJava2Clients(e, packageName, simpleName);
+                    } else {
+                        if (isReactor) {
+                            writeReactorClients(e, packageName, simpleName);
+                        } else {
+                            if (isAsync) {
+                                writeClientFactory(e, packageName, simpleName);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -112,6 +131,134 @@ public class KubernetesApisProcessor extends AbstractProcessor {
             }
         } catch (IOException ioException) {
             messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Kubernetes " + simpleName + "  factory: " + ioException.getMessage(), e);
+        }
+    }
+
+    private void writeReactorClients(Element e, String packageName, String simpleName) {
+        final String reactorClientName = simpleName + "ReactorClient";
+        final String reactorPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + ".reactor");
+
+        ClassName cn = ClassName.get(reactorPackageName, reactorClientName);
+        TypeSpec.Builder builder = TypeSpec.classBuilder(cn);
+
+        ClassName clientType = ClassName.get(packageName, simpleName);
+        ClassName reactorMonoType = ClassName.get("reactor.core.publisher", "Mono");
+        final AnnotationSpec.Builder requiresSpec =
+                AnnotationSpec.builder(Requires.class)
+                        .addMember("beans", "{$T.class}", clientType);
+
+        builder.addAnnotation(requiresSpec.build());
+        builder.addAnnotation(Singleton.class);
+        builder.addModifiers(Modifier.PUBLIC);
+        builder.addField(clientType, "client", Modifier.FINAL, Modifier.PRIVATE);
+        builder.addMethod(MethodSpec.constructorBuilder()
+                .addParameter(clientType, "client")
+                .addCode("this.client = client;")
+                .build());
+
+        TypeElement typeElement = elements.getTypeElement(clientType.reflectionName());
+        if (typeElement != null) {
+            ModelUtils modelUtils = new ModelUtils(elements, types) {
+            };
+            GenericUtils genericUtils = new GenericUtils(elements, types, modelUtils) {
+            };
+            AnnotationUtils annotationUtils = new AnnotationUtils(processingEnv, elements, messager, types, modelUtils, genericUtils, filer) {
+            };
+            JavaVisitorContext visitorContext = new JavaVisitorContext(
+                    processingEnv,
+                    messager,
+                    elements,
+                    annotationUtils,
+                    types,
+                    modelUtils,
+                    genericUtils,
+                    filer,
+                    MutableConvertibleValues.of(new LinkedHashMap<>()),
+                    TypeElementVisitor.VisitorKind.ISOLATING);
+            typeElement.asType().accept(new PublicMethodVisitor<Object, Object>(visitorContext) {
+                @Override
+                protected void accept(DeclaredType type, Element element, Object o) {
+                    ExecutableElement ee = (ExecutableElement) element;
+                    TypeMirror returnType = ee.getReturnType();
+                    if (element.getSimpleName().toString().endsWith("Async")) {
+                        DeclaredType dt = (DeclaredType) returnType;
+                        Element e = dt.asElement();
+                        if (e.getSimpleName().toString().equals("Call")) {
+                            List<? extends VariableElement> parameters = ee.getParameters();
+                            VariableElement fieldElement = parameters.get(parameters.size() - 1);
+                            TypeMirror typeMirror = fieldElement.asType();
+                            if (typeMirror instanceof DeclaredType) {
+                                DeclaredType cdt = (DeclaredType) typeMirror;
+                                List<? extends TypeMirror> typeArguments = cdt.getTypeArguments();
+                                if (typeArguments.size() == 1) {
+                                    TypeMirror ctm = typeArguments.get(0);
+                                    if (ctm instanceof DeclaredType) {
+                                        // resolve the callback response type
+                                        TypeName responseType = ClassName.get(ctm);
+
+                                        // resolve the method name by removing the Async suffix
+                                        String methodName = ee.getSimpleName().toString();
+                                        String finalMethodName = methodName.replace("Async", "");
+
+                                        // prepare parameters for the method without tha _callback one
+                                        List<ParameterSpec> parameterSpecs = parameters.stream()
+                                                .filter(va -> !va.getSimpleName().toString().equals("_callback"))
+                                                .filter(va -> !va.getSimpleName().toString().equals("watch"))
+                                                .map(va -> ParameterSpec.builder(ClassName.get(va.asType()), va.getSimpleName().toString()).build())
+                                                .collect(Collectors.toList());
+
+                                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(finalMethodName)
+                                                .addModifiers(Modifier.PUBLIC)
+                                                .addParameters(parameterSpecs)
+                                                .returns(
+                                                        ParameterizedTypeName.get(
+                                                                reactorMonoType,
+                                                                responseType
+                                                        )
+                                                );
+
+                                        methodBuilder.addCode(CodeBlock.builder()
+                                                .addStatement("return $T.create((sink) -> {", reactorMonoType)
+                                                .addStatement("try {")
+                                                .add("    this.client." + methodName + "(")
+                                                .add(parameters.stream()
+                                                        .map(va -> {
+                                                            String name = va.getSimpleName().toString();
+                                                            if (name.equals("_callback")) {
+                                                                return "new AsyncCallbackSink<" +  responseType + ">(sink)";
+                                                            } else if (name.equals("watch")) {
+                                                                return "Boolean.FALSE";
+                                                            } else {
+                                                                return name;
+                                                            }
+                                                        })
+                                                        .collect(Collectors.joining(", ")))
+                                                .addStatement(")")
+                                                .addStatement("} catch(io.kubernetes.client.openapi.ApiException e) { sink.error(e); }")
+                                                .addStatement("})")
+                                                .build());
+                                        builder.addMethod(methodBuilder.build());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }, null);
+        }
+
+        writeJavaFile(e, reactorPackageName, cn, builder);
+    }
+
+    private void writeJavaFile(Element e, String reactorPackageName, ClassName cn, TypeSpec.Builder builder) {
+        final JavaFile javaFile = JavaFile.builder(reactorPackageName, builder.build()).build();
+        try {
+            final JavaFileObject javaFileObject = filer.createSourceFile(cn.reflectionName(), e);
+            try (Writer writer = javaFileObject.openWriter()) {
+                javaFile.writeTo(writer);
+            }
+        } catch (IOException ioException) {
+            messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Oracle SDK factories: " + ioException.getMessage(), e);
         }
     }
 
@@ -153,8 +300,8 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                     modelUtils,
                     genericUtils,
                     filer,
-                    MutableConvertibleValues.of(new LinkedHashMap<>())
-            );
+                    MutableConvertibleValues.of(new LinkedHashMap<>()),
+                    TypeElementVisitor.VisitorKind.ISOLATING);
             typeElement.asType().accept(new PublicMethodVisitor<Object, Object>(visitorContext) {
                 @Override
                 protected void accept(DeclaredType type, Element element, Object o) {
@@ -225,15 +372,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
             }, null);
         }
 
-        final JavaFile javaFile = JavaFile.builder(rxPackageName, builder.build()).build();
-        try {
-            final JavaFileObject javaFileObject = filer.createSourceFile(cn.reflectionName(), e);
-            try (Writer writer = javaFileObject.openWriter()) {
-                javaFile.writeTo(writer);
-            }
-        } catch (IOException ioException) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Oracle SDK factories: " + ioException.getMessage(), e);
-        }
+        writeJavaFile(e, rxPackageName, cn, builder);
 
     }
 
@@ -245,28 +384,69 @@ public class KubernetesApisProcessor extends AbstractProcessor {
             String ann = te.getSimpleName().toString();
             if (ann.equals("Apis")) {
                 final Map<? extends ExecutableElement, ? extends AnnotationValue> values = annotationMirror.getElementValues();
+
+                AnnotationValue value = null;
+                // Look for value in @Apis
                 for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : values.entrySet()) {
                     final ExecutableElement executableElement = entry.getKey();
                     if (executableElement.getSimpleName().toString().equals("value")) {
-                        final AnnotationValue value = entry.getValue();
-                        final Object v = value.getValue();
-                        if (v instanceof Iterable) {
-                            Iterable<Object> i = (Iterable) v;
-                            for (Object o : i) {
-                                if (o instanceof AnnotationValue) {
-                                    final Object nested = ((AnnotationValue) o).getValue();
-                                    if (nested instanceof DeclaredType) {
-                                        final TypeElement dte = (TypeElement) ((DeclaredType) nested).asElement();
-                                        clientNames.add(dte.getQualifiedName().toString());
-                                    }
-                                }
+                        value = entry.getValue();
+                        break;
+                    }
+                }
+
+                // If not get value from default
+                if(value == null) {
+                    for (Element element : annotationMirror.getAnnotationType().asElement().getEnclosedElements()) {
+                        if (element instanceof ExecutableElement) {
+                            final ExecutableElement exEl = (ExecutableElement) element;
+                            if (exEl.getSimpleName().toString().equals("value")) {
+                                value = exEl.getDefaultValue();
+                                break;
                             }
                         }
                     }
                 }
 
+                if(value != null) {
+                    final Object v = value.getValue();
+                    if (v instanceof Iterable) {
+                        Iterable<Object> i = (Iterable) v;
+                        for (Object o : i) {
+                            if (o instanceof AnnotationValue) {
+                                final Object nested = ((AnnotationValue) o).getValue();
+                                if (nested instanceof DeclaredType) {
+                                    final TypeElement dte = (TypeElement) ((DeclaredType) nested).asElement();
+                                    clientNames.add(dte.getQualifiedName().toString());
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         return clientNames;
+    }
+
+    private String resolveClientType(Element e) {
+        final List<? extends AnnotationMirror> annotationMirrors = e.getAnnotationMirrors();
+        for (AnnotationMirror annotationMirror : annotationMirrors) {
+            TypeElement te = (TypeElement) annotationMirror.getAnnotationType().asElement();
+            String ann = te.getSimpleName().toString();
+            if (ann.equals("Apis")) {
+                final Map<? extends ExecutableElement, ? extends AnnotationValue> values = annotationMirror.getElementValues();
+                for (Map.Entry<? extends ExecutableElement, ? extends AnnotationValue> entry : values.entrySet()) {
+                    final ExecutableElement executableElement = entry.getKey();
+                    if (executableElement.getSimpleName().toString().equals("kind")) {
+                        final AnnotationValue value = entry.getValue();
+                        final Object v = value.getValue();
+                        if (v != null) {
+                            return v.toString();
+                        }
+                    }
+                }
+            }
+        }
+        return "ASYNC";
     }
 }

@@ -17,17 +17,19 @@ package io.micronaut.kubernetes.client.rxjava2;
 
 import io.kubernetes.client.openapi.ApiCallback;
 import io.kubernetes.client.openapi.ApiException;
+import io.micronaut.kubernetes.client.Apis;
 import io.reactivex.SingleEmitter;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Bridges the {@link ApiCallback} interface to an RxJava {@link SingleEmitter}.
+ * Bridges the {@link ApiCallback} interface to an RxJava2 {@link SingleEmitter}.
  *
  * @author Pavol Gressa
- * @since 2.4
+ * @since 3.0
  */
+@Apis(kind = Apis.Kind.RXJAVA2)
 public class ApiCallbackEmitter<T> implements ApiCallback<T> {
 
     private final SingleEmitter<T> emitter;
