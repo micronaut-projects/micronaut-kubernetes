@@ -20,7 +20,7 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.health.HealthStatus;
 import io.micronaut.kubernetes.client.v1.KubernetesClient;
 import io.micronaut.kubernetes.client.v1.KubernetesClientFilter;
-import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
+import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.v1.pods.ContainerStatus;
 import io.micronaut.kubernetes.client.v1.pods.Pod;
 import io.micronaut.management.endpoint.health.HealthEndpoint;

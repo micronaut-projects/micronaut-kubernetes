@@ -28,20 +28,15 @@ import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.event.ServiceReadyEvent;
-import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
-import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent;
-import io.micronaut.kubernetes.client.v1.configmaps.ConfigMapWatchEvent.EventType;
+import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
-import io.reactivex.schedulers.Schedulers;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
@@ -59,7 +54,7 @@ import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelect
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
-@Requires(beans = KubernetesClient.class)
+@Requires(beans = CoreV1ApiReactorClient.class)
 @Requires(property = KubernetesConfiguration.PREFIX + "." + KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX + ".watch", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 public class KubernetesConfigMapWatcher implements ApplicationEventListener<ServiceReadyEvent> {
 
@@ -68,10 +63,10 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private final Environment environment;
     private final ApiClient apiClient;
     private final CoreV1Api coreV1Api;
-    private final CoreV1ApiRxClient coreV1ApiRxClient;
+    private final CoreV1ApiReactorClient coreV1ApiReactorClient;
     private final KubernetesConfiguration configuration;
     private final ExecutorService executorService;
-    private final ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher<RefreshEvent> eventPublisher;
 
     /**
      * @param environment the {@link Environment}
@@ -82,7 +77,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
      * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
      * @param eventPublisher the {@link ApplicationEventPublisher}
      */
-    public KubernetesConfigMapWatcher(Environment environment, ApiClient apiClient, CoreV1Api coreV1Api, CoreV1ApiRxClient coreV1ApiRxClient, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher eventPublisher) {
+    public KubernetesConfigMapWatcher(Environment environment, ApiClient apiClient, CoreV1Api coreV1Api, CoreV1ApiReactorClient coreV1ApiReactorClient, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher<RefreshEvent> eventPublisher) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
@@ -90,7 +85,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         this.environment = environment;
         this.apiClient = apiClient;
         this.coreV1Api = coreV1Api;
-        this.coreV1ApiRxClient = coreV1ApiRxClient;
+        this.coreV1ApiReactorClient = coreV1ApiReactorClient;
         this.configuration = configuration;
         this.executorService = executorService;
         this.eventPublisher = eventPublisher;
@@ -105,7 +100,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private void watch() {
         String lastResourceVersion = computeLastResourceVersion();
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        String labelSelector = computePodLabelSelector(coreV1ApiRxClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels).blockingSingle();
+        String labelSelector = computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels).block();
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Watching for ConfigMap events...");
@@ -130,7 +125,6 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                     LOG.trace("Received ConfigMap watch event: {}", item);
                 }
                 processEvent(item);
-                System.out.printf("%s : %s%n", item.type, item.object.getMetadata().getName());
             }
         } finally {
             try {
@@ -229,7 +223,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     /**
-     * Send a {@link RefreshEvent} when a {@link ConfigMap} change affects the {@link Environment}.
+     * Send a {@link RefreshEvent} when a {@link V1ConfigMap} change affects the {@link Environment}.
      *
      * @see io.micronaut.management.endpoint.refresh.RefreshEndpoint#refresh(Boolean)
      */
@@ -244,7 +238,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     }
 
     /**
-     * Process {@link EventType#ERROR} events, unconditionally restarting the watch.
+     * Process {@code ERROR} events, unconditionally restarting the watch.
      *
      * @see <a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes">Efficient detection of changes</a>
      */

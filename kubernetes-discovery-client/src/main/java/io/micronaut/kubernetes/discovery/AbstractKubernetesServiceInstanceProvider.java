@@ -21,8 +21,6 @@ import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1ServicePort;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
-import io.reactivex.functions.Predicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

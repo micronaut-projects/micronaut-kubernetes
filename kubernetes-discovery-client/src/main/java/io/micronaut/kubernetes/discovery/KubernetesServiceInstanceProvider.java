@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.discovery;
 
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
 import org.reactivestreams.Publisher;
 
 import java.util.List;

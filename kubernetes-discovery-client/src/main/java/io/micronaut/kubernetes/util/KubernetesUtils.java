@@ -27,12 +27,15 @@ import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
 
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Flux;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -221,25 +224,24 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param client       the {@link CoreV1ApiRxClient}
+     * @param client       the {@link CoreV1ApiReactorClient}
      * @param podLabelKeys the list of labels inside a pod
      * @param namespace    in the configuration
      * @param labels       the labels
      * @return the filtered labels of the current pod
      */
-    public static Flowable<String> computePodLabelSelector(CoreV1ApiRxClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
+    public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Not running on k8s");
             }
-            return Flux.just(computeLabelSelector(labels));
+            return Mono.just(computeLabelSelector(labels));
         }
 
         final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
-        return client.readNamespacedPodAsync(namespace, podName, null, null, null)
-                .toFlowable()
+        return client.readNamespacedPod(namespace, podName, null, null, null)
                 .map( pod -> {
                     Map<String, String> result = new HashMap<>();
                     Map<String, String> podLabels = Objects.requireNonNull(pod.getMetadata()).getLabels();

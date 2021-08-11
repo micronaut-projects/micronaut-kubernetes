@@ -20,8 +20,8 @@ import io.kubernetes.client.openapi.models.V1Service;
 import io.kubernetes.client.openapi.models.V1ServicePort;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
-import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
-import io.micronaut.kubernetes.configuration.KubernetesServiceConfiguration;
+import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.reactivex.functions.Predicate;
@@ -29,7 +29,6 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
