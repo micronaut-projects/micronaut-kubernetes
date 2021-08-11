@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Bridges the {@link ApiCallback} interface to an Reactor {@link MonoSink}
+ * Bridges the {@link ApiCallback} interface to an Reactor {@link MonoSink}.
  *
  * @author Pavol Gressa
  * @since 3.0

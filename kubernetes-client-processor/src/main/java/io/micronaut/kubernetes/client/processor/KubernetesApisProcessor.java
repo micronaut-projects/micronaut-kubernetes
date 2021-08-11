@@ -42,7 +42,6 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -225,7 +224,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                                                         .map(va -> {
                                                             String name = va.getSimpleName().toString();
                                                             if (name.equals("_callback")) {
-                                                                return "new AsyncCallbackSink<" +  responseType + ">(sink)";
+                                                                return "new AsyncCallbackSink<" + responseType + ">(sink)";
                                                             } else if (name.equals("watch")) {
                                                                 return "Boolean.FALSE";
                                                             } else {
@@ -396,7 +395,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                 }
 
                 // If not get value from default
-                if(value == null) {
+                if (value == null) {
                     for (Element element : annotationMirror.getAnnotationType().asElement().getEnclosedElements()) {
                         if (element instanceof ExecutableElement) {
                             final ExecutableElement exEl = (ExecutableElement) element;
@@ -408,7 +407,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                     }
                 }
 
-                if(value != null) {
+                if (value != null) {
                     final Object v = value.getValue();
                     if (v instanceof Iterable) {
                         Iterable<Object> i = (Iterable) v;

@@ -98,6 +98,10 @@ import java.lang.annotation.RetentionPolicy;
  */
 @Retention(value = RetentionPolicy.SOURCE)
 public @interface Apis {
+
+    /**
+     * @return The array of client API objects to generate.
+     */
     Class<?>[] value() default {
             AdmissionregistrationApi.class,
             AdmissionregistrationV1Api.class,
