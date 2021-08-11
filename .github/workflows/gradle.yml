@@ -14,94 +14,20 @@ on:
       - master
       - '[1-9]+.[0-9]+.x'
 jobs:
-  start-runner:
-    name: Start self-hosted OracleCloud runner
-    runs-on: ubuntu-latest
-    outputs:
-      label: ${{ steps.start-runner.outputs.label }}
-    steps:
-      - name: Install OCI CLI
-        run: |
-          curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
-          chmod +x install.sh
-          ./install.sh --accept-all-defaults
-          echo "$HOME/bin" >> $GITHUB_PATH
-          exec -l $SHELL
-      - name: Configure OCI CLI
-        env:
-          OCI_USER: ${{ secrets.OCI_USER }}
-          OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
-          OCI_PASSPHRASE: ${{ secrets.OCI_PASSPHRASE }}
-          OCI_TENANCY: ${{ secrets.OCI_TENANCY }}
-          OCI_KEY_FILE: ${{ secrets.OCI_KEY_FILE }}
-          OCI_REGION: ${{ secrets.OCI_REGION }}
-        run: |
-          mkdir $HOME/.oci
-          echo "[DEFAULT]" >> $HOME/.oci/config
-          echo "user=${OCI_USER}" >> $HOME/.oci/config
-          echo "fingerprint=${OCI_FINGERPRINT}" >> $HOME/.oci/config
-          echo "pass_phrase=${OCI_PASSPHRASE}" >> $HOME/.oci/config
-          echo "region=${OCI_REGION}" >> $HOME/.oci/config
-          echo "tenancy=${OCI_TENANCY}" >> $HOME/.oci/config
-          echo "key_file=$HOME/.oci/key.pem" >> $HOME/.oci/config
-          echo "${OCI_KEY_FILE}" >> $HOME/.oci/key.pem
-          oci setup repair-file-permissions --file $HOME/.oci/config
-          oci setup repair-file-permissions --file $HOME/.oci/key.pem
-      - name: Start runner
-        id: start-runner
-        env:
-          OCI_COMPARTMENT: ${{ secrets.OCI_COMPARTMENT }}
-          OCI_RUNNER_IMAGE: ${{ secrets.OCI_RUNNER_IMAGE }}
-          OCI_SUBNET: ${{ secrets.OCI_SUBNET }}
-          OCI_AV_DOMAIN: ${{ secrets.OCI_AV_DOMAIN }}
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          RUNNERS_COUNT: 3
-        run: |
-          REGISTRATION_TOKEN_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runners/registration-token"
-          export RUNNER_TOKEN=$(curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${REGISTRATION_TOKEN_URL}  | jq -r '.token')
-
-          RUNNERS_COUNT=${RUNNERS_COUNT:=1}
-          for NUMBER in $(seq ${RUNNERS_COUNT});
-          do
-            USER_DATA_RAW=$(
-              cat <<EOM
-          #!/usr/bin/env bash
-          cd /home/github-runner
-          sudo -u github-runner mkdir actions-runner && cd actions-runner
-          sudo -u github-runner curl -o actions-runner-linux-x64-2.277.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.277.1/actions-runner-linux-x64-2.277.1.tar.gz
-          sudo -u github-runner tar xzf ./actions-runner-linux-x64-2.277.1.tar.gz
-          sudo -u github-runner ./config.sh --name "${GITHUB_WORKFLOW}${GITHUB_RUN_ID}${NUMBER}" --unattended --url https://github.com/${GITHUB_REPOSITORY} --token ${RUNNER_TOKEN} --replace --labels ${GITHUB_RUN_ID}
-          ./svc.sh install github-runner
-          ./svc.sh start
-          EOM
-          )
-            USER_DATA=$(echo "$USER_DATA_RAW" | base64 -w 0)
-            FREEFORM_TAGS="{\"repository\": \"${GITHUB_REPOSITORY}\", \"label\":\"${GITHUB_RUN_ID}\"}"
-            INSTANCE_NAME=$( echo "${GITHUB_WORKFLOW}${GITHUB_RUN_ID}" | sed 's/[[:space:]]//g')${NUMBER}
-            RESPONSE=$(oci compute instance launch --compartment-id "${OCI_COMPARTMENT}" \
-              --metadata "{\"user_data\": \"$USER_DATA\"}" \
-              --display-name "${INSTANCE_NAME}" \
-              --subnet-id "${OCI_SUBNET}" \
-              --wait-for-state RUNNING \
-              --image-id $OCI_RUNNER_IMAGE \
-              --availability-domain "${OCI_AV_DOMAIN}" \
-              --shape VM.Standard2.4 \
-              --freeform-tags "${FREEFORM_TAGS}"
-            )
-            INSTANCE_ID=$(echo $RESPONSE | jq -r '.data.id')
-          done
-          echo "::set-output name=label::${GITHUB_RUN_ID}"
-          sleep 60
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    needs: start-runner
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11', '15']
-        k8s: ['1.17', '1.18', '1.19', '1.20']
+        java: ['8', '11', '16']
     steps:
-      - uses: AutoModality/action-clean@1.1.0
+       # https://github.com/actions/virtual-environments/issues/709
+      - name: Free disk space
+        run: |
+         sudo rm -rf "/usr/local/share/boost"
+         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+         sudo apt-get clean
+         df -h
       - uses: actions/checkout@v2
       - uses: actions/cache@v2.1.6
         with:
@@ -115,24 +41,20 @@ jobs:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
       - name: Optional setup step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
         run: |
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
-        run: |
-          ./gradlew dependencyUpdates check --continue --no-build-cache
+        run: ./gradlew dependencyUpdates check --no-daemon --parallel --continue
         env:
-          TESTCONTAINERS_RYUK_DISABLED: true
-      - name: Optional tear down step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
-        run: |
-          [ -f ./teardown.sh ] && ./teardown.sh || true
+           TESTCONTAINERS_RYUK_DISABLED: true
+      - name: Publish Test Report
+        if: always()
+        uses: mikepenz/action-junit-report@v2
+        with:
+          check_name: Java CI / Test Report (${{ matrix.java }})
+          report_paths: '**/build/test-results/test/TEST-*.xml'
       - name: Publish to Sonatype Snapshots
-        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
+        if: success() && github.event_name == 'push' && matrix.java == '8'
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
@@ -145,63 +67,10 @@ jobs:
           if_true: "micronaut-projects/micronaut-docs"
           if_false: ${{ github.repository }}
       - name: Publish to Github Pages
-        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
+        if: success() && github.event_name == 'push' && matrix.java == '8'
         uses: micronaut-projects/github-pages-deploy-action@master
         env:
           TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
           FOLDER: build/docs
-  stop-runner:
-    name: Stop self-hosted OracleCloud runner
-    needs:
-      - start-runner
-      - build
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - name: Install OCI CLI
-        run: |
-          curl -L -O https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
-          chmod +x install.sh
-          ./install.sh --accept-all-defaults
-          echo "$HOME/bin" >> $GITHUB_PATH
-          exec -l $SHELL
-      - name: Configure OCI CLI
-        env:
-          OCI_USER: ${{ secrets.OCI_USER }}
-          OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
-          OCI_PASSPHRASE: ${{ secrets.OCI_PASSPHRASE }}
-          OCI_TENANCY: ${{ secrets.OCI_TENANCY }}
-          OCI_KEY_FILE: ${{ secrets.OCI_KEY_FILE }}
-          OCI_REGION: ${{ secrets.OCI_REGION }}
-        run: |
-          mkdir $HOME/.oci
-          echo "[DEFAULT]" >> $HOME/.oci/config
-          echo "user=${OCI_USER}" >> $HOME/.oci/config
-          echo "fingerprint=${OCI_FINGERPRINT}" >> $HOME/.oci/config
-          echo "pass_phrase=${OCI_PASSPHRASE}" >> $HOME/.oci/config
-          echo "region=${OCI_REGION}" >> $HOME/.oci/config
-          echo "tenancy=${OCI_TENANCY}" >> $HOME/.oci/config
-          echo "key_file=$HOME/.oci/key.pem" >> $HOME/.oci/config
-          echo "${OCI_KEY_FILE}" >> $HOME/.oci/key.pem
-          oci setup repair-file-permissions --file $HOME/.oci/config
-          oci setup repair-file-permissions --file $HOME/.oci/key.pem
-      - name: Stop runner
-        env:
-          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          RUNNER_LABEL: ${{ needs.start-runner.outputs.label }}
-          OCI_COMPARTMENT: ${{ secrets.OCI_COMPARTMENT }}
-        run: |
-          for ID in $(oci compute instance list --compartment-id $OCI_COMPARTMENT | \
-           jq -r ".data[] | select( .\"freeform-tags\".repository == \"$GITHUB_REPOSITORY\" and .\"freeform-tags\".label == \"$RUNNER_LABEL\" ) | .id")
-          do
-            oci compute instance terminate --instance-id "$ID"  --wait-for-state TERMINATED --force
-          done
-
-          RUNNERS_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runners"
-          for RUNNER_ID in $(curl -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${RUNNERS_URL}  | \
-            jq -r --arg runner_label $RUNNER_LABEL '.runners[] | select(.labels[] | .name == $runner_label) | .id');
-          do
-            curl -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${RUNNERS_URL}/${RUNNER_ID}
-          done
