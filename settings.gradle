@@ -2,6 +2,8 @@ rootProject.name = 'micronaut-kubernetes'
 
 include 'kubernetes-client'
 include 'kubernetes-client-processor'
+include 'kubernetes-client-reactor'
+include 'kubernetes-client-rxjava2'
 include 'kubernetes-discovery-client'
 include 'test-utils'
 

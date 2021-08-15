@@ -1,0 +1,12 @@
+dependencies {
+    annotationProcessor project(":kubernetes-client-processor")
+    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
+
+
+    api project(":kubernetes-client")
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+
+    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    testImplementation project(":test-utils")
+}
+compileJava.options.fork = true

@@ -10,6 +10,10 @@ buildscript {
 
 subprojects { Project subproject ->
 
+    repositories {
+        mavenCentral()
+    }
+
     group "io.micronaut.kubernetes"
 
     apply plugin: "io.micronaut.build.internal.common"
