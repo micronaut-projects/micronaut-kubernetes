@@ -88,6 +88,12 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/Address.html#Address--">Address()</a></span> - Constructor for class io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Address.html" title="class in io.micronaut.kubernetes.client.v1">Address</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2"><span class="typeNameLink">ApiCallbackEmitter</span></a>&lt;<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="type parameter in ApiCallbackEmitter">T</a>&gt; - Class in <a href="io/micronaut/kubernetes/client/rxjava2/package-summary.html">io.micronaut.kubernetes.client.rxjava2</a></dt>
+<dd>
+<div class="block">Bridges the <code>ApiCallback</code> interface to an RxJava2 <code>SingleEmitter</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#ApiCallbackEmitter-io.reactivex.SingleEmitter-">ApiCallbackEmitter(SingleEmitter&lt;T&gt;)</a></span> - Constructor for class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client"><span class="typeNameLink">ApiClientConfiguration</span></a> - Interface in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
 <dd>
 <div class="block"><code>ApiClient</code> configuration.</div>
@@ -101,8 +107,18 @@
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/Apis.html" title="annotation in io.micronaut.kubernetes.client"><span class="typeNameLink">Apis</span></a> - Annotation Type in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
 <dd>
-<div class="block">Internal Annotation to trigger the creation of Api clients.</div>
+<div class="block">Internal annotation to trigger the creation of Api clients.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/Apis.Kind.html" title="enum in io.micronaut.kubernetes.client"><span class="typeNameLink">Apis.Kind</span></a> - Enum in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
+<dd>
+<div class="block">the type of client to generate.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor"><span class="typeNameLink">AsyncCallbackSink</span></a>&lt;<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="type parameter in AsyncCallbackSink">T</a>&gt; - Class in <a href="io/micronaut/kubernetes/client/reactor/package-summary.html">io.micronaut.kubernetes.client.reactor</a></dt>
+<dd>
+<div class="block">Bridges the <code>ApiCallback</code> interface to an Reactor <code>MonoSink</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#AsyncCallbackSink-reactor.core.publisher.MonoSink-">AsyncCallbackSink(MonoSink&lt;T&gt;)</a></span> - Constructor for class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:B">
 <!--   -->
@@ -583,6 +599,10 @@
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/processor/package-summary.html">io.micronaut.kubernetes.client.processor</a> - package io.micronaut.kubernetes.client.processor</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/reactor/package-summary.html">io.micronaut.kubernetes.client.reactor</a> - package io.micronaut.kubernetes.client.reactor</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/rxjava2/package-summary.html">io.micronaut.kubernetes.client.rxjava2</a> - package io.micronaut.kubernetes.client.rxjava2</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/package-summary.html">io.micronaut.kubernetes.client.v1</a> - package io.micronaut.kubernetes.client.v1</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/v1/configmaps/package-summary.html">io.micronaut.kubernetes.client.v1.configmaps</a> - package io.micronaut.kubernetes.client.v1.configmaps</dt>
@@ -867,6 +887,22 @@
 <h2 class="title">O</h2>
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onApplicationEvent-io.micronaut.discovery.event.ServiceReadyEvent-">onApplicationEvent(ServiceReadyEvent)</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onDownloadProgress-long-long-boolean-">onDownloadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#onDownloadProgress-long-long-boolean-">onDownloadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onFailure-io.kubernetes.client.openapi.ApiException-int-java.util.Map-">onFailure(ApiException, int, Map&lt;String, List&lt;String&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#onFailure-io.kubernetes.client.openapi.ApiException-int-java.util.Map-">onFailure(ApiException, int, Map&lt;String, List&lt;String&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onSuccess-T-int-java.util.Map-">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#onSuccess-T-int-java.util.Map-">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onUploadProgress-long-long-boolean-">onUploadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#onUploadProgress-long-long-boolean-">onUploadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#OPAQUE_SECRET_TYPE">OPAQUE_SECRET_TYPE</a></span> - Static variable in class io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></dt>
 <dd>&nbsp;</dd>
@@ -1282,6 +1318,10 @@
 </a>
 <h2 class="title">V</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/Apis.Kind.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/Apis.Kind.html" title="enum in io.micronaut.kubernetes.client">Apis.Kind</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.EventType.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent.EventType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
@@ -1289,6 +1329,11 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html#valueOf-java.lang.String-">valueOf(String)</a></span> - Static method in enum io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/SecretWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.secrets">SecretWatchEvent.EventType</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/Apis.Kind.html#values--">values()</a></span> - Static method in enum io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/Apis.Kind.html" title="enum in io.micronaut.kubernetes.client">Apis.Kind</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.EventType.html#values--">values()</a></span> - Static method in enum io.micronaut.kubernetes.client.v1.configmaps.<a href="io/micronaut/kubernetes/client/v1/configmaps/ConfigMapWatchEvent.EventType.html" title="enum in io.micronaut.kubernetes.client.v1.configmaps">ConfigMapWatchEvent.EventType</a></dt>
 <dd>

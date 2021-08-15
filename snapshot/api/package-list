@@ -1,5 +1,7 @@
 io.micronaut.kubernetes.client
 io.micronaut.kubernetes.client.processor
+io.micronaut.kubernetes.client.reactor
+io.micronaut.kubernetes.client.rxjava2
 io.micronaut.kubernetes.client.v1
 io.micronaut.kubernetes.client.v1.configmaps
 io.micronaut.kubernetes.client.v1.endpoints
