@@ -35,15 +35,15 @@ echo "KUBECTL_VERSION = $KUBECTL_VERSION"
 
 #
 # Resolve kind node image
-if [[ "1.21" != "${K8S_VERSION}" ]]; then
+if [[ "1.21" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_121
-elif [[ "1.20" != "${K8S_VERSION}" ]]; then
+elif [[ "1.20" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_120
-elif [[ "1.19" != "${K8S_VERSION}" ]]; then
+elif [[ "1.19" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_119
-elif [[ "1.18" != "${K8S_VERSION}" ]]; then
+elif [[ "1.18" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_118
-elif [[ "1.17" != "${K8S_VERSION}" ]]; then
+elif [[ "1.17" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_117
 fi
 echo "KIND_NODE_IMAGE_VERSION = $KIND_NODE_IMAGE_VERSION"
