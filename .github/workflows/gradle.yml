@@ -119,6 +119,7 @@ jobs:
           K8S_VERSION: ${{ matrix.k8s }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
+          docker ps
           ./setup.sh
           sleep 100000
       - name: Build with Gradle
