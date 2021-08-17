@@ -68,6 +68,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * Attempts to guess whether this port should be connected to using SSL. By default, port numbers ending in 443
      * or port named "https" are considered secure
      *
+     * @param servicePort the {@link PortBinder}
      * @return Whether the port is considered secure
      */
     public boolean isPortSecure(PortBinder servicePort) {
@@ -76,6 +77,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
     }
 
     /**
+     * @param objectMeta the {@link V1ObjectMeta}
      * @return true if there is a label within {@link V1ObjectMeta#getLabels()} named {@link #SECURE_LABEL} and with value "true";
      * false otherwise
      */
@@ -137,10 +139,16 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
             this.port = port;
         }
 
+        /**
+         * @return port name
+         */
         public String getName() {
             return name;
         }
 
+        /**
+         * @return port number
+         */
         public int getPort() {
             return port;
         }

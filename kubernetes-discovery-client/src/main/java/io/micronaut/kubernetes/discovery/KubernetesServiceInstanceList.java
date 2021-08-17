@@ -21,8 +21,8 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.discovery.ServiceInstanceList;
-import io.micronaut.kubernetes.KubernetesConfiguration;
 import jakarta.inject.Singleton;
+
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;

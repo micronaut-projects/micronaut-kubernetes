@@ -19,13 +19,11 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import io.micronaut.core.util.StringUtils;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.discovery.DiscoveryConfiguration;
-import io.micronaut.http.client.HttpClientConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.micronaut.core.annotation.NonNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

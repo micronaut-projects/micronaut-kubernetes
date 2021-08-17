@@ -274,7 +274,7 @@ public class KubernetesUtils {
                     result.putAll(labels);
                     return computeLabelSelector(result);
                 })
-                .doOnError(throwable -> LOG.error("Failed to compute the label selector [" + podLabelKeys +"] from the Pod [" + podName + "]: " + throwable.getMessage(), throwable));
+                .doOnError(throwable -> LOG.error("Failed to compute the label selector [" + podLabelKeys + "] from the Pod [" + podName + "]: " + throwable.getMessage(), throwable));
     }
 
     private static String getPropertySourceName(V1ConfigMap configMap) {

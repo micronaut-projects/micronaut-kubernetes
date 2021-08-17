@@ -32,8 +32,6 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
-import io.micronaut.scheduling.TaskExecutors;
-import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -71,13 +69,13 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     private final ApplicationEventPublisher<RefreshEvent> eventPublisher;
 
     /**
-     * @param environment the {@link Environment}
-     * @param apiClient the {@link ApiClient}
-     * @param coreV1Api the {@link CoreV1Api}
-     * @param coreV1Api the {@link CoreV1Api}
-     * @param configuration the {@link KubernetesConfiguration}
-     * @param executorService the IO {@link ExecutorService} where the watch publisher will be scheduled on
-     * @param eventPublisher the {@link ApplicationEventPublisher}
+     * @param environment            the {@link Environment}
+     * @param apiClient              the {@link ApiClient}
+     * @param coreV1Api              the {@link CoreV1Api}
+     * @param coreV1ApiReactorClient the {@link CoreV1ApiReactorClient}
+     * @param configuration          the {@link KubernetesConfiguration}
+     * @param executorService        the IO {@link ExecutorService} where the watch publisher will be scheduled on
+     * @param eventPublisher         the {@link ApplicationEventPublisher}
      */
     public KubernetesConfigMapWatcher(Environment environment, ApiClient apiClient, CoreV1Api coreV1Api, CoreV1ApiReactorClient coreV1ApiReactorClient, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher<RefreshEvent> eventPublisher) {
         if (LOG.isDebugEnabled()) {
@@ -114,9 +112,10 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             watch = Watch.createWatch(
                     apiClient,
                     coreV1Api.listNamespacedConfigMapCall(configuration.getNamespace(), null, null, null, null, labelSelector, null, lastResourceVersion, null, null, Boolean.TRUE, null),
-                    new TypeToken<Watch.Response<V1ConfigMap>>() {}.getType());
+                    new TypeToken<Watch.Response<V1ConfigMap>>() {
+                    }.getType());
         } catch (ApiException e) {
-            if(LOG.isErrorEnabled()){
+            if (LOG.isErrorEnabled()) {
                 LOG.error("Failed to create the config map watch: " + e.getMessage(), e);
             }
             return;
@@ -133,7 +132,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
             try {
                 watch.close();
             } catch (IOException e) {
-                if(LOG.isErrorEnabled()){
+                if (LOG.isErrorEnabled()) {
                     LOG.error("Failed to close the config map watch: " + e.getMessage(), e);
                 }
             }
