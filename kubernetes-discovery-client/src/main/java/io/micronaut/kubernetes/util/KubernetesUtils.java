@@ -19,7 +19,6 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1Secret;
-import io.kubernetes.client.proto.V1.ConfigMap;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertiesPropertySourceLoader;
 import io.micronaut.context.env.PropertySource;
@@ -61,7 +60,7 @@ public class KubernetesUtils {
             new PropertiesPropertySourceLoader());
 
     /**
-     * Converts a {@link ConfigMap} into a {@link PropertySource}.
+     * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
      *
      * @param configMap the ConfigMap
      * @return A PropertySource

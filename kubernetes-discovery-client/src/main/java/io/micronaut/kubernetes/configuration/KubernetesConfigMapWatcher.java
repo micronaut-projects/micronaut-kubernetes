@@ -98,7 +98,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void watch() {
-        while(true) {
+        while (true) {
             String lastResourceVersion = computeLastResourceVersion();
             Map<String, String> labels = configuration.getConfigMaps().getLabels();
             String labelSelector = computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels).block();
@@ -107,7 +107,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 LOG.debug("Watching for ConfigMap events...");
             }
 
-            Watch<V1ConfigMap> watch = null;
+            Watch<V1ConfigMap> watch;
             try {
                 watch = Watch.createWatch(
                         apiClient,
@@ -118,7 +118,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
                 if (LOG.isErrorEnabled()) {
                     LOG.error("Failed to create the config map watch: " + e.getMessage(), e);
                 }
-                return;
+                continue;
             }
 
             try {
