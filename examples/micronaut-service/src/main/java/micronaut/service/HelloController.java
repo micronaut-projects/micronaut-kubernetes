@@ -27,7 +27,7 @@ import io.micronaut.runtime.server.EmbeddedServer;
 
 import jakarta.inject.Inject;
 
-@Controller("/hello")
+@Controller(value = "/hello", produces = MediaType.TEXT_PLAIN, consumes = MediaType.TEXT_PLAIN)
 @Refreshable
 public class HelloController {
 
@@ -41,19 +41,16 @@ public class HelloController {
     @Value("${enemies.cheat.level:defaultCheatLevel}")
     private String enemiesCheatLevel;
 
-    @Produces(MediaType.TEXT_PLAIN)
     @Get("/{name}")
     public String index(final String name) {
         return "Hello, " + name + ". From " + embeddedServer.getHost() + ":" + embeddedServer.getPort() + "\n";
     }
 
-    @Produces(MediaType.TEXT_PLAIN)
     @Get("/enemies")
     public String enemies() {
         return enemiesCheatLevel;
     }
 
-    @Produces(MediaType.TEXT_PLAIN)
     @Get("/config/{key}")
     public String config(String key) {
         return context.get(key, String.class).orElse("NOTHING");

@@ -8,11 +8,12 @@ dependencies {
     compileOnly "org.graalvm.nativeimage:svm"
 
 //    implementation "io.projectreactor:reactor-core"
+    api project(":kubernetes-client")
     api project(":kubernetes-client-reactor")
+    api "io.kubernetes:client-java-extended:${ioKubernetesClientJava}"
 
-    implementation "io.micronaut.discovery:micronaut-discovery-client"
+    api "io.micronaut.discovery:micronaut-discovery-client"
     implementation "io.micronaut:micronaut-runtime"
-    implementation project(":kubernetes-client")
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 

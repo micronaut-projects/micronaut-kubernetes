@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.core.bind.annotation.Bindable;
 
 import java.util.Optional;
 
@@ -27,30 +27,84 @@ import java.util.Optional;
  * @since 2.2
  */
 @ConfigurationProperties(ApiClientConfiguration.PREFIX)
-public interface ApiClientConfiguration {
+@BootstrapContextCompatible
+public class ApiClientConfiguration {
 
-    String PREFIX = "kubernetes.client";
+    public static final String PREFIX = "kubernetes.client";
+
+    private String basePath;
+    private String caPath;
+    private String tokenPath;
+    private String kubeConfigPath;
+    private boolean verifySsl = true;
 
     /**
      * @return kubernetes api base path
      */
-    Optional<String> getBasePath();
+    Optional<String> getBasePath() {
+        return Optional.ofNullable(basePath);
+    }
+
+    /**
+     * @param basePath optional base path of kubernetes api
+     */
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
+    }
 
     /**
      * @return kubernetes ca file path
      */
-    Optional<String> getCaPath();
+    Optional<String> getCaPath() {
+        return Optional.ofNullable(caPath);
+    }
+
+    /**
+     * @param caPath optional ca path
+     */
+    public void setCaPath(String caPath) {
+        this.caPath = caPath;
+    }
 
     /**
      * @return kubernetes auth token file path
      */
-    Optional<String> getTokenPath();
+    Optional<String> getTokenPath() {
+        return Optional.ofNullable(tokenPath);
+    }
+
+    /**
+     * @param tokenPath optional token path
+     */
+    public void setTokenPath(String tokenPath) {
+        this.tokenPath = tokenPath;
+    }
 
     /**
      * @return kubernetes kube config path
      */
-    Optional<String> getKubeConfigPath();
+    Optional<String> getKubeConfigPath() {
+        return Optional.ofNullable(kubeConfigPath);
+    }
 
-    @Bindable(defaultValue = "true")
-    boolean getVerifySsl();
+    /**
+     * @param kubeConfigPath kubernetes config path other than default {@code $HOME/.kube/config}
+     */
+    public void setKubeConfigPath(String kubeConfigPath) {
+        this.kubeConfigPath = kubeConfigPath;
+    }
+
+    /**
+     * @return should verify ssl
+     */
+    public boolean getVerifySsl() {
+        return verifySsl;
+    }
+
+    /**
+     * @param verifySsl sets verify ssl
+     */
+    public void setVerifySsl(boolean verifySsl) {
+        this.verifySsl = verifySsl;
+    }
 }

@@ -56,7 +56,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
         int portNumber = servicePort != null ? servicePort.getPort() : 80;
         URI uri = URI.create(scheme + address + ":" + portNumber);
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}]", serviceId, uri);
+            LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}] with metadata [{}]", serviceId, uri, metadata);
         }
         return ServiceInstance
                 .builder(serviceId, uri)
@@ -80,7 +80,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * false otherwise
      */
     public boolean isMetadataSecure(V1ObjectMeta objectMeta) {
-        if (objectMeta.getLabels() != null) {
+        if (objectMeta.getLabels() == null) {
             return false;
         }
         String secure = objectMeta.getLabels().getOrDefault(SECURE_LABEL, "false");

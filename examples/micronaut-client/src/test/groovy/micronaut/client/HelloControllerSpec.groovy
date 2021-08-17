@@ -2,6 +2,8 @@ package micronaut.client
 
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import io.micronaut.http.MediaType
+import io.micronaut.http.annotation.Consumes
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
@@ -19,6 +21,7 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "HelloControllerSpec")
 @Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "micronaut-example-client")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 class HelloControllerSpec extends KubernetesSpecification {
 
@@ -96,22 +99,22 @@ class HelloControllerSpec extends KubernetesSpecification {
     @MicronautRequires(property = "spec.name", value = "HelloControllerSpec")
     static interface TestClient {
 
-        @Get
+        @Get(processes = MediaType.TEXT_PLAIN)
         String index()
 
-        @Get("/all")
+        @Get(uri = "/all", processes = MediaType.TEXT_PLAIN)
         String all()
 
-        @Get("/enemies")
+        @Get(uri = "/enemies", processes = MediaType.TEXT_PLAIN)
         String enemies()
 
-        @Get("/config/{key}")
+        @Get(uri = "/config/{key}", processes = MediaType.TEXT_PLAIN)
         String config(String key)
 
-        @Post("/refreshService")
+        @Post(uri = "/refreshService", processes = MediaType.TEXT_PLAIN)
         String refresh()
 
-        @Get("/serviceEnv")
+        @Get(uri = "/serviceEnv", processes = MediaType.TEXT_PLAIN)
         String env()
 
     }

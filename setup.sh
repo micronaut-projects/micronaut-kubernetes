@@ -52,6 +52,10 @@ curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64
 KIND_CLUSTER=$(echo $K8S_VERSION | tr -cd '[:alnum:]')
 KIND_CLUSTER_NAME="k8s${KIND_CLUSTER}java${JAVA_VERSION}"
 ./kind create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
+
+# Test the cluster was created
+./kubectl get ns kube-system || exit 1
+
 ./kubectl cluster-info
 ./kubectl version
 

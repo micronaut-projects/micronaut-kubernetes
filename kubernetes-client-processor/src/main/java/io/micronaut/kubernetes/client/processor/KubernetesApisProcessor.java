@@ -21,6 +21,7 @@ import io.micronaut.annotation.processing.GenericUtils;
 import io.micronaut.annotation.processing.ModelUtils;
 import io.micronaut.annotation.processing.PublicMethodVisitor;
 import io.micronaut.annotation.processing.visitor.JavaVisitorContext;
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.convert.value.MutableConvertibleValues;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -121,6 +123,10 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                 .addCode("return new " + simpleName + "(apiClient);");
         builder.addMethod(buildMethod.build());
 
+        if (Objects.equals(simpleName, "CoreV1Api")) {
+            builder.addAnnotation(BootstrapContextCompatible.class);
+            buildMethod.addAnnotation(BootstrapContextCompatible.class);
+        }
 
         final JavaFile javaFile = JavaFile.builder(factoryPackageName, builder.build()).build();
         try {
@@ -148,6 +154,11 @@ public class KubernetesApisProcessor extends AbstractProcessor {
 
         builder.addAnnotation(requiresSpec.build());
         builder.addAnnotation(Singleton.class);
+
+        if (Objects.equals(simpleName, "CoreV1Api")) {
+            builder.addAnnotation(BootstrapContextCompatible.class);
+        }
+
         builder.addModifiers(Modifier.PUBLIC);
         builder.addField(clientType, "client", Modifier.FINAL, Modifier.PRIVATE);
         builder.addMethod(MethodSpec.constructorBuilder()

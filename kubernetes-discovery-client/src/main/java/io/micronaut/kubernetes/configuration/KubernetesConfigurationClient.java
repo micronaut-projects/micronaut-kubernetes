@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.configuration;
 
 import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.kubernetes.client.openapi.models.V1ConfigMapListBuilder;
 import io.kubernetes.client.openapi.models.V1SecretList;
@@ -31,11 +32,10 @@ import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.inject.Singleton;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
@@ -43,7 +43,12 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
@@ -58,7 +63,6 @@ import static java.util.Collections.singletonMap;
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
-@Requires(beans = CoreV1ApiReactorClient.class)
 @Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
 @BootstrapContextCompatible
 public class KubernetesConfigurationClient implements ConfigurationClient {
@@ -82,6 +86,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param configuration The configuration properties
      */
     public KubernetesConfigurationClient(CoreV1ApiReactorClient client, KubernetesConfiguration configuration) {
+        LOG.info("MRDKAAAAAAAAAAAAAA");
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
@@ -112,7 +117,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @return The description
      */
     @Override
-    public @NonNull  String getDescription() {
+    public @NonNull
+    String getDescription() {
         return "kubernetes";
     }
 
@@ -147,24 +153,31 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         return propertySources;
     }
 
-    private Publisher<PropertySource> getPropertySourcesFromConfigMaps() {
+    private Flux<PropertySource> getPropertySourcesFromConfigMaps() {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
 
         return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+                .doOnError(throwable -> LOG.error("Failed to compute pod label selector: " + throwable.getMessage(), throwable))
+                .doOnNext(labelSelector -> {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Going to list ConfigMaps from namespace [{}] with label selector [{}]", configuration.getNamespace(), labelSelector);
+                    }
+                })
                 .flatMap(labelSelector ->
                         client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
-                .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes ConfigMaps in the namespace [" + configuration.getNamespace() + "]", throwable))
+                .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
                 .onErrorReturn(new V1ConfigMapListBuilder().withItems(new ArrayList<>()).build())
                 .doOnNext(configMapList -> {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
                     }
                 })
-                .flatMap(configMapList ->
-                        Flux.just(configMapListAsPropertySource(configMapList))
-                                .mergeWith(Flux.fromIterable(configMapList.getItems())
+                .flux()
+                .flatMap(configMapList -> Flux.merge(
+                        Flux.just(configMapListAsPropertySource(configMapList)),
+                        Flux.fromIterable(configMapList.getItems())
                                 .filter(includesFilter)
                                 .filter(excludesFilter)
                                 .doOnNext(configMap -> {
@@ -172,7 +185,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                         LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
                                     }
                                 })
-                                .map(KubernetesUtils::configMapAsPropertySource)));
+                                .map(KubernetesUtils::configMapAsPropertySource)
+                ));
     }
 
     /**
@@ -203,7 +217,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Map<String, String> labels = configuration.getSecrets().getLabels();
                 Flux<PropertySource> secretListFlowable = computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
                         .flatMap(labelSelector -> client.listNamespacedSecret(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
-                        .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Secrets in the namespace [" + configuration.getNamespace() + "]", throwable))
+                        .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Secrets in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
                         .onErrorReturn(new V1SecretListBuilder().withItems(new ArrayList<>()).build())
                         .doOnNext(secretList -> {
                             if (LOG.isDebugEnabled()) {

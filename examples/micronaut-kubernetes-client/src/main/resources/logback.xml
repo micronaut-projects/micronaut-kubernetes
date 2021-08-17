@@ -16,6 +16,7 @@
     <logger name="io.micronaut.http.client" level="TRACE"/>
     <logger name="io.micronaut.kubernetes" level="TRACE"/>
     <logger name="io.micronaut.discovery" level="TRACE"/>
+    <logger name="io.micronaut.context.condition" level="TRACE"/>
 <!--    <logger name="io.micronaut.context.env" level="TRACE"/>-->
     <logger name="io.micronaut.context" level="DEBUG"/>
 

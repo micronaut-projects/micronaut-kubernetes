@@ -15,23 +15,29 @@
  */
 package io.micronaut.kubernetes.health;
 
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.models.V1ContainerStatus;
+import io.kubernetes.client.openapi.models.V1ObjectMeta;
+import io.kubernetes.client.openapi.models.V1Pod;
+import io.kubernetes.client.openapi.models.V1PodStatus;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.health.HealthStatus;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.kubernetes.client.v1.KubernetesClientFilter;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.v1.pods.ContainerStatus;
-import io.micronaut.kubernetes.client.v1.pods.Pod;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.management.endpoint.health.HealthEndpoint;
 import io.micronaut.management.health.indicator.AbstractHealthIndicator;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import jakarta.inject.Singleton;
-import reactor.core.publisher.Mono;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT;
 
 /**
@@ -44,7 +50,6 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
 @Requires(beans = HealthEndpoint.class)
 @Requires(env = Environment.KUBERNETES)
 @Requires(property = HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT)
-@Requires(resources = "file:" + KubernetesClientFilter.TOKEN_PATH)
 public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<String, Object>> {
 
     public static final String NAME = "kubernetes";
@@ -53,16 +58,16 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesHealthIndicator.class);
 
-    private final KubernetesClient client;
+    private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration configuration;
 
     /**
      * Constructor.
      *
-     * @param client The Kubernetes client
+     * @param client        The Kubernetes client
      * @param configuration The Kubernetes configuration
      */
-    public KubernetesHealthIndicator(KubernetesClient client,
+    public KubernetesHealthIndicator(CoreV1ApiReactorClient client,
                                      KubernetesConfiguration configuration) {
         this.client = client;
         this.configuration = configuration;
@@ -77,7 +82,7 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
         return healthInformation;
     }
 
-    private Map<String, Object> processPod(Pod pod) {
+    private Map<String, Object> processPod(V1Pod pod) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing pod: {}", pod);
         }
@@ -85,36 +90,55 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
         this.healthStatus = HealthStatus.UP;
 
         Map<String, Object> healthInformation = new LinkedHashMap<>();
-        healthInformation.put("namespace", pod.getMetadata().getNamespace());
-        healthInformation.put("podName", pod.getMetadata().getName());
-        healthInformation.put("podPhase", pod.getStatus().getPhase());
-        healthInformation.put("podIP", pod.getStatus().getPodIP());
-        healthInformation.put("hostIP", pod.getStatus().getHostIP());
-        healthInformation.put("containerStatuses", pod
-                .getStatus()
-                .getContainerStatuses()
-                .stream()
-                .collect(ArrayList::new, KubernetesHealthIndicator::accumulateContainerStatus, ArrayList::addAll));
+
+        Optional<V1ObjectMeta> metaOptional = Optional.ofNullable(pod.getMetadata());
+        if (metaOptional.isPresent()) {
+            V1ObjectMeta objectMeta = metaOptional.get();
+            healthInformation.put("namespace", objectMeta.getNamespace());
+            healthInformation.put("podName", objectMeta.getName());
+        }
+
+        Optional<V1PodStatus> podStatusOptional = Optional.ofNullable(pod.getStatus());
+        if (podStatusOptional.isPresent()) {
+            V1PodStatus podStatus = podStatusOptional.get();
+            healthInformation.put("podPhase", podStatus.getPhase());
+            healthInformation.put("podIP", podStatus.getPodIP());
+            healthInformation.put("hostIP", podStatus.getHostIP());
+            healthInformation.put("containerStatuses",
+                    Objects.requireNonNull(podStatus.getContainerStatuses())
+                            .stream()
+                            .collect(ArrayList::new, KubernetesHealthIndicator::accumulateContainerStatus, ArrayList::addAll));
+        }
+        if (LOG.isTraceEnabled()) {
+            LOG.trace("Pod health information: {}", healthInformation);
+        }
         return healthInformation;
     }
 
-    private static void accumulateContainerStatus(ArrayList<Object> list, ContainerStatus containerStatus) {
+    private static void accumulateContainerStatus(ArrayList<Object> list, V1ContainerStatus containerStatus) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing containerStatus: {}", containerStatus);
         }
         Map<String, Object> cs = new LinkedHashMap<>();
         cs.put("name", containerStatus.getName());
         cs.put("image", containerStatus.getImage());
-        cs.put("ready", containerStatus.isReady());
+        cs.put("ready", containerStatus.getReady());
+        cs.put("restartCount", containerStatus.getRestartCount());
         list.add(cs);
     }
 
     @Override
     protected Map<String, Object> getHealthInformation() {
         try {
-            Pod pod = Mono.from(this.client.getPod(configuration.getNamespace(),
-                    System.getenv(HOSTNAME_ENV_VARIABLE))).block();
-            return processPod(pod);
+            final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
+            final String podNamespace = configuration.getNamespace();
+            if (podName != null) {
+                V1Pod pod = client.readNamespacedPod(podName, podNamespace, null, null, null)
+                        .doOnError(ApiException.class, throwable -> LOG.error("Failed to read Pod [" + podName + "] from namespace [" + podNamespace + "]: " + throwable.getResponseBody(), throwable))
+                        .block();
+                return processPod(pod);
+            }
+            return Collections.emptyMap();
         } catch (Exception e) {
             return processError(e);
         }

@@ -16,25 +16,27 @@
 package io.micronaut.kubernetes.discovery.provider;
 
 import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1Service;
 import io.kubernetes.client.openapi.models.V1ServicePort;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
-import io.reactivex.functions.Predicate;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -50,10 +52,10 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
     protected static final String EXTERNAL_NAME = "ExternalName";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceServiceProvider.class);
 
-    private final CoreV1ApiRxClient client;
+    private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
 
-    public KubernetesServiceInstanceServiceProvider(CoreV1ApiRxClient client,
+    public KubernetesServiceInstanceServiceProvider(CoreV1ApiReactorClient client,
                                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
         this.client = client;
         this.discoveryConfiguration = discoveryConfiguration;
@@ -86,56 +88,43 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
             LOG.trace("Fetching Service {}", serviceConfiguration);
         }
 
-        return client.readNamespacedServiceAsync(serviceName, serviceNamespace, null, null, null)
-                .toFlowable()
-                .doOnError(throwable -> {
-                    if (LOG.isErrorEnabled()) {
-                        LOG.error("Error while trying to get Service {}", serviceConfiguration, throwable);
-                    }
-                })
+        return client.readNamespacedService(serviceName, serviceNamespace, null, null, null)
+                .doOnError(ApiException.class, throwable -> LOG.error("Failed to read Service [" + serviceName + "] from namespace [" + serviceNamespace + "]: " + throwable.getResponseBody(), throwable))
                 .filter(globalFilter)
                 .filter(service ->
-                        hasValidPortConfiguration(Optional.ofNullable(service.getSpec().getPorts()).orElse(new ArrayList<>()).stream().map(PortBinder::fromServicePort).collect(Collectors.toList()), serviceConfiguration))
+                        hasValidPortConfiguration(
+                                Optional.ofNullable(Objects.requireNonNull(service.getSpec()).getPorts())
+                                        .orElse(new ArrayList<>())
+                                        .stream()
+                                        .map(PortBinder::fromServicePort)
+                                        .collect(Collectors.toList()), serviceConfiguration))
                 .map(service -> Stream.of(buildServiceInstance(serviceConfiguration, service))
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()))
-                .onErrorReturn(throwable -> {
+                .doOnError(throwable -> {
                     if (LOG.isErrorEnabled()) {
                         LOG.error("Error while processing discovered service [" + serviceName + "]", throwable);
                     }
-                    return Flux.just(Collections.emptyList());
                 })
+                .onErrorReturn(Collections.emptyList())
                 .defaultIfEmpty(new ArrayList<>());
     }
 
-    private List<ServiceInstance> buildServiceInstanceList(KubernetesServiceConfiguration serviceConfiguration, Service service) {
-        try {
-            return Stream.of(buildServiceInstance(serviceConfiguration, service))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-        } catch (UnknownHostException e) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error("UnknownHostException building Service Instance list");
-            }
-            return Collections.emptyList();
-        }
-    }
-
     private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
-
-        if (service.getSpec().getClusterIP() != null) {
-            return service.getSpec().getPorts().stream()
-                    .filter(port -> !serviceConfiguration.getPort().isPresent() || port.getName().equals(serviceConfiguration.getPort().get()))
+        final String clusterIp = Objects.requireNonNull(service.getSpec()).getClusterIP();
+        if (clusterIp != null && !Objects.equals(clusterIp, "None")) {
+            return Objects.requireNonNull(service.getSpec().getPorts()).stream()
+                    .filter(port -> !serviceConfiguration.getPort().isPresent() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
                     .map(port -> buildServiceInstance(serviceConfiguration.getServiceId(), PortBinder.fromServicePort(port), service.getSpec().getClusterIP(), service.getMetadata()))
                     .findFirst().orElse(null);
 
-        } else if (service.getSpec().getType().equals(EXTERNAL_NAME)) {
+        } else if (Objects.equals(service.getSpec().getType(), EXTERNAL_NAME)) {
             final List<V1ServicePort> ports = service.getSpec().getPorts();
 
             V1ServicePort port = null;
             if (ports != null && !ports.isEmpty()) {
                 port = ports.stream()
-                        .filter(p -> !serviceConfiguration.getPort().isPresent() || p.getName().equals(serviceConfiguration.getPort().get()))
+                        .filter(p -> !serviceConfiguration.getPort().isPresent() || Objects.equals(p.getName(), serviceConfiguration.getPort().get()))
                         .findFirst().orElse(null);
                 if (port == null) {
                     if (LOG.isErrorEnabled()) {
@@ -146,7 +135,6 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                     return null;
                 }
             }
-
             return buildServiceInstance(serviceConfiguration.getServiceId(), PortBinder.fromServicePort(port), service.getSpec().getExternalName(), service.getMetadata());
         } else {
             if (LOG.isErrorEnabled()) {

@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.discovery;
 
 import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1ServiceList;
 import io.micronaut.context.annotation.Requires;
@@ -49,7 +50,6 @@ import java.util.stream.Collectors;
  */
 @Singleton
 @Requires(env = Environment.KUBERNETES)
-@Requires(beans = {CoreV1ApiReactorClient.class, KubernetesConfiguration.KubernetesDiscoveryConfiguration.class})
 @Requires(property = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + ".enabled", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 @SuppressWarnings("WeakerAccess")
 public class KubernetesDiscoveryClient implements DiscoveryClient {
@@ -67,12 +67,12 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     /**
      * Creates discovery client that supports the discovery modes.
      *
-     * @param client An HTTP Client to query the Kubernetes API.
-     * @param configuration The configuration properties
+     * @param client                 An HTTP Client to query the Kubernetes API.
+     * @param configuration          The configuration properties
      * @param discoveryConfiguration The discovery configuration properties
-     * @param serviceConfigurations The manual service discovery configurations
-     * @param instanceProviders The service instance provider implementations
-     * @param instanceList The {@link KubernetesServiceInstanceList}
+     * @param serviceConfigurations  The manual service discovery configurations
+     * @param instanceProviders      The service instance provider implementations
+     * @param instanceList           The {@link KubernetesServiceInstanceList}
      */
     @Inject
     public KubernetesDiscoveryClient(CoreV1ApiReactorClient client,
@@ -131,7 +131,6 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     }
 
     /**
-     *
      * @return A list of services metadata's name.
      */
     @Override
@@ -145,7 +144,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         return Flux.merge(
                 Flux.fromIterable(serviceConfigurations.keySet()),
                 client.listNamespacedService(namespace, null, null, null, null, labelSelector, null, null, null, null)
-                        .doOnError(throwable -> LOG.error("Error while trying to list all Kubernetes Services in the namespace [" + namespace + "]", throwable))
+                        .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Services in namespace [" + namespace + "]:" + throwable.getResponseBody(), throwable))
                         .flatMapIterable(V1ServiceList::getItems)
                         .filter(includesFilter)
                         .filter(excludesFilter)
@@ -155,7 +154,8 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     }
 
     @Override
-    public @NonNull String getDescription() {
+    public @NonNull
+    String getDescription() {
         return SERVICE_ID;
     }
 

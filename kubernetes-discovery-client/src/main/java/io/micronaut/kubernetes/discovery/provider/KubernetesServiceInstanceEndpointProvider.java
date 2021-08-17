@@ -16,20 +16,21 @@
 package io.micronaut.kubernetes.discovery.provider;
 
 import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1Endpoints;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import jakarta.inject.Singleton;
 import reactor.core.publisher.Flux;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -49,10 +50,10 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
     public static final String MODE = "endpoint";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceEndpointProvider.class);
 
-    private final CoreV1ApiRxClient client;
+    private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
 
-    public KubernetesServiceInstanceEndpointProvider(CoreV1ApiRxClient client,
+    public KubernetesServiceInstanceEndpointProvider(CoreV1ApiReactorClient client,
                                                      KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
         this.client = client;
         this.discoveryConfiguration = discoveryConfiguration;
@@ -87,13 +88,8 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
             LOG.trace("Fetching Endpoints {}", serviceConfiguration);
         }
 
-        return client.readNamespacedEndpointsAsync(serviceName, serviceNamespace, null, null, null)
-                .toFlowable()
-                .doOnError(throwable -> {
-                    if (LOG.isErrorEnabled()) {
-                        LOG.error("Error while trying to list Endpoints {}", serviceConfiguration, throwable);
-                    }
-                })
+        return client.readNamespacedEndpoints(serviceName, serviceNamespace, null, null, null)
+                .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Endpoints [ " + serviceName + "] from namespace [" + serviceNamespace + "]: " + throwable.getResponseBody(), throwable))
                 .filter(globalFilter)
                 .filter(v1Endpoints -> v1Endpoints.getSubsets() != null)
                 .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))

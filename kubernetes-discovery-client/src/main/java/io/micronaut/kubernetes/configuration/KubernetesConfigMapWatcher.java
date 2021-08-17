@@ -32,6 +32,8 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -93,7 +95,8 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
 
     @Override
     public void onApplicationEvent(ServiceReadyEvent event) {
-        watch();
+        executorService.execute(this::watch);
+//        watch();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.discovery;
 
+import io.kubernetes.client.util.ClientBuilder;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -37,13 +38,13 @@ import java.util.List;
 @BootstrapContextCompatible
 public class KubernetesServiceInstanceList implements ServiceInstanceList {
 
-    private final KubernetesConfiguration configuration;
+    private final ClientBuilder configuration;
 
     /**
-     * @param configuration The {@link KubernetesConfiguration}.
+     * @param clientBuilder The {@link ClientBuilder}.
      */
-    public KubernetesServiceInstanceList(KubernetesConfiguration configuration) {
-        this.configuration = configuration;
+    public KubernetesServiceInstanceList(ClientBuilder clientBuilder) {
+        this.configuration = clientBuilder;
     }
 
     @Override
@@ -53,10 +54,8 @@ public class KubernetesServiceInstanceList implements ServiceInstanceList {
 
     @Override
     public List<ServiceInstance> getInstances() {
-        String spec = (configuration.isSecure() ? "https" : "http") + "://" + configuration.getHost() + ":" + configuration.getPort();
         return Collections.singletonList(
-                ServiceInstance.builder(getID(), URI.create(spec)).build()
+                ServiceInstance.builder(getID(), URI.create(configuration.getBasePath())).build()
         );
     }
-
 }

@@ -20,13 +20,13 @@ import io.kubernetes.client.openapi.Configuration;
 import io.kubernetes.client.util.ClientBuilder;
 import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.credentials.TokenFileAuthentication;
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jakarta.inject.Singleton;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,68 +40,91 @@ import java.nio.file.Paths;
  * @since 2.2
  */
 @Factory
+@BootstrapContextCompatible
 public class ApiClientFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(ApiClientFactory.class);
 
     /**
-     * Creates in-cluster ApiClient.
+     * Creates {@link ClientBuilder} that is either configured from specified configuration options or automatically
+     * detected by {@link ClientBuilder#standard()}.
      *
      * @param apiClientConfiguration api client configuration that overrides default configuration
+     * @return client builder
+     * @throws IOException if the CA or Token files were not found
+     * @since 3.0
+     */
+    @Singleton
+    public ClientBuilder clientBuilder(ApiClientConfiguration apiClientConfiguration) throws IOException {
+        ClientBuilder clientBuilder = null;
+
+        if (apiClientConfiguration.getKubeConfigPath().isPresent()) {
+            final String customKubeConfigPath = apiClientConfiguration.getKubeConfigPath().get();
+            if (new File(customKubeConfigPath).exists()) {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Using custom kube config from path: {}", customKubeConfigPath);
+                }
+                final KubeConfig kubeConfig = KubeConfig.loadKubeConfig(new FileReader(customKubeConfigPath));
+                clientBuilder = ClientBuilder.kubeconfig(kubeConfig);
+            } else {
+                if (LOG.isWarnEnabled()) {
+                    LOG.warn("Custom kube config path '{}' defined but file doesn't exists", customKubeConfigPath);
+                }
+            }
+        }
+
+        if (clientBuilder == null) {
+            clientBuilder = ClientBuilder.standard();
+        }
+        updateBuilderConfiguration(apiClientConfiguration, clientBuilder);
+        return clientBuilder;
+    }
+
+    /**
+     * Creates ApiClient.
+     *
+     * @param clientBuilder client builder
      * @return ApiClient api client
      * @throws IOException if the CA or Token files were not found
      */
-    @Requires(env = Environment.KUBERNETES)
     @Singleton
-    ApiClient inClusterApiClient(ApiClientConfiguration apiClientConfiguration) throws IOException {
-        if (LOG.isInfoEnabled()) {
-            LOG.info("In cluster api client configuration used.");
-        }
-        ClientBuilder clientBuilder = ClientBuilder.cluster();
-        updateBuilderConfiguration(apiClientConfiguration, clientBuilder);
+    public ApiClient apiClient(ClientBuilder clientBuilder) throws IOException {
         ApiClient apiClient = clientBuilder.build();
         Configuration.setDefaultApiClient(apiClient);
         return apiClient;
     }
 
-    /**
-     * Creates ApiClient that is configured from ~/.kube/config when the {@link Environment} is Kubernetes.
-     *
-     * @param apiClientConfiguration api client configuration that overrides default configuration
-     * @return ApiClient api client
-     * @throws IOException if the CA or Token files were not found
-     */
-    @Requires(notEnv = Environment.KUBERNETES)
-    @Singleton
-    ApiClient kubeConfigFileApiClient(ApiClientConfiguration apiClientConfiguration) throws IOException {
-        String kubeConfigPath = System.getenv("HOME") + "/.kube/config";
-        if (apiClientConfiguration.getKubeConfigPath().isPresent()) {
-            kubeConfigPath = apiClientConfiguration.getKubeConfigPath().get();
-        }
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Kube config [" + kubeConfigPath + "] api client configuration used.");
-        }
-
-        final KubeConfig kubeConfig = KubeConfig.loadKubeConfig(new FileReader(kubeConfigPath));
-        ClientBuilder clientBuilder = ClientBuilder.kubeconfig(kubeConfig);
-        updateBuilderConfiguration(apiClientConfiguration, clientBuilder);
-        ApiClient client = clientBuilder.build();
-        return client;
-    }
-
-    private void updateBuilderConfiguration(ApiClientConfiguration apiClientConfiguration, ClientBuilder builder) throws IOException {
+    private void updateBuilderConfiguration(ApiClientConfiguration apiClientConfiguration, ClientBuilder builder) {
         builder.setVerifyingSsl(apiClientConfiguration.getVerifySsl());
 
         if (apiClientConfiguration.getBasePath().isPresent()) {
-            builder.setBasePath(apiClientConfiguration.getBasePath().get());
+            final String basePath = apiClientConfiguration.getBasePath().get();
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Configuring basePath '{}'", basePath);
+            }
+            builder.setBasePath(basePath);
         }
 
         if (apiClientConfiguration.getCaPath().isPresent()) {
-            builder.setCertificateAuthority(Files.readAllBytes(Paths.get(apiClientConfiguration.getCaPath().get())));
+            final String caPath = apiClientConfiguration.getCaPath().get();
+            try {
+                if (LOG.isInfoEnabled()) {
+                    LOG.info("Configuring caPath '{}'", caPath);
+                }
+                builder.setCertificateAuthority(Files.readAllBytes(Paths.get(caPath)));
+            } catch (IOException e) {
+                if (LOG.isErrorEnabled()) {
+                    LOG.error("Failed to load caPath from '{}': {}", caPath, e.getMessage(), e);
+                }
+            }
         }
 
         if (apiClientConfiguration.getTokenPath().isPresent()) {
-            builder.setAuthentication(new TokenFileAuthentication(apiClientConfiguration.getTokenPath().get()));
+            final String tokenPath = apiClientConfiguration.getTokenPath().get();
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Configuring tokenPath '{}'", tokenPath);
+            }
+            builder.setAuthentication(new TokenFileAuthentication(tokenPath));
         }
     }
 }

@@ -11,6 +11,7 @@ import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import reactor.core.publisher.Flux
 import spock.lang.Requires
 import spock.lang.Shared
 
@@ -29,7 +30,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
     void "it returns nothing when service doesn't exists"(){
         when:
         def config = createConfig("a-service")
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 0
@@ -51,7 +52,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("headless-service")
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 0
@@ -80,11 +81,11 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         def config = createConfig("multiport-service")
 
         then: 'the returned list is empty'
-        Flowable.fromPublisher(provider.getInstances(config)).blockingFirst().isEmpty()
+        Flux.from(provider.getInstances(config)).blockFirst().isEmpty()
 
         when: 'http port is specified'
         config.port = 'http'
-        def instances = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instances = Flux.from(provider.getInstances(config)).blockFirst()
 
         then: 'two service instances with port 8081 are discovered'
         instances.size() == 1
@@ -102,7 +103,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         config.namespace = "other-namespace"
 
         when:
-        def instances = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instances = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instances.size() == 1
@@ -127,7 +128,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("external-service-https")
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 1
@@ -150,7 +151,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("external-service-http")
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 1
@@ -172,7 +173,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("example-client", true)
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 1
@@ -190,7 +191,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("example-service", true)
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 1
@@ -208,14 +209,14 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("example-client", true)
-        def instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 1
 
         when:
         config = createConfig("example-service", true)
-        instanceList = Flowable.fromPublisher(provider.getInstances(config)).blockingFirst()
+        instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
         instanceList.size() == 1

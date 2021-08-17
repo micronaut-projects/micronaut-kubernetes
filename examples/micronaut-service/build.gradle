@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.2"
+    id("io.micronaut.application") version "2.0.3"
 }
 
 repositories {
@@ -24,12 +24,19 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-management")
     implementation project(':kubernetes-discovery-client')
+    implementation project(':kubernetes-client-reactor')
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 
 application {
     mainClass.set("micronaut.service.Application")
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 tasks {
     dockerBuild {
         images = ['micronaut-kubernetes-example-service']

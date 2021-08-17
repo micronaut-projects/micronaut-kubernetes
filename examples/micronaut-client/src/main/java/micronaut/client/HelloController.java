@@ -19,20 +19,21 @@ import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.kubernetes.discovery.KubernetesDiscoveryClient;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import org.reactivestreams.Publisher;
 
 import java.util.List;
 
-@Controller
+@Controller(produces = "text/plain", consumes = "test/plain")
 @ExecuteOn(TaskExecutors.IO)
 public class HelloController {
 
     private final ExampleClient client;
     private final DiscoveryClient discoveryClient;
 
-    public HelloController(ExampleClient client, DiscoveryClient discoveryClient) {
+    public HelloController(ExampleClient client, KubernetesDiscoveryClient discoveryClient) {
         this.client = client;
         this.discoveryClient = discoveryClient;
     }

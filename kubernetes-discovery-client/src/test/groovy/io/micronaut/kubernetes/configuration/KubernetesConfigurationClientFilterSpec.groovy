@@ -18,11 +18,15 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
 
     void "it can filter includes config maps"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.includes": "literal-config"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.namespace": namespace,
+                "kubernetes.client.config-maps.includes": "literal-config"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList()
+                .block()
 
         then:
         propertySources.find { it.name.startsWith 'literal-config'}
@@ -38,11 +42,15 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
 
     void "it can filter excludes config maps"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.excludes": "literal-config"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.namespace": namespace,
+                "kubernetes.client.config-maps.excludes": "literal-config"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList()
+                .block()
 
         then:
         !propertySources.find { it.name.startsWith 'literal-config'}
@@ -62,7 +70,9 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList()
+                .block()
 
         then:
         propertySources
@@ -76,5 +86,4 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
         cleanup:
         applicationContext.close()
     }
-
 }
