@@ -94,60 +94,50 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
     @Override
     public void onApplicationEvent(ServiceReadyEvent event) {
         executorService.execute(this::watch);
-//        watch();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void watch() {
-        String lastResourceVersion = computeLastResourceVersion();
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        String labelSelector = computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels).block();
+        while(true) {
+            String lastResourceVersion = computeLastResourceVersion();
+            Map<String, String> labels = configuration.getConfigMaps().getLabels();
+            String labelSelector = computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels).block();
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Watching for ConfigMap events...");
-        }
-
-        Watch<V1ConfigMap> watch = null;
-        try {
-            watch = Watch.createWatch(
-                    apiClient,
-                    coreV1Api.listNamespacedConfigMapCall(configuration.getNamespace(), null, null, null, null, labelSelector, null, lastResourceVersion, null, null, Boolean.TRUE, null),
-                    new TypeToken<Watch.Response<V1ConfigMap>>() {
-                    }.getType());
-        } catch (ApiException e) {
-            if (LOG.isErrorEnabled()) {
-                LOG.error("Failed to create the config map watch: " + e.getMessage(), e);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Watching for ConfigMap events...");
             }
-            return;
-        }
 
-        try {
-            for (Watch.Response<V1ConfigMap> item : watch) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Received ConfigMap watch event: {}", item);
-                }
-                processEvent(item);
-            }
-        } finally {
+            Watch<V1ConfigMap> watch = null;
             try {
-                watch.close();
-            } catch (IOException e) {
+                watch = Watch.createWatch(
+                        apiClient,
+                        coreV1Api.listNamespacedConfigMapCall(configuration.getNamespace(), null, null, null, null, labelSelector, null, lastResourceVersion, null, null, Boolean.TRUE, null),
+                        new TypeToken<Watch.Response<V1ConfigMap>>() {
+                        }.getType());
+            } catch (ApiException e) {
                 if (LOG.isErrorEnabled()) {
-                    LOG.error("Failed to close the config map watch: " + e.getMessage(), e);
+                    LOG.error("Failed to create the config map watch: " + e.getMessage(), e);
+                }
+                return;
+            }
+
+            try {
+                for (Watch.Response<V1ConfigMap> item : watch) {
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Received ConfigMap watch event: {}", item);
+                    }
+                    processEvent(item);
+                }
+            } finally {
+                try {
+                    watch.close();
+                } catch (IOException e) {
+                    if (LOG.isErrorEnabled()) {
+                        LOG.error("Failed to close the config map watch: " + e.getMessage(), e);
+                    }
                 }
             }
         }
-//
-//        singleLabelSelector.flatMap(labelSelector -> clientRx.watchConfigMaps(configuration.getNamespace(), lastResourceVersion, labelSelector))
-//                .doOnNext(e -> {
-//                    if (LOG.isTraceEnabled()) {
-//                        LOG.trace("Received ConfigMap watch event: {}", e);
-//                    }
-//                })
-//                .doOnError(throwable -> LOG.error("Error while watching ConfigMap events", throwable))
-//                .subscribeOn(Schedulers.from(this.executorService))
-//                .onErrorReturnItem(new ConfigMapWatchEvent(EventType.ERROR))
-//                .subscribe(this::processEvent);
     }
 
     private String computeLastResourceVersion() {
