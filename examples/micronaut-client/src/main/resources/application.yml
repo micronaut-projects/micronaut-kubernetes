@@ -3,8 +3,6 @@ micronaut:
     port: 8082
   application:
     name: micronaut-client
-#  config-client:
-#    enabled: true
 endpoints:
   env:
     sensitive: false
