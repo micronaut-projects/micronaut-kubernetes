@@ -99,7 +99,7 @@ jobs:
     strategy:
       matrix:
         java: ['8', '11', '16']
-        k8s: ['1.17', '1.18', '1.19', '1.20']
+        k8s: ['1.17', '1.18', '1.19', '1.20', '1.21']
     steps:
       - uses: AutoModality/action-clean@1.1.0
       - uses: actions/checkout@v2
