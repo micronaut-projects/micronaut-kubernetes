@@ -5,7 +5,7 @@ set -ex
 # Defaults
 K8S_DEFAULT_VERSION="1.19"
 KUBECTL_DEFAULT_VERSION="v1.19.2"
-KIND_DEFAULT_VERSION="v0.10.0"
+KIND_DEFAULT_VERSION="v0.11.1"
 KIND_NODE_IMAGE_K8S_DEFAULT_VERSION="v1.19.1@sha256:98cf5288864662e37115e362b23e4369c8c4a408f99cbc06e58ac30ddc721600"
 
 #
@@ -51,7 +51,7 @@ curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64
 # Create a cluster
 KIND_CLUSTER=$(echo $K8S_VERSION | tr -cd '[:alnum:]')
 KIND_CLUSTER_NAME="k8s${KIND_CLUSTER}java${JAVA_VERSION}"
-./kind create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
+./kind -v 1 create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
 ./kubectl cluster-info
 ./kubectl version
 
