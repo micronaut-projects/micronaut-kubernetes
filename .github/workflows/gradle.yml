@@ -114,12 +114,12 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
-      - name: Optional setup step
+      - name: Setup K8s cluster
         env:
           K8S_VERSION: ${{ matrix.k8s }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
-          [ -f ./setup.sh ] && ./setup.sh || true
+          ./setup.sh
       - name: Build with Gradle
         run: |
           ./gradlew dependencyUpdates check --continue --no-build-cache
