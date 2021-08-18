@@ -45,17 +45,23 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#service-discovery"><strong>2</strong><span>Service Discovery</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#whatsNew"><strong>2</strong><span>What's New?</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#releaseHistory"><strong>3</strong><span>Release History</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>4</strong><span>Health Checks</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#service-discovery"><strong>4</strong><span>Service Discovery</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#low-level-client"><strong>5</strong><span>(Deprecated) Using the low-level Kubernetes API HTTP client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>5</strong><span>Configuration Client</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>6</strong><span>Kubernetes client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>6</strong><span>Health Checks</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>7</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes client</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>8</strong><span>Logging and debugging</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>9</strong><span>Breaking Changes</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -88,17 +94,23 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-service-discovery"><a href="#service-discovery"><strong>2</strong><span>Service Discovery</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-whatsNew"><a href="#whatsNew"><strong>2</strong><span>What's New?</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>3</strong><span>Configuration Client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-releaseHistory"><a href="#releaseHistory"><strong>3</strong><span>Release History</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>4</strong><span>Health Checks</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-service-discovery"><a href="#service-discovery"><strong>4</strong><span>Service Discovery</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-low-level-client"><a href="#low-level-client"><strong>5</strong><span>(Deprecated) Using the low-level Kubernetes API HTTP client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>5</strong><span>Configuration Client</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>6</strong><span>Kubernetes client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>6</strong><span>Health Checks</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>7</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes client</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>8</strong><span>Logging and debugging</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>9</strong><span>Breaking Changes</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -108,7 +120,7 @@
         <h1>Micronaut Kubernetes</h1>
         <p></p>
         <p>Integration between Micronaut and Kubernetes</p>
-        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide/index.html'>SNAPSHOT</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.4/guide/index.html'>2.3.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.3/guide/index.html'>2.3.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.2/guide/index.html'>2.3.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.1/guide/index.html'>2.3.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.0/guide/index.html'>2.3.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.2.0/guide/index.html'>2.2.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.1.0/guide/index.html'>2.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0/guide/index.html'>2.0.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC2/guide/index.html'>2.0.0.RC2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC1/guide/index.html'>2.0.0.RC1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.1.0/guide/index.html'>1.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.4/guide/index.html'>1.0.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.0/guide/index.html'>1.0.0</option></select></p>
+        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option value='https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide/index.html'>SNAPSHOT</option><option selected='selected' value='https://micronaut-projects.github.io/micronaut-kubernetes/3.0.0/guide/index.html'>3.0.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/3.0.0-M1/guide/index.html'>3.0.0-M1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.4/guide/index.html'>2.3.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.3/guide/index.html'>2.3.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.2/guide/index.html'>2.3.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.1/guide/index.html'>2.3.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.0/guide/index.html'>2.3.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.2.0/guide/index.html'>2.2.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.1.0/guide/index.html'>2.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0/guide/index.html'>2.0.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC2/guide/index.html'>2.0.0.RC2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC1/guide/index.html'>2.0.0.RC1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.1.0/guide/index.html'>1.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.4/guide/index.html'>1.0.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.0/guide/index.html'>1.0.0</option></select></p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -134,202 +146,20 @@
 <li>
 <p>Configuration client for config maps and secrets.</p>
 </li>
+<li>
+<p>Kubernetes blocking and non-blocking clients built on top of official Kubernetes Java SDK</p>
+</li>
 </ul>
-</div>
-<div class="paragraph">
-<p>To get started, you need to declare the following dependency:</p>
-</div>
-<div class="paragraph">
-<p>        <div class="listingblock multi-language-sample">
-<div class="title"></div>
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:2.3.4")</span></code></pre>
-</div>
-</div>
-<div class="listingblock multi-language-sample">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
-    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
-    &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
-    &lt;version&gt;2.3.4&lt;/version&gt;
-&lt;/dependency&gt;</code></pre>
-</div>
-</div>
-</p>
-</div>
-<div class="paragraph">
-<p>Note that this configuration module requires at least Micronaut 2.</p>
 </div>
 <div class="paragraph">
 <p>To use the <code>BUILD-SNAPSHOT</code> version of this library, check the
 <a href="https://docs.micronaut.io/latest/guide/index.html#usingsnapshots">documentation to use snapshots</a>.</p>
 </div>
-<div class="paragraph">
-<p>The core library for all features can be configured using the following configuration properties:</p>
-</div>
-<a id="io.micronaut.kubernetes.client.v1.KubernetesConfiguration" href="#io.micronaut.kubernetes.client.v1.KubernetesConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.http-version</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/HttpVersion.html">HttpVersion</a></p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.log-level</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/logging/LogLevel.html">LogLevel</a></p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.event-loop-group</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ssl-configuration</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/ssl/SslConfiguration.html">SslConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.exception-on-error-status</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.logger-name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.follow-redirects</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.default-charset</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.nio.charset.Charset</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.channel-options</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.shutdown-quiet-period</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.shutdown-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.read-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.read-idle-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.connection-pool-idle-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.connect-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.connect-ttl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.num-of-threads</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Integer</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.thread-factory</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Class</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.max-content-length</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-type</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.Proxy$Type</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-address</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.SocketAddress</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-username</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-password</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.proxy-selector</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.ProxySelector</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.host</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The Kubernetes API host name</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.port</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The port for the Kubernetes API</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secure</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set if the Kubernetes API server is exposed over HTTPS</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace.</p></td>
-</tr>
-</tbody>
-</table>
 <div class="sect1">
 <h2 id="_namespace_configuration">Namespace configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>When a Micronaut application with this configuration module is running within a Pod in a Kubernetes cluster, it will
+<p>When a Micronaut application with this module is running within a Pod in a Kubernetes cluster, it will
 infer automatically the namespace it&#8217;s running from by reading it from the service account secret (which will be
 provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</code>).</p>
 </div>
@@ -346,7 +176,47 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 </div>
 
-<h1 id="service-discovery"><a class="anchor" href="#service-discovery"></a>2 Service Discovery</h1>
+<h1 id="whatsNew"><a class="anchor" href="#whatsNew"></a>2 What's New?</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/whatsNew.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Micronaut Kubernetes module 3.0.0 includes the following changes:</p>
+</div>
+<div class="sect1">
+<h2 id="_official_k8s_java_sdk_client_with_reactive_support">Official K8s JAVA SDK client with reactive support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Micronaut Kubernetes is now using the official <a href="https://github.com/kubernetes-client/java">Kubernetes Java SDK</a> client instead of the in-house client.</p>
+</div>
+<div class="paragraph">
+<p>Apart this new module <code>micronaut-kubernetes-client</code> there are two additional modules <code>micronaut-client-reactor</code> and <code>micronaut-client-rxjava2</code> that extends the client API classes by the reactive support of respective reactive framework.</p>
+</div>
+</div>
+</div>
+
+<h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>3 Release History</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/releaseHistory.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>For this project, you can find a list of releases (with release notes) here:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/micronaut-projects/micronaut-kubernetes/releases">https://github.com/micronaut-projects/micronaut-kubernetes/releases</a></p>
+</div>
+
+<h1 id="service-discovery"><a class="anchor" href="#service-discovery"></a>4 Service Discovery</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/service-discovery.adoc"'>
@@ -357,6 +227,30 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 
 <div class="paragraph">
 <p>The Service Discovery module allows Micronaut HTTP clients to discover Kubernetes services.</p>
+</div>
+<div class="paragraph">
+<p>To get started, you need to declare the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:3.0.0")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
+    &lt;version&gt;3.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Note that this configuration module requires at least Micronaut 2.</p>
 </div>
 <div class="paragraph">
 <p>By default in any client you can use as Service ID the Kubernetes <code>Endpoints</code> name generated by a Kubernetes <code>Service</code> for the configured namespace.</p>
@@ -548,7 +442,7 @@ spec:
 <h2 id="_service_discovery_modes">Service discovery modes</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Service discovery mode is a mechanism that allows to support different strategies for the actual service discovery in Kubernetes by implementing <a href="/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes-discovery-client/src/main/java/io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.java">KubernetesServiceInstanceProvider</a> interface.</p>
+<p>Service discovery mode is a mechanism that allows to support different strategies for the actual service discovery in Kubernetes by implementing <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html">KubernetesServiceInstanceProvider</a> interface.</p>
 </div>
 <div class="paragraph">
 <p>Currently Micronaut Kubernetes implements two discovery modes:</p>
@@ -766,7 +660,7 @@ discovery:</p>
 </div>
 </div>
 
-<h1 id="config-client"><a class="anchor" href="#config-client"></a>3 Configuration Client</h1>
+<h1 id="config-client"><a class="anchor" href="#config-client"></a>5 Configuration Client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/config-client.adoc"'>
@@ -1113,7 +1007,7 @@ take precedence over the ones coming from the API.</p>
 </div>
 </div>
 
-<h1 id="health-checks"><a class="anchor" href="#health-checks"></a>4 Health Checks</h1>
+<h1 id="health-checks"><a class="anchor" href="#health-checks"></a>6 Health Checks</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/health-checks.adoc"'>
@@ -1241,49 +1135,7 @@ information about how to configure it.</p>
 </div>
 </div>
 
-<h1 id="low-level-client"><a class="anchor" href="#low-level-client"></a>5 (Deprecated) Using the low-level Kubernetes API HTTP client</h1>
-
-<div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/low-level-client.adoc"'>
-        <i class='fa fa-pencil-square-o'></i> Improve this doc
-    </button>
-</div>
-
-
-<div class="paragraph">
-<p>In an effort to have zero dependencies and a minimal footprint, this configuration module has its own Kubernetes API
-non-blocking HTTP client. If you need to, you can use it directly in your application:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.reactivex.Flowable;
-import io.reactivex.schedulers.Schedulers;
-import javax.inject.Singleton;
-
-@Singleton
-public class MyService {
-
-    private final KubernetesClient client;
-
-    public MyService(KubernetesClient client) {
-        this.client = client;
-    }
-
-    public void myMethod() {
-        Flowable.fromPublisher(this.client.listServices("default"))
-                .subscribeOn(Schedulers.io())
-                .subscribe(System.out::println);
-    }
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Note that the client only contains the Kubernetes API endpoints used by either the Discovery Client or the Configuration
-Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/KubernetesOperations.html">the API documentation to see the available methods</a>.</p>
-</div>
-
-<h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>6 Kubernetes client</h1>
+<h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>7 Kubernetes client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/kubernetes-client.adoc"'>
@@ -1296,13 +1148,16 @@ Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/Kubernet
 <p>The <code>micronaut-kubernetes-client</code> module gives you the ability to use official <a href="https://github.com/kubernetes-client/java">Kubernetes Java SDK</a> apis objects as a regular Micronaut beans.</p>
 </div>
 <div class="paragraph">
+<p>The complete list of available beans is declared in the <a href="/home/runner/work/micronaut-kubernetes/micronaut-kubernetes/kubernetes-client/src/main/java/io/micronaut/kubernetes/client/Apis.java">Apis#values</a> annotation value.</p>
+</div>
+<div class="paragraph">
 <p>First you need add a dependency on the <code>micronaut-kubernetes-client</code> module:</p>
 </div>
 <div class="paragraph">
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client:3.0.0")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1310,6 +1165,7 @@ Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/Kubernet
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client&lt;/artifactId&gt;
+    &lt;version&gt;3.0.0&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1323,9 +1179,7 @@ Client. You can check <a href="../api/io/micronaut/kubernetes/client/v1/Kubernet
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1PodList;
-import io.reactivex.Flowable;
-import io.reactivex.schedulers.Schedulers;
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 @Singleton
 public class MyService {
@@ -1337,7 +1191,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) throws ApiException {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, false);;
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, false);
     }
 }</code></pre>
 </div>
@@ -1346,10 +1200,30 @@ public class MyService {
 <h2 id="_authentication">Authentication</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Micronaut distinguished <a href="https://github.com/kubernetes-client/java/blob/master/util/src/main/java/io/kubernetes/client/util/ClientBuilder.java#L243">cluster</a> and <a href="https://github.com/kubernetes-client/java/blob/6a4b5fe0b659beb6bfbacfd8ebaa816d0a3b7f8d/util/src/main/java/io/kubernetes/client/util/ClientBuilder.java#L276">kubeconfig</a> authentication options. If the environments contains <code>Environment.KUBERNETS</code> then the <code>cluster</code> authentication is used otherwise <code>kubeconfig</code>.</p>
+<p>The Kubernetes client source of authentication options is automatically detected by the <a href="https://javadoc.io/static/io.kubernetes/client-java/13.0.0/io/kubernetes/client/util/ClientBuilder.html#standard--">ClientBuilder#standard()</a>,
+specifically:</p>
 </div>
 <div class="paragraph">
-<p>Also you can update the authentication configuration by using <code>kubernetes.client</code> properties listed below:</p>
+<p>Creates a builder which is pre-configured in the following way</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If <code>$KUBECONFIG</code> is defined, use that config file.</p>
+</li>
+<li>
+<p>If <code>$HOME/.kube/config</code> can be found, use that.</p>
+</li>
+<li>
+<p>If the in-cluster service account can be found, assume in cluster config.</p>
+</li>
+<li>
+<p>Default to <code>localhost:8080</code> as a last resort.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Also for specific cases you can update the authentication configuration options by using <code>kubernetes.client</code> properties listed below:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -1363,7 +1237,7 @@ public class MyService {
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">basePath</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes api base path.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes API base path. Example: <code><a href="https://localhost:8081" class="bare">https://localhost:8081</a></code></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">caPath</p></td>
@@ -1385,8 +1259,118 @@ public class MyService {
 </table>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_reactive_support">Reactive Support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In addition to the official Kubernetes Java SDK <code>Async</code> clients, this module provides clients that use RxJava or Reactor to allow reactive programming with Micronaut for each Api.</p>
+</div>
+<div class="sect2">
+<h3 id="_rxjava_2_reactive_support">RxJava 2 Reactive Support</h3>
+<div class="paragraph">
+<p>For RxJava 2 add the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:3.0.0")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-rxjava2&lt;/artifactId&gt;
+    &lt;version&gt;3.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;RxClient</code>,
+for example the <code>CoreV1Api</code> class is injected as <code>CoreV1ApiRxClient</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.models.V1PodList;
+import io.micronaut.kubernetes.client.rxjava2.CoreV1ApiRxClient;
+import io.reactivex.Single;
+import jakarta.inject.Singleton;
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>7 Logging and debugging</h1>
+@Singleton
+public class MyService {
+
+    private final CoreV1ApiRxClient coreV1ApiRxClient;
+
+    public MyService(CoreV1ApiRxClient coreV1ApiRxClient) {
+        this.coreV1ApiRxClient = coreV1ApiRxClient;
+    }
+
+    public void myMethod(String namespace) {
+        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reactor_reactive_support">Reactor Reactive Support</h3>
+<div class="paragraph">
+<p>For Reactor add the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-reactor:3.0.0")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-reactor&lt;/artifactId&gt;
+    &lt;version&gt;3.0.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;ReactiveClient</code>,
+for example the <code>CoreV1Api</code> class is injected as <code>CoreV1ApiReactiveClient</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.models.V1PodList;
+import io.micronaut.kubernetes.client.reactive.CoreV1ApiReactiveClient;
+import reactor.core.publisher.Mono;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final CoreV1ApiReactiveClient coreV1ApiReactiveClient;
+
+    public MyService(CoreV1ApiReactiveClient coreV1ApiReactiveClient) {
+        this.coreV1ApiReactiveClient = coreV1ApiReactiveClient;
+    }
+
+    public void myMethod(String namespace) {
+        Mono&lt;V1PodList&gt; v1PodList = coreV1ApiReactiveClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<h1 id="logging"><a class="anchor" href="#logging"></a>8 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
@@ -1396,16 +1380,16 @@ public class MyService {
 
 
 <div class="paragraph">
-<p>If you need to debug the HTTP calls made to the Kubernetes API, you need to set the <code>io.micronaut.http.client</code> logger level
-to <code>TRACE</code>:</p>
+<p>If you need to debug the Micronaut Kubernetes module, you need to set the <code>io.micronaut.kubernetes</code> logger level
+to <code>DEBUG</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;logger name="io.micronaut.http.client" level="TRACE"/&gt;</code></pre>
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;logger name="io.micronaut.kubernetes" level="DEBUG"/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Also, you can set a higher level (<code>DEBUG</code> or <code>TRACE</code>) for this configuration module logging.</p>
+<p>By configuring the logger level to <code>TRACE</code>, the module will produce detailed responses from the Kubernetes API.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1419,6 +1403,43 @@ to <code>TRACE</code>:</p>
 <p>In addition to that, another source of information is
 <a href="https://docs.micronaut.io/latest/guide/index.html#environmentEndpoint">the Environment Endpoint</a>, which outputs all
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
+</div>
+
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>9 Breaking Changes</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/breaking.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This section documents breaking changes between Micronaut Kubernetes 2.x and Micronaut Kubernetes 3.x:</p>
+</div>
+<div class="sect1">
+<h2 id="_in_house_kubernetes_client_removed">In-house Kubernetes client removed</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The in-house Kubernetes client <code>io.micronaut.kubernetes.client.v1.*</code> was deprecated and removed. Instead use the new module <code>micronaut-kubernetes-client</code> or the reactive alternatives <code>micronaut-client-reactor</code> or <code>micronaut-client-rxjava2</code> that extends the client API classes by the reactive support of respective reactive framework.</p>
+</div>
+</div>
+</div>
+
+<h1 id="repository"><a class="anchor" href="#repository"></a>10 Repository</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/repository.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>You can find the source code of this project in this repository:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://github.com/micronaut-projects/micronaut-kubernetes">https://github.com/micronaut-projects/micronaut-kubernetes</a></p>
 </div>
 
     </div>
