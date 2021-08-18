@@ -45,19 +45,23 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#releaseHistory"><strong>2</strong><span>Release History</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#whatsNew"><strong>2</strong><span>What's New?</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#service-discovery"><strong>3</strong><span>Service Discovery</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#releaseHistory"><strong>3</strong><span>Release History</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>4</strong><span>Configuration Client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#service-discovery"><strong>4</strong><span>Service Discovery</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>5</strong><span>Health Checks</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#config-client"><strong>5</strong><span>Configuration Client</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>6</strong><span>Kubernetes client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>6</strong><span>Health Checks</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>7</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes client</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>8</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>8</strong><span>Logging and debugging</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>9</strong><span>Breaking Changes</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -90,19 +94,23 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-introduction"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-releaseHistory"><a href="#releaseHistory"><strong>2</strong><span>Release History</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-whatsNew"><a href="#whatsNew"><strong>2</strong><span>What's New?</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-service-discovery"><a href="#service-discovery"><strong>3</strong><span>Service Discovery</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-releaseHistory"><a href="#releaseHistory"><strong>3</strong><span>Release History</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>4</strong><span>Configuration Client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-service-discovery"><a href="#service-discovery"><strong>4</strong><span>Service Discovery</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>5</strong><span>Health Checks</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config-client"><a href="#config-client"><strong>5</strong><span>Configuration Client</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>6</strong><span>Kubernetes client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>6</strong><span>Health Checks</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>7</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes client</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>8</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>8</strong><span>Logging and debugging</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>9</strong><span>Breaking Changes</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -112,7 +120,7 @@
         <h1>Micronaut Kubernetes</h1>
         <p></p>
         <p>Integration between Micronaut and Kubernetes</p>
-        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide/index.html'>SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/3.0.0-M1/guide/index.html'>3.0.0-M1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.4/guide/index.html'>2.3.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.3/guide/index.html'>2.3.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.2/guide/index.html'>2.3.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.1/guide/index.html'>2.3.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.0/guide/index.html'>2.3.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.2.0/guide/index.html'>2.2.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.1.0/guide/index.html'>2.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0/guide/index.html'>2.0.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC2/guide/index.html'>2.0.0.RC2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC1/guide/index.html'>2.0.0.RC1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.1.0/guide/index.html'>1.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.4/guide/index.html'>1.0.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.0/guide/index.html'>1.0.0</option></select></p>
+        <p><strong>Version:</strong> <select style='max-width: 200px' onChange='window.document.location.href=this.options[this.selectedIndex].value;'><option selected='selected' value='https://micronaut-projects.github.io/micronaut-kubernetes/snapshot/guide/index.html'>SNAPSHOT</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/3.0.0/guide/index.html'>3.0.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/3.0.0-M1/guide/index.html'>3.0.0-M1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.4/guide/index.html'>2.3.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.3/guide/index.html'>2.3.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.2/guide/index.html'>2.3.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.1/guide/index.html'>2.3.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.3.0/guide/index.html'>2.3.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.2.0/guide/index.html'>2.2.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.1.0/guide/index.html'>2.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0/guide/index.html'>2.0.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC2/guide/index.html'>2.0.0.RC2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/2.0.0.RC1/guide/index.html'>2.0.0.RC1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.1.0/guide/index.html'>1.1.0</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.4/guide/index.html'>1.0.4</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.3/guide/index.html'>1.0.3</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.2/guide/index.html'>1.0.2</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.1/guide/index.html'>1.0.1</option><option value='https://micronaut-projects.github.io/micronaut-kubernetes/1.0.0/guide/index.html'>1.0.0</option></select></p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
@@ -168,7 +176,31 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 </div>
 
-<h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>2 Release History</h1>
+<h1 id="whatsNew"><a class="anchor" href="#whatsNew"></a>2 What's New?</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/whatsNew.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Micronaut Kubernetes module 3.0.0 includes the following changes:</p>
+</div>
+<div class="sect1">
+<h2 id="_official_k8s_java_sdk_client_with_reactive_support">Official K8s JAVA SDK client with reactive support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Micronaut Kubernetes is now using the official <a href="https://github.com/kubernetes-client/java">Kubernetes Java SDK</a> client instead of the in-house client.</p>
+</div>
+<div class="paragraph">
+<p>Apart this new module <code>micronaut-kubernetes-client</code> there are two additional modules <code>micronaut-client-reactor</code> and <code>micronaut-client-rxjava2</code> that extends the client API classes by the reactive support of respective reactive framework.</p>
+</div>
+</div>
+</div>
+
+<h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>3 Release History</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/releaseHistory.adoc"'>
@@ -184,7 +216,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <p><a href="https://github.com/micronaut-projects/micronaut-kubernetes/releases">https://github.com/micronaut-projects/micronaut-kubernetes/releases</a></p>
 </div>
 
-<h1 id="service-discovery"><a class="anchor" href="#service-discovery"></a>3 Service Discovery</h1>
+<h1 id="service-discovery"><a class="anchor" href="#service-discovery"></a>4 Service Discovery</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/service-discovery.adoc"'>
@@ -203,7 +235,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:3.0.0-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:3.0.1-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -211,7 +243,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
-    &lt;version&gt;3.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.0.1-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -628,7 +660,7 @@ discovery:</p>
 </div>
 </div>
 
-<h1 id="config-client"><a class="anchor" href="#config-client"></a>4 Configuration Client</h1>
+<h1 id="config-client"><a class="anchor" href="#config-client"></a>5 Configuration Client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/config-client.adoc"'>
@@ -975,7 +1007,7 @@ take precedence over the ones coming from the API.</p>
 </div>
 </div>
 
-<h1 id="health-checks"><a class="anchor" href="#health-checks"></a>5 Health Checks</h1>
+<h1 id="health-checks"><a class="anchor" href="#health-checks"></a>6 Health Checks</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/health-checks.adoc"'>
@@ -1103,7 +1135,7 @@ information about how to configure it.</p>
 </div>
 </div>
 
-<h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>6 Kubernetes client</h1>
+<h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>7 Kubernetes client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/kubernetes-client.adoc"'>
@@ -1125,7 +1157,7 @@ information about how to configure it.</p>
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client:3.0.0-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client:3.0.1-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1133,7 +1165,7 @@ information about how to configure it.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client&lt;/artifactId&gt;
-    &lt;version&gt;3.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.0.1-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1242,7 +1274,7 @@ specifically:</p>
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:3.0.0-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:3.0.1-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1250,7 +1282,7 @@ specifically:</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-rxjava2&lt;/artifactId&gt;
-    &lt;version&gt;3.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.0.1-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1293,7 +1325,7 @@ public class MyService {
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-reactor:3.0.0-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-reactor:3.0.1-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1301,7 +1333,7 @@ public class MyService {
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-reactor&lt;/artifactId&gt;
-    &lt;version&gt;3.0.0-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.0.1-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1338,7 +1370,7 @@ public class MyService {
 </div>
 </div>
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>7 Logging and debugging</h1>
+<h1 id="logging"><a class="anchor" href="#logging"></a>8 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
@@ -1373,7 +1405,28 @@ to <code>DEBUG</code>:</p>
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>8 Repository</h1>
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>9 Breaking Changes</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/breaking.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>This section documents breaking changes between Micronaut Kubernetes 2.x and Micronaut Kubernetes 3.x:</p>
+</div>
+<div class="sect1">
+<h2 id="_in_house_kubernetes_client_removed">In-house Kubernetes client removed</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The in-house Kubernetes client <code>io.micronaut.kubernetes.client.v1.*</code> was deprecated and removed. Instead use the new module <code>micronaut-kubernetes-client</code> or the reactive alternatives <code>micronaut-client-reactor</code> or <code>micronaut-client-rxjava2</code> that extends the client API classes by the reactive support of respective reactive framework.</p>
+</div>
+</div>
+</div>
+
+<h1 id="repository"><a class="anchor" href="#repository"></a>10 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/repository.adoc"'>
