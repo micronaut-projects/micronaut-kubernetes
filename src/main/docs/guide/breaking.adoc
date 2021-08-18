@@ -1,0 +1,6 @@
+This section documents breaking changes between Micronaut Kubernetes 2.x and Micronaut Kubernetes 3.x:
+
+## In-house Kubernetes client removed
+
+The in-house Kubernetes client `io.micronaut.kubernetes.client.v1.*` was deprecated and removed. Instead use the new module `micronaut-kubernetes-client` or the reactive alternatives `micronaut-client-reactor` or `micronaut-client-rxjava2` that extends the client API classes by the reactive support of respective reactive framework.
+

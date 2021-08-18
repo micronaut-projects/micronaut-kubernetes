@@ -1,0 +1,7 @@
+The Micronaut Kubernetes module 3.0.0 includes the following changes:
+
+## Official K8s JAVA SDK client with reactive support
+
+Micronaut Kubernetes is now using the official https://github.com/kubernetes-client/java[Kubernetes Java SDK] client instead of the in-house client.
+
+Apart this new module `micronaut-kubernetes-client` there are two additional modules `micronaut-client-reactor` and `micronaut-client-rxjava2` that extends the client API classes by the reactive support of respective reactive framework.

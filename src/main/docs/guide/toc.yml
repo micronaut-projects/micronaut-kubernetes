@@ -1,8 +1,10 @@
 introduction: Introduction
+whatsNew: What's New?
 releaseHistory: Release History
 service-discovery: Service Discovery
 config-client: Configuration Client
 health-checks: Health Checks
 kubernetes-client: Kubernetes client
 logging: Logging and debugging
+breaking: Breaking Changes
 repository: Repository
