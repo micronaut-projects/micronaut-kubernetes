@@ -86,7 +86,6 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param configuration The configuration properties
      */
     public KubernetesConfigurationClient(CoreV1ApiReactorClient client, KubernetesConfiguration configuration) {
-        LOG.info("MRDKAAAAAAAAAAAAAA");
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
