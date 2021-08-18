@@ -15,22 +15,30 @@
  */
 package io.micronaut.kubernetes.util;
 
+import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1Secret;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertiesPropertySourceLoader;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.jackson.env.JsonPropertySourceLoader;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.kubernetes.client.v1.KubernetesObject;
-import io.micronaut.kubernetes.client.v1.configmaps.ConfigMap;
-import io.micronaut.kubernetes.client.v1.secrets.Secret;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
-import org.reactivestreams.Publisher;
-import reactor.core.publisher.Flux;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.*;
+import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -52,12 +60,12 @@ public class KubernetesUtils {
             new PropertiesPropertySourceLoader());
 
     /**
-     * Converts a {@link ConfigMap} into a {@link PropertySource}.
+     * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
      *
      * @param configMap the ConfigMap
      * @return A PropertySource
      */
-    public static PropertySource configMapAsPropertySource(ConfigMap configMap) {
+    public static PropertySource configMapAsPropertySource(V1ConfigMap configMap) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
         }
@@ -118,18 +126,23 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param secret The {@link Secret} to transform
+     * @param secret The {@link V1Secret} to transform
      * @return The converted {@link PropertySource}.
      */
-    public static PropertySource secretAsPropertySource(Secret secret) {
+    public static PropertySource secretAsPropertySource(V1Secret secret) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for Secret: {}", secret);
         }
         String name = secret.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_SECRET_NAME_SUFFIX;
-        Map<String, String> data = secret.getStringData();
-        Map<String, Object> propertySourceData = data.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        Map<String, byte[]> data = secret.getData();
+        Map<String, Object> propertySourceData = null;
+        if (data != null) {
+            propertySourceData = data.entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
+        } else {
+            propertySourceData = Collections.emptyMap();
+        }
         int priority = EnvironmentPropertySource.POSITION + 100;
         PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
         KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
@@ -218,26 +231,29 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param client       the {@link KubernetesClient}
+     * @param client       the {@link CoreV1ApiReactorClient}
      * @param podLabelKeys the list of labels inside a pod
      * @param namespace    in the configuration
      * @param labels       the labels
      * @return the filtered labels of the current pod
      */
-    public static Publisher<String> computePodLabelSelector(KubernetesClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
+    public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, List<String> podLabelKeys, String namespace, Map<String, String> labels) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Not running on k8s");
             }
-            return Flux.just(computeLabelSelector(labels));
+            return Mono.just(computeLabelSelector(labels));
         }
 
-        return Flux.from(client.getPod(namespace, System.getenv(HOSTNAME_ENV_VARIABLE))).map(
-                pod -> {
+        final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
+        return client.readNamespacedPod(podName, namespace, null, null, null)
+                .doOnError(ApiException.class, throwable ->
+                        LOG.error("Failed to read the Pod [" + podName + "] the application is running in: " + throwable.getResponseBody(), throwable))
+                .map(pod -> {
                     Map<String, String> result = new HashMap<>();
-                    Map<String, String> podLabels = pod.getMetadata().getLabels();
+                    Map<String, String> podLabels = Objects.requireNonNull(pod.getMetadata()).getLabels();
                     for (String key : podLabelKeys) {
                         String value = podLabels.get(key);
                         if (value != null) {
@@ -256,10 +272,11 @@ public class KubernetesUtils {
                     }
                     result.putAll(labels);
                     return computeLabelSelector(result);
-                });
+                })
+                .doOnError(throwable -> LOG.error("Failed to compute the label selector [" + podLabelKeys + "] from the Pod [" + podName + "]: " + throwable.getMessage(), throwable));
     }
 
-    private static String getPropertySourceName(ConfigMap configMap) {
+    private static String getPropertySourceName(V1ConfigMap configMap) {
         return configMap.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
     }
 

@@ -18,14 +18,14 @@ class KubernetesDiscoveryClientLabelsSpec extends KubernetesSpecification{
         KubernetesDiscoveryClient discoveryClient = applicationContext.getBean(KubernetesDiscoveryClient)
 
         when:
-        List<String> serviceIds = Flowable.fromPublisher(discoveryClient.getServiceIds()).blockingFirst()
+        List<String> serviceIds = Flux.from(discoveryClient.getServiceIds()).blockFirst()
 
         then:
         serviceIds.size() == 1
 
         and:
-        Flowable.fromPublisher(discoveryClient.getInstances("example-client")).blockingFirst().isEmpty()
-        Flowable.fromPublisher(discoveryClient.getInstances("example-service")).blockingFirst().size() == 2  // 2 endpoints
+        Flux.from(discoveryClient.getInstances("example-client")).blockFirst().isEmpty()
+        Flux.from(discoveryClient.getInstances("example-service")).blockFirst().size() == 2  // 2 endpoints
 
         cleanup:
         applicationContext.close()

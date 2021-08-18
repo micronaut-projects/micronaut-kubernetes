@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
-import io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -51,7 +50,7 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
                 .map(a -> a.ip).collect(Collectors.toList())
 
         when:
-        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('example-service')).blockingFirst()
+        List<ServiceInstance> serviceInstances = Flux.from(discoveryClient.getInstances('example-service')).blockFirst()
 
         then:
         serviceInstances.size() == ipAddresses.size()
@@ -72,7 +71,7 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
                 .distinct().collect(Collectors.toList())
 
         when:
-        List<String> serviceIds = Flowable.fromPublisher(discoveryClient.serviceIds).blockingFirst()
+        List<String> serviceIds = Flux.from(discoveryClient.serviceIds).blockFirst()
 
         then:
         serviceIds.size() == allServices.size()
@@ -81,9 +80,10 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
     void "service #serviceId is secure"(String serviceId) {
         when:
-        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances(serviceId)).blockingFirst()
+        List<ServiceInstance> serviceInstances = Flux.from(discoveryClient.getInstances(serviceId)).blockFirst()
 
         then:
+        !serviceInstances.isEmpty()
         serviceInstances.first().secure
 
         where:
@@ -92,7 +92,7 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
     void "non-secure-service is not secure"() {
         when:
-        List<ServiceInstance> serviceInstances = Flowable.fromPublisher(discoveryClient.getInstances('non-secure-service')).blockingFirst()
+        List<ServiceInstance> serviceInstances = Flux.from(discoveryClient.getInstances('non-secure-service')).blockFirst()
 
         then:
         !serviceInstances.first().secure

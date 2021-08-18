@@ -4,7 +4,7 @@ The complete list of available beans is declared in the link:{sourcedir}/kuberne
 
 First you need add a dependency on the `micronaut-kubernetes-client` module:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client:{version}[]
 
 Then you can simply use Micronaut injection to get configured apis object from package `io.kubernetes.client.openapi.apis` :
 
@@ -31,13 +31,21 @@ public class MyService {
 ----
 
 ## Authentication
-Micronaut distinguished https://github.com/kubernetes-client/java/blob/master/util/src/main/java/io/kubernetes/client/util/ClientBuilder.java#L243[cluster] and https://github.com/kubernetes-client/java/blob/6a4b5fe0b659beb6bfbacfd8ebaa816d0a3b7f8d/util/src/main/java/io/kubernetes/client/util/ClientBuilder.java#L276[kubeconfig] authentication options. If the environments contains `Environment.KUBERNETS` then the `cluster` authentication is used otherwise `kubeconfig`.
+The Kubernetes client source of authentication options is automatically detected by the https://javadoc.io/static/io.kubernetes/client-java/13.0.0/io/kubernetes/client/util/ClientBuilder.html#standard--[ClientBuilder#standard()],
+specifically:
 
-Also you can update the authentication configuration by using `kubernetes.client` properties listed below:
+Creates a builder which is pre-configured in the following way
+
+* If `$KUBECONFIG` is defined, use that config file.
+* If `$HOME/.kube/config` can be found, use that.
+* If the in-cluster service account can be found, assume in cluster config.
+* Default to `localhost:8080` as a last resort.
+
+Also for specific cases you can update the authentication configuration options by using `kubernetes.client` properties listed below:
 
 |=======
 |*Name* |*Description*
-|basePath | Kubernetes api base path.
+|basePath | Kubernetes API base path. Example: `https://localhost:8081`
 |caPath | CA file path.
 |tokenPath | Token file path.
 |kubeConfigPath | Kube config file path.
@@ -50,9 +58,9 @@ In addition to the official Kubernetes Java SDK `Async` clients, this module pro
 
 ### RxJava 2 Reactive Support
 
-For RxJava 2 add the following module:
+For RxJava 2 add the following dependency:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:{version}[]
 
 The module contains all official Kubernetes API beans in format `<ApiClassName>RxClient`,
 for example the `CoreV1Api` class is injected as `CoreV1ApiRxClient`.
@@ -83,9 +91,9 @@ public class MyService {
 
 ### Reactor Reactive Support
 
-For Reactor add:
+For Reactor add the following dependency:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-reactor[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-reactor:{version}[]
 
 The module contains all official Kubernetes API beans in format `<ApiClassName>ReactiveClient`,
 for example the `CoreV1Api` class is injected as `CoreV1ApiReactiveClient`.

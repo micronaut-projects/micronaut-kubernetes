@@ -36,7 +36,9 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     void "it can read config maps from properties"() {
         when:
-        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.properties' }
+        PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .filter(it -> it.name.startsWith 'game.properties')
+                .blockFirst()
 
         then:
         propertySource.name == 'game.properties (Kubernetes ConfigMap)'
@@ -49,7 +51,9 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     void "it can read config maps from yml"() {
         when:
-        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.yml' }
+        PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .filter(it -> it.name.startsWith 'game.yml')
+                .blockFirst()
 
         then:
         propertySource.name == 'game.yml (Kubernetes ConfigMap)'
@@ -62,7 +66,9 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     void "it can read config maps from json"() {
         when:
-        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'game.json' }
+        PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .filter(it -> it.name.startsWith 'game.json')
+                .blockFirst()
 
         then:
         propertySource.name == 'game.json (Kubernetes ConfigMap)'
@@ -77,7 +83,9 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
         KubernetesConfigurationClient.propertySourceCache.clear()
 
         when:
-        PropertySource propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'literal-config' }
+        PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .filter(it -> it.name.startsWith 'literal-config')
+                .blockFirst()
 
         then:
         propertySource.name == 'literal-config (Kubernetes ConfigMap)'
@@ -88,19 +96,23 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     void "secret access is disabled by default"() {
         when:
-        def propertySource = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'test-secret' }
+        def propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .filter(it -> it.name.startsWith 'test-secret')
+                .blockFirst()
 
         then:
         !propertySource
     }
 
-    void "it can read empty config maps"(){
+    void "it can read empty config maps"() {
         given:
         KubernetesConfigurationClient.propertySourceCache.clear()
         operations.createConfigMap("empty-map", namespace, [:])
 
         when:
-        Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable().find { it.name.startsWith 'empty-map' }
+        Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .filter(it -> it.name.startsWith 'empty-map')
+                .blockFirst()
 
         then:
         noExceptionThrown()

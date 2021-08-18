@@ -15,17 +15,14 @@
  */
 package io.micronaut.kubernetes.discovery;
 
+import io.kubernetes.client.util.ClientBuilder;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.discovery.ServiceInstanceList;
-import io.micronaut.kubernetes.client.v1.KubernetesClient;
-import io.micronaut.kubernetes.client.v1.KubernetesConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jakarta.inject.Singleton;
+
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -41,28 +38,24 @@ import java.util.List;
 @BootstrapContextCompatible
 public class KubernetesServiceInstanceList implements ServiceInstanceList {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceList.class);
-
-    private KubernetesConfiguration configuration;
+    private final ClientBuilder configuration;
 
     /**
-     * @param configuration The {@link KubernetesConfiguration}.
+     * @param clientBuilder The {@link ClientBuilder}.
      */
-    public KubernetesServiceInstanceList(KubernetesConfiguration configuration) {
-        this.configuration = configuration;
+    public KubernetesServiceInstanceList(ClientBuilder clientBuilder) {
+        this.configuration = clientBuilder;
     }
 
     @Override
     public String getID() {
-        return KubernetesClient.SERVICE_ID;
+        return KubernetesDiscoveryClient.SERVICE_ID;
     }
 
     @Override
     public List<ServiceInstance> getInstances() {
-        String spec = (configuration.isSecure() ? "https" : "http") + "://" + configuration.getHost() + ":" + configuration.getPort();
         return Collections.singletonList(
-                ServiceInstance.builder(getID(), URI.create(spec)).build()
+                ServiceInstance.builder(getID(), URI.create(configuration.getBasePath())).build()
         );
     }
-
 }

@@ -3,7 +3,6 @@ releaseHistory: Release History
 service-discovery: Service Discovery
 config-client: Configuration Client
 health-checks: Health Checks
-low-level-client: (Deprecated) Using the low-level Kubernetes API HTTP client
 kubernetes-client: Kubernetes client
 logging: Logging and debugging
 repository: Repository

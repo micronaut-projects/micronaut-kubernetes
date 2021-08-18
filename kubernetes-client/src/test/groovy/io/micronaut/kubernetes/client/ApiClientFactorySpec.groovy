@@ -59,7 +59,7 @@ class ApiClientFactorySpec extends KubernetesSpecification {
 
         CoreV1Api coreV1Api = applicationContext.getBean(CoreV1Api)
         when:
-        V1PodList podList = coreV1Api.listNamespacedPod("kube-system", null, null, null, null, null, null, null, null, null)
+        V1PodList podList = coreV1Api.listNamespacedPod("kube-system", null, null, null, null, null, null, null, null, null, null)
 
         then:
         podList

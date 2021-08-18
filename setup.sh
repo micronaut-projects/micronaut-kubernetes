@@ -3,10 +3,17 @@ set -ex
 
 #
 # Defaults
-K8S_DEFAULT_VERSION="1.19"
+K8S_DEFAULT_VERSION="1.21"
 KUBECTL_DEFAULT_VERSION="v1.19.2"
-KIND_DEFAULT_VERSION="v0.10.0"
-KIND_NODE_IMAGE_K8S_DEFAULT_VERSION="v1.19.1@sha256:98cf5288864662e37115e362b23e4369c8c4a408f99cbc06e58ac30ddc721600"
+KIND_VERSION="v0.11.1"
+
+#
+# K8s images required for KIND version
+K8S_121="kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6"
+K8S_120="kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9"
+K8S_119="kindest/node:v1.19.11@sha256:07db187ae84b4b7de440a73886f008cf903fcf5764ba8106a9fd5243d6f32729"
+K8S_118="kindest/node:v1.18.19@sha256:7af1492e19b3192a79f606e43c35fb741e520d195f96399284515f077b3b622c"
+K8S_117="kindest/node:v1.17.17@sha256:66f1d0d91a88b8a001811e2f1054af60eef3b669a9a74f9b6db871f2f1eeed00"
 
 #
 # Resolve K8s version
@@ -15,10 +22,6 @@ echo "K8S_VERSION = $K8S_VERSION"
 
 #
 # Resolve kind version
-KIND_VERSION=$(curl -X GET -s https://api.github.com/repos/kubernetes-sigs/kind/releases | jq -r 'first(.[]).name')
-if [[ $KIND_VERSION != v* ]]; then
-    echo "Resolved KIND_VERSION: $KIND_VERSION doesn't start with v*, defaults to $KIND_DEFAULT_VERSION"
-fi
 echo "KIND_VERSION = $KIND_VERSION"
 
 #
@@ -32,12 +35,17 @@ echo "KUBECTL_VERSION = $KUBECTL_VERSION"
 
 #
 # Resolve kind node image
-KIND_NODE_IMAGE_VERSION=$(curl -X GET -s https://hub.docker.com/v2/repositories/kindest/node/tags | jq -r "[.results[]|select(.name | match(\"v$K8S_VERSION.[0-9]+$\"))][0] | .name + \"@\" + .images[0].digest")
-if [[ $KIND_NODE_IMAGE_VERSION != v${K8S_VERSION}* ]]; then
-  echo "Resolved KIND_NODE_IMAGE_VERSION: $KIND_NODE_IMAGE_VERSION doesn't start with v$K8S_VERSION, defaults to $KIND_NODE_IMAGE_K8S_DEFAULT_VERSION"
-  KIND_NODE_IMAGE_VERSION=$KIND_NODE_IMAGE_K8S_DEFAULT_VERSION
+if [[ "1.21" == "${K8S_VERSION}" ]]; then
+  KIND_NODE_IMAGE_VERSION=$K8S_121
+elif [[ "1.20" == "${K8S_VERSION}" ]]; then
+  KIND_NODE_IMAGE_VERSION=$K8S_120
+elif [[ "1.19" == "${K8S_VERSION}" ]]; then
+  KIND_NODE_IMAGE_VERSION=$K8S_119
+elif [[ "1.18" == "${K8S_VERSION}" ]]; then
+  KIND_NODE_IMAGE_VERSION=$K8S_118
+elif [[ "1.17" == "${K8S_VERSION}" ]]; then
+  KIND_NODE_IMAGE_VERSION=$K8S_117
 fi
-KIND_NODE_IMAGE_VERSION="kindest/node:${KIND_NODE_IMAGE_VERSION}"
 echo "KIND_NODE_IMAGE_VERSION = $KIND_NODE_IMAGE_VERSION"
 
 #
@@ -52,6 +60,10 @@ curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64
 KIND_CLUSTER=$(echo $K8S_VERSION | tr -cd '[:alnum:]')
 KIND_CLUSTER_NAME="k8s${KIND_CLUSTER}java${JAVA_VERSION}"
 ./kind create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
+
+# Test the cluster was created
+./kubectl get ns kube-system || exit 1
+
 ./kubectl cluster-info
 ./kubectl version
 

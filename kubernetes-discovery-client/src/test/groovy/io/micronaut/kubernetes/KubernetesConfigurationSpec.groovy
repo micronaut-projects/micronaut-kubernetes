@@ -1,7 +1,8 @@
-package io.micronaut.kubernetes.client.v1
+package io.micronaut.kubernetes
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
+import io.micronaut.kubernetes.KubernetesConfiguration
 import io.micronaut.kubernetes.test.TestUtils
 import spock.lang.Requires
 import spock.lang.Specification
@@ -22,7 +23,11 @@ class KubernetesConfigurationSpec extends Specification {
 
     void "when not set, namespace is default"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.build().deduceEnvironment(false).environments(Environment.KUBERNETES).start()
+        ApplicationContext applicationContext = ApplicationContext.builder()
+                .deduceEnvironment(false)
+                .environments(Environment.KUBERNETES)
+                .build()
+                .start()
 
         when:
         String namespace = applicationContext.getBean(KubernetesConfiguration).namespace

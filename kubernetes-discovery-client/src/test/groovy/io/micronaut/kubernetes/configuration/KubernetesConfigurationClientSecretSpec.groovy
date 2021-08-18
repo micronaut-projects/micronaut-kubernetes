@@ -27,9 +27,9 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySource = Flowable.fromPublisher(
-                configurationClient.getPropertySources(applicationContext.environment)).
-                blockingIterable().find { it.name.startsWith 'test-secret' } as PropertySource
+        def propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment)).
+                filter(it -> it.name.startsWith 'test-secret')
+                .blockFirst()
 
         then:
         propertySource.name == 'test-secret (Kubernetes Secret)'
@@ -51,7 +51,8 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList().block()
 
         then:
         propertySources.find { it.name.startsWith 'another-secret'}
@@ -74,7 +75,8 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList().block()
 
         then:
         propertySources.find { it.name.startsWith 'test-secret'}

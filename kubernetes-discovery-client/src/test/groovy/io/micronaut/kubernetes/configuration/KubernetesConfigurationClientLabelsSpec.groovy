@@ -25,7 +25,8 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList().block()
 
         then:
         propertySources.find { it.name.startsWith 'literal-config'}
@@ -46,7 +47,9 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList()
+                .block()
 
         then:
         propertySources.size() == 1
@@ -59,7 +62,8 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
-        def propertySources = Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable()
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList().block()
 
         then:
         KubernetesConfigurationClient.propertySourceCache.clear()
@@ -82,7 +86,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = envs.execute(() -> Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable())
+        def propertySources = envs.execute(() -> Flux.from(configurationClient.getPropertySources(applicationContext.environment)).collectList().block())
 
         then:
         propertySources.find { it.name.startsWith 'literal-config' }
@@ -106,7 +110,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = envs.execute(() -> Flowable.fromPublisher(configurationClient.getPropertySources(applicationContext.environment)).blockingIterable())
+        def propertySources = envs.execute(() -> Flux.from(configurationClient.getPropertySources(applicationContext.environment)).collectList().block())
 
         then:
         propertySources.find { it.name.startsWith 'another-secret' }

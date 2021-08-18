@@ -13,19 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.v1;
+package io.micronaut.kubernetes;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import io.micronaut.core.util.StringUtils;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.discovery.DiscoveryConfiguration;
-import io.micronaut.http.client.HttpClientConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.micronaut.core.annotation.NonNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -45,7 +43,7 @@ import java.util.Map;
 @Requires(env = Environment.KUBERNETES)
 @ConfigurationProperties(KubernetesConfiguration.PREFIX)
 @BootstrapContextCompatible
-public class KubernetesConfiguration extends HttpClientConfiguration {
+public class KubernetesConfiguration {
 
     public static final String PREFIX = "kubernetes.client";
     public static final String NAMESPACE_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/namespace";
@@ -57,16 +55,8 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfiguration.class);
 
-    private static final String KUBERNETES_DEFAULT_HOST = "kubernetes.default.svc";
-    private static final int KUBERNETES_DEFAULT_PORT = 443;
-    private static final boolean KUBERNETES_DEFAULT_SECURE = true;
-
-    private String host = KUBERNETES_DEFAULT_HOST;
-    private int port = KUBERNETES_DEFAULT_PORT;
-    private boolean secure = KUBERNETES_DEFAULT_SECURE;
     private String namespace;
 
-    private KubernetesConnectionPoolConfiguration connectionPoolConfiguration = new KubernetesConnectionPoolConfiguration();
     private KubernetesDiscoveryConfiguration discovery = new KubernetesDiscoveryConfiguration();
     private KubernetesSecretsConfiguration secrets = new KubernetesSecretsConfiguration();
     private KubernetesConfigMapsConfiguration configMaps = new KubernetesConfigMapsConfiguration();
@@ -90,51 +80,6 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
             }
             this.namespace = namespace;
         }
-    }
-
-    /**
-     * @return The Kubernetes API host name
-     **/
-    @NonNull
-    public String getHost() {
-        return host;
-    }
-
-    /**
-     * @param host The Kubernetes API host name
-     */
-    public void setHost(String host) {
-        if (StringUtils.isNotEmpty(host)) {
-            this.host = host;
-        }
-    }
-
-    /**
-     * @return The Kubernetes API port
-     */
-    public int getPort() {
-        return port;
-    }
-
-    /**
-     * @param port The port for the Kubernetes API
-     */
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    /**
-     * @return Is the Kubernetes API server exposed over HTTPS (defaults to true)
-     */
-    public boolean isSecure() {
-        return secure;
-    }
-
-    /**
-     * @param secure Set if the Kubernetes API server is exposed over HTTPS
-     */
-    public void setSecure(boolean secure) {
-        this.secure = secure;
     }
 
     /**
@@ -165,11 +110,6 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;
-    }
-
-    @Override
-    public ConnectionPoolConfiguration getConnectionPoolConfiguration() {
-        return this.connectionPoolConfiguration;
     }
 
     /**
@@ -206,7 +146,6 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
     public String toString() {
         return "KubernetesConfiguration{" +
                 "namespace='" + namespace + '\'' +
-                ", connectionPoolConfiguration=" + connectionPoolConfiguration +
                 ", discovery=" + discovery +
                 ", secrets=" + secrets +
                 ", configMaps=" + configMaps +
@@ -238,14 +177,6 @@ public class KubernetesConfiguration extends HttpClientConfiguration {
         public void setMode(String mode) {
             this.mode = mode;
         }
-    }
-
-    /**
-     * The default connection pool configuration.
-     */
-    @ConfigurationProperties(ConnectionPoolConfiguration.PREFIX)
-    @BootstrapContextCompatible
-    public static class KubernetesConnectionPoolConfiguration extends ConnectionPoolConfiguration {
     }
 
     /**

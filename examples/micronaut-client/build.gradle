@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.2"
+    id("io.micronaut.application") version "2.0.3"
 }
 
 repositories {
@@ -25,11 +25,17 @@ dependencies {
     implementation("io.micronaut:micronaut-management")
     implementation project(':kubernetes-discovery-client')
     runtimeOnly("ch.qos.logback:logback-classic")
+
     testImplementation project(":test-utils")
 }
 
 application {
     mainClass.set("micronaut.client.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks {

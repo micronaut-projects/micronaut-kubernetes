@@ -3,7 +3,6 @@ package io.micronaut.kubernetes.discovery
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.discovery.ServiceInstance
 import io.micronaut.kubernetes.test.KubectlCommands
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
@@ -24,15 +23,15 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
         KubernetesDiscoveryClient discoveryClient = applicationContext.getBean(KubernetesDiscoveryClient)
 
         when:
-        List<String> serviceIds = Flowable.fromPublisher(discoveryClient.getServiceIds()).blockingFirst()
+        List<String> serviceIds = Flux.from(discoveryClient.getServiceIds()).blockFirst()
 
         then:
         serviceIds.size() == 1
         serviceIds.contains("example-client")
 
         and:
-        Flowable.fromPublisher(discoveryClient.getInstances("example-client")).blockingFirst().size() == 1
-        Flowable.fromPublisher(discoveryClient.getInstances("example-service")).blockingFirst().isEmpty()
+        Flux.from(discoveryClient.getInstances("example-client")).blockFirst().size() == 1
+        Flux.from(discoveryClient.getInstances("example-service")).blockFirst().isEmpty()
 
         cleanup:
         applicationContext.close()
@@ -44,7 +43,7 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
         KubernetesDiscoveryClient discoveryClient = applicationContext.getBean(KubernetesDiscoveryClient)
 
         when:
-        List<String> serviceIds = Flowable.fromPublisher(discoveryClient.getServiceIds()).blockingFirst()
+        List<String> serviceIds = Flux.from(discoveryClient.getServiceIds()).blockFirst()
 
         then:
         serviceIds.size() == 5
@@ -52,8 +51,8 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
         serviceIds.contains("example-service")
 
         and:
-        Flowable.fromPublisher(discoveryClient.getInstances("example-client")).blockingFirst().isEmpty()
-        Flowable.fromPublisher(discoveryClient.getInstances("example-service")).blockingFirst().size() == 2  // 2 endpoints
+        Flux.from(discoveryClient.getInstances("example-client")).blockFirst().isEmpty()
+        Flux.from(discoveryClient.getInstances("example-service")).blockFirst().size() == 2  // 2 endpoints
 
         cleanup:
         applicationContext.close()

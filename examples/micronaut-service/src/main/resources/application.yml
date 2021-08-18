@@ -3,6 +3,13 @@ micronaut:
     name: micronaut-service
   server:
     port: 8081
+    thread-selection: io
+    executors:
+      io:
+        n-threads: 75
+        type: fixed
+  config-client:
+    enabled: true
 endpoints:
   env:
     sensitive: false

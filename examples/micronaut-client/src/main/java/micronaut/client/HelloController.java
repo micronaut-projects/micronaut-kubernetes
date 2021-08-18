@@ -25,7 +25,7 @@ import org.reactivestreams.Publisher;
 
 import java.util.List;
 
-@Controller
+@Controller(produces = "text/plain", consumes = "test/plain")
 @ExecuteOn(TaskExecutors.IO)
 public class HelloController {
 
