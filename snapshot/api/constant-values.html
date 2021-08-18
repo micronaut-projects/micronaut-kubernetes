@@ -81,7 +81,87 @@
 <ul class="blockList">
 <li class="blockList">
 <table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.KubernetesConfiguration.DEFAULT_NAMESPACE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#DEFAULT_NAMESPACE">DEFAULT_NAMESPACE</a></code></td>
+<td class="colLast"><code>"default"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.KubernetesConfiguration.NAMESPACE_PATH">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#NAMESPACE_PATH">NAMESPACE_PATH</a></code></td>
+<td class="colLast"><code>"/var/run/secrets/kubernetes.io/serviceaccount/namespace"</code></td>
+</tr>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.KubernetesConfiguration.PREFIX">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#PREFIX">PREFIX</a></code></td>
+<td class="colLast"><code>"kubernetes.client"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#PREFIX">PREFIX</a></code></td>
+<td class="colLast"><code>"config-maps"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration.DEFAULT_MODE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#DEFAULT_MODE">DEFAULT_MODE</a></code></td>
+<td class="colLast"><code>"endpoint"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#PREFIX">PREFIX</a></code></td>
+<td class="colLast"><code>"kubernetes.client.discovery"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<ul class="blockList">
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="class in io.micronaut.kubernetes.client">ApiClientConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th scope="col">Constant Field</th>
@@ -122,190 +202,6 @@
 </a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
 <td><code><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html#MICRONAUT_APIS_PACKAGE">MICRONAUT_APIS_PACKAGE</a></code></td>
 <td class="colLast"><code>"io.micronaut.kubernetes.client"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-<ul class="blockList">
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesClient.SERVICE_ID">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesClient.html#SERVICE_ID">SERVICE_ID</a></code></td>
-<td class="colLast"><code>"kubernetes"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesClientFilter.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesClientFilter</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesClientFilter.TOKEN_PATH">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesClientFilter.html#TOKEN_PATH">TOKEN_PATH</a></code></td>
-<td class="colLast"><code>"/var/run/secrets/kubernetes.io/serviceaccount/token"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.DEFAULT_NAMESPACE">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#DEFAULT_NAMESPACE">DEFAULT_NAMESPACE</a></code></td>
-<td class="colLast"><code>"default"</code></td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.NAMESPACE_PATH">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#NAMESPACE_PATH">NAMESPACE_PATH</a></code></td>
-<td class="colLast"><code>"/var/run/secrets/kubernetes.io/serviceaccount/namespace"</code></td>
-</tr>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.PREFIX">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html#PREFIX">PREFIX</a></code></td>
-<td class="colLast"><code>"kubernetes.client"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#PREFIX">PREFIX</a></code></td>
-<td class="colLast"><code>"config-maps"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration.DEFAULT_MODE">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#DEFAULT_MODE">DEFAULT_MODE</a></code></td>
-<td class="colLast"><code>"endpoint"</code></td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#PREFIX">PREFIX</a></code></td>
-<td class="colLast"><code>"kubernetes.client.discovery"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration.NAME">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#NAME">NAME</a></code></td>
-<td class="colLast"><code>"services"</code></td>
-</tr>
-<tr class="rowColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.KubernetesServiceConfiguration.PREFIX">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html#PREFIX">PREFIX</a></code></td>
-<td class="colLast"><code>"kubernetes.client.discovery.services"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.<a href="io/micronaut/kubernetes/client/v1/Metadata.html" title="class in io.micronaut.kubernetes.client.v1">Metadata</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.Metadata.SECURE_LABEL">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/Metadata.html#SECURE_LABEL">SECURE_LABEL</a></code></td>
-<td class="colLast"><code>"secure"</code></td>
-</tr>
-</tbody>
-</table>
-</li>
-</ul>
-<ul class="blockList">
-<li class="blockList">
-<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.client.v1.secrets.<a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html" title="class in io.micronaut.kubernetes.client.v1.secrets">Secret</a></span><span class="tabEnd">&nbsp;</span></caption>
-<tr>
-<th class="colFirst" scope="col">Modifier and Type</th>
-<th scope="col">Constant Field</th>
-<th class="colLast" scope="col">Value</th>
-</tr>
-<tbody>
-<tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.client.v1.secrets.Secret.OPAQUE_SECRET_TYPE">
-<!--   -->
-</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/client/v1/secrets/Secret.html#OPAQUE_SECRET_TYPE">OPAQUE_SECRET_TYPE</a></code></td>
-<td class="colLast"><code>"Opaque"</code></td>
 </tr>
 </tbody>
 </table>
@@ -355,6 +251,79 @@
 </a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
 <td><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_SECRET_NAME_SUFFIX">KUBERNETES_SECRET_NAME_SUFFIX</a></code></td>
 <td class="colLast"><code>" (Kubernetes Secret)"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.OPAQUE_SECRET_TYPE">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#OPAQUE_SECRET_TYPE">OPAQUE_SECRET_TYPE</a></code></td>
+<td class="colLast"><code>"Opaque"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<ul class="blockList">
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.SECURE_LABEL">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#SECURE_LABEL">SECURE_LABEL</a></code></td>
+<td class="colLast"><code>"secure"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.KubernetesDiscoveryClient.SERVICE_ID">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#SERVICE_ID">SERVICE_ID</a></code></td>
+<td class="colLast"><code>"kubernetes"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration.NAME">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#NAME">NAME</a></code></td>
+<td class="colLast"><code>"services"</code></td>
+</tr>
+<tr class="rowColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration.PREFIX">
+<!--   -->
+</a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#PREFIX">PREFIX</a></code></td>
+<td class="colLast"><code>"kubernetes.client.discovery.services"</code></td>
 </tr>
 </tbody>
 </table>

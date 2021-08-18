@@ -47,8 +47,8 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" target="_top">Frames</a></li>
@@ -112,7 +112,7 @@ var activeTableTab = "activeTableTab";
 <hr>
 <br>
 <pre>@Singleton
- @Requires(env="k8s") @Requires(beans={<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient.class</a>,<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration.class</a>}) @Requires(property="kubernetes.client.discovery.enabled",notEquals="false",defaultValue="true")
+ @Requires(env="k8s") @Requires(property="kubernetes.client.discovery.enabled",notEquals="false",defaultValue="true")
 public class <span class="typeNameLabel">KubernetesDiscoveryClient</span>
 extends java.lang.Object
 implements io.micronaut.discovery.DiscoveryClient</pre>
@@ -145,6 +145,10 @@ implements io.micronaut.discovery.DiscoveryClient</pre>
 <td class="colFirst"><code>protected static org.slf4j.Logger</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#LOG">LOG</a></span></code>&nbsp;</td>
 </tr>
+<tr class="rowColor">
+<td class="colFirst"><code>static java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#SERVICE_ID">SERVICE_ID</a></span></code>&nbsp;</td>
+</tr>
 </table>
 </li>
 </ul>
@@ -160,22 +164,10 @@ implements io.micronaut.discovery.DiscoveryClient</pre>
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">KubernetesDiscoveryClient</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a>&nbsp;client,
-                         <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;configuration,
-                         <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration,
-                         java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a>&gt;&nbsp;serviceConfigurations,
-                         <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a>&nbsp;instanceList)</code>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
-<div class="block"><span class="deprecationComment">This constructor is no longer used as it doesn't support the discovery modes.
- Use <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-"><code>KubernetesDiscoveryClient(KubernetesClient, KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, List, List, KubernetesServiceInstanceList)</code></a> instead.</span></div>
-</div>
-</td>
-</tr>
-<tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">KubernetesDiscoveryClient</a></span>(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a>&nbsp;client,
-                         <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;configuration,
-                         <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration,
-                         java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a>&gt;&nbsp;serviceConfigurations,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">KubernetesDiscoveryClient</a></span>(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient&nbsp;client,
+                         <a href="../../../../io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a>&nbsp;configuration,
+                         <a href="../../../../io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration,
+                         java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a>&gt;&nbsp;serviceConfigurations,
                          java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a>&gt;&nbsp;instanceProviders,
                          <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a>&nbsp;instanceList)</code>
 <div class="block">Creates discovery client that supports the discovery modes.</div>
@@ -241,6 +233,19 @@ implements io.micronaut.discovery.DiscoveryClient</pre>
 <!--   -->
 </a>
 <h3>Field Detail</h3>
+<a name="SERVICE_ID">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>SERVICE_ID</h4>
+<pre>public static final&nbsp;java.lang.String SERVICE_ID</pre>
+<dl>
+<dt><span class="seeLabel">See Also:</span></dt>
+<dd><a href="../../../../constant-values.html#io.micronaut.kubernetes.discovery.KubernetesDiscoveryClient.SERVICE_ID">Constant Field Values</a></dd>
+</dl>
+</li>
+</ul>
 <a name="LOG">
 <!--   -->
 </a>
@@ -258,42 +263,17 @@ implements io.micronaut.discovery.DiscoveryClient</pre>
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>KubernetesDiscoveryClient</h4>
-<pre>@Deprecated
-public&nbsp;KubernetesDiscoveryClient(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a>&nbsp;client,
-                                             <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;configuration,
-                                             <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration,
-                                             java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a>&gt;&nbsp;serviceConfigurations,
-                                             <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a>&nbsp;instanceList)</pre>
-<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">This constructor is no longer used as it doesn't support the discovery modes.
- Use <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-"><code>KubernetesDiscoveryClient(KubernetesClient, KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, List, List, KubernetesServiceInstanceList)</code></a> instead.</span></div>
-<div class="block">Creates discovery client that operates with endpoints only, so the discovery modes are not supported.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>client</code> - An HTTP Client to query the Kubernetes API.</dd>
-<dd><code>configuration</code> - The configuration properties</dd>
-<dd><code>discoveryConfiguration</code> - The discovery configuration properties</dd>
-<dd><code>serviceConfigurations</code> - The manual service discovery configurations</dd>
-<dd><code>instanceList</code> - The <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><code>KubernetesServiceInstanceList</code></a></dd>
-</dl>
-</li>
-</ul>
-<a name="KubernetesDiscoveryClient-io.micronaut.kubernetes.client.v1.KubernetesClient-io.micronaut.kubernetes.client.v1.KubernetesConfiguration-io.micronaut.kubernetes.client.v1.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">
+<a name="KubernetesDiscoveryClient-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceList-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>KubernetesDiscoveryClient</h4>
 <pre>@Inject
-public&nbsp;KubernetesDiscoveryClient(<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesClient.html" title="interface in io.micronaut.kubernetes.client.v1">KubernetesClient</a>&nbsp;client,
-                                         <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration</a>&nbsp;configuration,
-                                         <a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration,
-                                         java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/client/v1/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.client.v1">KubernetesServiceConfiguration</a>&gt;&nbsp;serviceConfigurations,
+public&nbsp;KubernetesDiscoveryClient(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient&nbsp;client,
+                                         <a href="../../../../io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a>&nbsp;configuration,
+                                         <a href="../../../../io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a>&nbsp;discoveryConfiguration,
+                                         java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a>&gt;&nbsp;serviceConfigurations,
                                          java.util.List&lt;<a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a>&gt;&nbsp;instanceProviders,
                                          <a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a>&nbsp;instanceList)</pre>
 <div class="block">Creates discovery client that supports the discovery modes.</div>
@@ -350,7 +330,8 @@ public&nbsp;KubernetesDiscoveryClient(<a href="../../../../io/micronaut/kubernet
 <ul class="blockList">
 <li class="blockList">
 <h4>getDescription</h4>
-<pre>public&nbsp;java.lang.String&nbsp;getDescription()</pre>
+<pre>@NonNull
+public&nbsp;java.lang.String&nbsp;getDescription()</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code>getDescription</code>&nbsp;in interface&nbsp;<code>io.micronaut.core.naming.Described</code></dd>
@@ -399,8 +380,8 @@ public&nbsp;KubernetesDiscoveryClient(<a href="../../../../io/micronaut/kubernet
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../index.html?io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" target="_top">Frames</a></li>
