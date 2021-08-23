@@ -5,6 +5,7 @@ include 'kubernetes-client-processor'
 include 'kubernetes-client-reactor'
 include 'kubernetes-client-rxjava2'
 include 'kubernetes-discovery-client'
+include 'kubernetes-informer'
 include 'test-utils'
 
 file('examples').eachDir {
