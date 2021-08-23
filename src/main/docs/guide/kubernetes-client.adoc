@@ -120,3 +120,8 @@ public class MyService {
     }
 }
 ----
+
+## Advanced Configuration
+For advanced configuration options of `ApiClient` that are not suitable to provide via `application.yml`, you can declare a BeanCreatedEventListener bean that listens for `ApiClient` bean creation, and apply any further customisation to `OkHttpClient` there:
+
+snippet::io.micronaut.kubernetes.client.ApiClientListener[tags="listener", project="kubernetes-client", source="test"]

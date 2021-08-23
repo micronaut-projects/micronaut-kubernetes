@@ -1,15 +1,10 @@
 package io.micronaut.kubernetes.client
 
+import io.kubernetes.client.openapi.ApiClient
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import spock.lang.Specification
 
-/**
- *
- *
- * @author Pavol Gressa
- * @since 2.3
- */
 class ApiClientConfigurationSpec extends Specification {
 
     def "test it creates empty configuration"(){
@@ -43,5 +38,16 @@ class ApiClientConfigurationSpec extends Specification {
         configuration.caPath.get() == "caPath"
         configuration.kubeConfigPath.isPresent()
         configuration.kubeConfigPath.get() == "kubeConfigPath"
+    }
+
+    def "it configured the api client's okhttp client"(){
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run()
+
+        when:
+        ApiClient apiClient = applicationContext.getBean(ApiClient)
+
+        then:
+        apiClient.getHttpClient().readTimeoutMillis() == 5345
     }
 }
