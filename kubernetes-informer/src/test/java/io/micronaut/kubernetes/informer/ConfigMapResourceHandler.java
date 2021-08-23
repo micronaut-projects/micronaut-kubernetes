@@ -17,13 +17,19 @@ package io.micronaut.kubernetes.informer;
 
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import jakarta.inject.Singleton;
 import org.apache.commons.compress.utils.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @Singleton
+@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps")
 public class ConfigMapResourceHandler implements ResourceEventHandler<V1ConfigMap> {
+
+    public static final Logger LOG = LoggerFactory.getLogger(ConfigMapResourceHandler.class);
 
     private final List<V1ConfigMap> added = Lists.newArrayList();
     private final List<V1ConfigMap> updated = Lists.newArrayList();
@@ -31,16 +37,20 @@ public class ConfigMapResourceHandler implements ResourceEventHandler<V1ConfigMa
 
     @Override
     public void onAdd(V1ConfigMap obj) {
+        LOG.info("ADDED CONFIG MAP: {}", obj);
         added.add(obj);
     }
 
     @Override
     public void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
+        LOG.info("UPDATED CONFIG MAP: {}", newObj);
         updated.add(newObj);
+
     }
 
     @Override
     public void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
+        LOG.info("DELETED CONFIG MAP: {}", obj);
         deleted.add(obj);
     }
 

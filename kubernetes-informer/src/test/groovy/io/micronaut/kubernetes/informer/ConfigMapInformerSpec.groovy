@@ -1,27 +1,73 @@
 package io.micronaut.kubernetes.informer
 
+import io.fabric8.kubernetes.api.model.ConfigMap
+import io.fabric8.kubernetes.api.model.ConfigMapList
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
+import io.micronaut.context.env.Environment
+import io.micronaut.kubernetes.test.KubernetesSpecification
+import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
+import spock.lang.Requires
 import spock.lang.Shared
-import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 
-@MicronautTest
-class ConfigMapInformerSpec extends Specification{
+@MicronautTest(environments = [Environment.KUBERNETES])
+@Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "kubernetes.client.namespace", value = "micronaut-informer")
+@Property(name = "spec.reuseNamespace", value = "false")
+class ConfigMapInformerSpec extends KubernetesSpecification {
 
     @Shared
     @Inject
     ApplicationContext applicationContext
 
-    def "informer is registered"(){
-        expect:
-        applicationContext.containsBean(SharedInformerFactoryFactory)
-        applicationContext.getBean(SharedInformerFactoryFactory)
-        applicationContext.containsBean(SharedInformerListener)
-        applicationContext.getBean(SharedInformerListener)
-        applicationContext.getBean(ConfigMapInformer)
-        applicationContext.getBean(DefaultSharedInformerFactory)
+    @Override
+    def setupFixture(String namespace) {
+        createNamespaceSafe(namespace)
     }
 
+    def "config map informer is notified"() {
+        given:
+        ConfigMapResourceHandler resourceHandler = applicationContext.getBean(ConfigMapResourceHandler)
+
+        when:
+        ConfigMapList configMapList = operations.getClient(namespace).configMaps().list()
+
+        then:
+        configMapList.items.size() == 1 // default ca map
+
+        and:
+        resourceHandler.added.size() == 1 // default ca map
+        resourceHandler.updated.isEmpty()
+        resourceHandler.deleted.isEmpty()
+
+        when:
+        operations.createConfigMap("map1", namespace, ["foo": "bar"])
+
+        then:
+        new PollingConditions().within(5) {
+            assert resourceHandler.added.size() == 2
+        }
+
+        when:
+        ConfigMap cm = operations.getConfigMap("map1", namespace)
+        cm.data.put("ping", "pong")
+        operations.modifyConfigMap("map1", namespace, cm.data)
+
+        then:
+        new PollingConditions().within(5) {
+            assert resourceHandler.updated.size() == 1
+        }
+
+        when:
+        operations.deleteConfigMap("map1", namespace)
+
+        then:
+        new PollingConditions().within(5) {
+            assert resourceHandler.deleted.size() == 1
+        }
+    }
 }

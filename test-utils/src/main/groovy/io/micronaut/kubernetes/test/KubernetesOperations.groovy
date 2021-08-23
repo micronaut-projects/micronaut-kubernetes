@@ -136,6 +136,7 @@ class KubernetesOperations implements Closeable {
         return getClient(namespace).configMaps().inNamespace(namespace).withName(name).get()
     }
 
+
     ConfigMap createConfigMap(String name, String namespace,
                               Map data = [foo: 'bar'], Map<String, String> labels = [:]) {
         def cm = new ConfigMapBuilder()

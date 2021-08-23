@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,61 +15,37 @@
  */
 package io.micronaut.kubernetes.informer;
 
-import io.kubernetes.client.common.KubernetesListObject;
-import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.SharedInformerFactory;
 import io.kubernetes.client.openapi.ApiClient;
-import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.BeanResolutionContext;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
-import io.micronaut.inject.BeanDefinition;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.StringUtils;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 /**
+ * Factory for {@link SharedInformerFactory}.
+ *
  * @author Pavol Gressa
- * @since 2.5
+ * @since 3.1
  */
-@Singleton
+@Requires(property = DefaultSharedInformerFactory.INFORMER_ENABLED, notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
+@Factory
 @BootstrapContextCompatible
-public class DefaultSharedInformerFactory extends SharedInformerFactory {
+public class DefaultSharedInformerFactory {
 
-    private final List<InformerResourceEventHandler<? extends KubernetesObject, ? extends KubernetesListObject>> resourceEventHandlerList;
-    private ApplicationContext applicationContext;
+    public static final String INFORMER_ENABLED = "kubernetes.informer.enabled";
 
-
-    public DefaultSharedInformerFactory(ApiClient client,
-                                        @Named("io") ExecutorService threadPool,
-                                        List<InformerResourceEventHandler<? extends KubernetesObject, ? extends KubernetesListObject>> resourceEventHandlerList,
-                                        ApplicationContext applicationContext) {
-        super(client, threadPool);
-        this.resourceEventHandlerList = resourceEventHandlerList;
-        this.applicationContext = applicationContext;
-        registerInformers();
-    }
-
-    private void registerInformers() {
-        resourceEventHandlerList.forEach(resourceEventHandler -> {
-            BeanDefinition<?> definition = applicationContext.getBeanDefinition(resourceEventHandler.getClass());
-            Type[] genericInterfaces = definition.getBeanType().getGenericInterfaces();
-            if (genericInterfaces.length > 0) {
-                Type type = genericInterfaces[0];
-                if (type instanceof ParameterizedType) {
-                    ParameterizedType pt = (ParameterizedType) type;
-                    Type[] typeArguments = pt.getActualTypeArguments();
-                    if (typeArguments[0] instanceof KubernetesObject &&
-                            typeArguments[1] instanceof KubernetesListObject) {
-                        KubernetesObject kubernetesObject = (KubernetesObject) typeArguments[0];
-                        KubernetesListObject kubernetesListObject = (KubernetesListObject) typeArguments[1];
-                    }
-                }
-            }
-        });
-
+    /**
+     * @param apiClient api client
+     * @param executorService executor service
+     * @return shared informer factory
+     */
+    @Singleton
+    public SharedInformerFactory sharedInformerFactory(ApiClient apiClient, @Named("io") ExecutorService executorService) {
+        return new SharedInformerFactory(apiClient, executorService);
     }
 }

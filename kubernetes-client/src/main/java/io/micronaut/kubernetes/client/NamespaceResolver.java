@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.informer;
+package io.micronaut.kubernetes.client;
 
-import io.kubernetes.client.common.KubernetesListObject;
-import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.informer.ResourceEventHandler;
 
 /**
+ * Resolves the Kubernetes namespace for the Micronaut application.
+ *
+ * @see DefaultNamespaceResolver
  * @author Pavol Gressa
- * @since 2.5
+ * @since 3.1
  */
-public interface InformerResourceEventHandler<ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> extends ResourceEventHandler<ApiType> {
+public interface NamespaceResolver {
+
+    /**
+     * Resolves namespace.
+     * @return namespace name
+     */
+    String resolveNamespace();
 }

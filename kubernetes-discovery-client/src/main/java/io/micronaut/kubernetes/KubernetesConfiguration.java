@@ -15,18 +15,15 @@
  */
 package io.micronaut.kubernetes;
 
+
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.discovery.DiscoveryConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.micronaut.kubernetes.client.NamespaceResolver;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -46,14 +43,6 @@ import java.util.Map;
 public class KubernetesConfiguration {
 
     public static final String PREFIX = "kubernetes.client";
-    public static final String NAMESPACE_PATH = "/var/run/secrets/kubernetes.io/serviceaccount/namespace";
-
-    /**
-     * The default namespace value.
-     */
-    public static final String DEFAULT_NAMESPACE = "default";
-
-    private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfiguration.class);
 
     private String namespace;
 
@@ -64,22 +53,8 @@ public class KubernetesConfiguration {
     /**
      * Default constructor.
      */
-    public KubernetesConfiguration() {
-        if (namespace == null) {
-            String namespace = DEFAULT_NAMESPACE;
-            try {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Namespace has not been set. Reading it from file [{}]", NAMESPACE_PATH);
-                }
-                namespace = new String(Files.readAllBytes(Paths.get(NAMESPACE_PATH)));
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug("Namespace: [{}]", namespace);
-                }
-            } catch (IOException ioe) {
-                LOG.warn("An error has occurred when reading the file: [" + NAMESPACE_PATH + "]. Kubernetes namespace will be set to: " + DEFAULT_NAMESPACE);
-            }
-            this.namespace = namespace;
-        }
+    public KubernetesConfiguration(NamespaceResolver namespaceResolver) {
+        this.namespace = namespaceResolver.resolveNamespace();
     }
 
     /**
