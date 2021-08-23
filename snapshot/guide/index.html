@@ -1369,6 +1369,31 @@ public class MyService {
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_advanced_configuration">Advanced Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For advanced configuration options of <code>ApiClient</code> that are not suitable to provide via <code>application.yml</code>, you can declare a BeanCreatedEventListener bean that listens for <code>ApiClient</code> bean creation, and apply any further customisation to <code>OkHttpClient</code> there:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@Singleton
+public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&gt; {
+
+    @Override
+    public ApiClient onCreated(BeanCreatedEvent&lt;ApiClient&gt; event) {
+        ApiClient apiClient = event.getBean();
+        OkHttpClient okHttpClient = apiClient.getHttpClient().newBuilder()
+                .readTimeout(5345, TimeUnit.MILLISECONDS)
+                .build();
+        apiClient.setHttpClient(okHttpClient);
+        return apiClient;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 
 <h1 id="logging"><a class="anchor" href="#logging"></a>8 Logging and debugging</h1>
 
