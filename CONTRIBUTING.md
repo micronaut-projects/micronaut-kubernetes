@@ -2,22 +2,40 @@
 
 To work on this project, you need a Kubernetes cluster accessible via `kubectl`. It can be a local cluster based on
 [Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/),
-[Docker Desktop for Mac](https://hub.docker.com/editions/community/docker-ce-desktop-mac), or even a remote cluster hosted
-on AWS / GCP / Azure / etc.
+[Kind](https://kind.sigs.k8s.io/) or even a remote cluster hosted
+on AWS / GCP / Azure / Oracle Cloud / etc.
 
 ## Setting up the environment
 
-Note: If you're using minikube, run command below which will configure the docker environment to use the minikube docker runtime
+### Minikube
+When using Minikube, run command below which will configure the docker environment to use the minikube docker runtime
 than the system one. This is needed in order to successfully setup the environment:
 ```shell script
 eval $(minikube -p minikube docker-env)
 ```
 
-There is a script that will take care to create the required resources used in the tests (services, config maps, secrets, 
-etc):
+Now build the example services docker images:
+```shell script
+./gradlew clean dockerBuild --refresh-dependencies
+```
+
+### Kind
+When using [Kind](https://kind.sigs.k8s.io/), use existing or create new local cluster by executing:
+
+```shell script
+kind create cluster --wait 5m
+```
+
+There is a script that will take care to create the example services docker images used in tests and load them into the cluster:
 
 ```shell script
 ./setup-kubernetes.sh
+```
+
+Note: In case you want to use other than default Kind cluster name `kind`, run the setup script with cluster name as firdt parameter:
+
+```shell script
+./setup-kubernetes.sh <CLUSTER_NAME>
 ```
 
 ## Running all the tests
@@ -25,10 +43,10 @@ etc):
 The test suite is composed of:
 
 * Few unit tests.
-* Some integration tests that spin a local Micronaut instance, grab a bean from the context, invoke methods and make
+* Integration tests that spin a local Micronaut instance, grab a bean from the context, invoke methods and make
   assertions. Those use either `@MicronautTest` or `ApplicationContext.run()`.
-* Some functional tests that exercise the sample applications deployed in Kubernetes. They are all the tests located
-  inside `examples/micronaut-service` and `examples/micronaut-client`.
+* Functional tests that exercise the sample applications deployed in the Kubernetes cluster. They are all the tests located
+  inside `examples` directory.
   
 To run all the tests, simply execute:
 
@@ -36,7 +54,7 @@ To run all the tests, simply execute:
 
 ## Sample applications
 
-The test infrastructure is composed of 2 sample applications that will be deployed to Kubernetes:
+The test infrastructure is composed of 3 sample applications that will be deployed to Kubernetes:
 
 * `example-service`: contains some endpoints to check distributed configuration. There are 2 replicas of it (for 
   load-balancing testing purposes). It is accessible locally at the following ports:
@@ -48,17 +66,56 @@ The test infrastructure is composed of 2 sample applications that will be deploy
   * `8888` to access the application.
   * `5005` to attach a remote debugger.
 
-If you make changes (adding endpoints and/or tests) to any of them, you need to execute `setup-kubernetes.sh` again to
-have the Docker images built and redeployed to Kubernetes.  
+* `example-kubernetes-client`: contains endpoints to check the official Kubernetes client integration
+  * `8082` to access the application.
+  * `5005` to attach a remote debugger.
 
-## Tearing down the environment 
+The deployment manifests are located in the `test-utils` module's resource directory.
 
-All the resources will be created on its own Kubernetes namespace (`micronaut-kubernetes`), which you can destroy 
-afterwards to keep your cluster clean. Alternatively, you can run:
+## Writing integration tests
+When writing tests for new module start by adding dependency to `test-utils` module:
 
-```shell script
-./cleanup-kubernetes.sh
 ```
+    testImplementation project(":test-utils")
+```
+
+Then setup a test specification:
+
+```groovy
+@MicronautTest
+@Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-micronaut")
+@Property(name = "spec.reuseNamespace", value = "false")
+class ApiClientFactorySpec extends KubernetesSpecification {
+
+}
+```
+
+The `KubernetesSpecification` class contains the instrumentations for the programatic setup of the Kubernetes namespace that is specified by the `kubernetes.client.namespace` property. The `KubernetesSpecification` will take care of creating the namespace. If you want to always re-create the namespace set property `spec.reuseNamespace` to `false` otherwise if the namespace exists the setup of resources will be skipped.
+
+If you want to setup other kind resources just override the `setupFixture` method:
+
+```groovy
+    @Override
+    def setupFixture(String namespace) {
+        createNamespaceSafe(namespace)
+        operations.createRole("kubernetes-client", namespace)
+        operations.createRoleBinding("kubernetes-client", namespace, "kubernetes-client")
+        operations.createDeploymentFromFile(loadFileFromClasspath("k8s/kubernetes-client-example-deployment.yml"), "kubernetes-client-example", namespace)
+        operations.createService("kubernetes-client-example", namespace,
+                new ServiceSpecBuilder()
+                        .withType("LoadBalancer")
+                        .withPorts(
+                                new ServicePortBuilder()
+                                        .withPort(8085)
+                                        .withTargetPort(new IntOrString(8085))
+                                        .build()
+                        )
+                        .withSelector(["app": "kubernetes-client-example"])
+                        .build())
+    }
+```
+
 
 ## Checkstyle
 
