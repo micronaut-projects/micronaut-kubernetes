@@ -19,9 +19,12 @@ import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.aop.AroundConstruct;
 import io.micronaut.context.annotation.Prototype;
+import io.micronaut.context.condition.Condition;
+import io.micronaut.core.annotation.InstantiatedMember;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.function.Supplier;
 
 /**
  * Annotation used in combination with {@link io.kubernetes.client.informer.ResourceEventHandler} will cause the
@@ -39,12 +42,14 @@ public @interface Informer {
 
     /**
      * The resource type.
+     *
      * @return resource type.
      */
     Class<? extends KubernetesObject> apiType();
 
     /**
      * The resource list type.
+     *
      * @return list type
      */
     Class<? extends KubernetesListObject> apiListType();
@@ -61,6 +66,7 @@ public @interface Informer {
      * Namespace of the watched resource. If empty then namespace is resolved
      * by {@link io.micronaut.kubernetes.client.NamespaceResolver}. To watch resources
      * from all namespaces configure this parameter to {@link Informer#ALL_NAMESPACES}.
+     *
      * @return namespace name
      */
     String namespace() default "";
@@ -68,9 +74,25 @@ public @interface Informer {
     /**
      * How often to check if the listener need a resync.
      *
-     * @see io.kubernetes.client.informer.impl.DefaultSharedIndexInformer
      * @return resync check period, if 0L returned then default minimal resync interval is used
+     * @see io.kubernetes.client.informer.impl.DefaultSharedIndexInformer
      */
     long resyncCheckPeriod() default 0L;
 
+    /**
+     * Informer label selector.
+     *
+     * @return label selector
+     * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
+     */
+    String labelSelector() default "";
+
+    /**
+     * Informer label selector supplier.
+     *
+     * @return label selector supplier
+     * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
+     */
+    @InstantiatedMember
+    Class<? extends Supplier<String>> labelSelectorSupplier() default EmptyLabelSupplier.class;
 }

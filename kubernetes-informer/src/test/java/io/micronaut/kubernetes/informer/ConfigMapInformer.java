@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.informer;
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
+import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 import org.apache.commons.compress.utils.Lists;
 import org.slf4j.Logger;
@@ -25,11 +26,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Requires(property = "spec.name", value = "ConfigMapInformerSpec")
 @Singleton
 @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps")
-public class ConfigMapResourceHandler implements ResourceEventHandler<V1ConfigMap> {
+public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> {
 
-    public static final Logger LOG = LoggerFactory.getLogger(ConfigMapResourceHandler.class);
+    public static final Logger LOG = LoggerFactory.getLogger(ConfigMapInformer.class);
 
     private final List<V1ConfigMap> added = Lists.newArrayList();
     private final List<V1ConfigMap> updated = Lists.newArrayList();

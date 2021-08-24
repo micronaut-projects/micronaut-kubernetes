@@ -16,10 +16,10 @@ import spock.util.concurrent.PollingConditions
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Property(name = "kubernetes.client.namespace", value = "micronaut-informer")
+@Property(name = "kubernetes.client.namespace", value = "micronaut-informer-labeled")
 @Property(name = "spec.reuseNamespace", value = "false")
-@Property(name = "spec.name", value = "ConfigMapInformerSpec")
-class ConfigMapInformerSpec extends KubernetesSpecification {
+@Property(name = "spec.name", value = "ConfigMapLabelSelectorInformerSpec")
+class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
 
     @Shared
     @Inject
@@ -30,9 +30,9 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         createNamespaceSafe(namespace)
     }
 
-    def "config map informer is notified"() {
+    def "config map informer with label selector is notified"() {
         given:
-        ConfigMapInformer resourceHandler = applicationContext.getBean(ConfigMapInformer)
+        ConfigMapLabelSelectorInformer resourceHandler = applicationContext.getBean(ConfigMapLabelSelectorInformer)
 
         when:
         ConfigMapList configMapList = operations.getClient(namespace).configMaps().list()
