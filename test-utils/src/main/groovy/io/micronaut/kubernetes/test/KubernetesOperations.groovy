@@ -162,7 +162,7 @@ class KubernetesOperations implements Closeable {
                 .addToData(new File(path.toURI().toString()).name, path.text)
                 .build()
         log.debug("Creating ${cm}")
-        return getClient(namespace).configMaps().create(cm)
+        return getClient(namespace).configMaps().increate(cm)
     }
 
     boolean deleteConfigMap(String name, String namespace) {
@@ -171,6 +171,10 @@ class KubernetesOperations implements Closeable {
                 .inNamespace(namespace)
                 .withName(name)
                 .delete()
+    }
+
+    String modifyConfigMap(ConfigMap configMap) {
+        return getClient(configMap.metadata.namespace).configMaps().patch(configMap)
     }
 
     String modifyConfigMap(String name, String namespace, Map data = [foo: 'baz']) {

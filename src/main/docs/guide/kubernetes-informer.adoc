@@ -1,0 +1,31 @@
+The `micronaut-kubernetes-informer` module integrates the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedInformer.html[SharedInformer] that is part of official Kubernetes SDK and simplifies its creation.
+
+The Informer is similar to a Watch but an Informer tries to re-list and re-watch to hide failures from the caller and provides a store of all the current resources.
+
+First you need add a dependency on the `micronaut-kubernetes-informer` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-informer:{version}[]
+
+Then create a bean that implements https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] with the Kubernetes type of your choice and the link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotation trough which you provide the configuration options for the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedInformer.html[SharedInformer].
+
+snippet::io.micronaut.kubernetes.informer.ConfigMapInformer[tags="listener", project="kubernetes-informer", source="test"]
+
+<1> The link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotation defines the Kubernetes resource type, listype and resource plural
+<2> The https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] interface declares method handlers for added, updated and deleted resource
+
+
+The link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotation provides additional optional configuration options:
+
+.Informer optional configuration
+|===
+|Element |Description
+
+|`namespace` | Namespace of the watched resource. If left empty then namespace is resolved by link:{api}/io/micronaut/kubernetes/client/NamespaceResolver.html[NamespaceResolver]. To watch resources from all namespaces configure this parameter to `Informer.ALL_NAMESPACES`.
+|`labelSelector` | Informer label selector, see https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors[Label selectors] for more information. By default there is no label selector.
+|`labelSelectorSupplier` | `Supplier` class for the label selector. Note that the supplier class needs to be a bean in the application context.
+|`resyncCheckPeriod` | How often to check the need for resync of resources. If left empty the default resync check period is used.
+
+|===
+
+IMPORTANT: The created informers are type of  https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedInformer.html[SharedInformer]  The created informers are Because the number of properties generated is exponential based on the number of `_` characters in an environment variable, it is recommended to refine which, if any, environment variables are included in configuration if the number of environment variables with multiple underscores is high.
+

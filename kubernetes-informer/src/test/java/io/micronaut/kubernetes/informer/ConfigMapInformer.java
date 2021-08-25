@@ -26,35 +26,18 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+//tag::listener[]
 @Requires(property = "spec.name", value = "ConfigMapInformerSpec")
 @Singleton
-@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps")
-public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> {
+@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps") // <1>
+public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> { // <2>
 
+    //end::listener[]
     public static final Logger LOG = LoggerFactory.getLogger(ConfigMapInformer.class);
 
     private final List<V1ConfigMap> added = Lists.newArrayList();
     private final List<V1ConfigMap> updated = Lists.newArrayList();
     private final List<V1ConfigMap> deleted = Lists.newArrayList();
-
-    @Override
-    public void onAdd(V1ConfigMap obj) {
-        LOG.info("ADDED CONFIG MAP: {}", obj);
-        added.add(obj);
-    }
-
-    @Override
-    public void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
-        LOG.info("UPDATED CONFIG MAP: {}", newObj);
-        updated.add(newObj);
-
-    }
-
-    @Override
-    public void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
-        LOG.info("DELETED CONFIG MAP: {}", obj);
-        deleted.add(obj);
-    }
 
     public List<V1ConfigMap> getAdded() {
         return added;
@@ -67,4 +50,31 @@ public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> {
     public List<V1ConfigMap> getDeleted() {
         return deleted;
     }
+
+    //tag::listener[]
+    @Override
+    public void onAdd(V1ConfigMap obj) {
+        //end::listener[]
+        LOG.info("ADDED CONFIG MAP: {}", obj);
+        added.add(obj);
+        //tag::listener[]
+    }
+
+
+    @Override
+    public void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
+        //end::listener[]
+        LOG.info("UPDATED CONFIG MAP: {}", newObj);
+        updated.add(newObj);
+        //tag::listener[]
+    }
+
+    @Override
+    public void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
+        //end::listener[]
+        LOG.info("DELETED CONFIG MAP: {}", obj);
+        deleted.add(obj);
+        //tag::listener[]
+    }
 }
+//end::listener[]

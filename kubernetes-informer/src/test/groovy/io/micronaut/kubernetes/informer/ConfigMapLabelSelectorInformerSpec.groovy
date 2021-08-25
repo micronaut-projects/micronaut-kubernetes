@@ -17,6 +17,7 @@ import spock.util.concurrent.PollingConditions
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-informer-labeled")
+@Property(name = "kubernetes.client.loggingLevel", value = "BODY")
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "spec.name", value = "ConfigMapLabelSelectorInformerSpec")
 class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
@@ -41,34 +42,34 @@ class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
         configMapList.items.size() == 1 // default ca map
 
         and:
-        resourceHandler.added.size() == 1 // default ca map
+        resourceHandler.added.size() == 0 // default ca map
         resourceHandler.updated.isEmpty()
         resourceHandler.deleted.isEmpty()
 
         when:
         operations.createConfigMap("map1", namespace, ["foo": "bar"])
+        sleep(3000)
 
         then:
-        new PollingConditions().within(5) {
-            assert resourceHandler.added.size() == 2
+        resourceHandler.added.size() == 0
+
+        when:
+        operations.createConfigMap("map2", namespace, ["foo": "bar"], ["environment": "test"])
+
+        then:
+        new PollingConditions().within(120) {
+            assert resourceHandler.added.size() == 1
         }
 
         when:
-        ConfigMap cm = operations.getConfigMap("map1", namespace)
+        ConfigMap cm = operations.getConfigMap("map2", namespace)
         cm.data.put("ping", "pong")
-        operations.modifyConfigMap("map1", namespace, cm.data)
+        operations.modifyConfigMap(cm)
 
         then:
         new PollingConditions().within(5) {
             assert resourceHandler.updated.size() == 1
-        }
-
-        when:
-        operations.deleteConfigMap("map1", namespace)
-
-        then:
-        new PollingConditions().within(5) {
-            assert resourceHandler.deleted.size() == 1
+            assert resourceHandler.updated.first().getData().containsKey("ping")
         }
     }
 }

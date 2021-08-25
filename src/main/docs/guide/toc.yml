@@ -4,7 +4,8 @@ releaseHistory: Release History
 service-discovery: Service Discovery
 config-client: Configuration Client
 health-checks: Health Checks
-kubernetes-client: Kubernetes client
+kubernetes-client: Kubernetes Client
+kubernetes-informer: Informer
 logging: Logging and debugging
 breaking: Breaking Changes
 repository: Repository

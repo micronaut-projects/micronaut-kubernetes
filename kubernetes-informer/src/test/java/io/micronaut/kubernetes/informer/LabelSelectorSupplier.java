@@ -15,8 +15,11 @@
  */
 package io.micronaut.kubernetes.informer;
 
+import jakarta.inject.Singleton;
+
 import java.util.function.Supplier;
 
+@Singleton
 public class LabelSelectorSupplier implements Supplier<String> {
 
     @Override

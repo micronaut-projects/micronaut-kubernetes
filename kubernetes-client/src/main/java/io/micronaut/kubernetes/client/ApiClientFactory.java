@@ -23,6 +23,7 @@ import io.kubernetes.client.util.credentials.TokenFileAuthentication;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
 import jakarta.inject.Singleton;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,6 +92,8 @@ public class ApiClientFactory {
     public ApiClient apiClient(ClientBuilder clientBuilder) throws IOException {
         ApiClient apiClient = clientBuilder.build();
         Configuration.setDefaultApiClient(apiClient);
+        OkHttpClient.Builder builder = apiClient.getHttpClient().newBuilder();
+        builder.addInterceptor(new OkHttpClientLogging());
         return apiClient;
     }
 

@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.core.annotation.Nullable;
 import jakarta.inject.Singleton;
@@ -38,6 +39,7 @@ import java.nio.file.Paths;
  * @since 3.1
  */
 @Singleton
+@BootstrapContextCompatible
 public class DefaultNamespaceResolver implements NamespaceResolver {
 
     public static final String DEFAULT_NAMESPACE = "default";
@@ -57,7 +59,7 @@ public class DefaultNamespaceResolver implements NamespaceResolver {
                     LOG.debug("Namespace: [{}]", resolvedNamespace);
                 }
             } catch (IOException ioe) {
-                LOG.warn("An error has occurred when reading the file: [" + NAMESPACE_PATH + "]. Kubernetes namespace will be set to: " + DEFAULT_NAMESPACE);
+                LOG.warn("An error has occurred when reading the file: [{}]. Kubernetes namespace will be set to: {}", NAMESPACE_PATH, DEFAULT_NAMESPACE);
                 resolvedNamespace = DEFAULT_NAMESPACE;
             }
         }

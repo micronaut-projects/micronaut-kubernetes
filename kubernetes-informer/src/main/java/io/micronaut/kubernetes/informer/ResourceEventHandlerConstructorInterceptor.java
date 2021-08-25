@@ -86,6 +86,7 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
         if (declaringType.isAnnotationPresent(Informer.class)) {
             Informer typeAnnotation = declaringType.getAnnotation(Informer.class);
 
+            // resolve label selector
             String labelSelector = null;
             if (!Objects.equals(typeAnnotation.labelSelector(), "")) {
                 labelSelector = typeAnnotation.labelSelector();
@@ -97,9 +98,17 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
                 labelSelector = labelSelector == null ? supplierBean.get() : labelSelector + "," + supplierBean.get();
             }
 
+            // resolve namespace
+            String namespace = typeAnnotation.namespace();
+            if (namespace == null || namespace.length() == 0) {
+                namespace = namespaceResolver.resolveNamespace();
+            } else if (namespace.equals(Informer.ALL_NAMESPACES)) {
+                namespace = Namespaces.NAMESPACE_ALL;
+            }
+
             SharedIndexInformer<? extends KubernetesObject> informer = createInformer(
                     typeAnnotation.apiType(), typeAnnotation.apiListType(), typeAnnotation.resourcePlural(),
-                    typeAnnotation.namespace(), labelSelector, typeAnnotation.resyncCheckPeriod());
+                    namespace, labelSelector, typeAnnotation.resyncCheckPeriod());
             ResourceEventHandler resourceEventHandler = context.proceed();
             informer.addEventHandler(resourceEventHandler);
             return resourceEventHandler;
@@ -118,20 +127,12 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
             String namespace,
             String labelSelector,
             long resyncCheckPeriod) {
-        String resourceNamespace = namespace;
-        if (resourceNamespace == null || namespace.length() == 0) {
-            resourceNamespace = namespaceResolver.resolveNamespace();
-        } else {
-            if (resourceNamespace.equals(Informer.ALL_NAMESPACES)) {
-                resourceNamespace = Namespaces.NAMESPACE_ALL;
-            }
-        }
 
         final GroupVersionKind groupVersionKind = modelMapper.getGroupVersionKindByClass(apiType);
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating Informer for KubernetesObject '{}' with group '{}', version '{}' and namespace '{}'",
-                    apiType, groupVersionKind.getGroup(), groupVersionKind.getVersion(), resourceNamespace);
+                    apiType, groupVersionKind.getGroup(), groupVersionKind.getVersion(), namespace);
         }
 
         final GenericKubernetesApi kubernetesApi = new GenericKubernetesApi(
@@ -148,7 +149,7 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
                 resyncCheckPeriod);
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Created Informer for {} in namespace {}", apiType, resourceNamespace);
+            LOG.info("Created Informer for '{}' in namespace '{}'", apiType, namespace);
         }
         return informer;
     }
@@ -161,15 +162,20 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
 
             public ApiListType list(CallGeneratorParams params) throws ApiException {
                 final ExtendedCallGeneratorParams generatorParams = new ExtendedCallGeneratorParams(params.watch, params.resourceVersion, params.timeoutSeconds, labelSelector);
-                ;
                 final ListOptions options = createListOptions(generatorParams);
 
                 if (Namespaces.NAMESPACE_ALL.equals(namespace)) {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("List all namespaces with params: {}", generatorParams);
+                    }
                     return genericKubernetesApi
                             .list(options)
                             .throwsApiException()
                             .getObject();
                 } else {
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("List namespace '{}' with params: {}", namespace, generatorParams);
+                    }
                     return genericKubernetesApi
                             .list(namespace, options)
                             .throwsApiException()
@@ -178,10 +184,18 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
             }
 
             public Watchable<ApiType> watch(CallGeneratorParams params) throws ApiException {
+                final ExtendedCallGeneratorParams generatorParams = new ExtendedCallGeneratorParams(params.watch, params.resourceVersion, params.timeoutSeconds, labelSelector);
+                final ListOptions options = createListOptions(generatorParams);
                 if (Namespaces.NAMESPACE_ALL.equals(namespace)) {
-                    return genericKubernetesApi.watch();
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Watch all namespaces with params: {}", generatorParams);
+                    }
+                    return genericKubernetesApi.watch(options);
                 } else {
-                    return genericKubernetesApi.watch(namespace);
+                    if (LOG.isDebugEnabled()) {
+                        LOG.debug("Watch namespace '{}' with params: {}", namespace, generatorParams);
+                    }
+                    return genericKubernetesApi.watch(namespace, options);
                 }
             }
         };
@@ -203,6 +217,16 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
         public ExtendedCallGeneratorParams(Boolean watch, String resourceVersion, Integer timeoutSeconds, String labelSelector) {
             super(watch, resourceVersion, timeoutSeconds);
             this.labelSelector = labelSelector;
+        }
+
+        @Override
+        public String toString() {
+            return "ExtendedCallGeneratorParams{" +
+                    "labelSelector='" + labelSelector + '\'' +
+                    ", watch=" + watch +
+                    ", resourceVersion='" + resourceVersion + '\'' +
+                    ", timeoutSeconds=" + timeoutSeconds +
+                    '}';
         }
     }
 }
