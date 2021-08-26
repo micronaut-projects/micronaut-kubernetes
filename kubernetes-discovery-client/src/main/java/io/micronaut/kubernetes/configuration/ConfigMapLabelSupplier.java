@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -32,6 +34,8 @@ import java.util.function.Supplier;
 @Singleton
 public class ConfigMapLabelSupplier implements Supplier<String> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigMapLabelSupplier.class);
+
     private final CoreV1ApiReactorClient coreV1ApiReactorClient;
     private final KubernetesConfiguration configuration;
 
@@ -43,7 +47,11 @@ public class ConfigMapLabelSupplier implements Supplier<String> {
     @Override
     public String get() {
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        return KubernetesUtils.computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+        String labelSelector = KubernetesUtils.computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
                 .block();
+        if (LOG.isInfoEnabled()) {
+            LOG.info("Computed kubernetes configuration discovery config map label selector: {}", labelSelector);
+        }
+        return labelSelector;
     }
 }
