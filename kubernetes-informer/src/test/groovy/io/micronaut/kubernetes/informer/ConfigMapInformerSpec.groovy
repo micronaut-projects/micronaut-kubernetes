@@ -34,14 +34,7 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         given:
         ConfigMapInformer resourceHandler = applicationContext.getBean(ConfigMapInformer)
 
-        when:
-        ConfigMapList configMapList = operations.getClient(namespace).configMaps().list()
-
-        then:
-        configMapList.items.size() == 1 // default ca map
-
-        and:
-        resourceHandler.added.size() == 1 // default ca map
+        expect:
         resourceHandler.updated.isEmpty()
         resourceHandler.deleted.isEmpty()
 

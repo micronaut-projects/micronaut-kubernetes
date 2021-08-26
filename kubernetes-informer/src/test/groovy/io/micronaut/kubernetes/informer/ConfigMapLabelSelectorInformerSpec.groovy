@@ -34,14 +34,8 @@ class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
         given:
         ConfigMapLabelSelectorInformer resourceHandler = applicationContext.getBean(ConfigMapLabelSelectorInformer)
 
-        when:
-        ConfigMapList configMapList = operations.getClient(namespace).configMaps().list()
-
-        then:
-        configMapList.items.size() == 1 // default ca map
-
-        and:
-        resourceHandler.added.size() == 0 // default ca map
+        expect:
+        resourceHandler.added.isEmpty()
         resourceHandler.updated.isEmpty()
         resourceHandler.deleted.isEmpty()
 
