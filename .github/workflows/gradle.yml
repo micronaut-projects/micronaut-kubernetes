@@ -125,7 +125,7 @@ jobs:
           if [ ${{ matrix.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
           ./gradlew dependencyUpdates check --no-daemon --parallel --continue
         env:
-           TESTCONTAINERS_RYUK_DISABLED: true
+          TESTCONTAINERS_RYUK_DISABLED: true
       - name: Optional tear down step
         env:
           K8S_VERSION: ${{ matrix.k8s }}
