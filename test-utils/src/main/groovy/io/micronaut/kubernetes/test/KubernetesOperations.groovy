@@ -162,7 +162,7 @@ class KubernetesOperations implements Closeable {
                 .addToData(new File(path.toURI().toString()).name, path.text)
                 .build()
         log.debug("Creating ${cm}")
-        return getClient(namespace).configMaps().increate(cm)
+        return getClient(namespace).configMaps().createOrReplace(cm)
     }
 
     boolean deleteConfigMap(String name, String namespace) {
