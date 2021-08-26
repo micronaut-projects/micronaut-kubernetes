@@ -18,39 +18,39 @@ package io.micronaut.kubernetes.informer;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.informer.SharedInformerFactory;
-import io.micronaut.context.annotation.BootstrapContextCompatible;
-import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.event.ShutdownEvent;
+import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.Nullable;
-import jakarta.annotation.PreDestroy;
+import io.micronaut.runtime.event.annotation.EventListener;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 /**
- * Informer context that starts up the {@link SharedInformerFactory}.
+ * Starts up and shuts down the {@link SharedInformerFactory}.
  *
  * @author Pavol Gressa
  * @since 3.1
  */
 @Requires(beans = SharedInformerFactory.class)
-@Context
-@BootstrapContextCompatible
-public class InformerContext implements AutoCloseable {
+@Singleton
+public class SharedInformerFactoryLifecycleListener {
 
-    private static final Logger LOG = LoggerFactory.getLogger(InformerContext.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SharedInformerFactoryLifecycleListener.class);
 
     private final List<ResourceEventHandler<? extends KubernetesObject>> handlerList;
     private final SharedInformerFactory sharedInformerFactory;
 
-    public InformerContext(@Nullable List<ResourceEventHandler<? extends KubernetesObject>> handlerList, SharedInformerFactory sharedInformerFactory) {
+    public SharedInformerFactoryLifecycleListener(List<ResourceEventHandler<? extends KubernetesObject>> handlerList, SharedInformerFactory sharedInformerFactory) {
         this.handlerList = handlerList;
         this.sharedInformerFactory = sharedInformerFactory;
-        startInformerFactory();
     }
 
-    private void startInformerFactory() {
+    @EventListener
+    public void startInformerFactory(StartupEvent startupEvent) {
         if (handlerList.isEmpty()) {
             if (LOG.isWarnEnabled()) {
                 LOG.warn("The SharedInformerFactory won't be started because there are no ResourceEventHandlers in the context");
@@ -64,11 +64,10 @@ public class InformerContext implements AutoCloseable {
         sharedInformerFactory.startAllRegisteredInformers();
     }
 
-    @PreDestroy
-    @Override
-    public void close() {
+    @EventListener
+    public void shutdown(ShutdownEvent shutdownEvent) {
         if (LOG.isInfoEnabled()) {
-            LOG.info("Closing shared informer factory");
+            LOG.info("Closing shared informer factory on shutdown");
         }
         sharedInformerFactory.stopAllRegisteredInformers(false);
     }

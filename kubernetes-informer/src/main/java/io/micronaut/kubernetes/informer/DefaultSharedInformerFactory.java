@@ -34,7 +34,6 @@ import java.util.concurrent.ExecutorService;
  */
 @Requires(property = DefaultSharedInformerFactory.INFORMER_ENABLED, notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
 @Factory
-@BootstrapContextCompatible
 public class DefaultSharedInformerFactory {
 
     public static final String INFORMER_ENABLED = "kubernetes.informer.enabled";

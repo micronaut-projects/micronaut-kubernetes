@@ -56,7 +56,6 @@ import java.util.function.Supplier;
  */
 @Requires(beans = SharedInformerFactory.class)
 @InterceptorBean(Informer.class)
-@BootstrapContextCompatible
 public class ResourceEventHandlerConstructorInterceptor<ApiType extends KubernetesObject> implements ConstructorInterceptor<ResourceEventHandler<ApiType>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ResourceEventHandlerConstructorInterceptor.class);
