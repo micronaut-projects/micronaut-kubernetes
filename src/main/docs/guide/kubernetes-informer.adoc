@@ -22,10 +22,9 @@ The link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotat
 
 |`namespace` | Namespace of the watched resource. If left empty then namespace is resolved by link:{api}/io/micronaut/kubernetes/client/NamespaceResolver.html[NamespaceResolver]. To watch resources from all namespaces configure this parameter to `Informer.ALL_NAMESPACES`.
 |`labelSelector` | Informer label selector, see https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors[Label selectors] for more information. By default there is no label selector.
-|`labelSelectorSupplier` | `Supplier` class for the label selector. Note that the supplier class needs to be a bean in the application context.
+|`labelSelectorSupplier` | `Supplier` class for the label selector. Note that the supplier class needs to be a bean in the application context. Finally the `labelSelector` and `labelSelectorSupplier` can be used in combination.
 |`resyncCheckPeriod` | How often to check the need for resync of resources. If left empty the default resync check period is used.
 
 |===
 
-IMPORTANT: The created informers are type of  https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedInformer.html[SharedInformer]  The created informers are Because the number of properties generated is exponential based on the number of `_` characters in an environment variable, it is recommended to refine which, if any, environment variables are included in configuration if the number of environment variables with multiple underscores is high.
-
+IMPORTANT: The concept of shared informer means that the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedInformer.html[SharedInformer] for the respective Kubernetes type is registered just once. The next request to register new informer of the same Kubernetes type will result in returning of the already existing one. In practice if you create two `ResourceEventHandler<V1ConfigMap>` but the `@Informer` annotation will have different optional configuration (`namespace` or `labelSelector`) then the `SharedInformerFactory` creates just one `SharedInformer`, meaning the other `@Informer` configuration will be ignored. If the `namespace` configuration differs always create informers with `Informer.ALL_NAMESPACES` and filter the resources in the handler. If the `labelSelector` resp. `labelSelectorSupplier` differs then create one `labelSelector` that matches both cases.

@@ -19,7 +19,6 @@ import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.aop.AroundConstruct;
 import io.micronaut.context.annotation.Prototype;
-import io.micronaut.context.condition.Condition;
 import io.micronaut.core.annotation.InstantiatedMember;
 
 import java.lang.annotation.Retention;

@@ -5,7 +5,7 @@ service-discovery: Service Discovery
 config-client: Configuration Client
 health-checks: Health Checks
 kubernetes-client: Kubernetes Client
-kubernetes-informer: Informer
+kubernetes-informer: Kubernetes Informer
 logging: Logging and debugging
 breaking: Breaking Changes
 repository: Repository

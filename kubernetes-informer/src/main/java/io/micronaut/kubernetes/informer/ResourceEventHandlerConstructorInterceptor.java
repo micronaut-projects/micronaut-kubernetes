@@ -212,7 +212,7 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
     }
 
     static class ExtendedCallGeneratorParams extends CallGeneratorParams {
-        public String labelSelector;
+        String labelSelector;
 
         public ExtendedCallGeneratorParams(Boolean watch, String resourceVersion, Integer timeoutSeconds, String labelSelector) {
             super(watch, resourceVersion, timeoutSeconds);
