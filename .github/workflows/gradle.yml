@@ -59,7 +59,6 @@ jobs:
         run: |
           REGISTRATION_TOKEN_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runners/registration-token"
           export RUNNER_TOKEN=$(curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${REGISTRATION_TOKEN_URL}  | jq -r '.token')
-
           RUNNERS_COUNT=${RUNNERS_COUNT:=1}
           for NUMBER in $(seq ${RUNNERS_COUNT});
           do
@@ -122,7 +121,9 @@ jobs:
           [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
         run: |
-          ./gradlew dependencyUpdates check --continue --no-build-cache
+          # Awful hack for kapt and JDK 16. See https://youtrack.jetbrains.com/issue/KT-45545
+          if [ ${{ matrix.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
+          ./gradlew dependencyUpdates check --no-daemon --parallel --continue
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
       - name: Optional tear down step
@@ -131,6 +132,12 @@ jobs:
           JAVA_VERSION: ${{ matrix.java }}
         run: |
           [ -f ./teardown.sh ] && ./teardown.sh || true
+      - name: Publish Test Report
+        if: always()
+        uses: mikepenz/action-junit-report@v2
+        with:
+          check_name: Java CI / Test Report (${{ matrix.java }})
+          report_paths: '**/build/test-results/test/TEST-*.xml'
       - name: Publish to Sonatype Snapshots
         if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
         env:
@@ -198,10 +205,10 @@ jobs:
           do
             oci compute instance terminate --instance-id "$ID"  --wait-for-state TERMINATED --force
           done
-
           RUNNERS_URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runners"
           for RUNNER_ID in $(curl -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${RUNNERS_URL}  | \
             jq -r --arg runner_label $RUNNER_LABEL '.runners[] | select(.labels[] | .name == $runner_label) | .id');
           do
             curl -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${RUNNERS_URL}/${RUNNER_ID}
           done
+  
