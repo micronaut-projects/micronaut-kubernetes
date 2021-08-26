@@ -21,7 +21,7 @@ import io.kubernetes.client.informer.SharedInformerFactory;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.ShutdownEvent;
 import io.micronaut.context.event.StartupEvent;
-import io.micronaut.core.annotation.Nullable;
+import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -49,8 +49,29 @@ public class SharedInformerFactoryLifecycleListener {
         this.sharedInformerFactory = sharedInformerFactory;
     }
 
+
+    /**
+     * Start informer factory on startup event.
+     *
+     * @param startupEvent startup event
+     */
     @EventListener
-    public void startInformerFactory(StartupEvent startupEvent) {
+    public void startInformerFactoryOnStartupEvent(StartupEvent startupEvent) {
+        startInformers();
+    }
+
+
+    /**
+     * Start informer factory on service ready event.
+     *
+     * @param serviceReadyEvent service ready event
+     */
+    @EventListener
+    public void startInformerFactoryOnServiceReadyEvent(ServiceReadyEvent serviceReadyEvent) {
+        startInformers();
+    }
+
+    private void startInformers() {
         if (handlerList.isEmpty()) {
             if (LOG.isWarnEnabled()) {
                 LOG.warn("The SharedInformerFactory won't be started because there are no ResourceEventHandlers in the context");
@@ -64,6 +85,11 @@ public class SharedInformerFactoryLifecycleListener {
         sharedInformerFactory.startAllRegisteredInformers();
     }
 
+    /**
+     * Shutdown informer factory on shutdown event.
+     *
+     * @param shutdownEvent shutdown event
+     */
     @EventListener
     public void shutdown(ShutdownEvent shutdownEvent) {
         if (LOG.isInfoEnabled()) {

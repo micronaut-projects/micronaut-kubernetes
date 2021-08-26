@@ -19,7 +19,6 @@ import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.aop.AroundConstruct;
 import io.micronaut.context.annotation.Prototype;
-import io.micronaut.core.annotation.InstantiatedMember;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -92,6 +91,5 @@ public @interface Informer {
      * @return label selector supplier
      * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
      */
-    @InstantiatedMember
     Class<? extends Supplier<String>> labelSelectorSupplier() default EmptyLabelSupplier.class;
 }

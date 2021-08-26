@@ -15,12 +15,21 @@
  */
 package io.micronaut.kubernetes.informer;
 
+import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 
 import java.util.function.Supplier;
 
 @Singleton
+@Requires(property = "spec.name", value = "ConfigMapLabelSelectorInformerSpec")
 public class LabelSelectorSupplier implements Supplier<String> {
+
+    private final ApplicationContext  applicationContext;
+
+    public LabelSelectorSupplier(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public String get() {

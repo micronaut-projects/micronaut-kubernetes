@@ -34,7 +34,6 @@ import io.micronaut.aop.ConstructorInterceptor;
 import io.micronaut.aop.ConstructorInvocationContext;
 import io.micronaut.aop.InterceptorBean;
 import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.kubernetes.client.ModelMapper;
@@ -93,7 +92,7 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
 
             if (!Objects.equals(typeAnnotation.labelSelectorSupplier(), EmptyLabelSupplier.class)) {
                 Class<? extends Supplier<String>> selectorSupplierClass = typeAnnotation.labelSelectorSupplier();
-                Supplier<String> supplierBean = applicationContext.createBean(selectorSupplierClass);
+                Supplier<String> supplierBean = applicationContext.getBean(selectorSupplierClass);
                 labelSelector = labelSelector == null ? supplierBean.get() : labelSelector + "," + supplierBean.get();
             }
 
