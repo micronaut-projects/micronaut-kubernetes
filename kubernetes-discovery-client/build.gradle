@@ -8,6 +8,7 @@ dependencies {
     compileOnly "org.graalvm.nativeimage:svm"
 
     api project(":kubernetes-client-reactor")
+    api project(":kubernetes-informer")
     api "io.kubernetes:client-java-extended:${ioKubernetesClientJava}"
 
     api "io.micronaut.discovery:micronaut-discovery-client"
