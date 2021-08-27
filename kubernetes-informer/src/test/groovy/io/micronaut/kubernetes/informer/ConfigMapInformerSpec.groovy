@@ -43,7 +43,8 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
 
         then:
         new PollingConditions().within(5) {
-            assert resourceHandler.added.size() == 2
+            assert resourceHandler.added.stream().filter(cm -> cm.metadata.name == "map1")
+                    .findFirst().isPresent()
         }
 
         when:
