@@ -4,7 +4,7 @@ dependencies {
 
 
     api project(":kubernetes-client")
-    api 'io.projectreactor:reactor-core:3.4.8'
+    api 'io.projectreactor:reactor-core:3.4.9'
     api "io.micronaut.reactor:micronaut-reactor:2.0.0"
 
     testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
