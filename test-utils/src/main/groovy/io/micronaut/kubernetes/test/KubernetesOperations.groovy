@@ -44,7 +44,7 @@ class KubernetesOperations implements Closeable {
     private Map<String, KubernetesClient> kubernetesClientMap = new HashMap<>()
     private List<LocalPortForward> portForwardList = new ArrayList<>()
 
-    KubernetesClient getClient(String namespace = 'default'){
+    KubernetesClient getClient(String namespace = 'default') {
         return kubernetesClientMap.computeIfAbsent(namespace, ns ->
                 new DefaultKubernetesClient(new ConfigBuilder().withNamespace(ns).build())
         )
@@ -59,7 +59,12 @@ class KubernetesOperations implements Closeable {
                         .endMetadata()
                         .build())
         getClient().namespaces().withName(name).waitUntilCondition(
-                ns -> ns.status.phase == "Active",  60, TimeUnit.SECONDS)
+                ns -> ns.status.phase == "Active", 60, TimeUnit.SECONDS)
+    }
+
+    void updateNamespace(Namespace namespace) {
+        log.debug("Update namespace ${namespace.metadata.name}")
+        getClient().namespaces().patch(namespace)
     }
 
     Namespace getNamespace(String name) {
@@ -74,8 +79,8 @@ class KubernetesOperations implements Closeable {
             def namespaces = getClient().namespaces().list().items.stream()
                     .map(it -> it.metadata.name).collect(Collectors.toList())
             if (namespaces.contains(name)) {
-                log.debug("Namespace ${namespaces} still exists, sleeping for ${waitTime/1000} seconds...").
-                sleep(waitTime)
+                log.debug("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...").
+                        sleep(waitTime)
             } else {
                 log.debug("Namespace sucessfully deleted: ${namespaces}")
                 break
@@ -245,10 +250,13 @@ class KubernetesOperations implements Closeable {
         // in case of headless service or ExternalName service do now wait
         if (!(service.spec.externalName)) {
             log.debug("Polling for Endpoints get ready ${service}")
-            new PollingConditions().within(10){
+            new PollingConditions().within(10) {
                 assert getClient(namespace).endpoints().withName(name).get()
             }
         }
+
+        // give it some time to receive the event
+        sleep(1000)
         return service
     }
 
@@ -260,11 +268,11 @@ class KubernetesOperations implements Closeable {
         return getClient(namespace).services().inNamespace(namespace).list()
     }
 
-    void deleteService(Service service){
+    void deleteService(Service service) {
         getClient(service.metadata.namespace).services().delete(service);
     }
-    
-    SecretList listSecrets(String namespace){
+
+    SecretList listSecrets(String namespace) {
         return getClient(namespace).secrets().inNamespace(namespace).list()
     }
 

@@ -61,13 +61,27 @@ public @interface Informer {
     String resourcePlural();
 
     /**
-     * Namespace of the watched resource. If empty then namespace is resolved
+     * Watched resource namespace. If empty then namespace is resolved
      * by {@link io.micronaut.kubernetes.client.NamespaceResolver}. To watch resources
      * from all namespaces configure this parameter to {@link Informer#ALL_NAMESPACES}.
      *
-     * @return namespace name
+     * @return namespace
      */
     String namespace() default "";
+
+    /**
+     * Watched resource namespaces. If empty then namespace is resolved
+     * by {@link io.micronaut.kubernetes.client.NamespaceResolver}.
+     *
+     * @return array of namespace names
+     */
+    String[] namespaces() default {};
+
+    /**
+     * Namespaces supplier bean class.
+     * @return supplier class
+     */
+    Class<? extends Supplier<String[]>> namespacesSupplier() default EmptyNamespacesSupplier.class;
 
     /**
      * How often to check if the listener need a resync.

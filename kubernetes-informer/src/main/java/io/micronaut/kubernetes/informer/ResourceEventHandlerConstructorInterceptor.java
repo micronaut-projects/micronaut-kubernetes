@@ -15,32 +15,25 @@
  */
 package io.micronaut.kubernetes.informer;
 
-import io.kubernetes.client.apimachinery.GroupVersionKind;
-import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.informer.ListerWatcher;
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.informer.SharedInformerFactory;
-import io.kubernetes.client.openapi.ApiClient;
-import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.apis.CustomObjectsApi;
-import io.kubernetes.client.util.CallGeneratorParams;
 import io.kubernetes.client.util.Namespaces;
-import io.kubernetes.client.util.Watchable;
-import io.kubernetes.client.util.generic.GenericKubernetesApi;
-import io.kubernetes.client.util.generic.options.ListOptions;
 import io.micronaut.aop.ConstructorInterceptor;
 import io.micronaut.aop.ConstructorInvocationContext;
 import io.micronaut.aop.InterceptorBean;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.NonNull;
-import io.micronaut.kubernetes.client.ModelMapper;
 import io.micronaut.kubernetes.client.NamespaceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -59,20 +52,15 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
 
     private static final Logger LOG = LoggerFactory.getLogger(ResourceEventHandlerConstructorInterceptor.class);
 
-    private final SharedInformerFactory sharedInformerFactory;
+    private final SharedIndexInformerFactory sharedIndexInformerFactory;
     private final NamespaceResolver namespaceResolver;
-    private final ApiClient apiClient;
     private final ApplicationContext applicationContext;
 
-    private final ModelMapper modelMapper = new ModelMapper();
-
-    public ResourceEventHandlerConstructorInterceptor(SharedInformerFactory sharedInformerFactory,
+    public ResourceEventHandlerConstructorInterceptor(SharedIndexInformerFactory sharedIndexInformerFactory,
                                                       NamespaceResolver namespaceResolver,
-                                                      ApiClient apiClient,
                                                       ApplicationContext applicationContext) {
-        this.sharedInformerFactory = sharedInformerFactory;
+        this.sharedIndexInformerFactory = sharedIndexInformerFactory;
         this.namespaceResolver = namespaceResolver;
-        this.apiClient = apiClient;
         this.applicationContext = applicationContext;
     }
 
@@ -97,18 +85,37 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
             }
 
             // resolve namespace
+            List<String> namespaces = new ArrayList<>(Arrays.asList(typeAnnotation.namespaces()));
+
             String namespace = typeAnnotation.namespace();
-            if (namespace == null || namespace.length() == 0) {
-                namespace = namespaceResolver.resolveNamespace();
-            } else if (namespace.equals(Informer.ALL_NAMESPACES)) {
-                namespace = Namespaces.NAMESPACE_ALL;
+            if (namespace != null && namespace.length() > 0) {
+                namespaces.add(namespace);
             }
 
-            SharedIndexInformer<? extends KubernetesObject> informer = createInformer(
-                    typeAnnotation.apiType(), typeAnnotation.apiListType(), typeAnnotation.resourcePlural(),
-                    namespace, labelSelector, typeAnnotation.resyncCheckPeriod());
+            if (!Objects.equals(typeAnnotation.namespacesSupplier(), EmptyNamespacesSupplier.class)) {
+                Class<? extends Supplier<String[]>> namespaceSupplierClass = typeAnnotation.namespacesSupplier();
+                Supplier<String[]> supplierBean = applicationContext.getBean(namespaceSupplierClass);
+                Collections.addAll(namespaces, supplierBean.get());
+            }
+
+            if (namespaces.contains(Informer.ALL_NAMESPACES)) {
+                namespaces = Collections.singletonList(Namespaces.NAMESPACE_ALL);
+            }
+
+            if (namespaces.isEmpty()) {
+                namespaces.add(namespaceResolver.resolveNamespace());
+            }
+
+            List<SharedIndexInformer<? extends KubernetesObject>> informers = sharedIndexInformerFactory.sharedIndexInformersFor(
+                    typeAnnotation.apiType(),
+                    typeAnnotation.apiListType(),
+                    typeAnnotation.resourcePlural(),
+                    namespaces,
+                    labelSelector,
+                    typeAnnotation.resyncCheckPeriod());
+
             ResourceEventHandler resourceEventHandler = context.proceed();
-            informer.addEventHandler(resourceEventHandler);
+            informers.forEach(i -> i.addEventHandler(resourceEventHandler));
             return resourceEventHandler;
         } else {
             if (LOG.isErrorEnabled()) {
@@ -117,114 +124,5 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
             }
         }
         return context.proceed();
-    }
-
-    private SharedIndexInformer<ApiType> createInformer(
-            Class<? extends KubernetesObject> apiType, Class<? extends KubernetesListObject> apiListType,
-            String resourcePlural,
-            String namespace,
-            String labelSelector,
-            long resyncCheckPeriod) {
-
-        final GroupVersionKind groupVersionKind = modelMapper.getGroupVersionKindByClass(apiType);
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating Informer for KubernetesObject '{}' with group '{}', version '{}' and namespace '{}'",
-                    apiType, groupVersionKind.getGroup(), groupVersionKind.getVersion(), namespace);
-        }
-
-        final GenericKubernetesApi kubernetesApi = new GenericKubernetesApi(
-                apiType,
-                apiListType,
-                groupVersionKind.getGroup(),
-                groupVersionKind.getVersion(),
-                resourcePlural,
-                new CustomObjectsApi(apiClient));
-
-        final SharedIndexInformer informer = sharedInformerFactory.sharedIndexInformerFor(
-                listerWatcherFor(kubernetesApi, labelSelector, namespace),
-                apiType,
-                resyncCheckPeriod);
-
-        if (LOG.isInfoEnabled()) {
-            LOG.info("Created Informer for '{}' in namespace '{}'", apiType, namespace);
-        }
-        return informer;
-    }
-
-    private <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject>
-    ListerWatcher<ApiType, ApiListType> listerWatcherFor(
-            GenericKubernetesApi<ApiType, ApiListType> genericKubernetesApi, String labelSelector, String namespace) {
-
-        return new ListerWatcher<ApiType, ApiListType>() {
-
-            public ApiListType list(CallGeneratorParams params) throws ApiException {
-                final ExtendedCallGeneratorParams generatorParams = new ExtendedCallGeneratorParams(params.watch, params.resourceVersion, params.timeoutSeconds, labelSelector);
-                final ListOptions options = createListOptions(generatorParams);
-
-                if (Namespaces.NAMESPACE_ALL.equals(namespace)) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("List all namespaces with params: {}", generatorParams);
-                    }
-                    return genericKubernetesApi
-                            .list(options)
-                            .throwsApiException()
-                            .getObject();
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("List namespace '{}' with params: {}", namespace, generatorParams);
-                    }
-                    return genericKubernetesApi
-                            .list(namespace, options)
-                            .throwsApiException()
-                            .getObject();
-                }
-            }
-
-            public Watchable<ApiType> watch(CallGeneratorParams params) throws ApiException {
-                final ExtendedCallGeneratorParams generatorParams = new ExtendedCallGeneratorParams(params.watch, params.resourceVersion, params.timeoutSeconds, labelSelector);
-                final ListOptions options = createListOptions(generatorParams);
-                if (Namespaces.NAMESPACE_ALL.equals(namespace)) {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Watch all namespaces with params: {}", generatorParams);
-                    }
-                    return genericKubernetesApi.watch(options);
-                } else {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Watch namespace '{}' with params: {}", namespace, generatorParams);
-                    }
-                    return genericKubernetesApi.watch(namespace, options);
-                }
-            }
-        };
-    }
-
-    private ListOptions createListOptions(ExtendedCallGeneratorParams params) {
-        return new ListOptions() {
-            {
-                setResourceVersion(params.resourceVersion);
-                setTimeoutSeconds(params.timeoutSeconds);
-                setLabelSelector(params.labelSelector);
-            }
-        };
-    }
-
-    static class ExtendedCallGeneratorParams extends CallGeneratorParams {
-        String labelSelector;
-
-        public ExtendedCallGeneratorParams(Boolean watch, String resourceVersion, Integer timeoutSeconds, String labelSelector) {
-            super(watch, resourceVersion, timeoutSeconds);
-            this.labelSelector = labelSelector;
-        }
-
-        @Override
-        public String toString() {
-            return "ExtendedCallGeneratorParams{" +
-                    "labelSelector='" + labelSelector + '\'' +
-                    ", watch=" + watch +
-                    ", resourceVersion='" + resourceVersion + '\'' +
-                    ", timeoutSeconds=" + timeoutSeconds +
-                    '}';
-        }
     }
 }

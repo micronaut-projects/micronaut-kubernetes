@@ -17,38 +17,45 @@ package io.micronaut.kubernetes.informer;
 
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.ResourceEventHandler;
-import io.kubernetes.client.informer.SharedInformerFactory;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.ShutdownEvent;
 import io.micronaut.context.event.StartupEvent;
-import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Starts up and shuts down the {@link SharedInformerFactory}.
+ * Starts up and shuts down the {@link SharedIndexInformerFactory}.
  *
  * @author Pavol Gressa
  * @since 3.1
  */
-@Requires(beans = SharedInformerFactory.class)
+@Requires(beans = SharedIndexInformerFactory.class)
 @Singleton
-public class SharedInformerFactoryLifecycleListener {
+public class InformerFactoryLifecycleListener {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SharedInformerFactoryLifecycleListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InformerFactoryLifecycleListener.class);
 
     private final List<ResourceEventHandler<? extends KubernetesObject>> handlerList;
-    private final SharedInformerFactory sharedInformerFactory;
+    private final SharedIndexInformerFactory sharedSharedIndexInformerFactory;
+    private final AtomicBoolean started = new AtomicBoolean(false);
 
-    public SharedInformerFactoryLifecycleListener(List<ResourceEventHandler<? extends KubernetesObject>> handlerList, SharedInformerFactory sharedInformerFactory) {
+    /**
+     * Creates the {@link InformerFactoryLifecycleListener}. All of the {@link ResourceEventHandler}s are intentionally
+     * requested in order to initialize the {@link io.kubernetes.client.informer.SharedIndexInformer}s and receive the
+     * notifications to the handlers.
+     *
+     * @param handlerList handler list
+     * @param sharedSharedIndexInformerFactory informer factory
+     */
+    public InformerFactoryLifecycleListener(List<ResourceEventHandler<? extends KubernetesObject>> handlerList, SharedIndexInformerFactory sharedSharedIndexInformerFactory) {
         this.handlerList = handlerList;
-        this.sharedInformerFactory = sharedInformerFactory;
+        this.sharedSharedIndexInformerFactory = sharedSharedIndexInformerFactory;
     }
-
 
     /**
      * Start informer factory on startup event.
@@ -58,31 +65,32 @@ public class SharedInformerFactoryLifecycleListener {
     @EventListener
     public void startInformerFactoryOnStartupEvent(StartupEvent startupEvent) {
         startInformers();
+        started.set(true);
     }
-
 
     /**
-     * Start informer factory on service ready event.
+     * Start informer factory for informers created after the bean context startup.
      *
-     * @param serviceReadyEvent service ready event
+     * @param createdEvent informer created event
      */
     @EventListener
-    public void startInformerFactoryOnServiceReadyEvent(ServiceReadyEvent serviceReadyEvent) {
-        startInformers();
+    public void startInformerFactoryOnInformerCreatedEvent(InformerCreatedEvent createdEvent) {
+        if (started.get()) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("New informer created after the bean context startup, starting new informer.");
+            }
+            startInformers();
+        }
     }
 
-    private void startInformers() {
-        if (handlerList.isEmpty()) {
-            if (LOG.isWarnEnabled()) {
-                LOG.warn("The SharedInformerFactory won't be started because there are no ResourceEventHandlers in the context");
-            }
-            return;
-        }
-
+    /**
+     * Start registered informers.
+     */
+    public void startInformers() {
         if (LOG.isInfoEnabled()) {
             LOG.info("Starting shared informer factory");
         }
-        sharedInformerFactory.startAllRegisteredInformers();
+        sharedSharedIndexInformerFactory.startAllRegisteredInformers();
     }
 
     /**
@@ -95,6 +103,6 @@ public class SharedInformerFactoryLifecycleListener {
         if (LOG.isInfoEnabled()) {
             LOG.info("Closing shared informer factory on shutdown");
         }
-        sharedInformerFactory.stopAllRegisteredInformers(false);
+        sharedSharedIndexInformerFactory.stopAllRegisteredInformers();
     }
 }
