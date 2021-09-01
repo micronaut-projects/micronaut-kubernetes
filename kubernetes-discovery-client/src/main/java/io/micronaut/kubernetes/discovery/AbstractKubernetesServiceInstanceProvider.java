@@ -21,6 +21,8 @@ import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1ServicePort;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
+import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.util.KubernetesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +42,24 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
 
     public static final String SECURE_LABEL = "secure";
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesServiceInstanceProvider.class);
+
+    protected Predicate<KubernetesObject> discoveryConfigurationFilter(KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+        return compositePredicate(
+                KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes()),
+                KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes()),
+                KubernetesUtils.getLabelsFilter(discoveryConfiguration.getLabels())
+        );
+    }
+
+    protected Predicate<KubernetesObject> serviceConfigurationDiscoveryFilter(KubernetesServiceConfiguration serviceConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+        Predicate<KubernetesObject> globalFilter;
+        if (!serviceConfiguration.isManual()) {
+            globalFilter = discoveryConfigurationFilter(discoveryConfiguration);
+        } else {
+            globalFilter = f -> true;
+        }
+        return globalFilter;
+    }
 
     /**
      * Builds service instance.
@@ -166,6 +186,5 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
             }
             return new PortBinder(endpointPort.getName(), endpointPort.getPort());
         }
-
     }
 }

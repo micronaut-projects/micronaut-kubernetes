@@ -18,9 +18,9 @@ package io.micronaut.kubernetes.discovery;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
-
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import jakarta.inject.Inject;
+
 import java.util.Optional;
 
 /**
@@ -122,6 +122,7 @@ public class KubernetesServiceConfiguration {
 
     /**
      * Set service discovery mode.
+     *
      * @param mode mode
      */
     public void setMode(String mode) {
@@ -139,6 +140,7 @@ public class KubernetesServiceConfiguration {
 
     /**
      * Sets port number. Required in case of multi-port resource.
+     *
      * @param port port number
      */
     public void setPort(String port) {
@@ -148,6 +150,7 @@ public class KubernetesServiceConfiguration {
     /**
      * This field is for inner use to mark manually configured services. All configurations
      * on {@link #PREFIX} are manually configured.
+     *
      * @return true if manually configured otherwise false
      */
     public boolean isManual() {

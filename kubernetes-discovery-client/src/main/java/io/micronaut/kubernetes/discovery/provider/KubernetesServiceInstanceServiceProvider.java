@@ -15,28 +15,35 @@
  */
 package io.micronaut.kubernetes.discovery.provider;
 
+import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1Service;
+import io.kubernetes.client.openapi.models.V1ServiceList;
 import io.kubernetes.client.openapi.models.V1ServicePort;
+import io.micronaut.context.annotation.Value;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
+import io.micronaut.kubernetes.discovery.IndexerComposite;
+import io.micronaut.kubernetes.discovery.ServiceInstanceProviderInformerFactory;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import jakarta.inject.Inject;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jakarta.inject.Singleton;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -55,10 +62,39 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
     private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
 
+    private IndexerComposite<V1Service> indexerComposite = null;
+
+    /**
+     * Creates kubernetes instance endpoint provider.
+     *
+     * @param client                                 client
+     * @param discoveryConfiguration                 discovery configuration
+     * @param serviceInstanceProviderInformerFactory service instance provider informer factory
+     * @param watchEnabled                           flag whether to enable watch or fetch resources on request
+     * @since 3.1
+     */
+    @Inject
     public KubernetesServiceInstanceServiceProvider(CoreV1ApiReactorClient client,
-                                                    KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+                                                    KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
+                                                    ServiceInstanceProviderInformerFactory serviceInstanceProviderInformerFactory,
+                                                    @Value("${kubernetes.client.discovery.mode-configuration.service.watch.enabled:true}") boolean watchEnabled) {
         this.client = client;
         this.discoveryConfiguration = discoveryConfiguration;
+        if (watchEnabled) {
+            this.indexerComposite = serviceInstanceProviderInformerFactory.createInformersFor(this);
+        }
+    }
+
+    /**
+     * Creates kubernetes instance service provider.
+     *
+     * @param client                 client
+     * @param discoveryConfiguration discovery configuration
+     * @deprecated use {@link KubernetesServiceInstanceServiceProvider#KubernetesServiceInstanceServiceProvider(CoreV1ApiReactorClient, KubernetesConfiguration.KubernetesDiscoveryConfiguration, ServiceInstanceProviderInformerFactory, boolean)}
+     */
+    public KubernetesServiceInstanceServiceProvider(CoreV1ApiReactorClient client,
+                                                    KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+        this(client, discoveryConfiguration, null, false);
     }
 
     @Override
@@ -73,24 +109,22 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
         String serviceNamespace = serviceConfiguration.getNamespace().orElseThrow(
                 () -> new IllegalArgumentException("KubernetesServiceConfiguration is missing namespace."));
 
-        Predicate<KubernetesObject> globalFilter;
-        if (!serviceConfiguration.isManual()) {
-            globalFilter = compositePredicate(
-                    KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes()),
-                    KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes()),
-                    KubernetesUtils.getLabelsFilter(discoveryConfiguration.getLabels())
-            );
+        Mono<V1Service> v1ServiceMono;
+        if (indexerComposite != null) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Service from cache: {}", serviceConfiguration);
+            }
+            v1ServiceMono = indexerComposite.getResource(serviceName, serviceNamespace);
         } else {
-            globalFilter = f -> true;
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Service from API: {}", serviceConfiguration);
+            }
+            v1ServiceMono = client.readNamespacedService(serviceName, serviceNamespace, null, null, null)
+                    .doOnError(ApiException.class, throwable -> LOG.error("Failed to read Service [" + serviceName + "] from namespace [" + serviceNamespace + "]: " + throwable.getResponseBody(), throwable));
         }
 
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Fetching Service {}", serviceConfiguration);
-        }
-
-        return client.readNamespacedService(serviceName, serviceNamespace, null, null, null)
-                .doOnError(ApiException.class, throwable -> LOG.error("Failed to read Service [" + serviceName + "] from namespace [" + serviceNamespace + "]: " + throwable.getResponseBody(), throwable))
-                .filter(globalFilter)
+        return v1ServiceMono
+                .filter(serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
                 .filter(service ->
                         hasValidPortConfiguration(
                                 Optional.ofNullable(Objects.requireNonNull(service.getSpec()).getPorts())
@@ -108,6 +142,29 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
                 })
                 .onErrorReturn(Collections.emptyList())
                 .defaultIfEmpty(new ArrayList<>());
+    }
+
+    @Override
+    public Publisher<String> getServiceIds(String namespace) {
+        Flux<V1Service> serviceFlux;
+        if (indexerComposite != null) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Services from cache");
+            }
+            serviceFlux = indexerComposite.getResources(namespace);
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Services from API");
+            }
+            serviceFlux = client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null)
+                    .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Services from namespace [" + namespace + "]: " + throwable.getResponseBody(), throwable))
+                    .flatMapIterable(V1ServiceList::getItems);
+        }
+
+        return serviceFlux
+                .filter(discoveryConfigurationFilter(discoveryConfiguration))
+                .mapNotNull(KubernetesUtils::objectNameOrNull)
+                .filter(Objects::nonNull);
     }
 
     private ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
@@ -142,5 +199,20 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
             }
             return null;
         }
+    }
+
+    @Override
+    public Class<? extends KubernetesObject> getApiType() {
+        return V1Service.class;
+    }
+
+    @Override
+    public Class<? extends KubernetesListObject> getApiListType() {
+        return V1ServiceList.class;
+    }
+
+    @Override
+    public String getResorucePlural() {
+        return "services";
     }
 }

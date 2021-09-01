@@ -28,6 +28,7 @@ import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceProvider;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -136,21 +137,13 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     @Override
     public Publisher<List<String>> getServiceIds() {
         String namespace = configuration.getNamespace();
-        Map<String, String> labels = configuration.getDiscovery().getLabels();
-        String labelSelector = KubernetesUtils.computeLabelSelector(labels);
-        Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
-        Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
+        KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
 
         return Flux.merge(
-                Flux.fromIterable(serviceConfigurations.keySet()),
-                client.listNamespacedService(namespace, null, null, null, null, labelSelector, null, null, null, null)
-                        .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Services in namespace [" + namespace + "]:" + throwable.getResponseBody(), throwable))
-                        .flatMapIterable(V1ServiceList::getItems)
-                        .filter(includesFilter)
-                        .filter(excludesFilter)
-                        .mapNotNull(service -> Optional.ofNullable(service.getMetadata())
-                                .map(V1ObjectMeta::getName).orElse(null))
-        ).distinct().collectList();
+                        Flux.fromIterable(serviceConfigurations.keySet()),
+                        instanceProvider.getServiceIds(namespace)
+                )
+                .distinct().collectList();
     }
 
     @Override

@@ -23,12 +23,17 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.kubernetes.client.NamespaceResolver;
+import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
+import jakarta.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Encapsulates constants for Kubernetes configuration.
@@ -46,7 +51,7 @@ public class KubernetesConfiguration {
 
     private String namespace;
 
-    private KubernetesDiscoveryConfiguration discovery = new KubernetesDiscoveryConfiguration();
+    private KubernetesDiscoveryConfiguration discovery = new KubernetesDiscoveryConfiguration(new ArrayList<>());
     private KubernetesSecretsConfiguration secrets = new KubernetesSecretsConfiguration();
     private KubernetesConfigMapsConfiguration configMaps = new KubernetesConfigMapsConfiguration();
 
@@ -141,6 +146,13 @@ public class KubernetesConfiguration {
 
         private String mode = DEFAULT_MODE;
 
+        private final List<KubernetesServiceConfiguration> services;
+
+        @Inject
+        public KubernetesDiscoveryConfiguration(List<KubernetesServiceConfiguration> services) {
+            this.services = services;
+        }
+
         /**
          * @return default service discovery mode
          */
@@ -153,6 +165,31 @@ public class KubernetesConfiguration {
          */
         public void setMode(String mode) {
             this.mode = mode;
+        }
+
+        /**
+         * @return manual service discovery
+         */
+        public List<KubernetesServiceConfiguration> getServices() {
+            return services;
+        }
+
+        /**
+         * Computes the namespaces of the manually configured services for given {@code mode}.
+         *
+         * @param mode service discovery mode
+         * @return namespace
+         */
+        public Set<String> computeNamespacesForMode(String mode) {
+            if (services == null || services.isEmpty()) {
+                return new HashSet<>();
+            }
+
+            return services.stream()
+                    .filter(s -> s.getMode().map(ns -> ns.equalsIgnoreCase(mode)).orElse(mode.equalsIgnoreCase(getMode())))
+                    .filter(s -> s.getNamespace().isPresent())
+                    .map(s -> s.getNamespace().get())
+                    .collect(Collectors.toSet());
         }
     }
 

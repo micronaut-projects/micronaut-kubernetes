@@ -14,8 +14,8 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import reactor.core.publisher.Flux
 import spock.lang.Requires
 import spock.lang.Shared
-
-import jakarta.inject.Inject
+import spock.lang.Unroll
+import spock.util.concurrent.PollingConditions
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -23,22 +23,42 @@ import jakarta.inject.Inject
 @Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecification {
 
-    @Inject
     @Shared
-    KubernetesServiceInstanceServiceProvider provider
+    PollingConditions pollingConditions = new PollingConditions()
 
-    void "it returns nothing when service doesn't exists"(){
+    @Unroll
+    void "it returns nothing when service doesn't exists [watchEnabled=#watchEnabled]"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+
         when:
         def config = createConfig("a-service")
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 0
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().size() == 0
+        }
+
+        cleanup:
+        applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it can't get headless service ip when using mode service"(){
+    @Unroll
+    void "it can't get headless service ip when using mode service [watchEnabled=#watchEnabled]"() {
         given:
-        operations.createService("headless-service", namespace,
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+
+        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+
+        Service service = operations.createService("headless-service", namespace,
                 new ServiceSpecBuilder()
                         .withClusterIP("None")
                         .withPorts(
@@ -52,15 +72,30 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("headless-service")
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 0
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().size() == 0
+        }
+
+        cleanup:
+        operations.deleteService(service)
+        applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it gets port ip for multi port service"(){
+    @Unroll
+    void "it gets port ip for multi port service [watchEnabled=#watchEnabled]"() {
         given:
-        operations.createService("multiport-service", namespace,
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+
+        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+
+        Service service = operations.createService("multiport-service", namespace,
                 new ServiceSpecBuilder()
                         .withPorts(
                                 new ServicePortBuilder()
@@ -81,41 +116,69 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         def config = createConfig("multiport-service")
 
         then: 'the returned list is empty'
-        Flux.from(provider.getInstances(config)).blockFirst().isEmpty()
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().isEmpty()
+        }
 
         when: 'http port is specified'
         config.port = 'http'
-        def instances = Flux.from(provider.getInstances(config)).blockFirst()
 
         then: 'two service instances with port 8081 are discovered'
-        instances.size() == 1
-        instances.first().port == 8081
-        operations.getService("multiport-service", namespace).spec.clusterIP == instances.first().host
+        pollingConditions.eventually {
+            def instances = Flux.from(provider.getInstances(config)).blockFirst()
+            instances.size() == 1
+            instances.first().port == 8081
+            operations.getService("multiport-service", namespace).spec.clusterIP == instances.first().host
+        }
+
+        cleanup:
+        operations.deleteService(service)
+        applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it can get service from other then app namespace"(){
+    @Unroll
+    void "it can get service from other then app namespace [watchEnabled=#watchEnabled]"() {
         given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace"]]),
+                Environment.KUBERNETES)
+        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+
         createNamespaceSafe("other-namespace")
         createBaseResources("other-namespace")
         createExampleServiceDeployment("other-namespace")
 
+        when:
         def config = createConfig("example-service")
         config.namespace = "other-namespace"
 
-        when:
-        def instances = Flux.from(provider.getInstances(config)).blockFirst()
-
         then:
-        instances.size() == 1
-        operations.getService("example-service", "other-namespace")
-                .spec.clusterIP == instances.first().host
+        pollingConditions.eventually {
+            def instances = Flux.from(provider.getInstances(config)).blockFirst()
+            instances.size() == 1
+            operations.getService("example-service", "other-namespace")
+                    .spec.clusterIP == instances.first().host
+        }
 
         cleanup:
         operations.deleteNamespace("other-namespace")
+        applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it can get external https service when using mode service"(){
+    @Unroll
+    void "it can get external https service when using mode service [watchEnabled=#watchEnabled]"() {
         given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+
         Service service = operations.createService("external-service-https", namespace,
                 new ServiceSpecBuilder()
                         .withType("ExternalName")
@@ -128,21 +191,34 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("external-service-https")
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 1
-        with(instanceList.first().getURI().toString()){
-            it.startsWith("https://")
-            it.endsWith(":443")
+        pollingConditions.eventually {
+            def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
+            instanceList.size() == 1
+            with(instanceList.first().getURI().toString()) {
+                it.startsWith("https://")
+                it.endsWith(":443")
+            }
         }
 
         cleanup:
         operations.deleteService(service)
+        applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it can get external http service when using mode service"(){
+    @Unroll
+    void "it can get external http service when using mode service [watchEnabled=#watchEnabled]"() {
         given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+
+        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+
         Service service = operations.createService("external-service-http", namespace,
                 new ServiceSpecBuilder()
                         .withType("ExternalName")
@@ -151,81 +227,105 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         when:
         def config = createConfig("external-service-http")
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 1
-        with(instanceList.first().getURI().toString()){
-            it.startsWith("http://")
-            it.endsWith(":80")
+        pollingConditions.eventually {
+            def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
+            instanceList.size() == 1
+            with(instanceList.first().getURI().toString()) {
+                it.startsWith("http://")
+                it.endsWith(":80")
+            }
         }
 
         cleanup:
         operations.deleteService(service)
+        applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it ignores includes filter for manually configured service"() {
+    @Unroll
+    void "it ignores includes filter for manually configured service [watchEnabled=#watchEnabled]"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run([
-                "kubernetes.client.namespace": namespace,
-                "kubernetes.client.discovery.includes": "example-service"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled, ["kubernetes.client.discovery.includes": "example-service"]),
+                Environment.KUBERNETES)
         KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
 
         when:
         def config = createConfig("example-client", true)
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 1
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().size() == 1
+        }
 
         cleanup:
         applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it ignores excludes filter for manually configured service"() {
+    @Unroll
+    void "it ignores excludes filter for manually configured service [watchEnabled=#watchEnabled]"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run([
-                "kubernetes.client.namespace": namespace,
-                "kubernetes.client.discovery.excludes": "example-service"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled, ["kubernetes.client.discovery.excludes": "example-service"]),
+                Environment.KUBERNETES)
+
         KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
 
         when:
         def config = createConfig("example-service", true)
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 1
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().size() == 1
+        }
 
         cleanup:
         applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    void "it ignores label filter for manually configured service"() {
+    @Unroll
+    void "it ignores label filter for manually configured service [watchEnabled=#watchEnabled]"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run([
-                "kubernetes.client.namespace": namespace,
-                "kubernetes.client.discovery.labels": [foo:"bar"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled, ["kubernetes.client.discovery.labels": [foo: "bar"]]),
+                Environment.KUBERNETES)
         KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        sleep(1000) // sleep for a second to let the informer startup
 
         when:
         def config = createConfig("example-client", true)
-        def instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 1
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().size() == 1
+        }
 
         when:
         config = createConfig("example-service", true)
-        instanceList = Flux.from(provider.getInstances(config)).blockFirst()
 
         then:
-        instanceList.size() == 1
+        pollingConditions.eventually {
+            Flux.from(provider.getInstances(config)).blockFirst().size() == 1
+        }
 
         cleanup:
         applicationContext.close()
+
+        where:
+        watchEnabled << [true, false]
     }
 
-    KubernetesServiceConfiguration createConfig(String name, manual = false){
+    KubernetesServiceConfiguration createConfig(String name, manual = false) {
         return new KubernetesServiceConfiguration(
                 name,
                 name,
@@ -233,5 +333,15 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
                 KubernetesServiceInstanceServiceProvider.MODE,
                 null,
                 manual)
+    }
+
+    Map<String, Object> getConfig(boolean watchEnabled, Map<String, Object> additional = [:]) {
+        Map<String, Object> config = [
+                "kubernetes.client.namespace"                                         : namespace,
+                "kubernetes.client.discovery.mode"                                    : "service",
+                "kubernetes.client.discovery.mode-configuration.service.watch.enabled": watchEnabled
+        ]
+        config.putAll(additional)
+        return config
     }
 }

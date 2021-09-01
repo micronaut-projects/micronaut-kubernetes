@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.util;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1Secret;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertiesPropertySourceLoader;
@@ -237,10 +238,10 @@ public class KubernetesUtils {
             excludesFilter = s -> {
                 boolean result = !excludes.contains(s.getMetadata().getName());
                 if (LOG.isTraceEnabled()) {
-                    if (result) {
+                    if (!result) {
                         LOG.trace("Excludes matched: {}", s.getMetadata().getName());
                     } else {
-                        LOG.trace("Excludes filter not-matched: {}", s.getMetadata().getName());
+                        LOG.trace("Excludes not-matched: {}", s.getMetadata().getName());
                     }
                 }
                 return result;
@@ -261,7 +262,15 @@ public class KubernetesUtils {
                 LOG.trace("Filter labels: {}", labels.keySet());
             }
             labelsFilter = kubernetesObject -> {
-                Map<String, String> kubernetesObjectLabels = kubernetesObject.getMetadata().getLabels();
+                V1ObjectMeta objectMeta = kubernetesObject.getMetadata();
+                if (objectMeta == null) {
+                    return false;
+                }
+                Map<String, String> kubernetesObjectLabels = objectMeta.getLabels();
+                if (kubernetesObjectLabels == null) {
+                    return false;
+                }
+
                 boolean result = labels.entrySet().stream().allMatch(
                         e -> kubernetesObjectLabels.containsKey(e.getKey()) && kubernetesObjectLabels.get(e.getKey()).equals(e.getValue()));
                 if (LOG.isTraceEnabled()) {
@@ -275,6 +284,13 @@ public class KubernetesUtils {
             };
         }
         return labelsFilter;
+    }
+
+    public static String objectNameOrNull(KubernetesObject kubernetesObject) {
+        if (kubernetesObject.getMetadata() != null) {
+            return kubernetesObject.getMetadata().getName();
+        }
+        return null;
     }
 
     /**

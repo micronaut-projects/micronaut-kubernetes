@@ -15,28 +15,35 @@
  */
 package io.micronaut.kubernetes.discovery.provider;
 
+import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1Endpoints;
+import io.kubernetes.client.openapi.models.V1EndpointsList;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
+import io.micronaut.context.annotation.Value;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
+import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
+import io.micronaut.kubernetes.discovery.IndexerComposite;
+import io.micronaut.kubernetes.discovery.ServiceInstanceProviderInformerFactory;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import reactor.core.publisher.Flux;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -53,15 +60,67 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
     private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration;
 
+    private IndexerComposite<V1Endpoints> indexerComposite = null;
+
+    /**
+     * Creates kubernetes instance endpoint provider.
+     *
+     * @param client                                 client
+     * @param discoveryConfiguration                 discovery configuration
+     * @param serviceInstanceProviderInformerFactory service instance provider informer factory
+     * @param watchEnabled                           flag whether to enable watch or fetch resources on request
+     * @since 3.1
+     */
+    @Inject
     public KubernetesServiceInstanceEndpointProvider(CoreV1ApiReactorClient client,
-                                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+                                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration,
+                                                     ServiceInstanceProviderInformerFactory serviceInstanceProviderInformerFactory,
+                                                     @Value("${kubernetes.client.discovery.mode-configuration.endpoint.watch.enabled:true}") boolean watchEnabled) {
         this.client = client;
         this.discoveryConfiguration = discoveryConfiguration;
+        if (watchEnabled) {
+            this.indexerComposite = serviceInstanceProviderInformerFactory.createInformersFor(this);
+        }
+    }
+
+    /**
+     * Creates kubernetes instance endpoint provider.
+     *
+     * @param client                 client
+     * @param discoveryConfiguration discovery configuration
+     * @deprecated use {@link KubernetesServiceInstanceEndpointProvider#KubernetesServiceInstanceEndpointProvider(CoreV1ApiReactorClient, KubernetesConfiguration.KubernetesDiscoveryConfiguration, ServiceInstanceProviderInformerFactory, boolean)}
+     */
+    public KubernetesServiceInstanceEndpointProvider(CoreV1ApiReactorClient client,
+                                                     KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+        this(client, discoveryConfiguration, null, false);
     }
 
     @Override
     public String getMode() {
         return MODE;
+    }
+
+    @Override
+    public Publisher<String> getServiceIds(String namespace) {
+        Flux<V1Endpoints> endpointsFlux;
+        if (indexerComposite != null) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Endpoints from cache");
+            }
+            endpointsFlux = indexerComposite.getResources(namespace);
+        } else {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Endpoints from API");
+            }
+            endpointsFlux = client.listNamespacedEndpoints(namespace, null, null, null, null, null, null, null, null, null)
+                    .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Endpoints from namespace [" + namespace + "]: " + throwable.getResponseBody(), throwable))
+                    .flatMapIterable(V1EndpointsList::getItems);
+        }
+
+        return endpointsFlux
+                .filter(discoveryConfigurationFilter(discoveryConfiguration))
+                .mapNotNull(KubernetesUtils::objectNameOrNull)
+                .filter(Objects::nonNull);
     }
 
     @Override
@@ -73,24 +132,23 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
 
         AtomicReference<V1ObjectMeta> metadata = new AtomicReference<>();
 
-        Predicate<KubernetesObject> globalFilter;
-        if (!serviceConfiguration.isManual()) {
-            globalFilter = compositePredicate(
-                    KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes()),
-                    KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes()),
-                    KubernetesUtils.getLabelsFilter(discoveryConfiguration.getLabels())
-            );
+        Mono<V1Endpoints> v1EndpointsMono;
+
+        if (indexerComposite != null) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Endpoints from cache: {}", serviceConfiguration);
+            }
+            v1EndpointsMono = indexerComposite.getResource(serviceName, serviceNamespace);
         } else {
-            globalFilter = f -> true;
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Fetching Endpoints from API: {}", serviceConfiguration);
+            }
+            v1EndpointsMono = client.readNamespacedEndpoints(serviceName, serviceNamespace, null, null, null)
+                    .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Endpoints [ " + serviceName + "] from namespace [" + serviceNamespace + "]: " + throwable.getResponseBody(), throwable));
         }
 
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Fetching Endpoints {}", serviceConfiguration);
-        }
-
-        return client.readNamespacedEndpoints(serviceName, serviceNamespace, null, null, null)
-                .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Endpoints [ " + serviceName + "] from namespace [" + serviceNamespace + "]: " + throwable.getResponseBody(), throwable))
-                .filter(globalFilter)
+        return v1EndpointsMono
+                .filter(serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
                 .filter(v1Endpoints -> v1Endpoints.getSubsets() != null)
                 .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
                 .flatMapIterable(V1Endpoints::getSubsets)
@@ -111,5 +169,20 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
                     return Flux.just(Collections.emptyList());
                 })
                 .defaultIfEmpty(new ArrayList<>());
+    }
+
+    @Override
+    public Class<? extends KubernetesObject> getApiType() {
+        return V1Endpoints.class;
+    }
+
+    @Override
+    public Class<? extends KubernetesListObject> getApiListType() {
+        return V1EndpointsList.class;
+    }
+
+    @Override
+    public String getResorucePlural() {
+        return "endpoints";
     }
 }
