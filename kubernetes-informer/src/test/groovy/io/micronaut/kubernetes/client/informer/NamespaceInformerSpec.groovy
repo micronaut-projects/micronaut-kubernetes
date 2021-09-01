@@ -52,6 +52,8 @@ class NamespaceInformerSpec extends KubernetesSpecification {
         when:
         ns.getSpec().getFinalizers().add("finalizer")
         operations.updateNamespace(ns)
+        ns = operations.getNamespace("test-ns")
+        println(ns)
 
         then:
         new PollingConditions().within(5) {
