@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 original authors
+ * Copyright 2017-2021 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,26 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.informer;
-
-import io.micronaut.context.ApplicationContext;
-import io.micronaut.context.annotation.Requires;
-import jakarta.inject.Singleton;
+package io.micronaut.kubernetes.client.informer;
 
 import java.util.function.Supplier;
 
-@Singleton
-@Requires(property = "spec.name", value = "ConfigMapLabelSelectorInformerSpec")
-public class LabelSelectorSupplier implements Supplier<String> {
-
-    private final ApplicationContext  applicationContext;
-
-    public LabelSelectorSupplier(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
+/**
+ * Default namespaces supplier for the {@link Informer#namespacesSupplier()} ()} that returns empty array.
+ *
+ * @author Pavol Gressa
+ * @since 3.1
+ */
+public class EmptyNamespacesSupplier implements Supplier<String[]> {
     @Override
-    public String get() {
-        return "environment=test";
+    public String[] get() {
+        return new String[0];
     }
 }

@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.informer;
+package io.micronaut.kubernetes.client.informer;
 
 import io.kubernetes.client.informer.ResourceEventHandler;
-import io.kubernetes.client.openapi.models.V1ConfigMap;
-import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.kubernetes.client.openapi.models.V1Namespace;
 import io.kubernetes.client.openapi.models.V1NamespaceList;
 import io.micronaut.context.annotation.Requires;
@@ -28,13 +26,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-//tag::listener[]
 @Requires(property = "spec.name", value = "NamespaceInformerSpec")
+//tag::handler[]
 @Singleton
-@Informer(apiType = V1Namespace.class, apiListType = V1NamespaceList.class, resourcePlural = "namespaces", namespace = Informer.ALL_NAMESPACES) // <1>
-public class NamespaceInformer implements ResourceEventHandler<V1Namespace> { // <2>
+@Informer(apiType = V1Namespace.class, apiListType = V1NamespaceList.class, resourcePlural = "namespaces", namespace = Informer.ALL_NAMESPACES)
+public class NamespaceInformer implements ResourceEventHandler<V1Namespace> {
 
-    //end::listener[]
+    //end::handler[]
     public static final Logger LOG = LoggerFactory.getLogger(NamespaceInformer.class);
 
     private final List<V1Namespace> added = Lists.newArrayList();
@@ -53,30 +51,29 @@ public class NamespaceInformer implements ResourceEventHandler<V1Namespace> { //
         return deleted;
     }
 
-    //tag::listener[]
+    //tag::handler[]
     @Override
     public void onAdd(V1Namespace obj) {
-        //end::listener[]
+        //end::handler[]
         LOG.info("ADDED NAMESPACE: {}", obj);
         added.add(obj);
-        //tag::listener[]
+        //tag::handler[]
     }
-
 
     @Override
     public void onUpdate(V1Namespace oldObj, V1Namespace newObj) {
-        //end::listener[]
+        //end::handler[]
         LOG.info("UPDATED NAMESPACE: {}", newObj);
         updated.add(newObj);
-        //tag::listener[]
+        //tag::handler[]
     }
 
     @Override
     public void onDelete(V1Namespace obj, boolean deletedFinalStateUnknown) {
-        //end::listener[]
+        //end::handler[]
         LOG.info("DELETED NAMESPACE: {}", obj);
         deleted.add(obj);
-        //tag::listener[]
+        //tag::handler[]
     }
 }
-//end::listener[]
+//end::handler[]

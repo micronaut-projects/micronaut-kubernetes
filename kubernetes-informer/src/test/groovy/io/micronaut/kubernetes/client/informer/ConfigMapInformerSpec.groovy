@@ -1,7 +1,6 @@
-package io.micronaut.kubernetes.informer
+package io.micronaut.kubernetes.client.informer
 
 import io.fabric8.kubernetes.api.model.ConfigMap
-import io.fabric8.kubernetes.api.model.ConfigMapList
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
@@ -63,6 +62,21 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         then:
         new PollingConditions().within(5) {
             assert resourceHandler.deleted.size() == 1
+        }
+    }
+
+    def "it can access config map local cache"() {
+        given:
+        SharedInformerCache informerCache = applicationContext.getBean(SharedInformerCache)
+
+        when:
+        operations.createConfigMap("map1", namespace, ["foo": "bar"])
+        sleep(500) // give it some time to receive event
+
+        then:
+        with(informerCache.getConfigMaps(namespace)) {
+            !it.isEmpty()
+            it.stream().filter(cm -> cm.metadata.name == "map1").any()
         }
     }
 }

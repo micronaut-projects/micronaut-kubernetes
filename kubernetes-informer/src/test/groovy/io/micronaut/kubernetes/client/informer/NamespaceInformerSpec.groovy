@@ -1,4 +1,4 @@
-package io.micronaut.kubernetes.informer
+package io.micronaut.kubernetes.client.informer
 
 
 import io.fabric8.kubernetes.api.model.Namespace

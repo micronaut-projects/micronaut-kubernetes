@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.informer;
+package io.micronaut.kubernetes.client.informer;
 
 import java.util.function.Supplier;
 
 /**
- * Default namespaces supplier for the {@link Informer#namespacesSupplier()} ()} that returns empty array.
+ * Default label supplier for the {@link Informer#labelSelectorSupplier()} that returns empty string.
  *
  * @author Pavol Gressa
  * @since 3.1
  */
-public class EmptyNamespacesSupplier implements Supplier<String[]> {
+public class EmptyLabelSupplier implements Supplier<String> {
     @Override
-    public String[] get() {
-        return new String[0];
+    public String get() {
+        return "";
     }
 }

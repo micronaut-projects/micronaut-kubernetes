@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.informer;
+package io.micronaut.kubernetes.client.informer;
 
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
@@ -26,13 +26,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-//tag::listener[]
 @Requires(property = "spec.name", value = "ConfigMapInformerSpec")
+//tag::handler[]
 @Singleton
 @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps") // <1>
 public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> { // <2>
 
-    //end::listener[]
+    //end::handler[]
     public static final Logger LOG = LoggerFactory.getLogger(ConfigMapInformer.class);
 
     private final List<V1ConfigMap> added = Lists.newArrayList();
@@ -51,30 +51,29 @@ public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> { //
         return deleted;
     }
 
-    //tag::listener[]
+    //tag::handler[]
     @Override
     public void onAdd(V1ConfigMap obj) {
-        //end::listener[]
+        //end::handler[]
         LOG.info("ADDED CONFIG MAP: {}", obj);
         added.add(obj);
-        //tag::listener[]
+        //tag::handler[]
     }
-
 
     @Override
     public void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
-        //end::listener[]
+        //end::handler[]
         LOG.info("UPDATED CONFIG MAP: {}", newObj);
         updated.add(newObj);
-        //tag::listener[]
+        //tag::handler[]
     }
 
     @Override
     public void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
-        //end::listener[]
+        //end::handler[]
         LOG.info("DELETED CONFIG MAP: {}", obj);
         deleted.add(obj);
-        //tag::listener[]
+        //tag::handler[]
     }
 }
-//end::listener[]
+//end::handler[]

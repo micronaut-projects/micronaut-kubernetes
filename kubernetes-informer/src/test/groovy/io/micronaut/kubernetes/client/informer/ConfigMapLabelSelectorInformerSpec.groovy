@@ -1,7 +1,6 @@
-package io.micronaut.kubernetes.informer
+package io.micronaut.kubernetes.client.informer
 
 import io.fabric8.kubernetes.api.model.ConfigMap
-import io.fabric8.kubernetes.api.model.ConfigMapList
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment

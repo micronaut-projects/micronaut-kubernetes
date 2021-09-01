@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.informer;
+package io.micronaut.kubernetes.client.informer;
 
 import com.google.gson.reflect.TypeToken;
 import io.kubernetes.client.apimachinery.GroupVersionKind;
@@ -171,6 +171,11 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         return new ArrayList<>(this.informers.values());
     }
 
+    /**
+     * Handles startup event.
+     *
+     * @param startupEvent startup event
+     */
     @EventListener
     public void onStartupEvent(StartupEvent startupEvent) {
         contextStarted.set(true);

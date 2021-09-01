@@ -1,7 +1,6 @@
-package io.micronaut.kubernetes.informer
+package io.micronaut.kubernetes.client.informer
 
-import io.kubernetes.client.common.KubernetesObject
-import io.kubernetes.client.informer.SharedIndexInformer
+
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.ApplicationContext
