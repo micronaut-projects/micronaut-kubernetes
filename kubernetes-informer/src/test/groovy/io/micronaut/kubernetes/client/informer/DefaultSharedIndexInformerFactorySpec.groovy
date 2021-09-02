@@ -1,6 +1,6 @@
 package io.micronaut.kubernetes.client.informer
 
-
+import io.kubernetes.client.informer.SharedIndexInformer
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.ApplicationContext
@@ -82,8 +82,14 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
         when:
         DefaultSharedIndexInformerFactory factory = applicationContext.getBean(DefaultSharedIndexInformerFactory)
-        factory.sharedIndexInformerFor(V1ConfigMap.class, V1ConfigMapList.class, "configmaps",
-                "", "default", null, null)
+        SharedIndexInformer<V1ConfigMap> informer = factory.sharedIndexInformerFor(
+                V1ConfigMap.class,
+                V1ConfigMapList.class,
+                "configmaps",
+                "",
+                "default",
+                null,
+                null)
 
         then:
         factory.getExistingSharedIndexInformer("default", V1ConfigMap.class)

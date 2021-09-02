@@ -6,23 +6,25 @@ dependency:io.micronaut.kubernetes:micronaut-kubernetes-informer:{version}[]
 
 Then create a bean that implements https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] with the Kubernetes resource type of your choice and add the link:{api}/io/micronaut/kubernetes/client/informer/Informer.html[@Informer] annotation trough which you provide the configuration for the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer].
 
-The example below illustrates the declaration of the link:{api}/io/micronaut/kubernetes/client/informer/Informer.html[@Informer]  with the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] for handling the changes of the Kubernetes `V1ConfigMap` resource.
+The example below illustrates the declaration of the link:{api}/io/micronaut/kubernetes/client/informer/Informer.html[@Informer] with the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] for handling the changes of the Kubernetes `V1ConfigMap` resource.
 
 snippet::io.micronaut.kubernetes.client.informer.ConfigMapInformer[tags="handler", project="kubernetes-informer", source="test"]
-
-<1> The link:{api}/io/micronaut/kubernetes/client/informer/Informer.html[@Informer] annotation defines the Kubernetes resource type, resource list type and resource plural
+<1> The link:{api}/io/micronaut/kubernetes/client/informer/Informer.html[@Informer] annotation defines the Kubernetes resource type and resource list type
 <2> The https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] interface declares method handlers for added, updated and deleted resource
 
-To create an Informer for non-namespaced resource, configure the `namespace` argument to `Informer.ALL_NAMESPACE` like presented in the example below:
+To create an Informer for non-namespaced resource like `V1ClusterRole`, configure the `@Informer` the same way like it is done for namespaced resource.
 
-snippet::io.micronaut.kubernetes.client.informer.ClusterRoleInformer[tags="handler", project="kubernetes-informer", source="test"]
+The link:{api}/io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor[ResourceEventHandlerConstructorInterceptor] logic takes care of automated evaluation of the resource `apiGroup` and `resourcePlural` by fetching the API resource details from the Kubernetes API by using https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/Discovery.html[Discovery]. The API resource discovery can be disabled by: `kubernetes.client.api-discovery.enabled: false`. In the case the discovery is disabled the `resourcePlural` and `apiGroup` needs to be provided manually in the `@Informer` annotation.
 
-The link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotation provides several configuration options:
+The link:{api}/io/micronaut/kubernetes/client/informer/Informer.html[@Informer] annotation provides several configuration options:
 
-.Informer optional configuration
+.Informer configuration
 |===
-|Element |Description
-
+|Element | Description
+|`apiType` | The resource api type that must extend from the `KubernetesObject`. For Kubernetes core resources the types can be found in `io.kubernetes.client.openapi.models` package. For example `io.kubernetes.client.openapi.models.V1ConfigMap`.
+|`apiListType` | The resource api list type. For example `io.kubernetes.client.openapi.models.V1ConfigMapList`.
+|`apiGroup` | The resource api group. For example some of the Kubernetes core resources has no group like  `V1ConfigMap`, on the contrary the `V1ClusterRole` has `rbac.authorization.k8s.io`.
+|`resourcePlural`| The resource plural that identifies the Api. For example for the resource `V1ConfigMap` it is `configmaps`.
 |`namespace` | Namespace of the watched resource. If left empty then namespace is resolved by link:{api}/io/micronaut/kubernetes/client/NamespaceResolver.html[NamespaceResolver]. To watch resources from all namespaces configure this parameter to `Informer.ALL_NAMESPACES`.
 |`namespaces` | List of the namespaces of the watcher resource. The https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer] will be created for every namespace and all events will be delivered to the specified `ResourceEventHandler`.
 |`namespacesSupplier` | `Supplier` class that provides the list of namespaces to watch. Note that the supplier class needs to be a bean in the application context and it is intended for dynamic evaluation of the namesapces to watch. Finally the `namespace`, `namespaces` and `namespacesSupplier` can be used in combination.
@@ -33,6 +35,24 @@ The link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotat
 |===
 
 IMPORTANT: The concept of shared informer means that the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer] for the respective Kubernetes resource type is registered just once for the given namespace. The next request to register another https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[informer] of the same Kubernetes resource type within the same namespace will result in returning of the previously created informer. In practice if you create two `ResourceEventHandler<V1ConfigMap>` but the `@Informer` annotation will have different optional configuration for `labelSelector` then the `SharedInformerFactory` creates just one `SharedInformer`, meaning the other `@Informer` configuration will be ignored. If the `labelSelector` resp. `labelSelectorSupplier` differs then create one `labelSelector` that matches both cases.
+
+== Programmatic creation of SharedIndexInformer
+
+Use the bean link:{api}/io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory[SharedIndexInformerFactory] to create the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer] programmatically:
+
+snippet::io.micronaut.kubernetes.client.informer.SharedIndexInformerFactoryExample[tags="create", project="kubernetes-informer", source="test"]
+<1> The resource api type that must extend from the `KubernetesObject`. For Kubernetes core resources the types can be found in `io.kubernetes.client.openapi.models` package. For example `io.kubernetes.client.openapi.models.V1ConfigMap`.
+<2> The resource api list type that must extend from the `KubernetesListObject`. For example `io.kubernetes.client.openapi.models.V1ConfigMapList`.
+<3> The resource plural that identifies the Api. For example for the resource `V1ConfigMap` it is `configmaps`.
+<4> The resource api group.
+<5> The namespace to watch.
+
+
+By using the link:{api}/io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory[SharedIndexInformerFactory] bean you can also get existing informer:
+
+snippet::io.micronaut.kubernetes.client.informer.SharedIndexInformerFactoryExample[tags="get", project="kubernetes-informer", source="test"]
+<1> The informer namespace.
+<2> The informer resource type.
 
 == SharedIndexInformer local cache
 
