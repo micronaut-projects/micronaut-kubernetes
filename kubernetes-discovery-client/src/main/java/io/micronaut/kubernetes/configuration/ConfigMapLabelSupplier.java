@@ -47,7 +47,9 @@ public class ConfigMapLabelSupplier implements Supplier<String> {
     @Override
     public String get() {
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        String labelSelector = KubernetesUtils.computePodLabelSelector(coreV1ApiReactorClient, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+        String labelSelector = KubernetesUtils.computePodLabelSelector(coreV1ApiReactorClient,
+                        configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels,
+                        configuration.getDiscovery().isExceptionOnPodLabelsMissing())
                 .block();
         if (LOG.isInfoEnabled()) {
             LOG.info("Computed kubernetes configuration discovery config map label selector: {}", labelSelector);

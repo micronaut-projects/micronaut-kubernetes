@@ -25,8 +25,8 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.client.informer.Informer;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import jakarta.inject.Inject;
@@ -50,7 +50,7 @@ import java.util.concurrent.ExecutorService;
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)
 @Requires(condition = KubernetesConfigMapWatcherCondition.class)
-@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", labelSelectorSupplier = ConfigMapLabelSupplier.class)
+@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", apiGroup="", labelSelectorSupplier = ConfigMapLabelSupplier.class)
 public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1ConfigMap> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
