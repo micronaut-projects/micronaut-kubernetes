@@ -94,6 +94,7 @@ public class ApiClientFactory {
         Configuration.setDefaultApiClient(apiClient);
         OkHttpClient.Builder builder = apiClient.getHttpClient().newBuilder();
         builder.addInterceptor(new OkHttpClientLogging());
+        apiClient.setHttpClient(builder.build());
         return apiClient;
     }
 
