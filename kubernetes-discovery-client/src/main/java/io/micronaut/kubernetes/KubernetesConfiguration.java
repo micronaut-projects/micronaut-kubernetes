@@ -52,6 +52,8 @@ public class KubernetesConfiguration {
 
     /**
      * Default constructor.
+     *
+     * @param namespaceResolver namespace resolver
      */
     public KubernetesConfiguration(NamespaceResolver namespaceResolver) {
         this.namespace = namespaceResolver.resolveNamespace();

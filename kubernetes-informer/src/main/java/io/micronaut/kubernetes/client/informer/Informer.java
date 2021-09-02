@@ -37,6 +37,7 @@ import java.util.function.Supplier;
 public @interface Informer {
 
     String ALL_NAMESPACES = "ALL_NAMESPACES";
+    String RESOLVE_AUTOMATICALLY = "RESOLVE_AUTOMATICALLY";
 
     /**
      * The resource type.
@@ -56,9 +57,21 @@ public @interface Informer {
      * The watched resource plural. For example for {@link io.kubernetes.client.openapi.models.V1ConfigMap} it
      * is {@code configmaps}. To find the proper resource plural visit the <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/">Kubernetes API Reference</a>.
      *
+     * By default, the api group is automatically evaluated by {@link io.kubernetes.client.Discovery}.
+     *
      * @return resource plural
      */
-    String resourcePlural();
+    String resourcePlural() default RESOLVE_AUTOMATICALLY;
+
+    /**
+     * The watched resource api group. For example for {@link io.kubernetes.client.openapi.models.V1Job} it is
+     * {@code batch}. To find proper resource api group visit <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/">Kubernetes API Reference</a>.
+     *
+     * By default, the api group is automatically evaluated by {@link io.kubernetes.client.Discovery}.
+     *
+     * @return api group
+     */
+    String apiGroup() default RESOLVE_AUTOMATICALLY;
 
     /**
      * Watched resource namespace. If empty then namespace is resolved
@@ -67,7 +80,7 @@ public @interface Informer {
      *
      * @return namespace
      */
-    String namespace() default "";
+    String namespace() default RESOLVE_AUTOMATICALLY;
 
     /**
      * Watched resource namespaces. If empty then namespace is resolved

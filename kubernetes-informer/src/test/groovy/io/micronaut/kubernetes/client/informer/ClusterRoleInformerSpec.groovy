@@ -1,7 +1,8 @@
 package io.micronaut.kubernetes.client.informer
 
 
-import io.fabric8.kubernetes.api.model.Namespace
+import io.fabric8.kubernetes.api.model.rbac.ClusterRole
+import io.fabric8.kubernetes.api.model.rbac.ClusterRoleBuilder
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
@@ -15,10 +16,10 @@ import spock.util.concurrent.PollingConditions
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Property(name = "kubernetes.client.namespace", value = "micronaut-namespace-informer")
+@Property(name = "kubernetes.client.namespace", value = "micronaut-cluster-role-informer")
 @Property(name = "spec.reuseNamespace", value = "false")
-@Property(name = "spec.name", value = "NamespaceInformerSpec")
-class NamespaceInformerSpec extends KubernetesSpecification {
+@Property(name = "spec.name", value = "ClusterRoleInformerSpec")
+class ClusterRoleInformerSpec extends KubernetesSpecification {
 
     @Shared
     @Inject
@@ -29,9 +30,10 @@ class NamespaceInformerSpec extends KubernetesSpecification {
         createNamespaceSafe(namespace)
     }
 
-    def "config map informer is notified"() {
+    def "cluster role informer is notified"() {
         given:
-        NamespaceInformer resourceHandler = applicationContext.getBean(NamespaceInformer)
+        ClusterRoleInformer resourceHandler = applicationContext.getBean(ClusterRoleInformer)
+        def clusterRoles = operations.getClient(namespace).rbac().clusterRoles()
 
         expect:
         !resourceHandler.added.isEmpty()
@@ -39,21 +41,30 @@ class NamespaceInformerSpec extends KubernetesSpecification {
         resourceHandler.deleted.isEmpty()
 
         when:
-        Namespace ns = operations.createNamespace("test-ns")
+        ClusterRole clusterRole = clusterRoles.create(new ClusterRoleBuilder()
+                .withNewMetadata()
+                .withName("test-role")
+                .endMetadata()
+                .addNewRule()
+                .withApiGroups("*")
+                .withResources("*")
+                .withVerbs("get")
+                .endRule()
+                .build()
+        )
 
         then:
         new PollingConditions().within(5) {
             assert resourceHandler.added.stream()
-                    .filter(n -> n.getMetadata().name == "test-ns")
+                    .filter(n -> n.getMetadata().name == "test-role")
                     .findFirst()
                     .get()
         }
 
         when:
-        ns.getSpec().getFinalizers().add("finalizer")
-        operations.updateNamespace(ns)
-        ns = operations.getNamespace("test-ns")
-        println(ns)
+        def policyRule = clusterRole.getRules().get(0)
+        policyRule.getVerbs().add("watch")
+        clusterRoles.createOrReplace(clusterRole)
 
         then:
         new PollingConditions().within(5) {
@@ -61,16 +72,7 @@ class NamespaceInformerSpec extends KubernetesSpecification {
         }
 
         when:
-        ns.getSpec().getFinalizers().clear()
-        operations.updateNamespace(ns)
-
-        then:
-        new PollingConditions().within(5) {
-            assert resourceHandler.updated.size() == 2
-        }
-
-        when:
-        operations.deleteNamespace("test-ns")
+        clusterRoles.delete(clusterRole)
 
         then:
         new PollingConditions().within(5) {

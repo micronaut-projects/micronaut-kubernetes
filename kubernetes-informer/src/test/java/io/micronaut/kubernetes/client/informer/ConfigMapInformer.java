@@ -29,7 +29,7 @@ import java.util.List;
 @Requires(property = "spec.name", value = "ConfigMapInformerSpec")
 //tag::handler[]
 @Singleton
-@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps") // <1>
+@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class) // <1>
 public class ConfigMapInformer implements ResourceEventHandler<V1ConfigMap> { // <2>
 
     //end::handler[]

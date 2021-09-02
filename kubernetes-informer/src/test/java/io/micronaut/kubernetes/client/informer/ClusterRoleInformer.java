@@ -16,8 +16,8 @@
 package io.micronaut.kubernetes.client.informer;
 
 import io.kubernetes.client.informer.ResourceEventHandler;
-import io.kubernetes.client.openapi.models.V1Namespace;
-import io.kubernetes.client.openapi.models.V1NamespaceList;
+import io.kubernetes.client.openapi.models.V1ClusterRole;
+import io.kubernetes.client.openapi.models.V1ClusterRoleList;
 import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
 import org.apache.commons.compress.utils.Lists;
@@ -26,52 +26,52 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-@Requires(property = "spec.name", value = "NamespaceInformerSpec")
+@Requires(property = "spec.name", value = "ClusterRoleInformerSpec")
 //tag::handler[]
 @Singleton
-@Informer(apiType = V1Namespace.class, apiListType = V1NamespaceList.class, resourcePlural = "namespaces", namespace = Informer.ALL_NAMESPACES)
-public class NamespaceInformer implements ResourceEventHandler<V1Namespace> {
+@Informer(apiType = V1ClusterRole.class, apiListType = V1ClusterRoleList.class)
+public class ClusterRoleInformer implements ResourceEventHandler<V1ClusterRole> {
 
     //end::handler[]
-    public static final Logger LOG = LoggerFactory.getLogger(NamespaceInformer.class);
+    public static final Logger LOG = LoggerFactory.getLogger(ClusterRoleInformer.class);
 
-    private final List<V1Namespace> added = Lists.newArrayList();
-    private final List<V1Namespace> updated = Lists.newArrayList();
-    private final List<V1Namespace> deleted = Lists.newArrayList();
+    private final List<V1ClusterRole> added = Lists.newArrayList();
+    private final List<V1ClusterRole> updated = Lists.newArrayList();
+    private final List<V1ClusterRole> deleted = Lists.newArrayList();
 
-    public List<V1Namespace> getAdded() {
+    public List<V1ClusterRole> getAdded() {
         return added;
     }
 
-    public List<V1Namespace> getUpdated() {
+    public List<V1ClusterRole> getUpdated() {
         return updated;
     }
 
-    public List<V1Namespace> getDeleted() {
+    public List<V1ClusterRole> getDeleted() {
         return deleted;
     }
 
     //tag::handler[]
     @Override
-    public void onAdd(V1Namespace obj) {
+    public void onAdd(V1ClusterRole obj) {
         //end::handler[]
-        LOG.info("ADDED NAMESPACE: {}", obj);
+        LOG.info("ADDED V1ClusterRole: {}", obj);
         added.add(obj);
         //tag::handler[]
     }
 
     @Override
-    public void onUpdate(V1Namespace oldObj, V1Namespace newObj) {
+    public void onUpdate(V1ClusterRole oldObj, V1ClusterRole newObj) {
         //end::handler[]
-        LOG.info("UPDATED NAMESPACE: {}", newObj);
+        LOG.info("UPDATED V1ClusterRole: {}", newObj);
         updated.add(newObj);
         //tag::handler[]
     }
 
     @Override
-    public void onDelete(V1Namespace obj, boolean deletedFinalStateUnknown) {
+    public void onDelete(V1ClusterRole obj, boolean deletedFinalStateUnknown) {
         //end::handler[]
-        LOG.info("DELETED NAMESPACE: {}", obj);
+        LOG.info("DELETED V1ClusterRole: {}", obj);
         deleted.add(obj);
         //tag::handler[]
     }

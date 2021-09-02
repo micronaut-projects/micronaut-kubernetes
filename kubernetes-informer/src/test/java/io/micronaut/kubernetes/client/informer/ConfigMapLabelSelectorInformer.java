@@ -30,7 +30,6 @@ import java.util.List;
 @Singleton
 @Informer(apiType = V1ConfigMap.class,
         apiListType = V1ConfigMapList.class,
-        resourcePlural = "configmaps",
         labelSelectorSupplier = LabelSelectorSupplier.class)
 public class ConfigMapLabelSelectorInformer implements ResourceEventHandler<V1ConfigMap> {
 

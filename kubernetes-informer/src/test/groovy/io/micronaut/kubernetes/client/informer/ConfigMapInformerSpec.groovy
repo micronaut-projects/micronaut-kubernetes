@@ -79,4 +79,6 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
             it.stream().filter(cm -> cm.metadata.name == "map1").any()
         }
     }
+
+
 }

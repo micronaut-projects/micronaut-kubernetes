@@ -4,10 +4,22 @@ package io.micronaut.kubernetes.client.informer
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.exceptions.NoSuchBeanException
-import spock.lang.Specification
+import io.micronaut.kubernetes.test.KubernetesSpecification
+import io.micronaut.kubernetes.test.TestUtils
+import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import spock.lang.Requires
 
-class DefaultSharedIndexInformerFactorySpec extends Specification {
+@MicronautTest()
+@Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "kubernetes.client.namespace", value = "default")
+class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
+
+    @Override
+    def setupFixture(String namespace) {
+        // no-op
+    }
 
     def "it is created"() {
         given:
@@ -46,16 +58,21 @@ class DefaultSharedIndexInformerFactorySpec extends Specification {
         factory.getExistingSharedIndexInformers().isEmpty()
 
         when:
+        operations.createConfigMap("cm-test", namespace)
+        def configMapList = operations.getClient(namespace).configMaps().inNamespace(namespace).list()
+
         def informer = factory.sharedIndexInformerFor(
-                V1ConfigMap.class, V1ConfigMapList.class, "configmaps", "default",
+                V1ConfigMap.class, V1ConfigMapList.class, "configmaps", "", namespace,
                 null, null)
-        sleep(500) // the event handler is asynchronous so let's give it some time to catch up
+        sleep(1000) // the event handler is asynchronous so let's give it some time to catch up
 
         then:
         informer.lastSyncResourceVersion() != ""
         informer.lastSyncResourceVersion() != "0"
+        informer.lastSyncResourceVersion() == configMapList.metadata.resourceVersion
 
         cleanup:
+        operations.deleteConfigMap("cm-test", namespace)
         applicationContext.close()
     }
 
@@ -66,7 +83,7 @@ class DefaultSharedIndexInformerFactorySpec extends Specification {
         when:
         DefaultSharedIndexInformerFactory factory = applicationContext.getBean(DefaultSharedIndexInformerFactory)
         factory.sharedIndexInformerFor(V1ConfigMap.class, V1ConfigMapList.class, "configmaps",
-                "default", null, null)
+                "", "default", null, null)
 
         then:
         factory.getExistingSharedIndexInformer("default", V1ConfigMap.class)

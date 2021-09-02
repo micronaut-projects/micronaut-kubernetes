@@ -36,6 +36,7 @@ public interface SharedIndexInformerFactory {
      * @param apiTypeClass      api type class
      * @param apiListTypeClass  api list type class
      * @param resourcePlural    resource plural
+     * @param apiGroup          resource api group
      * @param namespace         namespace
      * @param labelSelector     label selector
      * @param resyncCheckPeriod resync check period
@@ -46,6 +47,7 @@ public interface SharedIndexInformerFactory {
     <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
             Class<ApiType> apiTypeClass,
             Class<ApiListType> apiListTypeClass,
+            String apiGroup,
             String resourcePlural,
             @Nullable String namespace,
             @Nullable String labelSelector,
@@ -57,6 +59,7 @@ public interface SharedIndexInformerFactory {
      * @param apiTypeClass      api type class
      * @param apiListTypeClass  api list type class
      * @param resourcePlural    resource plural
+     * @param apiGroup          resource api group
      * @param namespaces        namespaces
      * @param labelSelector     label selector
      * @param resyncCheckPeriod resync check period
@@ -68,6 +71,7 @@ public interface SharedIndexInformerFactory {
             Class<ApiType> apiTypeClass,
             Class<ApiListType> apiListTypeClass,
             String resourcePlural,
+            String apiGroup,
             @Nullable List<String> namespaces,
             @Nullable String labelSelector,
             @Nullable Long resyncCheckPeriod);
@@ -77,7 +81,7 @@ public interface SharedIndexInformerFactory {
      *
      * @param namespace    namespace
      * @param apiTypeClass api type class
-     * @param <ApiType> api type
+     * @param <ApiType>    api type
      * @return shared index informer or null if not found
      */
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(String namespace, Class<ApiType> apiTypeClass);

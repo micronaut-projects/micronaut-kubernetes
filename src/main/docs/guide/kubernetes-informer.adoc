@@ -15,7 +15,7 @@ snippet::io.micronaut.kubernetes.client.informer.ConfigMapInformer[tags="handler
 
 To create an Informer for non-namespaced resource, configure the `namespace` argument to `Informer.ALL_NAMESPACE` like presented in the example below:
 
-snippet::io.micronaut.kubernetes.client.informer.NamespaceInformer[tags="handler", project="kubernetes-informer", source="test"]
+snippet::io.micronaut.kubernetes.client.informer.ClusterRoleInformer[tags="handler", project="kubernetes-informer", source="test"]
 
 The link:{api}/io/micronaut/kubernetes/informer/Informer.html[@Informer] annotation provides several configuration options:
 

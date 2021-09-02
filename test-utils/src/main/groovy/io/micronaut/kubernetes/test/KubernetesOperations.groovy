@@ -67,6 +67,11 @@ class KubernetesOperations implements Closeable {
         getClient().namespaces().patch(namespace)
     }
 
+    void updateNamespaceStatus(Namespace namespace) {
+        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}" )
+        getClient().namespaces().patchStatus(namespace)
+    }
+
     Namespace getNamespace(String name) {
         return getClient().namespaces().withName(name).get()
     }

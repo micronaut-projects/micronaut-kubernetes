@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.informer;
 
+import io.kubernetes.client.Discovery;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.informer.SharedIndexInformer;
@@ -26,15 +27,17 @@ import io.micronaut.aop.InterceptorBean;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.kubernetes.client.DiscoveryCache;
 import io.micronaut.kubernetes.client.NamespaceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -55,13 +58,16 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
     private final SharedIndexInformerFactory sharedIndexInformerFactory;
     private final NamespaceResolver namespaceResolver;
     private final ApplicationContext applicationContext;
+    private final DiscoveryCache discoveryCache;
 
     public ResourceEventHandlerConstructorInterceptor(SharedIndexInformerFactory sharedIndexInformerFactory,
                                                       NamespaceResolver namespaceResolver,
-                                                      ApplicationContext applicationContext) {
+                                                      ApplicationContext applicationContext,
+                                                      @Nullable DiscoveryCache discoveryCache) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
         this.namespaceResolver = namespaceResolver;
         this.applicationContext = applicationContext;
+        this.discoveryCache = discoveryCache;
     }
 
     @Override
@@ -71,6 +77,35 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
 
         if (declaringType.isAnnotationPresent(Informer.class)) {
             Informer typeAnnotation = declaringType.getAnnotation(Informer.class);
+
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Found @Informer annotation on {}", declaringType);
+            }
+
+            // resolve namespaces to watch
+            List<String> namespaces = new ArrayList<>();
+
+            String[] namespacesArr = typeAnnotation.namespaces();
+            Collections.addAll(namespaces, namespacesArr);
+
+            if (!Objects.equals(typeAnnotation.namespacesSupplier(), EmptyNamespacesSupplier.class)) {
+                Class<? extends Supplier<String[]>> namespaceSupplierClass = typeAnnotation.namespacesSupplier();
+                Supplier<String[]> supplierBean = applicationContext.getBean(namespaceSupplierClass);
+                Collections.addAll(namespaces, supplierBean.get());
+            }
+
+            String namespace = typeAnnotation.namespace();
+            if (!namespace.equals(Informer.RESOLVE_AUTOMATICALLY)) {
+                namespaces.add(namespace);
+            }
+
+            if (namespace.equals(Informer.RESOLVE_AUTOMATICALLY) && namespaces.isEmpty()) {
+                namespaces.add(namespaceResolver.resolveNamespace());
+            }
+
+            if (namespaces.contains(Informer.ALL_NAMESPACES)) {
+                namespaces = Collections.singletonList(Namespaces.NAMESPACE_ALL);
+            }
 
             // resolve label selector
             String labelSelector = null;
@@ -84,32 +119,42 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
                 labelSelector = labelSelector == null ? supplierBean.get() : labelSelector + "," + supplierBean.get();
             }
 
-            // resolve namespace
-            List<String> namespaces = new ArrayList<>(Arrays.asList(typeAnnotation.namespaces()));
+            // resolve resourcePlural and apiGroup
+            String resourcePlural = typeAnnotation.resourcePlural();
+            String apiGroup = typeAnnotation.apiGroup();
 
-            String namespace = typeAnnotation.namespace();
-            if (namespace != null && namespace.length() > 0) {
-                namespaces.add(namespace);
+            if (discoveryCache == null && (resourcePlural == null || apiGroup == null)) {
+                throw new IllegalArgumentException("The discovery cache is disabled, provide `resourcePlural` and `apiGroup`" +
+                        " parameters to create shared informer.");
             }
 
-            if (!Objects.equals(typeAnnotation.namespacesSupplier(), EmptyNamespacesSupplier.class)) {
-                Class<? extends Supplier<String[]>> namespaceSupplierClass = typeAnnotation.namespacesSupplier();
-                Supplier<String[]> supplierBean = applicationContext.getBean(namespaceSupplierClass);
-                Collections.addAll(namespaces, supplierBean.get());
-            }
+            // use discovery to resolve the api group and/or resource plural when they are missing
+            if (discoveryCache != null) {
+                Optional<Discovery.APIResource> apiResourceOptional = discoveryCache.find(typeAnnotation.apiType());
+                if (apiResourceOptional.isPresent()) {
+                    Discovery.APIResource apiResource = apiResourceOptional.get();
+                    if (apiGroup.equals(Informer.RESOLVE_AUTOMATICALLY)) {
+                        apiGroup = apiResource.getGroup();
+                    }
 
-            if (namespaces.contains(Informer.ALL_NAMESPACES)) {
-                namespaces = Collections.singletonList(Namespaces.NAMESPACE_ALL);
-            }
+                    if (resourcePlural.equals(Informer.RESOLVE_AUTOMATICALLY)) {
+                        resourcePlural = apiResource.getResourcePlural();
+                    }
 
-            if (namespaces.isEmpty()) {
-                namespaces.add(namespaceResolver.resolveNamespace());
+                    if (apiResource.getNamespaced() != null && !apiResource.getNamespaced()) {
+                        namespaces = Collections.singletonList(Namespaces.NAMESPACE_ALL);
+                    }
+                } else {
+                    throw new IllegalArgumentException("Failed to resolve `resourcePlural` and/or `apiGroup`" +
+                            " for " + typeAnnotation.apiType() + " from discovery cache.");
+                }
             }
 
             List<SharedIndexInformer<? extends KubernetesObject>> informers = sharedIndexInformerFactory.sharedIndexInformersFor(
                     typeAnnotation.apiType(),
                     typeAnnotation.apiListType(),
-                    typeAnnotation.resourcePlural(),
+                    resourcePlural,
+                    apiGroup,
                     namespaces,
                     labelSelector,
                     typeAnnotation.resyncCheckPeriod());

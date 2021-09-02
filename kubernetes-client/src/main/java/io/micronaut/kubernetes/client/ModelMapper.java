@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client;
 
 import io.kubernetes.client.apimachinery.GroupVersionKind;
+import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.util.Strings;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -29,7 +30,8 @@ import java.util.Map;
  * This class is inspired by the implementation of the <a href="https://github.com/kubernetes-client/java/blob/release-13/util/src/main/java/io/kubernetes/client/util/ModelMapper.java">io.kubernetes.client.util.ModelMapper.java</a>.
  * <p>
  * The difference is that this class doesn't prefetch all model classes but instead does the resolution
- * on demand.
+ * on demand. Also the integration with {@link io.kubernetes.client.Discovery} is placed in the {@link DiscoveryCache}
+ * bean.
  *
  * @author Pavol Gressa
  * @since 3.1
@@ -97,10 +99,12 @@ public class ModelMapper {
     }
 
     /**
+     * Resolves version and kind of the the {@code clazz}. To resolve the api group of the clazz use {@link DiscoveryCache}.
+     *
      * @param clazz class to resolve
-     * @return group version kind
+     * @return version kind
      */
-    public GroupVersionKind getGroupVersionKindByClass(Class<?> clazz) {
+    public GroupVersionKind getGroupVersionKindByClass(Class<? extends KubernetesObject> clazz) {
         Pair<String, String> groupAndOther = getApiGroup(clazz.getSimpleName());
         Pair<String, String> versionAndOther = getApiVersion(groupAndOther.getRight());
 

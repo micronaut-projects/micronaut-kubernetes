@@ -66,9 +66,17 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
 
     private final ApiClient apiClient;
     private final ApplicationEventPublisher<InformerCreatedEvent> applicationEventPublisher;
-    private AtomicBoolean contextStarted = new AtomicBoolean(false);
 
-    public DefaultSharedIndexInformerFactory(ApiClient apiClient, ApplicationEventPublisher<InformerCreatedEvent> applicationEventPublisher) {
+    private final AtomicBoolean contextStarted = new AtomicBoolean(false);
+
+    /**
+     * Creates {@link DefaultSharedIndexInformer}.
+     *
+     * @param apiClient                 api client
+     * @param applicationEventPublisher application event publisher
+     */
+    public DefaultSharedIndexInformerFactory(ApiClient apiClient,
+                                             ApplicationEventPublisher<InformerCreatedEvent> applicationEventPublisher) {
         this.apiClient = apiClient;
         this.applicationEventPublisher = applicationEventPublisher;
     }
@@ -78,6 +86,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             Class<ApiType> apiType,
             Class<ApiListType> apiListType,
             String resourcePlural,
+            String apiGroup,
             @Nullable String namespace,
             @Nullable String labelSelector,
             @Nullable Long resyncCheckPeriod) {
@@ -85,30 +94,36 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         Objects.requireNonNull(apiType, "apiType is required to create informer");
         Objects.requireNonNull(apiListType, "apiListType is required to create informer");
         Objects.requireNonNull(resourcePlural, "resourcePlural is required to create informer");
+        Objects.requireNonNull(apiGroup, "apiGroup is required to create informer");
 
-        final GroupVersionKind groupVersionKind = MAPPER.getGroupVersionKindByClass(apiType);
+        // use mapper to resolve the version from class name
+        GroupVersionKind groupVersionKind = MAPPER.getGroupVersionKindByClass(apiType);
+        String version = groupVersionKind.getVersion();
+
+        // if namespace is null then watch all namespaces
+        String ns = namespace == null ? Namespaces.NAMESPACE_ALL : namespace;
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Creating Informer for KubernetesObject '{}' with group '{}', version '{}' and namespace '{}'",
-                    apiType, groupVersionKind.getGroup(), groupVersionKind.getVersion(), namespace);
+            LOG.debug("Creating Informer for KubernetesObject '{}' with group '{}', version '{}', resource plural '{}'," +
+                    " label selector '{}' and namespace '{}'", apiType, apiGroup, version, resourcePlural, labelSelector, namespace);
         }
 
         final GenericKubernetesApi kubernetesApi = new GenericKubernetesApi(
                 apiType,
                 apiListType,
-                groupVersionKind.getGroup(),
-                groupVersionKind.getVersion(),
+                apiGroup,
+                version,
                 resourcePlural,
                 new CustomObjectsApi(apiClient));
 
         final SharedIndexInformer<ApiType> informer = sharedIndexInformerFor(
-                listerWatcherFor(kubernetesApi, labelSelector, namespace),
+                listerWatcherFor(kubernetesApi, labelSelector, ns),
                 apiType,
-                namespace == null ? Namespaces.NAMESPACE_ALL : namespace,
+                ns,
                 resyncCheckPeriod == null ? 0L : resyncCheckPeriod);
 
         if (LOG.isInfoEnabled()) {
-            LOG.info("Created Informer for '{}' in namespace '{}'", apiType, namespace);
+            LOG.info("Created Informer for '{}' in namespace '{}'", apiType, ns);
         }
 
         if (contextStarted.get()) {
@@ -121,23 +136,12 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         return informer;
     }
 
-    /**
-     * Creates new {@link SharedIndexInformer}s for every namespace from {@code namespaces} param.
-     *
-     * @param apiTypeClass      api type class
-     * @param apiListTypeClass  api list type class
-     * @param resourcePlural    resource plural
-     * @param namespaces        namespaces
-     * @param resyncCheckPeriod resync check period
-     * @param <ApiType>         api type
-     * @param <ApiListType>     api list type
-     * @return list of informers
-     */
     @Override
     public <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> List<SharedIndexInformer<? extends KubernetesObject>> sharedIndexInformersFor(
             Class<ApiType> apiTypeClass,
             Class<ApiListType> apiListTypeClass,
             String resourcePlural,
+            String apiGroup,
             @Nullable List<String> namespaces,
             @Nullable String labelSelector,
             @Nullable Long resyncCheckPeriod) {
@@ -149,7 +153,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         List<SharedIndexInformer<? extends KubernetesObject>> informers = new ArrayList<>(namespaces.size());
         for (String namespace : namespaces) {
             SharedIndexInformer<? extends KubernetesObject> informer = sharedIndexInformerFor(
-                    apiTypeClass, apiListTypeClass, resourcePlural, namespace, labelSelector, resyncCheckPeriod);
+                    apiTypeClass, apiListTypeClass, resourcePlural, apiGroup, namespace, labelSelector, resyncCheckPeriod);
             informers.add(informer);
         }
         return informers;
@@ -172,7 +176,8 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
     }
 
     /**
-     * Handles startup event.
+     * After the context started the factory will publish {@link InformerCreatedEvent} for every newly created
+     * {@link SharedIndexInformer}.
      *
      * @param startupEvent startup event
      */
