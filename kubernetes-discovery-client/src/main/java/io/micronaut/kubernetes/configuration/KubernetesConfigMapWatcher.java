@@ -235,7 +235,7 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
      * @see <a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#efficient-detection-of-changes">Efficient detection of changes</a>
      */
     private void processConfigMapErrored(Watch.Response<V1ConfigMap> event) {
-        LOG.error("Kubernetes API returned an error for a ConfigMap watch event: {}", event.toString());
+        LOG.error("Kubernetes API returned an error for a ConfigMap watch event: {}", event.status);
         KubernetesConfigurationClient.getPropertySourceCache().clear();
         refreshEnvironment();
         watch();
