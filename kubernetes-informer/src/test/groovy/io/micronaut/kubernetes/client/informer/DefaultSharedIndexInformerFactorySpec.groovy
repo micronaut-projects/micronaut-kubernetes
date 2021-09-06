@@ -10,6 +10,7 @@ import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
+import spock.util.concurrent.PollingConditions
 
 @MicronautTest()
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -64,12 +65,11 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
         def informer = factory.sharedIndexInformerFor(
                 V1ConfigMap.class, V1ConfigMapList.class, "configmaps", "", namespace,
                 null, null)
-        sleep(1000) // the event handler is asynchronous so let's give it some time to catch up
 
         then:
-        informer.lastSyncResourceVersion() != ""
-        informer.lastSyncResourceVersion() != "0"
-        informer.lastSyncResourceVersion() == configMapList.metadata.resourceVersion
+        new PollingConditions().within(5, {
+            informer.lastSyncResourceVersion() == configMapList.metadata.resourceVersion
+        })
 
         cleanup:
         operations.deleteConfigMap("cm-test", namespace)

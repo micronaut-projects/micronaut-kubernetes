@@ -84,8 +84,8 @@ class KubernetesOperations implements Closeable {
             def namespaces = getClient().namespaces().list().items.stream()
                     .map(it -> it.metadata.name).collect(Collectors.toList())
             if (namespaces.contains(name)) {
-                log.debug("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...").
-                        sleep(waitTime)
+                log.debug("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...")
+                sleep(waitTime)
             } else {
                 log.debug("Namespace sucessfully deleted: ${namespaces}")
                 break
@@ -259,9 +259,6 @@ class KubernetesOperations implements Closeable {
                 assert getClient(namespace).endpoints().withName(name).get()
             }
         }
-
-        // give it some time to receive the event
-        sleep(1000)
         return service
     }
 

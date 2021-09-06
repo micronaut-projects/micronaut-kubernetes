@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.client.informer
 
 import io.fabric8.kubernetes.api.model.ConfigMap
+import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
@@ -71,14 +72,13 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
 
         when:
         operations.createConfigMap("map1", namespace, ["foo": "bar"])
-        sleep(500) // give it some time to receive event
 
         then:
-        with(informerCache.getConfigMaps(namespace)) {
-            !it.isEmpty()
-            it.stream().filter(cm -> cm.metadata.name == "map1").any()
+        new PollingConditions().eventually {
+            List<V1ConfigMap> list = informerCache.getConfigMaps(namespace)
+            list != null
+            !list.isEmpty()
+            list.stream().filter(cm -> cm.metadata.name == "map1").any()
         }
     }
-
-
 }

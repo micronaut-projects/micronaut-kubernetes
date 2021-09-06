@@ -38,10 +38,14 @@ public class SharedInformerCache {
     /**
      * Get all config maps from informer from namespace.
      */
-    List<V1ConfigMap> getConfigMaps(String namespace){
+    List<V1ConfigMap> getConfigMaps(String namespace) {
         SharedIndexInformer<V1ConfigMap> sharedIndexInformer = sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, V1ConfigMap.class);
-        Indexer<V1ConfigMap> indexer = sharedIndexInformer.getIndexer();
-        return indexer.list();
+        if (sharedIndexInformer != null) {
+            Indexer<V1ConfigMap> indexer = sharedIndexInformer.getIndexer();
+            return indexer.list();
+        } else {
+            return null;
+        }
     }
 }
 //end::cache[]

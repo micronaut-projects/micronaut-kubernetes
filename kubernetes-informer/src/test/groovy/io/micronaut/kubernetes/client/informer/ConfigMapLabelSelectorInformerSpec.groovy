@@ -40,10 +40,11 @@ class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
 
         when:
         operations.createConfigMap("map1", namespace, ["foo": "bar"])
-        sleep(3000)
 
         then:
-        resourceHandler.added.size() == 0
+        new PollingConditions().eventually {
+            resourceHandler.added.size() == 0
+        }
 
         when:
         operations.createConfigMap("map2", namespace, ["foo": "bar"], ["environment": "test"])
