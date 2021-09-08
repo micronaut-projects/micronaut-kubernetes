@@ -47,6 +47,7 @@ public interface ApiClientConfiguration {
      * @return kubernetes auth token file path
      */
     Optional<String> getTokenPath();
+
     /**
      * @return kubernetes kube config path
      */
