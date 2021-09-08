@@ -60,7 +60,6 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
         when:
         operations.createConfigMap("cm-test", namespace)
-        def configMapList = operations.getClient(namespace).configMaps().inNamespace(namespace).list()
 
         def informer = factory.sharedIndexInformerFor(
                 V1ConfigMap.class, V1ConfigMapList.class, "configmaps", "", namespace,
@@ -68,6 +67,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
         then:
         new PollingConditions().within(5, {
+            def configMapList = operations.getClient(namespace).configMaps().inNamespace(namespace).list()
             informer.lastSyncResourceVersion() == configMapList.metadata.resourceVersion
         })
 
