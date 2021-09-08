@@ -218,7 +218,7 @@ class KubernetesOperations implements Closeable {
 
         log.debug("Waiting 120s until ready")
         return getClient(namespace).apps().deployments().inNamespace(deployment.get().getMetadata().getNamespace())
-                .withName(deployment.get().getMetadata().getName()).waitUntilReady(120, TimeUnit.SECONDS)
+                .withName(deployment.get().getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
     }
 
     Deployment getDeployment(String name, String namespace) {
