@@ -50,7 +50,7 @@ import java.util.concurrent.ExecutorService;
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)
 @Requires(condition = KubernetesConfigMapWatcherCondition.class)
-@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", apiGroup="", labelSelectorSupplier = ConfigMapLabelSupplier.class)
+@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", apiGroup = "", labelSelectorSupplier = ConfigMapLabelSupplier.class)
 public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1ConfigMap> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
@@ -67,7 +67,6 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
      * @param configuration          the {@link KubernetesConfiguration}
      * @param executorService        the IO {@link ExecutorService} where the watch publisher will be scheduled on
      * @param eventPublisher         the {@link ApplicationEventPublisher}
-     *
      * @deprecated Use new version {@link KubernetesConfigMapWatcher#KubernetesConfigMapWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher)}
      */
     public KubernetesConfigMapWatcher(Environment environment, ApiClient apiClient, CoreV1Api coreV1Api, CoreV1ApiReactorClient coreV1ApiReactorClient, KubernetesConfiguration configuration, @Named("io") ExecutorService executorService, ApplicationEventPublisher<RefreshEvent> eventPublisher) {
