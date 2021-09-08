@@ -154,13 +154,15 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     }
 
     private Flux<PropertySource> getPropertySourcesFromConfigMaps() {
+        Flux<PropertySource> propertySourceFlux = Flux.empty();
+
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
         boolean exceptionOnPodLabelsMissing = configuration.getConfigMaps().isExceptionOnPodLabelsMissing();
 
-        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(),
-            configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
+        Flux<PropertySource> configMapListFlux = computePodLabelSelector(client,
+                configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
                 .doOnError(throwable -> LOG.error("Failed to compute pod label selector: " + throwable.getMessage(), throwable))
                 .doOnNext(labelSelector -> {
                     if (LOG.isTraceEnabled()) {
@@ -191,6 +193,60 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                 })
                                 .map(KubernetesUtils::configMapAsPropertySource)
                 ));
+        propertySourceFlux = propertySourceFlux.mergeWith(configMapListFlux);
+
+        Collection<String> mountedConfigMapVolumes = configuration.getConfigMaps().getPaths();
+        if (!mountedConfigMapVolumes.isEmpty()) {
+
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Reading ConfigMaps from the following mounted volumes: {}", mountedConfigMapVolumes);
+            }
+
+            List<PropertySource> propertySources = new ArrayList<>();
+            mountedConfigMapVolumes.stream()
+                    .map(Paths::get)
+                    .forEach(path -> {
+                        if (LOG.isTraceEnabled()) {
+                            LOG.trace("Processing path: {}", path);
+                        }
+
+                        final HashMap<String, String> objectObjectHashMap = new HashMap<>();
+
+                        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                            for (Path file : stream) {
+                                if (!Files.isRegularFile(file)) {
+                                    if (LOG.isInfoEnabled()) {
+                                        LOG.info("{} is not regular file, skipping ", file.getFileName());
+                                    }
+                                    continue;
+                                }
+
+                                String key = file.getFileName().toString();
+                                String value = new String(Files.readAllBytes(file));
+
+                                if (LOG.isTraceEnabled()) {
+                                    LOG.trace("Processing file: {}:", key);
+                                }
+
+
+                                objectObjectHashMap.put(key, value);
+                            }
+                        } catch (IOException e) {
+                            if (LOG.isWarnEnabled()) {
+                                LOG.warn("Exception occurred when reading configmap from path: {}", path);
+                                LOG.warn(e.getMessage(), e);
+                            }
+                        }
+
+                        List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), objectObjectHashMap);
+                        mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
+                        propertySources.addAll(mountedMapPropertySources);
+                    });
+
+            propertySourceFlux = propertySourceFlux.mergeWith(Flux.fromIterable(propertySources));
+        }
+
+        return propertySourceFlux;
     }
 
     /**

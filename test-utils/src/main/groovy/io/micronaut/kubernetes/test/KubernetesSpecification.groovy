@@ -110,6 +110,9 @@ abstract class KubernetesSpecification extends Specification {
         operations.createConfigMap("literal-config", namespace,
                 ["special.how": "very", "special.type": "charm"],
                 ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
+        operations.createConfigMap("literal-config", namespace,
+                ["special.how": "very", "special.type": "charm"],
+                ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
 
         operations.createSecret("test-secret", namespace,
                 ["username": encodeSecret("my-app"), "password": encodeSecret("39528\$vdg7Jb")])

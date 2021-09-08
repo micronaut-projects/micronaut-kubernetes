@@ -19,11 +19,11 @@ spec:
           imagePullPolicy: "Never"
           volumeMounts:
             - name: secrets
-              mountPath: "/etc/example-service/secrets"
+              mountPath: /etc/example-service/secrets
               readOnly: true
-          env:
-            - name: JAVA_TOOL_OPTIONS
-              value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5004"
+            - name: configmap
+              mountPath: /etc/example-service/configmap
+              readOnly: true
           ports:
             - name: http
               containerPort: 8081
@@ -48,3 +48,6 @@ spec:
           secret:
             secretName: mounted-secret
             defaultMode: 256
+        - name: configmap
+          configMap:
+            name: mounted-configmap
