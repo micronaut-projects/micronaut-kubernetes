@@ -183,10 +183,13 @@ public class KubernetesConfiguration {
      * Base class for other configuration sub-classes.
      */
     private abstract static class AbstractKubernetesConfiguration extends DiscoveryConfiguration {
+        private static final Boolean DEFAULT_FAIL_FAST = false;
+
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
         private Map<String, String> labels;
         private List<String> podLabels;
+        private boolean failFast = DEFAULT_FAIL_FAST;
 
         /**
          * @return the names to include
@@ -248,6 +251,23 @@ public class KubernetesConfiguration {
          */
         public void setPodLabels(List<String> podLabels) {
             this.podLabels = podLabels;
+        }
+
+        /**
+         * @return Flag to indicate that failure to find configured label is fatal (default false).
+         */
+        public boolean isFailFast() {
+            return failFast;
+        }
+
+        /**
+         * If set to true an exception will be thrown if configured label is not found.
+         * Default value ({@value #DEFAULT_FAIL_FAST}).
+         *
+         * @param failFast flag to fail fast
+         */
+        public void setFailFast(boolean failFast) {
+            this.failFast = failFast;
         }
     }
 

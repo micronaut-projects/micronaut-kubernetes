@@ -37,6 +37,7 @@ import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -156,8 +157,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
+        boolean failFast = configuration.getConfigMaps().isFailFast();
 
-        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels)
+        return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(),
+            configuration.getNamespace(), labels, failFast)
                 .doOnError(throwable -> LOG.error("Failed to compute pod label selector: " + throwable.getMessage(), throwable))
                 .doOnNext(labelSelector -> {
                     if (LOG.isTraceEnabled()) {
@@ -167,7 +170,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 .flatMap(labelSelector ->
                         client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
                 .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
-                .onErrorReturn(new V1ConfigMapListBuilder().withItems(new ArrayList<>()).build())
+                .onErrorResume(throwable -> failFast
+                                                ? Mono.error(throwable)
+                                                : Mono.just(new V1ConfigMapListBuilder().withItems(new ArrayList<>()).build()))
                 .doOnNext(configMapList -> {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
@@ -206,6 +211,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Flux<PropertySource> propertySourceFlowable = Flux.empty();
         if (configuration.getSecrets().isEnabled()) {
             Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
+
             if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug("Reading Secrets from the Kubernetes API");
@@ -214,10 +220,15 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                Flux<PropertySource> secretListFlowable = computePodLabelSelector(client, configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels)
+                boolean failFast = configuration.getSecrets().isFailFast();
+
+                Flux<PropertySource> secretListFlowable = computePodLabelSelector(client,
+                    configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels, failFast)
                         .flatMap(labelSelector -> client.listNamespacedSecret(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
                         .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Secrets in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
-                        .onErrorReturn(new V1SecretListBuilder().withItems(new ArrayList<>()).build())
+                        .onErrorResume(throwable -> failFast
+                                                       ? Mono.error(throwable)
+                                                       : Mono.just(new V1SecretListBuilder().withItems(new ArrayList<>()).build()))
                         .doOnNext(secretList -> {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size());
