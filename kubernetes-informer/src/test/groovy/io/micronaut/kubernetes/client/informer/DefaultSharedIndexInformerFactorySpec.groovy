@@ -14,12 +14,12 @@ import spock.util.concurrent.PollingConditions
 
 @MicronautTest()
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Property(name = "kubernetes.client.namespace", value = "default")
+@Property(name = "kubernetes.client.namespace", value = "informer-factory")
 class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
     @Override
     def setupFixture(String namespace) {
-        // no-op
+        createNamespaceSafe(namespace)
     }
 
     def "it is created"() {
