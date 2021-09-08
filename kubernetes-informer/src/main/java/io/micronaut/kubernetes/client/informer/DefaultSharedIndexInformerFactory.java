@@ -32,7 +32,6 @@ import io.kubernetes.client.util.Watchable;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.kubernetes.client.util.generic.options.ListOptions;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;
@@ -43,6 +42,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,12 +60,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Singleton
 public class DefaultSharedIndexInformerFactory extends SharedInformerFactory implements SharedIndexInformerFactory {
     public static final String INFORMER_ENABLED = "kubernetes.client.informer.enabled";
+    public static final Duration INFORMER_START_WAIT_TIME = Duration.ofMinutes(1);
+    public static final Duration INFORMER_START_STEP_TIME = Duration.ofMillis(500);
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultSharedIndexInformerFactory.class);
     private static final ModelMapper MAPPER = new ModelMapper();
 
     private final ApiClient apiClient;
-    private final ApplicationEventPublisher<InformerCreatedEvent> applicationEventPublisher;
 
     private final AtomicBoolean contextStarted = new AtomicBoolean(false);
 
@@ -73,12 +74,9 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
      * Creates {@link DefaultSharedIndexInformer}.
      *
      * @param apiClient                 api client
-     * @param applicationEventPublisher application event publisher
      */
-    public DefaultSharedIndexInformerFactory(ApiClient apiClient,
-                                             ApplicationEventPublisher<InformerCreatedEvent> applicationEventPublisher) {
+    public DefaultSharedIndexInformerFactory(ApiClient apiClient) {
         this.apiClient = apiClient;
-        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -89,7 +87,8 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             String apiGroup,
             @Nullable String namespace,
             @Nullable String labelSelector,
-            @Nullable Long resyncCheckPeriod) {
+            @Nullable Long resyncCheckPeriod,
+            boolean waitForSync) {
 
         Objects.requireNonNull(apiType, "apiType is required to create informer");
         Objects.requireNonNull(apiListType, "apiListType is required to create informer");
@@ -130,7 +129,38 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             if (LOG.isInfoEnabled()) {
                 LOG.info("Informer created after the bean context started, going to publish InformerCreatedEvent");
             }
-            applicationEventPublisher.publishEventAsync(new InformerCreatedEvent(informer));
+            startAllRegisteredInformers();
+        }
+
+        if (waitForSync) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Waiting for Informer<'{}'> in namespace '{}' to sync", apiType, namespace);
+            }
+            long waitLimit = System.currentTimeMillis() + INFORMER_START_WAIT_TIME.toMillis();
+
+            while (waitLimit > System.currentTimeMillis()) {
+                if (informer.hasSynced()) {
+                    break;
+                }
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Waiting {} millis to let Informer<'{}'> in namespace '{}' to sync",
+                            INFORMER_START_STEP_TIME.toMillis(), apiType, namespace);
+                }
+                try {
+                    Thread.sleep(INFORMER_START_STEP_TIME.toMillis());
+                } catch (InterruptedException e) {
+                    if (LOG.isInfoEnabled()) {
+                        LOG.info("Active waiting for the Informer<'{}'> in namespace '{}' sync up interrupted. " +
+                                "Cancelling waiting.", apiType, namespace);
+                    }
+                    break;
+                }
+            }
+
+            if (informer.hasSynced() && LOG.isInfoEnabled()) {
+                LOG.info("Informer<'{}'> in namespace '{}' synced up, {} resources in the store", apiType, namespace,
+                        informer.getIndexer().list().size());
+            }
         }
 
         return informer;
@@ -144,7 +174,8 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             String apiGroup,
             @Nullable List<String> namespaces,
             @Nullable String labelSelector,
-            @Nullable Long resyncCheckPeriod) {
+            @Nullable Long resyncCheckPeriod,
+            boolean waitForSync) {
 
         if (namespaces == null) {
             namespaces = Collections.singletonList(Namespaces.NAMESPACE_ALL);
@@ -153,7 +184,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         List<SharedIndexInformer<? extends KubernetesObject>> informers = new ArrayList<>(namespaces.size());
         for (String namespace : namespaces) {
             SharedIndexInformer<? extends KubernetesObject> informer = sharedIndexInformerFor(
-                    apiTypeClass, apiListTypeClass, resourcePlural, apiGroup, namespace, labelSelector, resyncCheckPeriod);
+                    apiTypeClass, apiListTypeClass, resourcePlural, apiGroup, namespace, labelSelector, resyncCheckPeriod, waitForSync);
             informers.add(informer);
         }
         return informers;
@@ -176,8 +207,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
     }
 
     /**
-     * After the context started the factory will publish {@link InformerCreatedEvent} for every newly created
-     * {@link SharedIndexInformer}.
+     * After the context has been started the factory will automatically start the created {@link SharedIndexInformer}s.
      *
      * @param startupEvent startup event
      */

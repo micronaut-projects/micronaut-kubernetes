@@ -157,7 +157,8 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
                     apiGroup,
                     namespaces,
                     labelSelector,
-                    typeAnnotation.resyncCheckPeriod());
+                    typeAnnotation.resyncCheckPeriod(),
+                    true);
 
             ResourceEventHandler resourceEventHandler = context.proceed();
             informers.forEach(i -> i.addEventHandler(resourceEventHandler));

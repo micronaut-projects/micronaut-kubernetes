@@ -64,7 +64,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
         def informer = factory.sharedIndexInformerFor(
                 V1ConfigMap.class, V1ConfigMapList.class, "configmaps", "", namespace,
-                null, null)
+                null, null, true)
 
         then:
         new PollingConditions().within(5, {
@@ -82,14 +82,15 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
         when:
         DefaultSharedIndexInformerFactory factory = applicationContext.getBean(DefaultSharedIndexInformerFactory)
-        SharedIndexInformer<V1ConfigMap> informer = factory.sharedIndexInformerFor(
+        factory.sharedIndexInformerFor(
                 V1ConfigMap.class,
                 V1ConfigMapList.class,
                 "configmaps",
                 "",
                 "default",
                 null,
-                null)
+                null,
+                true)
 
         then:
         factory.getExistingSharedIndexInformer("default", V1ConfigMap.class)

@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Starts up and shuts down the {@link SharedIndexInformerFactory}.
@@ -42,7 +41,6 @@ public class InformerFactoryLifecycleListener {
 
     private final List<ResourceEventHandler<? extends KubernetesObject>> handlerList;
     private final SharedIndexInformerFactory sharedSharedIndexInformerFactory;
-    private final AtomicBoolean started = new AtomicBoolean(false);
 
     /**
      * Creates the {@link InformerFactoryLifecycleListener}. All of the {@link ResourceEventHandler}s are intentionally
@@ -65,22 +63,6 @@ public class InformerFactoryLifecycleListener {
     @EventListener
     public void startInformerFactoryOnStartupEvent(StartupEvent startupEvent) {
         startInformers();
-        started.set(true);
-    }
-
-    /**
-     * Start informer factory for informers created after the bean context startup.
-     *
-     * @param createdEvent informer created event
-     */
-    @EventListener
-    public void startInformerFactoryOnInformerCreatedEvent(InformerCreatedEvent createdEvent) {
-        if (started.get()) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("New informer created after the bean context startup, starting new informer.");
-            }
-            startInformers();
-        }
     }
 
     /**

@@ -37,7 +37,8 @@ public class SharedIndexInformerFactoryExample {
                 "",  // <4>
                 "default",  // <5>
                 null,
-                null
+                null,
+                true
         );
         //end::create[]
         return sharedIndexInformer;

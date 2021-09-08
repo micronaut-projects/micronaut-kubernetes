@@ -40,6 +40,7 @@ public interface SharedIndexInformerFactory {
      * @param namespace         namespace
      * @param labelSelector     label selector
      * @param resyncCheckPeriod resync check period
+     * @param waitForSync       wait to let informer sync the resources
      * @param <ApiType>         api type
      * @param <ApiListType>     api list type
      * @return list of informers
@@ -51,7 +52,8 @@ public interface SharedIndexInformerFactory {
             String resourcePlural,
             @Nullable String namespace,
             @Nullable String labelSelector,
-            @Nullable Long resyncCheckPeriod);
+            @Nullable Long resyncCheckPeriod,
+            boolean waitForSync);
 
     /**
      * Creates new {@link SharedIndexInformer}s for every namespace from {@code namespaces} param.
@@ -63,6 +65,7 @@ public interface SharedIndexInformerFactory {
      * @param namespaces        namespaces
      * @param labelSelector     label selector
      * @param resyncCheckPeriod resync check period
+     * @param waitForSync       wait to let informer sync the resources
      * @param <ApiType>         api type
      * @param <ApiListType>     api list type
      * @return list of informers
@@ -74,7 +77,9 @@ public interface SharedIndexInformerFactory {
             String apiGroup,
             @Nullable List<String> namespaces,
             @Nullable String labelSelector,
-            @Nullable Long resyncCheckPeriod);
+            @Nullable Long resyncCheckPeriod,
+            boolean waitForSync
+    );
 
     /**
      * Get existing {@link SharedIndexInformer}.
