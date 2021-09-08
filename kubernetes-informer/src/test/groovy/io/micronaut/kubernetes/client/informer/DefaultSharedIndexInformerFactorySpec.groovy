@@ -12,6 +12,8 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
 import spock.util.concurrent.PollingConditions
 
+import java.util.stream.Collectors
+
 @MicronautTest()
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "informer-factory")
@@ -59,16 +61,21 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
         factory.getExistingSharedIndexInformers().isEmpty()
 
         when:
-        operations.createConfigMap("cm-test", namespace)
-
         def informer = factory.sharedIndexInformerFor(
                 V1ConfigMap.class, V1ConfigMapList.class, "configmaps", "", namespace,
                 null, null, true)
 
         then:
+        informer.getIndexer().list().size() <= 1  // since 1.20 there's always kube-root-ca.crt, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md#introducing-rootcaconfigmap
+
+        when:
+        operations.createConfigMap("cm-test", namespace)
+
+        then:
         new PollingConditions().within(5, {
-            def configMapList = operations.getClient(namespace).configMaps().inNamespace(namespace).list()
-            informer.lastSyncResourceVersion() == configMapList.metadata.resourceVersion
+            informer.getIndexer().list().stream()
+                    .filter(cm -> cm.getMetadata().getName() == "cm-test")
+                    .any()
         })
 
         cleanup:
