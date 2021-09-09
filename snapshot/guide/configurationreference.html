@@ -69,28 +69,28 @@
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.base-path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">optional base path of kubernetes api</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes api base path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ca-path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">optional ca path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes ca file path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.token-path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">optional token path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes auth token file path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.kube-config-path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">kubernetes config path other than default {@code $HOME/.kube/config}</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes kube config path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.verify-ssl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">sets verify ssl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">@return should verify ssl</p></td>
 </tr>
 </tbody>
 </table>
@@ -157,9 +157,53 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration" href="#io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.service-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set service id.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set service name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service namespace.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set service discovery mode.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets port number. Required in case of multi-port resource.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -183,7 +227,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
+<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -231,50 +275,6 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">default service discovery mode</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration" href="#io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.service-id</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set service id.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set service name.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.namespace</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service namespace.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set service discovery mode.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.port</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets port number. Required in case of multi-port resource.</p></td>
 </tr>
 </tbody>
 </table>
