@@ -123,13 +123,14 @@ public class ResourceEventHandlerConstructorInterceptor<ApiType extends Kubernet
             String resourcePlural = typeAnnotation.resourcePlural();
             String apiGroup = typeAnnotation.apiGroup();
 
-            if (discoveryCache == null && (resourcePlural == null || apiGroup == null)) {
-                throw new IllegalArgumentException("The discovery cache is disabled, provide `resourcePlural` and `apiGroup`" +
-                        " parameters to create shared informer.");
-            }
-
             // use discovery to resolve the api group and/or resource plural when they are missing
-            if (discoveryCache != null) {
+            if (resourcePlural.equals(Informer.RESOLVE_AUTOMATICALLY) || apiGroup.equals(Informer.RESOLVE_AUTOMATICALLY)) {
+
+                if (discoveryCache == null) {
+                    throw new IllegalArgumentException("The discovery cache is disabled, provide `resourcePlural` and `apiGroup`" +
+                            " parameters to create shared informer.");
+                }
+
                 Optional<Discovery.APIResource> apiResourceOptional = discoveryCache.find(typeAnnotation.apiType());
                 if (apiResourceOptional.isPresent()) {
                     Discovery.APIResource apiResource = apiResourceOptional.get();
