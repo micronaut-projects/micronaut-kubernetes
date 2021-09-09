@@ -32,7 +32,6 @@ import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,7 +90,7 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            if(LOG.isDebugEnabled()){
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("PropertySource created from ConfigMap: {}", configMap.getMetadata().getName());
             }
 
@@ -107,7 +106,7 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            if(LOG.isDebugEnabled()){
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("PropertySource modified by ConfigMap: {}", configMap.getMetadata().getName());
             }
 
@@ -124,7 +123,7 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
-            if(LOG.isDebugEnabled()){
+            if (LOG.isDebugEnabled()) {
                 LOG.debug("Removed PropertySource created from ConfigMap: {}", configMap.getMetadata().getName());
             }
 
