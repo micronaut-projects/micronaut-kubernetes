@@ -20,6 +20,7 @@ import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
+import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
@@ -46,7 +47,7 @@ import java.util.concurrent.ExecutorService;
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
  */
-@Singleton
+@Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)
 @Requires(condition = KubernetesConfigMapWatcherCondition.class)
@@ -90,6 +91,10 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
+            if(LOG.isDebugEnabled()){
+                LOG.debug("PropertySource created from ConfigMap: {}", configMap.getMetadata().getName());
+            }
+
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
             refreshEnvironment();
         }
@@ -102,6 +107,10 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
+            if(LOG.isDebugEnabled()){
+                LOG.debug("PropertySource modified by ConfigMap: {}", configMap.getMetadata().getName());
+            }
+
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
             KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
             refreshEnvironment();
@@ -115,6 +124,10 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
         }
         if (passesIncludesExcludesLabelsFilters(configMap)) {
+            if(LOG.isDebugEnabled()){
+                LOG.debug("Removed PropertySource created from ConfigMap: {}", configMap.getMetadata().getName());
+            }
+
             KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
             refreshEnvironment();
         }
