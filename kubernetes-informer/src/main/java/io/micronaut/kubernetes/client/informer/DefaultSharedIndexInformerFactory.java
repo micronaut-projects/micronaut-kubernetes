@@ -32,11 +32,9 @@ import io.kubernetes.client.util.Watchable;
 import io.kubernetes.client.util.generic.GenericKubernetesApi;
 import io.kubernetes.client.util.generic.options.ListOptions;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.ModelMapper;
-import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Default implementation of the {@link SharedIndexInformerFactory}. The created {@link SharedIndexInformer} is shared
@@ -68,12 +65,10 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
 
     private final ApiClient apiClient;
 
-    private final AtomicBoolean contextStarted = new AtomicBoolean(false);
-
     /**
      * Creates {@link DefaultSharedIndexInformer}.
      *
-     * @param apiClient                 api client
+     * @param apiClient api client
      */
     public DefaultSharedIndexInformerFactory(ApiClient apiClient) {
         this.apiClient = apiClient;
@@ -125,12 +120,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             LOG.info("Created Informer for '{}' in namespace '{}'", apiType, ns);
         }
 
-        if (contextStarted.get()) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info("Informer created after the bean context started, going to publish InformerCreatedEvent");
-            }
-            startAllRegisteredInformers();
-        }
+        startAllRegisteredInformers();
 
         if (waitForSync) {
             if (LOG.isInfoEnabled()) {
@@ -204,16 +194,6 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
     @Override
     public List<SharedIndexInformer> getExistingSharedIndexInformers() {
         return new ArrayList<>(this.informers.values());
-    }
-
-    /**
-     * After the context has been started the factory will automatically start the created {@link SharedIndexInformer}s.
-     *
-     * @param startupEvent startup event
-     */
-    @EventListener
-    public void onStartupEvent(StartupEvent startupEvent) {
-        contextStarted.set(true);
     }
 
     private synchronized <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(

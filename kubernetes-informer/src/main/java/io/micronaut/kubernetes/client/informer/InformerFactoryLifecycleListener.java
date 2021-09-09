@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.informer;
 
-import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.informer.ResourceEventHandler;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.ShutdownEvent;
 import io.micronaut.context.event.StartupEvent;
@@ -24,8 +22,6 @@ import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * Starts up and shuts down the {@link SharedIndexInformerFactory}.
@@ -39,19 +35,14 @@ public class InformerFactoryLifecycleListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(InformerFactoryLifecycleListener.class);
 
-    private final List<ResourceEventHandler<? extends KubernetesObject>> handlerList;
     private final SharedIndexInformerFactory sharedSharedIndexInformerFactory;
 
     /**
-     * Creates the {@link InformerFactoryLifecycleListener}. All of the {@link ResourceEventHandler}s are intentionally
-     * requested in order to initialize the {@link io.kubernetes.client.informer.SharedIndexInformer}s and receive the
-     * notifications to the handlers.
+     * Creates the {@link InformerFactoryLifecycleListener}.
      *
-     * @param handlerList handler list
      * @param sharedSharedIndexInformerFactory informer factory
      */
-    public InformerFactoryLifecycleListener(List<ResourceEventHandler<? extends KubernetesObject>> handlerList, SharedIndexInformerFactory sharedSharedIndexInformerFactory) {
-        this.handlerList = handlerList;
+    public InformerFactoryLifecycleListener(SharedIndexInformerFactory sharedSharedIndexInformerFactory) {
         this.sharedSharedIndexInformerFactory = sharedSharedIndexInformerFactory;
     }
 
@@ -62,13 +53,6 @@ public class InformerFactoryLifecycleListener {
      */
     @EventListener
     public void startInformerFactoryOnStartupEvent(StartupEvent startupEvent) {
-        startInformers();
-    }
-
-    /**
-     * Start registered informers.
-     */
-    public void startInformers() {
         if (LOG.isInfoEnabled()) {
             LOG.info("Starting shared informer factory");
         }
