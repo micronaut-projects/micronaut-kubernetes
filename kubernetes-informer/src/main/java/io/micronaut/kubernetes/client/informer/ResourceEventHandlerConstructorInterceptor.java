@@ -26,6 +26,7 @@ import io.micronaut.aop.ConstructorInvocationContext;
 import io.micronaut.aop.InterceptorBean;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.kubernetes.client.DiscoveryCache;
@@ -51,6 +52,7 @@ import java.util.function.Supplier;
  */
 @Requires(beans = SharedInformerFactory.class)
 @InterceptorBean(Informer.class)
+@Internal
 public class ResourceEventHandlerConstructorInterceptor<ApiType extends KubernetesObject> implements ConstructorInterceptor<ResourceEventHandler<ApiType>> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ResourceEventHandlerConstructorInterceptor.class);

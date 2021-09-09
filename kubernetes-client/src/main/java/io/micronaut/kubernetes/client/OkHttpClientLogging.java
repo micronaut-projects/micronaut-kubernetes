@@ -44,23 +44,19 @@ public class OkHttpClientLogging implements Interceptor {
         Request request = chain.request();
         Connection connection = chain.connection();
 
-        if (LOG.isDebugEnabled()) {
+
+        if (LOG.isTraceEnabled()) {
             try {
                 String method = request.method();
                 RequestBody requestBody = request.body();
-
-                LOG.debug("--> {} {} {} {}-byte body", method, request.url(),
+                Headers headers = request.headers();
+                LOG.trace("--> {} {} {} {}-byte body", method, request.url(),
                         (connection != null ? connection.protocol() : ""),
                         (requestBody != null ? requestBody.contentLength() : "0"));
-
-                Headers headers = request.headers();
-                if (LOG.isTraceEnabled()) {
-                    // log headers for trace
-                    for (int i = 0; i < headers.size(); i++) {
-                        LOG.trace("{}: {}", headers.name(i), headers.value(i));
-                    }
+                // log headers for trace
+                for (int i = 0; i < headers.size(); i++) {
+                    LOG.trace("{}: {}", headers.name(i), headers.value(i));
                 }
-
             } catch (Exception e) {
                 LOG.warn("Failed to generate OkHttpClient request log: " + e.getMessage(), e);
             }
@@ -78,14 +74,22 @@ public class OkHttpClientLogging implements Interceptor {
             try {
                 ResponseBody responseBody = response.body();
                 long contentLength = responseBody.contentLength();
-                LOG.debug("<-- {} {} {} {}", response.code(), response.message(), response.request().url(),
-                        contentLength == -1L ? "unknown-length" : String.format("%s-byte", contentLength));
+                String contentLengthString = contentLength == -1L ? "unknown-length" : String.format("%s-byte", contentLength);
 
                 Headers headers = response.headers();
                 if (LOG.isTraceEnabled()) {
+                    LOG.trace("<-- {} {} {} {}", response.code(), response.message(), response.request().url(), contentLengthString);
                     for (int i = 0; i < headers.size(); i++) {
                         LOG.trace("{}: {}", headers.name(i), headers.value(i));
                     }
+                } else {
+                    String method = request.method();
+                    RequestBody requestBody = request.body();
+
+                    LOG.debug("KubeApi {} {} {} OUT<{}-byte> IN <{}> {}", method, request.url(),
+                            (connection != null ? connection.protocol() : ""),
+                            (requestBody != null ? requestBody.contentLength() : "0"),
+                            contentLengthString, response.code());
                 }
             } catch (Exception e) {
                 LOG.warn("Failed to generate OkHttpClient Response log: " + e.getMessage(), e);

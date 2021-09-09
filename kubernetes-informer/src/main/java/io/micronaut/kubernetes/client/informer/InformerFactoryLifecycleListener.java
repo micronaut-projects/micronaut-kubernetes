@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.informer;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.ShutdownEvent;
 import io.micronaut.context.event.StartupEvent;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ import org.slf4j.LoggerFactory;
  */
 @Requires(beans = SharedIndexInformerFactory.class)
 @Singleton
+@Internal
 public class InformerFactoryLifecycleListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(InformerFactoryLifecycleListener.class);
