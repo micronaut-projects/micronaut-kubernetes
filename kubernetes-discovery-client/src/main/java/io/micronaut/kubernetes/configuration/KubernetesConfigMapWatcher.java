@@ -25,11 +25,13 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventPublisher;
+import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
+import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
@@ -58,6 +61,9 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
     private final Environment environment;
     private final KubernetesConfiguration configuration;
     private final ApplicationEventPublisher<RefreshEvent> eventPublisher;
+
+    // this flag controls when to start reflecting the changes to the discovery client
+    private final AtomicBoolean serviceStarted = new AtomicBoolean(false);
 
     /**
      * @param environment            the {@link Environment}
@@ -83,8 +89,17 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
         this.eventPublisher = eventPublisher;
     }
 
+    @EventListener
+    public void onApplicationEvent(ServiceReadyEvent event) {
+        serviceStarted.set(true);
+    }
+
     @Override
     public void onAdd(V1ConfigMap configMap) {
+        if (!serviceStarted.get()) {
+            return;
+        }
+
         PropertySource propertySource = null;
         if (configMap != null) {
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
@@ -101,6 +116,9 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
 
     @Override
     public void onUpdate(V1ConfigMap oldObj, V1ConfigMap configMap) {
+        if (!serviceStarted.get()) {
+            return;
+        }
         PropertySource propertySource = null;
         if (configMap != null) {
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
@@ -118,6 +136,9 @@ public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1Config
 
     @Override
     public void onDelete(V1ConfigMap configMap, boolean deletedFinalStateUnknown) {
+        if (!serviceStarted.get()) {
+            return;
+        }
         PropertySource propertySource = null;
         if (configMap != null) {
             propertySource = KubernetesUtils.configMapAsPropertySource(configMap);
