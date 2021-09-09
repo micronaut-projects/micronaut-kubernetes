@@ -360,14 +360,14 @@ public class KubernetesConfiguration {
         }
 
         /**
-         * @return whether to use the API to read secrets when {@link #paths} is used.
+         * @return whether to use the API to read config maps when {@link #paths} is used.
          */
         public boolean isUseApi() {
             return useApi;
         }
 
         /**
-         * @param useApi whether to use the API to read secrets when {@link #paths} is used.
+         * @param useApi whether to use the API to read config maps when {@link #paths} is used.
          */
         public void setUseApi(boolean useApi) {
             this.useApi = useApi;
