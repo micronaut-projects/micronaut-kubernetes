@@ -270,8 +270,8 @@ public class KubernetesUtils {
                                 LOG.warn("Pod metadata does not contain label: {}", key);
                             }
                             if (failFast) {
-                                throw new ConfigurationException("Could not find pod label [" + key + "] and " +
-                                                                     "the fail fast property is set");
+                                throw new ConfigurationException("Pod metadata does not contain label: " + key +
+                                                                    " and the fail fast property is set");
                             }
                         }
                     }

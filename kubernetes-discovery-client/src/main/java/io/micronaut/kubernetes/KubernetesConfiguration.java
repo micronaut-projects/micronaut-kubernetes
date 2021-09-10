@@ -254,14 +254,15 @@ public class KubernetesConfiguration {
         }
 
         /**
-         * @return Flag to indicate that failure to find configured label is fatal (default false).
+         * @return Flag to indicate that failure to find configured pod label is fatal (default false).
          */
         public boolean isFailFast() {
             return failFast;
         }
 
         /**
-         * If set to true an exception will be thrown if configured label is not found.
+         * If set to true an exception will be thrown if at least one of the configured pod labels is not found
+         * in the namespace.
          * Default value ({@value #DEFAULT_FAIL_FAST}).
          *
          * @param failFast flag to fail fast
