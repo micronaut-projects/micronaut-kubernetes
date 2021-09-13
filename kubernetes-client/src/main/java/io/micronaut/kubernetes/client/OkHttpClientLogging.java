@@ -66,7 +66,9 @@ public class OkHttpClientLogging implements Interceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            LOG.error("HTTP FAILED: " + e.getMessage(), e);
+            if (LOG.isErrorEnabled()) {
+                LOG.error("HTTP FAILED: " + e.getMessage(), e);
+            }
             throw e;
         }
 
@@ -92,7 +94,9 @@ public class OkHttpClientLogging implements Interceptor {
                             contentLengthString, response.code());
                 }
             } catch (Exception e) {
-                LOG.warn("Failed to generate OkHttpClient Response log: " + e.getMessage(), e);
+                if (LOG.isWarnEnabled()) {
+                    LOG.warn("Failed to generate OkHttpClient Response log: " + e.getMessage(), e);
+                }
             }
         }
 

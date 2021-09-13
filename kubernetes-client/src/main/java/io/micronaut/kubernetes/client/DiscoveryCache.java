@@ -20,7 +20,7 @@ import io.kubernetes.client.apimachinery.GroupVersionKind;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.annotation.Value;
+import io.micronaut.core.annotation.Internal;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +38,7 @@ import java.util.Set;
  */
 @Requires(beans = Discovery.class)
 @Singleton
+@Internal
 public class DiscoveryCache {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryCache.class);
 
@@ -50,15 +51,16 @@ public class DiscoveryCache {
     private volatile long nextDiscoveryRefreshTimeMillis = 0;
 
     public DiscoveryCache(Discovery discovery,
-                          @Value("${kubernetes.client.api-discovery.cache.refresh-interval:30}") long discoveryRefreshInterval) {
+                          ApiClientConfiguration.ApiDiscoveryCacheConfiguration apiDiscoveryCacheConfiguration) {
         this.discovery = discovery;
-        this.refreshInterval = Duration.ofMinutes(discoveryRefreshInterval);
+        this.refreshInterval = Duration.ofMinutes(apiDiscoveryCacheConfiguration.getRefreshInterval());
     }
 
     /**
      * Find all {@link Discovery.APIResource}.
      *
      * @return set of discovered resources
+     * @throws ApiException when failed to download api resources
      */
     public Set<Discovery.APIResource> findAll() throws ApiException {
         return getLastAPIDiscovery();

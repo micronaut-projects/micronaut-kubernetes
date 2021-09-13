@@ -57,21 +57,22 @@ import java.util.Objects;
 @Singleton
 public class DefaultSharedIndexInformerFactory extends SharedInformerFactory implements SharedIndexInformerFactory {
     public static final String INFORMER_ENABLED = "kubernetes.client.informer.enabled";
-    public static final Duration INFORMER_START_WAIT_TIME = Duration.ofMinutes(1);
-    public static final Duration INFORMER_START_STEP_TIME = Duration.ofMillis(500);
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultSharedIndexInformerFactory.class);
     private static final ModelMapper MAPPER = new ModelMapper();
 
+    private final InformerConfiguration informerConfiguration;
     private final ApiClient apiClient;
 
     /**
      * Creates {@link DefaultSharedIndexInformer}.
      *
+     * @param informerConfiguration informer configuration
      * @param apiClient api client
      */
-    public DefaultSharedIndexInformerFactory(ApiClient apiClient) {
+    public DefaultSharedIndexInformerFactory(InformerConfiguration informerConfiguration, ApiClient apiClient) {
         this.apiClient = apiClient;
+        this.informerConfiguration = informerConfiguration;
     }
 
     @Override
@@ -123,10 +124,14 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         startAllRegisteredInformers();
 
         if (waitForSync) {
+
+            Duration syncTimeout = Duration.ofSeconds(informerConfiguration.getSyncTimeout());
+            Duration syncStep = Duration.ofMillis(informerConfiguration.getSyncStepTimeout());
+
             if (LOG.isInfoEnabled()) {
                 LOG.info("Waiting for Informer<'{}'> in namespace '{}' to sync", apiType, namespace);
             }
-            long waitLimit = System.currentTimeMillis() + INFORMER_START_WAIT_TIME.toMillis();
+            long waitLimit = System.currentTimeMillis() + syncTimeout.toMillis();
 
             while (waitLimit > System.currentTimeMillis()) {
                 if (informer.hasSynced()) {
@@ -134,10 +139,10 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
                 }
                 if (LOG.isTraceEnabled()) {
                     LOG.trace("Waiting {} millis to let Informer<'{}'> in namespace '{}' to sync",
-                            INFORMER_START_STEP_TIME.toMillis(), apiType, namespace);
+                            syncStep.toMillis(), apiType, namespace);
                 }
                 try {
-                    Thread.sleep(INFORMER_START_STEP_TIME.toMillis());
+                    Thread.sleep(syncStep.toMillis());
                 } catch (InterruptedException e) {
                     if (LOG.isInfoEnabled()) {
                         LOG.info("Active waiting for the Informer<'{}'> in namespace '{}' sync up interrupted. " +
@@ -147,9 +152,17 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
                 }
             }
 
-            if (informer.hasSynced() && LOG.isInfoEnabled()) {
+            boolean hasSynced = informer.hasSynced();
+            if (LOG.isInfoEnabled() && hasSynced) {
                 LOG.info("Informer<'{}'> in namespace '{}' synced up, {} resources in the store", apiType, namespace,
                         informer.getIndexer().list().size());
+            }
+
+            if (LOG.isWarnEnabled() && !hasSynced) {
+                LOG.warn("Informer<'{}'> in namespace '{}' didn't sync up. The resources may not be " +
+                                "available for the Informer resource event handler. Consider to raise the sync up " +
+                                "timeout `kubernetes.client.informer.sync-timeout` configured now to {} seconds",
+                        apiType, namespace, informerConfiguration.getSyncTimeout());
             }
         }
 

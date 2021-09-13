@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
     id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.3"
+    id("io.micronaut.application") version "2.0.5"
 }
 
 repositories {
@@ -38,6 +38,10 @@ application {
 }
 tasks {
     dockerBuild {
+        images = ['micronaut-kubernetes-client-example']
+    }
+
+    dockerBuildNative {
         images = ['micronaut-kubernetes-client-example']
     }
 

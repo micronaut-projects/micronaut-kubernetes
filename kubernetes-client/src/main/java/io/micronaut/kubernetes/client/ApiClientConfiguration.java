@@ -54,8 +54,27 @@ public interface ApiClientConfiguration {
     Optional<String> getKubeConfigPath();
 
     /**
+     * @return kubernetes client namespace
+     */
+    Optional<String> getNamespace();
+
+    /**
      * @return should verify ssl
      */
     @Bindable(defaultValue = "true")
     boolean getVerifySsl();
+
+    @ConfigurationProperties(ApiDiscoveryCacheConfiguration.PREFIX)
+    interface ApiDiscoveryCacheConfiguration {
+        String PREFIX = "api-discovery.cache";
+        String DEFAULT_REFRESH_INTERVAL = "30";
+
+        /**
+         * Default refresh interval of API discovery.
+         *
+         * @return refresh interval in minutes
+         */
+        @Bindable(defaultValue = DEFAULT_REFRESH_INTERVAL)
+        long getRefreshInterval();
+    }
 }

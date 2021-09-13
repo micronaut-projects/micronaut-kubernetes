@@ -16,8 +16,6 @@
 package io.micronaut.kubernetes.client;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
-import io.micronaut.context.annotation.Value;
-import io.micronaut.core.annotation.Nullable;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +45,8 @@ public class DefaultNamespaceResolver implements NamespaceResolver {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultNamespaceResolver.class);
     private final String namespace;
 
-    public DefaultNamespaceResolver(@Nullable @Value("${kubernetes.client.namespace}") String namespace) {
-        String resolvedNamespace = namespace;
+    public DefaultNamespaceResolver(ApiClientConfiguration apiClientConfiguration) {
+        String resolvedNamespace = apiClientConfiguration.getNamespace().orElse(null);
         if (resolvedNamespace == null) {
             try {
                 if (LOG.isTraceEnabled()) {
