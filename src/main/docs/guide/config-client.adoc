@@ -73,16 +73,16 @@ kubernetes:
         - "app.kubernetes.io/instance"
 ----
 
-You can also enable fail-fast property in case you want an exception to be thrown if at least one of the labels,
-specified in pod-labels section is not found in the namespace. This can be useful if you want to prevent loading
-all config maps available in namespace in case of mistyping or misconfiguration:
+You can also enable exception-on-pod-labels-missing property in case you want an exception to be thrown if at least
+one of the labels, specified in pod-labels section is not found in the namespace. This can be useful if you want
+to prevent loading all config maps available in namespace in case of mistyping or misconfiguration:
 
 [source,yaml]
 ----
 kubernetes:
   client:
     config-maps:
-      fail-fast: true
+      exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"
 ----
@@ -182,7 +182,7 @@ kubernetes:
         - "app.kubernetes.io/instance"
 ----
 
-As well as fail-fast property:
+As well as exception-on-pod-labels-missing property:
 
 [source,yaml]
 ----
@@ -190,7 +190,7 @@ kubernetes:
   client:
     secrets:
       enabled: true
-      fail-fast: true
+      exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"
 ----

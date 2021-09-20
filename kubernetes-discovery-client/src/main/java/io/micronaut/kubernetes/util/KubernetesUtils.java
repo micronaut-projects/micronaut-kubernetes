@@ -236,12 +236,12 @@ public class KubernetesUtils {
      * @param podLabelKeys the list of labels inside a pod
      * @param namespace    in the configuration
      * @param labels       the labels
-     * @param failFast     should and exception be thrown if configured pod label is not found
+     * @param exceptionOnPodLabelsMissing     should and exception be thrown if configured pod label is not found
      * @return the filtered labels of the current pod
      */
     public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, List<String> podLabelKeys,
                                                        String namespace, Map<String, String> labels,
-                                                       boolean failFast) {
+                                                       boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (host == null) {
@@ -269,9 +269,9 @@ public class KubernetesUtils {
                             if (LOG.isWarnEnabled()) {
                                 LOG.warn("Pod metadata does not contain label: {}", key);
                             }
-                            if (failFast) {
+                            if (exceptionOnPodLabelsMissing) {
                                 throw new ConfigurationException("Pod metadata does not contain label: " + key +
-                                                                    " and the fail fast property is set");
+                                                                    " and the exception-on-pod-labels-missing property is set");
                             }
                         }
                     }

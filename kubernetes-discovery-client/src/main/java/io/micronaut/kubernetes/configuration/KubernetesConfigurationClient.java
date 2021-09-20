@@ -157,10 +157,10 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
         Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
         Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
         Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        boolean failFast = configuration.getConfigMaps().isFailFast();
+        boolean exceptionOnPodLabelsMissing = configuration.getConfigMaps().isExceptionOnPodLabelsMissing();
 
         return computePodLabelSelector(client, configuration.getConfigMaps().getPodLabels(),
-            configuration.getNamespace(), labels, failFast)
+            configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
                 .doOnError(throwable -> LOG.error("Failed to compute pod label selector: " + throwable.getMessage(), throwable))
                 .doOnNext(labelSelector -> {
                     if (LOG.isTraceEnabled()) {
@@ -170,7 +170,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 .flatMap(labelSelector ->
                         client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
                 .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
-                .onErrorResume(throwable -> failFast
+                .onErrorResume(throwable -> exceptionOnPodLabelsMissing
                                                 ? Mono.error(throwable)
                                                 : Mono.just(new V1ConfigMapListBuilder().withItems(new ArrayList<>()).build()))
                 .doOnNext(configMapList -> {
@@ -220,13 +220,13 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getSecrets().getIncludes());
                 Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getSecrets().getExcludes());
                 Map<String, String> labels = configuration.getSecrets().getLabels();
-                boolean failFast = configuration.getSecrets().isFailFast();
+                boolean exceptionOnPodLabelsMissing = configuration.getSecrets().isExceptionOnPodLabelsMissing();
 
                 Flux<PropertySource> secretListFlowable = computePodLabelSelector(client,
-                    configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels, failFast)
+                    configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
                         .flatMap(labelSelector -> client.listNamespacedSecret(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
                         .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Secrets in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
-                        .onErrorResume(throwable -> failFast
+                        .onErrorResume(throwable -> exceptionOnPodLabelsMissing
                                                        ? Mono.error(throwable)
                                                        : Mono.just(new V1SecretListBuilder().withItems(new ArrayList<>()).build()))
                         .doOnNext(secretList -> {

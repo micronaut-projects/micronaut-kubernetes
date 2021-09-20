@@ -183,13 +183,13 @@ public class KubernetesConfiguration {
      * Base class for other configuration sub-classes.
      */
     private abstract static class AbstractKubernetesConfiguration extends DiscoveryConfiguration {
-        private static final Boolean DEFAULT_FAIL_FAST = false;
+        private static final Boolean DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING = false;
 
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
         private Map<String, String> labels;
         private List<String> podLabels;
-        private boolean failFast = DEFAULT_FAIL_FAST;
+        private boolean exceptionOnPodLabelsMissing = DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING;
 
         /**
          * @return the names to include
@@ -256,19 +256,19 @@ public class KubernetesConfiguration {
         /**
          * @return Flag to indicate that failure to find configured pod label is fatal (default false).
          */
-        public boolean isFailFast() {
-            return failFast;
+        public boolean isExceptionOnPodLabelsMissing() {
+            return exceptionOnPodLabelsMissing;
         }
 
         /**
          * If set to true an exception will be thrown if at least one of the configured pod labels is not found
          * in the namespace.
-         * Default value ({@value #DEFAULT_FAIL_FAST}).
+         * Default value ({@value #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).
          *
-         * @param failFast flag to fail fast
+         * @param exceptionOnPodLabelsMissing flag to throw exception on pod labels missing
          */
-        public void setFailFast(boolean failFast) {
-            this.failFast = failFast;
+        public void setExceptionOnPodLabelsMissing(boolean exceptionOnPodLabelsMissing) {
+            this.exceptionOnPodLabelsMissing = exceptionOnPodLabelsMissing;
         }
     }
 

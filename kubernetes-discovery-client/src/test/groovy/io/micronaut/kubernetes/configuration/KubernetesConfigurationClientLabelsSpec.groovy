@@ -123,13 +123,13 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         applicationContext.close()
     }
 
-    void "it can fail fast on missing config maps pod labels"() {
+    void "it can throw exception on missing config maps pod labels"() {
         given:
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["missing.label"],
-                                                                        "kubernetes.client.config-maps.fail-fast": "true"], Environment.KUBERNETES)
+                                                                        "kubernetes.client.config-maps.exception-on-pod-labels-missing": "true"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -148,14 +148,14 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
     }
 
 
-    void "it can fail fast on missing secrets pod labels"() {
+    void "it can throw exception on missing secrets pod labels"() {
         given:
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true,
                                                                         "kubernetes.client.secrets.pod-labels": ["missing.label"],
-                                                                        "kubernetes.client.secrets.fail-fast": "true"], Environment.KUBERNETES)
+                                                                        "kubernetes.client.secrets.exception-on-pod-labels-missing": "true"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:

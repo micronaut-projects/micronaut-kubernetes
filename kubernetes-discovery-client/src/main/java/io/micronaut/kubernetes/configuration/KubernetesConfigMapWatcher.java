@@ -101,10 +101,10 @@ public class KubernetesConfigMapWatcher implements ApplicationEventListener<Serv
         while (true) {
             String lastResourceVersion = computeLastResourceVersion();
             Map<String, String> labels = configuration.getConfigMaps().getLabels();
-            boolean failFast = configuration.getConfigMaps().isFailFast();
+            boolean exceptionOnPodLabelsMissing = configuration.getConfigMaps().isExceptionOnPodLabelsMissing();
 
             String labelSelector = computePodLabelSelector(coreV1ApiReactorClient,
-                configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels, failFast).block();
+                configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels, exceptionOnPodLabelsMissing).block();
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug("Watching for ConfigMap events...");
