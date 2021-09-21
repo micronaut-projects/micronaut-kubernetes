@@ -156,96 +156,105 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private Flux<PropertySource> getPropertySourcesFromConfigMaps() {
         Flux<PropertySource> propertySourceFlux = Flux.empty();
 
-        Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configuration.getConfigMaps().getIncludes());
-        Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configuration.getConfigMaps().getExcludes());
-        Map<String, String> labels = configuration.getConfigMaps().getLabels();
-        boolean exceptionOnPodLabelsMissing = configuration.getConfigMaps().isExceptionOnPodLabelsMissing();
+        KubernetesConfiguration.KubernetesConfigMapsConfiguration configMapsConfiguration = configuration.getConfigMaps();
 
-        Flux<PropertySource> configMapListFlux = computePodLabelSelector(client,
-                configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
-                .doOnError(throwable -> LOG.error("Failed to compute pod label selector: " + throwable.getMessage(), throwable))
-                .doOnNext(labelSelector -> {
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace("Going to list ConfigMaps from namespace [{}] with label selector [{}]", configuration.getNamespace(), labelSelector);
-                    }
-                })
-                .flatMap(labelSelector ->
-                        client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
-                .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
-                .onErrorResume(throwable -> exceptionOnPodLabelsMissing
-                                                ? Mono.error(throwable)
-                                                : Mono.just(new V1ConfigMapListBuilder().withItems(new ArrayList<>()).build()))
-                .doOnNext(configMapList -> {
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
-                    }
-                })
-                .flux()
-                .flatMap(configMapList -> Flux.merge(
-                        Flux.just(configMapListAsPropertySource(configMapList)),
-                        Flux.fromIterable(configMapList.getItems())
-                                .filter(includesFilter)
-                                .filter(excludesFilter)
-                                .doOnNext(configMap -> {
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
-                                    }
-                                })
-                                .map(KubernetesUtils::configMapAsPropertySource)
-                ));
-        propertySourceFlux = propertySourceFlux.mergeWith(configMapListFlux);
+        if (configMapsConfiguration.isEnabled()) {
+            Collection<String> mountedVolumePaths = configMapsConfiguration.getPaths();
+            if (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi()) {
 
-        Collection<String> mountedConfigMapVolumes = configuration.getConfigMaps().getPaths();
-        if (!mountedConfigMapVolumes.isEmpty()) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reading ConfigMaps from the Kubernetes API");
+                }
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Reading ConfigMaps from the following mounted volumes: {}", mountedConfigMapVolumes);
+                Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(configMapsConfiguration.getIncludes());
+                Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(configMapsConfiguration.getExcludes());
+                Map<String, String> labels = configMapsConfiguration.getLabels();
+                boolean exceptionOnPodLabelsMissing = configuration.getConfigMaps().isExceptionOnPodLabelsMissing();
+
+                Flux<PropertySource> configMapListFlux = computePodLabelSelector(client,
+                        configuration.getConfigMaps().getPodLabels(), configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
+                        .doOnError(throwable -> LOG.error("Failed to compute pod label selector: " + throwable.getMessage(), throwable))
+                        .doOnNext(labelSelector -> {
+                            if (LOG.isTraceEnabled()) {
+                                LOG.trace("Going to list ConfigMaps from namespace [{}] with label selector [{}]", configuration.getNamespace(), labelSelector);
+                            }
+                        })
+                        .flatMap(labelSelector ->
+                                client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
+                        .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
+                        .onErrorResume(throwable -> exceptionOnPodLabelsMissing
+                                ? Mono.error(throwable)
+                                : Mono.just(new V1ConfigMapListBuilder().withItems(new ArrayList<>()).build()))
+                        .doOnNext(configMapList -> {
+                            if (LOG.isDebugEnabled()) {
+                                LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size());
+                            }
+                        })
+                        .flux()
+                        .flatMap(configMapList -> Flux.merge(
+                                Flux.just(configMapListAsPropertySource(configMapList)),
+                                Flux.fromIterable(configMapList.getItems())
+                                        .filter(includesFilter)
+                                        .filter(excludesFilter)
+                                        .doOnNext(configMap -> {
+                                            if (LOG.isDebugEnabled()) {
+                                                LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
+                                            }
+                                        })
+                                        .map(KubernetesUtils::configMapAsPropertySource)
+                        ));
+                propertySourceFlux = propertySourceFlux.mergeWith(configMapListFlux);
             }
 
-            List<PropertySource> propertySources = new ArrayList<>();
-            mountedConfigMapVolumes.stream()
-                    .map(Paths::get)
-                    .forEach(path -> {
-                        if (LOG.isTraceEnabled()) {
-                            LOG.trace("Processing path: {}", path);
-                        }
+            if (!mountedVolumePaths.isEmpty()) {
 
-                        final HashMap<String, String> objectObjectHashMap = new HashMap<>();
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("Reading ConfigMaps from the following mounted volumes: {}", mountedVolumePaths);
+                }
 
-                        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-                            for (Path file : stream) {
-                                if (!Files.isRegularFile(file)) {
-                                    if (LOG.isInfoEnabled()) {
-                                        LOG.info("{} is not regular file, skipping ", file.getFileName());
+                List<PropertySource> propertySources = new ArrayList<>();
+                mountedVolumePaths.stream()
+                        .map(Paths::get)
+                        .forEach(path -> {
+                            if (LOG.isTraceEnabled()) {
+                                LOG.trace("Processing path: {}", path);
+                            }
+
+                            final HashMap<String, String> configMapFiles = new HashMap<>();
+
+                            try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
+                                for (Path file : stream) {
+                                    if (!Files.isRegularFile(file)) {
+                                        if (LOG.isInfoEnabled()) {
+                                            LOG.info("{} is not regular file, skipping ", file.getFileName());
+                                        }
+                                        continue;
                                     }
-                                    continue;
+
+                                    String key = file.getFileName().toString();
+                                    String value = new String(Files.readAllBytes(file));
+
+                                    if (LOG.isTraceEnabled()) {
+                                        LOG.trace("Processing file: {}:", key);
+                                    }
+
+                                    configMapFiles.put(key, value);
                                 }
-
-                                String key = file.getFileName().toString();
-                                String value = new String(Files.readAllBytes(file));
-
-                                if (LOG.isTraceEnabled()) {
-                                    LOG.trace("Processing file: {}:", key);
+                            } catch (IOException e) {
+                                if (LOG.isWarnEnabled()) {
+                                    LOG.warn("Exception occurred when reading configmap from path: {}", path);
+                                    LOG.warn(e.getMessage(), e);
                                 }
-
-
-                                objectObjectHashMap.put(key, value);
                             }
-                        } catch (IOException e) {
-                            if (LOG.isWarnEnabled()) {
-                                LOG.warn("Exception occurred when reading configmap from path: {}", path);
-                                LOG.warn(e.getMessage(), e);
-                            }
-                        }
 
-                        List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), objectObjectHashMap);
-                        mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
-                        propertySources.addAll(mountedMapPropertySources);
-                    });
+                            List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), configMapFiles);
+                            mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
+                            propertySources.addAll(mountedMapPropertySources);
+                        });
 
-            propertySourceFlux = propertySourceFlux.mergeWith(Flux.fromIterable(propertySources));
+                propertySourceFlux = propertySourceFlux.mergeWith(Flux.fromIterable(propertySources));
+            }
         }
-
         return propertySourceFlux;
     }
 

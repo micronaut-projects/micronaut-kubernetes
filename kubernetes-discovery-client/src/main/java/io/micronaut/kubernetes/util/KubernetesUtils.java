@@ -132,10 +132,11 @@ public class KubernetesUtils {
                 if (LOG.isInfoEnabled()) {
                     LOG.info("Failed to deduce the extension for file: {}", entry.getKey());
                 }
+                continue;
             }
 
             String fileExtension = extension.get();
-            String propertyName = mountPoint + "#" + entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+            String propertyName = mountPoint + "/" + entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 
             int priority = EnvironmentPropertySource.POSITION + 150;
             PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()

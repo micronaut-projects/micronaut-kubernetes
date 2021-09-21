@@ -14,5 +14,6 @@ kubernetes:
         - /etc/example-service/secrets
     config-maps:
       enabled: true
+      use-api: true
       paths:
         - /etc/example-service/configmap
