@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.discovery;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.informer.cache.Indexer;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory;
 import jakarta.inject.Singleton;
@@ -32,6 +33,7 @@ import java.util.Set;
  * @author Pavol Gressa
  * @since 3.1
  */
+@Internal
 @Singleton
 public class ServiceInstanceProviderInformerFactory {
 

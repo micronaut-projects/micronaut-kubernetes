@@ -44,6 +44,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -55,6 +56,7 @@ import java.util.stream.Collectors;
 @Singleton
 public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernetesServiceInstanceProvider {
     public static final String MODE = "endpoint";
+    protected static final String RESOURCE_PLURAL = "endpoints";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceEndpointProvider.class);
 
     private final CoreV1ApiReactorClient client;
@@ -149,18 +151,19 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
 
         return v1EndpointsMono
                 .filter(serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
-                .filter(v1Endpoints -> v1Endpoints.getSubsets() != null)
                 .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
-                .flatMapIterable(V1Endpoints::getSubsets)
+                .mapNotNull(V1Endpoints::getSubsets)
+                .flatMapIterable(Function.identity())
                 .filter(subset ->
                         hasValidPortConfiguration(Optional.ofNullable(subset.getPorts()).orElse(new ArrayList<>()).stream().map(PortBinder::fromEndpointPort).collect(Collectors.toList()), serviceConfiguration))
                 .filter(subset ->
                         subset.getAddresses() != null && !subset.getAddresses().isEmpty())
-                .map(subset -> subset
-                        .getPorts()
+                .map(subset -> Optional.ofNullable(subset.getPorts()).orElse(new ArrayList<>())
                         .stream()
-                        .filter(port -> !serviceConfiguration.getPort().isPresent() || port.getName().equals(serviceConfiguration.getPort().get()))
-                        .flatMap(port -> subset.getAddresses().stream().map(address -> buildServiceInstance(serviceConfiguration.getServiceId(), PortBinder.fromEndpointPort(port), address.getIp(), metadata.get())))
+                        .filter(port -> !serviceConfiguration.getPort().isPresent() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
+                        .flatMap(port -> subset.getAddresses()
+                                .stream()
+                                .map(address -> buildServiceInstance(serviceConfiguration.getServiceId(), PortBinder.fromEndpointPort(port), address.getIp(), metadata.get())))
                         .collect(Collectors.toList()))
                 .onErrorResume(throwable -> {
                     if (LOG.isErrorEnabled()) {
@@ -183,6 +186,6 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractKubernete
 
     @Override
     public String getResorucePlural() {
-        return "endpoints";
+        return RESOURCE_PLURAL;
     }
 }

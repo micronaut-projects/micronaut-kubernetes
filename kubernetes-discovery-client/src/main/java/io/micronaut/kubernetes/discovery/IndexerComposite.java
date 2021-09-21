@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.discovery;
 
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.cache.Indexer;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
@@ -37,6 +38,7 @@ import java.util.Optional;
  * @author Pavol Gressa
  * @since 3.1
  */
+@Internal
 public class IndexerComposite<ApiType extends KubernetesObject> {
 
     private static final Logger LOG = LoggerFactory.getLogger(IndexerComposite.class);

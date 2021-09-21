@@ -56,6 +56,7 @@ import java.util.stream.Stream;
 @Singleton
 public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetesServiceInstanceProvider {
     public static final String MODE = "service";
+    protected static final String RESOURCE_PLURAL = "services";
     protected static final String EXTERNAL_NAME = "ExternalName";
     protected static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceServiceProvider.class);
 
@@ -213,6 +214,6 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractKubernetes
 
     @Override
     public String getResorucePlural() {
-        return "services";
+        return RESOURCE_PLURAL;
     }
 }
