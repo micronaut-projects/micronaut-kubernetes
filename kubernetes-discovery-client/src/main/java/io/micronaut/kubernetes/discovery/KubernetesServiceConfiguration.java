@@ -73,14 +73,14 @@ public class KubernetesServiceConfiguration {
     /**
      * Set service id.
      *
-     * @param serviceId
+     * @param serviceId the service id
      */
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
     }
 
     /**
-     * @return service name
+     * @return the service name
      */
     public Optional<String> getName() {
         return Optional.ofNullable(name);
@@ -89,7 +89,7 @@ public class KubernetesServiceConfiguration {
     /**
      * Set service name.
      *
-     * @param name
+     * @param name the service name
      */
     public void setName(String name) {
         this.name = name;
@@ -98,7 +98,7 @@ public class KubernetesServiceConfiguration {
     /**
      * Namespace of service. If null then default configured namespace is used.
      *
-     * @return namespace
+     * @return namespace the namespace
      */
     public Optional<String> getNamespace() {
         return Optional.ofNullable(namespace);
@@ -107,7 +107,7 @@ public class KubernetesServiceConfiguration {
     /**
      * Service namespace.
      *
-     * @param namespace
+     * @param namespace the namespace
      */
     public void setNamespace(String namespace) {
         this.namespace = namespace;

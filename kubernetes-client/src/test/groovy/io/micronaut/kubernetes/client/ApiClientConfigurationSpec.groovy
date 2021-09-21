@@ -2,7 +2,6 @@ package io.micronaut.kubernetes.client
 
 import io.kubernetes.client.openapi.ApiClient
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.env.Environment
 import spock.lang.Specification
 
 class ApiClientConfigurationSpec extends Specification {
@@ -38,6 +37,32 @@ class ApiClientConfigurationSpec extends Specification {
         configuration.caPath.get() == "caPath"
         configuration.kubeConfigPath.isPresent()
         configuration.kubeConfigPath.get() == "kubeConfigPath"
+    }
+
+    def "test it sets properties for discovery cache"(){
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.api-discovery.cache.refresh-interval": 20
+        ])
+
+        when:
+        def configuration = applicationContext.getBean(ApiClientConfiguration.ApiDiscoveryCacheConfiguration)
+
+        then:
+        configuration
+        configuration.refreshInterval == 20
+    }
+
+    def "test it sets default properties for discovery cache"(){
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run()
+
+        when:
+        def configuration = applicationContext.getBean(ApiClientConfiguration.ApiDiscoveryCacheConfiguration)
+
+        then:
+        configuration
+        configuration.refreshInterval == Long.valueOf(ApiClientConfiguration.ApiDiscoveryCacheConfiguration.DEFAULT_REFRESH_INTERVAL)
     }
 
     def "it configured the api client's okhttp client"(){
