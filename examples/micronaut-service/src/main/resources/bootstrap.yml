@@ -12,3 +12,8 @@ kubernetes:
       excludes: mounted-secret
       paths:
         - /etc/example-service/secrets
+    config-maps:
+      use-api: true
+      excludes: mounted-configmap
+      paths:
+        - /etc/example-service/configmap

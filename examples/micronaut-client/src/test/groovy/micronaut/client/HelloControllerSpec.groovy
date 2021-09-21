@@ -3,7 +3,6 @@ package micronaut.client
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.http.MediaType
-import io.micronaut.http.annotation.Consumes
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
@@ -93,6 +92,15 @@ class HelloControllerSpec extends KubernetesSpecification {
 
         expect:
         testClient.config("mounted-volume-key").equals("mountedVolumeValue")
+    }
+
+    void "test reading config maps from mounted volumes"() {
+        given:
+        testClient.refresh()
+
+        expect:
+        testClient.env().contains("{\"name\":\"/etc/example-service/configmap/mounted.yml (Kubernetes ConfigMap)\"")
+        testClient.config("mounted.foo") == "bar"
     }
 
     @Client("http://localhost:8888")
