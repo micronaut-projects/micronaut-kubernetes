@@ -765,6 +765,21 @@ A good example would be <code>app.kubernetes.io/instance</code> which is a uniqu
 </div>
 </div>
 <div class="paragraph">
+<p>Additionally, you can also enable <code>exception-on-pod-labels-missing</code> property in case you want an exception to be thrown if at least
+one of the labels, specified in <code>pod-labels</code> section is not found among the application&#8217;s pod labels. This can be useful if you want
+to prevent loading all config maps available in namespace in case of mistyping or misconfiguration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      exception-on-pod-labels-missing: true
+      pod-labels:
+        - "app.kubernetes.io/instance"</code></pre>
+</div>
+</div>
+<div class="paragraph">
 <p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
 </div>
 <div class="sect2">
@@ -888,6 +903,20 @@ which config map names are processed by defining <code>kubernetes.client.secrets
   client:
     secrets:
       enabled: true
+      pod-labels:
+        - "app.kubernetes.io/instance"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As well as <code>exception-on-pod-labels-missing</code> property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      enabled: true
+      exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"</code></pre>
 </div>
