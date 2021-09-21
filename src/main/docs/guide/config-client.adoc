@@ -73,8 +73,8 @@ kubernetes:
         - "app.kubernetes.io/instance"
 ----
 
-You can also enable exception-on-pod-labels-missing property in case you want an exception to be thrown if at least
-one of the labels, specified in pod-labels section is not found in the namespace. This can be useful if you want
+Additionally, you can also enable `exception-on-pod-labels-missing` property in case you want an exception to be thrown if at least
+one of the labels, specified in `pod-labels` section is not found among the application's pod labels. This can be useful if you want
 to prevent loading all config maps available in namespace in case of mistyping or misconfiguration:
 
 [source,yaml]
@@ -182,7 +182,7 @@ kubernetes:
         - "app.kubernetes.io/instance"
 ----
 
-As well as exception-on-pod-labels-missing property:
+As well as `exception-on-pod-labels-missing` property:
 
 [source,yaml]
 ----
