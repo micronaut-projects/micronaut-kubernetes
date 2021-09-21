@@ -126,6 +126,7 @@ jobs:
           ./gradlew dependencyUpdates check --continue --no-build-cache
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Optional tear down step
         env:
           K8S_VERSION: ${{ matrix.k8s }}
@@ -143,6 +144,7 @@ jobs:
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
         run: ./gradlew publishToSonatype docs --no-daemon
       - name: Determine docs target repository
         uses: haya14busa/action-cond@v1
@@ -211,4 +213,3 @@ jobs:
           do
             curl -X DELETE -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${PERSONAL_ACCESS_TOKEN}" ${RUNNERS_URL}/${RUNNER_ID}
           done
-  
