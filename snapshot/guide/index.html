@@ -783,6 +783,120 @@ to prevent loading all config maps available in namespace in case of mistyping o
 <p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
 </div>
 <div class="sect2">
+<h3 id="_reading_code_configmap_code_s_from_mounted_volumes">Reading <code>ConfigMap</code>s from mounted volumes</h3>
+<div class="paragraph">
+<p>In the case of <code>ConfigMaps</code>s, reading them from the Kubernetes API requires additional permissions, as stated above.
+Therefore, you may want to read them from mounted volumes in the pod.</p>
+</div>
+<div class="paragraph">
+<p>Given the following ConfigMap:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mounted-config
+data:
+  mounted.yml: |-
+    foo: bar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It can be mounted as a volume in a pod or deployment definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: micronautapp
+    volumeMounts:
+    - name: configuration
+      mountPath: /etc/configuration
+      readOnly: true
+  volumes:
+  - name: configuration
+    configMap:
+      name: mounted-config</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will make Kubernetes to create file per data entry:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/etc/configuration/mounted.yml</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>While you could potentially use the <code>java.io</code> or <code>java.nio</code> APIs to read the contents yourself, this configuration module
+can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
+the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      paths:
+        - /etc/configuration</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each file in the directory will become a property source file. The file format will be automatically deduced based on the file suffix. Supported formats for mounted <code>ConfigMap</code> files are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java <code>.properties</code></p>
+</li>
+<li>
+<p>YAML</p>
+</li>
+<li>
+<p>JSON</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When <code>kubernetes.client.config-maps.paths</code> is defined, the Kubernetes API will not be used to read any other config maps.
+If you still want to read the remaining config maps from the API, set the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      use-api: true
+      excludes: mounted-config  # Because it will be read as a mounted volume
+      paths:
+        - /etc/configuration</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this scenario, if there are property keys defined in both type of config maps, the ones coming from mounted volumes will
+take precedence over the ones coming from the API.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
 <div class="paragraph">
 <p>By default, this configuration module will watch for <code>ConfigMap</code>s added/modified/deleted, and provided that the changes
@@ -794,6 +908,20 @@ match with the above filters, they will be propagated to the <code>Environment</
 <div class="paragraph">
 <p>If you want to disable watching for ConfigMap changes, set <code>kubernetes.client.config-maps.watch</code> to <code>false</code>.
 This should be done in the <code>bootstrap.yml</code> configuration file because the configuration client is initialized during the bootstrap phase, which happens before evaluating the <code>application.yml</code> configuration file.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When <code>kubernetes.client.config-maps.use-api</code> is set to <code>false</code>, watching for the changes won&#8217;t be started.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 </div>
 <div class="sect2">
@@ -921,11 +1049,8 @@ which config map names are processed by defining <code>kubernetes.client.secrets
         - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_reading_code_secret_code_s_from_mounted_volumes">Reading <code>Secret</code>s from mounted volumes</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_reading_code_secret_code_s_from_mounted_volumes">Reading <code>Secret</code>s from mounted volumes</h3>
 <div class="paragraph">
 <p>In the case of <code>Secret</code>s, reading them from the Kubernetes API requires additional permissions, as stated above.
 Therefore, you may want to read them from mounted volumes in the pod.</p>
@@ -1032,6 +1157,7 @@ take precedence over the ones coming from the API.</p>
 </td>
 </tr>
 </table>
+</div>
 </div>
 </div>
 </div>
