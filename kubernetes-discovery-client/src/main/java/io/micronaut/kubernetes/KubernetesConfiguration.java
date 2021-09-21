@@ -338,9 +338,11 @@ public class KubernetesConfiguration {
     @BootstrapContextCompatible
     public static class KubernetesConfigMapsConfiguration extends AbstractKubernetesConfiguration {
         public static final String PREFIX = "config-maps";
+        static final boolean DEFAULT_WATCH = true;
 
         private Collection<String> paths;
         private boolean useApi;
+        private boolean watch = DEFAULT_WATCH;
 
         /**
          * @return paths where config maps are mounted
@@ -371,6 +373,20 @@ public class KubernetesConfiguration {
          */
         public void setUseApi(boolean useApi) {
             this.useApi = useApi;
+        }
+
+        /**
+         * @return whether to enable watching for the ConfigMap changes. Defaults to {@value DEFAULT_WATCH}.
+         */
+        public boolean isWatch() {
+            return watch;
+        }
+
+        /**
+         * @param watch flag to watch for the ConfigMap changes.
+         */
+        public void setWatch(boolean watch) {
+            this.watch = watch;
         }
     }
 }

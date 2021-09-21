@@ -32,7 +32,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -118,7 +117,7 @@ public class KubernetesUtils {
     public static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data) {
 
         if (LOG.isTraceEnabled()) {
-            LOG.trace("Processing PropertySources for ConfigMap mounted at: {}", mountPoint);
+            LOG.trace("Creating {} PropertySources for ConfigMap mounted at: {}", data.size(), mountPoint);
         }
         if (data == null || data.isEmpty()) {
             return Collections.singletonList(PropertySource.of(Collections.emptyMap()));

@@ -80,7 +80,7 @@ abstract class KubernetesSpecification extends Specification {
      * Creates namespace. If such namespace already exists then the namespace is deleted first.
      * @param namespace namespace name
      */
-    def createNamespaceSafe(String namespace){
+    def createNamespaceSafe(String namespace) {
         if (operations.getNamespace(namespace) != null) {
             operations.deleteNamespace(namespace)
         }
@@ -107,9 +107,8 @@ abstract class KubernetesSpecification extends Specification {
                 ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
         operations.createConfigMapFromFile("game-config-json", namespace,
                 loadFileFromClasspath("k8s/game.json"))
-        operations.createConfigMap("literal-config", namespace,
-                ["special.how": "very", "special.type": "charm"],
-                ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
+        operations.createConfigMapFromFile("mounted-configmap", namespace,
+                loadFileFromClasspath("k8s/mounted.yml"))
         operations.createConfigMap("literal-config", namespace,
                 ["special.how": "very", "special.type": "charm"],
                 ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])

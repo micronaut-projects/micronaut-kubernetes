@@ -216,29 +216,31 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                 mountedVolumePaths.stream()
                         .map(Paths::get)
                         .forEach(path -> {
-                            if (LOG.isTraceEnabled()) {
-                                LOG.trace("Processing path: {}", path);
+                            if (LOG.isInfoEnabled()) {
+                                LOG.info("Processing ConfigMap mounted on path: {}", path);
                             }
 
                             final HashMap<String, String> configMapFiles = new HashMap<>();
 
                             try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
                                 for (Path file : stream) {
+                                    final String fileName = file.getFileName().toString();
+                                    final String absolutePath = path + "/" + fileName;
+
                                     if (!Files.isRegularFile(file)) {
-                                        if (LOG.isInfoEnabled()) {
-                                            LOG.info("{} is not regular file, skipping ", file.getFileName());
+                                        if (LOG.isTraceEnabled()) {
+                                            LOG.trace("Skipping not regular file: {}", absolutePath);
                                         }
                                         continue;
                                     }
 
-                                    String key = file.getFileName().toString();
                                     String value = new String(Files.readAllBytes(file));
 
                                     if (LOG.isTraceEnabled()) {
-                                        LOG.trace("Processing file: {}:", key);
+                                        LOG.trace("Found file: {}", absolutePath);
                                     }
 
-                                    configMapFiles.put(key, value);
+                                    configMapFiles.put(fileName, value);
                                 }
                             } catch (IOException e) {
                                 if (LOG.isWarnEnabled()) {
@@ -247,9 +249,15 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                 }
                             }
 
-                            List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), configMapFiles);
-                            mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
-                            propertySources.addAll(mountedMapPropertySources);
+                            if (LOG.isInfoEnabled()) {
+                                LOG.info("Property sources found on path '{}': {}", path, configMapFiles.keySet());
+                            }
+
+                            if (!configMapFiles.isEmpty()) {
+                                List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), configMapFiles);
+                                mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
+                                propertySources.addAll(mountedMapPropertySources);
+                            }
                         });
 
                 propertySourceFlux = propertySourceFlux.mergeWith(Flux.fromIterable(propertySources));

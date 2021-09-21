@@ -20,7 +20,24 @@ class KubernetesConfigMapWatcherSpec extends Specification {
 
         expect:
         !applicationContext.containsBean(KubernetesConfigMapWatcher)
-
     }
 
+    void "KubernetesConfigMapWatcher is disabled when mounted volume paths are specified"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.paths": ["path1"]], Environment.KUBERNETES)
+
+        expect:
+        !applicationContext.containsBean(KubernetesConfigMapWatcher)
+    }
+
+    void "KubernetesConfigMapWatcher is enabled when mounted volume paths are specified and use-api is enabled"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.config-maps.paths"  : ["path1"],
+                "kubernetes.client.config-maps.use-api": true
+        ], Environment.KUBERNETES)
+
+        expect:
+        applicationContext.containsBean(KubernetesConfigMapWatcher)
+    }
 }

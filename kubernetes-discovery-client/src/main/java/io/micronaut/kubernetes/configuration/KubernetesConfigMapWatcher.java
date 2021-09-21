@@ -26,7 +26,6 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.context.event.ApplicationEventPublisher;
-import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
@@ -55,7 +54,7 @@ import static io.micronaut.kubernetes.util.KubernetesUtils.computePodLabelSelect
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)
-@Requires(property = KubernetesConfiguration.PREFIX + "." + KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX + ".watch", notEquals = StringUtils.FALSE, defaultValue = StringUtils.TRUE)
+@Requires(condition = KubernetesConfigMapWatcherCondition.class)
 public class KubernetesConfigMapWatcher implements ApplicationEventListener<ServiceReadyEvent> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
