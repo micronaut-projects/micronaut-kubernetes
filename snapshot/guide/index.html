@@ -55,13 +55,15 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#health-checks"><strong>6</strong><span>Health Checks</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes client</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes Client</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>8</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-informer"><strong>8</strong><span>Kubernetes Informer</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>9</strong><span>Breaking Changes</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>9</strong><span>Logging and debugging</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>10</strong><span>Breaking Changes</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -104,13 +106,15 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-health-checks"><a href="#health-checks"><strong>6</strong><span>Health Checks</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes client</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes Client</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>8</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-informer"><a href="#kubernetes-informer"><strong>8</strong><span>Kubernetes Informer</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>9</strong><span>Breaking Changes</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>9</strong><span>Logging and debugging</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>10</strong><span>Breaking Changes</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -1290,7 +1294,7 @@ information about how to configure it.</p>
 </div>
 </div>
 
-<h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>7 Kubernetes client</h1>
+<h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>7 Kubernetes Client</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/kubernetes-client.adoc"'>
@@ -1535,7 +1539,258 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 </div>
 </div>
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>8 Logging and debugging</h1>
+<h1 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>8 Kubernetes Informer</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/kubernetes-informer.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The <code>micronaut-kubernetes-informer</code> module integrates the <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer</a> that is part of official Kubernetes SDK and simplifies its creation. The Informer is similar to a Watch but an Informer tries to re-list and re-watch to hide failures from the caller and provides a store of all the current resources. Note that the default official implementation <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedInformerFactory.html">SharedInformerFactory</a> creates shared informers per the Kubernetes resource type. However the module <code>micronaut-kubernetes-informer</code> creates namespace scoped informers of the Kubernetes resource type, meaning that the informer is shared per specified namespace and kind.</p>
+</div>
+<div class="paragraph">
+<p>First you need add a dependency on the <code>micronaut-kubernetes-informer</code> module:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-informer:3.0.2-SNAPSHOT")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-informer&lt;/artifactId&gt;
+    &lt;version&gt;3.0.2-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then create a bean that implements <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html">ResourceEventHandler</a> with the Kubernetes resource type of your choice and add the <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> annotation trough which you provide the configuration for the <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer</a>.</p>
+</div>
+<div class="paragraph">
+<p>The example below illustrates the declaration of the <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> with the <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html">ResourceEventHandler</a> for handling the changes of the Kubernetes <code>V1ConfigMap</code> resource.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@Singleton
+@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class) <b class="conum">(1)</b>
+public class ConfigMapInformer implements ResourceEventHandler&lt;V1ConfigMap&gt; { <b class="conum">(2)</b>
+
+    @Override
+    public void onAdd(V1ConfigMap obj) {
+    }
+
+    @Override
+    public void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
+    }
+
+    @Override
+    public void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> annotation defines the Kubernetes resource type and resource list type</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html">ResourceEventHandler</a> interface declares method handlers for added, updated and deleted resource</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To create an Informer for non-namespaced resource like <code>V1ClusterRole</code>, configure the <code>@Informer</code> the same way like it is done for namespaced resource.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html">ResourceEventHandlerConstructorInterceptor</a> logic takes care of automated evaluation of the resource <code>apiGroup</code> and <code>resourcePlural</code> by fetching the API resource details from the Kubernetes API by using <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/Discovery.html">Discovery</a>. The API resource discovery can be disabled by: <code>kubernetes.client.api-discovery.enabled: false</code>. In the case the discovery is disabled the <code>resourcePlural</code> and <code>apiGroup</code> needs to be provided manually in the <code>@Informer</code> annotation.</p>
+</div>
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> annotation provides several configuration options:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. Informer configuration</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Element</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apiType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource api type that must extend from the <code>KubernetesObject</code>. For Kubernetes core resources the types can be found in <code>io.kubernetes.client.openapi.models</code> package. For example <code>io.kubernetes.client.openapi.models.V1ConfigMap</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apiListType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource api list type. For example <code>io.kubernetes.client.openapi.models.V1ConfigMapList</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>apiGroup</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource api group. For example some of the Kubernetes core resources has no group like  <code>V1ConfigMap</code>, on the contrary the <code>V1ClusterRole</code> has <code>rbac.authorization.k8s.io</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resourcePlural</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The resource plural that identifies the Api. For example for the resource <code>V1ConfigMap</code> it is <code>configmaps</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace of the watched resource. If left empty then namespace is resolved by <a href="../api/io/micronaut/kubernetes/client/NamespaceResolver.html">NamespaceResolver</a>. To watch resources from all namespaces configure this parameter to <code>Informer.ALL_NAMESPACES</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>namespaces</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of the namespaces of the watcher resource. The <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer</a> will be created for every namespace and all events will be delivered to the specified <code>ResourceEventHandler</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>namespacesSupplier</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Supplier</code> class that provides the list of namespaces to watch. Note that the supplier class needs to be a bean in the application context and it is intended for dynamic evaluation of the namesapces to watch. Finally the <code>namespace</code>, <code>namespaces</code> and <code>namespacesSupplier</code> can be used in combination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>labelSelector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Informer label selector, see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a> for more information. By default there is no label selector.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>labelSelectorSupplier</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Supplier</code> class for the label selector. Note that the supplier class needs to be a bean in the application context. Finally the <code>labelSelector</code> and <code>labelSelectorSupplier</code> can be used in combination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resyncCheckPeriod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">How often to check the need for resync of resources. If left empty the default resync check period is used.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The concept of shared informer means that the <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer</a> for the respective Kubernetes resource type is registered just once for the given namespace. The next request to register another <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">informer</a> of the same Kubernetes resource type within the same namespace will result in returning of the previously created informer. In practice if you create two <code>ResourceEventHandler&lt;V1ConfigMap&gt;</code> but the <code>@Informer</code> annotation will have different optional configuration for <code>labelSelector</code> then the <code>SharedInformerFactory</code> creates just one <code>SharedInformer</code>, meaning the other <code>@Informer</code> configuration will be ignored. If the <code>labelSelector</code> resp. <code>labelSelectorSupplier</code> differs then create one <code>labelSelector</code> that matches both cases.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_programmatic_creation_of_sharedindexinformer">Programmatic creation of SharedIndexInformer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the bean <a href="../api/io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html">SharedIndexInformerFactory</a> to create the <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer</a> programmatically:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = factory.sharedIndexInformerFor(
+                V1ConfigMap.class, <b class="conum">(1)</b>
+                V1ConfigMapList.class, <b class="conum">(2)</b>
+                "configmaps", <b class="conum">(3)</b>
+                "",  <b class="conum">(4)</b>
+                "default",  <b class="conum">(5)</b>
+                null,
+                null,
+                true
+        );</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The resource api type that must extend from the <code>KubernetesObject</code>. For Kubernetes core resources the types can be found in <code>io.kubernetes.client.openapi.models</code> package. For example <code>io.kubernetes.client.openapi.models.V1ConfigMap</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The resource api list type that must extend from the <code>KubernetesListObject</code>. For example <code>io.kubernetes.client.openapi.models.V1ConfigMapList</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The resource plural that identifies the Api. For example for the resource <code>V1ConfigMap</code> it is <code>configmaps</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>The resource api group.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>The namespace to watch.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>By using the <a href="../api/io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html">SharedIndexInformerFactory</a> bean you can also get existing informer:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = factory.getExistingSharedIndexInformer(
+                "default", <b class="conum">(1)</b>
+                V1ConfigMap.class); <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The informer namespace.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The informer resource type.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sharedindexinformer_local_cache">SharedIndexInformer local cache</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer</a> has internal cache that is eventually consistent with the authoritative state. The local cache starts out empty, and gets populated and updated. For the detailed description of SharedIndexInformer internals visit the reference implementation <a href="https://pkg.go.dev/k8s.io/client-go/tools/cache#SharedIndexInformer">pkg.go.dev/k8s.io/client-go#SharedIndexInformer</a> in Go language.</p>
+</div>
+<div class="paragraph">
+<p>The cache is exposed by <a href="https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html">SharedIndexInformer#getIndexer()</a> method:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">@Singleton
+public class SharedInformerCache {
+
+    private final SharedIndexInformerFactory sharedIndexInformerFactory;
+
+    public SharedInformerCache(SharedIndexInformerFactory sharedIndexInformerFactory) {
+        this.sharedIndexInformerFactory = sharedIndexInformerFactory;
+    }
+
+    /**
+     * Get all config maps from informer from namespace.
+     */
+    List&lt;V1ConfigMap&gt; getConfigMaps(String namespace) {
+        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, V1ConfigMap.class);
+        if (sharedIndexInformer != null) {
+            Indexer&lt;V1ConfigMap&gt; indexer = sharedIndexInformer.getIndexer();
+            return indexer.list();
+        } else {
+            return null;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+
+<h1 id="logging"><a class="anchor" href="#logging"></a>9 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
@@ -1570,7 +1825,7 @@ to <code>DEBUG</code>:</p>
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
-<h1 id="breaking"><a class="anchor" href="#breaking"></a>9 Breaking Changes</h1>
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>10 Breaking Changes</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/breaking.adoc"'>
@@ -1591,7 +1846,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 </div>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>10 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>11 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/repository.adoc"'>
