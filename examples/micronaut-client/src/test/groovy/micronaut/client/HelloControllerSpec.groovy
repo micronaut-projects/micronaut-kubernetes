@@ -57,7 +57,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         !testClient.env().contains(configMapName)
 
         when:
-        operations.createConfigMap(configMapName, namespace)
+        operations.createConfigMap(configMapName, namespace, ["foo": "bar"])
 
         then:
         conditions.eventually {
@@ -66,7 +66,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.modifyConfigMap(configMapName, namespace)
+        operations.modifyConfigMap(configMapName, namespace, ["foo": "baz"])
 
         then:
         conditions.eventually {
