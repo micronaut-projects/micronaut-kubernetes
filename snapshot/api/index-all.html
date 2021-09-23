@@ -170,6 +170,12 @@
 <dd>
 <div class="block">Converts config map mounted as volume into property sources.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration"><span class="typeNameLink">ConfigMapLabelSupplier</span></a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Based on configuration dynamically evaluates the label selector.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#ConfigMapLabelSupplier-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration-">ConfigMapLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:D">
 <!--   -->
@@ -261,6 +267,8 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/EmptyLabelSupplier.html#get--">get()</a></span> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyLabelSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyLabelSupplier</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html#get--">get()</a></span> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyNamespacesSupplier</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#get--">get()</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html#getBasePath--">getBasePath()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -487,6 +495,12 @@
  <code>PropertySource</code>s.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#KubernetesConfigMapWatcher-io.micronaut.context.env.Environment-io.kubernetes.client.openapi.ApiClient-io.kubernetes.client.openapi.apis.CoreV1Api-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration-java.util.concurrent.ExecutorService-io.micronaut.context.event.ApplicationEventPublisher-">KubernetesConfigMapWatcher(Environment, ApiClient, CoreV1Api, CoreV1ApiReactorClient, KubernetesConfiguration, ExecutorService, ApplicationEventPublisher&lt;RefreshEvent&gt;)</a></span> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dd>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>
+<div class="block"><span class="deprecationComment">Use new version <a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#KubernetesConfigMapWatcher-io.micronaut.context.env.Environment-io.micronaut.kubernetes.KubernetesConfiguration-io.micronaut.context.event.ApplicationEventPublisher-"><code>KubernetesConfigMapWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher)</code></a></span></div>
+</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#KubernetesConfigMapWatcher-io.micronaut.context.env.Environment-io.micronaut.kubernetes.KubernetesConfiguration-io.micronaut.context.event.ApplicationEventPublisher-">KubernetesConfigMapWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher&lt;RefreshEvent&gt;)</a></span> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><span class="typeNameLink">KubernetesConfigMapWatcherCondition</span></a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
@@ -642,7 +656,11 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html#OkHttpClientLogging--">OkHttpClientLogging()</a></span> - Constructor for class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html" title="class in io.micronaut.kubernetes.client">OkHttpClientLogging</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onAdd-io.kubernetes.client.openapi.models.V1ConfigMap-">onAdd(V1ConfigMap)</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onApplicationEvent-io.micronaut.discovery.event.ServiceReadyEvent-">onApplicationEvent(ServiceReadyEvent)</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onDelete-io.kubernetes.client.openapi.models.V1ConfigMap-boolean-">onDelete(V1ConfigMap, boolean)</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onDownloadProgress-long-long-boolean-">onDownloadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
 <dd>&nbsp;</dd>
@@ -655,6 +673,8 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onSuccess-T-int-java.util.Map-">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#onSuccess-T-int-java.util.Map-">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onUpdate-io.kubernetes.client.openapi.models.V1ConfigMap-io.kubernetes.client.openapi.models.V1ConfigMap-">onUpdate(V1ConfigMap, V1ConfigMap)</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onUploadProgress-long-long-boolean-">onUploadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
 <dd>&nbsp;</dd>
