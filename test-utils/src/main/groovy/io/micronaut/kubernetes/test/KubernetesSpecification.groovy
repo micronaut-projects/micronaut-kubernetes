@@ -205,7 +205,7 @@ abstract class KubernetesSpecification extends Specification {
                         .build())
     }
 
-    private static String encodeSecret(String secret) {
+    static String encodeSecret(String secret) {
         return Base64.encoder.encodeToString(secret.bytes)
     }
 
