@@ -21,7 +21,7 @@ jobs:
       label: ${{ steps.start-runner.outputs.label }}
     steps:
       - name: Install OCI CLI
-        uses: micronaut-projects/github-actions/configure-oci-cli@oci-runner
+        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           oci-user-ocid: ${{ secrets.OCI_USER }}
@@ -31,7 +31,7 @@ jobs:
           oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
           oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
       - name: Start runner
-        uses: micronaut-projects/github-actions/start-oci-runner@oci-runner
+        uses: micronaut-projects/github-actions/start-oracle-cloud-runners@master
         id: start-runner
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
@@ -91,7 +91,7 @@ jobs:
           check_name: GraalVM CE CI / Test Report (${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
   stop-runner:
-    name: Stop self-hosted OracleCloud runner
+    name: Stop self-hosted OracleCloud runners
     needs:
       - start-runner
       - build
@@ -99,7 +99,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Install OCI CLI
-        uses: micronaut-projects/github-actions/configure-oci-cli@oci-runner
+        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           oci-user-ocid: ${{ secrets.OCI_USER }}
@@ -109,8 +109,7 @@ jobs:
           oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
           oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
       - name: Stop runners
-        uses: micronaut-projects/github-actions/stop-oci-runner@oci-runner
-        id: start-runner
+        uses: micronaut-projects/github-actions/stop-oracle-cloud-runners@master
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
