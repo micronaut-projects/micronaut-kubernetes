@@ -63,12 +63,12 @@ class KubernetesOperations implements Closeable {
     }
 
     void updateNamespace(Namespace namespace) {
-        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}" )
+        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}")
         getClient().namespaces().patch(namespace)
     }
 
     void updateNamespaceStatus(Namespace namespace) {
-        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}" )
+        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}")
         getClient().namespaces().patchStatus(namespace)
     }
 
@@ -209,13 +209,18 @@ class KubernetesOperations implements Closeable {
                 .withNamespace(namespace)
                 .withLabels(labels)
                 .endMetadata()
-                .withData(literals).build()
+                .withData(literals)
+                .build()
         log.debug("Creating ${secret}")
         return getClient(namespace).secrets().create(secret)
     }
 
     Secret getSecret(String name, String namespace) {
         return getClient(namespace).secrets().inNamespace(namespace).withName(name).get()
+    }
+
+    boolean deleteSecret(String name, String namespace) {
+        return getClient(namespace).secrets().inNamespace(namespace).withName(name).delete()
     }
 
     Deployment createDeploymentFromFile(URL pathToManifest, String name = null, String namespace = null) {

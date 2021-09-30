@@ -10,22 +10,27 @@ repositories {
 
 micronaut {
     runtime("netty")
-    testRuntime("junit5")
+    testRuntime("spock2")
     processing {
         incremental(true)
-        annotations("micronaut.service.*")
+        annotations("micronaut.informer.*")
     }
 }
 
 dependencies {
     implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut:micronaut-inject-java")
     implementation("io.micronaut:micronaut-runtime")
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-management")
-    api project(':kubernetes-client')
+    implementation project(':kubernetes-informer')
     runtimeOnly("ch.qos.logback:logback-classic")
+
+    testImplementation project(":test-utils")
+}
+
+application {
+    mainClass.set("micronaut.informer.Application")
 }
 
 java {
@@ -33,15 +38,12 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-application {
-    mainClass.set("micronaut.service.Application")
-}
 tasks {
     dockerBuild {
-        images = ['micronaut-kubernetes-client-example']
+        images = ['micronaut-kubernetes-informer-example']
     }
 
     dockerBuildNative {
-        images = ['micronaut-kubernetes-client-example']
+        images = ['micronaut-kubernetes-informer-example']
     }
 }

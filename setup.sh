@@ -6,6 +6,7 @@ set -ex
 K8S_DEFAULT_VERSION="1.21"
 KUBECTL_DEFAULT_VERSION="v1.19.2"
 KIND_VERSION="v0.11.1"
+EXAMPLE_SERVICE_RUNTIME=${EXAMPLE_SERVICE_RUNTIME:="java"}
 
 #
 # K8s images required for KIND version
@@ -50,31 +51,24 @@ echo "KIND_NODE_IMAGE_VERSION = $KIND_NODE_IMAGE_VERSION"
 
 #
 # Download and install kubectl
-curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x kubectl
+curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl && chmod +x ./kubectl && mv ./kubectl ${HOME}/kubectl
 
 #
 # Download and install kind
-curl -Lo ./kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ./kind
+curl -Lo ${HOME}/kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ${HOME}/kind
+
+export PATH="$PATH:${HOME}"
+
 #
 # Create a cluster
 KIND_CLUSTER=$(echo $K8S_VERSION | tr -cd '[:alnum:]')
 KIND_CLUSTER_NAME="k8s${KIND_CLUSTER}java${JAVA_VERSION}"
-./kind create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
+$HOME/kind create cluster  --name ${KIND_CLUSTER_NAME}  --image ${KIND_NODE_IMAGE_VERSION} --wait 5m
 
 # Test the cluster was created
-./kubectl get ns kube-system || exit 1
+$HOME/kubectl get ns kube-system || exit 1
 
-./kubectl cluster-info
-./kubectl version
+$HOME/kubectl cluster-info
+$HOME/kubectl version
 
-#
-# Run Kubernetes API proxy
-pkill -9 kubectl || true
-./kubectl proxy &
-
-# Build the Docker images
-./gradlew dockerBuild --stacktrace
-docker images | grep micronaut
-./kind load docker-image --name ${KIND_CLUSTER_NAME} micronaut-kubernetes-example-service:latest
-./kind load docker-image --name ${KIND_CLUSTER_NAME} micronaut-kubernetes-example-client:latest
-./kind load docker-image --name ${KIND_CLUSTER_NAME} micronaut-kubernetes-client-example:latest
+sh setup-kubernetes.sh -c "${KIND_CLUSTER_NAME}" -t "${EXAMPLE_SERVICE_RUNTIME}"

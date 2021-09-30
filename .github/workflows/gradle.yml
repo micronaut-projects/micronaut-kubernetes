@@ -130,7 +130,6 @@ jobs:
           oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
       - name: Stop runners
         uses: micronaut-projects/github-actions/stop-oracle-cloud-runners@master
-        id: start-runner
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
