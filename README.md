@@ -19,7 +19,7 @@ If you wish to contribute to the development of this project please read the [CO
 
 ## Snapshots and Releases
 
-Snaphots are automatically published to [JFrog OSS](https://oss.jfrog.org/artifactory/oss-snapshot-local/) using [Github Actions](https://github.com/micronaut-projects/micronaut-kubernetes/actions).
+Snaphots are automatically published to [JFrog OSS](https://s01.oss.sonatype.org/content/repositories/snapshots/io/micronaut/) using [Github Actions](https://github.com/micronaut-projects/micronaut-kubernetes/actions).
 
 See the documentation in the [Micronaut Docs](https://docs.micronaut.io/latest/guide/index.html#usingsnapshots) for how to configure your build to use snapshots.
 
