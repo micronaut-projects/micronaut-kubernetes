@@ -171,7 +171,7 @@ kubernetes:
 
 ### Watching for changes
 
-Both discovery modes support watching for changes of their respective resources. To disable it, set `kubernetes.client.discovery.mode-configuration.endpoint.watch.enabled` to `false` for the `endpoint` mode. For the `service` mode set `kubernetes.client.discovery.mode-configuration.service.watch.enabled` to `false`.
+Both discovery modes support watching for changes of their respective resources. To enable it, set `kubernetes.client.discovery.mode-configuration.endpoint.watch.enabled` to `true` for the `endpoint` mode. For the `service` mode set `kubernetes.client.discovery.mode-configuration.service.watch.enabled` to `true`.
 
 ## Kubernetes API authentication
 
