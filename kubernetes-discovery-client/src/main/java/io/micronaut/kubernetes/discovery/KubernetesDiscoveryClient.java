@@ -15,10 +15,6 @@
  */
 package io.micronaut.kubernetes.discovery;
 
-import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.models.V1ObjectMeta;
-import io.kubernetes.client.openapi.models.V1ServiceList;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.NonNull;
@@ -26,21 +22,19 @@ import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceProvider;
-import io.micronaut.kubernetes.util.KubernetesUtils;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import reactor.core.publisher.Flux;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -136,8 +130,8 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      */
     @Override
     public Publisher<List<String>> getServiceIds() {
-        String namespace = configuration.getNamespace();
-        KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
+        final String namespace = configuration.getNamespace();
+        final KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
 
         return Flux.merge(
                         Flux.fromIterable(serviceConfigurations.keySet()),

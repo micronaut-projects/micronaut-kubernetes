@@ -27,12 +27,33 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
     PollingConditions pollingConditions = new PollingConditions()
 
     @Unroll
+    void "context contains #inContext [watchEnabled=#watchEnabled]"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+
+        expect:
+        applicationContext.containsBean(AbstractV1EndpointsProvider)
+        applicationContext.containsBean(inContext)
+        !applicationContext.containsBean(notInContext)
+
+        cleanup:
+        applicationContext.close()
+
+        where:
+        watchEnabled | inContext                                        | notInContext
+        true         | KubernetesServiceInstanceServiceInformerProvider | KubernetesServiceInstanceServiceProvider
+        false        | KubernetesServiceInstanceServiceProvider         | KubernetesServiceInstanceServiceInformerProvider
+    }
+
+    @Unroll
     void "it returns nothing when service doesn't exists [watchEnabled=#watchEnabled]"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         when:
         def config = createConfig("a-service")
@@ -56,7 +77,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
 
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         Service service = operations.createService("headless-service", namespace,
                 new ServiceSpecBuilder()
@@ -93,7 +114,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
 
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         Service service = operations.createService("multiport-service", namespace,
                 new ServiceSpecBuilder()
@@ -145,7 +166,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace"]]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         createNamespaceSafe("other-namespace")
         createBaseResources("other-namespace")
@@ -177,7 +198,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         Service service = operations.createService("external-service-https", namespace,
                 new ServiceSpecBuilder()
@@ -217,7 +238,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
 
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         Service service = operations.createService("external-service-http", namespace,
                 new ServiceSpecBuilder()
@@ -252,7 +273,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.includes": "example-service"]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         when:
         def config = createConfig("example-client", true)
@@ -276,7 +297,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
                 getConfig(watchEnabled, ["kubernetes.client.discovery.excludes": "example-service"]),
                 Environment.KUBERNETES)
 
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         when:
         def config = createConfig("example-service", true)
@@ -299,8 +320,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.labels": [foo: "bar"]]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceServiceProvider provider = applicationContext.getBean(KubernetesServiceInstanceServiceProvider)
-        sleep(1000) // sleep for a second to let the informer startup
+        def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
         when:
         def config = createConfig("example-client", true)

@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.discovery;
 
-import io.kubernetes.client.common.KubernetesListObject;
-import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.discovery.ServiceInstance;
 import org.reactivestreams.Publisher;
 
@@ -42,25 +40,8 @@ public interface KubernetesServiceInstanceProvider {
     Publisher<List<ServiceInstance>> getInstances(KubernetesServiceConfiguration serviceConfiguration);
 
     /**
+     * @param namespace namespace
      * @return provider service ids for given namespace
      */
-    Publisher<String>getServiceIds(String namespace);
-
-    /**
-     * @since 3.1
-     * @return provider api typ
-     */
-    Class<? extends KubernetesObject> getApiType();
-
-    /**
-     * @since 3.1
-     * @return provider api list type
-     */
-    Class<? extends KubernetesListObject> getApiListType();
-
-    /**
-     * @since 3.1
-     * @return provider type resource plural
-     */
-    String getResorucePlural();
+    Publisher<String> getServiceIds(String namespace);
 }

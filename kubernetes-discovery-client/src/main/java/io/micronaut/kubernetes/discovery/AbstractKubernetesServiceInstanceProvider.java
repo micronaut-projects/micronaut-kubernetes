@@ -43,7 +43,13 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
     public static final String SECURE_LABEL = "secure";
     protected static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesServiceInstanceProvider.class);
 
-    protected Predicate<KubernetesObject> discoveryConfigurationFilter(KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+    /**
+     * Creates filter predicate for Kubernetes objects based on provided {@link KubernetesConfiguration.KubernetesDiscoveryConfiguration}.
+     *
+     * @param discoveryConfiguration configuration
+     * @return predicate
+     */
+    protected static Predicate<KubernetesObject> discoveryConfigurationFilter(KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
         return compositePredicate(
                 KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes()),
                 KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes()),
@@ -51,7 +57,14 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
         );
     }
 
-    protected Predicate<KubernetesObject> serviceConfigurationDiscoveryFilter(KubernetesServiceConfiguration serviceConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
+    /**
+     * Creates service specific filter based on {@link KubernetesServiceConfiguration}.
+     *
+     * @param serviceConfiguration service configuration
+     * @param discoveryConfiguration discovery configuration
+     * @return filter predicate
+     */
+    protected static Predicate<KubernetesObject> serviceConfigurationDiscoveryFilter(KubernetesServiceConfiguration serviceConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration discoveryConfiguration) {
         Predicate<KubernetesObject> globalFilter;
         if (!serviceConfiguration.isManual()) {
             globalFilter = discoveryConfigurationFilter(discoveryConfiguration);
@@ -70,7 +83,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @param metadata    metadata
      * @return service instance
      */
-    public ServiceInstance buildServiceInstance(String serviceId, @Nullable PortBinder servicePort, String address, V1ObjectMeta metadata) {
+    public static ServiceInstance buildServiceInstance(String serviceId, @Nullable PortBinder servicePort, String address, V1ObjectMeta metadata) {
         boolean isSecure = (servicePort != null && isPortSecure(servicePort)) || isMetadataSecure(metadata);
         String scheme = isSecure ? "https://" : "http://";
         int portNumber = servicePort != null ? servicePort.getPort() : 80;
@@ -91,7 +104,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @param servicePort the {@link PortBinder}
      * @return Whether the port is considered secure
      */
-    public boolean isPortSecure(PortBinder servicePort) {
+    public static boolean isPortSecure(PortBinder servicePort) {
         String port = String.valueOf(servicePort.getPort());
         return port.endsWith("443") || "https".equals(servicePort.getName());
     }
@@ -101,7 +114,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @return true if there is a label within {@link V1ObjectMeta#getLabels()} named {@link #SECURE_LABEL} and with value "true";
      * false otherwise
      */
-    public boolean isMetadataSecure(V1ObjectMeta objectMeta) {
+    public static boolean isMetadataSecure(V1ObjectMeta objectMeta) {
         if (objectMeta.getLabels() == null) {
             return false;
         }
@@ -116,7 +129,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @param serviceConfiguration service configuration
      * @return true if the port configuration is valid otherwise false
      */
-    public boolean hasValidPortConfiguration(@Nullable List<PortBinder> ports, KubernetesServiceConfiguration serviceConfiguration) {
+    public static boolean hasValidPortConfiguration(@Nullable List<PortBinder> ports, KubernetesServiceConfiguration serviceConfiguration) {
         final String name = serviceConfiguration.getName().orElse(null);
         if (name != null && ports != null && ports.size() > 1 && !serviceConfiguration.getPort().isPresent()) {
             LOG.debug("The resource [" + name + "] has multiple ports declared ["
@@ -135,7 +148,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @return predicate
      */
     @SafeVarargs
-    public final Predicate<KubernetesObject> compositePredicate(Predicate<KubernetesObject>... predicates) {
+    public static Predicate<KubernetesObject> compositePredicate(Predicate<KubernetesObject>... predicates) {
         return s -> {
             for (Predicate<KubernetesObject> p : predicates) {
                 boolean test = p.test(s);

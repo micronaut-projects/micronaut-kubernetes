@@ -24,12 +24,33 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
     PollingConditions pollingConditions = new PollingConditions()
 
     @Unroll
+    void "context contains #inContext [watchEnabled=#watchEnabled]"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(
+                getConfig(watchEnabled),
+                Environment.KUBERNETES)
+
+        expect:
+        applicationContext.containsBean(AbstractV1EndpointsProvider)
+        applicationContext.containsBean(inContext)
+        !applicationContext.containsBean(notInContext)
+
+        cleanup:
+        applicationContext.close()
+
+        where:
+        watchEnabled | inContext                                         | notInContext
+        true         | KubernetesServiceInstanceEndpointInformerProvider | KubernetesServiceInstanceEndpointProvider
+        false        | KubernetesServiceInstanceEndpointProvider         | KubernetesServiceInstanceEndpointInformerProvider
+    }
+
+    @Unroll
     void "it returns nothing when service endpoints doesn't exists [watchEnabled=#watchEnabled]"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         when:
         def config = createConfig("a-service")
@@ -52,7 +73,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         Service service = operations.createService("example-headless-service", namespace,
                 new ServiceSpecBuilder()
@@ -88,7 +109,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         Service service = operations.createService("multiport-service", namespace,
                 new ServiceSpecBuilder()
@@ -140,7 +161,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace"]]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         createNamespaceSafe("other-namespace")
         createBaseResources("other-namespace")
@@ -177,8 +198,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.includes": "example-service"]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
-        sleep(500) // sleep for a second to let the informer startup
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         when:
         def config = createConfig("example-client", true)
@@ -201,7 +221,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.excludes": "example-service"]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         when:
         def config = createConfig("example-service", true)
@@ -224,7 +244,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled, ["kubernetes.client.discovery.labels": [foo: "bar"]]),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
         when:
         def config = createConfig("example-client", true)
@@ -255,7 +275,8 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         ApplicationContext applicationContext = ApplicationContext.run(
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
-        KubernetesServiceInstanceEndpointProvider provider = applicationContext.getBean(KubernetesServiceInstanceEndpointProvider)
+        def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
+
         def endpointsOperations = operations.getClient(namespace).endpoints()
         Endpoints endpoints = endpointsOperations.create(new EndpointsBuilder()
                 .withNewMetadata()
@@ -292,6 +313,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
     Map<String, Object> getConfig(boolean watchEnabled, Map<String, Object> additional = [:]) {
         def config = [
                 "kubernetes.client.namespace"                                          : namespace,
+                "kubernetes.client.config-maps.enabled"                                : false,
                 "kubernetes.client.discovery.mode"                                     : "endpoint",
                 "kubernetes.client.discovery.mode-configuration.endpoint.watch.enabled": watchEnabled
         ]

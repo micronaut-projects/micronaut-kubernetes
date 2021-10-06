@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.discovery;
+package io.micronaut.kubernetes.discovery.informer;
 
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.cache.Indexer;
@@ -31,12 +31,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * The {@link io.kubernetes.client.informer.cache.Indexer} composite for given {@code ApiType} that provides
+ * The {@link io.kubernetes.client.informer.cache.Indexer} composite for the given {@code ApiType} that provides
  * access to the {@link io.kubernetes.client.informer.cache.Store} resources.
  *
  * @param <ApiType> api type of the cache
  * @author Pavol Gressa
- * @since 3.1
+ * @since 3.2
  */
 @Internal
 public class IndexerComposite<ApiType extends KubernetesObject> {
@@ -45,7 +45,13 @@ public class IndexerComposite<ApiType extends KubernetesObject> {
 
     private final Map<String, Indexer<ApiType>> informerMap = Collections.synchronizedMap(new HashedMap<>());
 
-    public void add(String namespace, Indexer<ApiType> sharedIndexInformer) {
+    /**
+     * Add {@link Indexer} to the composite.
+     *
+     * @param namespace namespace of indexer
+     * @param sharedIndexInformer indexer
+     */
+    protected void add(String namespace, Indexer<ApiType> sharedIndexInformer) {
         informerMap.put(namespace, sharedIndexInformer);
     }
 
@@ -60,7 +66,7 @@ public class IndexerComposite<ApiType extends KubernetesObject> {
         Indexer<ApiType> indexer = informerMap.getOrDefault(namespace, null);
         if (indexer == null) {
             if (LOG.isTraceEnabled()) {
-                LOG.trace("Failed to find resource name {} in namespace {}, indexer null", name, namespace);
+                LOG.trace("Failed to find resource name {} in namespace {}, indexer is null.", name, namespace);
             }
             return Mono.empty();
         }
