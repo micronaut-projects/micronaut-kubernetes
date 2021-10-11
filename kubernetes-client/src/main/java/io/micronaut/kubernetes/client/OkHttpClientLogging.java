@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client;
 
+import io.micronaut.core.annotation.NonNull;
 import okhttp3.Connection;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
@@ -22,7 +23,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +38,9 @@ public class OkHttpClientLogging implements Interceptor {
 
     private static final Logger LOG = LoggerFactory.getLogger(OkHttpClientLogging.class);
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         Connection connection = chain.connection();
 
