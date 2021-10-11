@@ -22,7 +22,9 @@ import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.credentials.TokenFileAuthentication;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +34,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutorService;
+
+import static io.micronaut.scheduling.TaskExecutors.IO;
 
 /**
  * {@link ApiClient} bean factory that creates either in cluster {@link ClientBuilder#cluster()} client or
@@ -85,15 +90,17 @@ public class ApiClientFactory {
      * Creates ApiClient.
      *
      * @param clientBuilder client builder
+     * @param executorService executor service
      * @return ApiClient api client
      * @throws IOException if the CA or Token files were not found
      */
     @Singleton
-    public ApiClient apiClient(ClientBuilder clientBuilder) throws IOException {
+    public ApiClient apiClient(ClientBuilder clientBuilder, @Named(IO) ExecutorService executorService) throws IOException {
         ApiClient apiClient = clientBuilder.build();
         Configuration.setDefaultApiClient(apiClient);
         OkHttpClient.Builder builder = apiClient.getHttpClient().newBuilder();
         builder.addInterceptor(new OkHttpClientLogging());
+        builder.dispatcher(new Dispatcher(executorService));
         apiClient.setHttpClient(builder.build());
         return apiClient;
     }
