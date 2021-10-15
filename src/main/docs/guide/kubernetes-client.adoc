@@ -31,7 +31,7 @@ public class MyService {
 ----
 
 ## Authentication
-The Kubernetes client source of authentication options is automatically detected by the https://javadoc.io/static/io.kubernetes/client-java/13.0.0/io/kubernetes/client/util/ClientBuilder.html#standard--[ClientBuilder#standard()],
+The Kubernetes client source of authentication options is automatically detected by the https://javadoc.io/static/io.kubernetes/client-java/13.0.1/io/kubernetes/client/util/ClientBuilder.html#standard--[ClientBuilder#standard()],
 specifically:
 
 Creates a builder which is pre-configured in the following way
