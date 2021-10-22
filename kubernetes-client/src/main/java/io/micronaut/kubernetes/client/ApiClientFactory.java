@@ -22,7 +22,10 @@ import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.credentials.TokenFileAuthentication;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.core.annotation.Nullable;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutorService;
+
+import static io.micronaut.scheduling.TaskExecutors.IO;
 
 /**
  * {@link ApiClient} bean factory that creates either in cluster {@link ClientBuilder#cluster()} client or
@@ -87,13 +93,30 @@ public class ApiClientFactory {
      * @param clientBuilder client builder
      * @return ApiClient api client
      * @throws IOException if the CA or Token files were not found
+     * @deprecated Use {@link #apiClient(ClientBuilder, ExecutorService)}.
+     */
+    public ApiClient apiClient(ClientBuilder clientBuilder) throws IOException {
+        return this.apiClient(clientBuilder, null);
+    }
+
+    /**
+     * Creates ApiClient.
+     *
+     * @param clientBuilder   client builder
+     * @param executorService executor service
+     * @return ApiClient api client
+     * @throws IOException if the CA or Token files were not found
+     * @since 3.2
      */
     @Singleton
-    public ApiClient apiClient(ClientBuilder clientBuilder) throws IOException {
+    public ApiClient apiClient(ClientBuilder clientBuilder, @Nullable @Named(IO) ExecutorService executorService) throws IOException {
         ApiClient apiClient = clientBuilder.build();
         Configuration.setDefaultApiClient(apiClient);
         OkHttpClient.Builder builder = apiClient.getHttpClient().newBuilder();
         builder.addInterceptor(new OkHttpClientLogging());
+        if (executorService != null) {
+            builder.dispatcher(new Dispatcher(executorService));
+        }
         apiClient.setHttpClient(builder.build());
         return apiClient;
     }
