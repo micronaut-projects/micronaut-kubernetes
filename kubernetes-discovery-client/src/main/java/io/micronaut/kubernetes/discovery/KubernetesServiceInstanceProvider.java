@@ -42,6 +42,7 @@ public interface KubernetesServiceInstanceProvider {
     /**
      * @param namespace namespace
      * @return provider service ids for given namespace
+     * @since 3.2
      */
     Publisher<String> getServiceIds(String namespace);
 }
