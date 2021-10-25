@@ -75,8 +75,6 @@ public abstract class AbstractV1EndpointsProvider extends AbstractKubernetesServ
 
         AtomicReference<V1ObjectMeta> metadata = new AtomicReference<>();
 
-        Mono<V1Endpoints> v1EndpointsMono;
-
         return getEndpoints(serviceName, serviceNamespace)
                 .filter(serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
                 .doOnNext(endpoints -> metadata.set(endpoints.getMetadata()))
