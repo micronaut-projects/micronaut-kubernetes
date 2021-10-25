@@ -7,6 +7,7 @@ io.micronaut.kubernetes.client.reactor
 io.micronaut.kubernetes.client.rxjava2
 io.micronaut.kubernetes.configuration
 io.micronaut.kubernetes.discovery
+io.micronaut.kubernetes.discovery.informer
 io.micronaut.kubernetes.discovery.provider
 io.micronaut.kubernetes.health
 io.micronaut.kubernetes.util

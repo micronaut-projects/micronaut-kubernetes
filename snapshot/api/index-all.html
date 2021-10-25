@@ -82,6 +82,22 @@
 <dd>
 <div class="block">Utility class for transparent access to <code>V1EndpointPort</code> and <code>V1ServicePort</code>.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">AbstractV1EndpointsProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a></dt>
+<dd>
+<div class="block">Service instance provider uses Kubernetes Endpoints as source of service discovery.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#AbstractV1EndpointsProvider-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">AbstractV1EndpointsProvider(KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">AbstractV1ServiceProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a></dt>
+<dd>
+<div class="block">Service instance provider uses Kubernetes Service as source of service discovery.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#AbstractV1ServiceProvider-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">AbstractV1ServiceProvider(KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#add-java.lang.String-io.kubernetes.client.informer.cache.Indexer-">add(String, Indexer&lt;ApiType&gt;)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
+<dd>
+<div class="block">Add <code>Indexer</code> to the composite.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#addPropertySourceToCache-io.micronaut.context.env.PropertySource-">addPropertySourceToCache(PropertySource)</a></span> - Static method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>
 <div class="block">Adds the given <code>PropertySource</code> to the cache.</div>
@@ -139,7 +155,7 @@
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html#beforeAnalysis-org.graalvm.nativeimage.hosted.Feature.BeforeAnalysisAccess-">beforeAnalysis(Feature.BeforeAnalysisAccess)</a></span> - Method in class io.micronaut.kubernetes.client.graalvm.<a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html" title="class in io.micronaut.kubernetes.client.graalvm">KubernetesClientFeature</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#buildServiceInstance-java.lang.String-io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.PortBinder-java.lang.String-io.kubernetes.client.openapi.models.V1ObjectMeta-">buildServiceInstance(String, AbstractKubernetesServiceInstanceProvider.PortBinder, String, V1ObjectMeta)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#buildServiceInstance-java.lang.String-io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.PortBinder-java.lang.String-io.kubernetes.client.openapi.models.V1ObjectMeta-">buildServiceInstance(String, AbstractKubernetesServiceInstanceProvider.PortBinder, String, V1ObjectMeta)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>
 <div class="block">Builds service instance.</div>
 </dd>
@@ -156,7 +172,7 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#close--">close()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#compositePredicate-java.util.function.Predicate...-">compositePredicate(Predicate&lt;KubernetesObject&gt;...)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#compositePredicate-java.util.function.Predicate...-">compositePredicate(Predicate&lt;KubernetesObject&gt;...)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>
 <div class="block">Creates composite of predicates.</div>
 </dd>
@@ -184,6 +200,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#ConfigMapLabelSupplier-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration-">ConfigMapLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html#createInformersFor-java.lang.Class-java.lang.Class-java.lang.String-java.util.Set-">createInformersFor(Class&lt;ApiType&gt;, Class&lt;? extends KubernetesListObject&gt;, String, Set&lt;String&gt;)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerCompositeFactory</a></dt>
+<dd>
+<div class="block">Creates the <a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer"><code>IndexerComposite</code></a> that is populated by generated <code>SharedIndexInformer</code>'s <code>Indexer</code>.</div>
+</dd>
 </dl>
 <a name="I:D">
 <!--   -->
@@ -220,6 +240,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/DiscoveryCache.html#DiscoveryCache-io.kubernetes.client.Discovery-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-">DiscoveryCache(Discovery, ApiClientConfiguration.ApiDiscoveryCacheConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#discoveryConfigurationFilter-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">discoveryConfigurationFilter(KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dd>
+<div class="block">Creates filter predicate for Kubernetes objects based on provided <code>KubernetesConfiguration.KubernetesDiscoveryConfiguration</code>.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/DiscoveryFactory.html" title="class in io.micronaut.kubernetes.client"><span class="typeNameLink">DiscoveryFactory</span></a> - Class in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
 <dd>
 <div class="block">Factory for <code>Discovery</code>.</div>
@@ -246,7 +270,7 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#ENV_KUBERNETES_SERVICE_HOST">ENV_KUBERNETES_SERVICE_HOST</a></span> - Static variable in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#EXTERNAL_NAME">EXTERNAL_NAME</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#EXTERNAL_NAME">EXTERNAL_NAME</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 </dl>
 <a name="I:F">
@@ -292,6 +316,12 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#getDiscovery--">getDiscovery()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#getEndpoints-java.lang.String-java.lang.String-">getEndpoints(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#getEndpoints-java.lang.String-java.lang.String-">getEndpoints(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#getEndpoints-java.lang.String-java.lang.String-">getEndpoints(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#getExcludesFilter-java.util.Collection-">getExcludesFilter(Collection&lt;String&gt;)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#getExistingSharedIndexInformer-java.lang.String-java.lang.Class-">getExistingSharedIndexInformer(String, Class&lt;ApiType&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></dt>
@@ -322,9 +352,9 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html#getInstances-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">getInstances(KubernetesServiceConfiguration)</a></span> - Method in interface io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#getInstances-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">getInstances(KubernetesServiceConfiguration)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#getInstances-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">getInstances(KubernetesServiceConfiguration)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#getInstances-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">getInstances(KubernetesServiceConfiguration)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#getInstances-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">getInstances(KubernetesServiceConfiguration)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html#getKubeConfigPath--">getKubeConfigPath()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -334,9 +364,9 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html#getMode--">getMode()</a></span> - Method in interface io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -372,11 +402,31 @@
 <dd>
 <div class="block">Default refresh interval of API discovery.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#getResource-java.lang.String-java.lang.String-">getResource(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
+<dd>
+<div class="block">Get resource from the <code>Indexer</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#getResources-java.lang.String-">getResources(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
+<dd>
+<div class="block">Get all resources from the <code>Indexer</code> for given <code>namespace</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#getSecrets--">getSecrets()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#getService-java.lang.String-java.lang.String-">getService(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#getService-java.lang.String-java.lang.String-">getService(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#getService-java.lang.String-java.lang.String-">getService(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#getServiceId--">getServiceId()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#getServiceIds--">getServiceIds()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html#getServiceIds-java.lang.String-">getServiceIds(String)</a></span> - Method in interface io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#getServiceIds-java.lang.String-">getServiceIds(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#getServiceIds-java.lang.String-">getServiceIds(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html#getSyncStepTimeout--">getSyncStepTimeout()</a></span> - Method in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a></dt>
 <dd>
@@ -396,7 +446,7 @@
 </a>
 <h2 class="title">H</h2>
 <dl>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#hasValidPortConfiguration-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">hasValidPortConfiguration(List&lt;AbstractKubernetesServiceInstanceProvider.PortBinder&gt;, KubernetesServiceConfiguration)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#hasValidPortConfiguration-java.util.List-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-">hasValidPortConfiguration(List&lt;AbstractKubernetesServiceInstanceProvider.PortBinder&gt;, KubernetesServiceConfiguration)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>
 <div class="block">Validates the necessity of having port configuration based on number of declared <code>ports</code>.</div>
 </dd>
@@ -410,6 +460,19 @@
 </a>
 <h2 class="title">I</h2>
 <dl>
+<dt><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer"><span class="typeNameLink">IndexerComposite</span></a>&lt;<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="type parameter in IndexerComposite">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/discovery/informer/package-summary.html">io.micronaut.kubernetes.discovery.informer</a></dt>
+<dd>
+<div class="block">The <code>Indexer</code> composite for the given <code>ApiType</code> that provides
+ access to the <code>Store</code> resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#IndexerComposite--">IndexerComposite()</a></span> - Constructor for class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer"><span class="typeNameLink">IndexerCompositeFactory</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/informer/package-summary.html">io.micronaut.kubernetes.discovery.informer</a></dt>
+<dd>
+<div class="block">Factory for <a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer"><code>IndexerComposite</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html#IndexerCompositeFactory-io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory-">IndexerCompositeFactory(SharedIndexInformerFactory)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerCompositeFactory</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Informer</span></a> - Annotation Type in <a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a></dt>
 <dd>
 <div class="block">Annotation used in combination with <code>ResourceEventHandler</code> will cause the
@@ -430,6 +493,12 @@
 <div class="block">Creates the <a href="io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer"><code>InformerFactoryLifecycleListener</code></a>.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html#init-javax.annotation.processing.ProcessingEnvironment-">init(ProcessingEnvironment)</a></span> - Method in class io.micronaut.kubernetes.client.processor.<a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html" title="class in io.micronaut.kubernetes.client.processor">KubernetesApisProcessor</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.discovery.informer"><span class="typeNameLink">InstanceProviderInformerNamespaceResolver</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/informer/package-summary.html">io.micronaut.kubernetes.discovery.informer</a></dt>
+<dd>
+<div class="block">Resolver for the namespaces to watch by <a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery"><code>KubernetesServiceInstanceProvider</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html#InstanceProviderInformerNamespaceResolver-io.micronaut.kubernetes.KubernetesConfiguration-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-java.util.List-">InstanceProviderInformerNamespaceResolver(KubernetesConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration, List&lt;KubernetesServiceConfiguration&gt;)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.discovery.informer">InstanceProviderInformerNamespaceResolver</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html#intercept-io.micronaut.aop.ConstructorInvocationContext-">intercept(ConstructorInvocationContext&lt;ResourceEventHandler&lt;ApiType&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerConstructorInterceptor</a></dt>
 <dd>&nbsp;</dd>
@@ -453,6 +522,8 @@
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a> - package io.micronaut.kubernetes.discovery</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/discovery/informer/package-summary.html">io.micronaut.kubernetes.discovery.informer</a> - package io.micronaut.kubernetes.discovery.informer</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a> - package io.micronaut.kubernetes.discovery.provider</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/health/package-summary.html">io.micronaut.kubernetes.health</a> - package io.micronaut.kubernetes.health</dt>
@@ -465,9 +536,9 @@
 <dd>
 <div class="block">This field is for inner use to mark manually configured services.</div>
 </dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#isMetadataSecure-io.kubernetes.client.openapi.models.V1ObjectMeta-">isMetadataSecure(V1ObjectMeta)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#isMetadataSecure-io.kubernetes.client.openapi.models.V1ObjectMeta-">isMetadataSecure(V1ObjectMeta)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#isPortSecure-io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.PortBinder-">isPortSecure(AbstractKubernetesServiceInstanceProvider.PortBinder)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#isPortSecure-io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.PortBinder-">isPortSecure(AbstractKubernetesServiceInstanceProvider.PortBinder)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>
 <div class="block">Attempts to guess whether this port should be connected to using SSL.</div>
 </dd>
@@ -582,12 +653,22 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#KubernetesServiceConfiguration-java.lang.String-java.lang.String-java.lang.String-java.lang.String-java.lang.String-boolean-">KubernetesServiceConfiguration(String, String, String, String, String, boolean)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceEndpointInformerProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a></dt>
+<dd>
+<div class="block">Service instance provider uses Kubernetes Endpoints Informer as source of service discovery.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#KubernetesServiceInstanceEndpointInformerProvider-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-io.micronaut.kubernetes.discovery.informer.InstanceProviderInformerNamespaceResolver-io.micronaut.kubernetes.discovery.informer.IndexerCompositeFactory-">KubernetesServiceInstanceEndpointInformerProvider(KubernetesConfiguration.KubernetesDiscoveryConfiguration, InstanceProviderInformerNamespaceResolver, IndexerCompositeFactory)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></dt>
+<dd>
+<div class="block">Creates kubernetes instance endpoint provider.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceEndpointProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a></dt>
 <dd>
-<div class="block">Service instance provider uses Kubernetes Endpoints as source of service discovery.</div>
+<div class="block">Service instance provider uses Kubernetes Endpoints API as source of service discovery.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#KubernetesServiceInstanceEndpointProvider-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">KubernetesServiceInstanceEndpointProvider(CoreV1ApiReactorClient, KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates kubernetes instance endpoint provider.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">KubernetesServiceInstanceList</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
 <div class="block">A <code>ServiceInstanceList</code> implementation for Kubernetes.</div>
@@ -598,12 +679,22 @@
 <dd>
 <div class="block">Kubernetes service instance provider.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceServiceInformerProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a></dt>
+<dd>
+<div class="block">Service instance provider uses Kubernetes Service Informer as source of service discovery.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#KubernetesServiceInstanceServiceInformerProvider-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-io.micronaut.kubernetes.discovery.informer.InstanceProviderInformerNamespaceResolver-io.micronaut.kubernetes.discovery.informer.IndexerCompositeFactory-">KubernetesServiceInstanceServiceInformerProvider(KubernetesConfiguration.KubernetesDiscoveryConfiguration, InstanceProviderInformerNamespaceResolver, IndexerCompositeFactory)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></dt>
+<dd>
+<div class="block">Creates kubernetes instance endpoint provider.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceServiceProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/provider/package-summary.html">io.micronaut.kubernetes.discovery.provider</a></dt>
 <dd>
-<div class="block">Service instance provider uses Kubernetes Service as source of service discovery.</div>
+<div class="block">Service instance provider uses Kubernetes Service API as source of service discovery.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#KubernetesServiceInstanceServiceProvider-io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">KubernetesServiceInstanceServiceProvider(CoreV1ApiReactorClient, KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates kubernetes instance service provider.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util"><span class="typeNameLink">KubernetesUtils</span></a> - Class in <a href="io/micronaut/kubernetes/util/package-summary.html">io.micronaut.kubernetes.util</a></dt>
 <dd>
 <div class="block">Utility class with methods to help with ConfigMaps and Secrets.</div>
@@ -616,11 +707,31 @@
 </a>
 <h2 class="title">L</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#listEndpoints-java.lang.String-">listEndpoints(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#listEndpoints-java.lang.String-">listEndpoints(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#listEndpoints-java.lang.String-">listEndpoints(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#listServices-java.lang.String-">listServices(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#listServices-java.lang.String-">listServices(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#listServices-java.lang.String-">listServices(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
 <dd>&nbsp;</dd>
@@ -634,9 +745,9 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html#MICRONAUT_APIS_PACKAGE">MICRONAUT_APIS_PACKAGE</a></span> - Static variable in class io.micronaut.kubernetes.client.processor.<a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html" title="class in io.micronaut.kubernetes.client.processor">KubernetesApisProcessor</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#MODE">MODE</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#MODE">MODE</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#MODE">MODE</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#MODE">MODE</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/ModelMapper.html" title="class in io.micronaut.kubernetes.client"><span class="typeNameLink">ModelMapper</span></a> - Class in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
 <dd>
@@ -666,6 +777,8 @@
 </a>
 <h2 class="title">O</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#objectNameOrNull-io.kubernetes.client.common.KubernetesObject-">objectNameOrNull(KubernetesObject)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html" title="class in io.micronaut.kubernetes.client"><span class="typeNameLink">OkHttpClientLogging</span></a> - Class in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
 <dd>
 <div class="block">Simplified version of <code>HttpLoggingInterceptor</code> that respects the logger configuration.</div>
@@ -730,12 +843,20 @@
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/Informer.html#RESOLVE_AUTOMATICALLY">RESOLVE_AUTOMATICALLY</a></span> - Static variable in annotation type io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer">Informer</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html#resolveInformerNamespaces-io.micronaut.kubernetes.discovery.KubernetesServiceInstanceProvider-">resolveInformerNamespaces(KubernetesServiceInstanceProvider)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.discovery.informer">InstanceProviderInformerNamespaceResolver</a></dt>
+<dd>
+<div class="block">Resolves the namespaces to watch.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html#resolveNamespace--">resolveNamespace()</a></span> - Method in class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html" title="class in io.micronaut.kubernetes.client">DefaultNamespaceResolver</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/NamespaceResolver.html#resolveNamespace--">resolveNamespace()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/NamespaceResolver.html" title="interface in io.micronaut.kubernetes.client">NamespaceResolver</a></dt>
 <dd>
 <div class="block">Resolves namespace.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#RESOURCE_PLURAL">RESOURCE_PLURAL</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#RESOURCE_PLURAL">RESOURCE_PLURAL</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">ResourceEventHandlerConstructorInterceptor</span></a>&lt;<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html" title="type parameter in ResourceEventHandlerConstructorInterceptor">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a></dt>
 <dd>
 <div class="block">Constructor interceptor for the <code>ResourceEventHandler</code> beans annotated by <a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><code>Informer</code></a> annotation that
@@ -756,6 +877,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#SERVICE_ID">SERVICE_ID</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#serviceConfigurationDiscoveryFilter-io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">serviceConfigurationDiscoveryFilter(KubernetesServiceConfiguration, KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
+<dd>
+<div class="block">Creates service specific filter based on <a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery"><code>KubernetesServiceConfiguration</code></a>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#setConfigMaps-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesConfigMapsConfiguration-">setConfigMaps(KubernetesConfiguration.KubernetesConfigMapsConfiguration)</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#setDiscovery-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration-">setDiscovery(KubernetesConfiguration.KubernetesDiscoveryConfiguration)</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>

@@ -436,7 +436,7 @@
 <ul class="blockList">
 <li class="blockList">
 <table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th scope="col">Constant Field</th>
@@ -444,10 +444,10 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider.MODE">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.AbstractV1EndpointsProvider.MODE">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html#MODE">MODE</a></code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#MODE">MODE</a></code></td>
 <td class="colLast"><code>"endpoint"</code></td>
 </tr>
 </tbody>
@@ -455,7 +455,7 @@
 </li>
 <li class="blockList">
 <table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
-<caption><span>io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
+<caption><span>io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
 <tr>
 <th class="colFirst" scope="col">Modifier and Type</th>
 <th scope="col">Constant Field</th>
@@ -463,18 +463,56 @@
 </tr>
 <tbody>
 <tr class="altColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceProvider.EXTERNAL_NAME">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.AbstractV1ServiceProvider.EXTERNAL_NAME">
 <!--   -->
 </a><code>protected&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#EXTERNAL_NAME">EXTERNAL_NAME</a></code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#EXTERNAL_NAME">EXTERNAL_NAME</a></code></td>
 <td class="colLast"><code>"ExternalName"</code></td>
 </tr>
 <tr class="rowColor">
-<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceProvider.MODE">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.AbstractV1ServiceProvider.MODE">
 <!--   -->
 </a><code>public&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
-<td><code><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#MODE">MODE</a></code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#MODE">MODE</a></code></td>
 <td class="colLast"><code>"service"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointInformerProvider.RESOURCE_PLURAL">
+<!--   -->
+</a><code>protected&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#RESOURCE_PLURAL">RESOURCE_PLURAL</a></code></td>
+<td class="colLast"><code>"endpoints"</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li class="blockList">
+<table class="constantsSummary" border="0" cellpadding="3" cellspacing="0" summary="Constant Field Values table, listing constant fields, and values">
+<caption><span>io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></span><span class="tabEnd">&nbsp;</span></caption>
+<tr>
+<th class="colFirst" scope="col">Modifier and Type</th>
+<th scope="col">Constant Field</th>
+<th class="colLast" scope="col">Value</th>
+</tr>
+<tbody>
+<tr class="altColor">
+<td class="colFirst"><a name="io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceInformerProvider.RESOURCE_PLURAL">
+<!--   -->
+</a><code>protected&nbsp;static&nbsp;final&nbsp;java.lang.String</code></td>
+<td><code><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#RESOURCE_PLURAL">RESOURCE_PLURAL</a></code></td>
+<td class="colLast"><code>"services"</code></td>
 </tr>
 </tbody>
 </table>

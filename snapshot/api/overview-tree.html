@@ -80,6 +80,7 @@
 <li><a href="io/micronaut/kubernetes/client/rxjava2/package-tree.html">io.micronaut.kubernetes.client.rxjava2</a>, </li>
 <li><a href="io/micronaut/kubernetes/configuration/package-tree.html">io.micronaut.kubernetes.configuration</a>, </li>
 <li><a href="io/micronaut/kubernetes/discovery/package-tree.html">io.micronaut.kubernetes.discovery</a>, </li>
+<li><a href="io/micronaut/kubernetes/discovery/informer/package-tree.html">io.micronaut.kubernetes.discovery.informer</a>, </li>
 <li><a href="io/micronaut/kubernetes/discovery/provider/package-tree.html">io.micronaut.kubernetes.discovery.provider</a>, </li>
 <li><a href="io/micronaut/kubernetes/health/package-tree.html">io.micronaut.kubernetes.health</a>, </li>
 <li><a href="io/micronaut/kubernetes/util/package-tree.html">io.micronaut.kubernetes.util</a></li>
@@ -97,8 +98,18 @@
 </li>
 <li type="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">AbstractKubernetesServiceInstanceProvider</span></a> (implements io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a>)
 <ul>
+<li type="circle">io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">AbstractV1EndpointsProvider</span></a>
+<ul>
+<li type="circle">io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceEndpointInformerProvider</span></a></li>
 <li type="circle">io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceEndpointProvider</span></a></li>
+</ul>
+</li>
+<li type="circle">io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">AbstractV1ServiceProvider</span></a>
+<ul>
+<li type="circle">io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceServiceInformerProvider</span></a></li>
 <li type="circle">io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider"><span class="typeNameLink">KubernetesServiceInstanceServiceProvider</span></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li type="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">AbstractKubernetesServiceInstanceProvider.PortBinder</span></a></li>
@@ -123,7 +134,10 @@
 <li type="circle">io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DiscoveryFactory.html" title="class in io.micronaut.kubernetes.client"><span class="typeNameLink">DiscoveryFactory</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyLabelSupplier.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">EmptyLabelSupplier</span></a> (implements java.util.function.Supplier&lt;T&gt;)</li>
 <li type="circle">io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">EmptyNamespacesSupplier</span></a> (implements java.util.function.Supplier&lt;T&gt;)</li>
+<li type="circle">io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer"><span class="typeNameLink">IndexerComposite</span></a>&lt;ApiType&gt;</li>
+<li type="circle">io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer"><span class="typeNameLink">IndexerCompositeFactory</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">InformerFactoryLifecycleListener</span></a></li>
+<li type="circle">io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.discovery.informer"><span class="typeNameLink">InstanceProviderInformerNamespaceResolver</span></a></li>
 <li type="circle">io.micronaut.kubernetes.client.graalvm.<a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html" title="class in io.micronaut.kubernetes.client.graalvm"><span class="typeNameLink">KubernetesClientFeature</span></a> (implements org.graalvm.nativeimage.hosted.Feature)</li>
 <li type="circle">io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration"><span class="typeNameLink">KubernetesConfigMapWatcher</span></a> (implements io.kubernetes.client.informer.ResourceEventHandler&lt;ApiType&gt;)</li>
 <li type="circle">io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><span class="typeNameLink">KubernetesConfigMapWatcherCondition</span></a> (implements io.micronaut.context.condition.Condition)</li>
