@@ -69,7 +69,6 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
 
         when:
         KubernetesDiscoveryClient discoveryClient = applicationContext.getBean(KubernetesDiscoveryClient)
-        println "JDU NA TO"
 
         then:
         pollingConditions.eventually {
