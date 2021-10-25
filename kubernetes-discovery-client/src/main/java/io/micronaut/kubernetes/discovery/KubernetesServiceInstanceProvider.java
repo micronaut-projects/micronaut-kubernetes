@@ -38,4 +38,11 @@ public interface KubernetesServiceInstanceProvider {
      * @return discovered service instances
      */
     Publisher<List<ServiceInstance>> getInstances(KubernetesServiceConfiguration serviceConfiguration);
+
+    /**
+     * @param namespace namespace
+     * @return provider service ids for given namespace
+     * @since 3.2
+     */
+    Publisher<String> getServiceIds(String namespace);
 }

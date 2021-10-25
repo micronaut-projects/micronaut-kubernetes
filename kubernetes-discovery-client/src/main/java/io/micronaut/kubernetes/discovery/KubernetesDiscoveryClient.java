@@ -15,10 +15,6 @@
  */
 package io.micronaut.kubernetes.discovery;
 
-import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.models.V1ObjectMeta;
-import io.kubernetes.client.openapi.models.V1ServiceList;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.NonNull;
@@ -26,20 +22,19 @@ import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
 import io.micronaut.discovery.ServiceInstance;
-import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.util.KubernetesUtils;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.inject.Inject;
-import jakarta.inject.Singleton;
 import reactor.core.publisher.Flux;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -135,22 +130,14 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
      */
     @Override
     public Publisher<List<String>> getServiceIds() {
-        String namespace = configuration.getNamespace();
-        Map<String, String> labels = configuration.getDiscovery().getLabels();
-        String labelSelector = KubernetesUtils.computeLabelSelector(labels);
-        Predicate<KubernetesObject> includesFilter = KubernetesUtils.getIncludesFilter(discoveryConfiguration.getIncludes());
-        Predicate<KubernetesObject> excludesFilter = KubernetesUtils.getExcludesFilter(discoveryConfiguration.getExcludes());
+        final String namespace = configuration.getNamespace();
+        final KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
 
         return Flux.merge(
-                Flux.fromIterable(serviceConfigurations.keySet()),
-                client.listNamespacedService(namespace, null, null, null, null, labelSelector, null, null, null, null)
-                        .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Services in namespace [" + namespace + "]:" + throwable.getResponseBody(), throwable))
-                        .flatMapIterable(V1ServiceList::getItems)
-                        .filter(includesFilter)
-                        .filter(excludesFilter)
-                        .mapNotNull(service -> Optional.ofNullable(service.getMetadata())
-                                .map(V1ObjectMeta::getName).orElse(null))
-        ).distinct().collectList();
+                        Flux.fromIterable(serviceConfigurations.keySet()),
+                        instanceProvider.getServiceIds(namespace)
+                )
+                .distinct().collectList();
     }
 
     @Override
