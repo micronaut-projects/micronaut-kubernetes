@@ -188,6 +188,7 @@ public @interface Apis {
     enum Kind {
         ASYNC,
         REACTOR,
-        RXJAVA2
+        RXJAVA2,
+        RXJAVA3
     }
 }
