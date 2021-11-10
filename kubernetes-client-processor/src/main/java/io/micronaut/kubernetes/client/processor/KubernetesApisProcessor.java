@@ -90,8 +90,10 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                     final String simpleName = NameUtils.getSimpleName(clientName);
                     switch (t) {
                         case "RXJAVA2":
+                            writeRxJava2Clients(e, packageName, simpleName);
+                            break;
                         case "RXJAVA3":
-                            writeRxJavaClients(e, packageName, simpleName, t);
+                            writeRxJava3Clients(e, packageName, simpleName);
                             break;
                         case "REACTOR":
                             writeReactorClients(e, packageName, simpleName);
@@ -271,15 +273,16 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         }
     }
 
-    private void writeRxJavaClients(Element e, String packageName, String simpleName, String rxVersion) {
-        final String rx = simpleName + "RxClient";
-        String rxVersionSuffix = ".rxjava2";
-        String rxJavaPackage = "io.reactivex";
+    private void writeRxJava2Clients(Element e, String packageName, String simpleName) {
+        writeRxJavaClients(e, packageName, simpleName, ".rxjava2", "io.reactivex");
+    }
 
-        if (rxVersion.equals("RXJAVA3")) {
-            rxVersionSuffix = ".rxjava3";
-            rxJavaPackage = "io.reactivex.rxjava3.core";
-        }
+    private void writeRxJava3Clients(Element e, String packageName, String simpleName) {
+        writeRxJavaClients(e, packageName, simpleName, ".rxjava3", "io.reactivex.rxjava3.core");
+    }
+
+    private void writeRxJavaClients(Element e, String packageName, String simpleName, String rxVersionSuffix, String rxJavaPackage) {
+        final String rx = simpleName + "RxClient";
 
         final String rxPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + rxVersionSuffix);
 
