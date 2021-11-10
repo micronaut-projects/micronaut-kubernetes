@@ -99,6 +99,8 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                         case "ASYNC":
                             writeClientFactory(e, packageName, simpleName);
                             break;
+                        default:
+                            break;
                     }
                 }
             }

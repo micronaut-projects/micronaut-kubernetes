@@ -26,6 +26,7 @@ import java.util.Map;
 /**
  * Bridges the {@link ApiCallback} interface to an Reactor {@link MonoSink}.
  *
+ * @param <T> Type
  * @author Pavol Gressa
  * @since 3.0
  */

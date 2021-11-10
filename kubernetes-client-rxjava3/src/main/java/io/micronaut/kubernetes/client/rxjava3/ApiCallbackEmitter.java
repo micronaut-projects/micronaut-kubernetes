@@ -24,10 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Bridges the {@link ApiCallback} interface to an RxJava2 {@link SingleEmitter}.
+ * Bridges the {@link ApiCallback} interface to an RxJava3 {@link SingleEmitter}.
  *
- * @author Pavol Gressa
- * @since 3.0
+ * @param <T> Type
+ * @author Nemanja Mikic
+ * @since 3.3.0
  */
 @Apis(kind = Apis.Kind.RXJAVA3)
 public class ApiCallbackEmitter<T> implements ApiCallback<T> {
