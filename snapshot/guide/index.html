@@ -239,7 +239,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:3.2.1-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:3.3.0-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -247,7 +247,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
-    &lt;version&gt;3.2.1-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.3.0-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1319,7 +1319,7 @@ information about how to configure it.</p>
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client:3.2.1-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client:3.3.0-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1327,7 +1327,7 @@ information about how to configure it.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client&lt;/artifactId&gt;
-    &lt;version&gt;3.2.1-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.3.0-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1436,7 +1436,7 @@ specifically:</p>
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:3.2.1-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:3.3.0-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1444,7 +1444,7 @@ specifically:</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-rxjava2&lt;/artifactId&gt;
-    &lt;version&gt;3.2.1-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.3.0-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
@@ -1479,12 +1479,63 @@ public class MyService {
 </div>
 </div>
 <div class="sect2">
+<h3 id="_rxjava_3_reactive_support">RxJava 3 Reactive Support</h3>
+<div class="paragraph">
+<p>For RxJava 3 add the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3:3.3.0-SNAPSHOT")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-rxjava3&lt;/artifactId&gt;
+    &lt;version&gt;3.3.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;RxClient</code>,
+for example the <code>CoreV1Api</code> class is injected as <code>CoreV1ApiRxClient</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.models.V1PodList;
+import io.micronaut.kubernetes.client.rxjava3.CoreV1ApiRxClient;
+import io.reactivex.Single;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final CoreV1ApiRxClient coreV1ApiRxClient;
+
+    public MyService(CoreV1ApiRxClient coreV1ApiRxClient) {
+        this.coreV1ApiRxClient = coreV1ApiRxClient;
+    }
+
+    public void myMethod(String namespace) {
+        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_reactor_reactive_support">Reactor Reactive Support</h3>
 <div class="paragraph">
 <p>For Reactor add the following dependency:</p>
 </div>
 <div class="paragraph">
-<p>dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-<a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/3/2/1-SNAPSHOT/.html">1-SNAPSHOT</a></p>
+<p>dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-<a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/3/3/0-SNAPSHOT/.html">0-SNAPSHOT</a></p>
 </div>
 <div class="paragraph">
 <p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;ReactiveClient</code>,
@@ -1561,7 +1612,7 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-informer:3.2.1-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-informer:3.3.0-SNAPSHOT")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1569,7 +1620,7 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-informer&lt;/artifactId&gt;
-    &lt;version&gt;3.2.1-SNAPSHOT&lt;/version&gt;
+    &lt;version&gt;3.3.0-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
