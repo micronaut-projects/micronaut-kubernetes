@@ -13,39 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.reactor;
+package io.micronaut.kubernetes.client.rxjava3;
 
 import io.kubernetes.client.openapi.ApiCallback;
 import io.kubernetes.client.openapi.ApiException;
 import io.micronaut.kubernetes.client.Apis;
-import reactor.core.publisher.MonoSink;
+import io.reactivex.rxjava3.core.SingleEmitter;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Bridges the {@link ApiCallback} interface to an Reactor {@link MonoSink}.
+ * Bridges the {@link ApiCallback} interface to an RxJava3 {@link SingleEmitter}.
  *
  * @param <T> Type
- * @author Pavol Gressa
- * @since 3.0
+ * @author Nemanja Mikic
+ * @since 3.3.0
  */
-@Apis(kind = Apis.Kind.REACTOR)
-public class AsyncCallbackSink<T> implements ApiCallback<T> {
-    private final MonoSink<T> monoSink;
+@Apis(kind = Apis.Kind.RXJAVA3)
+public class ApiCallbackEmitter<T> implements ApiCallback<T> {
 
-    public AsyncCallbackSink(MonoSink<T> monoSink) {
-        this.monoSink = monoSink;
+    private final SingleEmitter<T> emitter;
+
+    public ApiCallbackEmitter(SingleEmitter<T> emitter) {
+        this.emitter = emitter;
     }
 
     @Override
     public void onFailure(ApiException e, int statusCode, Map<String, List<String>> responseHeaders) {
-        monoSink.error(e);
+        emitter.onError(e);
     }
 
     @Override
     public void onSuccess(T result, int statusCode, Map<String, List<String>> responseHeaders) {
-        monoSink.success(result);
+        emitter.onSuccess(result);
     }
 
     @Override

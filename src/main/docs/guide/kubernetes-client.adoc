@@ -88,6 +88,37 @@ public class MyService {
 }
 ----
 
+### RxJava 3 Reactive Support
+
+For RxJava 3 add the following dependency:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3:{version}[]
+
+The module contains all official Kubernetes API beans in format `<ApiClassName>RxClient`,
+for example the `CoreV1Api` class is injected as `CoreV1ApiRxClient`.
+
+[source,java]
+----
+import io.kubernetes.client.openapi.ApiException;
+import io.kubernetes.client.openapi.models.V1PodList;
+import io.micronaut.kubernetes.client.rxjava3.CoreV1ApiRxClient;
+import io.reactivex.Single;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final CoreV1ApiRxClient coreV1ApiRxClient;
+
+    public MyService(CoreV1ApiRxClient coreV1ApiRxClient) {
+        this.coreV1ApiRxClient = coreV1ApiRxClient;
+    }
+
+    public void myMethod(String namespace) {
+        Single<V1PodList> v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+    }
+}
+----
 
 ### Reactor Reactive Support
 

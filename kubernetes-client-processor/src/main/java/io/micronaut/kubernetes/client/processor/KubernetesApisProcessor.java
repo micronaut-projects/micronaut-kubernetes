@@ -85,23 +85,24 @@ public class KubernetesApisProcessor extends AbstractProcessor {
             for (Element e : element) {
                 final List<String> apisNames = resolveClientNames(e);
                 final String t = resolveClientType(e);
-                final boolean isRxJava2 = t.equals("RXJAVA2");
-                final boolean isReactor = t.equals("REACTOR");
-                final boolean isAsync = t.equals("ASYNC");
                 for (String clientName : apisNames) {
                     final String packageName = NameUtils.getPackageName(clientName);
                     final String simpleName = NameUtils.getSimpleName(clientName);
-
-                    if (isRxJava2) {
-                        writeRxJava2Clients(e, packageName, simpleName);
-                    } else {
-                        if (isReactor) {
+                    switch (t) {
+                        case "RXJAVA2":
+                            writeRxJava2Clients(e, packageName, simpleName);
+                            break;
+                        case "RXJAVA3":
+                            writeRxJava3Clients(e, packageName, simpleName);
+                            break;
+                        case "REACTOR":
                             writeReactorClients(e, packageName, simpleName);
-                        } else {
-                            if (isAsync) {
-                                writeClientFactory(e, packageName, simpleName);
-                            }
-                        }
+                            break;
+                        case "ASYNC":
+                            writeClientFactory(e, packageName, simpleName);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -273,14 +274,25 @@ public class KubernetesApisProcessor extends AbstractProcessor {
     }
 
     private void writeRxJava2Clients(Element e, String packageName, String simpleName) {
+        writeRxJavaClients(e, packageName, simpleName, ".rxjava2", "io.reactivex");
+    }
+
+    private void writeRxJava3Clients(Element e, String packageName, String simpleName) {
+        writeRxJavaClients(e, packageName, simpleName, ".rxjava3", "io.reactivex.rxjava3.core");
+    }
+
+    private void writeRxJavaClients(Element e, String packageName, String simpleName, String rxVersionSuffix, String rxJavaPackage) {
         final String rx = simpleName + "RxClient";
-        final String rxPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + ".rxjava2");
+
+        final String rxPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + rxVersionSuffix);
 
         ClassName cn = ClassName.get(rxPackageName, rx);
         TypeSpec.Builder builder = TypeSpec.classBuilder(cn);
 
         ClassName clientType = ClassName.get(packageName, simpleName);
-        ClassName rxSingleType = ClassName.get("io.reactivex", "Single");
+        ClassName rxSingleType = ClassName.get(rxJavaPackage, "Single");
+
+
         final AnnotationSpec.Builder requiresSpec =
                 AnnotationSpec.builder(Requires.class)
                         .addMember("beans", "{$T.class}", clientType);
