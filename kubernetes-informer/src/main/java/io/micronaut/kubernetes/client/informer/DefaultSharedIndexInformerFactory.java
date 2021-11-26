@@ -68,7 +68,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
      * Creates {@link DefaultSharedIndexInformer}.
      *
      * @param informerConfiguration informer configuration
-     * @param apiClient api client
+     * @param apiClient             api client
      */
     public DefaultSharedIndexInformerFactory(InformerConfiguration informerConfiguration, ApiClient apiClient) {
         this.apiClient = apiClient;
@@ -97,6 +97,14 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
 
         // if namespace is null then watch all namespaces
         String ns = namespace == null ? Namespaces.NAMESPACE_ALL : namespace;
+
+        SharedIndexInformer<ApiType> existingSharedIndexInformer = getExistingSharedIndexInformer(namespace, apiType);
+        if (existingSharedIndexInformer != null) {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("Informer for '{}' in namespace '{}' already exists, reusing", apiType, ns);
+            }
+            return existingSharedIndexInformer;
+        }
 
         if (LOG.isDebugEnabled()) {
             LOG.debug("Creating Informer for KubernetesObject '{}' with group '{}', version '{}', resource plural '{}'," +
@@ -209,16 +217,15 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         return new ArrayList<>(this.informers.values());
     }
 
+    @SuppressWarnings("unchecked")
     private synchronized <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
             ListerWatcher<ApiType, ApiListType> listerWatcher,
             Class<ApiType> apiTypeClass,
             String namespace,
             long resyncPeriodInMillis) {
-        SharedIndexInformer<ApiType> informer =
-                new DefaultSharedIndexInformer<>(apiTypeClass, listerWatcher, resyncPeriodInMillis);
         Type type = new NamespaceResourceClassType(namespace, apiTypeClass);
-        this.informers.putIfAbsent(type, informer);
-        return informer;
+        return this.informers.computeIfAbsent(type, k ->
+                new DefaultSharedIndexInformer<>(apiTypeClass, listerWatcher, resyncPeriodInMillis));
     }
 
     private <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject>
