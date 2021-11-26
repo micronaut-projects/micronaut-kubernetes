@@ -25,6 +25,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventPublisher;
+import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.informer.Informer;
@@ -52,6 +53,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)
+@Requires(property = ConfigurationClient.ENABLED, value = "true", defaultValue = "false")
 @Requires(condition = KubernetesConfigMapWatcherCondition.class)
 @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", apiGroup = "", labelSelectorSupplier = ConfigMapLabelSupplier.class)
 public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1ConfigMap> {
