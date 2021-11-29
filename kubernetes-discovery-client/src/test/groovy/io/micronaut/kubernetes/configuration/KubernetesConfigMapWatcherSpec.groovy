@@ -3,6 +3,7 @@ package io.micronaut.kubernetes.configuration
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import io.micronaut.discovery.config.ConfigurationClient
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
@@ -21,9 +22,17 @@ class KubernetesConfigMapWatcherSpec extends Specification {
         applicationContext.containsBean(KubernetesConfigMapWatcher)
     }
 
-    void "KubernetesConfigMapWatcher can be disabled"() {
+    void "KubernetesConfigMapWatcher is explicitly disabled"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.watch": "false"], Environment.KUBERNETES)
+
+        expect:
+        !applicationContext.containsBean(KubernetesConfigMapWatcher)
+    }
+
+    void "KubernetesConfigMapWatcher is disabled when config-client is disabled"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run(["micronaut.config-client.enabled": "false"], Environment.KUBERNETES)
 
         expect:
         !applicationContext.containsBean(KubernetesConfigMapWatcher)
