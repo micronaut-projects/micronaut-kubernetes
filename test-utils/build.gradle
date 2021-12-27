@@ -8,7 +8,7 @@ dependencies {
     implementation "org.codehaus.groovy:groovy:$groovyVersion"
     implementation "io.micronaut:micronaut-inject-groovy"
     implementation "io.micronaut:micronaut-http-client:$micronautVersion"
-    api 'io.fabric8:kubernetes-client:5.9.0'
+    api 'io.fabric8:kubernetes-client:5.11.1'
     compileOnly "org.junit.jupiter:junit-jupiter-engine"
     implementation("org.spockframework:spock-core:${spockVersion}") {
         exclude module:'groovy-all'
