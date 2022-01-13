@@ -20,6 +20,9 @@ import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.util.Toggleable;
 import io.micronaut.kubernetes.client.ApiClientConfiguration;
 
+import java.time.Duration;
+import java.util.Optional;
+
 /**
  * The informer configuration.
  *
@@ -45,4 +48,11 @@ public interface InformerConfiguration extends Toggleable {
      */
     @Bindable(defaultValue = "500")
     long getSyncStepTimeout();
+
+    /**
+     * Resync period to use for all informers.
+     *
+     * @return resync period
+     */
+    Optional<Duration> getResyncPeriod();
 }

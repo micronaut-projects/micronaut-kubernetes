@@ -28,7 +28,6 @@ import java.util.List;
 
 @Requires(property = "spec.name", value = "ClusterRoleInformerSpec")
 //tag::handler[]
-@Singleton
 @Informer(apiType = V1ClusterRole.class, apiListType = V1ClusterRoleList.class)
 public class ClusterRoleInformer implements ResourceEventHandler<V1ClusterRole> {
 

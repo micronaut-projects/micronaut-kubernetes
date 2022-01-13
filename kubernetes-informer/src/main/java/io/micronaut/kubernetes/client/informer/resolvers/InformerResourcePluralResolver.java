@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client;
-
+package io.micronaut.kubernetes.client.informer.resolvers;
 
 import io.micronaut.context.annotation.DefaultImplementation;
+import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.kubernetes.client.informer.Informer;
 
 /**
- * Resolves the Kubernetes namespace for the Micronaut application.
+ * Resolves the k8s resource plural.
  *
- * @see DefaultNamespaceResolver
  * @author Pavol Gressa
- * @since 3.1
+ * @since 3.3
  */
-@DefaultImplementation(DefaultNamespaceResolver.class)
-public interface NamespaceResolver {
+@DefaultImplementation(DefaultInformerResourcePluralResolver.class)
+public interface InformerResourcePluralResolver {
 
-    /**
-     * Resolves namespace.
-     * @return namespace name
-     */
-    String resolveNamespace();
+    @NonNull
+    String resolveInformerResourcePlural(@NonNull AnnotationValue<Informer> informer);
 }

@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Requires(property = "spec.name", value = "ConfigMapInformerSpec")
-@Singleton
 @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class)
 public class DuplicitConfigMapInformer implements ResourceEventHandler<V1ConfigMap> {
 

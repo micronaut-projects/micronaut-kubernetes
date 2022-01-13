@@ -18,22 +18,28 @@ package io.micronaut.kubernetes.client.informer;
 import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.aop.AroundConstruct;
-import io.micronaut.context.annotation.Prototype;
+import io.micronaut.context.annotation.Bean;
+import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.DefaultScope;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.function.Supplier;
 
 /**
  * Annotation used in combination with {@link io.kubernetes.client.informer.ResourceEventHandler} will cause the
- * {@link io.kubernetes.client.informer.SharedIndexInformer} will be created by {@link ResourceEventHandlerConstructorInterceptor}.
+ * {@link io.kubernetes.client.informer.SharedIndexInformer} will be created by {@link ResourceEventHandlerBeanListener}.
  *
  * @author Pavol Gressa
  * @since 3.1
  */
 @Retention(RetentionPolicy.RUNTIME)
 @AroundConstruct
-@Prototype
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Bean
+@DefaultScope(Context.class)
 public @interface Informer {
 
     String ALL_NAMESPACES = "ALL_NAMESPACES";

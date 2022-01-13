@@ -15,22 +15,23 @@
  */
 package io.micronaut.kubernetes.client;
 
+import jakarta.inject.Singleton;
 
-import io.micronaut.context.annotation.DefaultImplementation;
+import java.util.Optional;
 
 /**
- * Resolves the Kubernetes namespace for the Micronaut application.
+ * The default implementation of {@link PodNameResolver}.
  *
- * @see DefaultNamespaceResolver
  * @author Pavol Gressa
- * @since 3.1
+ * @since 3.3
  */
-@DefaultImplementation(DefaultNamespaceResolver.class)
-public interface NamespaceResolver {
+@Singleton
+public class DefaultPodNameResolver implements PodNameResolver {
 
-    /**
-     * Resolves namespace.
-     * @return namespace name
-     */
-    String resolveNamespace();
+    private static final String HOSTNAME_ENV_VARIABLE = "HOSTNAME";
+
+    @Override
+    public Optional<String> getPodName() {
+        return Optional.ofNullable(System.getenv(HOSTNAME_ENV_VARIABLE));
+    }
 }
