@@ -14,12 +14,5 @@ dependencies {
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-//    testAnnotationProcessor "io.micronaut:micronaut-inject-groovy"
-//    testImplementation "io.micronaut:micronaut-inject-groovy"
-//    testImplementation "io.micronaut:micronaut-inject-java"
-//    testImplementation("org.spockframework:spock-core:${spockVersion}") {
-//        exclude module:'groovy-all'
-//    }
-//    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     testImplementation project(":test-utils")
 }

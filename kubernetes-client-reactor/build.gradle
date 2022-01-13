@@ -10,7 +10,6 @@ dependencies {
     api 'io.projectreactor:reactor-core:3.4.13'
     api "io.micronaut.reactor:micronaut-reactor:2.1.1"
 
-//    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     testImplementation project(":test-utils")
 }
 compileJava.options.fork = true

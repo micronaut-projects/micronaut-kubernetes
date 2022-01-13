@@ -2,27 +2,3 @@ plugins {
     id "io.micronaut.build.internal.docs"
     id "io.micronaut.build.internal.dependency-updates"
 }
-//
-//subprojects { Project subproject ->
-//
-//    repositories {
-//        mavenCentral()
-//    }
-//
-//    group "io.micronaut.kubernetes"
-//
-//    apply plugin: "io.micronaut.build.internal.common"
-//
-//    if (subproject.name in ["test-utils", "micronaut-client", "micronaut-service", "micronaut-kubernetes-client", "micronaut-kubernetes-informer"]) {
-//        tasks.withType(Checkstyle) {
-//            enabled = false
-//        }
-//        return
-//    }
-//
-//    apply plugin: "io.micronaut.build.internal.dependency-updates"
-//    apply plugin: "io.micronaut.build.internal.publishing"
-//}
-//
-//apply plugin: "io.micronaut.build.internal.docs"
-//apply plugin: "io.micronaut.build.internal.dependency-updates"
