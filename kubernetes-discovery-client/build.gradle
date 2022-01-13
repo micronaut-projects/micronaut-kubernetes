@@ -1,3 +1,7 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
@@ -17,12 +21,12 @@ dependencies {
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
     testImplementation "io.micronaut.discovery:micronaut-discovery-client"
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut:micronaut-inject-java"
-    testImplementation("org.spockframework:spock-core:${spockVersion}") {
-        exclude module:'groovy-all'
-    }
-    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+//    testImplementation "io.micronaut:micronaut-inject-groovy"
+//    testImplementation "io.micronaut:micronaut-inject-java"
+//    testImplementation("org.spockframework:spock-core:${spockVersion}") {
+//        exclude module:'groovy-all'
+//    }
+//    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     testImplementation "com.github.stefanbirkner:system-lambda:1.2.1"
 
     testImplementation project(":test-utils")

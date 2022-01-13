@@ -398,6 +398,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
 
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private List<String> resolveClientNames(Element e) {
         List<String> clientNames = new ArrayList<>();
         final List<? extends AnnotationMirror> annotationMirrors = e.getAnnotationMirrors();

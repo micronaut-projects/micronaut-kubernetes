@@ -1,0 +1,4 @@
+plugins {
+    id 'io.micronaut.build.internal.common'
+    id 'io.micronaut.build.internal.dependency-updates'
+}

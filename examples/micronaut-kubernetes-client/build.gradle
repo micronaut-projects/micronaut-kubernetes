@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
-    id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.5"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.1.1"
 }
 
 repositories {
@@ -24,7 +24,7 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-management")
-    api project(':kubernetes-client')
+    implementation project(':kubernetes-client')
     runtimeOnly("ch.qos.logback:logback-classic")
 }
 

@@ -1,24 +1,19 @@
 plugins {
-    id 'groovy'
+    id 'io.micronaut.build.internal.kubernetes-test-module'
 }
 
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-groovy"
 
     implementation "org.codehaus.groovy:groovy:$groovyVersion"
-    implementation "io.micronaut:micronaut-inject-groovy"
-    implementation "io.micronaut:micronaut-http-client:$micronautVersion"
-    api 'io.fabric8:kubernetes-client:5.9.0'
-    compileOnly "org.junit.jupiter:junit-jupiter-engine"
-    implementation("org.spockframework:spock-core:${spockVersion}") {
-        exclude module:'groovy-all'
-    }
-    implementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    api "io.micronaut:micronaut-inject-groovy"
+    api "io.micronaut:micronaut-http-client:$micronautVersion"
+    api 'io.fabric8:kubernetes-client:5.11.1'
+    api("org.spockframework:spock-core:${spockVersion}")
+    api "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+    api "ch.qos.logback:logback-classic:1.2.10"
+}
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut:micronaut-inject-groovy"
-    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    testImplementation("org.spockframework:spock-core:${spockVersion}") {
-        exclude module:'groovy-all'
-    }
+repositories {
+    mavenCentral()
 }

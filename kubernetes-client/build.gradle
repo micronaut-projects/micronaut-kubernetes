@@ -1,3 +1,7 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
@@ -11,13 +15,13 @@ dependencies {
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
 
-    testCompileOnly "io.micronaut:micronaut-inject-groovy"
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "io.micronaut:micronaut-runtime"
-    testImplementation "io.micronaut:micronaut-http-client"
-    testImplementation("org.spockframework:spock-core:${spockVersion}") {
-        exclude module:'groovy-all'
-    }
-    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
+//    testCompileOnly "io.micronaut:micronaut-inject-groovy"
+//    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
+//    testImplementation "io.micronaut:micronaut-runtime"
+//    testImplementation "io.micronaut:micronaut-http-client"
+//    testImplementation("org.spockframework:spock-core:${spockVersion}") {
+//        exclude module:'groovy-all'
+//    }
+//    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     testImplementation project(":test-utils")
 }
