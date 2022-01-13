@@ -5,6 +5,7 @@ io.micronaut.kubernetes.client.informer
 io.micronaut.kubernetes.client.processor
 io.micronaut.kubernetes.client.reactor
 io.micronaut.kubernetes.client.rxjava2
+io.micronaut.kubernetes.client.rxjava3
 io.micronaut.kubernetes.configuration
 io.micronaut.kubernetes.discovery
 io.micronaut.kubernetes.discovery.informer
