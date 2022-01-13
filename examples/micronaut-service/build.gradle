@@ -1,7 +1,7 @@
 plugins {
     id("groovy")
-    id("com.github.johnrengelman.shadow") version "7.0.0"
-    id("io.micronaut.application") version "2.0.5"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.1.1"
 }
 
 repositories {
@@ -32,8 +32,8 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks {

@@ -1,12 +1,14 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
 dependencies {
     annotationProcessor project(":kubernetes-client-processor")
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
-
     api project(":kubernetes-client")
     implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
 
-    testImplementation "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     testImplementation project(":test-utils")
 }
 compileJava.options.fork = true

@@ -55,6 +55,7 @@ public class IndexerCompositeFactory {
      * @param <ApiType>      type of composite
      * @return indexer composite
      */
+    @SuppressWarnings("unchecked")
     public <ApiType extends KubernetesObject> IndexerComposite<ApiType> createInformersFor(
             Class<ApiType> apiType,
             Class<? extends KubernetesListObject> apiListType,

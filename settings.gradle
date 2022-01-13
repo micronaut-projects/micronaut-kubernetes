@@ -6,10 +6,10 @@ pluginManagement {
 }
 
 plugins {
-    id("io.micronaut.build.shared.settings") version "4.2.2"
+    id 'io.micronaut.build.shared.settings' version '5.1.1'
 }
 
-rootProject.name = 'micronaut-kubernetes'
+rootProject.name = 'kubernetes-parent'
 
 include 'kubernetes-client'
 include 'kubernetes-client-processor'
