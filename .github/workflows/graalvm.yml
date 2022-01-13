@@ -39,15 +39,15 @@ jobs:
           oci-subnet-ocid: ${{ secrets.OCI_SUBNET }}
           oci-av-domain: ${{ secrets.OCI_AV_DOMAIN }}
           oci-image-ocid: ${{ secrets.OCI_RUNNER_IMAGE }}
-          runners-count: '1'
+          runners-count: '2'
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner
     runs-on: ${{ needs.start-runner.outputs.label }}
     strategy:
       matrix:
-        java: ['11']
-        k8s: ['1.21']
+        java: [ '11', '17' ]
+        k8s: [ '1.21' ]
     steps:
       - uses: AutoModality/action-clean@1.1.0
       - uses: actions/checkout@v2
@@ -67,6 +67,9 @@ jobs:
           K8S_VERSION: ${{ matrix.k8s }}
           JAVA_VERSION: ${{ matrix.java }}
           EXAMPLE_SERVICE_RUNTIME: 'native'
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
         run: |
           [ -f ./setup.sh ] && ./setup.sh
       - name: Build with Gradle
@@ -76,8 +79,10 @@ jobs:
             ./gradlew ${EXAMPLE}:test --continue --no-build-cache
           done
         env:
-           TESTCONTAINERS_RYUK_DISABLED: true
-           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          TESTCONTAINERS_RYUK_DISABLED: true
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
       - name: Optional tear down step
         env:
           K8S_VERSION: ${{ matrix.k8s }}
@@ -88,7 +93,7 @@ jobs:
         if: always()
         uses: mikepenz/action-junit-report@v2
         with:
-          check_name: GraalVM CE CI / Test Report (${{ matrix.java }})
+          check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
   stop-runner:
     name: Stop self-hosted OracleCloud runners
