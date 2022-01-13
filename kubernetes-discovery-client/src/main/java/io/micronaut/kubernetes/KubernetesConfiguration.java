@@ -231,7 +231,7 @@ public class KubernetesConfiguration {
         }
 
         /**
-         * @return Flag to indicate that failure to find configured pod label is fatal (default {@value #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).
+         * @return Flag to indicate that failure to find configured pod label is fatal (default {@link #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).
          */
         public boolean isExceptionOnPodLabelsMissing() {
             return exceptionOnPodLabelsMissing;
@@ -240,7 +240,7 @@ public class KubernetesConfiguration {
         /**
          * If set to true an exception will be thrown if at least one of the configured pod labels is not found
          * among the application's pod labels.
-         * Default value ({@value #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).
+         * Default value ({@link #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).
          *
          * @param exceptionOnPodLabelsMissing flag to throw exception on pod labels missing
          */

@@ -96,11 +96,12 @@ class KubernetesOperations implements Closeable {
 
     Role createRole(String name,
                     String namespace,
+                    String apiGroup = "",
                     List<String> verbs = ["get", "list", "watch"],
                     List<String> resources = ["services", "endpoints", "configmaps", "secrets", "pods"]) {
 
         PolicyRule policyRule = new PolicyRuleBuilder()
-                .withApiGroups("")
+                .withApiGroups(apiGroup)
                 .withResources(resources)
                 .withVerbs(verbs)
                 .build()
@@ -148,12 +149,14 @@ class KubernetesOperations implements Closeable {
 
 
     ConfigMap createConfigMap(String name, String namespace,
-                              Map data = [foo: 'bar'], Map<String, String> labels = [:]) {
+                              Map data = [foo: 'bar'], Map<String, String> labels = [:],
+                              Map<String, String> annotations = [:]) {
         def cm = new ConfigMapBuilder()
                 .withNewMetadata()
                 .withName(name)
                 .withNamespace(namespace)
                 .withLabels(labels)
+                .withAnnotations(annotations)
                 .endMetadata()
                 .withData(data)
                 .build()
@@ -184,6 +187,7 @@ class KubernetesOperations implements Closeable {
     }
 
     String modifyConfigMap(ConfigMap configMap) {
+        log.debug("Modifying config map ${configMap}")
         return getClient(configMap.metadata.namespace).configMaps().patch(configMap)
     }
 

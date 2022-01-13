@@ -1,0 +1,9 @@
+micronaut:
+  application:
+    name: micronaut-operator-test
+  server:
+    thread-selection: io
+    executors:
+      io:
+        n-threads: 75
+        type: fixed

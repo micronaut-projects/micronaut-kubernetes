@@ -6,6 +6,7 @@ config-client: Configuration Client
 health-checks: Health Checks
 kubernetes-client: Kubernetes Client
 kubernetes-informer: Kubernetes Informer
+kubernetes-operator: Kubernetes Operator
 logging: Logging and debugging
 breaking: Breaking Changes
 repository: Repository

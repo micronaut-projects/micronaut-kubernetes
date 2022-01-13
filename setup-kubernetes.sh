@@ -28,6 +28,7 @@ kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-example-servi
 kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-example-client:latest
 kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-client-example:latest
 kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-informer-example:latest
+kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-operator-example:latest
 
 #
 # Run Kubernetes API proxy
