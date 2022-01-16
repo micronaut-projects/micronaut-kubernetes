@@ -1,0 +1,14 @@
+plugins {
+    id 'io.micronaut.build.internal.bom'
+}
+
+micronautBom {
+    // exclude example projects
+    extraExcludedProjects.add("micronaut-client")
+    extraExcludedProjects.add("micronaut-kubernetes-client")
+    extraExcludedProjects.add("micronaut-kubernetes-informer")
+    extraExcludedProjects.add("micronaut-service")
+
+    // exclude test utils
+    extraExcludedProjects.add("test-utils")
+}
