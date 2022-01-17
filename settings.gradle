@@ -11,6 +11,7 @@ plugins {
 
 rootProject.name = 'kubernetes-parent'
 
+include 'kubernetes-bom'
 include 'kubernetes-client'
 include 'kubernetes-client-processor'
 include 'kubernetes-client-reactor'
