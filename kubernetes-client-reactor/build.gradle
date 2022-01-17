@@ -7,7 +7,7 @@ dependencies {
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
     api project(":kubernetes-client")
-    api 'io.projectreactor:reactor-core:3.4.13'
+    api 'io.projectreactor:reactor-core:3.4.14'
     api "io.micronaut.reactor:micronaut-reactor:2.1.1"
 
     testImplementation project(":test-utils")
