@@ -3,6 +3,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.micronaut.kubernetes/micronaut-kubernetes-discovery-client.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.micronaut.kubernetes%22%20AND%20a:%22micronaut-kubernetes-discovery-client%22)
 ![Snapshot](https://img.shields.io/badge/dynamic/xml?color=yellow&label=Snapshot&query=%2F%2Fmetadata%2Fversioning%2Flatest&url=https%3A%2F%2Fs01.oss.sonatype.org%2Fcontent%2Frepositories%2Fsnapshots%2Fio%2Fmicronaut%2Fkubernetes%2Fmicronaut-kubernetes-client%2Fmaven-metadata.xml)
 [![Build Status](https://travis-ci.org/micronaut-projects/micronaut-kubernetes.svg?branch=master)](https://travis-ci.org/micronaut-projects/micronaut-kubernetes)
+[![Revved up by Gradle Enterprise](https://img.shields.io/badge/Revved%20up%20by-Gradle%20Enterprise-06A0CE?logo=Gradle&labelColor=02303A)](https://ge.micronaut.io/scans)
 
 This project includes integration between [Micronaut](http://micronaut.io) and [Kubernetes](https://kubernetes.io).
 
