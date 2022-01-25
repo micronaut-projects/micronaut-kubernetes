@@ -1634,8 +1634,7 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">@Singleton
-@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class) <b class="conum">(1)</b>
+<pre class="highlight"><code class="language-java" data-lang="java">@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class) <b class="conum">(1)</b>
 public class ConfigMapInformer implements ResourceEventHandler&lt;V1ConfigMap&gt; { <b class="conum">(2)</b>
 
     @Override

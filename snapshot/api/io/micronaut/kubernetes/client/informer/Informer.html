@@ -42,7 +42,7 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/kubernetes/client/informer/Informer.html" target="_top">Frames</a></li>
@@ -93,10 +93,12 @@
 <br>
 <pre>@Retention(value=RUNTIME)
  @AroundConstruct
- @Prototype
+ @Target(value={TYPE,ANNOTATION_TYPE})
+ @Bean
+ @DefaultScope(value=io.micronaut.context.annotation.Context.class)
 public @interface <span class="memberNameLabel">Informer</span></pre>
 <div class="block">Annotation used in combination with <code>ResourceEventHandler</code> will cause the
- <code>SharedIndexInformer</code> will be created by <a href="../../../../../io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html" title="class in io.micronaut.kubernetes.client.informer"><code>ResourceEventHandlerConstructorInterceptor</code></a>.</div>
+ <code>SharedIndexInformer</code> will be created by <a href="../../../../../io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer"><code>ResourceEventHandlerBeanListener</code></a>.</div>
 <dl>
 <dt><span class="simpleTagLabel">Since:</span></dt>
 <dd>3.1</dd>
@@ -506,7 +508,7 @@ public @interface <span class="memberNameLabel">Informer</span></pre>
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
-<li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/kubernetes/client/informer/Informer.html" target="_top">Frames</a></li>

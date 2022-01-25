@@ -42,7 +42,7 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../io/micronaut/kubernetes/client/graalvm/package-summary.html">Prev&nbsp;Package</a></li>
-<li><a href="../../../../../io/micronaut/kubernetes/client/processor/package-summary.html">Next&nbsp;Package</a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/informer/resolvers/package-summary.html">Next&nbsp;Package</a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/kubernetes/client/informer/package-summary.html" target="_top">Frames</a></li>
@@ -122,15 +122,21 @@
 </td>
 </tr>
 <tr class="rowColor">
+<td class="colFirst"><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer">InformerAnnotationUtils</a></td>
+<td class="colLast">
+<div class="block">Utility class for resolvers.</div>
+</td>
+</tr>
+<tr class="altColor">
 <td class="colFirst"><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer">InformerFactoryLifecycleListener</a></td>
 <td class="colLast">
 <div class="block">Starts up and shuts down the <a href="../../../../../io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer"><code>SharedIndexInformerFactory</code></a>.</div>
 </td>
 </tr>
-<tr class="altColor">
-<td class="colFirst"><a href="../../../../../io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerConstructorInterceptor</a>&lt;ApiType extends io.kubernetes.client.common.KubernetesObject&gt;</td>
+<tr class="rowColor">
+<td class="colFirst"><a href="../../../../../io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a>&lt;ApiType extends io.kubernetes.client.common.KubernetesObject&gt;</td>
 <td class="colLast">
-<div class="block">Constructor interceptor for the <code>ResourceEventHandler</code> beans annotated by <a href="../../../../../io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><code>Informer</code></a> annotation that
+<div class="block">BeanCreatedEventListener for the <code>ResourceEventHandler</code> beans annotated by <a href="../../../../../io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><code>Informer</code></a> annotation that
  based on provided parameters in the <a href="../../../../../io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><code>Informer</code></a> annotation created the <code>SharedIndexInformer</code> and registers
  <code>ResourceEventHandler</code> to the informer.</div>
 </td>
@@ -150,7 +156,7 @@
 <td class="colFirst"><a href="../../../../../io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer">Informer</a></td>
 <td class="colLast">
 <div class="block">Annotation used in combination with <code>ResourceEventHandler</code> will cause the
- <code>SharedIndexInformer</code> will be created by <a href="../../../../../io/micronaut/kubernetes/client/informer/ResourceEventHandlerConstructorInterceptor.html" title="class in io.micronaut.kubernetes.client.informer"><code>ResourceEventHandlerConstructorInterceptor</code></a>.</div>
+ <code>SharedIndexInformer</code> will be created by <a href="../../../../../io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer"><code>ResourceEventHandlerBeanListener</code></a>.</div>
 </td>
 </tr>
 </tbody>
@@ -179,7 +185,7 @@
 <div class="subNav">
 <ul class="navList">
 <li><a href="../../../../../io/micronaut/kubernetes/client/graalvm/package-summary.html">Prev&nbsp;Package</a></li>
-<li><a href="../../../../../io/micronaut/kubernetes/client/processor/package-summary.html">Next&nbsp;Package</a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/informer/resolvers/package-summary.html">Next&nbsp;Package</a></li>
 </ul>
 <ul class="navList">
 <li><a href="../../../../../index.html?io/micronaut/kubernetes/client/informer/package-summary.html" target="_top">Frames</a></li>

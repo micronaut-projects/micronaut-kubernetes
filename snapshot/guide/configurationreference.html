@@ -128,9 +128,75 @@
 </div>
 <div class="sect2">
 <h3 id="_kubernetes_discovery_client_config_properties">Kubernetes Discovery Client Config Properties</h3>
+<a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesSecretsConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the {@link KubernetesSecretsConfiguration}.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.exception-on-pod-labels-missing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true an exception will be thrown if at least one of the configured pod labels is not found
+ among the application&#8217;s pod labels.
+ Default value ({@value #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enabled flag.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.paths</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">where secrets are mounted</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.use-api</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">whether to use the API to read secrets when {@link #paths} is used.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -191,7 +257,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -209,72 +275,6 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesSecretsConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the {@link KubernetesSecretsConfiguration}.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.includes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.excludes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.pod-labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.exception-on-pod-labels-missing</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true an exception will be thrown if at least one of the configured pod labels is not found
- among the application&#8217;s pod labels.
- Default value ({@value #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">enabled flag.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.paths</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">where secrets are mounted</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.use-api</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">whether to use the API to read secrets when {@link #paths} is used.</p></td>
 </tr>
 </tbody>
 </table>
@@ -424,6 +424,12 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Timeout step to check whether the informer has synchronised.</p>
 <p class="tableblock"> @return step timeout in milliseconds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.informer.resync-period</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resync period to use for all informers.</p>
+<p class="tableblock"> @return resync period</p></td>
 </tr>
 </tbody>
 </table>

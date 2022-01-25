@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6};
+var methods = {"i0":6,"i1":6,"i2":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -47,7 +47,7 @@ var activeTableTab = "activeTableTab";
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
 <li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
@@ -151,12 +151,18 @@ extends io.micronaut.core.util.Toggleable</pre>
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>java.util.Optional&lt;java.time.Duration&gt;</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html#getResyncPeriod--">getResyncPeriod</a></span>()</code>
+<div class="block">Resync period to use for all informers.</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html#getSyncStepTimeout--">getSyncStepTimeout</a></span>()</code>
 <div class="block">Timeout step to check whether the informer has synchronised.</div>
 </td>
 </tr>
-<tr id="i1" class="rowColor">
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html#getSyncTimeout--">getSyncTimeout</a></span>()</code>
 <div class="block">Timout for informer to get synchronised.</div>
@@ -223,7 +229,7 @@ long&nbsp;getSyncTimeout()</pre>
 <a name="getSyncStepTimeout--">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getSyncStepTimeout</h4>
 <pre>@Bindable(defaultValue="500")
@@ -232,6 +238,20 @@ long&nbsp;getSyncStepTimeout()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>step timeout in milliseconds</dd>
+</dl>
+</li>
+</ul>
+<a name="getResyncPeriod--">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>getResyncPeriod</h4>
+<pre>java.util.Optional&lt;java.time.Duration&gt;&nbsp;getResyncPeriod()</pre>
+<div class="block">Resync period to use for all informers.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>resync period</dd>
 </dl>
 </li>
 </ul>
@@ -262,7 +282,7 @@ long&nbsp;getSyncStepTimeout()</pre>
 </div>
 <div class="subNav">
 <ul class="navList">
-<li><a href="../../../../../io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
+<li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Prev&nbsp;Class</span></a></li>
 <li><a href="../../../../../io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer"><span class="typeNameLink">Next&nbsp;Class</span></a></li>
 </ul>
 <ul class="navList">
