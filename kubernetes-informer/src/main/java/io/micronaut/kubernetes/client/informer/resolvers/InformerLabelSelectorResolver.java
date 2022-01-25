@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client;
-
+package io.micronaut.kubernetes.client.informer.resolvers;
 
 import io.micronaut.context.annotation.DefaultImplementation;
+import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.kubernetes.client.informer.Informer;
 
 /**
- * Resolves the Kubernetes namespace for the Micronaut application.
+ * Informer label selector resolver.
  *
- * @see DefaultNamespaceResolver
  * @author Pavol Gressa
- * @since 3.1
+ * @since 3.3
  */
-@DefaultImplementation(DefaultNamespaceResolver.class)
-public interface NamespaceResolver {
+@DefaultImplementation(DefaultInformerLabelSelectorResolver.class)
+public interface InformerLabelSelectorResolver {
 
     /**
-     * Resolves namespace.
-     * @return namespace name
+     * Resolves the informer's watched resources label selector.
+     *
+     * @param informer the informer
+     * @return resource label selector or null
      */
-    String resolveNamespace();
+    @Nullable
+    String resolveInformerLabels(@NonNull AnnotationValue<Informer> informer);
 }

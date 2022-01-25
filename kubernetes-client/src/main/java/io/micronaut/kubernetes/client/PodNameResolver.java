@@ -15,22 +15,23 @@
  */
 package io.micronaut.kubernetes.client;
 
-
 import io.micronaut.context.annotation.DefaultImplementation;
 
+import java.util.Optional;
+
 /**
- * Resolves the Kubernetes namespace for the Micronaut application.
+ * Resolves the Pod name.
  *
- * @see DefaultNamespaceResolver
  * @author Pavol Gressa
- * @since 3.1
+ * @since 3.3
  */
-@DefaultImplementation(DefaultNamespaceResolver.class)
-public interface NamespaceResolver {
+@DefaultImplementation(DefaultPodNameResolver.class)
+public interface PodNameResolver {
 
     /**
-     * Resolves namespace.
-     * @return namespace name
+     * Resolves the name of the POD this application is running in.
+     * @return pod name
      */
-    String resolveNamespace();
+    Optional<String> getPodName();
+
 }

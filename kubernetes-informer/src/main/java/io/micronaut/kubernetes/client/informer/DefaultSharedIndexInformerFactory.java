@@ -22,6 +22,8 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.ListerWatcher;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.informer.SharedInformerFactory;
+import io.kubernetes.client.informer.cache.Cache;
+import io.kubernetes.client.informer.cache.Caches;
 import io.kubernetes.client.informer.impl.DefaultSharedIndexInformer;
 import io.kubernetes.client.openapi.ApiClient;
 import io.kubernetes.client.openapi.ApiException;
@@ -75,6 +77,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         this.informerConfiguration = informerConfiguration;
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
             Class<ApiType> apiType,
@@ -97,6 +100,14 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
 
         // if namespace is null then watch all namespaces
         String ns = namespace == null ? Namespaces.NAMESPACE_ALL : namespace;
+
+        // resolved resync period
+        long evaluatedResyncPeriod = 0L;
+        if (resyncCheckPeriod != null) {
+            evaluatedResyncPeriod = resyncCheckPeriod;
+        } else if (informerConfiguration.getResyncPeriod().isPresent()) {
+            evaluatedResyncPeriod = informerConfiguration.getResyncPeriod().get().toMillis();
+        }
 
         SharedIndexInformer<ApiType> existingSharedIndexInformer = getExistingSharedIndexInformer(namespace, apiType);
         if (existingSharedIndexInformer != null) {
@@ -123,7 +134,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
                 listerWatcherFor(kubernetesApi, labelSelector, ns),
                 apiType,
                 ns,
-                resyncCheckPeriod == null ? 0L : resyncCheckPeriod);
+                evaluatedResyncPeriod);
 
         if (LOG.isInfoEnabled()) {
             LOG.info("Created Informer for '{}' in namespace '{}'", apiType, ns);
@@ -206,12 +217,14 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         super.stopAllRegisteredInformers(false);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(String namespace, Class<ApiType> apiTypeClass) {
         Type type = new NamespaceResourceClassType(namespace, apiTypeClass);
         return this.informers.getOrDefault(type, null);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List<SharedIndexInformer> getExistingSharedIndexInformers() {
         return new ArrayList<>(this.informers.values());
@@ -224,8 +237,13 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             String namespace,
             long resyncPeriodInMillis) {
         Type type = new NamespaceResourceClassType(namespace, apiTypeClass);
-        return this.informers.computeIfAbsent(type, k ->
-                new DefaultSharedIndexInformer<>(apiTypeClass, listerWatcher, resyncPeriodInMillis));
+        return this.informers.computeIfAbsent(type, k -> {
+            Cache<ApiType> cache = new Cache<>(
+                        Caches.NAMESPACE_INDEX,
+                        Caches::metaNamespaceIndexFunc,
+                        Caches::deletionHandlingMetaNamespaceKeyFunc);
+            return new DefaultSharedIndexInformer<>(apiTypeClass, listerWatcher, resyncPeriodInMillis, cache);
+        });
     }
 
     private <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject>
@@ -304,6 +322,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
         }
     }
 
+    @SuppressWarnings("rawtypes")
     static class NamespaceResourceClassType implements Type {
         String namespace;
         Class clazz;
@@ -313,9 +332,10 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             this.clazz = clazz;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public String getTypeName() {
-            return namespace + "#" + TypeToken.get(clazz).getType().getTypeName();
+            return String.format("%s#%s", namespace, TypeToken.get(clazz).getType().getTypeName());
         }
 
         @Override
