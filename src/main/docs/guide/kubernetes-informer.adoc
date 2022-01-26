@@ -18,7 +18,7 @@ The api:kubernetes.client.informer.ResourceEventHandlerConstructorInterceptor[] 
 
 The ann:kubernetes.client.informer.Informer[] annotation provides several configuration options:
 
-.Informer configuration
+.@Informer attributes
 |===
 |Element | Description
 |`apiType` | The resource api type that must extend from the `KubernetesObject`. For Kubernetes core resources the types can be found in `io.kubernetes.client.openapi.models` package. For example `io.kubernetes.client.openapi.models.V1ConfigMap`.

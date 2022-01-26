@@ -1,0 +1,58 @@
+/*
+ * Copyright 2017-2021 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.micronaut.kubernetes.client.operator.leaderelection;
+
+import io.kubernetes.client.extended.leaderelection.LeaderElectionConfig;
+import io.kubernetes.client.extended.leaderelection.Lock;
+import io.kubernetes.client.openapi.models.V1OwnerReference;
+import io.micronaut.context.annotation.Factory;
+import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration;
+import jakarta.inject.Singleton;
+
+/**
+ * The factory for {@link LeaderElectionConfig}.
+ *
+ * @author Pavol Gressa
+ * @since 3.3
+ */
+@Factory
+@Internal
+public class LeaderElectionConfigFactory {
+
+    /**
+     * Builds the {@link LeaderElectionConfig} from the {@link LeaderElectionConfiguration}.
+     *
+     * @param lock the lock
+     * @param electionConfigProperties the leader election configuration
+     * @param ownerReference optional owner reference
+     * @return the leader election config
+     */
+    @Singleton
+    public LeaderElectionConfig leaderElectionConfig(
+            @NonNull Lock lock,
+            @NonNull LeaderElectionConfiguration electionConfigProperties,
+            @Nullable V1OwnerReference ownerReference) {
+        return new LeaderElectionConfig(
+                lock,
+                electionConfigProperties.getLeaseDuration(),
+                electionConfigProperties.getRenewDeadline(),
+                electionConfigProperties.getRetryPeriod(),
+                ownerReference);
+    }
+}

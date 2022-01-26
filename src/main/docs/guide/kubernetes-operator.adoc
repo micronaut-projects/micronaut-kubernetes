@@ -1,0 +1,133 @@
+The `micronaut-kubernetes-operator` module integrates the official Kubernetes Java SDK controller support that is part of the https://github.com/kubernetes-client/java/tree/master/extended/src/main/java/io/kubernetes/client/extended[extended client] module. The `micronaut-kubernetes-operator` module is build on top of the `micronaut-kubernetes-informer` module and allows you to easily create the reconciler for both native and custom resources.
+
+First you need add a dependency on the `micronaut-kubernetes-operator` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-operator:{version}[]
+
+Then create a bean that implements api:kubernetes.client.operator.ResourceReconciler[] with the Kubernetes resource type of your choice. Then add the ann:kubernetes.client.operator.Operator[] annotation trough the which you provide the configuration for the controllers that will be created by Micronaut for your reconciler.
+
+The example below illustrates the use of the ann:kubernetes.client.operator.Operator[] with the api:kubernetes.client.operator.ResourceReconciler[] that reconciles the Kubernetes `V1ConfigMap` resource.
+
+snippet::io.micronaut.kubernetes.client.operator.ConfigMapResourceReconciler[tags="reconciler", project="kubernetes-operator", source="test"]
+<1> The ann:kubernetes.client.operator.Operator[] annotation defines the resource type which is the subject of reconciliation. The definition is done by using the ann:kubernetes.client.informer.Informer[] annotation. Both annotations provide other object specific configuration options.
+<2> The api:kubernetes.client.operator.ResourceReconciler[] interface declares the `reconcile` method that is main point of interaction in between the Micronaut and your application logic.
+<3> The reconciliation input consists from the https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/reconciler/Request.html[Request] that uniquely identifies the reconciliation resource and the api:kubernetes.client.operator.OperatorResourceLister[] trough which the actual subject of reconciliation can be retrieved.
+<4> Retrieval of the resource for the reconciliation.
+<5> This is where the idempotent reconciliation logic should be placed. Note that the reconciliation logic is responsible for the update of the resource status stanza.
+<6> The return value of reconciliation method is the https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/reconciler/Result.html[Result].
+
+The ann:kubernetes.client.operator.Operator[] annotation provides several configuration options:
+
+.@Operator attributes
+|===
+|Element | Description
+|`name` | The name of the operator controller thread. Defaults to the `Operator<resource-type>`.
+|`informer` | The ann:kubernetes.client.informer.Informer[] annotation used for the configuration of the Operator's informer. This value is required.
+|`onAddFilter` | The `java.util.function.Predicate` decides what newly created resources are subject for the reconciliation.
+|`onUpdateFilter`| The `java.util.function.BiPredicate` decides what updated resources are subject for the reconciliation
+|`onDeleteFilter`| The `java.util.function.BiPredicate` decides what deleted resources are subject for the reconciliation
+|===
+
+== Leader election
+
+The https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/LeaderElectingController.html[LeaderElectingController] is responsible for the leader election of the application replica that will reconcile the resources. Generally if the lock is not renewed within the specified amount of time, other replicas may try to acquire the lock and become the leader.
+
+You can adjust the leader elector configuration by using Micronaut configuration properties `kubernetes.client.operator.leader-election.lock`:
+
+.Leader election properties
+|===
+|Element | Description
+|`lease-duration` | The lock lease duration. Defaults to `10s`.
+|`renew-deadline` | The lock renew deadline. If the https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/leaderelection/LeaderElector.html[LeaderElector] fails to renew the lock within the deadline then the controller looses the lock. Defaults to `8s`.
+|`retry-period` | The lock acquire retry period. Defaults to `5s`.
+|===
+
+For example:
+
+.Example of custom lock acquisition properties. Note that the value is of type Duration:
+[source,yaml]
+----
+kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          lease-duration: 60s
+          renew-deadline: 50s
+          retry-period: 20s
+----
+
+Additionally, when the lock is acquired the api:kubernetes.client.operator.event.LeaseAcquiredEvent[] is emitted. Similarly on a lost lease the api:kubernetes.client.operator.event.LeaseLostEvent[] event is emitted.
+
+=== Lock identity
+
+The lock identity is used to uniquely identify the application that holds the lock and thus is responsible for reconciling the resources. By default, the POD name the application runs within is the source for the lock identity. This means the application must run in the Kubernetes cluster.
+
+To create custom lock identity, create a bean that implements the api:kubernetes.client.operator.leaderelection.LockIdentityProvider[] interface:
+
+snippet::micronaut.operator.CustomLockIdentityProvider[tags="lockprovider", project="examples/micronaut-kubernetes-operator", source="main"]
+
+=== Lock resource types
+
+The https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/LeaderElectingController.html[LeaderElectingController] uses the native Kubernetes resource to store the lock information. Currently supported resources are `V1ConfigMap`, `V1Endpoints` and `V1Lease`.
+
+By default, the `micronaut-kubernetes-operator` module uses the `V1Lease`. This can be changed to `V1Endpoints` by configuring the property `kubernetes.client.operator.leader-election.lock.resource-kind` to `endpoints` , resp. to `configmaps` in case the `V1ConfigMap` resource is requested.
+
+Note that the resource for the lock is created in the application namespace. Then the application name is used as the lock resource name. This can be changed by using Micronaut configuration properties:
+
+.Example on how to configure custom lock resource name and namespace:
+[source,yaml]
+----
+kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          resource-name: custom-name
+          resource-namespace: custom-namespace
+----
+
+Note that in case https://kubernetes.io/docs/reference/access-authn-authz/rbac/[the RBAC authorization] is enabled in your Kubernetes cluster, your application needs to have properly configured role with respect to the lock resource type.
+
+.Example of role for the `V1Lease` lock resource type:
+[source,yaml]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator-lease-role
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+---
+
+== Resource filtering
+
+The ann:kubernetes.client.operator.Operator[] annotation allows you to configure the resource filters that are executed before the resource is added into the reconciler work queue. You can configure three types of filters that are distinguished by the resource lifecycle: `onAddFilter`, `onUpdateFilter` and `onDeleteFilter`.
+
+The `onAddFilter` predicate processes the newly created resources. Create a bean that implements `java.util.function.Predicate` with the same Kubernetes resource type like the operator is. Example below illustrates such filter for the `V1ConfigMap` resource:
+
+snippet::io.micronaut.kubernetes.client.operator.OnAddFilter[tags="reconciler", project="kubernetes-operator", source="test"]
+
+The `onUpdateFilter` bi-predicate processes modified resources. Create a bean that implements `java.util.function.BiPredicate` with the same Kubernetes resource type like the operator is. Example below illustrates such filter for the `V1ConfigMap` resource:
+
+snippet::io.micronaut.kubernetes.client.operator.OnUpdateFilter[tags="reconciler", project="kubernetes-operator", source="test"]
+
+The `onDeleteFilter` bi-predicate processes deleted resources. Create a bean that implements `java.util.function.BiPredicate` with the same Kubernetes resource type like the operator is and the `Boolean` as second type. Example below illustrates such filter for the `V1ConfigMap` resource:
+
+snippet::io.micronaut.kubernetes.client.operator.OnDeleteFilter[tags="reconciler", project="kubernetes-operator", source="test"]
+
+IMPORTANT: Note that in case of `onDeleteFilter` the predicate receives the resource for the `test` method, but when the ResouceReconciler's `reconcile` method is executed the `lister` will return `Optional.empty` since the resource was already deleted. To properly reconcile the resource on it's removal, use https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/[finalizers].
+
+Example below illustrates the configuration of the filters:
+
+snippet::io.micronaut.kubernetes.client.operator.ConfigMapResourceReconcilerWithFilters[tags="reconciler", project="kubernetes-operator", source="test"]
+<1> Configuration of `onAddFilter`.
+<2> Configuration of `onUpdateFilter`.
+<3> Configuration of `onAddFilter`.
