@@ -51,7 +51,7 @@ public class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> {
     @Override
     @NonNull
     public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<V1ConfigMap> lister) {
-        LOG.info("Reconciling " + request);
+        LOG.info("Reconciling {}", request);
         Optional<V1ConfigMap> v1ConfigMapOptional = lister.get(request);
         if (v1ConfigMapOptional.isPresent()) {
             V1ConfigMap v1ConfigMap = v1ConfigMapOptional.get();
