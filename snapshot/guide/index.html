@@ -59,11 +59,13 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#kubernetes-informer"><strong>8</strong><span>Kubernetes Informer</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>9</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-operator"><strong>9</strong><span>Kubernetes Operator</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>10</strong><span>Breaking Changes</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>10</strong><span>Logging and debugging</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>11</strong><span>Breaking Changes</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -110,11 +112,13 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-informer"><a href="#kubernetes-informer"><strong>8</strong><span>Kubernetes Informer</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>9</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-operator"><a href="#kubernetes-operator"><strong>9</strong><span>Kubernetes Operator</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>10</strong><span>Breaking Changes</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>10</strong><span>Logging and debugging</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>11</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>11</strong><span>Breaking Changes</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>12</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -1673,7 +1677,7 @@ public class ConfigMapInformer implements ResourceEventHandler&lt;V1ConfigMap&gt
 <p>The <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> annotation provides several configuration options:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Informer configuration</caption>
+<caption class="title">Table 1. @Informer attributes</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1843,7 +1847,394 @@ public class SharedInformerCache {
 </div>
 </div>
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>9 Logging and debugging</h1>
+<h1 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>9 Kubernetes Operator</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/kubernetes-operator.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The <code>micronaut-kubernetes-operator</code> module integrates the official Kubernetes Java SDK controller support that is part of the <a href="https://github.com/kubernetes-client/java/tree/master/extended/src/main/java/io/kubernetes/client/extended">extended client</a> module. The <code>micronaut-kubernetes-operator</code> module is build on top of the <code>micronaut-kubernetes-informer</code> module and allows you to easily create the reconciler for both native and custom resources.</p>
+</div>
+<div class="paragraph">
+<p>First you need add a dependency on the <code>micronaut-kubernetes-operator</code> module:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-operator:3.3.0-SNAPSHOT")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-operator&lt;/artifactId&gt;
+    &lt;version&gt;3.3.0-SNAPSHOT&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then create a bean that implements <a href="../api/io/micronaut/kubernetes/client/operator/ResourceReconciler.html">ResourceReconciler</a> with the Kubernetes resource type of your choice. Then add the <a href="../api/io/micronaut/kubernetes/client/operator/Operator.html">@Operator</a> annotation trough the which you provide the configuration for the controllers that will be created by Micronaut for your reconciler.</p>
+</div>
+<div class="paragraph">
+<p>The example below illustrates the use of the <a href="../api/io/micronaut/kubernetes/client/operator/Operator.html">@Operator</a> with the <a href="../api/io/micronaut/kubernetes/client/operator/ResourceReconciler.html">ResourceReconciler</a> that reconciles the Kubernetes <code>V1ConfigMap</code> resource.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.kubernetes.client.extended.controller.reconciler.Request;
+import io.kubernetes.client.extended.controller.reconciler.Result;
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1ConfigMapList;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.kubernetes.client.informer.Informer;
+import java.util.Optional;
+
+@Operator(informer = @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class)) <b class="conum">(1)</b>
+public class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; { <b class="conum">(2)</b>
+
+    @Override
+    @NonNull
+    public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) { <b class="conum">(3)</b>
+        Optional&lt;V1ConfigMap&gt; resource = lister.get(request); <b class="conum">(4)</b>
+        // .. reconcile  <b class="conum">(5)</b>
+        return new Result(false); <b class="conum">(6)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/kubernetes/client/operator/Operator.html">@Operator</a> annotation defines the resource type which is the subject of reconciliation. The definition is done by using the <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> annotation. Both annotations provide other object specific configuration options.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/kubernetes/client/operator/ResourceReconciler.html">ResourceReconciler</a> interface declares the <code>reconcile</code> method that is main point of interaction in between the Micronaut and your application logic.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The reconciliation input consists from the <a href="https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/reconciler/Request.html">Request</a> that uniquely identifies the reconciliation resource and the <a href="../api/io/micronaut/kubernetes/client/operator/OperatorResourceLister.html">OperatorResourceLister</a> trough which the actual subject of reconciliation can be retrieved.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Retrieval of the resource for the reconciliation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>This is where the idempotent reconciliation logic should be placed. Note that the reconciliation logic is responsible for the update of the resource status stanza.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>The return value of reconciliation method is the <a href="https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/reconciler/Result.html">Result</a>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/operator/Operator.html">@Operator</a> annotation provides several configuration options:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 1. @Operator attributes</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Element</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the operator controller thread. Defaults to the <code>Operator&lt;resource-type&gt;</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>informer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <a href="../api/io/micronaut/kubernetes/client/informer/Informer.html">@Informer</a> annotation used for the configuration of the Operator&#8217;s informer. This value is required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onAddFilter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>java.util.function.Predicate</code> decides what newly created resources are subject for the reconciliation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onUpdateFilter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>java.util.function.BiPredicate</code> decides what updated resources are subject for the reconciliation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onDeleteFilter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>java.util.function.BiPredicate</code> decides what deleted resources are subject for the reconciliation</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect1">
+<h2 id="_leader_election">Leader election</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/LeaderElectingController.html">LeaderElectingController</a> is responsible for the leader election of the application replica that will reconcile the resources. Generally if the lock is not renewed within the specified amount of time, other replicas may try to acquire the lock and become the leader.</p>
+</div>
+<div class="paragraph">
+<p>You can adjust the leader elector configuration by using Micronaut configuration properties <code>kubernetes.client.operator.leader-election.lock</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<caption class="title">Table 2. Leader election properties</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Element</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lease-duration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock lease duration. Defaults to <code>10s</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>renew-deadline</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock renew deadline. If the <a href="https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/leaderelection/LeaderElector.html">LeaderElector</a> fails to renew the lock within the deadline then the controller looses the lock. Defaults to <code>8s</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>retry-period</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock acquire retry period. Defaults to <code>5s</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example of custom lock acquisition properties. Note that the value is of type Duration:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          lease-duration: 60s
+          renew-deadline: 50s
+          retry-period: 20s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally, when the lock is acquired the <a href="../api/io/micronaut/kubernetes/client/operator/event/LeaseAcquiredEvent.html">LeaseAcquiredEvent</a> is emitted. Similarly on a lost lease the <a href="../api/io/micronaut/kubernetes/client/operator/event/LeaseLostEvent.html">LeaseLostEvent</a> event is emitted.</p>
+</div>
+<div class="sect2">
+<h3 id="_lock_identity">Lock identity</h3>
+<div class="paragraph">
+<p>The lock identity is used to uniquely identify the application that holds the lock and thus is responsible for reconciling the resources. By default, the POD name the application runs within is the source for the lock identity. This means the application must run in the Kubernetes cluster.</p>
+</div>
+<div class="paragraph">
+<p>To create custom lock identity, create a bean that implements the <a href="../api/io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html">LockIdentityProvider</a> interface:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.micronaut.context.annotation.Replaces;
+import io.micronaut.kubernetes.client.operator.leaderelection.LockIdentityProvider;
+import jakarta.inject.Singleton;
+
+@Singleton
+@Replaces(LockIdentityProvider.class)
+public class CustomLockIdentityProvider implements LockIdentityProvider {
+
+    @Override
+    public String getIdentity() {
+        // ...
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lock_resource_types">Lock resource types</h3>
+<div class="paragraph">
+<p>The <a href="https://javadoc.io/doc/io.kubernetes/client-java-extended/latest/io/kubernetes/client/extended/controller/LeaderElectingController.html">LeaderElectingController</a> uses the native Kubernetes resource to store the lock information. Currently supported resources are <code>V1ConfigMap</code>, <code>V1Endpoints</code> and <code>V1Lease</code>.</p>
+</div>
+<div class="paragraph">
+<p>By default, the <code>micronaut-kubernetes-operator</code> module uses the <code>V1Lease</code>. This can be changed to <code>V1Endpoints</code> by configuring the property <code>kubernetes.client.operator.leader-election.lock.resource-kind</code> to <code>endpoints</code> , resp. to <code>configmaps</code> in case the <code>V1ConfigMap</code> resource is requested.</p>
+</div>
+<div class="paragraph">
+<p>Note that the resource for the lock is created in the application namespace. Then the application name is used as the lock resource name. This can be changed by using Micronaut configuration properties:</p>
+</div>
+<div class="listingblock">
+<div class="title">Example on how to configure custom lock resource name and namespace:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          resource-name: custom-name
+          resource-namespace: custom-namespace</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that in case <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">the RBAC authorization</a> is enabled in your Kubernetes cluster, your application needs to have properly configured role with respect to the lock resource type.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example of role for the <code>V1Lease</code> lock resource type:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator-lease-role
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+---</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resource_filtering">Resource filtering</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/operator/Operator.html">@Operator</a> annotation allows you to configure the resource filters that are executed before the resource is added into the reconciler work queue. You can configure three types of filters that are distinguished by the resource lifecycle: <code>onAddFilter</code>, <code>onUpdateFilter</code> and <code>onDeleteFilter</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>onAddFilter</code> predicate processes the newly created resources. Create a bean that implements <code>java.util.function.Predicate</code> with the same Kubernetes resource type like the operator is. Example below illustrates such filter for the <code>V1ConfigMap</code> resource:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.kubernetes.client.openapi.models.V1ConfigMap;
+import jakarta.inject.Singleton;
+
+import java.util.function.Predicate;
+
+@Singleton
+public class OnAddFilter implements Predicate&lt;V1ConfigMap&gt; {
+
+    @Override
+    public boolean test(V1ConfigMap v1ConfigMap) {
+        if (v1ConfigMap.getMetadata().getAnnotations() != null) {
+            return v1ConfigMap.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
+        }
+        return false;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>onUpdateFilter</code> bi-predicate processes modified resources. Create a bean that implements <code>java.util.function.BiPredicate</code> with the same Kubernetes resource type like the operator is. Example below illustrates such filter for the <code>V1ConfigMap</code> resource:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.kubernetes.client.openapi.models.V1ConfigMap;
+import jakarta.inject.Singleton;
+
+import java.util.function.BiPredicate;
+
+@Singleton
+public class OnUpdateFilter implements BiPredicate&lt;V1ConfigMap, V1ConfigMap&gt; {
+
+    @Override
+    public boolean test(V1ConfigMap oldObj, V1ConfigMap newObj) {
+        if (newObj.getMetadata().getAnnotations() != null) {
+            return newObj.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
+        }
+        return false;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>onDeleteFilter</code> bi-predicate processes deleted resources. Create a bean that implements <code>java.util.function.BiPredicate</code> with the same Kubernetes resource type like the operator is and the <code>Boolean</code> as second type. Example below illustrates such filter for the <code>V1ConfigMap</code> resource:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.kubernetes.client.openapi.models.V1ConfigMap;
+import jakarta.inject.Singleton;
+
+import java.util.function.BiPredicate;
+
+@Singleton
+public class OnDeleteFilter implements BiPredicate&lt;V1ConfigMap, Boolean&gt; {
+
+    @Override
+    public boolean test(V1ConfigMap v1ConfigMap, Boolean deletedFinalStateUnknown) {
+        if (v1ConfigMap.getMetadata().getAnnotations() != null) {
+            return v1ConfigMap.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
+        }
+        return false;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Note that in case of <code>onDeleteFilter</code> the predicate receives the resource for the <code>test</code> method, but when the ResouceReconciler&#8217;s <code>reconcile</code> method is executed the <code>lister</code> will return <code>Optional.empty</code> since the resource was already deleted. To properly reconcile the resource on it&#8217;s removal, use <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/">finalizers</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Example below illustrates the configuration of the filters:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">import io.kubernetes.client.extended.controller.reconciler.Request;
+import io.kubernetes.client.extended.controller.reconciler.Result;
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1ConfigMapList;
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.kubernetes.client.informer.Informer;
+
+@Operator(informer = @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class),
+        onAddFilter = OnAddFilter.class, <b class="conum">(1)</b>
+        onUpdateFilter = OnUpdateFilter.class, <b class="conum">(2)</b>
+        onDeleteFilter = OnDeleteFilter.class) <b class="conum">(3)</b>
+public class ConfigMapResourceReconcilerWithFilters implements ResourceReconciler&lt;V1ConfigMap&gt; {
+
+    @Override
+    @NonNull
+    public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
+        // .. reconcile
+        return new Result(false);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Configuration of <code>onAddFilter</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configuration of <code>onUpdateFilter</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Configuration of <code>onAddFilter</code>.</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
+<h1 id="logging"><a class="anchor" href="#logging"></a>10 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/logging.adoc"'>
@@ -1878,7 +2269,7 @@ to <code>DEBUG</code>:</p>
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
-<h1 id="breaking"><a class="anchor" href="#breaking"></a>10 Breaking Changes</h1>
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>11 Breaking Changes</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/breaking.adoc"'>
@@ -1899,7 +2290,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 </div>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>11 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>12 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/master/src/main/docs/guide/repository.adoc"'>

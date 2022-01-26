@@ -3,6 +3,13 @@ io.micronaut.kubernetes.client
 io.micronaut.kubernetes.client.graalvm
 io.micronaut.kubernetes.client.informer
 io.micronaut.kubernetes.client.informer.resolvers
+io.micronaut.kubernetes.client.operator
+io.micronaut.kubernetes.client.operator.configuration
+io.micronaut.kubernetes.client.operator.controller
+io.micronaut.kubernetes.client.operator.event
+io.micronaut.kubernetes.client.operator.filter
+io.micronaut.kubernetes.client.operator.leaderelection
+io.micronaut.kubernetes.client.operator.queue
 io.micronaut.kubernetes.client.processor
 io.micronaut.kubernetes.client.reactor
 io.micronaut.kubernetes.client.rxjava2

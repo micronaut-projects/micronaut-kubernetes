@@ -67,11 +67,17 @@
 <!--   -->
 </a></div>
 <!-- ========= END OF TOP NAVBAR ========= -->
-<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a name="I:A">
+<div class="contentContainer"><a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;<a name="I:A">
 <!--   -->
 </a>
 <h2 class="title">A</h2>
 <dl>
+<dt><a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html" title="class in io.micronaut.kubernetes.client.operator.event"><span class="typeNameLink">AbstracLeaderElectingControllerEvent</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/event/package-summary.html">io.micronaut.kubernetes.client.operator.event</a></dt>
+<dd>
+<div class="block">Abstract class for events related to the leader electing controller.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html#AbstracLeaderElectingControllerEvent-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.kubernetes.client.extended.controller.ControllerManager-">AbstracLeaderElectingControllerEvent(ControllerConfiguration, ControllerManager)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.event.<a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html" title="class in io.micronaut.kubernetes.client.operator.event">AbstracLeaderElectingControllerEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery"><span class="typeNameLink">AbstractKubernetesServiceInstanceProvider</span></a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
 <div class="block">Abstract implementation of kubernetes service instance provider.</div>
@@ -161,6 +167,34 @@
 <dl>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html#beforeAnalysis-org.graalvm.nativeimage.hosted.Feature.BeforeAnalysisAccess-">beforeAnalysis(Feature.BeforeAnalysisAccess)</a></span> - Method in class io.micronaut.kubernetes.client.graalvm.<a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html" title="class in io.micronaut.kubernetes.client.graalvm">KubernetesClientFeature</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html#build-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.micronaut.kubernetes.client.operator.ResourceReconciler-">build(ControllerConfiguration, ResourceReconciler&lt;?&gt;)</a></span> - Method in interface io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerBuilder</a></dt>
+<dd>
+<div class="block">Builds the <code>DefaultController</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html#build-io.micronaut.kubernetes.client.operator.ControllerConfiguration-java.util.Collection-">build(ControllerConfiguration, Collection&lt;Controller&gt;)</a></span> - Method in interface io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerManagerBuilder</a></dt>
+<dd>
+<div class="block">Builds the <code>ControllerManager</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html#build-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.micronaut.kubernetes.client.operator.ResourceReconciler-">build(ControllerConfiguration, ResourceReconciler&lt;?&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html#build-io.micronaut.kubernetes.client.operator.ControllerConfiguration-java.util.Collection-">build(ControllerConfiguration, Collection&lt;Controller&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerManagerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html#build-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.micronaut.kubernetes.client.operator.ResourceReconciler-io.kubernetes.client.extended.controller.ControllerManager-">build(ControllerConfiguration, ResourceReconciler&lt;?&gt;, ControllerManager)</a></span> - Method in class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultLeaderElectingControllerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/LeaderElectingControllerBuilder.html#build-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.micronaut.kubernetes.client.operator.ResourceReconciler-io.kubernetes.client.extended.controller.ControllerManager-">build(ControllerConfiguration, ResourceReconciler&lt;?&gt;, ControllerManager)</a></span> - Method in interface io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/LeaderElectingControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">LeaderElectingControllerBuilder</a></dt>
+<dd>
+<div class="block">Builds the <code>LeaderElectingController</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#build--">build()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Builds the <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html#buildControllerWatch-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.kubernetes.client.extended.workqueue.WorkQueue-">buildControllerWatch(ControllerConfiguration, WorkQueue&lt;Request&gt;)</a></span> - Method in interface io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerWatchBuilder</a></dt>
+<dd>
+<div class="block">Builds <code>ControllerWatch</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html#buildControllerWatch-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.kubernetes.client.extended.workqueue.WorkQueue-">buildControllerWatch(ControllerConfiguration, WorkQueue&lt;Request&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerWatchBuilder</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#buildServiceInstance-java.lang.String-io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.PortBinder-java.lang.String-io.kubernetes.client.openapi.models.V1ObjectMeta-">buildServiceInstance(String, AbstractKubernetesServiceInstanceProvider.PortBinder, String, V1ObjectMeta)</a></span> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>
 <div class="block">Builds service instance.</div>
@@ -206,6 +240,55 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#ConfigMapLabelSupplier-CoreV1ApiReactorClient-io.micronaut.kubernetes.KubernetesConfiguration-">ConfigMapLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html#configMapLock--">configMapLock()</a></span> - Method in class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></dt>
+<dd>
+<div class="block">Creates the <code>ConfigMapLock</code>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">ControllerBuilder</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The <code>DefaultController</code> builder.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ControllerConfiguration</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">The operator controller configuration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#ControllerConfigurationBuilder--">ControllerConfigurationBuilder()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ControllerConfigurationFactory</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">Factory for the <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html#ControllerConfigurationFactory-io.micronaut.context.BeanContext-io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolver-io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver-io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver-io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver-">ControllerConfigurationFactory(BeanContext, InformerApiGroupResolver, InformerResourcePluralResolver, InformerNamespaceResolver, InformerLabelSelectorResolver)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ControllerConfigurationImpl</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">Implements <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#ControllerConfigurationImpl--">ControllerConfigurationImpl()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ControllerConfigurationImpl.ControllerConfigurationBuilder</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">Operator configuration builder.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html" title="class in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ControllerFactory</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">Bean creates the controllers based on the <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a> and registers them as singletons into
+ the bean context.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html#ControllerFactory-io.micronaut.context.BeanContext-io.micronaut.kubernetes.client.operator.controller.ControllerBuilder-io.micronaut.kubernetes.client.operator.controller.ControllerManagerBuilder-io.micronaut.kubernetes.client.operator.controller.LeaderElectingControllerBuilder-java.util.concurrent.ExecutorService-">ControllerFactory(BeanContext, ControllerBuilder, ControllerManagerBuilder, LeaderElectingControllerBuilder, ExecutorService)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">ControllerManagerBuilder</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The <code>ControllerManager</code> builder.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">ControllerWatchBuilder</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The <code>ControllerWatch</code> builder.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html#createControllers-io.micronaut.kubernetes.client.operator.ResourceReconciler-io.micronaut.kubernetes.client.operator.ControllerConfiguration-">createControllers(ResourceReconciler&lt;?&gt;, ControllerConfiguration)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerFactory</a></dt>
+<dd>
+<div class="block">Create the controllers.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html#createInformersFor-java.lang.Class-java.lang.Class-java.lang.String-java.util.Set-">createInformersFor(Class&lt;ApiType&gt;, Class&lt;? extends KubernetesListObject&gt;, String, Set&lt;String&gt;)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerCompositeFactory</a></dt>
 <dd>
 <div class="block">Creates the <a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer"><code>IndexerComposite</code></a> that is populated by generated <code>SharedIndexInformer</code>'s <code>Indexer</code>.</div>
@@ -216,11 +299,49 @@
 </a>
 <h2 class="title">D</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#DEFAULT_LEASE_DURATION_IN_SECONDS">DEFAULT_LEASE_DURATION_IN_SECONDS</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#DEFAULT_MODE">DEFAULT_MODE</a></span> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html#DEFAULT_NAMESPACE">DEFAULT_NAMESPACE</a></span> - Static variable in class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html" title="class in io.micronaut.kubernetes.client">DefaultNamespaceResolver</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html#DEFAULT_REFRESH_INTERVAL">DEFAULT_REFRESH_INTERVAL</a></span> - Static variable in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#DEFAULT_RENEW_DEADLINE_IN_SECONDS">DEFAULT_RENEW_DEADLINE_IN_SECONDS</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#DEFAULT_RETRY_PERIOD_IN_SECONDS">DEFAULT_RETRY_PERIOD_IN_SECONDS</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html#DEFAULT_WORKER_COUNT">DEFAULT_WORKER_COUNT</a></span> - Static variable in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">OperatorConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter"><span class="typeNameLink">DefaultAddFilter</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/filter/package-summary.html">io.micronaut.kubernetes.client.operator.filter</a></dt>
+<dd>
+<div class="block">Default filter for added resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html#DefaultAddFilter--">DefaultAddFilter()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.filter.<a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultAddFilter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">DefaultControllerBuilder</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">Default implementation of the <a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>ControllerBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html#DefaultControllerBuilder-io.micronaut.context.BeanContext-io.micronaut.kubernetes.client.operator.controller.ControllerWatchBuilder-io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory-io.micronaut.kubernetes.client.operator.configuration.OperatorConfigurationProperties-">DefaultControllerBuilder(BeanContext, ControllerWatchBuilder, SharedIndexInformerFactory, OperatorConfigurationProperties)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">DefaultControllerManagerBuilder</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>ControllerManagerBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html#DefaultControllerManagerBuilder-io.kubernetes.client.informer.SharedInformerFactory-">DefaultControllerManagerBuilder(SharedInformerFactory)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerManagerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">DefaultControllerWatchBuilder</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>ControllerWatchBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html#DefaultControllerWatchBuilder-io.micronaut.kubernetes.client.informer.InformerConfiguration-">DefaultControllerWatchBuilder(InformerConfiguration)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerWatchBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter"><span class="typeNameLink">DefaultDeleteFilter</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/filter/package-summary.html">io.micronaut.kubernetes.client.operator.filter</a></dt>
+<dd>
+<div class="block">Default filter for deleted resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html#DefaultDeleteFilter--">DefaultDeleteFilter()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.filter.<a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultDeleteFilter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerApiGroupResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers"><span class="typeNameLink">DefaultInformerApiGroupResolver</span></a> - Class in <a href="io/micronaut/kubernetes/client/informer/resolvers/package-summary.html">io.micronaut.kubernetes.client.informer.resolvers</a></dt>
 <dd>
@@ -246,6 +367,19 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerResourcePluralResolver.html#DefaultInformerResourcePluralResolver-io.micronaut.kubernetes.client.DiscoveryCache-">DefaultInformerResourcePluralResolver(DiscoveryCache)</a></span> - Constructor for class io.micronaut.kubernetes.client.informer.resolvers.<a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerResourcePluralResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerResourcePluralResolver</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">DefaultLeaderElectingControllerBuilder</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/operator/controller/LeaderElectingControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>LeaderElectingControllerBuilder</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html#DefaultLeaderElectingControllerBuilder-io.kubernetes.client.extended.leaderelection.LeaderElectionConfig-io.micronaut.context.event.ApplicationEventPublisher-io.micronaut.context.event.ApplicationEventPublisher-">DefaultLeaderElectingControllerBuilder(LeaderElectionConfig, ApplicationEventPublisher&lt;LeaseLostEvent&gt;, ApplicationEventPublisher&lt;LeaseAcquiredEvent&gt;)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultLeaderElectingControllerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection"><span class="typeNameLink">DefaultLockIdentityProvider</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/leaderelection/package-summary.html">io.micronaut.kubernetes.client.operator.leaderelection</a></dt>
+<dd>
+<div class="block">Default implementation of <a href="io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html" title="interface in io.micronaut.kubernetes.client.operator.leaderelection"><code>LockIdentityProvider</code></a> which resolves the unique lock identity from the <code>HOSTNAME</code>
+ environment variable.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html#DefaultLockIdentityProvider-io.micronaut.kubernetes.client.PodNameResolver-">DefaultLockIdentityProvider(PodNameResolver)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">DefaultLockIdentityProvider</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html" title="class in io.micronaut.kubernetes.client"><span class="typeNameLink">DefaultNamespaceResolver</span></a> - Class in <a href="io/micronaut/kubernetes/client/package-summary.html">io.micronaut.kubernetes.client</a></dt>
 <dd>
 <div class="block">Default implemention of <a href="io/micronaut/kubernetes/client/NamespaceResolver.html" title="interface in io.micronaut.kubernetes.client"><code>NamespaceResolver</code></a>.</div>
@@ -266,6 +400,12 @@
 <dd>
 <div class="block">Creates <code>DefaultSharedIndexInformer</code>.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter"><span class="typeNameLink">DefaultUpdateFilter</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/filter/package-summary.html">io.micronaut.kubernetes.client.operator.filter</a></dt>
+<dd>
+<div class="block">Default filter for updated resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html#DefaultUpdateFilter--">DefaultUpdateFilter()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.filter.<a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultUpdateFilter</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/DiscoveryFactory.html#discovery-io.kubernetes.client.openapi.ApiClient-">discovery(ApiClient)</a></span> - Method in class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DiscoveryFactory.html" title="class in io.micronaut.kubernetes.client">DiscoveryFactory</a></dt>
 <dd>
 <div class="block">Creates <code>Discovery</code> bean.</div>
@@ -304,6 +444,10 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html#EmptyNamespacesSupplier--">EmptyNamespacesSupplier()</a></span> - Constructor for class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyNamespacesSupplier</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html#endpointsLock--">endpointsLock()</a></span> - Method in class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></dt>
+<dd>
+<div class="block">Creates the <code>EndpointsLock</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#ENV_KUBERNETES_SERVICE_HOST">ENV_KUBERNETES_SERVICE_HOST</a></span> - Static variable in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#EXTERNAL_NAME">EXTERNAL_NAME</a></span> - Static variable in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
@@ -336,7 +480,30 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html#get--">get()</a></span> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyNamespacesSupplier</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html#get-io.kubernetes.client.extended.controller.reconciler.Request-">get(Request)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a></dt>
+<dd>
+<div class="block">Get the kubernetes resource from the <code>SharedIndexInformer</code>'s <code>Cache</code>
+ for the given <code>Request</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#get--">get()</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getApiGroup--">getApiGroup()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The api resource group the operator controller reconciles.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getApiGroup--">getApiGroup()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getApiListType--">getApiListType()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The api resource list type the operator controller reconciles.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getApiListType--">getApiListType()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getApiType--">getApiType()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The api resource type the operator controller reconciles.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getApiType--">getApiType()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html#getBasePath--">getBasePath()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -380,6 +547,12 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html#getID--">getID()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html#getIdentity--">getIdentity()</a></span> - Method in class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">DefaultLockIdentityProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html#getIdentity--">getIdentity()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html" title="interface in io.micronaut.kubernetes.client.operator.leaderelection">LockIdentityProvider</a></dt>
+<dd>
+<div class="block">Get the lock identity.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#getIncludesFilter-java.util.Collection-">getIncludesFilter(Collection&lt;String&gt;)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#getInstances-java.lang.String-">getInstances(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
@@ -394,8 +567,22 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html#getKubeConfigPath--">getKubeConfigPath()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getLabelSelector--">getLabelSelector()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The operator's informer label selector.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getLabelSelector--">getLabelSelector()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#getLabelsFilter-java.util.Map-">getLabelsFilter(Map&lt;String, String&gt;)</a></span> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html#getLeaseDuration--">getLeaseDuration()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a></dt>
+<dd>
+<div class="block">The lock lease duration.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#getLeaseDuration--">getLeaseDuration()</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">The lock lease duration.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html#getMode--">getMode()</a></span> - Method in interface io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a></dt>
@@ -405,6 +592,12 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1ServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1ServiceProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#getMode--">getMode()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getName--">getName()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The operator controller name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.PortBinder.html#getName--">getName()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a></dt>
 <dd>&nbsp;</dd>
@@ -420,6 +613,46 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#getNamespace--">getNamespace()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getNamespaces--">getNamespaces()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The namespaces from which the operator controller receives the resources for reconciliation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getNamespaces--">getNamespaces()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getOnAddFilter--">getOnAddFilter()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">Predicate that filters added resources before reconciliation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html#getOnAddFilter-io.micronaut.core.annotation.AnnotationValue-">getOnAddFilter(AnnotationValue&lt;Operator&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></dt>
+<dd>
+<div class="block">Resolve the onAddFilter from the annotation value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getOnAddFilter--">getOnAddFilter()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getOnDeleteFilter--">getOnDeleteFilter()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">Predicate that filters deleted resources before reconciliation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html#getOnDeleteFilter-io.micronaut.core.annotation.AnnotationValue-">getOnDeleteFilter(AnnotationValue&lt;Operator&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></dt>
+<dd>
+<div class="block">Resolve the onDeleteFilter from the annotation value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getOnDeleteFilter--">getOnDeleteFilter()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getOnUpdateFilter--">getOnUpdateFilter()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">Predicate that filters updated resources before reconciliation.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html#getOnUpdateFilter-io.micronaut.core.annotation.AnnotationValue-">getOnUpdateFilter(AnnotationValue&lt;Operator&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></dt>
+<dd>
+<div class="block">Resolve the onUpdateFilter from the annotation value.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getOnUpdateFilter--">getOnUpdateFilter()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html#getOperatorConfiguration--">getOperatorConfiguration()</a></span> - Method in class io.micronaut.kubernetes.client.operator.event.<a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html" title="class in io.micronaut.kubernetes.client.operator.event">AbstracLeaderElectingControllerEvent</a></dt>
+<dd>
+<div class="block">Operator configuration.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#getPaths--">getPaths()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#getPaths--">getPaths()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
@@ -440,21 +673,69 @@
 <dd>
 <div class="block">Retrieves all of the <code>PropertySource</code> registrations for the given environment.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html#getReadyTimeout--">getReadyTimeout()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">OperatorConfigurationProperties</a></dt>
+<dd>
+<div class="block">Timeout to wait before the informers are checked for readiness.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html#getRefreshInterval--">getRefreshInterval()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a></dt>
 <dd>
 <div class="block">Default refresh interval of API discovery.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html#getRenewDeadline--">getRenewDeadline()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a></dt>
+<dd>
+<div class="block">The lock renew deadline.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#getRenewDeadline--">getRenewDeadline()</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">The lock renew deadline.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#getResource-java.lang.String-java.lang.String-">getResource(String, String)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
 <dd>
 <div class="block">Get resource from the <code>Indexer</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html#getResourceName--">getResourceName()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a></dt>
+<dd>
+<div class="block">The lock resource name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#getResourceName--">getResourceName()</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">The lock resource name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html#getResourceNamespace--">getResourceNamespace()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a></dt>
+<dd>
+<div class="block">The lock resource namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#getResourceNamespace--">getResourceNamespace()</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">The lock resource namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getResourcePlural--">getResourcePlural()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">The api resource plural the operator controller reconciles.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getResourcePlural--">getResourcePlural()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#getResources-java.lang.String-">getResources(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
 <dd>
 <div class="block">Get all resources from the <code>Indexer</code> for given <code>namespace</code>.</div>
 </dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html#getResyncCheckPeriod--">getResyncCheckPeriod()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></dt>
+<dd>
+<div class="block">How often to check if the listener need a resync.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getResyncCheckPeriod--">getResyncCheckPeriod()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html#getResyncPeriod--">getResyncPeriod()</a></span> - Method in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a></dt>
 <dd>
 <div class="block">Resync period to use for all informers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html#getRetryPeriod--">getRetryPeriod()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a></dt>
+<dd>
+<div class="block">The lock acquire retry period.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#getRetryPeriod--">getRetryPeriod()</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">The lock acquire retry period.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#getSecrets--">getSecrets()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -486,6 +767,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html#getVerifySsl--">getVerifySsl()</a></span> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html#getWorkerCount--">getWorkerCount()</a></span> - Method in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">OperatorConfigurationProperties</a></dt>
+<dd>
+<div class="block">The operator controller worker count.</div>
+</dd>
 </dl>
 <a name="I:H">
 <!--   -->
@@ -579,6 +864,20 @@
 <dt><a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a> - package io.micronaut.kubernetes.client.informer</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/resolvers/package-summary.html">io.micronaut.kubernetes.client.informer.resolvers</a> - package io.micronaut.kubernetes.client.informer.resolvers</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a> - package io.micronaut.kubernetes.client.operator</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/configuration/package-summary.html">io.micronaut.kubernetes.client.operator.configuration</a> - package io.micronaut.kubernetes.client.operator.configuration</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a> - package io.micronaut.kubernetes.client.operator.controller</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/event/package-summary.html">io.micronaut.kubernetes.client.operator.event</a> - package io.micronaut.kubernetes.client.operator.event</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/filter/package-summary.html">io.micronaut.kubernetes.client.operator.filter</a> - package io.micronaut.kubernetes.client.operator.filter</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/leaderelection/package-summary.html">io.micronaut.kubernetes.client.operator.leaderelection</a> - package io.micronaut.kubernetes.client.operator.leaderelection</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/queue/package-summary.html">io.micronaut.kubernetes.client.operator.queue</a> - package io.micronaut.kubernetes.client.operator.queue</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/processor/package-summary.html">io.micronaut.kubernetes.client.processor</a> - package io.micronaut.kubernetes.client.processor</dt>
 <dd>&nbsp;</dd>
@@ -777,6 +1076,50 @@
 </a>
 <h2 class="title">L</h2>
 <dl>
+<dt><a href="io/micronaut/kubernetes/client/operator/controller/LeaderElectingControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><span class="typeNameLink">LeaderElectingControllerBuilder</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/controller/package-summary.html">io.micronaut.kubernetes.client.operator.controller</a></dt>
+<dd>
+<div class="block">The <code>LeaderElectingController</code> builder.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/LeaderElectionConfigFactory.html#leaderElectionConfig-io.kubernetes.client.extended.leaderelection.Lock-io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration-io.kubernetes.client.openapi.models.V1OwnerReference-">leaderElectionConfig(Lock, LeaderElectionConfiguration, V1OwnerReference)</a></span> - Method in class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/LeaderElectionConfigFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">LeaderElectionConfigFactory</a></dt>
+<dd>
+<div class="block">Builds the <code>LeaderElectionConfig</code> from the <a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration"><code>LeaderElectionConfiguration</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/leaderelection/LeaderElectionConfigFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection"><span class="typeNameLink">LeaderElectionConfigFactory</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/leaderelection/package-summary.html">io.micronaut.kubernetes.client.operator.leaderelection</a></dt>
+<dd>
+<div class="block">The factory for <code>LeaderElectionConfig</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/LeaderElectionConfigFactory.html#LeaderElectionConfigFactory--">LeaderElectionConfigFactory()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/LeaderElectionConfigFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">LeaderElectionConfigFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration"><span class="typeNameLink">LeaderElectionConfiguration</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/configuration/package-summary.html">io.micronaut.kubernetes.client.operator.configuration</a></dt>
+<dd>
+<div class="block">The <code>LeaderElectionConfig</code> configuration.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration"><span class="typeNameLink">LeaderElectionConfigurationProperties</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/configuration/package-summary.html">io.micronaut.kubernetes.client.operator.configuration</a></dt>
+<dd>
+<div class="block"><code>ConfigurationProperties</code> implementation of <a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration"><code>LeaderElectionConfiguration</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#LeaderElectionConfigurationProperties--">LeaderElectionConfigurationProperties()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/event/LeaseAcquiredEvent.html" title="class in io.micronaut.kubernetes.client.operator.event"><span class="typeNameLink">LeaseAcquiredEvent</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/event/package-summary.html">io.micronaut.kubernetes.client.operator.event</a></dt>
+<dd>
+<div class="block">Event fired when the controller created from the <a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html#getOperatorConfiguration--"><code>AbstracLeaderElectingControllerEvent.getOperatorConfiguration()</code></a>
+ has become a leader.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/event/LeaseAcquiredEvent.html#LeaseAcquiredEvent-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.kubernetes.client.extended.controller.ControllerManager-">LeaseAcquiredEvent(ControllerConfiguration, ControllerManager)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.event.<a href="io/micronaut/kubernetes/client/operator/event/LeaseAcquiredEvent.html" title="class in io.micronaut.kubernetes.client.operator.event">LeaseAcquiredEvent</a></dt>
+<dd>
+<div class="block">Create the event.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html#leaseLock--">leaseLock()</a></span> - Method in class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></dt>
+<dd>
+<div class="block">Creates the <code>LeaseLock</code>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/event/LeaseLostEvent.html" title="class in io.micronaut.kubernetes.client.operator.event"><span class="typeNameLink">LeaseLostEvent</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/event/package-summary.html">io.micronaut.kubernetes.client.operator.event</a></dt>
+<dd>
+<div class="block">Event fired when the controller created from the <a href="io/micronaut/kubernetes/client/operator/event/AbstracLeaderElectingControllerEvent.html#getOperatorConfiguration--"><code>AbstracLeaderElectingControllerEvent.getOperatorConfiguration()</code></a>
+ has lost the leader lease.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/event/LeaseLostEvent.html#LeaseLostEvent-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.kubernetes.client.extended.controller.ControllerManager-">LeaseLostEvent(ControllerConfiguration, ControllerManager)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.event.<a href="io/micronaut/kubernetes/client/operator/event/LeaseLostEvent.html" title="class in io.micronaut.kubernetes.client.operator.event">LeaseLostEvent</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html#listEndpoints-java.lang.String-">listEndpoints(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/AbstractV1EndpointsProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">AbstractV1EndpointsProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html#listEndpoints-java.lang.String-">listEndpoints(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceEndpointInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceEndpointInformerProvider</a></dt>
@@ -788,6 +1131,18 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html#listServices-java.lang.String-">listServices(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceInformerProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceInformerProvider</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html#listServices-java.lang.String-">listServices(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.provider.<a href="io/micronaut/kubernetes/discovery/provider/KubernetesServiceInstanceServiceProvider.html" title="class in io.micronaut.kubernetes.discovery.provider">KubernetesServiceInstanceServiceProvider</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html" title="interface in io.micronaut.kubernetes.client.operator.leaderelection"><span class="typeNameLink">LockIdentityProvider</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/leaderelection/package-summary.html">io.micronaut.kubernetes.client.operator.leaderelection</a></dt>
+<dd>
+<div class="block">The lock identity provider.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.controller.<a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultLeaderElectingControllerBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#LOG">LOG</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>&nbsp;</dd>
@@ -861,6 +1216,8 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html#onCreated-io.micronaut.context.event.BeanCreatedEvent-">onCreated(BeanCreatedEvent&lt;ResourceEventHandler&lt;ApiType&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html#onCreated-io.micronaut.context.event.BeanCreatedEvent-">onCreated(BeanCreatedEvent&lt;ResourceReconciler&lt;ApiType&gt;&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onDelete-io.kubernetes.client.openapi.models.V1ConfigMap-boolean-">onDelete(V1ConfigMap, boolean)</a></span> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html#onDownloadProgress-long-long-boolean-">onDownloadProgress(long, long, boolean)</a></span> - Method in class io.micronaut.kubernetes.client.reactor.<a href="io/micronaut/kubernetes/client/reactor/AsyncCallbackSink.html" title="class in io.micronaut.kubernetes.client.reactor">AsyncCallbackSink</a></dt>
@@ -891,6 +1248,25 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#OPAQUE_SECRET_TYPE">OPAQUE_SECRET_TYPE</a></span> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">Operator</span></a> - Annotation Type in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">Operator annotation simplifies initialisation of the controllers.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html#operatorConfiguration-io.micronaut.core.annotation.AnnotationValue-">operatorConfiguration(AnnotationValue&lt;Operator&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></dt>
+<dd>
+<div class="block">Creates the <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a> from the <a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation in io.micronaut.kubernetes.client.operator"><code>Operator</code></a> annotation.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html" title="interface in io.micronaut.kubernetes.client.operator.configuration"><span class="typeNameLink">OperatorConfigurationProperties</span></a> - Interface in <a href="io/micronaut/kubernetes/client/operator/configuration/package-summary.html">io.micronaut.kubernetes.client.operator.configuration</a></dt>
+<dd>
+<div class="block">Operator module configuration properties.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">OperatorResourceLister</span></a>&lt;<a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html" title="type parameter in OperatorResourceLister">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">Operator lister simplifies retrieval of the resources from within the <code>SharedIndexInformer</code>'s
+ <code>Cache</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html#OperatorResourceLister-io.micronaut.kubernetes.client.operator.ControllerConfiguration-io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory-">OperatorResourceLister(ControllerConfiguration, SharedIndexInformerFactory)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:P">
 <!--   -->
@@ -909,6 +1285,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html#PREFIX">PREFIX</a></span> - Static variable in interface io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">OperatorConfigurationProperties</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#PREFIX">PREFIX</a></span> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
@@ -925,6 +1305,20 @@
 </a>
 <h2 class="title">R</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/queue/RateLimitingQueueFactory.html#rateLimitingQueue--">rateLimitingQueue()</a></span> - Method in class io.micronaut.kubernetes.client.operator.queue.<a href="io/micronaut/kubernetes/client/operator/queue/RateLimitingQueueFactory.html" title="class in io.micronaut.kubernetes.client.operator.queue">RateLimitingQueueFactory</a></dt>
+<dd>
+<div class="block">Creates <code>RateLimitingQueue</code>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/queue/RateLimitingQueueFactory.html" title="class in io.micronaut.kubernetes.client.operator.queue"><span class="typeNameLink">RateLimitingQueueFactory</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/queue/package-summary.html">io.micronaut.kubernetes.client.operator.queue</a></dt>
+<dd>
+<div class="block">The factory for <code>RateLimitingQueue</code>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/queue/RateLimitingQueueFactory.html#RateLimitingQueueFactory--">RateLimitingQueueFactory()</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.queue.<a href="io/micronaut/kubernetes/client/operator/queue/RateLimitingQueueFactory.html" title="class in io.micronaut.kubernetes.client.operator.queue">RateLimitingQueueFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html#reconcile-io.kubernetes.client.extended.controller.reconciler.Request-io.micronaut.kubernetes.client.operator.OperatorResourceLister-">reconcile(Request, OperatorResourceLister&lt;ApiType&gt;)</a></span> - Method in interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="interface in io.micronaut.kubernetes.client.operator">ResourceReconciler</a></dt>
+<dd>
+<div class="block">Reconcile the resource identified by the <code>Request</code>.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/Informer.html#RESOLVE_AUTOMATICALLY">RESOLVE_AUTOMATICALLY</a></span> - Static variable in annotation type io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation in io.micronaut.kubernetes.client.informer">Informer</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html#resolveApiListType-io.micronaut.core.annotation.AnnotationValue-">resolveApiListType(AnnotationValue&lt;Informer&gt;)</a></span> - Static method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer">InformerAnnotationUtils</a></dt>
@@ -979,6 +1373,23 @@
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html#ResourceEventHandlerBeanListener-io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolver-io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver-io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver-io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver-">ResourceEventHandlerBeanListener(SharedIndexInformerFactory, InformerApiGroupResolver, InformerResourcePluralResolver, InformerNamespaceResolver, InformerLabelSelectorResolver)</a></span> - Constructor for class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection"><span class="typeNameLink">ResourceLockFactory</span></a> - Class in <a href="io/micronaut/kubernetes/client/operator/leaderelection/package-summary.html">io.micronaut.kubernetes.client.operator.leaderelection</a></dt>
+<dd>
+<div class="block">The factory that creates the official Kubernetes SDK provided
+ <code>Lock</code> implementations.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html#ResourceLockFactory-io.micronaut.kubernetes.client.operator.leaderelection.LockIdentityProvider-io.micronaut.kubernetes.client.NamespaceResolver-io.micronaut.runtime.ApplicationConfiguration-io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration-io.kubernetes.client.openapi.ApiClient-">ResourceLockFactory(LockIdentityProvider, NamespaceResolver, ApplicationConfiguration, LeaderElectionConfiguration, ApiClient)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="interface in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ResourceReconciler</span></a>&lt;<a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Interface in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block">The ResourceReconciler defines an interface for reconciling the resource.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator"><span class="typeNameLink">ResourceReconcilerCreatedListener</span></a>&lt;<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="type parameter in ResourceReconcilerCreatedListener">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/client/operator/package-summary.html">io.micronaut.kubernetes.client.operator</a></dt>
+<dd>
+<div class="block"><code>BeanCreatedEventListener</code> for the <a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ResourceReconciler</code></a> annotated by <a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation in io.micronaut.kubernetes.client.operator"><code>Operator</code></a>.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html#ResourceReconcilerCreatedListener-io.micronaut.context.BeanContext-io.micronaut.kubernetes.client.operator.ControllerFactory-">ResourceReconcilerCreatedListener(BeanContext, ControllerFactory)</a></span> - Constructor for class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <a name="I:S">
 <!--   -->
@@ -1001,6 +1412,10 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setEnabled-boolean-">setEnabled(boolean)</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#setLeaseDuration-java.time.Duration-">setLeaseDuration(Duration)</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">Sets the lock lease duration.</div>
+</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#setMode-java.lang.String-">setMode(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>
 <div class="block">Set service discovery mode.</div>
@@ -1024,6 +1439,22 @@
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#setPort-java.lang.String-">setPort(String)</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>
 <div class="block">Sets port number.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#setRenewDeadline-java.time.Duration-">setRenewDeadline(Duration)</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">Sets the lock renew deadline.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#setResourceName-java.lang.String-">setResourceName(String)</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">Sets the lock resource name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#setResourceNamespace-java.lang.String-">setResourceNamespace(String)</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">Sets the lock resource namespace.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#setRetryPeriod-java.time.Duration-">setRetryPeriod(Duration)</a></span> - Method in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
+<dd>
+<div class="block">Sets the lock acquire retry period.</div>
 </dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#setSecrets-io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration-">setSecrets(KubernetesConfiguration.KubernetesSecretsConfiguration)</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -1077,6 +1508,14 @@
 </a>
 <h2 class="title">T</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html#test-io.kubernetes.client.common.KubernetesObject-">test(KubernetesObject)</a></span> - Method in class io.micronaut.kubernetes.client.operator.filter.<a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultAddFilter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html#test-io.kubernetes.client.common.KubernetesObject-java.lang.Boolean-">test(KubernetesObject, Boolean)</a></span> - Method in class io.micronaut.kubernetes.client.operator.filter.<a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultDeleteFilter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html#test-io.kubernetes.client.common.KubernetesObject-io.kubernetes.client.common.KubernetesObject-">test(KubernetesObject, KubernetesObject)</a></span> - Method in class io.micronaut.kubernetes.client.operator.filter.<a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultUpdateFilter</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#toString--">toString()</a></span> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
@@ -1097,7 +1536,57 @@
 the order they are declared.</div>
 </dd>
 </dl>
-<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;</div>
+<a name="I:W">
+<!--   -->
+</a>
+<h2 class="title">W</h2>
+<dl>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withApiGroup-java.lang.String-">withApiGroup(String)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the api group.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withApiListType-java.lang.Class-">withApiListType(Class&lt;? extends KubernetesListObject&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the api list ype.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withApiType-java.lang.Class-">withApiType(Class&lt;? extends KubernetesObject&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the api type.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withLabelSelector-java.lang.String-">withLabelSelector(String)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the label selector.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withName-java.lang.String-">withName(String)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the operator name.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withNamespaces-java.util.Set-">withNamespaces(Set&lt;String&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the namespaces.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withOnAddFilter-java.util.function.Predicate-">withOnAddFilter(Predicate&lt;? extends KubernetesObject&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the filter for added resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withOnDeleteFilter-java.util.function.BiPredicate-">withOnDeleteFilter(BiPredicate&lt;? extends KubernetesObject, Boolean&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the filter for deleted resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withOnUpdateFilter-java.util.function.BiPredicate-">withOnUpdateFilter(BiPredicate&lt;? extends KubernetesObject, ? extends KubernetesObject&gt;)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the filter for updated resources.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withResourcePlural-java.lang.String-">withResourcePlural(String)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the resource plural.</div>
+</dd>
+<dt><span class="memberNameLink"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html#withResyncCheckPeriod-java.lang.Long-">withResyncCheckPeriod(Long)</a></span> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></dt>
+<dd>
+<div class="block">Set the resync check period.</div>
+</dd>
+</dl>
+<a href="#I:A">A</a>&nbsp;<a href="#I:B">B</a>&nbsp;<a href="#I:C">C</a>&nbsp;<a href="#I:D">D</a>&nbsp;<a href="#I:E">E</a>&nbsp;<a href="#I:F">F</a>&nbsp;<a href="#I:G">G</a>&nbsp;<a href="#I:H">H</a>&nbsp;<a href="#I:I">I</a>&nbsp;<a href="#I:K">K</a>&nbsp;<a href="#I:L">L</a>&nbsp;<a href="#I:M">M</a>&nbsp;<a href="#I:N">N</a>&nbsp;<a href="#I:O">O</a>&nbsp;<a href="#I:P">P</a>&nbsp;<a href="#I:R">R</a>&nbsp;<a href="#I:S">S</a>&nbsp;<a href="#I:T">T</a>&nbsp;<a href="#I:V">V</a>&nbsp;<a href="#I:W">W</a>&nbsp;</div>
 <!-- ======= START OF BOTTOM NAVBAR ====== -->
 <div class="bottomNav"><a name="navbar.bottom">
 <!--   -->
