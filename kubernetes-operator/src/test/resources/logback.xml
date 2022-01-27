@@ -11,9 +11,4 @@
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
-
-<!--    <logger name="io.micronaut.context.env" level="TRACE"/>-->
-<!--    <logger name="io.micronaut.context" level="TRACE" />-->
-    <logger name="io.micronaut.kubernetes" level="TRACE" />
-    <logger name="io.kubernetes.client.extended" level="TRACE" />
 </configuration>
