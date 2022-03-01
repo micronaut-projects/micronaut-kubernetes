@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.ModelMapper;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +66,20 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
     private static final ModelMapper MAPPER = new ModelMapper();
 
     private final InformerConfiguration informerConfiguration;
-    private final ApiClient apiClient;
+    private final Provider<ApiClient> apiClient;
+
+    /**
+     * Creates {@link DefaultSharedIndexInformer}.
+     *
+     * @param informerConfiguration informer configuration
+     * @param apiClient             api client
+     *
+     * @deprecated Moved to use the lazy constructor, see {@link DefaultSharedIndexInformerFactory#DefaultSharedIndexInformerFactory(InformerConfiguration, Provider)}
+     */
+    @Deprecated
+    public DefaultSharedIndexInformerFactory(InformerConfiguration informerConfiguration, ApiClient apiClient) {
+        this(informerConfiguration, () -> apiClient);
+    }
 
     /**
      * Creates {@link DefaultSharedIndexInformer}.
@@ -72,7 +87,8 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
      * @param informerConfiguration informer configuration
      * @param apiClient             api client
      */
-    public DefaultSharedIndexInformerFactory(InformerConfiguration informerConfiguration, ApiClient apiClient) {
+    @Inject
+    public DefaultSharedIndexInformerFactory(InformerConfiguration informerConfiguration, Provider<ApiClient> apiClient) {
         this.apiClient = apiClient;
         this.informerConfiguration = informerConfiguration;
     }
@@ -128,7 +144,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
                 apiGroup,
                 version,
                 resourcePlural,
-                new CustomObjectsApi(apiClient));
+                new CustomObjectsApi(apiClient.get()));
 
         final SharedIndexInformer<ApiType> informer = sharedIndexInformerFor(
                 listerWatcherFor(kubernetesApi, labelSelector, ns),

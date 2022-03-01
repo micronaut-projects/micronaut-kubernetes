@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2022 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,13 +46,36 @@ public class DiscoveryCache {
 
     private static final ModelMapper MODEL_MAPPER = new ModelMapper();
 
-    private final Discovery discovery;
+    private final Provider<Discovery> discovery;
     private final Duration refreshInterval;
 
     private Set<Discovery.APIResource> lastAPIDiscovery = new HashSet<>();
     private volatile long nextDiscoveryRefreshTimeMillis = 0;
 
+    /**
+     * Create a discovery cache.
+     *
+     * @param discovery the discovery object to cache
+     * @param apiDiscoveryCacheConfiguration the cache configuration
+     *
+     * @deprecated Moved to use the lazy constructor, see {@link DiscoveryCache#DiscoveryCache(Provider, ApiClientConfiguration.ApiDiscoveryCacheConfiguration)}
+     */
+    @Deprecated
     public DiscoveryCache(Discovery discovery,
+                          ApiClientConfiguration.ApiDiscoveryCacheConfiguration apiDiscoveryCacheConfiguration) {
+        this(() -> discovery, apiDiscoveryCacheConfiguration);
+    }
+
+    /**
+     * Create a discovery cache.
+     *
+     * @param discovery A provider for the discovery object to cache
+     * @param apiDiscoveryCacheConfiguration the cache configuration
+     *
+     * @deprecated Use a provider instead {@link DiscoveryCache#DiscoveryCache(Provider, ApiClientConfiguration.ApiDiscoveryCacheConfiguration)}
+     */
+    @Inject
+    public DiscoveryCache(Provider<Discovery> discovery,
                           ApiClientConfiguration.ApiDiscoveryCacheConfiguration apiDiscoveryCacheConfiguration) {
         this.discovery = discovery;
         this.refreshInterval = Duration.ofMinutes(apiDiscoveryCacheConfiguration.getRefreshInterval());
@@ -93,7 +118,7 @@ public class DiscoveryCache {
             return lastAPIDiscovery;
         }
 
-        lastAPIDiscovery = discovery.findAll();
+        lastAPIDiscovery = discovery.get().findAll();
         nextDiscoveryRefreshTimeMillis = refreshInterval.toMillis() + nowMillis;
 
         if (LOG.isDebugEnabled()) {
