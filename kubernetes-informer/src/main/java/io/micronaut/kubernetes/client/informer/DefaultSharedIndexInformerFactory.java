@@ -86,6 +86,8 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
      *
      * @param informerConfiguration informer configuration
      * @param apiClient             api client
+     *
+     * @since 3.4.0
      */
     @Inject
     public DefaultSharedIndexInformerFactory(InformerConfiguration informerConfiguration, Provider<ApiClient> apiClient) {

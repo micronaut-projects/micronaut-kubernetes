@@ -72,7 +72,7 @@ public class DiscoveryCache {
      * @param discovery A provider for the discovery object to cache
      * @param apiDiscoveryCacheConfiguration the cache configuration
      *
-     * @deprecated Use a provider instead {@link DiscoveryCache#DiscoveryCache(Provider, ApiClientConfiguration.ApiDiscoveryCacheConfiguration)}
+     * @since 3.4.0
      */
     @Inject
     public DiscoveryCache(Provider<Discovery> discovery,
