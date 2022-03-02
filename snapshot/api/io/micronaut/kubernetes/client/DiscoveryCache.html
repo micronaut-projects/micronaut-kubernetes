@@ -138,7 +138,17 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/client/DiscoveryCache.html#DiscoveryCache-io.kubernetes.client.Discovery-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-">DiscoveryCache</a></span>(io.kubernetes.client.Discovery&nbsp;discovery,
-              <a href="../../../../io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a>&nbsp;apiDiscoveryCacheConfiguration)</code>&nbsp;</td>
+              <a href="../../../../io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a>&nbsp;apiDiscoveryCacheConfiguration)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Moved to use the lazy constructor, see <a href="../../../../io/micronaut/kubernetes/client/DiscoveryCache.html#DiscoveryCache-jakarta.inject.Provider-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-"><code>DiscoveryCache(Provider, ApiClientConfiguration.ApiDiscoveryCacheConfiguration)</code></a></span></div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../io/micronaut/kubernetes/client/DiscoveryCache.html#DiscoveryCache-jakarta.inject.Provider-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-">DiscoveryCache</a></span>(jakarta.inject.Provider&lt;io.kubernetes.client.Discovery&gt;&nbsp;discovery,
+              <a href="../../../../io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a>&nbsp;apiDiscoveryCacheConfiguration)</code>
+<div class="block">Create a discovery cache.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -192,11 +202,38 @@ extends java.lang.Object</pre>
 <a name="DiscoveryCache-io.kubernetes.client.Discovery-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-">
 <!--   -->
 </a>
+<ul class="blockList">
+<li class="blockList">
+<h4>DiscoveryCache</h4>
+<pre>@Deprecated
+public&nbsp;DiscoveryCache(io.kubernetes.client.Discovery&nbsp;discovery,
+                                  <a href="../../../../io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a>&nbsp;apiDiscoveryCacheConfiguration)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Moved to use the lazy constructor, see <a href="../../../../io/micronaut/kubernetes/client/DiscoveryCache.html#DiscoveryCache-jakarta.inject.Provider-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-"><code>DiscoveryCache(Provider, ApiClientConfiguration.ApiDiscoveryCacheConfiguration)</code></a></span></div>
+<div class="block">Create a discovery cache.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>discovery</code> - the discovery object to cache</dd>
+<dd><code>apiDiscoveryCacheConfiguration</code> - the cache configuration</dd>
+</dl>
+</li>
+</ul>
+<a name="DiscoveryCache-jakarta.inject.Provider-io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration-">
+<!--   -->
+</a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>DiscoveryCache</h4>
-<pre>public&nbsp;DiscoveryCache(io.kubernetes.client.Discovery&nbsp;discovery,
-                      <a href="../../../../io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a>&nbsp;apiDiscoveryCacheConfiguration)</pre>
+<pre>@Inject
+public&nbsp;DiscoveryCache(jakarta.inject.Provider&lt;io.kubernetes.client.Discovery&gt;&nbsp;discovery,
+                              <a href="../../../../io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration.ApiDiscoveryCacheConfiguration</a>&nbsp;apiDiscoveryCacheConfiguration)</pre>
+<div class="block">Create a discovery cache.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>discovery</code> - A provider for the discovery object to cache</dd>
+<dd><code>apiDiscoveryCacheConfiguration</code> - the cache configuration</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>3.4.0</dd>
+</dl>
 </li>
 </ul>
 </li>

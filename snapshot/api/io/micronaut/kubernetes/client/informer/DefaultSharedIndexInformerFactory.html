@@ -177,6 +177,14 @@ implements <a href="../../../../../io/micronaut/kubernetes/client/informer/Share
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#DefaultSharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.InformerConfiguration-io.kubernetes.client.openapi.ApiClient-">DefaultSharedIndexInformerFactory</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a>&nbsp;informerConfiguration,
                                  io.kubernetes.client.openapi.ApiClient&nbsp;apiClient)</code>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;
+<div class="block"><span class="deprecationComment">Moved to use the lazy constructor, see <a href="../../../../../io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#DefaultSharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.InformerConfiguration-jakarta.inject.Provider-"><code>DefaultSharedIndexInformerFactory(InformerConfiguration, Provider)</code></a></span></div>
+</div>
+</td>
+</tr>
+<tr class="rowColor">
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#DefaultSharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.InformerConfiguration-jakarta.inject.Provider-">DefaultSharedIndexInformerFactory</a></span>(<a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a>&nbsp;informerConfiguration,
+                                 jakarta.inject.Provider&lt;io.kubernetes.client.openapi.ApiClient&gt;&nbsp;apiClient)</code>
 <div class="block">Creates <code>DefaultSharedIndexInformer</code>.</div>
 </td>
 </tr>
@@ -300,16 +308,37 @@ implements <a href="../../../../../io/micronaut/kubernetes/client/informer/Share
 <a name="DefaultSharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.InformerConfiguration-io.kubernetes.client.openapi.ApiClient-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>DefaultSharedIndexInformerFactory</h4>
-<pre>public&nbsp;DefaultSharedIndexInformerFactory(<a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a>&nbsp;informerConfiguration,
-                                         io.kubernetes.client.openapi.ApiClient&nbsp;apiClient)</pre>
+<pre>@Deprecated
+public&nbsp;DefaultSharedIndexInformerFactory(<a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a>&nbsp;informerConfiguration,
+                                                     io.kubernetes.client.openapi.ApiClient&nbsp;apiClient)</pre>
+<div class="block"><span class="deprecatedLabel">Deprecated.</span>&nbsp;<span class="deprecationComment">Moved to use the lazy constructor, see <a href="../../../../../io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#DefaultSharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.InformerConfiguration-jakarta.inject.Provider-"><code>DefaultSharedIndexInformerFactory(InformerConfiguration, Provider)</code></a></span></div>
 <div class="block">Creates <code>DefaultSharedIndexInformer</code>.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>informerConfiguration</code> - informer configuration</dd>
 <dd><code>apiClient</code> - api client</dd>
+</dl>
+</li>
+</ul>
+<a name="DefaultSharedIndexInformerFactory-io.micronaut.kubernetes.client.informer.InformerConfiguration-jakarta.inject.Provider-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>DefaultSharedIndexInformerFactory</h4>
+<pre>@Inject
+public&nbsp;DefaultSharedIndexInformerFactory(<a href="../../../../../io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a>&nbsp;informerConfiguration,
+                                                 jakarta.inject.Provider&lt;io.kubernetes.client.openapi.ApiClient&gt;&nbsp;apiClient)</pre>
+<div class="block">Creates <code>DefaultSharedIndexInformer</code>.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>informerConfiguration</code> - informer configuration</dd>
+<dd><code>apiClient</code> - api client</dd>
+<dt><span class="simpleTagLabel">Since:</span></dt>
+<dd>3.4.0</dd>
 </dl>
 </li>
 </ul>
