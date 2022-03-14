@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "HelloControllerSpec")
 @Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "micronaut-example-client")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 class HelloControllerSpec extends KubernetesSpecification {
 

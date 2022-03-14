@@ -7,7 +7,6 @@ micronautBom {
     extraExcludedProjects.add("micronaut-client")
     extraExcludedProjects.add("micronaut-kubernetes-client")
     extraExcludedProjects.add("micronaut-kubernetes-informer")
-    extraExcludedProjects.add("micronaut-kubernetes-operator")
     extraExcludedProjects.add("micronaut-service")
 
     // exclude test utils
