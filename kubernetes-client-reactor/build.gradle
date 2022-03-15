@@ -4,11 +4,8 @@ plugins {
 
 dependencies {
     annotationProcessor project(":kubernetes-client-processor")
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
-
     api project(":kubernetes-client")
-    api 'io.projectreactor:reactor-core:3.4.15'
-    api "io.micronaut.reactor:micronaut-reactor:2.2.2"
+    api "io.micronaut.reactor:micronaut-reactor"
 
     testImplementation project(":test-utils")
 }
