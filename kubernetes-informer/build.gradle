@@ -13,5 +13,6 @@ dependencies {
     api project(":kubernetes-client")
     implementation "io.micronaut:micronaut-runtime"
 
+    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation project(":test-utils")
 }
