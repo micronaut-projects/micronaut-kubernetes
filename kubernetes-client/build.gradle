@@ -6,7 +6,6 @@ dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
     annotationProcessor project(":kubernetes-client-processor")
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
     api "io.micronaut:micronaut-inject"
     api "io.kubernetes:client-java:${ioKubernetesClientJava}"

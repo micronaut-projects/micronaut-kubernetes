@@ -4,8 +4,6 @@ plugins {
 
 dependencies {
     annotationProcessor project(":kubernetes-client-processor")
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
-
     api project(":kubernetes-client")
     api "io.micronaut.reactor:micronaut-reactor"
 

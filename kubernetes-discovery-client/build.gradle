@@ -5,7 +5,6 @@ plugins {
 dependencies {
     annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
-    annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
     compileOnly "io.micronaut:micronaut-inject-java"
     compileOnly "io.micronaut:micronaut-management"
