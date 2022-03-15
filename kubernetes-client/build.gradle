@@ -11,7 +11,7 @@ dependencies {
     api "io.micronaut:micronaut-inject"
     api "io.kubernetes:client-java:${ioKubernetesClientJava}"
     implementation "io.micronaut:micronaut-runtime"
-    compileOnly("org.graalvm.nativeimage:svm:21.3.0")
+    compileOnly("org.graalvm.nativeimage:svm")
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation project(":test-utils")
