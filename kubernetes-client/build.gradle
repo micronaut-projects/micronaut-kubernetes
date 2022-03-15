@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
     annotationProcessor project(":kubernetes-client-processor")
 

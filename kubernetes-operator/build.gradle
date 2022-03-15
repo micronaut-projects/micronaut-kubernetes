@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
     
 
@@ -15,6 +14,5 @@ dependencies {
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "io.micronaut:micronaut-inject-java"
     testImplementation project(":test-utils")
 }

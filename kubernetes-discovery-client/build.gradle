@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
 
     compileOnly "io.micronaut:micronaut-inject-java"
@@ -18,7 +17,6 @@ dependencies {
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-
     testImplementation "io.micronaut.discovery:micronaut-discovery-client"
     testImplementation "com.github.stefanbirkner:system-lambda:1.2.1"
     testImplementation project(":test-utils")
