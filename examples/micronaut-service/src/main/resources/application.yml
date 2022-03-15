@@ -13,6 +13,7 @@ micronaut:
 endpoints:
   env:
     sensitive: false
+    enabled: true
   refresh:
     sensitive: false
   health:
