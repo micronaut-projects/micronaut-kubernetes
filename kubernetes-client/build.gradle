@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
     annotationProcessor project(":kubernetes-client-processor")
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
@@ -13,6 +12,5 @@ dependencies {
     implementation "io.micronaut:micronaut-runtime"
     compileOnly("org.graalvm.nativeimage:svm:21.3.0")
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
     testImplementation project(":test-utils")
 }

@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-java"
     annotationProcessor "io.micronaut:micronaut-graal"
     annotationProcessor "io.micronaut.docs:micronaut-docs-asciidoc-config-props:$micronautDocsVersion"
 
@@ -14,7 +13,5 @@ dependencies {
     api("io.kubernetes:client-java-extended:${ioKubernetesClientJava}")
     implementation "io.micronaut:micronaut-runtime"
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "io.micronaut:micronaut-inject-java"
     testImplementation project(":test-utils")
 }
