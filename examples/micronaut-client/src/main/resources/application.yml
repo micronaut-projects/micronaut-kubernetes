@@ -6,5 +6,6 @@ micronaut:
 endpoints:
   env:
     sensitive: false
+    enabled: true
   health:
     details-visible: ANONYMOUS
