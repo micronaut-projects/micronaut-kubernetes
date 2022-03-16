@@ -1,8 +1,10 @@
 # Contributing Code or Documentation
 
-To work on this project, you need a Kubernetes cluster accessible via `kubectl`. It can be a local cluster based on
+To work on this project, you need a Kubernetes cluster accessible via `kubectl`.
+It can be a local cluster based on
 [Minikube](https://kubernetes.io/docs/setup/learning-environment/minikube/),
-[Kind](https://kind.sigs.k8s.io/) or even a remote cluster hosted
+[Kind](https://kind.sigs.k8s.io/),
+[Docker Desktop](https://www.docker.com/products/docker-desktop) or even a remote cluster hosted
 on AWS / GCP / Azure / Oracle Cloud / etc.
 
 ## Setting up the environment
@@ -36,6 +38,20 @@ Note: In case you want to use other than default Kind cluster name `kind`, run t
 
 ```shell script
 ./setup-kubernetes.sh <CLUSTER_NAME>
+```
+
+### Docker Desktop
+
+Ensure Kubernetes is enabled in Docker Desktop preferences and build the example services docker images:
+
+```shell script
+./gradlew clean dockerBuild --refresh-dependencies
+```
+
+Then in a separate shell, run the kubernetes proxy:
+
+```shell
+kubectl proxy
 ```
 
 ## Running all the tests
