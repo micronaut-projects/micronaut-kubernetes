@@ -8,5 +8,5 @@
     <!-- <suppress checks="FileLength" -->
               <!-- files="DefaultBeanContext.java|BeanDefinitionWriter.java|DefaultHttpClient.java"/> -->
 
-    <suppress checks="MissingJavadocType" files=".*examples.*" />
+    <suppress checks="MissingJavadocType" files=".*doc-examples.*" />
 </suppressions>
