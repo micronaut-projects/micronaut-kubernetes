@@ -7,7 +7,7 @@ dependencies {
     annotationProcessor project(":kubernetes-client-processor")
 
     api(libs.micronaut.inject)
-    api "io.kubernetes:client-java:${ioKubernetesClientJava}"
+    api(libs.kubernetes.client.java)
     implementation(libs.micronaut.runtime)
     compileOnly(libs.graal)
 

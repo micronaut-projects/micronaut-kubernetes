@@ -7,6 +7,7 @@ rxjava2 = "2.2.21"
 rxjava3 = "3.1.3"
 spock = "2.0-groovy-3.0"
 system-lambda = "1.2.1"
+io-kubernetes-client = "13.0.1"
 
 # Micronaut
 micronaut = "3.4.3"
@@ -37,3 +38,5 @@ rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
 graal = { module = "org.graalvm.nativeimage:svm" }
 system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "system-lambda" }
+kubernetes-client-java-extended = { module = "io.kubernetes:client-java-extended", version.ref = "io-kubernetes-client" }
+kubernetes-client-java = { module = "io.kubernetes:client-java", version.ref = "io-kubernetes-client" }

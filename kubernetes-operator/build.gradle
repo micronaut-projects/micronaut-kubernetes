@@ -10,7 +10,7 @@ dependencies {
     compileOnly(libs.graal)
 
     api project(":kubernetes-informer")
-    api("io.kubernetes:client-java-extended:${ioKubernetesClientJava}")
+    api(libs.kubernetes.client.java.extended)
     implementation(libs.micronaut.runtime)
 
     testAnnotationProcessor(libs.micronaut.inject.java)
