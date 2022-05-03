@@ -51,7 +51,7 @@ jobs:
     steps:
       - uses: AutoModality/action-clean@1.1.0
       - uses: actions/checkout@v3
-      - uses: actions/cache@v2.1.7
+      - uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
@@ -89,7 +89,7 @@ jobs:
           [ -f ./teardown.sh ] && ./teardown.sh || true
       - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v2.9.1
+        uses: mikepenz/action-junit-report@v3.0.2
         with:
           check_name: Java CI / Test Report (${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
