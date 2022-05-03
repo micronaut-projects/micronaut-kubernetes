@@ -71,18 +71,19 @@ jobs:
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
         run: |
-          [ -f ./setup.sh ] && ./setup.sh
+          [ -f ./setup.sh ] && ./setup.sh || true
       - name: Build with Gradle
         run: |
           set -e
           for EXAMPLE in $(ls ./examples); do
-            ./gradlew ${EXAMPLE}:test --continue --no-build-cache
+            ./gradlew ${EXAMPLE}:test --continue --no-daemon --no-build-cache
           done
         env:
           TESTCONTAINERS_RYUK_DISABLED: true
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
       - name: Optional tear down step
         env:
           K8S_VERSION: ${{ matrix.k8s }}
@@ -95,6 +96,7 @@ jobs:
         with:
           check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
+          check_retries: 'true'
   stop-runner:
     name: Stop self-hosted OracleCloud runners
     needs:
