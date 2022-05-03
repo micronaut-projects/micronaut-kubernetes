@@ -5,7 +5,7 @@ plugins {
 dependencies {
     annotationProcessor project(":kubernetes-client-processor")
     api project(":kubernetes-client")
-    api "io.micronaut.reactor:micronaut-reactor"
+    api(libs.micronaut.reactor)
 
     testImplementation project(":test-utils")
 }

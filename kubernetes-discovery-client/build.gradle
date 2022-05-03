@@ -3,21 +3,21 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-graal"
+    annotationProcessor(libs.micronaut.graal)
 
-    compileOnly "io.micronaut:micronaut-inject-java"
-    compileOnly "io.micronaut:micronaut-management"
-    compileOnly "org.graalvm.nativeimage:svm"
+    compileOnly(libs.micronaut.inject.java)
+    compileOnly(libs.micronaut.management)
+    compileOnly(libs.graal)
 
     api project(":kubernetes-client-reactor")
     api project(":kubernetes-informer")
     api "io.kubernetes:client-java-extended:${ioKubernetesClientJava}"
 
-    api "io.micronaut.discovery:micronaut-discovery-client"
-    implementation "io.micronaut:micronaut-runtime"
+    api(libs.micronaut.discovery.client)
+    implementation(libs.micronaut.runtime)
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation "io.micronaut.discovery:micronaut-discovery-client"
-    testImplementation "com.github.stefanbirkner:system-lambda:1.2.1"
+    testAnnotationProcessor(libs.micronaut.inject.java)
+    testImplementation(libs.micronaut.discovery.client)
+    testImplementation(libs.system.lambda)
     testImplementation project(":test-utils")
 }

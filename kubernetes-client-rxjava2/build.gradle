@@ -6,7 +6,7 @@ dependencies {
     annotationProcessor project(":kubernetes-client-processor")
 
     api project(":kubernetes-client")
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation(libs.rxjava2)
 
     testImplementation project(":test-utils")
 }

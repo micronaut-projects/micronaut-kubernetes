@@ -3,15 +3,15 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-groovy"
+    annotationProcessor(libs.micronaut.inject.groovy)
 
-    implementation "org.codehaus.groovy:groovy:$groovyVersion"
-    api "io.micronaut:micronaut-inject-groovy"
-    api "io.micronaut:micronaut-http-client:$micronautVersion"
-    api 'io.fabric8:kubernetes-client:5.11.1'
-    api("org.spockframework:spock-core:${spockVersion}")
-    api "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    api "ch.qos.logback:logback-classic:1.2.10"
+    implementation(libs.groovy)
+    api(libs.micronaut.inject.groovy)
+    api(libs.micronaut.http.client)
+    api(libs.kubernetes.client)
+    api(libs.spock.core)
+    api(libs.micronaut.test.spock)
+    api(libs.logback.classic)
 }
 
 repositories {

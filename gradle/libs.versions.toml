@@ -1,0 +1,39 @@
+[versions]
+groovy = "3.0.10"
+javapoet = "1.13.0"
+kubernetes-client = "5.11.1"
+logback-classic = "1.2.10"
+rxjava2 = "2.2.21"
+rxjava3 = "3.1.3"
+spock = "2.0-groovy-3.0"
+system-lambda = "1.2.1"
+
+# Micronaut
+micronaut = "3.4.3"
+micronaut-test = "3.1.1"
+
+
+[libraries]
+# Micronaut
+micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client" }
+micronaut-graal = { module = "io.micronaut:micronaut-graal" }
+micronaut-http-client = { module = "io.micronaut:micronaut-http-client" }
+micronaut-inject = { module = "io.micronaut:micronaut-inject" }
+micronaut-inject-groovy = { module = "io.micronaut:micronaut-inject-groovy" }
+micronaut-inject-java = { module = "io.micronaut:micronaut-inject-java" }
+micronaut-management = { module = "io.micronaut:micronaut-management" }
+micronaut-reactor = { module = "io.micronaut.reactor:micronaut-reactor" }
+micronaut-runtime = { module = "io.micronaut:micronaut-runtime" }
+micronaut-test-spock = { module = "io.micronaut.test:micronaut-test-spock", version.ref = "micronaut-test" }
+micronaut-validation = { module = "io.micronaut:micronaut-validation" }
+
+groovy = { module = "org.codehaus.groovy:groovy", version.ref = "groovy" }
+javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
+javax-annotation-api = { module = "javax.annotation:javax.annotation-api" }
+kubernetes-client = { module = "io.fabric8:kubernetes-client", version.ref = "kubernetes-client" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
+rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }
+rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
+graal = { module = "org.graalvm.nativeimage:svm" }
+system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "system-lambda" }
