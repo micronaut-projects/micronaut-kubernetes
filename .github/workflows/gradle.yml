@@ -14,59 +14,87 @@ on:
       - master
       - '[1-9]+.[0-9]+.x'
 jobs:
+  start-runner:
+    name: Start self-hosted OracleCloud runners
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.start-runner.outputs.label }}
+    steps:
+      - name: Install OCI CLI
+        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          oci-user-ocid: ${{ secrets.OCI_USER }}
+          oci-region: ${{ secrets.OCI_REGION }}
+          oci-tenancy-ocid: ${{ secrets.OCI_TENANCY }}
+          oci-private-key: ${{ secrets.OCI_KEY_FILE }}
+          oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
+          oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
+      - name: Start runners
+        uses: micronaut-projects/github-actions/start-oracle-cloud-runners@master
+        id: start-runner
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
+          oci-subnet-ocid: ${{ secrets.OCI_SUBNET }}
+          oci-av-domain: ${{ secrets.OCI_AV_DOMAIN }}
+          oci-image-ocid: ${{ secrets.OCI_RUNNER_IMAGE }}
+          runners-count: '3'
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    runs-on: ubuntu-latest
+    needs: start-runner
+    runs-on: ${{ needs.start-runner.outputs.label }}
     strategy:
       matrix:
         java: ['8', '11', '17']
+        k8s: ['1.18', '1.19', '1.20', '1.21']
     steps:
-       # https://github.com/actions/virtual-environments/issues/709
-      - name: Free disk space
-        run: |
-         sudo rm -rf "/usr/local/share/boost"
-         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-         sudo apt-get clean
-         df -h
+      - uses: AutoModality/action-clean@1.1.0
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/cache@v2.1.7
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Set up JDK
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
       - name: Optional setup step
         env:
+          K8S_VERSION: ${{ matrix.k8s }}
+          JAVA_VERSION: ${{ matrix.java }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
         run: |
-          [ -f ./setup.sh ] && ./setup.sh || true
+          [ -f ./setup.sh ] && ./setup.sh
       - name: Build with Gradle
         run: |
           # Awful hack for kapt and JDK 16. See https://youtrack.jetbrains.com/issue/KT-45545
           if [ ${{ matrix.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
-          ./gradlew dependencyUpdates check --no-daemon --parallel --continue
+          ./gradlew dependencyUpdates check --continue
         env:
-           TESTCONTAINERS_RYUK_DISABLED: true
-           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-           PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
+          TESTCONTAINERS_RYUK_DISABLED: true
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+      - name: Optional tear down step
+        env:
+          K8S_VERSION: ${{ matrix.k8s }}
+          JAVA_VERSION: ${{ matrix.java }}
+        run: |
+          [ -f ./teardown.sh ] && ./teardown.sh || true
       - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v3.0.2
+        uses: mikepenz/action-junit-report@v2.9.1
         with:
           check_name: Java CI / Test Report (${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
-          check_retries: 'true'
       - name: Publish to Sonatype Snapshots
-        if: success() && github.event_name == 'push' && matrix.java == '8'
+        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
@@ -82,10 +110,34 @@ jobs:
           if_true: "micronaut-projects/micronaut-docs"
           if_false: ${{ github.repository }}
       - name: Publish to Github Pages
-        if: success() && github.event_name == 'push' && matrix.java == '8'
+        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
         uses: micronaut-projects/github-pages-deploy-action@master
         env:
           TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           BRANCH: gh-pages
           FOLDER: build/docs
+  stop-runner:
+    name: Stop self-hosted OracleCloud runners
+    needs:
+      - start-runner
+      - build
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Install OCI CLI
+        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          oci-user-ocid: ${{ secrets.OCI_USER }}
+          oci-region: ${{ secrets.OCI_REGION }}
+          oci-tenancy-ocid: ${{ secrets.OCI_TENANCY }}
+          oci-private-key: ${{ secrets.OCI_KEY_FILE }}
+          oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
+          oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
+      - name: Stop runners
+        uses: micronaut-projects/github-actions/stop-oracle-cloud-runners@master
+        with:
+          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
+          oci-runner-label-tag-value: ${{ needs.start-runner.outputs.label }}
