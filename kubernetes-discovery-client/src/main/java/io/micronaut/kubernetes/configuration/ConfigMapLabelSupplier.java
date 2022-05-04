@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.configuration;
 
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
@@ -32,6 +34,7 @@ import java.util.function.Supplier;
  * @since 3.1
  */
 @Singleton
+@Requires(env = Environment.KUBERNETES)
 public class ConfigMapLabelSupplier implements Supplier<String> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConfigMapLabelSupplier.class);
