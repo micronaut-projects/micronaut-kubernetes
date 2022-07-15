@@ -16,7 +16,7 @@
 package io.micronaut.kubernetes.discovery;
 
 import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.openapi.models.V1EndpointPort;
+import io.kubernetes.client.openapi.models.CoreV1EndpointPort;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1ServicePort;
 import io.micronaut.core.util.StringUtils;
@@ -161,7 +161,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
     }
 
     /**
-     * Utility class for transparent access to {@link V1EndpointPort} and {@link V1ServicePort}.
+     * Utility class for transparent access to {@link CoreV1EndpointPort} and {@link V1ServicePort}.
      */
     public static class PortBinder {
         private final String name;
@@ -193,7 +193,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
             return new PortBinder(servicePort.getName(), servicePort.getPort());
         }
 
-        public static PortBinder fromEndpointPort(@Nullable V1EndpointPort endpointPort) {
+        public static PortBinder fromEndpointPort(@Nullable CoreV1EndpointPort endpointPort) {
             if (endpointPort == null) {
                 return null;
             }
