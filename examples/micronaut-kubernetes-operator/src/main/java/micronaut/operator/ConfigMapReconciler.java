@@ -67,7 +67,7 @@ public class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> {
                 String name = v1ConfigMap.getMetadata().getName();
                 String namespace = v1ConfigMap.getMetadata().getNamespace();
                 try {
-                    coreV1Api.replaceNamespacedConfigMap(name, namespace, v1ConfigMap, null, null, null);
+                    coreV1Api.replaceNamespacedConfigMap(name, namespace, v1ConfigMap, null, null, null, null);
                 } catch (ApiException e) {
                     LOG.error("Failed to update config map", e);
                     return new Result(true, Duration.ofSeconds(2));

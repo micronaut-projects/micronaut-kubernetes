@@ -59,7 +59,7 @@ public class KubernetesServiceInstanceEndpointProvider extends AbstractV1Endpoin
             LOG.trace("Using API to fetch Endpoints[{}] from namespace [{}]", name, namespace);
         }
 
-        return client.readNamespacedEndpoints(name, namespace, null, null, null)
+        return client.readNamespacedEndpoints(name, namespace, null)
                 .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Endpoints [ " + name + "] from namespace [" + namespace + "]: " + throwable.getResponseBody(), throwable));
     }
 
