@@ -4,6 +4,7 @@ import io.kubernetes.client.extended.controller.reconciler.Request
 import io.kubernetes.client.extended.workqueue.DefaultRateLimitingQueue
 import io.kubernetes.client.extended.workqueue.WorkQueue
 import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -11,7 +12,7 @@ import spock.lang.Specification
 
 import java.time.Duration
 
-@MicronautTest
+@MicronautTest(environments = [Environment.KUBERNETES])
 class DefaultControllerWatchBuilderSpec extends Specification {
 
     @Inject

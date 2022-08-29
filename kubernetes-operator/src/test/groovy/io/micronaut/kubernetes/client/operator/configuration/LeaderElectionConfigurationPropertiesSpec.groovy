@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.client.operator.configuration
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.Environment
 import spock.lang.Specification
 
 import java.time.Duration
@@ -9,7 +10,7 @@ class LeaderElectionConfigurationPropertiesSpec extends Specification {
 
     def "it resolves leader election configuration defaults"() {
         when:
-        ApplicationContext applicationContext = ApplicationContext.run()
+        ApplicationContext applicationContext = ApplicationContext.run(Environment.KUBERNETES)
 
         then:
         applicationContext.getBean(LeaderElectionConfiguration)
@@ -32,7 +33,7 @@ class LeaderElectionConfigurationPropertiesSpec extends Specification {
                 "kubernetes.client.operator.leader-election.lock.resource-namespace": "custom-namespace",
                 "kubernetes.client.operator.leader-election.lock.lease-duration": "20m",
                 "kubernetes.client.operator.leader-election.lock.renew-deadline": "20m",
-                "kubernetes.client.operator.leader-election.lock.retry-period": "20m"])
+                "kubernetes.client.operator.leader-election.lock.retry-period": "20m"],Environment.KUBERNETES)
 
         when:
         def lockConfig = applicationContext.getBean(LeaderElectionConfiguration)

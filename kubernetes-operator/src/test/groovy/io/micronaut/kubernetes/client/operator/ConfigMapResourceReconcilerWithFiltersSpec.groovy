@@ -1,18 +1,15 @@
 package io.micronaut.kubernetes.client.operator
 
 import io.fabric8.kubernetes.api.model.ConfigMap
-import io.kubernetes.client.extended.controller.ControllerManager
-import io.kubernetes.client.extended.controller.DefaultController
-import io.kubernetes.client.extended.controller.LeaderElectingController
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
-import io.micronaut.core.type.Argument
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.util.concurrent.PollingConditions
 
-@MicronautTest
+@MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "ConfigMapResourceReconcilerWithFiltersSpec")
 @Property(name = "micronaut.application.name", value = "simple-reconciler")
 @Property(name = "kubernetes.client.namespace", value = "simple-reconciler")

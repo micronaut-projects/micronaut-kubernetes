@@ -5,6 +5,7 @@ import io.kubernetes.client.extended.controller.DefaultController
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.annotation.Property
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.operator.ResourceReconciler
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration
 import io.micronaut.kubernetes.client.operator.configuration.OperatorConfigurationProperties
@@ -12,7 +13,7 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.Specification
 
-@MicronautTest
+@MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "kubernetes.client.api-discovery.enabled", value="false")
 class DefaultControllerBuilderSpec extends Specification {
 
