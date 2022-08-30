@@ -25,7 +25,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
     def "it is created"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run()
+        ApplicationContext applicationContext = ApplicationContext.run(Environment.KUBERNETES)
 
         expect:
         applicationContext.getBean(DefaultSharedIndexInformerFactory)
@@ -51,7 +51,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
     def "it starts informer when informer is created after the bean context was started"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run()
+        ApplicationContext applicationContext = ApplicationContext.run(Environment.KUBERNETES)
 
         when:
         DefaultSharedIndexInformerFactory factory = applicationContext.getBean(DefaultSharedIndexInformerFactory)
@@ -84,7 +84,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
 
     def "it returns informer based on namespace and apiclass"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run()
+        ApplicationContext applicationContext = ApplicationContext.run(Environment.KUBERNETES)
 
         when:
         DefaultSharedIndexInformerFactory factory = applicationContext.getBean(DefaultSharedIndexInformerFactory)
