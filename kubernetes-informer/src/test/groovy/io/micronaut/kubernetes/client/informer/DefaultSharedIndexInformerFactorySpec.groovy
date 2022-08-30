@@ -1,10 +1,11 @@
 package io.micronaut.kubernetes.client.informer
 
-import io.kubernetes.client.informer.SharedIndexInformer
+
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
+import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.NoSuchBeanException
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
@@ -12,9 +13,7 @@ import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
 import spock.util.concurrent.PollingConditions
 
-import java.util.stream.Collectors
-
-@MicronautTest()
+@MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "informer-factory")
 class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
