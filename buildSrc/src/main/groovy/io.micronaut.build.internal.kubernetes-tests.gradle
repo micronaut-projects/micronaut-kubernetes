@@ -1,4 +1,5 @@
 plugins {
     id 'io.micronaut.build.internal.common'
     id 'io.micronaut.build.internal.dependency-updates'
+    id "io.micronaut.build.internal.kubernetes-base"
 }

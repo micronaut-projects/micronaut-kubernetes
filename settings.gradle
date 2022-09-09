@@ -26,3 +26,10 @@ file('examples').eachDir {
     include it.name
     project(":${it.name}").projectDir = it
 }
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+        maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+    }
+}
