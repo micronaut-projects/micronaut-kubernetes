@@ -2,6 +2,7 @@ package io.micronaut.kubernetes.client.operator.leaderelection
 
 import io.kubernetes.client.extended.leaderelection.LeaderElectionConfig
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfigurationProperties
 import spock.lang.Specification
 
@@ -12,7 +13,7 @@ class LeaderElectionConfigFactorySpec extends Specification {
     def "it is created with default values"() {
         when:
         ApplicationContext applicationContext = ApplicationContext.run(
-                ["micronaut.application.name": "app"]
+                ["micronaut.application.name": "app"], Environment.KUBERNETES
         )
 
         then:
