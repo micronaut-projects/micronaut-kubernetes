@@ -16,30 +16,9 @@ on:
 jobs:
   start-runner:
     name: Start self-hosted OracleCloud runners
-    runs-on: ubuntu-latest
-    outputs:
-      label: ${{ steps.start-runner.outputs.label }}
-    steps:
-      - name: Install OCI CLI
-        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          oci-user-ocid: ${{ secrets.OCI_USER }}
-          oci-region: ${{ secrets.OCI_REGION }}
-          oci-tenancy-ocid: ${{ secrets.OCI_TENANCY }}
-          oci-private-key: ${{ secrets.OCI_KEY_FILE }}
-          oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
-          oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-      - name: Start runner
-        uses: micronaut-projects/github-actions/start-oracle-cloud-runners@master
-        id: start-runner
-        with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
-          oci-subnet-ocid: ${{ secrets.OCI_SUBNET }}
-          oci-av-domain: ${{ secrets.OCI_AV_DOMAIN }}
-          oci-image-ocid: ${{ secrets.OCI_RUNNER_IMAGE }}
-          runners-count: '1'
+    uses: ./.github/workflows/startRunners.yml
+    with:
+      runners_count: '1'
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner
@@ -102,23 +81,5 @@ jobs:
     needs:
       - start-runner
       - build
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - name: Install OCI CLI
-        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          oci-user-ocid: ${{ secrets.OCI_USER }}
-          oci-region: ${{ secrets.OCI_REGION }}
-          oci-tenancy-ocid: ${{ secrets.OCI_TENANCY }}
-          oci-private-key: ${{ secrets.OCI_KEY_FILE }}
-          oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
-          oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-      - name: Stop runners
-        uses: micronaut-projects/github-actions/stop-oracle-cloud-runners@master
-        with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
-          oci-runner-label-tag-value: ${{ needs.start-runner.outputs.label }}
-
+    uses: ./.github/workflows/stopRunners.yml
+    with: ${{ needs.start-runner.outputs.label }}
