@@ -11,7 +11,6 @@ on:
         description:
           required: true
           type: string
-
 jobs:
   stop-runners:
     name: Stop self-hosted OracleCloud runners
