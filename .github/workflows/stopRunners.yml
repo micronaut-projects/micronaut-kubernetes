@@ -8,9 +8,9 @@ on:
   workflow-call:
     inputs:
       label:
-        description:
-          required: true
-          type: string
+        description: 'The runner label tag value created in startRunners workflow.'
+        required: true
+        type: string
 jobs:
   stop-runners:
     name: Stop self-hosted OracleCloud runners
