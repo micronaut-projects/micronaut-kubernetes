@@ -14,9 +14,6 @@ on:
 jobs:
   stop-runners:
     name: Stop self-hosted OracleCloud runners
-    needs:
-      - start-runner
-      - build
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
