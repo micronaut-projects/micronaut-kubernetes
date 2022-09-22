@@ -5,7 +5,7 @@
 # and edit them there. Note that it will be sync'ed to all the Micronaut repos
 name: Java CI
 on:
-  workflow-call:
+  workflow_call:
     inputs:
       label:
         description: 'The runner label tag value created in startRunners workflow.'
