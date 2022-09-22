@@ -104,4 +104,5 @@ jobs:
       - start-runner
       - build
     uses: ./.github/workflows/stopRunners.yml
-    with: ${{ needs.start-runner.outputs.label }}
+    with:
+      label: ${{ needs.start-runner.outputs.label }}
