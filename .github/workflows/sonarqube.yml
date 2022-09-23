@@ -14,7 +14,7 @@ jobs:
 
   pre-build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    uses: ./.github/workflows/reusable/gradle-pre-build.yml@master
+    uses: micronaut-projects/micronaut-kubernetes/.github/workflows/reusable/gradle-pre-build.yml@master
     with:
       java: 11
     secrets: inherit
