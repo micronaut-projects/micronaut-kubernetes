@@ -1,0 +1,24 @@
+name: Static Analysis - Common build step
+
+on:
+  workflow_call:
+    inputs:
+      build_command:
+        required: true
+        type: string
+
+jobs:
+  build:
+    needs: pre-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Analyse with Gradle
+        run: |
+          ${{ build_command }}
+        env:
+          TESTCONTAINERS_RYUK_DISABLED: true
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

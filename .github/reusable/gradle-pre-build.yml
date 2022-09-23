@@ -1,0 +1,41 @@
+name: Java CI - Common build setup
+
+on:
+  workflow_call:
+    inputs:
+      java:
+        required: true
+        type: string
+jobs:
+  pre-build:
+    if: github.repository != 'micronaut-projects/micronaut-project-template'
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/actions/virtual-environments/issues/709
+      - name: Free disk space
+        run: |
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo apt-get clean
+          df -h
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: ${{ inputs.java }}
+      - name: Optional setup step
+        env:
+          K8S_VERSION: ${{ matrix.k8s }}
+          JAVA_VERSION: ${{ matrix.java }}
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+        run: |
+          [ -f ./setup.sh ] && ./setup.sh || true
