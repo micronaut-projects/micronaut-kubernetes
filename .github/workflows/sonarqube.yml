@@ -22,7 +22,7 @@ jobs:
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: pre-build
-    uses: ./.github/workflows/reusable/sonarqube-build.yml@master
+    uses: micronaut-projects/micronaut-kubernetes/.github/workflows/reusable/sonarqube-build.yml@master
     with:
       build_command: |
         #        Add additional variables as needed, for example:
