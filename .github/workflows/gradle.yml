@@ -53,7 +53,7 @@ jobs:
     strategy:
       matrix:
         java: ['8', '11', '17']
-    needs: [start-runner, "pre-build (${{ matrix.java }})"]
+    needs: "pre-build (${{ matrix.java }})"
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     uses: ./.github/workflows/gradle-build.yml
     with:
