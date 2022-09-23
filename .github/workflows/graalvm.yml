@@ -93,6 +93,7 @@ jobs:
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
           PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
       - name: Optional tear down step
+        env:
           K8S_VERSION: ${{ matrix.k8s }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
