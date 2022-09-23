@@ -42,7 +42,7 @@ jobs:
       matrix:
         java: ['8', '11', '17']
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    uses: micronaut-projects/micronaut-kubernetes/.github/workflows/gradle-pre-build.yml@master
+    uses: ./.github/workflows/gradle-pre-build.yml
     with:
       java: ${{ matrix.java }}
     secrets: inherit
@@ -55,7 +55,7 @@ jobs:
         java: ['8', '11', '17']
     needs: [start-runner, "pre-build (${{ matrix.java }})"]
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    uses: micronaut-projects/micronaut-kubernetes/.github/workflows/gradle-build.yml@master
+    uses: ./.github/workflows/gradle-build.yml
     with:
       build_command: |
         #        Add additional variables as needed, for example:
@@ -68,7 +68,7 @@ jobs:
   post-build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: "build (${{ matrix.java }})"
-    uses: micronaut-projects/micronaut-kubernetes/.github/workflows/gradle-post-build.yml@master
+    uses: ./.github/workflows/gradle-post-build.yml
     with:
       java: ${{ matrix.java }}
     secrets: inherit
