@@ -1,0 +1,66 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Post-build steps for GitHub gradle workflow
+description: Perform post-build steps for gradle workflow
+inputs:
+  java:
+    required: true
+    type: string
+  sonatype-username:
+    required: true
+    type: string
+  sonatype-password:
+      required: true
+      type: string
+  gradle-enterprise-access-key:
+    required: true
+    type: string
+  gradle-enterprise-cache-username:
+    required: true
+    type: string
+  gradle-enterprise-cache-password:
+    required: true
+    type: string
+  gh-token:
+    required: true
+    type: string
+runs:
+  using: "composite"
+  if: github.repository != 'micronaut-projects/micronaut-project-template'
+  steps:
+    - name: Publish Test Report
+      if: always()
+      uses: mikepenz/action-junit-report@v3.5.0
+      with:
+        check_name: Java CI / Test Report (${{ inputs.java }})
+        report_paths: '**/build/test-results/test/TEST-*.xml'
+        check_retries: 'true'
+    - name: "📜 Upload binary compatibility check results"
+      if: always()
+      uses: actions/upload-artifact@v2
+      with:
+        name: binary-compatibility-reports
+        path: "**/build/reports/binary-compatibility-*.html"
+    - name: Publish to Sonatype Snapshots
+      if: success() && github.event_name == 'push' && inputs.java == '11'
+      env:
+        SONATYPE_USERNAME: ${{ inputs.sonatype-username }}
+        SONATYPE_PASSWORD: ${{ inputs.sonatype-password }}
+        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise_access_key }}
+        GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
+        GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password}}
+      run: ./gradlew publishToSonatype docs --no-daemon
+    - name: Determine docs target repository
+      uses: haya14busa/action-cond@v1
+      id: docs_target
+      with:
+        cond: ${{ github.repository == 'micronaut-projects/micronaut-core' }}
+        if_true: "micronaut-projects/micronaut-docs"
+        if_false: ${{ github.repository }}
+    - name: Publish to Github Pages
+      if: success() && github.event_name == 'push' && inputs.java == '11'
+      uses: micronaut-projects/github-pages-deploy-action@master
+      env:
+        TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
+        GH_TOKEN: ${{ inputs.gh-token }}
+        BRANCH: gh-pages
+        FOLDER: build/docs
