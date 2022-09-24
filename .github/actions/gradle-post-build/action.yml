@@ -49,6 +49,7 @@ runs:
         GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
         GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password}}
       run: ./gradlew publishToSonatype docs --no-daemon
+      shell: bash
     - name: Determine docs target repository
       uses: haya14busa/action-cond@v1
       id: docs_target
