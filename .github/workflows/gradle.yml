@@ -49,8 +49,9 @@ jobs:
         java: ['8', '11', '17']
         k8s: ['1.18', '1.19', '1.20', '1.21']
     steps:
-      - name: pre-build
+      - name: Pre-build
         uses: ./.github/actions/gradle-pre-build
+        id: pre-build
         with:
           java: ${{ matrix.java }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
@@ -62,29 +63,31 @@ jobs:
 #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
 #             export AWS_REGION="${{ secrets.AWS_REGION }}"
             export K8S_VERSION=${{ matrix.k8s }
-      - name: build
-          uses: ./.github/actions/gradle-build
-          with:
-            java: ${{ matrix.java }}
-            gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-            gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-            gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+      - name: Build
+        uses: ./.github/actions/gradle-build
+        id: build
+        with:
+          java: ${{ matrix.java }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
       - name: Optional tear down step
         env:
           K8S_VERSION: ${{ matrix.k8s }}
           JAVA_VERSION: ${{ matrix.java }}
         run: |
           [ -f ./teardown.sh ] && ./teardown.sh || true
-      - name: post-build
-          uses: ./.github/actions/gradle-post-build
-          with:
-            java: ${{ matrix.java }}
-            sonatype-username: ${{ secrets.SONATYPE_USERNAME }}
-            sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
-            gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-            gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-            gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-            gh-token: ${{ secrets.GH_TOKEN }}
+      - name: Post-build
+        uses: ./.github/actions/gradle-post-build
+        id: post-build
+        with:
+          java: ${{ matrix.java }}
+          sonatype-username: ${{ secrets.SONATYPE_USERNAME }}
+          sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          gh-token: ${{ secrets.GH_TOKEN }}
   stop-runner:
     name: Stop self-hosted OracleCloud runners
     needs:
