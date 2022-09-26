@@ -71,12 +71,6 @@ jobs:
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-      - name: Optional tear down step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
-        run: |
-          [ -f ./teardown.sh ] && ./teardown.sh || true
       - name: Post-build
         uses: ./.github/actions/gradle-post-build
         id: post-build
@@ -88,6 +82,12 @@ jobs:
           gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
           gh-token: ${{ secrets.GH_TOKEN }}
+          teardown-command-env-variables:
+            #             Add additional variables as needed, for example:
+            #             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
+            #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            #             export AWS_REGION="${{ secrets.AWS_REGION }}"
+            export K8S_VERSION=${{ matrix.k8s }}
   stop-runner:
     name: Stop self-hosted OracleCloud runners
     needs:

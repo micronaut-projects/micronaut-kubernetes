@@ -15,7 +15,7 @@ inputs:
     required: true
     type: string
   setup-command-env-variables:
-    required: true
+    required: false
     type: string
 runs:
   using: "composite"
