@@ -43,7 +43,7 @@ jobs:
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
     needs: start-runner
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: [self-hosted, ${GITHUB_REPOSITORY}, ${{ needs.start-runner.outputs.label }}]
     strategy:
       matrix:
         java: [ '11' ]
