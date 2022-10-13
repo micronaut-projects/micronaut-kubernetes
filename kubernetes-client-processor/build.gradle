@@ -2,8 +2,7 @@ plugins {
     id 'io.micronaut.build.internal.kubernetes-module'
 }
 
-
 dependencies {
-    implementation "com.squareup:javapoet:1.13.0"
-    implementation "io.micronaut:micronaut-inject-java"
+    implementation libs.javapoet
+    implementation mn.micronaut.inject.java
 }

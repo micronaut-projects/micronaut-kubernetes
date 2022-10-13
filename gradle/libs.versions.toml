@@ -1,0 +1,32 @@
+[versions]
+
+micronaut = "4.0.0-SNAPSHOT"
+micronaut-docs = "2.0.0"
+micronautTest = '3.7.0'
+micronaut-gradle-plugin = "3.6.2"
+
+groovy = '4.0.5'
+spock = '2.2-groovy-4.0'
+
+javapoet = '1.13.0'
+rxjava2 = '2.2.21'
+rxjava3 = '3.1.5'
+shadow = '7.1.1'
+system-lambda = '1.2.1'
+io-kubernetes-client-java = '13.0.1'
+io-fabric8-kubernetes-client = '5.11.1'
+
+[libraries]
+graal = { module = "org.graalvm.nativeimage:svm" }
+javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
+rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }
+rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
+system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "system-lambda" }
+
+io-kubernetes-client-java = { module = "io.kubernetes:client-java", version.ref = "io-kubernetes-client-java" }
+io-kubernetes-client-java-extended = { module = "io.kubernetes:client-java-extended", version.ref = "io-kubernetes-client-java" }
+io-fabric8-kubernetes-client = { module = "io.fabric8:kubernetes-client", version.ref = "io-fabric8-kubernetes-client" }
+
+micronaut-gradle-plugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }
+shadow-plugin = { module = "gradle.plugin.com.github.johnrengelman:shadow", version.ref = "shadow" }

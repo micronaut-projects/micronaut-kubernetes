@@ -46,7 +46,7 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }}
     strategy:
       matrix:
-        java: ['8', '11', '17']
+        java: ['17']
         k8s: ['1.18', '1.19', '1.20', '1.21']
     steps:
       - uses: AutoModality/action-clean@1.1.0
@@ -96,7 +96,7 @@ jobs:
           report_paths: '**/build/test-results/test/TEST-*.xml'
           check_retries: 'true'
       - name: Publish to Sonatype Snapshots
-        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
+        if: success() && github.event_name == 'push' && matrix.java == '17' && matrix.k8s == '1.19'
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

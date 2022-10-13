@@ -3,14 +3,16 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-graal"
-    annotationProcessor project(":kubernetes-client-processor")
+    annotationProcessor mn.micronaut.graal
+    annotationProcessor projects.kubernetesClientProcessor
 
-    api "io.micronaut:micronaut-inject"
-    api "io.kubernetes:client-java:${ioKubernetesClientJava}"
-    implementation "io.micronaut:micronaut-runtime"
-    compileOnly("org.graalvm.nativeimage:svm")
+    api mn.micronaut.inject
+    api libs.io.kubernetes.client.java
 
-    testAnnotationProcessor "io.micronaut:micronaut-inject-java"
-    testImplementation project(":test-utils")
+    implementation mn.micronaut.runtime
+    compileOnly libs.graal
+
+    testAnnotationProcessor mn.micronaut.inject.java
+    testImplementation projects.testUtils
+    testRuntimeOnly mn.snakeyaml
 }

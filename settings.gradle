@@ -6,8 +6,10 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '5.2.3'
+    id 'io.micronaut.build.shared.settings' version '6.0.0'
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = 'kubernetes-parent'
 
@@ -22,14 +24,19 @@ include 'kubernetes-informer'
 include 'kubernetes-operator'
 include 'test-utils'
 
-file('examples').eachDir {
-    include it.name
-    project(":${it.name}").projectDir = it
-}
+include 'examples:micronaut-client'
+include 'examples:micronaut-kubernetes-client'
+include 'examples:micronaut-kubernetes-informer'
+include 'examples:micronaut-kubernetes-operator'
+include 'examples:micronaut-service'
 
 dependencyResolutionManagement {
     repositories {
         mavenCentral()
         maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
     }
+}
+
+micronautBuild {
+    importMicronautCatalog()
 }

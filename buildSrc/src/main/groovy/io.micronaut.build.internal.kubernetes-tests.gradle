@@ -1,5 +1,10 @@
 plugins {
-    id 'io.micronaut.build.internal.common'
-    id 'io.micronaut.build.internal.dependency-updates'
     id "io.micronaut.build.internal.kubernetes-base"
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute(module("org.codehaus.groovy:groovy"))
+                .using(module("org.apache.groovy:groovy:4.0.5"))
+    }
 }
