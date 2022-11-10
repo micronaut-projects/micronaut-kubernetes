@@ -2,7 +2,7 @@
 #
 # https://github.com/micronaut-projects/micronaut-project-template/tree/master/.github/workflows
 #
-# and edit them there. Note that it will be sync'ed to all the Micronaut repos 
+# and edit them there. Note that it will be sync'ed to all the Micronaut repos
 name: Java CI
 on:
   push:
@@ -49,6 +49,7 @@ jobs:
         java: ['8', '11', '17']
         k8s: ['1.18', '1.19', '1.20', '1.21']
     steps:
+      - uses: actions/checkout@v3
       - name: Pre-build
         uses: ./.github/actions/gradle-pre-build
         id: pre-build
