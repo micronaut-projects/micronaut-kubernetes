@@ -22,6 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Build with Gradle
+      shell: bash
       run: |
         # Awful hack for kapt and JDK 16. See https://youtrack.jetbrains.com/issue/KT-45545
         if [ ${{ inputs.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
@@ -32,4 +33,3 @@ runs:
         GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
         GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password }}
         PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
-      shell: bash

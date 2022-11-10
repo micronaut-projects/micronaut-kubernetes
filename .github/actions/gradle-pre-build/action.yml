@@ -27,12 +27,12 @@ runs:
   steps:
     # https://github.com/actions/virtual-environments/issues/709
     - name: Free disk space
+      shell: bash
       run: |
         sudo rm -rf "/usr/local/share/boost"
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo apt-get clean
         df -h
-      shell: bash
     - uses: actions/checkout@v3
     - uses: actions/cache@v3
       with:
@@ -46,6 +46,7 @@ runs:
         distribution: 'adopt'
         java-version: ${{ inputs.java }}
     - name: Optional setup step
+      shell: bash
       env:
         JAVA_VERSION: ${{ inputs.java }}
         GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise_access_key }}
@@ -54,4 +55,3 @@ runs:
       run: |
         ${{ inputs.setup-command-env-variables }}
         [ -f ./setup.sh ] && ./setup.sh || true
-      shell: bash
