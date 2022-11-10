@@ -21,7 +21,7 @@ Now build the example services docker images:
 ./gradlew clean dockerBuild --refresh-dependencies
 ```
 
-Then in a separate shell, run the kubernetes proxy: 
+Then in a separate shell, run the kubernetes proxy:
 
 ```shell
 kubectl proxy
