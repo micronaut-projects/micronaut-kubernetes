@@ -3,23 +3,27 @@ name: Pre-build steps for GitHub gradle workflow
 description: Perform pre-build steps for gradle workflow
 inputs:
   java:
+    description: java version
     required: true
     type: string
   gradle-enterprise-access-key:
+    description: gradle enterprise access key
     required: true
     type: string
   gradle-enterprise-cache-username:
-      required: true
-      type: string
+    description: gradle enterprise cache username
+    required: true
+    type: string
   gradle-enterprise-cache-password:
+    description: gradle enterprise cache password
     required: true
     type: string
   setup-command-env-variables:
+    description: setup command environment variables
     required: false
     type: string
 runs:
   using: "composite"
-  if: github.repository != 'micronaut-projects/micronaut-project-template'
   steps:
     # https://github.com/actions/virtual-environments/issues/709
     - name: Free disk space
@@ -28,6 +32,7 @@ runs:
         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
         sudo apt-get clean
         df -h
+      shell: bash
     - uses: actions/checkout@v3
     - uses: actions/cache@v3
       with:
@@ -47,6 +52,6 @@ runs:
         GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
         GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password }}
       run: |
-        ${{ setup-command-env-variables }}
+        ${{ inputs.setup-command-env-variables }}
         [ -f ./setup.sh ] && ./setup.sh || true
       shell: bash

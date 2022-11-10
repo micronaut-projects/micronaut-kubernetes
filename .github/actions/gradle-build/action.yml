@@ -3,30 +3,33 @@ name: Build steps for GitHub gradle workflow
 description: Perform build steps for gradle workflow
 inputs:
   java:
+    description: java version
     required: true
     type: string
   gradle-enterprise-access-key:
+    description: gradle enterprise access key
     required: true
     type: string
   gradle-enterprise-cache-username:
+    description: gradle enterprise cache username
     required: true
     type: string
   gradle-enterprise-cache-password:
+    description: gradle enterprise cache password
     required: true
     type: string
 runs:
   using: "composite"
-  if: github.repository != 'micronaut-projects/micronaut-project-template'
   steps:
     - name: Build with Gradle
-    run: |
-      # Awful hack for kapt and JDK 16. See https://youtrack.jetbrains.com/issue/KT-45545
-      if [ ${{ inputs.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
-      ./gradlew check --no-daemon --parallel --continue
-    env:
-      TESTCONTAINERS_RYUK_DISABLED: true
-      GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-      GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-      GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-      PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
-    shell: bash
+      run: |
+        # Awful hack for kapt and JDK 16. See https://youtrack.jetbrains.com/issue/KT-45545
+        if [ ${{ inputs.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
+        ./gradlew check --no-daemon --parallel --continue
+      env:
+        TESTCONTAINERS_RYUK_DISABLED: true
+        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise-access-key }}
+        GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
+        GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password }}
+        PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
+      shell: bash

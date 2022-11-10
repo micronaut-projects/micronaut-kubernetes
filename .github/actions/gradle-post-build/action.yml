@@ -3,39 +3,47 @@ name: Post-build steps for GitHub gradle workflow
 description: Perform post-build steps for gradle workflow
 inputs:
   java:
+    description: java version
     required: true
     type: string
   sonatype-username:
+    description: sonatype username
     required: true
     type: string
   sonatype-password:
-      required: true
-      type: string
+    description: sonatype password
+    required: true
+    type: string
   gradle-enterprise-access-key:
+    description: gradle enterprise access key
     required: true
     type: string
   gradle-enterprise-cache-username:
+    description: gradle enterprise cache username
     required: true
     type: string
   gradle-enterprise-cache-password:
+    description: gradle enterprise cache password
     required: true
     type: string
   gh-token:
+    description: github token
     required: true
     type: string
   teardown-command-env-variables:
+    description: teardown command environment variables
     required: false
     type: string
 runs:
   using: "composite"
-  if: github.repository != 'micronaut-projects/micronaut-project-template'
   steps:
     - name: Optional tear down step
       env:
         JAVA_VERSION: ${{ inputs.java }}
       run: |
-        ${{ teardown-command-env-variables }}
+        ${{ inputs.teardown-command-env-variables }}
         [ -f ./teardown.sh ] && ./teardown.sh || true
+      shell: bash
     - name: Publish Test Report
       if: always()
       uses: mikepenz/action-junit-report@v3.5.0
