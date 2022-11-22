@@ -46,57 +46,45 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }}
     strategy:
       matrix:
-        java: [ '11' ]
+        java: [ '17' ]
+        graalvm: ['latest', 'dev']
         k8s: [ '1.21' ]
     steps:
-      - uses: AutoModality/action-clean@1.1.0
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - name: Pre-build
+        uses: ./.github/actions/gradle-pre-build
+        id: pre-build
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+          java: ${{ matrix.java }}
+          graalvm: ${{ matrix.graalvm }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          setup-command-env-variables:
+            #             Add additional variables as needed, for example:
+            #             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
+            #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            #             export AWS_REGION="${{ secrets.AWS_REGION }}"
+            export K8S_VERSION=${{ matrix.k8s }}
+      - name: Build
+        uses: ./.github/actions/graalvm-build
+        id: build
         with:
-          distribution: 'adopt'
-          java-version: ${{ matrix.java }}
-      - name: Setup step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
-          EXAMPLE_SERVICE_RUNTIME: 'native'
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-        run: |
-          [ -f ./setup.sh ] && ./setup.sh || true
-      - name: Build with Gradle
-        run: |
-          set -e
-          for EXAMPLE in $(ls ./examples); do
-            ./gradlew ${EXAMPLE}:test --continue --no-daemon --no-build-cache
-          done
-        env:
-          TESTCONTAINERS_RYUK_DISABLED: true
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
-      - name: Optional tear down step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
-        run: |
-          [ -f ./teardown.sh ] && ./teardown.sh || true
-      - name: Publish Test Report
-        if: always()
-        uses: mikepenz/action-junit-report@v3.0.3
+          java: ${{ matrix.java }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+      - name: Post-build
+        uses: ./.github/actions/graalvm-post-build
+        id: post-build
         with:
-          check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
-          report_paths: '**/build/test-results/test/TEST-*.xml'
-          check_retries: 'true'
+          java: ${{ matrix.java }}
+          teardown-command-env-variables:
+            #             Add additional variables as needed, for example:
+            #             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
+            #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            #             export AWS_REGION="${{ secrets.AWS_REGION }}"
+            export K8S_VERSION=${{ matrix.k8s }}
   stop-runner:
     name: Stop self-hosted OracleCloud runners
     needs:

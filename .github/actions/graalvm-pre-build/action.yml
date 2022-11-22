@@ -6,6 +6,10 @@ inputs:
     description: java version
     required: true
     type: string
+  graalvm:
+    description: GraalVM version
+    required: true
+    type: string
   gradle-enterprise-access-key:
     description: gradle enterprise access key
     required: true
@@ -32,11 +36,12 @@ runs:
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
-    - name: Set up JDK
-      uses: actions/setup-java@v3
+    - name: Setup GraalVM CE
+      uses: graalvm/setup-graalvm@v1
       with:
-        distribution: 'temurin'
+        version: ${{ inputs.graalvm }}
         java-version: ${{ inputs.java }}
+        components: 'native-image'
     - name: Optional setup step
       shell: bash
       env:
