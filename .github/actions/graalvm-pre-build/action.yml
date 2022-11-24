@@ -1,0 +1,54 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Pre-build steps for GitHub gradle workflow
+description: Perform pre-build steps for gradle workflow
+inputs:
+  java:
+    description: java version
+    required: true
+    type: string
+  graalvm:
+    description: GraalVM version
+    required: true
+    type: string
+  gradle-enterprise-access-key:
+    description: gradle enterprise access key
+    required: true
+    type: string
+  gradle-enterprise-cache-username:
+    description: gradle enterprise cache username
+    required: true
+    type: string
+  gradle-enterprise-cache-password:
+    description: gradle enterprise cache password
+    required: true
+    type: string
+  setup-command-env-variables:
+    description: setup command environment variables
+    required: false
+    type: string
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - name: Setup GraalVM CE
+      uses: graalvm/setup-graalvm@v1
+      with:
+        version: ${{ inputs.graalvm }}
+        java-version: ${{ inputs.java }}
+        components: 'native-image'
+    - name: Optional setup step
+      shell: bash
+      env:
+        JAVA_VERSION: ${{ inputs.java }}
+        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise_access_key }}
+        GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
+        GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password }}
+      run: |
+        ${{ inputs.setup-command-env-variables }}
+        [ -f ./setup.sh ] && ./setup.sh || true
