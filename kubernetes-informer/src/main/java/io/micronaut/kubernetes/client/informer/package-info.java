@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * Contains classes specific to Kubernetes informer
+ * Contains classes specific to Kubernetes informer.
  *
  * @author Nemanja Mikic
  * @since 3.4.1
