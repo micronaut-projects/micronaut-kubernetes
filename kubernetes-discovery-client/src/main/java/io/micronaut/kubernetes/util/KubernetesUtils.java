@@ -20,14 +20,13 @@ import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1Secret;
-import io.micronaut.context.env.AbstractPropertySourceLoader;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
-import org.apache.commons.collections4.IteratorUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -58,7 +57,7 @@ public class KubernetesUtils {
 
     public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceReader.class).spliterator(), false).collect(Collectors.toList());
+    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceLoader.class).spliterator(), false).collect(Collectors.toList());
 
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
