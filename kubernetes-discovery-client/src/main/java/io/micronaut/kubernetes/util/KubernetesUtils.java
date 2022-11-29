@@ -43,6 +43,7 @@ import java.util.Optional;
 import java.util.ServiceLoader;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
@@ -57,7 +58,7 @@ public class KubernetesUtils {
 
     public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = IteratorUtils.toList(ServiceLoader.load(AbstractPropertySourceLoader.class).iterator());
+    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceReader.class).spliterator(), false).collect(Collectors.toList());
 
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
