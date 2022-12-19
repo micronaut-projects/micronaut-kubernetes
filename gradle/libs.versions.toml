@@ -33,7 +33,6 @@ io-kubernetes-client-java-extended = { module = "io.kubernetes:client-java-exten
 io-fabric8-kubernetes-client = { module = "io.fabric8:kubernetes-client", version.ref = "io-fabric8-kubernetes-client" }
 
 micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
-micronaut-test = { module = 'io.micronaut.test:micronaut-test-bom', version.ref = "micronaut-test" }
 
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 
