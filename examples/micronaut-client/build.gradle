@@ -18,7 +18,8 @@ dependencies {
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
     implementation projects.kubernetesDiscoveryClient
-    runtimeOnly(mn.logback)
+
+    runtimeOnly(mn.logback.classic)
 
     testImplementation projects.testUtils
 }

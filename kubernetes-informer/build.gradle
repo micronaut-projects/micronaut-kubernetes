@@ -7,10 +7,11 @@ dependencies {
     annotationProcessor mn.micronaut.graal
 
     compileOnly mn.micronaut.inject.java
-    compileOnly libs.graal
+    compileOnly libs.graal.svm
 
     api projects.kubernetesClient
     implementation mn.micronaut.runtime
+    api mn.micronaut.context
 
     testAnnotationProcessor mn.micronaut.inject.java
     testImplementation projects.testUtils

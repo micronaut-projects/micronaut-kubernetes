@@ -7,21 +7,19 @@ dependencies {
 
     compileOnly mn.micronaut.inject.java
     compileOnly mn.micronaut.management
-    compileOnly libs.graal
+    compileOnly libs.graal.svm
 
     api projects.kubernetesClientReactor
     api projects.kubernetesInformer
     api libs.io.kubernetes.client.java.extended
+    api libs.micronaut.discovery.client
 
-    api mn.micronaut.discovery
     implementation mn.micronaut.runtime
+    implementation mn.micronaut.jackson.databind
 
-    testAnnotationProcessor mn.micronaut.inject.java
-    testImplementation mn.micronaut.discovery
+    testImplementation libs.micronaut.discovery.client
     testImplementation libs.system.lambda
     testImplementation projects.testUtils
+
     testRuntimeOnly mn.snakeyaml
-
-    implementation mn.snakeyaml
-
 }

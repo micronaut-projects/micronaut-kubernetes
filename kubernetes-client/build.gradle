@@ -10,7 +10,7 @@ dependencies {
     api libs.io.kubernetes.client.java
 
     implementation mn.micronaut.runtime
-    compileOnly libs.graal
+    compileOnly libs.graal.svm
 
     testAnnotationProcessor mn.micronaut.inject.java
     testImplementation projects.testUtils

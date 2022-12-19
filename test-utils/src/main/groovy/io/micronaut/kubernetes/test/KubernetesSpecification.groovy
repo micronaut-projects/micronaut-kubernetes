@@ -67,7 +67,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def setupSpec() {
-        log.info("Using Kubernetes version: ${operations.client.getVersion().major}.${operations.client.getVersion().minor}")
+        log.info("Using Kubernetes version: ${operations.client.getKubernetesVersion().major}.${operations.client.getKubernetesVersion().minor}")
         if (reuseNamespace && operations.getNamespace(namespace) != null) {
             log.info("Reusing namespace ${namespace}")
         } else {
@@ -210,7 +210,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     protected static URL loadFileFromClasspath(String path) {
-        ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
+        ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get()
         Optional<URL> resource = loader.getResource("classpath:${path}")
         return resource.orElseThrow(
                 () -> new IllegalArgumentException("File ${path} not found on classpath!"))
