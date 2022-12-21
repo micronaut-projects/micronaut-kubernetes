@@ -90,7 +90,7 @@ jobs:
           [ -f ./teardown.sh ] && ./teardown.sh || true
       - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v3.0.3
+        uses: mikepenz/action-junit-report@v3.7.0
         with:
           check_name: Java CI / Test Report (${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
@@ -112,7 +112,7 @@ jobs:
           if_true: "micronaut-projects/micronaut-docs"
           if_false: ${{ github.repository }}
       - name: Publish to Github Pages
-        if: success() && github.event_name == 'push' && matrix.java == '8' && matrix.k8s == '1.19'
+        if: success() && github.event_name == 'push' && matrix.java == '17' && matrix.k8s == '1.19'
         uses: micronaut-projects/github-pages-deploy-action@master
         env:
           TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
