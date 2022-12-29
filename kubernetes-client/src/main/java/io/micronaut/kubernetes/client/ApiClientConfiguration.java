@@ -64,6 +64,12 @@ public interface ApiClientConfiguration {
     @Bindable(defaultValue = "true")
     boolean getVerifySsl();
 
+    /**
+     * {@link io.kubernetes.client.Discovery} configuration.
+     *
+     * @author Pavol Gressa
+     * @since 2.2
+     */
     @ConfigurationProperties(ApiDiscoveryCacheConfiguration.PREFIX)
     interface ApiDiscoveryCacheConfiguration {
         String PREFIX = "api-discovery.cache";
