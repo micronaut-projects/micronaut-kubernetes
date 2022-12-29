@@ -22,6 +22,11 @@ class KubernetesOperationsSpec extends Specification{
         if (operations.getNamespace("test-namespace") != null) {
             operations.deleteNamespace("test-namespace")
         }
+
+        if (operations.getNamespace("other-namespace") != null) {
+            operations.deleteNamespace("other-namespace")
+        }
+
     }
 
     def "it creates rolebinding in namespace"(){
