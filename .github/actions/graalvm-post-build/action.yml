@@ -22,7 +22,7 @@ runs:
         [ -f ./teardown.sh ] && ./teardown.sh || true
     - name: Publish Test Report
       if: always()
-      uses: mikepenz/action-junit-report@v3.6.1
+      uses: mikepenz/action-junit-report@v3.7.1
       with:
         check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
         report_paths: '**/build/test-results/test/TEST-*.xml'
