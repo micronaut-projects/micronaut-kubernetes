@@ -49,49 +49,46 @@ jobs:
         java: ['17']
         k8s: ['1.18', '1.19', '1.20', '1.21']
     steps:
-      - uses: AutoModality/action-clean@1.1.0
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - name: Pre-build
+        uses: ./.github/actions/gradle-pre-build
+        id: pre-build
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+          java: ${{ matrix.java }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          setup-command-env-variables:
+#             Add additional variables as needed, for example:
+#             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
+#             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+#             export AWS_REGION="${{ secrets.AWS_REGION }}"
+            export K8S_VERSION=${{ matrix.k8s }}
+      - name: Build
+        uses: ./.github/actions/gradle-build
+        id: build
         with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-      - name: Optional setup step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-        run: |
-          [ -f ./setup.sh ] && ./setup.sh || true
-      - name: Build with Gradle
-        run: |
-          # Awful hack for kapt and JDK 16. See https://youtrack.jetbrains.com/issue/KT-45545
-          if [ ${{ matrix.java }} == 16 ]; then export GRADLE_OPTS="-Dorg.gradle.jvmargs=--illegal-access=permit"; fi
-          ./gradlew check --no-daemon --parallel --continue
-        env:
-          TESTCONTAINERS_RYUK_DISABLED: true
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
-      - name: Optional tear down step
-        env:
-          K8S_VERSION: ${{ matrix.k8s }}
-          JAVA_VERSION: ${{ matrix.java }}
-        run: |
-          [ -f ./teardown.sh ] && ./teardown.sh || true
-      - name: Publish Test Report
-        if: always()
-        uses: mikepenz/action-junit-report@v3.7.0
+          java: ${{ matrix.java }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+      - name: Post-build
+        uses: ./.github/actions/gradle-post-build
+        id: post-build
         with:
+          java: ${{ matrix.java }}
+          sonatype-username: ${{ secrets.SONATYPE_USERNAME }}
+          sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
+          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          gh-token: ${{ secrets.GH_TOKEN }}
+          teardown-command-env-variables:
+            #             Add additional variables as needed, for example:
+            #             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
+            #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+            #             export AWS_REGION="${{ secrets.AWS_REGION }}"
+            export K8S_VERSION=${{ matrix.k8s }}
           check_name: Java CI / Test Report (${{ matrix.java }})
           report_paths: '**/build/test-results/test/TEST-*.xml'
           check_retries: 'true'
