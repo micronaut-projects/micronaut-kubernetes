@@ -52,6 +52,14 @@ class KubernetesOperations implements Closeable {
 
     Namespace createNamespace(String name) {
         log.debug("Creating namespace ${name}")
+
+        def namespace = getClient().namespaces().list().items.stream()
+                .filter(it -> it.metadata.name == name).findAny()
+
+        if (namespace.isPresent()) {
+            log.debug("Namespace ${namespace} already exists.")
+        }
+
         getClient().namespaces().create(
                 new NamespaceBuilder()
                         .withNewMetadata()
