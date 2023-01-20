@@ -51,16 +51,16 @@ class KubernetesOperations implements Closeable {
     }
 
     Namespace createNamespace(String name) {
-        log.debug("Creating namespace ${name}")
+        log.info("Creating namespace ${name}")
 
         def namespace = getClient().namespaces().list().items.stream()
                 .filter(it -> it.metadata.name == name).findAny()
 
         if (namespace.isPresent()) {
-            log.debug("Namespace ${namespace} already exists.")
+            log.info("Namespace ${namespace.get()} already exists.")
         }
 
-        getClient().namespaces().createOrReplace(
+        getClient().namespaces().create(
                 new NamespaceBuilder()
                         .withNewMetadata()
                         .withName(name)
@@ -93,10 +93,11 @@ class KubernetesOperations implements Closeable {
             def namespaces = getClient().namespaces().list().items.stream()
                     .map(it -> it.metadata.name).collect(Collectors.toList())
             if (namespaces.contains(name)) {
-                log.debug("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...")
+                log.info("Namespace ${getNamespace(name)} still exists")
+                log.info("Namespaces: ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...")
                 sleep(waitTime)
             } else {
-                log.debug("Namespace sucessfully deleted: ${namespaces}")
+                log.info("Namespace sucessfully deleted: ${namespaces}")
                 break
             }
         }
