@@ -164,28 +164,28 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
     void "it can get service from other then app namespace [watchEnabled=#watchEnabled]"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
-                getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace"]]),
+                getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace-2"]]),
                 Environment.KUBERNETES)
         def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
-        createNamespaceSafe("other-namespace")
-        createBaseResources("other-namespace")
-        createExampleServiceDeployment("other-namespace")
+        createNamespaceSafe("other-namespace-2")
+        createBaseResources("other-namespace-2")
+        createExampleServiceDeployment("other-namespace-2")
 
         when:
         def config = createConfig("example-service")
-        config.namespace = "other-namespace"
+        config.namespace = "other-namespace-2"
 
         then:
         pollingConditions.eventually {
             def instances = Flux.from(provider.getInstances(config)).blockFirst()
             instances.size() == 1
-            operations.getService("example-service", "other-namespace")
+            operations.getService("example-service", "other-namespace-2")
                     .spec.clusterIP == instances.first().host
         }
 
         cleanup:
-        operations.deleteNamespace("other-namespace")
+        operations.deleteNamespace("other-namespace-2")
         applicationContext.close()
 
         where:
