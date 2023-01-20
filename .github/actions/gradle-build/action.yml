@@ -23,7 +23,7 @@ runs:
   steps:
     - name: Build with Gradle
       shell: bash
-      run: ./gradlew check --no-daemon --parallel --continue
+      run: ./gradlew check --no-daemon --continue
       env:
         TESTCONTAINERS_RYUK_DISABLED: true
         GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise-access-key }}
