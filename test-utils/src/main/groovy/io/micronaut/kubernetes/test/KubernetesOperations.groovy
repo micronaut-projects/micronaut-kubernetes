@@ -60,7 +60,7 @@ class KubernetesOperations implements Closeable {
             log.debug("Namespace ${namespace} already exists.")
         }
 
-        getClient().namespaces().create(
+        getClient().namespaces().createOrReplace(
                 new NamespaceBuilder()
                         .withNewMetadata()
                         .withName(name)
@@ -87,6 +87,7 @@ class KubernetesOperations implements Closeable {
     boolean deleteNamespace(String name) {
         log.debug("Deleting namespace ${name}")
         getClient().namespaces().delete(getNamespace(name))
+        getClient().namespaces()
         def waitTime = 3000
         while (true) {
             def namespaces = getClient().namespaces().list().items.stream()
