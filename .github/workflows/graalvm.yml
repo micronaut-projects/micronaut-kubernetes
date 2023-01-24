@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         java: [ '17' ]
-        graalvm: ['latest', 'dev']
+        graalvm: ['latest']
         k8s: [ '1.21' ]
     steps:
       - uses: actions/checkout@v3
