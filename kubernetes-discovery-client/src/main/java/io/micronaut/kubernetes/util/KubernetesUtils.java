@@ -21,12 +21,10 @@ import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1Secret;
 import io.micronaut.context.env.EnvironmentPropertySource;
-import io.micronaut.context.env.PropertiesPropertySourceLoader;
 import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.context.env.PropertySourceReader;
-import io.micronaut.context.env.yaml.YamlPropertySourceLoader;
 import io.micronaut.context.exceptions.ConfigurationException;
-import io.micronaut.jackson.env.JsonPropertySourceLoader;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
 import org.slf4j.Logger;
@@ -34,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,8 +39,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.ServiceLoader;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
@@ -58,10 +57,7 @@ public class KubernetesUtils {
 
     public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = Arrays.asList(
-            new YamlPropertySourceLoader(),
-            new JsonPropertySourceLoader(),
-            new PropertiesPropertySourceLoader());
+    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceLoader.class).spliterator(), false).collect(Collectors.toList());
 
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.

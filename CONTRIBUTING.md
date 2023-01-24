@@ -21,6 +21,12 @@ Now build the example services docker images:
 ./gradlew clean dockerBuild --refresh-dependencies
 ```
 
+Then in a separate shell, run the kubernetes proxy:
+
+```shell
+kubectl proxy
+```
+
 ### Kind
 When using [Kind](https://kind.sigs.k8s.io/), use existing or create new local cluster by executing:
 

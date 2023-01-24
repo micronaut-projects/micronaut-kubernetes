@@ -1,0 +1,29 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Post-build steps for GitHub graalvm workflow
+description: Perform post-build steps for graalvm workflow
+inputs:
+  java:
+    description: java version
+    required: true
+    type: string
+  teardown-command-env-variables:
+    description: teardown command environment variables
+    required: false
+    type: string
+runs:
+  using: "composite"
+  steps:
+    - name: Optional tear down step
+      shell: bash
+      env:
+        JAVA_VERSION: ${{ inputs.java }}
+      run: |
+        ${{ inputs.teardown-command-env-variables }}
+        [ -f ./teardown.sh ] && ./teardown.sh || true
+    - name: Publish Test Report
+      if: always()
+      uses: mikepenz/action-junit-report@v3.6.1
+      with:
+        check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
+        report_paths: '**/build/test-results/test/TEST-*.xml'
+        check_retries: 'true'
