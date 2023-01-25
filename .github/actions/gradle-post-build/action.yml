@@ -61,6 +61,8 @@ runs:
       if: success() && github.event_name == 'push' && inputs.java == '11' && matrix.k8s == '1.19'
       shell: bash
       env:
+        GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ inputs.gh-token-public-repos-readonly }}
+        GH_USERNAME: ${{ inputs.gh-username }}
         SONATYPE_USERNAME: ${{ inputs.sonatype-username }}
         SONATYPE_PASSWORD: ${{ inputs.sonatype-password }}
         GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise_access_key }}
