@@ -69,6 +69,8 @@ jobs:
         id: build
         with:
           java: ${{ matrix.java }}
+          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          gh-username: ${{ secrets.GH_USERNAME }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
@@ -77,6 +79,8 @@ jobs:
         id: post-build
         with:
           java: ${{ matrix.java }}
+          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          gh-username: ${{ secrets.GH_USERNAME }}
           sonatype-username: ${{ secrets.SONATYPE_USERNAME }}
           sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}

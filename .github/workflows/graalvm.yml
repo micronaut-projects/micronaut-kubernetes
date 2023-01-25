@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         java: [ '17' ]
-        graalvm: ['latest', 'dev']
+        graalvm: ['latest']
         k8s: [ '1.21' ]
     steps:
       - uses: actions/checkout@v3
@@ -71,6 +71,8 @@ jobs:
         id: build
         with:
           java: ${{ matrix.java }}
+          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          gh-username: ${{ secrets.GH_USERNAME }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
