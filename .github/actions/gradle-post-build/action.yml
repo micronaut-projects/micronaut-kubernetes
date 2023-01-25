@@ -34,6 +34,14 @@ inputs:
     description: teardown command environment variables
     required: false
     type: string
+  gh-token-public-repos-readonly:
+    description: github readonly token for public repositories
+    required: true
+    type: string
+  gh-username:
+    description: github username associated with the read only token
+    required: true
+    type: string
 runs:
   using: "composite"
   steps:
