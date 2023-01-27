@@ -28,7 +28,7 @@ class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
     ApplicationContext applicationContext
 
     @Inject
-    ConfigMapResourceReconciler configMapOperator;
+    ConfigMapResourceReconciler configMapOperator
 
     @Override
     def setupFixture(String namespace) {

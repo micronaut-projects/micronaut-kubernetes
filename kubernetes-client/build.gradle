@@ -6,13 +6,15 @@ dependencies {
     annotationProcessor mn.micronaut.graal
     annotationProcessor projects.kubernetesClientProcessor
 
-    api mn.micronaut.inject
+    api mn.micronaut.inject.java
     api libs.io.kubernetes.client.java
 
     implementation mn.micronaut.runtime
     compileOnly libs.graal.svm
 
     testAnnotationProcessor mn.micronaut.inject.java
+
+    testImplementation mnSerde.micronaut.serde.jackson
     testImplementation projects.testUtils
     testRuntimeOnly mn.snakeyaml
 }

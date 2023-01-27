@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Requires(property = ConfigurationClient.ENABLED, value = "true", defaultValue = "false")
 @Requires(condition = KubernetesConfigMapWatcherCondition.class)
 @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", apiGroup = "", labelSelectorSupplier = ConfigMapLabelSupplier.class)
-public class KubernetesConfigMapWatcher implements ResourceEventHandler<V1ConfigMap> {
+public final class KubernetesConfigMapWatcher implements ResourceEventHandler<V1ConfigMap> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapWatcher.class);
 
