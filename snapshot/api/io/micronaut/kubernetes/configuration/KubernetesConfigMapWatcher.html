@@ -113,7 +113,7 @@ var activeTableTab = "activeTableTab";
 <br>
 <pre>@Context
  @Requires(env="k8s") @Requires(beans=&lt;error&gt;) @Requires(property="micronaut.config-client.enabled",value="true",defaultValue="false") @Requires(condition=<a href="../../../../io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcherCondition.class</a>)
-public class <span class="typeNameLabel">KubernetesConfigMapWatcher</span>
+public final class <span class="typeNameLabel">KubernetesConfigMapWatcher</span>
 extends java.lang.Object
 implements io.kubernetes.client.informer.ResourceEventHandler&lt;io.kubernetes.client.openapi.models.V1ConfigMap&gt;</pre>
 <div class="block">Watches for ConfigMap changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
