@@ -69,6 +69,8 @@ jobs:
         id: build
         with:
           java: ${{ matrix.java }}
+          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          gh-username: ${{ secrets.GH_USERNAME }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
@@ -77,6 +79,8 @@ jobs:
         id: post-build
         with:
           java: ${{ matrix.java }}
+          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          gh-username: ${{ secrets.GH_USERNAME }}
           sonatype-username: ${{ secrets.SONATYPE_USERNAME }}
           sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
@@ -89,33 +93,6 @@ jobs:
             #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             #             export AWS_REGION="${{ secrets.AWS_REGION }}"
             export K8S_VERSION=${{ matrix.k8s }}
-          check_name: Java CI / Test Report (${{ matrix.java }})
-          report_paths: '**/build/test-results/test/TEST-*.xml'
-          check_retries: 'true'
-      - name: Publish to Sonatype Snapshots
-        if: success() && github.event_name == 'push' && matrix.java == '17' && matrix.k8s == '1.19'
-        env:
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-        run: ./gradlew publishToSonatype docs --no-daemon
-      - name: Determine docs target repository
-        uses: haya14busa/action-cond@v1
-        id: docs_target
-        with:
-          cond: ${{ github.repository == 'micronaut-projects/micronaut-core' }}
-          if_true: "micronaut-projects/micronaut-docs"
-          if_false: ${{ github.repository }}
-      - name: Publish to Github Pages
-        if: success() && github.event_name == 'push' && matrix.java == '17' && matrix.k8s == '1.19'
-        uses: micronaut-projects/github-pages-deploy-action@master
-        env:
-          TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: build/docs
   stop-runner:
     name: Stop self-hosted OracleCloud runners
     needs:

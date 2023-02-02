@@ -23,8 +23,10 @@ runs:
   steps:
     - name: Build with Gradle
       shell: bash
-      run: ./gradlew check --no-daemon --parallel --continue
+      run: ./gradlew check --no-daemon --continue
       env:
+        GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ inputs.gh-token-public-repos-readonly }}
+        GH_USERNAME: ${{ inputs.gh-username }}
         TESTCONTAINERS_RYUK_DISABLED: true
         GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise-access-key }}
         GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}

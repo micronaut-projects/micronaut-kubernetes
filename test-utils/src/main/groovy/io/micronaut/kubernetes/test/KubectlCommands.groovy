@@ -30,56 +30,56 @@ trait KubectlCommands {
 
     @Memoized
     static List<String> getEndpoints(){
-        return getProcessOutput("kubectl get endpoints --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return KubectlCommands.getProcessOutput("kubectl get endpoints --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     @Memoized
     static List<String> getServices(){
-        return getServices("micronaut-kubernetes")
+        return KubectlCommands.getServices("micronaut-kubernetes")
     }
 
     @Memoized
     static List<String> getServices(String namespace) {
         Objects.requireNonNull(namespace, "Namespace must be configured")
-        return getProcessOutput("kubectl get services --namespace " + namespace + " --no-headers=true -o custom-columns=NAME:.metadata.name").split("\n")
+        return KubectlCommands.getProcessOutput("kubectl get services --namespace " + namespace + " --no-headers=true -o custom-columns=NAME:.metadata.name").split("\n")
     }
 
     @Memoized
     static List<String> getServices(String namespace, String ...namespaces){
-        List<String> services = getServices(namespace)
+        List<String> services = KubectlCommands.getServices(namespace)
         for(String ns : namespaces){
-            services.addAll(getServices(ns))
+            services.addAll(KubectlCommands.getServices(ns))
         }
         return services.stream().distinct().collect(Collectors.toList())
     }
 
     @Memoized
     static String getClusterIp() {
-        return getProcessOutput("kubectl get service example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$3 }'").trim()
+        return KubectlCommands.getProcessOutput("kubectl get service example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$3 }'").trim()
     }
 
     @Memoized
     static List<String> getIps() {
-        return getProcessOutput("kubectl get endpoints example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$2 }'")
+        return KubectlCommands.getProcessOutput("kubectl get endpoints example-service --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$2 }'")
                 .split('\\,')
                 .collect { it.split(':').first() }
     }
 
     @Memoized
     static List<String> getIps(String namespace) {
-        return getProcessOutput("kubectl get endpoints example-service --namespace " + namespace + " | awk 'FNR > 1 { print \$2 }'")
+        return KubectlCommands.getProcessOutput("kubectl get endpoints example-service --namespace " + namespace + " | awk 'FNR > 1 { print \$2 }'")
                 .split('\\,')
                 .collect { it.split(':').first() }
     }
 
     @Memoized
     static List<String> getConfigMaps() {
-        return getProcessOutput("kubectl get configmaps --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return KubectlCommands.getProcessOutput("kubectl get configmaps --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     @Memoized
     static List<String> getSecrets() {
-        return getProcessOutput("kubectl get secrets --field-selector type=Opaque --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
+        return KubectlCommands.getProcessOutput("kubectl get secrets --field-selector type=Opaque --namespace micronaut-kubernetes | awk 'FNR > 1 { print \$1 }'").split('\n')
     }
 
     static String createConfigMap(String configMapName, Map data = [foo: 'bar']) {
@@ -107,7 +107,7 @@ trait KubectlCommands {
     }
 
     static String modifyConfigMap(String configMapName) {
-        createConfigMap(configMapName, [foo: 'baz'])
+        KubectlCommands.createConfigMap(configMapName, [foo: 'baz'])
     }
 
     static List<Pod> getPods(String namespace = 'micronaut-kubernetes') {

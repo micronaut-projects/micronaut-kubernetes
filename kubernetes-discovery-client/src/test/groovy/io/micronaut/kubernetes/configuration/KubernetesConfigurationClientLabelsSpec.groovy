@@ -87,7 +87,10 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = envs.execute(() -> Flux.from(configurationClient.getPropertySources(applicationContext.environment)).collectList().block())
+        def propertySources = envs.execute(
+                () ->
+                        Flux.from(configurationClient.getPropertySources(applicationContext.environment)
+                        ).collectList().block())
 
         then:
         propertySources.find { it.name.startsWith 'literal-config' }
