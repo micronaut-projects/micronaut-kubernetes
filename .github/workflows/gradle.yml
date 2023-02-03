@@ -14,106 +14,95 @@ on:
       - master
       - '[1-9]+.[0-9]+.x'
 jobs:
-  start-runner:
-    name: Start self-hosted OracleCloud runners
-    runs-on: ubuntu-latest
-    outputs:
-      label: ${{ steps.start-runner.outputs.label }}
-    steps:
-      - name: Install OCI CLI
-        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          oci-user-ocid: ${{ secrets.OCI_USER }}
-          oci-region: ${{ secrets.OCI_REGION }}
-          oci-tenancy-ocid: ${{ secrets.OCI_TENANCY }}
-          oci-private-key: ${{ secrets.OCI_KEY_FILE }}
-          oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
-          oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-      - name: Start runners
-        uses: micronaut-projects/github-actions/start-oracle-cloud-runners@master
-        id: start-runner
-        with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
-          oci-subnet-ocid: ${{ secrets.OCI_SUBNET }}
-          oci-av-domain: ${{ secrets.OCI_AV_DOMAIN }}
-          oci-image-ocid: ${{ secrets.OCI_RUNNER_IMAGE }}
-          runners-count: '3'
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    needs: start-runner
-    runs-on: ${{ needs.start-runner.outputs.label }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: ['8', '11', '17']
-        k8s: ['1.18', '1.19', '1.20', '1.21']
+        java: ['17']
     steps:
+       # https://github.com/actions/virtual-environments/issues/709
+      - name: Free disk space
+        run: |
+         sudo rm -rf "/usr/local/share/boost"
+         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+         sudo apt-get clean
+         df -h
       - uses: actions/checkout@v3
-      - name: Pre-build
-        uses: ./.github/actions/gradle-pre-build
-        id: pre-build
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          java: ${{ matrix.java }}
-          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          setup-command-env-variables:
-#             Add additional variables as needed, for example:
-#             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
-#             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-#             export AWS_REGION="${{ secrets.AWS_REGION }}"
-            export K8S_VERSION=${{ matrix.k8s }}
-      - name: Build
-        uses: ./.github/actions/gradle-build
-        id: build
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2.3.3
+      - name: Optional setup step
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+        run: |
+          [ -f ./setup.sh ] && ./setup.sh || true
+      - name: Build with Gradle
+        id: gradle
+        run: |
+          ./gradlew check --no-daemon --parallel --continue
+        env:
+           GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+           GH_USERNAME: ${{ secrets.GH_USERNAME }}
+           TESTCONTAINERS_RYUK_DISABLED: true
+           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+           PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
+      - name: Add build scan URL as PR comment
+        uses: actions/github-script@v5
+        if: github.event_name == 'pull_request' && failure()
         with:
-          java: ${{ matrix.java }}
-          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
-          gh-username: ${{ secrets.GH_USERNAME }}
-          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-      - name: Post-build
-        uses: ./.github/actions/gradle-post-build
-        id: post-build
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
+            })
+      - name: Publish Test Report
+        if: always()
+        uses: mikepenz/action-junit-report@v3.7.1
         with:
-          java: ${{ matrix.java }}
-          gh-token-public-repos-readonly: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
-          gh-username: ${{ secrets.GH_USERNAME }}
-          sonatype-username: ${{ secrets.SONATYPE_USERNAME }}
-          sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
-          gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
-          gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
-          gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          gh-token: ${{ secrets.GH_TOKEN }}
-          teardown-command-env-variables:
-            #             Add additional variables as needed, for example:
-            #             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
-            #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-            #             export AWS_REGION="${{ secrets.AWS_REGION }}"
-            export K8S_VERSION=${{ matrix.k8s }}
-  stop-runner:
-    name: Stop self-hosted OracleCloud runners
-    needs:
-      - start-runner
-      - build
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - name: Install OCI CLI
-        uses: micronaut-projects/github-actions/configure-oracle-cloud-cli@master
+          check_name: Java CI / Test Report (${{ matrix.java }})
+          report_paths: '**/build/test-results/test/TEST-*.xml'
+          check_retries: 'true'
+      - name: "📜 Upload binary compatibility check results"
+        if: always()
+        uses: actions/upload-artifact@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          oci-user-ocid: ${{ secrets.OCI_USER }}
-          oci-region: ${{ secrets.OCI_REGION }}
-          oci-tenancy-ocid: ${{ secrets.OCI_TENANCY }}
-          oci-private-key: ${{ secrets.OCI_KEY_FILE }}
-          oci-private-key-passphrase: ${{ secrets.OCI_PASSPHRASE }}
-          oci-private-key-fingerprint: ${{ secrets.OCI_FINGERPRINT }}
-      - name: Stop runners
-        uses: micronaut-projects/github-actions/stop-oracle-cloud-runners@master
+          name: binary-compatibility-reports
+          path: "**/build/reports/binary-compatibility-*.html"
+      - name: Publish to Sonatype Snapshots
+        if: success() && github.event_name == 'push' && matrix.java == '17'
+        env:
+          GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}        
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+        run: ./gradlew publishToSonatype docs --no-daemon
+      - name: Determine docs target repository
+        uses: haya14busa/action-cond@v1
+        id: docs_target
         with:
-          github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          oci-compartment-ocid: ${{ secrets.OCI_COMPARTMENT }}
-          oci-runner-label-tag-value: ${{ needs.start-runner.outputs.label }}
+          cond: ${{ github.repository == 'micronaut-projects/micronaut-core' }}
+          if_true: "micronaut-projects/micronaut-docs"
+          if_false: ${{ github.repository }}
+      - name: Publish to Github Pages
+        if: success() && github.event_name == 'push' && matrix.java == '17'
+        uses: micronaut-projects/github-pages-deploy-action@master
+        env:
+          TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build/docs
