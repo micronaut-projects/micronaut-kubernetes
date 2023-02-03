@@ -1,0 +1,20 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Publish Github Pages
+description: Perform publish github pages for gradle workflow
+runs:
+  using: "composite"
+  steps:
+    - name: Determine docs target repository
+      uses: haya14busa/action-cond@v1
+      id: docs_target
+      with:
+        cond: ${{ github.repository == 'micronaut-projects/micronaut-core' }}
+        if_true: "micronaut-projects/micronaut-docs"
+        if_false: ${{ github.repository }}
+    - name: Publish to Github Pages
+      uses: micronaut-projects/github-pages-deploy-action@master
+      env:
+        TARGET_REPOSITORY: ${{ steps.docs_target.outputs.value }}
+        GH_TOKEN: ${{ inputs.gh-token }}
+        BRANCH: gh-pages
+        FOLDER: build/docs
