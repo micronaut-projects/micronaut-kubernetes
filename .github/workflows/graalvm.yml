@@ -54,18 +54,14 @@ jobs:
       - name: Pre-build
         uses: ./.github/actions/gradle-pre-build
         id: pre-build
+        env:
+          K8S_VERSION: ${{ matrix.k8s }}
         with:
           java: ${{ matrix.java }}
           graalvm: ${{ matrix.graalvm }}
           gradle-enterprise-access-key: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           gradle-enterprise-cache-username: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           gradle-enterprise-cache-password: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          setup-command-env-variables:
-            #             Add additional variables as needed, for example:
-            #             export AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}"
-            #             export AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-            #             export AWS_REGION="${{ secrets.AWS_REGION }}"
-            export K8S_VERSION=${{ matrix.k8s }}
       - name: Build
         uses: ./.github/actions/graalvm-build
         id: build
