@@ -1,10 +1,12 @@
 package micronaut.operator
 
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.*
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder
 import io.fabric8.kubernetes.api.model.apps.DeploymentSpecBuilder
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import io.micronaut.core.util.StringUtils
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -18,13 +20,39 @@ import java.util.concurrent.TimeUnit
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-operator")
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Slf4j
 class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
 
     static String configMapName = "new-configmap"
 
+    @Property(name = "git.commit.hash")
+    String gitCommitHash
+
+    @Property(name = "image.java.version")
+    String javaVersion
+
+    @Property(name = "job.id")
+    String jobId
+
+    @Property(name = "oci.region")
+    String ociRegion
+
+    @Property(name = "oci.tenancy.name")
+    String ociTenancyName
+
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
+
+        def imageName = "micronaut-kubernetes-operator-example"
+
+        if (StringUtils.isNotEmpty(gitCommitHash) && StringUtils.isNotEmpty(javaVersion) && StringUtils.isNotEmpty(jobId)) {
+            String tagName = String.format("java-%s-%s", javaVersion, gitCommitHash)
+            imageName = String.format("%s.ocir.io/%s/micronaut-kubernetes-operator-example:%s", ociRegion, ociTenancyName, tagName)
+        }
+
+        log.info("Image name: ${imageName}")
+
         operations.deleteConfigMap(configMapName, namespace)
 
         operations.createRole("operator-reconciler-role", namespace,
@@ -58,8 +86,8 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
                                         .withSpec(new PodSpecBuilder()
                                                 .withContainers(new ContainerBuilder()
                                                         .withName("operator")
-                                                        .withImage("micronaut-kubernetes-operator-example")
-                                                        .withImagePullPolicy("Never")
+                                                        .withImage(imageName)
+                                                        .withImagePullPolicy("IfNotPresent")
                                                         .withPorts(new ContainerPortBuilder()
                                                                 .withName("http")
                                                                 .withContainerPort(8080)

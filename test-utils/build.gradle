@@ -8,10 +8,13 @@ dependencies {
     implementation "org.codehaus.groovy:groovy:$groovyVersion"
     api "io.micronaut:micronaut-inject-groovy"
     api "io.micronaut:micronaut-http-client:$micronautVersion"
-    api 'io.fabric8:kubernetes-client:5.11.1'
+    api 'io.fabric8:kubernetes-client:5.12.4'
     api("org.spockframework:spock-core:${spockVersion}")
     api "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
     api "ch.qos.logback:logback-classic:1.2.10"
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'org.bouncycastle:bcprov-ext-jdk15on:1.70'
 }
 
 repositories {

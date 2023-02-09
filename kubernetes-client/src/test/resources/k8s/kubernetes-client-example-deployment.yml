@@ -14,7 +14,7 @@ spec:
       containers:
         - name: kubernetes-client-example
           image: micronaut-kubernetes-client-example
-          imagePullPolicy: "Never"
+          imagePullPolicy: "IfNotPresent"
           ports:
             - name: http
               containerPort: 8085

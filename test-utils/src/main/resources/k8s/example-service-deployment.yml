@@ -16,7 +16,7 @@ spec:
       containers:
         - name: example-service
           image: micronaut-kubernetes-example-service
-          imagePullPolicy: "Never"
+          imagePullPolicy: "IfNotPresent"
           volumeMounts:
             - name: secrets
               mountPath: /etc/example-service/secrets

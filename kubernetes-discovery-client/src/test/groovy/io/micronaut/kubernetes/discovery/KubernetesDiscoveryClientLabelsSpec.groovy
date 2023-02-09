@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceProvider
@@ -14,6 +15,7 @@ import spock.util.concurrent.PollingConditions
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "kubernetes.client.namespace", value = "micronaut-discovery-client-labels")
 class KubernetesDiscoveryClientLabelsSpec extends KubernetesSpecification {
 
     @Shared

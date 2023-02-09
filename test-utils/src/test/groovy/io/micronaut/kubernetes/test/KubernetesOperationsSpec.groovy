@@ -1,5 +1,7 @@
 package io.micronaut.kubernetes.test
 
+import io.fabric8.kubernetes.client.KubernetesClientException
+import io.micronaut.context.exceptions.ConfigurationException
 import org.yaml.snakeyaml.Yaml
 import spock.lang.Requires
 import spock.lang.Shared
@@ -8,7 +10,7 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 @Requires({ TestUtils.kubernetesApiAvailable() })
-class KubernetesOperationsSpec extends Specification{
+class KubernetesOperationsSpec extends Specification {
 
     @Shared
     KubernetesOperations operations = new KubernetesOperations()
@@ -24,7 +26,7 @@ class KubernetesOperationsSpec extends Specification{
         }
     }
 
-    def "it creates rolebinding in namespace"(){
+    def "it creates rolebinding in namespace"() {
         when:
         def role = operations.createRole("discoverer", "test-namespace")
 
@@ -38,7 +40,7 @@ class KubernetesOperationsSpec extends Specification{
         roleBinding.metadata.getCreationTimestamp()
     }
 
-    def "it creates secret from literals"(){
+    def "it creates secret from literals"() {
         given:
         String password64 = Base64.encoder.encodeToString("value".bytes)
 
@@ -55,7 +57,7 @@ class KubernetesOperationsSpec extends Specification{
         Base64.decoder.decode(secret.getData().get("key")) == "value".bytes
     }
 
-    def "it creates config map from data"(){
+    def "it creates config map from data"() {
         given:
         def data = ["key": "value"]
 
@@ -73,7 +75,7 @@ class KubernetesOperationsSpec extends Specification{
         map.getData().get("key") == "value"
     }
 
-    def "it create config map from yaml file"(){
+    def "it create config map from yaml file"() {
         given:
         def filePath = Paths.get("src","test","resources", "k8s", "game.yml")
 
@@ -101,7 +103,7 @@ class KubernetesOperationsSpec extends Specification{
         files[2]["secret"]["code"]["passphrase"] == "UUDDLRLRBABAS"
     }
 
-    def "it creates deployment from file"(){
+    def "it creates deployment from file"() {
         given:
         def path = Paths.get("src","test","resources", "k8s", "deployment.yml")
 
@@ -118,23 +120,17 @@ class KubernetesOperationsSpec extends Specification{
         deployment.status.availableReplicas == 1
     }
 
-    def "it creates deployment with overriden name and namespace from file"(){
+    def "it creates deployment with overriden name and namespace from file"() {
         given:
         def path = Paths.get("src","test","resources", "k8s", "deployment.yml")
         operations.createNamespace("other-namespace")
 
         when:
-        def deployment = operations.createDeploymentFromFile(path.toUri().toURL(), "other-name", "other-namespace")
+        operations.createDeploymentFromFile(path.toUri().toURL(), "other-name", "other-namespace")
 
         then:
-        deployment.metadata.creationTimestamp
-        deployment.status.availableReplicas == 1
-
-        when:
-        deployment = operations.getDeployment("other-name", "other-namespace")
-
-        then:
-        deployment
+        def e = thrown(KubernetesClientException)
+        e.message.contains("Namespace mismatch")
 
         cleanup:
         operations.deleteNamespace("other-namespace")

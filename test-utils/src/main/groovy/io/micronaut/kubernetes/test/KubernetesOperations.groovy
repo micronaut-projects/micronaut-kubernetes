@@ -28,6 +28,8 @@ import io.micronaut.core.util.StringUtils
 import spock.util.concurrent.PollingConditions
 
 import jakarta.inject.Singleton
+
+import java.security.AuthProvider
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
@@ -46,7 +48,8 @@ class KubernetesOperations implements Closeable {
 
     KubernetesClient getClient(String namespace = 'default') {
         return kubernetesClientMap.computeIfAbsent(namespace, ns ->
-                new DefaultKubernetesClient(new ConfigBuilder().withNamespace(ns).build())
+                new DefaultKubernetesClient(new ConfigBuilder()
+                        .withTrustCerts(true).withNamespace(ns).build())
         )
     }
 
@@ -84,6 +87,7 @@ class KubernetesOperations implements Closeable {
                     .map(it -> it.metadata.name).collect(Collectors.toList())
             if (namespaces.contains(name)) {
                 log.info("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...")
+                sleep(waitTime)
             } else {
                 log.info("Namespace sucessfully deleted: ${namespaces}")
                 break

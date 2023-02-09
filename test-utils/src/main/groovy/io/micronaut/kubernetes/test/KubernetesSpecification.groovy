@@ -20,6 +20,7 @@ import io.fabric8.kubernetes.api.model.IntOrString
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
 import io.fabric8.kubernetes.api.model.apps.Deployment
+import io.fabric8.kubernetes.client.KubernetesClientException
 import io.micronaut.context.annotation.Value
 import io.micronaut.core.io.ResourceResolver
 import io.micronaut.core.io.scan.ClassPathResourceLoader
@@ -88,11 +89,18 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def cleanupSpec() {
-        if (reuseNamespace && operations.getNamespace(namespace) != null) {
-            log.info("Skipping cleanup of namespace ${namespace}")
-        } else {
-            log.info("Cleaning up namespace ${namespace}")
-            operations.deleteNamespace(namespace)
+        for (int i=0; i<3; i++) {
+            try {
+                if (reuseNamespace && operations.getNamespace(namespace) != null) {
+                    log.info("Skipping cleanup of namespace ${namespace}")
+                } else {
+                    log.info("Cleaning up namespace ${namespace}")
+                    operations.deleteNamespace(namespace)
+                }
+                return
+            } catch (KubernetesClientException e) {
+                sleep(1000* (i+1))
+            }
         }
     }
 

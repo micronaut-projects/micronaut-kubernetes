@@ -1,7 +1,9 @@
 package micronaut.client
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import io.micronaut.core.util.StringUtils
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.test.KubernetesSpecification
@@ -17,12 +19,21 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 @MicronautTest(environments = Environment.KUBERNETES)
 @Property(name = "spec.name", value = "KubernetesHealthIndicatorSpec")
 @Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-health-indicator")
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Slf4j
 class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
 
     @Inject
     @Shared
     ServiceClient client
+
+    @Property(name = "git.commit.hash")
+    String gitCommitHash
+
+    @Property(name = "image.java.version")
+    String javaVersion
+
 
     def setupSpec() {
         operations.portForwardService("example-service", namespace, 8081, 9999)
@@ -31,6 +42,11 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     void "it works"() {
         when:
         Map details = client.health().details
+
+        String tagName = "latest"
+        if (StringUtils.isNotEmpty(gitCommitHash) && StringUtils.isNotEmpty(javaVersion)) {
+            tagName = String.format("java-%s-%s", javaVersion, gitCommitHash)
+        }
 
         then:
         details.kubernetes.name == "micronaut-service"
@@ -41,7 +57,7 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
         details.kubernetes.details.podIP
         details.kubernetes.details.hostIP
         details.kubernetes.details.containerStatuses.first().name == "example-service"
-        details.kubernetes.details.containerStatuses.first().image.endsWith "example-service:latest"
+        details.kubernetes.details.containerStatuses.first().image.endsWith "example-service:" + tagName
         details.kubernetes.details.containerStatuses.first().ready == true
     }
 
