@@ -5,19 +5,6 @@ inputs:
   java:
     description: java version
     required: true
-    type: string
-  gradle-enterprise-access-key:
-    description: gradle enterprise access key
-    required: true
-    type: string
-  gradle-enterprise-cache-username:
-    description: gradle enterprise cache username
-    required: true
-    type: string
-  gradle-enterprise-cache-password:
-    description: gradle enterprise cache password
-    required: true
-    type: string
 runs:
   using: "composite"
   steps:
@@ -29,10 +16,5 @@ runs:
           ./gradlew ${EXAMPLE}:test --continue --no-daemon --no-build-cache
         done
       env:
-        TESTCONTAINERS_RYUK_DISABLED: true
-        GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ inputs.gh-token-public-repos-readonly }}
-        GH_USERNAME: ${{ inputs.gh-username }}
-        GRADLE_ENTERPRISE_ACCESS_KEY: ${{ inputs.gradle-enterprise-access-key }}
-        GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ inputs.gradle-enterprise-cache-username }}
-        GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ inputs.gradle-enterprise-cache-password }}
+        TESTCONTAINERS_RYUK_DISABLED: 'true'
         PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
