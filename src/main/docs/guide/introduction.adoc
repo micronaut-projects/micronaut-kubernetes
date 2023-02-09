@@ -15,9 +15,9 @@ When a Micronaut application with this module is running within a Pod in a Kuber
 infer automatically the namespace it's running from by reading it from the service account secret (which will be
 provisioned at `/var/run/secrets/kubernetes.io/serviceaccount/namespace`).
 
-However, the namespace can still be overridden via configuration in `bootstrap.yml`:
+However, the namespace can still be overridden via configuration in the `bootstrap` configuration file:
 
-[source, yaml]
+[configuration]
 ----
 kubernetes:
   client:

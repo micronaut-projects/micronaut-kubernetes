@@ -45,7 +45,7 @@ You can adjust the leader elector configuration by using Micronaut configuration
 For example:
 
 .Example of custom lock acquisition properties. Note that the value is of type Duration:
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -76,7 +76,7 @@ By default, the `micronaut-kubernetes-operator` module uses the `V1Lease`. This 
 Note that the resource for the lock is created in the application namespace. Then the application name is used as the lock resource name. This can be changed by using Micronaut configuration properties:
 
 .Example on how to configure custom lock resource name and namespace:
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -90,7 +90,7 @@ kubernetes:
 Note that in case https://kubernetes.io/docs/reference/access-authn-authz/rbac/[the RBAC authorization] is enabled in your Kubernetes cluster, your application needs to have properly configured role with respect to the lock resource type.
 
 .Example of role for the `V1Lease` lock resource type:
-[source,yaml]
+[configuration]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
