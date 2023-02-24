@@ -159,24 +159,24 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
     void "it can get service from other then app namespace [watchEnabled=#watchEnabled]"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run(
-                getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace"]]),
+                getConfig(watchEnabled, ["kubernetes.client.discovery.services.example-service": ["namespace": "other-namespace-3"]]),
                 Environment.KUBERNETES)
         def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
-        createNamespaceSafe("other-namespace")
-        createBaseResources("other-namespace")
-        createExampleServiceDeployment("other-namespace")
+        createNamespaceSafe("other-namespace-3")
+        createBaseResources("other-namespace-3")
+        createExampleServiceDeployment("other-namespace-3")
 
 
         when:
         def config = createConfig("example-service")
-        config.namespace = "other-namespace"
+        config.namespace = "other-namespace-3"
 
         then:
         pollingConditions.eventually {
             def instances = Flux.from(provider.getInstances(config)).blockFirst()
             instances.size() == 2
-            operations.getEndpoints("example-service", "other-namespace").subsets.stream()
+            operations.getEndpoints("example-service", "other-namespace-3").subsets.stream()
                     .allMatch(e ->
                             e.addresses.stream().allMatch(address ->
                                     instances.any { it.host == address.ip }
@@ -185,7 +185,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         }
 
         cleanup:
-        operations.deleteNamespace("other-namespace")
+        operations.deleteNamespace("other-namespace-3")
         applicationContext.close()
 
         where:
