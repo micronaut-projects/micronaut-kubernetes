@@ -109,7 +109,7 @@ spec:
     spec:
       containers:
         - name: secure-deployment
-          image: nginx
+          image: bitnami/nginx
           ports:
             - containerPort: 80
 ---
