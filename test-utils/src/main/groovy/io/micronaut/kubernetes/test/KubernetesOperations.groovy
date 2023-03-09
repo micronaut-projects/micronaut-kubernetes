@@ -29,7 +29,6 @@ import spock.util.concurrent.PollingConditions
 
 import jakarta.inject.Singleton
 
-import java.security.AuthProvider
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
@@ -48,8 +47,7 @@ class KubernetesOperations implements Closeable {
 
     KubernetesClient getClient(String namespace = 'default') {
         return kubernetesClientMap.computeIfAbsent(namespace, ns ->
-                new DefaultKubernetesClient(new ConfigBuilder()
-                        .withTrustCerts(true).withNamespace(ns).build())
+                new DefaultKubernetesClient(new ConfigBuilder().withTrustCerts(true).withNamespace(ns).build())
         )
     }
 

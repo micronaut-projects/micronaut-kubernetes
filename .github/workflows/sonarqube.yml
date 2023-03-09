@@ -74,13 +74,10 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          IMAGE_TAG: 'java-11-${{ github.sha }}'
+          IMAGE_PREFIX: '${{ secrets.OCI_REGION }}.ocir.io/${{ secrets.OCI_TENANCY_NAME }}/'
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_COMMIT_HASH: ${{ github.sha }}
-          JOB_ID: ${{ format('{0}-sonar', github.run_id) }}
-          IMAGE_JAVA_VERSION: '11'
-          OCI_REGION: ${{ secrets.OCI_REGION }}
-          OCI_TENANCY_NAME: ${{ secrets.OCI_TENANCY_NAME }}
           KUBERNETES_TRUST_CERTIFICATES: 'true'
       - name: Optional teardown step
         if: always()

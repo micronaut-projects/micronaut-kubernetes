@@ -62,11 +62,8 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          GIT_COMMIT_HASH: ${{ github.sha }}
-          JOB_ID: ${{ format('{0}-graalvm-java-{1}', github.run_id, matrix.java) }}
-          IMAGE_JAVA_VERSION: ${{ matrix.java }}
-          OCI_REGION: ${{ secrets.OCI_REGION }}
-          OCI_TENANCY_NAME: ${{ secrets.OCI_TENANCY_NAME }}
+          IMAGE_TAG: 'java-${{ matrix.java }}-${{ github.sha }}'
+          IMAGE_PREFIX: '${{ secrets.OCI_REGION }}.ocir.io/${{ secrets.OCI_TENANCY_NAME }}/'
           KUBERNETES_TRUST_CERTIFICATES: 'true'
       - name: Post-build
         uses: ./.github/actions/graalvm-post-build

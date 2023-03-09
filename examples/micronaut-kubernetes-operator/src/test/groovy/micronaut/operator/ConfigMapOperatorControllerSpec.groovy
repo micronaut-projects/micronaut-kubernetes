@@ -25,31 +25,27 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
 
     static String configMapName = "new-configmap"
 
-    @Property(name = "git.commit.hash")
-    String gitCommitHash
+    @Property(name = "image.tag")
+    String imageTag
 
-    @Property(name = "image.java.version")
-    String javaVersion
-
-    @Property(name = "job.id")
-    String jobId
-
-    @Property(name = "oci.region")
-    String ociRegion
-
-    @Property(name = "oci.tenancy.name")
-    String ociTenancyName
+    @Property(name = "image.prefix")
+    String imagePrefix
 
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
-
         def imageName = "micronaut-kubernetes-operator-example"
+        def tagName = "latest"
 
-        if (StringUtils.isNotEmpty(gitCommitHash) && StringUtils.isNotEmpty(javaVersion) && StringUtils.isNotEmpty(jobId)) {
-            String tagName = String.format("java-%s-%s", javaVersion, gitCommitHash)
-            imageName = String.format("%s.ocir.io/%s/micronaut-kubernetes-operator-example:%s", ociRegion, ociTenancyName, tagName)
+        if (StringUtils.isNotEmpty(imagePrefix)) {
+            imageName = imagePrefix + imageName
         }
+
+        if (StringUtils.isNotEmpty(imageTag)) {
+            tagName = imageTag
+        }
+
+        imageName = imageName + ":" + tagName
 
         log.info("Image name: ${imageName}")
 

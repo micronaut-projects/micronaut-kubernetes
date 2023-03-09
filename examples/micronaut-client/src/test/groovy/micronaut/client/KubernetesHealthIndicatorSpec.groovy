@@ -28,12 +28,8 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     @Shared
     ServiceClient client
 
-    @Property(name = "git.commit.hash")
-    String gitCommitHash
-
-    @Property(name = "image.java.version")
-    String javaVersion
-
+    @Property(name = "image.tag")
+    String imageTag
 
     def setupSpec() {
         operations.portForwardService("example-service", namespace, 8081, 9999)
@@ -44,8 +40,8 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
         Map details = client.health().details
 
         String tagName = "latest"
-        if (StringUtils.isNotEmpty(gitCommitHash) && StringUtils.isNotEmpty(javaVersion)) {
-            tagName = String.format("java-%s-%s", javaVersion, gitCommitHash)
+        if (StringUtils.isNotEmpty(imageTag)) {
+            tagName = imageTag
         }
 
         then:
