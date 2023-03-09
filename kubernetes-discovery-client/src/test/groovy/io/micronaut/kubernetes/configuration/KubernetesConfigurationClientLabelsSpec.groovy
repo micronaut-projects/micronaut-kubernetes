@@ -3,7 +3,6 @@ package io.micronaut.kubernetes.configuration
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.fabric8.kubernetes.api.model.Pod
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
 import io.micronaut.kubernetes.test.KubernetesSpecification
