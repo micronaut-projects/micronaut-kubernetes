@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: secure-deployment
-          image: bitnami/nginx
+          image: nginx
           ports:
             - containerPort: 80

@@ -45,6 +45,11 @@ sed -i -e "s|micronaut-kubernetes-example-client|${OCIR_REPOSITORY}/micronaut-ku
 sed -i -e "s|micronaut-kubernetes-example-client|${OCIR_REPOSITORY}/micronaut-kubernetes-example-client:${TAG_NAME}|g" test-utils/src/main/resources/k8s/example-client-deployment.yml
 sed -i -e "s|micronaut-kubernetes-example-service|${OCIR_REPOSITORY}/micronaut-kubernetes-example-service:${TAG_NAME}|g" test-utils/src/main/resources/k8s/example-service-deployment.yml
 
+# use nginx image from OCIR because of rate limit
+sed -i -e "s|nginx|${OCIR_REPOSITORY}/nginx|g" test-utils/src/main/resources/k8s/secure-deployment.yml
+sed -i -e "s|nginx|${OCIR_REPOSITORY}/nginx|g" test-utils/src/test/resources/k8s/deployment.yml
+sed -i -e "s|nginx|${OCIR_REPOSITORY}/nginx|g" kubernetes.yml
+
 #
 # Run Kubernetes API proxy
 pkill -9 kubectl || true

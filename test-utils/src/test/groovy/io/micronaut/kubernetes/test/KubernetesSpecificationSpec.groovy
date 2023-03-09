@@ -7,7 +7,7 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
-class KubernetesSpecificationSpec extends KubernetesSpecification {
+class KubernetesSpecificationSpec extends KubernetesSpecification{
 
     def "it created example service"(){
         expect:
