@@ -71,4 +71,4 @@ $HOME/kubectl get ns kube-system || exit 1
 $HOME/kubectl cluster-info
 $HOME/kubectl version
 
-sh setup-kubernetes.sh -c "${KIND_CLUSTER_NAME}" -t "${EXAMPLE_SERVICE_RUNTIME}"
+sh setup-kubernetes-kind.sh -c "${KIND_CLUSTER_NAME}" -t "${EXAMPLE_SERVICE_RUNTIME}"

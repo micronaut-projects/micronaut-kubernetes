@@ -45,10 +45,10 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     TestClient testClient
 
     @Property(name = "image.tag")
-    String imageTag
+    Optional<String> imageTag
 
     @Property(name = "image.prefix")
-    String imagePrefix
+    Optional<String> imagePrefix
 
     @Override
     def setupFixture(String namespace) {
@@ -58,12 +58,12 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
         def tagName = "latest"
 
 
-        if (StringUtils.isNotEmpty(imagePrefix)) {
-            imageName = imagePrefix + imageName
+        if (StringUtils.isNotEmpty(imagePrefix.orElse(null))) {
+            imageName = imagePrefix.get() + imageName
         }
 
-        if (StringUtils.isNotEmpty(imageTag)) {
-            tagName = imageTag
+        if (StringUtils.isNotEmpty(imageTag.orElse(null))) {
+            tagName = imageTag.get()
         }
 
         imageName = imageName + ":" + tagName
@@ -89,7 +89,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
                                                 .withContainers(new ContainerBuilder()
                                                         .withName("informer")
                                                         .withImage(imageName)
-                                                        .withImagePullPolicy("IfNotPresent")
+                                                        .withImagePullPolicy("Never")
                                                         .withPorts(new ContainerPortBuilder()
                                                                 .withName("http")
                                                                 .withContainerPort(8080)
@@ -139,6 +139,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     void "test all"() {
         expect:
         testClient.all().size() == 3 // TODO: CHECK WHY WAS 4
+        testClient.all().stream().forEach {x -> println x.getMetadata().getName()}
         testClient.secret("test-secret")
         testClient.secret("test-secret").data.containsKey("username")
     }
