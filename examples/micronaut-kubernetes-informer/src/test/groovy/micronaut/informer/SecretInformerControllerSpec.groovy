@@ -25,6 +25,7 @@ import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.annotation.Nullable
 import jakarta.inject.Inject
 import spock.lang.Requires
 import spock.lang.Shared
@@ -44,9 +45,11 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     @Shared
     TestClient testClient
 
+    @Nullable
     @Property(name = "image.tag")
     Optional<String> imageTag
 
+    @Nullable
     @Property(name = "image.prefix")
     Optional<String> imagePrefix
 
@@ -56,7 +59,6 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
         createBaseResources(namespace)
         def imageName = "micronaut-kubernetes-informer-example"
         def tagName = "latest"
-
 
         if (StringUtils.isNotEmpty(imagePrefix.orElse(null))) {
             imageName = imagePrefix.get() + imageName
@@ -89,7 +91,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
                                                 .withContainers(new ContainerBuilder()
                                                         .withName("informer")
                                                         .withImage(imageName)
-                                                        .withImagePullPolicy("Never")
+                                                        .withImagePullPolicy("IfNotPresent")
                                                         .withPorts(new ContainerPortBuilder()
                                                                 .withName("http")
                                                                 .withContainerPort(8080)
