@@ -140,8 +140,8 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
     void "test all"() {
         expect:
-        testClient.all().size() == 3 // TODO: CHECK WHY WAS 4
-        testClient.all().stream().forEach {x -> println x.getMetadata().getName()}
+        testClient.secret("mounted-secret")
+        testClient.secret("another-secret")
         testClient.secret("test-secret")
         testClient.secret("test-secret").data.containsKey("username")
     }
@@ -162,7 +162,9 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
-            testClient.all().size() == 4 // TODO: CHECK WHY WAS 5
+            testClient.secret("mounted-secret")
+            testClient.secret("another-secret")
+            testClient.secret("test-secret")
             testClient.secret(secretName)
         }
 
@@ -171,7 +173,10 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
-            testClient.all().size() == 3 // TODO: CHECK WHY WAS 4
+            testClient.secret("mounted-secret")
+            testClient.secret("another-secret")
+            testClient.secret("test-secret")
+            !testClient.secret(secretName)
         }
     }
 
