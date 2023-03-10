@@ -53,6 +53,8 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     @Property(name = "image.prefix")
     Optional<String> imagePrefix
 
+    private int numberOfExistingSecretes = 0
+
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
@@ -73,6 +75,9 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
         log.info("Image name: ${imageName}")
 
         def client = operations.getClient(namespace)
+
+        numberOfExistingSecretes = testClient.all().size()
+
         def informerDeployment = client.apps().deployments().createOrReplace(
                 new DeploymentBuilder()
                         .withMetadata(new ObjectMetaBuilder()
@@ -140,6 +145,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
     void "test all"() {
         expect:
+        testClient.all().size() ==  numberOfExistingSecretes + 3
         testClient.secret("mounted-secret")
         testClient.secret("another-secret")
         testClient.secret("test-secret")
@@ -162,6 +168,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
+            testClient.all().size() ==  numberOfExistingSecretes + 4
             testClient.secret("mounted-secret")
             testClient.secret("another-secret")
             testClient.secret("test-secret")
@@ -173,6 +180,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
+            testClient.all().size() ==  numberOfExistingSecretes + 3
             testClient.secret("mounted-secret")
             testClient.secret("another-secret")
             testClient.secret("test-secret")
