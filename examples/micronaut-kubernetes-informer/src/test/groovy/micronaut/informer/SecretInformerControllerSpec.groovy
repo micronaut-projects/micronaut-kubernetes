@@ -22,6 +22,7 @@ import io.micronaut.core.util.StringUtils
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.http.client.exceptions.HttpClientException
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -76,7 +77,15 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         def client = operations.getClient(namespace)
 
-        numberOfExistingSecretes = testClient.all().size()
+        // retry 3 times and try to get current number of secrets
+        for (int i=0; i<3; i ++) {
+            try {
+                numberOfExistingSecretes = testClient.all().size()
+                break
+            } catch (HttpClientException ignored) {
+                sleep(1000 * (i+1))
+            }
+        }
 
         def informerDeployment = client.apps().deployments().createOrReplace(
                 new DeploymentBuilder()
