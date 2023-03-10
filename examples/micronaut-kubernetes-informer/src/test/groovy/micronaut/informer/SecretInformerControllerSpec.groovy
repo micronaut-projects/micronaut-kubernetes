@@ -54,8 +54,6 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     @Property(name = "image.prefix")
     Optional<String> imagePrefix
 
-    private int numberOfExistingSecretes = 0
-
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
@@ -76,17 +74,6 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
         log.info("Image name: ${imageName}")
 
         def client = operations.getClient(namespace)
-
-        // retry 3 times and try to get current number of secrets
-        for (int i=0; i<3; i ++) {
-            try {
-                numberOfExistingSecretes = testClient.all().size()
-                break
-            } catch (HttpClientException ignored) {
-                sleep(1000 * (i+1))
-            }
-        }
-
         def informerDeployment = client.apps().deployments().createOrReplace(
                 new DeploymentBuilder()
                         .withMetadata(new ObjectMetaBuilder()
@@ -154,7 +141,8 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
     void "test all"() {
         expect:
-        testClient.all().size() ==  numberOfExistingSecretes + 3
+        // kind adds "default-token" secret to every namespace. That's why we check with >= to make sure it works both with OKE and kind
+        testClient.all().size() >= 3
         testClient.secret("mounted-secret")
         testClient.secret("another-secret")
         testClient.secret("test-secret")
@@ -177,7 +165,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
-            testClient.all().size() ==  numberOfExistingSecretes + 4
+            testClient.all().size() >= 4
             testClient.secret("mounted-secret")
             testClient.secret("another-secret")
             testClient.secret("test-secret")
@@ -189,7 +177,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
-            testClient.all().size() ==  numberOfExistingSecretes + 3
+            testClient.all().size() >= 3
             testClient.secret("mounted-secret")
             testClient.secret("another-secret")
             testClient.secret("test-secret")
