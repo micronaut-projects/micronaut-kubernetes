@@ -25,28 +25,10 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
 
     static String configMapName = "new-configmap"
 
-    @Property(name = "image.tag")
-    Optional<String> imageTag
-
-    @Property(name = "image.prefix")
-    Optional<String> imagePrefix
-
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
-        def imageName = "micronaut-kubernetes-operator-example"
-        def tagName = "latest"
-
-        if (StringUtils.isNotEmpty(imagePrefix.orElse(null))) {
-            imageName = imagePrefix.get() + imageName
-        }
-
-        if (StringUtils.isNotEmpty(imageTag.orElse(null))) {
-            tagName = imageTag.get()
-        }
-
-        imageName = imageName + ":" + tagName
-
+        def imageName = getImageName("micronaut-kubernetes-operator-example")
         log.info("Image name: ${imageName}")
 
         operations.deleteConfigMap(configMapName, namespace)

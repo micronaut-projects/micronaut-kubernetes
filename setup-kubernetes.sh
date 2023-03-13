@@ -25,9 +25,9 @@ TAG_NAME="$TYPE-$JAVA_VERSION-${GIT_COMMIT_HASH:-latest}"
 
 ./gradlew clean $TYPE_CMD --refresh-dependencies
 
-docker login $OCI_REGION.ocir.io -u $OCIR_USERNAME -p $AUTH_TOKEN
+docker login $OCI_CLI_REGION.ocir.io -u $OCIR_USERNAME -p $AUTH_TOKEN
 
-OCIR_REPOSITORY="$OCI_REGION.ocir.io/$OCI_TENANCY_NAME"
+OCIR_REPOSITORY="$OCI_CLI_REGION.ocir.io/$OCI_TENANCY_NAME"
 
 arr=("micronaut-kubernetes-example-service" "micronaut-kubernetes-example-client" "micronaut-kubernetes-client-example" "micronaut-kubernetes-informer-example" "micronaut-kubernetes-operator-example")
 

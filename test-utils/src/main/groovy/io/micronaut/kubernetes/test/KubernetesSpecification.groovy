@@ -21,9 +21,11 @@ import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
 import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.fabric8.kubernetes.client.KubernetesClientException
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Value
 import io.micronaut.core.io.ResourceResolver
 import io.micronaut.core.io.scan.ClassPathResourceLoader
+import io.micronaut.core.util.StringUtils
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -53,6 +55,12 @@ abstract class KubernetesSpecification extends Specification {
     @Shared
     @Value('${spec.reuseNamespace:true}')
     boolean reuseNamespace
+
+    @Property(name = "image.tag")
+    Optional<String> imageTag
+
+    @Property(name = "image.prefix")
+    Optional<String> imagePrefix
 
     /**
      * Setup the fixture in namespace.
@@ -211,6 +219,21 @@ abstract class KubernetesSpecification extends Specification {
                         )
                         .withSelector(["app": "secure-deployment"])
                         .build())
+    }
+
+    def getImageName(String imageName) {
+        def tagName = "latest"
+
+        if (StringUtils.isNotEmpty(imagePrefix.orElse(null))) {
+            imageName = imagePrefix.get() + imageName
+        }
+
+        if (StringUtils.isNotEmpty(imageTag.orElse(null))) {
+            tagName = imageTag.get()
+        }
+
+        imageName = imageName + ":" + tagName
+        return imageName
     }
 
     static String encodeSecret(String secret) {

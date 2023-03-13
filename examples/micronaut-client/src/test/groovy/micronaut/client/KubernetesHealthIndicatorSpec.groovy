@@ -3,7 +3,6 @@ package micronaut.client
 import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.core.util.StringUtils
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.test.KubernetesSpecification
@@ -15,6 +14,8 @@ import spock.lang.Shared
 import jakarta.inject.Inject
 
 import io.micronaut.context.annotation.Requires as MicronautRequires
+
+import javax.annotation.Nullable
 
 @MicronautTest(environments = Environment.KUBERNETES)
 @Property(name = "spec.name", value = "KubernetesHealthIndicatorSpec")
@@ -29,7 +30,7 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     ServiceClient client
 
     @Property(name = "image.tag")
-    String imageTag
+    Optional<String> imageTag
 
     def setupSpec() {
         operations.portForwardService("example-service", namespace, 8081, 9999)
@@ -38,11 +39,7 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     void "it works"() {
         when:
         Map details = client.health().details
-
-        String tagName = "latest"
-        if (StringUtils.isNotEmpty(imageTag)) {
-            tagName = imageTag
-        }
+        String tagName = imageTag.orElse("latest")
 
         then:
         details.kubernetes.name == "micronaut-service"

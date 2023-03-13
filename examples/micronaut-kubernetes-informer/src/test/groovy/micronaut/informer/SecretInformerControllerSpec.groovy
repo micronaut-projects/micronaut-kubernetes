@@ -18,15 +18,12 @@ import io.kubernetes.client.openapi.models.V1Secret
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Requires as MicronautRequires
 import io.micronaut.context.env.Environment
-import io.micronaut.core.util.StringUtils
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.http.client.exceptions.HttpClientException
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import jakarta.annotation.Nullable
 import jakarta.inject.Inject
 import spock.lang.Requires
 import spock.lang.Shared
@@ -46,31 +43,11 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     @Shared
     TestClient testClient
 
-    @Nullable
-    @Property(name = "image.tag")
-    Optional<String> imageTag
-
-    @Nullable
-    @Property(name = "image.prefix")
-    Optional<String> imagePrefix
-
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
         createBaseResources(namespace)
-        def imageName = "micronaut-kubernetes-informer-example"
-        def tagName = "latest"
-
-        if (StringUtils.isNotEmpty(imagePrefix.orElse(null))) {
-            imageName = imagePrefix.get() + imageName
-        }
-
-        if (StringUtils.isNotEmpty(imageTag.orElse(null))) {
-            tagName = imageTag.get()
-        }
-
-        imageName = imageName + ":" + tagName
-
+        def imageName = getImageName("micronaut-kubernetes-informer-example")
         log.info("Image name: ${imageName}")
 
         def client = operations.getClient(namespace)
