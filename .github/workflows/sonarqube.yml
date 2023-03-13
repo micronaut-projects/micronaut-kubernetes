@@ -3,7 +3,7 @@
 # https://github.com/micronaut-projects/micronaut-project-template/tree/master/.github/workflows
 #
 # and edit them there. Note that it will be sync'ed to all the Micronaut repos
-name: Java CI
+name: Static Analysis
 on:
   push:
     branches:
@@ -16,20 +16,35 @@ on:
 jobs:
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
-    runs-on: ubuntu-latest
     env:
       OCI_CLI_USER: ${{ secrets.OCI_USER }}
       OCI_CLI_TENANCY: ${{ secrets.OCI_TENANCY }}
       OCI_CLI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
       OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_KEY_FILE }}
       OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
-    strategy:
-      matrix:
-        java: ['8', '11', '17']
+    runs-on: ubuntu-latest
     steps:
+       # https://github.com/actions/virtual-environments/issues/709
+      - name: Free disk space
+        run: |
+         sudo rm -rf "/usr/local/share/boost"
+         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+         sudo apt-get clean
+         df -h
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'adopt'
+          java-version: 11
       - name: Configure Kubectl
         uses: oracle-actions/configure-kubectl-oke@v1.3.1
         id: test-configure-kubectl-oke-action
@@ -37,57 +52,39 @@ jobs:
           cluster: ${{ secrets.OKE_CLUSTER_OCID }}
       - name: Run Kubectl
         run: kubectl get nodes -A
-      - name: Pre-build
-        uses: ./.github/actions/gradle-pre-build
-        id: pre-build
+      - name: Optional setup step
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          GIT_COMMIT_HASH: ${{ github.sha }}
+          JOB_ID: ${{ format('{0}-sonar', github.run_id) }}
           OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
           OCI_TENANCY_NAME: ${{ secrets.OCI_TENANCY_NAME }}
+          JAVA_VERSION: '11'
           AUTH_TOKEN: ${{ secrets.OCI_AUTH_TOKEN }}
           OCIR_USERNAME: ${{ secrets.OCIR_USERNAME }}
-          GIT_COMMIT_HASH: ${{ github.sha }}
-          JOB_ID: ${{ format('{0}-java-{1}', github.run_id, matrix.java) }}
-          JAVA_VERSION: ${{ matrix.java }}
-        with:
-          java: ${{ matrix.java }}
-      - name: Build
-        uses: ./.github/actions/gradle-build
-        id: build
+        run: |
+          [ -f ./setup.sh ] && ./setup.sh || true
+      - name: Analyse with Gradle
+        run: |
+          ./gradlew check sonarqube --no-daemon --continue --no-build-cache
         env:
-          GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
+          TESTCONTAINERS_RYUK_DISABLED: true
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          IMAGE_TAG: 'java-${{ matrix.java }}-${{ github.sha }}'
+          IMAGE_TAG: 'java-11-${{ github.sha }}'
           IMAGE_PREFIX: '${{ secrets.OCI_REGION }}.ocir.io/${{ secrets.OCI_TENANCY_NAME }}/'
-          KUBERNETES_TRUST_CERTIFICATES: 'true'
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
-      - name: Post-build
-        uses: ./.github/actions/gradle-post-build
-        id: post-build
+          KUBERNETES_TRUST_CERTIFICATES: 'true'
+      - name: Optional teardown step
         if: always()
         env:
-          GH_TOKEN_PUBLIC_REPOS_READONLY: ${{ secrets.GH_TOKEN_PUBLIC_REPOS_READONLY }}
-          GH_USERNAME: ${{ secrets.GH_USERNAME }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          JOB_ID: ${{ format('{0}-java-{1}', github.run_id, matrix.java) }}
-        with:
-          java: ${{ matrix.java }}
-      - name: Publish-Github-Pages
-        uses: ./.github/actions/gradle-publish-github-pages
-        id: publish-github-pages
-        if: success() && github.event_name == 'push' && inputs.java == '11'
-      - name: Publish-Github-Pages
-        uses: ./.github/actions/gradle-publish-sona-type
-        id: publish-sona-type
-        if: success() && github.event_name == 'push' && inputs.java == '11'
+          JOB_ID: ${{ format('{0}-sonar', github.run_id) }}
+        run: |
+          [ -f ./teardown.sh ] && ./teardown.sh || true

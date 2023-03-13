@@ -35,6 +35,7 @@ import java.util.stream.Stream
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-discovery-client-test")
+@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
     @Inject

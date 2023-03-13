@@ -12,6 +12,7 @@ import spock.lang.Requires
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-filter")
+@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
 
     void setup() {

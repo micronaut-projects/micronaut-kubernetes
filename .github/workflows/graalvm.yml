@@ -29,6 +29,8 @@ jobs:
         graalvm: ['latest']
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Configure Kubectl
         uses: oracle-actions/configure-kubectl-oke@v1.3.1
         id: test-configure-kubectl-oke-action
@@ -65,6 +67,8 @@ jobs:
           IMAGE_TAG: 'java-${{ matrix.java }}-${{ github.sha }}'
           IMAGE_PREFIX: '${{ secrets.OCI_REGION }}.ocir.io/${{ secrets.OCI_TENANCY_NAME }}/'
           KUBERNETES_TRUST_CERTIFICATES: 'true'
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Post-build
         uses: ./.github/actions/graalvm-post-build
         if: always()

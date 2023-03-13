@@ -20,8 +20,18 @@ class KubernetesOperationsSpec extends Specification{
     }
 
     def cleanupSpec() {
+        def retry = 3
         if (operations.getNamespace("test-namespace") != null) {
-            operations.deleteNamespace("test-namespace")
+            for (int i=0; i<retry; i++) {
+                try {
+                    operations.deleteNamespace("test-namespace")
+                    return
+                } catch (KubernetesClientException e) {
+                    if (i == retry - 1) {
+                        throw e
+                    }
+                }
+            }
         }
     }
 

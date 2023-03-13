@@ -237,10 +237,10 @@ class KubernetesOperations implements Closeable {
             deployment.get().metadata.namespace = namespace
         }
 
-        log.debug("Creating ${deployment.get()}")
+        log.info("Creating ${deployment.get()}")
         getClient(namespace).apps().deployments().create(deployment.get())
 
-        log.debug("Waiting 120s until ready")
+        log.info("Waiting 250s until ready")
         return getClient(namespace).apps().deployments().inNamespace(deployment.get().getMetadata().getNamespace())
                 .withName(deployment.get().getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
     }

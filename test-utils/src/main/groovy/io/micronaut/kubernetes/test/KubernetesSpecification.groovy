@@ -68,10 +68,15 @@ abstract class KubernetesSpecification extends Specification {
      * @return
      */
     def setupFixture(String namespace) {
+        log.info("Creating namespace safe: ${namespace}")
         createNamespaceSafe(namespace)
+        log.info("Creating base resources: ${namespace}")
         createBaseResources(namespace)
+        log.info("Creating example service deployment: ${namespace}")
         createExampleServiceDeployment(namespace)
+        log.info("Creating example client deployment: ${namespace}")
         createExampleClientDeployment(namespace)
+        log.info("Creating secure deployment: ${namespace}")
         createSecureDeployment(namespace)
     }
 
@@ -97,7 +102,8 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def cleanupSpec() {
-        for (int i=0; i<3; i++) {
+        def retry = 3
+        for (int i=0; i<retry; i++) {
             try {
                 if (reuseNamespace && operations.getNamespace(namespace) != null) {
                     log.info("Skipping cleanup of namespace ${namespace}")
@@ -105,11 +111,15 @@ abstract class KubernetesSpecification extends Specification {
                     log.info("Cleaning up namespace ${namespace}")
                     operations.deleteNamespace(namespace)
                 }
-                return
+                break
             } catch (KubernetesClientException e) {
-                sleep(1000* (i+1))
+                if (i == retry - 1) {
+                    throw e
+                }
+                sleep(1000 * (i+1))
             }
         }
+        log.info("Successfully finished cleanupSpec")
     }
 
     def createBaseResources(String namespace) {

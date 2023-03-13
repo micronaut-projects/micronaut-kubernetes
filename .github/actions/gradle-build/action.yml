@@ -6,6 +6,9 @@ inputs:
     description: provide --parallel to gradle build
     required: false
     default: 'true'
+  java:
+    description: java version
+    required: true
 runs:
   using: "composite"
   steps:

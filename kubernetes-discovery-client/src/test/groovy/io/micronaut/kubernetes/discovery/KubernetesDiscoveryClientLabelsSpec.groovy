@@ -16,6 +16,7 @@ import spock.util.concurrent.PollingConditions
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-discovery-client-labels")
+@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesDiscoveryClientLabelsSpec extends KubernetesSpecification {
 
     @Shared
