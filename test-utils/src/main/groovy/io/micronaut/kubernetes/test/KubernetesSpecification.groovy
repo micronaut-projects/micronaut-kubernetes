@@ -102,7 +102,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def cleanupSpec() {
-        def retry = 3
+        def retry = 10
         for (int i=0; i<retry; i++) {
             try {
                 if (reuseNamespace && operations.getNamespace(namespace) != null) {
