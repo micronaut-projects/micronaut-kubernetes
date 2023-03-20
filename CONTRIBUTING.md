@@ -37,13 +37,13 @@ kind create cluster --wait 5m
 There is a script that will take care to create the example services docker images used in tests and load them into the cluster:
 
 ```shell script
-./setup-kubernetes.sh
+./setup-kubernetes-kind.sh
 ```
 
 Note: In case you want to use other than default Kind cluster name `kind`, run the setup script with cluster name as firdt parameter:
 
 ```shell script
-./setup-kubernetes.sh <CLUSTER_NAME>
+./setup-kubernetes-kind.sh <CLUSTER_NAME>
 ```
 
 ### Docker Desktop
@@ -138,6 +138,8 @@ If you want to setup other kind resources just override the `setupFixture` metho
     }
 ```
 
+## CI/CD
+For running test on CI/CD, micronaut-kubernetes module is using [Oracle Kubernetes Engine](https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/). With [vcluster](https://www.vcluster.com/) we are creating virtual cluster for every test run inside Oracle Kubernetes Engine. Docker images that produced during build process are specially tagged by hash of commit and java version. Then images are pushed to [Oracle Container Registry](https://www.oracle.com/cloud/cloud-native/container-registry/). Every test run will create virtual cluster and pick docker image based on the tag described above.
 
 ## Checkstyle
 

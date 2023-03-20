@@ -30,6 +30,7 @@ class KubernetesOperationsSpec extends Specification{
                     if (i == retry - 1) {
                         throw e
                     }
+                    sleep(1000 * (i+1))
                 }
             }
         }
