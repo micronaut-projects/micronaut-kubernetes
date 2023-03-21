@@ -15,7 +15,6 @@ import jakarta.inject.Inject
 
 import io.micronaut.context.annotation.Requires as MicronautRequires
 
-import javax.annotation.Nullable
 
 @MicronautTest(environments = Environment.KUBERNETES)
 @Property(name = "spec.name", value = "KubernetesHealthIndicatorSpec")

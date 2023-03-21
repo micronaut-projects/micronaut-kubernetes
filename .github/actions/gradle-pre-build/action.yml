@@ -23,4 +23,4 @@ runs:
     - name: Optional setup step
       shell: bash
       run: |
-        [ -f ./setup.sh ] && ./setup.sh || true
+        [ -f ./setup.sh ] && ./setup.sh || [ ! -f ./setup.sh ]

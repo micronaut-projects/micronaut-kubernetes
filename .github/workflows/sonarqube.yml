@@ -65,7 +65,7 @@ jobs:
           AUTH_TOKEN: ${{ secrets.OCI_AUTH_TOKEN }}
           OCIR_USERNAME: ${{ secrets.OCIR_USERNAME }}
         run: |
-          [ -f ./setup.sh ] && ./setup.sh || true
+          [ -f ./setup.sh ] && ./setup.sh || [ ! -f ./setup.sh ]
       - name: Analyse with Gradle
         run: |
           ./gradlew check sonarqube --no-daemon --continue --no-build-cache
