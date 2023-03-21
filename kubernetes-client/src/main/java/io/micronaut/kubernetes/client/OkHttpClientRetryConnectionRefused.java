@@ -25,11 +25,15 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.ConnectException;
 
+/**
+ * OkHttpClientRetryConnectionRefused retries Kubernetes requests if client receives Connection Refused error.
+ *
+ * @author Nemanja Mikic
+ * @since 3.5
+ */
 public class OkHttpClientRetryConnectionRefused implements Interceptor {
-
+    private static final int RETRY_CONNECTION_REFUSE_TIMES = 5;
     private static final Logger LOG = LoggerFactory.getLogger(OkHttpClientRetryConnectionRefused.class);
-
-    static int RETRY_CONNECTION_REFUSE_TIMES = 5;
 
     @NotNull
     @Override
@@ -44,7 +48,7 @@ public class OkHttpClientRetryConnectionRefused implements Interceptor {
                 if (e.getMessage().startsWith("Connection refused")) {
                     try {
                         LOG.debug("Received error: {}. Waiting 1s to try again", e.getMessage());
-                        Thread.sleep( 1000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         throw new RuntimeException(ex);
                     }

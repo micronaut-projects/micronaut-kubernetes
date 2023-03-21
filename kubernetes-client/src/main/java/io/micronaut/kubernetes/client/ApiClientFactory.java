@@ -27,7 +27,6 @@ import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
-import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
