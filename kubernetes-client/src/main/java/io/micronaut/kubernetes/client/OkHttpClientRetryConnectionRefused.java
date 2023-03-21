@@ -45,7 +45,8 @@ public class OkHttpClientRetryConnectionRefused implements Interceptor {
             try {
                 return chain.proceed(request);
             } catch (ConnectException e) {
-                if (e.getMessage().startsWith("Connection refused")) {
+                LOG.debug("Connection exception", e);
+                if (e.getMessage().startsWith("Failed to connect")) {
                     try {
                         LOG.debug("Received error: {}. Waiting 1s to try again", e.getMessage());
                         Thread.sleep(1000);
