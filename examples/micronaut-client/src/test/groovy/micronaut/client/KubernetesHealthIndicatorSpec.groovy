@@ -33,6 +33,7 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     Optional<String> imageTag
 
     def setupSpec() {
+        log.info("Running setupSpec in KubernetesHealthIndicatorSpec")
         operations.portForwardService("example-service", namespace, 8081, 9999)
     }
 

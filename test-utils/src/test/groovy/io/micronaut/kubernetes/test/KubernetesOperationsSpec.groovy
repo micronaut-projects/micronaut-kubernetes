@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.test
 
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.client.KubernetesClientException
 import org.yaml.snakeyaml.Yaml
 import spock.lang.Requires
@@ -9,12 +10,14 @@ import spock.lang.Specification
 import java.nio.file.Paths
 
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Slf4j
 class KubernetesOperationsSpec extends Specification{
 
     @Shared
     KubernetesOperations operations = new KubernetesOperations()
 
     def setupSpec() {
+        log.info("Running setupSpec in KubernetesOperationsSpec")
         operations.createNamespace("test-namespace")
         operations.getNamespace("test-namespace")
     }

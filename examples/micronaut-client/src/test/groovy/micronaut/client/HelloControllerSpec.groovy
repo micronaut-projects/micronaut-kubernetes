@@ -1,5 +1,6 @@
 package micronaut.client
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.http.MediaType
@@ -23,6 +24,7 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-client")
 @Property(name = "micronaut.http.client.read-timeout", value = "30")
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Slf4j
 class HelloControllerSpec extends KubernetesSpecification {
 
     @Inject
@@ -30,6 +32,7 @@ class HelloControllerSpec extends KubernetesSpecification {
     TestClient testClient
 
     def setupSpec() {
+        log.info("Running setupSpec in HelloControllerSpec")
         operations.portForwardService("example-client", namespace, 8082, 8888)
     }
 
