@@ -16,7 +16,6 @@
 
 package io.micronaut.kubernetes.discovery
 
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
 import io.micronaut.kubernetes.test.KubernetesSpecification
