@@ -11,8 +11,6 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-secret")
-@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
     void setup() {
