@@ -114,7 +114,6 @@ public class ApiClientFactory {
         Configuration.setDefaultApiClient(apiClient);
         OkHttpClient.Builder builder = apiClient.getHttpClient().newBuilder();
         builder.addInterceptor(new OkHttpClientLogging());
-        builder.addInterceptor(new OkHttpClientRetryConnectionRefused());
         if (executorService != null) {
             builder.dispatcher(new Dispatcher(executorService));
         }
