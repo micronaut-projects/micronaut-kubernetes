@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.configuration
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.EnvironmentPropertySource
 import io.micronaut.context.env.PropertySource
@@ -15,6 +16,8 @@ import jakarta.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-spec")
 class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     @Inject
