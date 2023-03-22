@@ -85,7 +85,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -112,7 +112,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -134,7 +134,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["missing.label"],
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.pod-labels": ["missing.label"],
                                                                         "kubernetes.client.config-maps.exception-on-pod-labels-missing": "true"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
@@ -159,7 +159,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true,
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true,
                                                                         "kubernetes.client.secrets.pod-labels": ["missing.label"],
                                                                         "kubernetes.client.secrets.exception-on-pod-labels-missing": "true"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
