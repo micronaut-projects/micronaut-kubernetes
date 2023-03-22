@@ -36,11 +36,12 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
+
+        then:
         def propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment)).
                 filter(it -> it.name.startsWith 'test-secret')
                 .blockFirst()
 
-        then:
         propertySource.name == 'test-secret (Kubernetes Secret)'
         propertySource.get('username') == 'my-app'
         propertySource.get('password') == '39528$vdg7Jb'
@@ -60,10 +61,10 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
-                .collectList().block()
 
         then:
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList().block()
         propertySources.find { it.name.startsWith 'another-secret'}
 
         and:
@@ -84,10 +85,10 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
         when:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
-                .collectList().block()
 
         then:
+        def propertySources = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
+                .collectList().block()
         propertySources.find { it.name.startsWith 'test-secret'}
 
         and:
