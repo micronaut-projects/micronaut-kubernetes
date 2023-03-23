@@ -1,2 +1,4 @@
-storage:
-  persistence: false
+securityContext:
+  runAsUser: 12345
+  runAsGroup: 12345
+  runAsNonRoot: true
