@@ -58,7 +58,7 @@ jobs:
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
           GIT_COMMIT_HASH: ${{ github.sha }}
-          JOB_ID: ${{ format('{0}-sonar', github.run_id) }}
+          JOB_ID: ${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
           OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
           OCI_TENANCY_NAME: ${{ secrets.OCI_TENANCY_NAME }}
           JAVA_VERSION: '11'
@@ -85,6 +85,6 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
-          JOB_ID: ${{ format('{0}-sonar', github.run_id) }}
+          JOB_ID: ${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
         run: |
           [ -f ./teardown.sh ] && ./teardown.sh || true

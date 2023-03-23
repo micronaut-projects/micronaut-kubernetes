@@ -1,4 +1,0 @@
-securityContext:
-  runAsUser: 12345
-  runAsGroup: 12345
-  runAsNonRoot: true

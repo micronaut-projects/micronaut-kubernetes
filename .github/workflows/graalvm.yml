@@ -47,7 +47,7 @@ jobs:
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
           GIT_COMMIT_HASH: ${{ github.sha }}
           OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
-          JOB_ID: ${{ format('{0}-graalvm-java-{1}', github.run_id, matrix.java) }}
+          JOB_ID: ${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
           OCI_TENANCY_NAME: ${{ secrets.OCI_TENANCY_NAME }}
           JAVA_VERSION: ${{ matrix.java }}
           AUTH_TOKEN: ${{ secrets.OCI_AUTH_TOKEN }}
@@ -74,6 +74,6 @@ jobs:
         if: always()
         id: post-build
         env:
-          JOB_ID: ${{ format('{0}-graalvm-java-{1}', github.run_id, matrix.java) }}
+          JOB_ID: ${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
         with:
           java: ${{ matrix.java }}
