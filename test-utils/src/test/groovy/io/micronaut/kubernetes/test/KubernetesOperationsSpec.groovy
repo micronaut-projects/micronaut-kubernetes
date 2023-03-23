@@ -133,17 +133,23 @@ class KubernetesOperationsSpec extends Specification{
         deployment.status.availableReplicas == 1
     }
 
-    def "it creates deployment with overriden name and namespace from file"() {
+    def "it creates deployment with overriden name and namespace from file"(){
         given:
         def path = Paths.get("src","test","resources", "k8s", "deployment.yml")
         operations.createNamespace("other-namespace")
 
         when:
-        operations.createDeploymentFromFile(path.toUri().toURL(), "other-name", "other-namespace")
+        def deployment = operations.createDeploymentFromFile(path.toUri().toURL(), "other-name", "other-namespace")
 
         then:
-        def e = thrown(KubernetesClientException)
-        e.message.contains("Namespace mismatch")
+        deployment.metadata.creationTimestamp
+        deployment.status.availableReplicas == 1
+
+        when:
+        deployment = operations.getDeployment("other-name", "other-namespace")
+
+        then:
+        deployment
 
         cleanup:
         operations.deleteNamespace("other-namespace")
