@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit
 
 @MicronautTest(environments = [Environment.KUBERNETES], startApplication = false)
 @Property(name = "spec.name", value = "SecretInformerControllerSpec")
-@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-informer")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Slf4j

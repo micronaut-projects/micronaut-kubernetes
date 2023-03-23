@@ -17,7 +17,6 @@ import spock.util.concurrent.PollingConditions
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-cluster-role-informer")
-@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "spec.name", value = "ClusterRoleInformerSpec")
 class ClusterRoleInformerSpec extends KubernetesSpecification {
 

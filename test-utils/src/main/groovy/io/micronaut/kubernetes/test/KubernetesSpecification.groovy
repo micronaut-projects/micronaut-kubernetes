@@ -102,24 +102,24 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def cleanupSpec() {
-//        def retry = 10
-//        for (int i=0; i<retry; i++) {
-//            try {
-//                if (reuseNamespace && operations.getNamespace(namespace) != null) {
-//                    log.info("Skipping cleanup of namespace ${namespace}")
-//                } else {
-//                    log.info("Cleaning up namespace ${namespace}")
-//                    operations.deleteNamespace(namespace)
-//                }
-//                break
-//            } catch (KubernetesClientException e) {
-//                if (i == retry - 1) {
-//                    throw e
-//                }
-//                sleep(1000 * (i+1))
-//            }
-//        }
-        log.info("Skip cleaning")
+        def retry = 10
+        for (int i=0; i<retry; i++) {
+            try {
+                if (reuseNamespace && operations.getNamespace(namespace) != null) {
+                    log.info("Skipping cleanup of namespace ${namespace}")
+                } else {
+                    log.info("Cleaning up namespace ${namespace}")
+                    operations.deleteNamespace(namespace)
+                }
+                break
+            } catch (KubernetesClientException e) {
+                if (i == retry - 1) {
+                    throw e
+                }
+                sleep(1000 * (i+1))
+            }
+        }
+        log.info("Successfully finished cleanupSpec")
     }
 
     def createBaseResources(String namespace) {

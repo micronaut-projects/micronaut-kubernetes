@@ -9,7 +9,6 @@ import spock.lang.Requires
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "image.tag", value = "test_image_tag")
 @Property(name = "image.prefix", value = "image_prefix/")
-@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-specification-spec")
 class KubernetesSpecificationSpec extends KubernetesSpecification{
 

@@ -13,7 +13,6 @@ import jakarta.inject.Inject
 @MicronautTest
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-rx2-client")
-@Property(name = "spec.reuseNamespace", value = "false")
 class CoreV1ApiRxClientSpec extends KubernetesSpecification {
 
     @Inject

@@ -16,7 +16,6 @@ import spock.util.concurrent.PollingConditions
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-informer-labeled")
-@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "spec.name", value = "ConfigMapLabelSelectorInformerSpec")
 class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
 

@@ -18,7 +18,6 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 
 @MicronautTest(environments = Environment.KUBERNETES)
 @Property(name = "spec.name", value = "KubernetesHealthIndicatorSpec")
-@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-health-indicator")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Slf4j

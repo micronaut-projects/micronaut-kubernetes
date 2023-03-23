@@ -11,7 +11,6 @@ import spock.lang.Requires
 @MicronautTest
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-reactor-client")
-@Property(name = "spec.reuseNamespace", value = "false")
 class CoreV1ApiReactorClientSpec extends KubernetesSpecification {
 
     @Inject

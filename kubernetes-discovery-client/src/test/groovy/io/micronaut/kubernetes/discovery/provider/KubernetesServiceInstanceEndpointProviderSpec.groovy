@@ -17,7 +17,6 @@ import spock.util.concurrent.PollingConditions
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-endpoint-provider")
-@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecification {
 
     @Shared
