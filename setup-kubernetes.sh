@@ -53,7 +53,6 @@ sed -i -e "s|nginx|${OCIR_REPOSITORY}/nginx|g" kubernetes.yml
 
 grep 'Switched active kube context' vcluster-out.log
 
-exit 1
 #
 # Run Kubernetes API proxy
 pkill -9 kubectl || true

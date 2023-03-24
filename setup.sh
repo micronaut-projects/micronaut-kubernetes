@@ -15,7 +15,7 @@ kubectl get ns kube-system || exit 1
 CLUSTER_NAME="micronaut-${JOB_ID:-k8s-cluster}"
 
 # create cluster
-vcluster create "$CLUSTER_NAME" --isolate 2>&1 > vcluster-out.log &
+vcluster create "$CLUSTER_NAME" 2>&1 > vcluster-out.log &
 
 # Test the cluster was created
 kubectl get ns kube-system || exit 1
