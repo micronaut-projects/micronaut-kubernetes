@@ -52,6 +52,7 @@ sed -i -e "s|nginx|${OCIR_REPOSITORY}/nginx|g" kubernetes.yml
 
 timeout 60s tail -f vcluster-out.log | sed '/Switched active kube context/ q'
 
+exit 1
 #
 # Run Kubernetes API proxy
 pkill -9 kubectl || true
