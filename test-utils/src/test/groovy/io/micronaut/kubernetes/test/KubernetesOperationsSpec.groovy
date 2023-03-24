@@ -3,6 +3,7 @@ package io.micronaut.kubernetes.test
 import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.client.KubernetesClientException
 import org.yaml.snakeyaml.Yaml
+import spock.lang.AutoCleanup
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Specification
@@ -14,6 +15,7 @@ import java.nio.file.Paths
 class KubernetesOperationsSpec extends Specification{
 
     @Shared
+    @AutoCleanup
     KubernetesOperations operations = new KubernetesOperations()
 
     def setupSpec() {
