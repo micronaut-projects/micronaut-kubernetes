@@ -114,7 +114,7 @@ public class DiscoveryCache {
     }
 
     @Retryable
-    private Set<Discovery.APIResource> getLastAPIDiscovery() throws ApiException {
+    Set<Discovery.APIResource> getLastAPIDiscovery() throws ApiException {
         long nowMillis = System.currentTimeMillis();
         if (nowMillis < nextDiscoveryRefreshTimeMillis) {
             return lastAPIDiscovery;
