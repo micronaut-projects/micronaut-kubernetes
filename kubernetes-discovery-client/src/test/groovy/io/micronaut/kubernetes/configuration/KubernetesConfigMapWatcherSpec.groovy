@@ -12,6 +12,7 @@ import spock.lang.Specification
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-config-map-watcher-spec")
 class KubernetesConfigMapWatcherSpec extends Specification {
 
     void "KubernetesConfigMapWatcher exists when informer is enabled"() {

@@ -3,6 +3,7 @@ package io.micronaut.kubernetes.configuration
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.fabric8.kubernetes.api.model.Pod
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
 import io.micronaut.kubernetes.test.KubernetesSpecification
@@ -13,6 +14,8 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-labels-spec")
 class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void setup() {

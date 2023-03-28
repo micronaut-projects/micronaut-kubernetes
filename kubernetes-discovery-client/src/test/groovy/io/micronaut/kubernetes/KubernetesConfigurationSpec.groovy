@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.KubernetesConfiguration
 import io.micronaut.kubernetes.client.DefaultNamespaceResolver
@@ -9,6 +10,8 @@ import spock.lang.Requires
 import spock.lang.Specification
 
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-spec")
 class KubernetesConfigurationSpec extends Specification {
 
     void "the namespace can be set via configuration"() {
