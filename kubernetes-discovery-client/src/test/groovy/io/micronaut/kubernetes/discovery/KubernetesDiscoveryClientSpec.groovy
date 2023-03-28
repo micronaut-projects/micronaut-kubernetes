@@ -16,6 +16,7 @@
 
 package io.micronaut.kubernetes.discovery
 
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
 import io.micronaut.kubernetes.test.KubernetesSpecification
@@ -31,6 +32,7 @@ import java.util.stream.Stream
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
     @Inject
