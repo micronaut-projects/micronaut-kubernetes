@@ -49,10 +49,6 @@ class KubernetesOperations implements Closeable {
         return kubernetesClientMap.computeIfAbsent(namespace, ns ->
                 new DefaultKubernetesClient(new ConfigBuilder().withTrustCerts(true)
                         .withNamespace(ns)
-                        .withRequestRetryBackoffLimit(10)
-                        .withUploadRequestTimeout(10)
-                        .withRequestTimeout(10)
-                        .withMaxConcurrentRequests(1)
                         .build()
                 )
         )
