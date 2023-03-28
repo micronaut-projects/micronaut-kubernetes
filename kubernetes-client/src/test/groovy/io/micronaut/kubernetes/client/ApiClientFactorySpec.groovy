@@ -22,6 +22,7 @@ import jakarta.inject.Inject
 @MicronautTest
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-client")
+@Property(name = "spec.reuseNamespace", value = "false")
 @Slf4j
 class ApiClientFactorySpec extends KubernetesSpecification {
 

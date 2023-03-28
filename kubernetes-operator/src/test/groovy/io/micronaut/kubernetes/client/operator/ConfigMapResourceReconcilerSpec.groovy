@@ -21,6 +21,7 @@ import spock.util.concurrent.PollingConditions
 // will be created once the setup happens
 @Property(name = "kubernetes.client.operator.leader-election.lock.resource-namespace", value = "default")
 @Property(name = "kubernetes.client.operator.leader-election.lock.resource-name", value = "test-lock")
+@Property(name = "spec.reuseNamespace", value = "false")
 class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
 
     @Inject

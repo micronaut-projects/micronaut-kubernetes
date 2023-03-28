@@ -20,6 +20,7 @@ import io.fabric8.kubernetes.api.model.IntOrString
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
 import io.fabric8.kubernetes.api.model.apps.Deployment
+import io.fabric8.kubernetes.client.KubernetesClientException
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Value
 import io.micronaut.core.io.ResourceResolver
@@ -103,24 +104,24 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def cleanupSpec() {
-//        def retry = 10
-//        for (int i=0; i<retry; i++) {
-//            try {
-//                if (reuseNamespace && operations.getNamespace(namespace) != null) {
-//                    log.info("Skipping cleanup of namespace ${namespace}")
-//                } else {
-//                    log.info("Cleaning up namespace ${namespace}")
-//                    operations.deleteNamespace(namespace)
-//                }
-//                break
-//            } catch (KubernetesClientException e) {
-//                if (i == retry - 1) {
-//                    throw e
-//                }
-//                sleep(1000 * (i+1))
-//            }
-//        }
-        log.info("Skip cleaning")
+        def retry = 10
+        for (int i=0; i<retry; i++) {
+            try {
+                if (reuseNamespace && operations.getNamespace(namespace) != null) {
+                    log.info("Skipping cleanup of namespace ${namespace}")
+                } else {
+                    log.info("Cleaning up namespace ${namespace}")
+                    operations.deleteNamespace(namespace)
+                }
+                break
+            } catch (KubernetesClientException e) {
+                if (i == retry - 1) {
+                    throw e
+                }
+                sleep(1000 * (i+1))
+            }
+        }
+        log.info("Finished cleaning")
     }
 
     def createBaseResources(String namespace) {

@@ -16,7 +16,6 @@
 
 package io.micronaut.kubernetes.discovery
 
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
 import io.micronaut.kubernetes.test.KubernetesSpecification
@@ -27,8 +26,6 @@ import spock.lang.Requires
 import spock.lang.Shared
 
 import jakarta.inject.Inject
-import spock.lang.Unroll
-
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
@@ -81,7 +78,6 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
         allServices.every { serviceIds.contains it }
     }
 
-    @Unroll
     void "service #serviceId is secure"(String serviceId) {
         when:
         List<ServiceInstance> serviceInstances = Flux.from(discoveryClient.getInstances(serviceId)).blockFirst()

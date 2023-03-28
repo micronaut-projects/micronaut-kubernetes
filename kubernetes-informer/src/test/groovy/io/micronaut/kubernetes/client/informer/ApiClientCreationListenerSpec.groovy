@@ -17,6 +17,7 @@ import spock.lang.Shared
 @MicronautTest(environments = [Environment.KUBERNETES])
 @spock.lang.Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "micronaut-api-client-creation")
+@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "spec.name", value = "ApiClientCreationListenerSpec")
 class ApiClientCreationListenerSpec  extends KubernetesSpecification {
 
