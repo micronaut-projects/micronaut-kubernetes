@@ -33,6 +33,7 @@ include 'examples:micronaut-service'
 micronautBuild {
     addSnapshotRepository()
     importMicronautCatalog()
+    importMicronautCatalog("micronaut-logging")
     importMicronautCatalog("micronaut-reactor")
     importMicronautCatalog("micronaut-serde")
     importMicronautCatalog("micronaut-validation")
