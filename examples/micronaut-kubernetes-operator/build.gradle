@@ -13,7 +13,8 @@ micronaut {
 }
 
 dependencies {
-    implementation(mn.micronaut.validation)
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+    implementation(mnValidation.micronaut.validation)
     implementation(mn.micronaut.runtime)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
