@@ -4,6 +4,7 @@ plugins {
 }
 
 micronaut {
+    version '4.0.0-SNAPSHOT'
     runtime("netty")
     testRuntime("junit5")
     processing {
