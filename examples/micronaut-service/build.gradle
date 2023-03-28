@@ -1,6 +1,6 @@
 plugins {
     id 'io.micronaut.build.internal.kubernetes-examples'
-    id 'groovy'
+    id("groovy")
 }
 
 micronaut {
