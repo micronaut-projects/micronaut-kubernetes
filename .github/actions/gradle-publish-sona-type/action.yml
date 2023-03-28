@@ -1,0 +1,13 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Pre-build steps for GitHub gradle workflow
+description: Perform pre-build steps for gradle workflow
+inputs:
+  java:
+    description: java version
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Publish to Sonatype Snapshots
+      shell: bash
+      run: ./gradlew publishToSonatype docs --no-daemon

@@ -4,6 +4,7 @@ plugins {
 }
 
 micronaut {
+    version '4.0.0-SNAPSHOT'
     runtime("netty")
     testRuntime("junit5")
     processing {
@@ -13,7 +14,8 @@ micronaut {
 }
 
 dependencies {
-    implementation(mn.micronaut.validation)
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+    implementation(mnValidation.micronaut.validation)
     implementation(mn.micronaut.runtime)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)

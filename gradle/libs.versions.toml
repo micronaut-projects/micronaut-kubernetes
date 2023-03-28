@@ -1,11 +1,11 @@
 [versions]
 
-micronaut = "4.0.0-SNAPSHOT"
+micronaut = "4.0.0-M1"
 micronaut-docs = "2.0.0"
-micronaut-test = '4.0.0-SNAPSHOT'
-micronaut-gradle-plugin = "3.6.6"
+micronaut-test = '4.0.0-M1'
+micronaut-gradle-plugin = "4.0.0-SNAPSHOT"
 
-groovy = '4.0.6'
+groovy = '4.0.10'
 spock = '2.3-groovy-4.0'
 
 graal-svm = "22.0.0.2"
@@ -17,10 +17,10 @@ system-lambda = '1.2.1'
 io-kubernetes-client-java = '13.0.1'
 io-fabric8-kubernetes-client = '5.11.1'
 
-micronaut-discovery = "4.0.0-SNAPSHOT"
-micronaut-reactor = "3.0.0-SNAPSHOT"
-micronaut-serde = '2.0.0-SNAPSHOT'
-
+micronaut-discovery = "4.0.0-M1"
+micronaut-reactor = "3.0.0-M1"
+micronaut-serde = '2.0.0-M1'
+micronaut-validation = '4.0.0-M2'
 
 [libraries]
 graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
@@ -36,6 +36,8 @@ io-fabric8-kubernetes-client = { module = "io.fabric8:kubernetes-client", versio
 
 micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
 micronaut-serde = { module = 'io.micronaut.serde:micronaut-serde-bom', version.ref = 'micronaut-serde'}
+micronaut-validation = { module = 'io.micronaut.validation:micronaut-validation-bom', version.ref = 'micronaut-validation'}
+
 
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 

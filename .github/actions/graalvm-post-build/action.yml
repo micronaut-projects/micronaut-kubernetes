@@ -5,11 +5,6 @@ inputs:
   java:
     description: java version
     required: true
-    type: string
-  teardown-command-env-variables:
-    description: teardown command environment variables
-    required: false
-    type: string
 runs:
   using: "composite"
   steps:
@@ -18,12 +13,11 @@ runs:
       env:
         JAVA_VERSION: ${{ inputs.java }}
       run: |
-        ${{ inputs.teardown-command-env-variables }}
         [ -f ./teardown.sh ] && ./teardown.sh || true
     - name: Publish Test Report
       if: always()
       uses: mikepenz/action-junit-report@v3.7.1
       with:
-        check_name: GraalVM CE CI / Test Report (Java ${{ matrix.java }})
+        check_name: GraalVM CE CI / Test Report (Java ${{ inputs.java }})
         report_paths: '**/build/test-results/test/TEST-*.xml'
         check_retries: 'true'
