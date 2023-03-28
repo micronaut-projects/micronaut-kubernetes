@@ -1,8 +1,6 @@
 package io.micronaut.kubernetes.configuration
 
-import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.EnvironmentPropertySource
 import io.micronaut.context.env.PropertySource
@@ -17,7 +15,6 @@ import jakarta.inject.Inject
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Slf4j
 class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     @Inject
@@ -29,7 +26,6 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
     ApplicationContext applicationContext
 
     void setup() {
-        log.info("Running setup in KubernetesConfigurationClientSpec")
         KubernetesConfigurationClient.propertySourceCache.clear()
         applicationContext.environment.refresh()
     }

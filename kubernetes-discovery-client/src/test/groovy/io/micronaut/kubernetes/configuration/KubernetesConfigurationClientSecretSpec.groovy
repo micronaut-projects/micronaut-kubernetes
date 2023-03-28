@@ -1,8 +1,6 @@
 package io.micronaut.kubernetes.configuration
 
-import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
@@ -12,11 +10,9 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Slf4j
 class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
     void setup() {
-        log.info("Running setup in KubernetesConfigurationClientSecretSpec")
         KubernetesConfigurationClient.propertySourceCache.clear()
     }
 
