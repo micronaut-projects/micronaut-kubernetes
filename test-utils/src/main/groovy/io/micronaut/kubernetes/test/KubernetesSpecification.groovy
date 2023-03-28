@@ -70,15 +70,10 @@ abstract class KubernetesSpecification extends Specification {
      * @return
      */
     def setupFixture(String namespace) {
-        log.info("Creating namespace safe: ${namespace}")
         createNamespaceSafe(namespace)
-        log.info("Creating base resources: ${namespace}")
         createBaseResources(namespace)
-        log.info("Creating example service deployment: ${namespace}")
         createExampleServiceDeployment(namespace)
-        log.info("Creating example client deployment: ${namespace}")
         createExampleClientDeployment(namespace)
-        log.info("Creating secure deployment: ${namespace}")
         createSecureDeployment(namespace)
     }
 

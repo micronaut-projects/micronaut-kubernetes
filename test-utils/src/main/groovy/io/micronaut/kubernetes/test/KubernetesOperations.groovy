@@ -320,10 +320,7 @@ class KubernetesOperations implements Closeable {
 
     @Override
     void close() throws IOException {
-        log.info("Calling close")
         portForwardList.forEach(it -> it.close())
-        log.info("portForwardList finished")
         kubernetesClientMap.values().forEach(it -> it.close())
-        log.info("kubernetesClientMap finished")
     }
 }

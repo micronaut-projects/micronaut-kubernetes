@@ -23,7 +23,6 @@ import jakarta.inject.Inject
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-client")
 @Property(name = "spec.reuseNamespace", value = "false")
-@Slf4j
 class ApiClientFactorySpec extends KubernetesSpecification {
 
     @Inject
@@ -31,7 +30,6 @@ class ApiClientFactorySpec extends KubernetesSpecification {
     PodsClient client
 
     def setupSpec(){
-        log.info("Running setupSpec in ApiClientFactorySpec")
         operations.portForwardService("kubernetes-client-example", namespace, 8085, 8885)
     }
 

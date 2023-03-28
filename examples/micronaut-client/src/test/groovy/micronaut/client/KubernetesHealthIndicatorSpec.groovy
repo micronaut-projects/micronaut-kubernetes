@@ -21,7 +21,6 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-health-indicator")
 @Property(name = "spec.reuseNamespace", value = "false")
 @Requires({ TestUtils.kubernetesApiAvailable() })
-@Slf4j
 class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
 
     @Inject
@@ -32,7 +31,6 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     Optional<String> imageTag
 
     def setupSpec() {
-        log.info("Running setupSpec in KubernetesHealthIndicatorSpec")
         operations.portForwardService("example-service", namespace, 8081, 9999)
     }
 
