@@ -1,6 +1,5 @@
 package io.micronaut.kubernetes.client
 
-import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.IntOrString
 import io.fabric8.kubernetes.api.model.ServicePortBuilder
 import io.fabric8.kubernetes.api.model.ServiceSpecBuilder

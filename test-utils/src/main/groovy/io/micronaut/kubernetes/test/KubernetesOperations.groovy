@@ -28,7 +28,6 @@ import io.micronaut.core.util.StringUtils
 import spock.util.concurrent.PollingConditions
 
 import jakarta.inject.Singleton
-
 import java.util.concurrent.TimeUnit
 import java.util.stream.Collectors
 
