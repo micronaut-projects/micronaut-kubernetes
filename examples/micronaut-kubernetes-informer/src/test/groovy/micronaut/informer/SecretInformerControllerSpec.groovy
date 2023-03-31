@@ -116,13 +116,16 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     }
 
     void "test all"() {
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
         expect:
-        // kind adds "default-token" secret to every namespace. That's why we check with >= to make sure it works both with OKE and kind
-        testClient.all().size() >= 3
-        testClient.secret("mounted-secret")
-        testClient.secret("another-secret")
-        testClient.secret("test-secret")
-        testClient.secret("test-secret").data.containsKey("username")
+        conditions.eventually {
+            // kind adds "default-token" secret to every namespace. That's why we check with >= to make sure it works both with OKE and kind
+            testClient.all().size() >= 3
+            testClient.secret("mounted-secret")
+            testClient.secret("another-secret")
+            testClient.secret("test-secret")
+            testClient.secret("test-secret").data.containsKey("username")
+        }
     }
 
 
