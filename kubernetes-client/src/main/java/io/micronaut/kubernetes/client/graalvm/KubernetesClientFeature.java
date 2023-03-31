@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.graalvm;
 
 
-import com.oracle.svm.core.annotate.AutomaticFeature;
 import io.micronaut.core.annotation.Internal;
 import org.graalvm.nativeimage.hosted.Feature;
 import org.graalvm.nativeimage.hosted.RuntimeReflection;
@@ -43,7 +42,6 @@ import java.util.stream.Stream;
  * @author Pavol Gressa
  * @since 3.1
  */
-@AutomaticFeature
 @Internal
 public class KubernetesClientFeature implements Feature {
 

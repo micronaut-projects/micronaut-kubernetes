@@ -15,6 +15,9 @@
  */
 package io.micronaut.kubernetes.client;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import io.kubernetes.client.openapi.apis.AdmissionregistrationApi;
 import io.kubernetes.client.openapi.apis.AdmissionregistrationV1Api;
 import io.kubernetes.client.openapi.apis.ApiextensionsApi;
@@ -31,11 +34,9 @@ import io.kubernetes.client.openapi.apis.AuthorizationV1Api;
 import io.kubernetes.client.openapi.apis.AutoscalingApi;
 import io.kubernetes.client.openapi.apis.AutoscalingV1Api;
 import io.kubernetes.client.openapi.apis.AutoscalingV2Api;
-import io.kubernetes.client.openapi.apis.AutoscalingV2beta1Api;
 import io.kubernetes.client.openapi.apis.AutoscalingV2beta2Api;
 import io.kubernetes.client.openapi.apis.BatchApi;
 import io.kubernetes.client.openapi.apis.BatchV1Api;
-import io.kubernetes.client.openapi.apis.BatchV1beta1Api;
 import io.kubernetes.client.openapi.apis.CertificatesApi;
 import io.kubernetes.client.openapi.apis.CertificatesV1Api;
 import io.kubernetes.client.openapi.apis.CoordinationApi;
@@ -45,10 +46,8 @@ import io.kubernetes.client.openapi.apis.CoreV1Api;
 import io.kubernetes.client.openapi.apis.CustomObjectsApi;
 import io.kubernetes.client.openapi.apis.DiscoveryApi;
 import io.kubernetes.client.openapi.apis.DiscoveryV1Api;
-import io.kubernetes.client.openapi.apis.DiscoveryV1beta1Api;
 import io.kubernetes.client.openapi.apis.EventsApi;
 import io.kubernetes.client.openapi.apis.EventsV1Api;
-import io.kubernetes.client.openapi.apis.EventsV1beta1Api;
 import io.kubernetes.client.openapi.apis.FlowcontrolApiserverApi;
 import io.kubernetes.client.openapi.apis.FlowcontrolApiserverV1beta1Api;
 import io.kubernetes.client.openapi.apis.FlowcontrolApiserverV1beta2Api;
@@ -59,11 +58,9 @@ import io.kubernetes.client.openapi.apis.NetworkingApi;
 import io.kubernetes.client.openapi.apis.NetworkingV1Api;
 import io.kubernetes.client.openapi.apis.NodeApi;
 import io.kubernetes.client.openapi.apis.NodeV1Api;
-import io.kubernetes.client.openapi.apis.NodeV1beta1Api;
 import io.kubernetes.client.openapi.apis.OpenidApi;
 import io.kubernetes.client.openapi.apis.PolicyApi;
 import io.kubernetes.client.openapi.apis.PolicyV1Api;
-import io.kubernetes.client.openapi.apis.PolicyV1beta1Api;
 import io.kubernetes.client.openapi.apis.RbacAuthorizationApi;
 import io.kubernetes.client.openapi.apis.RbacAuthorizationV1Api;
 import io.kubernetes.client.openapi.apis.SchedulingApi;
@@ -73,9 +70,6 @@ import io.kubernetes.client.openapi.apis.StorageV1Api;
 import io.kubernetes.client.openapi.apis.StorageV1beta1Api;
 import io.kubernetes.client.openapi.apis.VersionApi;
 import io.kubernetes.client.openapi.apis.WellKnownApi;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 /**
  * Internal annotation to trigger the creation of Api clients.
@@ -105,11 +99,9 @@ public @interface Apis {
             AutoscalingApi.class,
             AutoscalingV1Api.class,
             AutoscalingV2Api .class,
-            AutoscalingV2beta1Api.class,
             AutoscalingV2beta2Api.class,
             BatchApi.class,
             BatchV1Api.class,
-            BatchV1beta1Api.class,
             CertificatesApi.class,
             CertificatesV1Api.class,
             CoordinationApi.class,
@@ -119,10 +111,8 @@ public @interface Apis {
             CustomObjectsApi.class,
             DiscoveryApi.class,
             DiscoveryV1Api .class,
-            DiscoveryV1beta1Api.class,
             EventsApi.class,
             EventsV1Api.class,
-            EventsV1beta1Api.class,
             FlowcontrolApiserverApi.class,
             FlowcontrolApiserverV1beta1Api.class,
             FlowcontrolApiserverV1beta2Api.class,
@@ -133,11 +123,9 @@ public @interface Apis {
             NetworkingV1Api.class,
             NodeApi.class,
             NodeV1Api.class,
-            NodeV1beta1Api.class,
             OpenidApi.class,
             PolicyApi.class,
             PolicyV1Api .class,
-            PolicyV1beta1Api.class,
             RbacAuthorizationApi.class,
             RbacAuthorizationV1Api.class,
             SchedulingApi.class,
