@@ -1,0 +1,30 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Pre-build steps for GitHub gradle workflow
+description: Perform pre-build steps for gradle workflow
+inputs:
+  java:
+    description: java version
+    required: true
+  graalvm:
+    description: GraalVM version
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - name: Setup GraalVM CE
+      uses: graalvm/setup-graalvm@v1
+      with:
+        version: ${{ inputs.graalvm }}
+        java-version: ${{ inputs.java }}
+        components: 'native-image'
+    - name: Optional setup step
+      shell: bash
+      run: |
+        [ -f ./setup.sh ] && ./setup.sh || true

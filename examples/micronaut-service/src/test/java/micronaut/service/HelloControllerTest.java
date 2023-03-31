@@ -1,5 +1,6 @@
 package micronaut.service;
 
+import io.micronaut.context.env.Environment;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.client.HttpClient;
@@ -11,7 +12,7 @@ import jakarta.inject.Inject;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@MicronautTest
+@MicronautTest(environments = Environment.KUBERNETES)
 public class HelloControllerTest {
 
     @Inject

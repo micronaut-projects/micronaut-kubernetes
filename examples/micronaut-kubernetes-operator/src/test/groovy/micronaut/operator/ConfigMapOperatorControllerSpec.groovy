@@ -13,7 +13,7 @@ import spock.util.concurrent.PollingConditions
 
 import java.util.concurrent.TimeUnit
 
-@MicronautTest(startApplication = false)
+@MicronautTest(startApplication = false, environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "ConfigMapOperatorControllerSpec")
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-operator")

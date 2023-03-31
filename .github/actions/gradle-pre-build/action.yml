@@ -1,0 +1,26 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Pre-build steps for GitHub gradle workflow
+description: Perform pre-build steps for gradle workflow
+inputs:
+  java:
+    description: java version
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: ${{ inputs.java }}
+    - name: Optional setup step
+      shell: bash
+      run: |
+        [ -f ./setup.sh ] && ./setup.sh || true

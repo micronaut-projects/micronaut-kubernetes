@@ -5,13 +5,14 @@ import io.kubernetes.client.extended.controller.DefaultController
 import io.kubernetes.client.extended.controller.LeaderElectingController
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
+import io.micronaut.context.env.Environment
 import io.micronaut.core.type.Argument
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.util.concurrent.PollingConditions
 
-@MicronautTest
+@MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "ConfigMapResourceReconcilerSpec")
 @Property(name = "micronaut.application.name", value = "simple-reconciler")
 @Property(name = "kubernetes.client.namespace", value = "simple-reconciler")
@@ -27,7 +28,7 @@ class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
     ApplicationContext applicationContext
 
     @Inject
-    ConfigMapResourceReconciler configMapOperator;
+    ConfigMapResourceReconciler configMapOperator
 
     @Override
     def setupFixture(String namespace) {

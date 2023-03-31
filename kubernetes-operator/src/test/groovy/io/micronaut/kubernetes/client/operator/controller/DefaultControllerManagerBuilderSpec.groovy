@@ -1,12 +1,13 @@
 package io.micronaut.kubernetes.client.operator.controller
 
 import io.kubernetes.client.extended.controller.Controller
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.Specification
 
-@MicronautTest
+@MicronautTest(environments = [Environment.KUBERNETES])
 class DefaultControllerManagerBuilderSpec extends Specification{
 
     @Inject

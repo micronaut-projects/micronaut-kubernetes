@@ -1,0 +1,17 @@
+#TODO move this action to https://github.com/micronaut-projects/github-actions
+name: Build steps for GitHub gradle workflow
+description: Perform build steps for gradle workflow
+inputs:
+  run-in-parallel:
+    description: provide --parallel to gradle build
+    required: false
+    default: 'true'
+runs:
+  using: "composite"
+  steps:
+    - name: Build with Gradle
+      shell: bash
+      run: ./gradlew check --no-daemon --continue
+      env:
+        TESTCONTAINERS_RYUK_DISABLED: 'true'
+        PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
