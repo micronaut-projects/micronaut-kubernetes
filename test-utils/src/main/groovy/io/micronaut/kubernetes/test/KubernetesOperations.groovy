@@ -186,7 +186,7 @@ class KubernetesOperations implements Closeable {
 
     String modifyConfigMap(ConfigMap configMap) {
         log.debug("Modifying config map ${configMap}")
-        return getClient(configMap.metadata.namespace).configMaps().patch(configMap)
+        return getClient(configMap.metadata.namespace).configMaps().resource(configMap).update()
     }
 
     String modifyConfigMap(String name, String namespace, Map data = [foo: 'baz']) {
