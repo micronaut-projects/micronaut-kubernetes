@@ -226,21 +226,21 @@ class KubernetesOperations implements Closeable {
     }
 
     Deployment createDeploymentFromFile(URL pathToManifest, String name = null, String namespace = null) {
-        RollableScalableResource<Deployment> deployment = client.apps().deployments().load(pathToManifest)
+        Deployment deployment = client.apps().deployments().load(pathToManifest).item()
         if (StringUtils.isNotEmpty(name)) {
-            deployment.get().metadata.name = name
+            deployment.metadata.name = name
         }
 
         if (StringUtils.isNotEmpty(namespace)) {
-            deployment.get().metadata.namespace = namespace
+            deployment.metadata.namespace = namespace
         }
 
-        log.debug("Creating ${deployment.get()}")
-        getClient(namespace).apps().deployments().create(deployment.get())
+        log.debug("Creating ${deployment}")
+        getClient(namespace).apps().deployments().resource(deployment).create()
 
         log.debug("Waiting 120s until ready")
-        return getClient(namespace).apps().deployments().inNamespace(deployment.get().getMetadata().getNamespace())
-                .withName(deployment.get().getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
+        return getClient(namespace).apps().deployments().inNamespace(deployment.getMetadata().getNamespace())
+                .withName(deployment.getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
     }
 
     Deployment getDeployment(String name, String namespace) {
