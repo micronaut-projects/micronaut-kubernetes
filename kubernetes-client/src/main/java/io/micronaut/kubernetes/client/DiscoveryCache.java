@@ -42,7 +42,7 @@ import java.util.Set;
 @Requires(beans = Discovery.class)
 @Singleton
 @Internal
-public final class DiscoveryCache {
+public class DiscoveryCache {
     private static final Logger LOG = LoggerFactory.getLogger(DiscoveryCache.class);
 
     private static final ModelMapper MODEL_MAPPER = new ModelMapper();
