@@ -37,7 +37,7 @@ public class PodController {
 
     @Get("/{namespace}/{name}")
     public String getPod(final @NotNull String namespace, final @NotNull String name) throws ApiException {
-        V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace, null, null, null);
+        V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace, null);
         return v1Pod.getStatus().getPhase();
     }
 

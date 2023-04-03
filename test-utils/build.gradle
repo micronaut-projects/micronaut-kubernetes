@@ -7,7 +7,6 @@ plugins {
 dependencies {
     annotationProcessor mn.micronaut.inject.groovy
     annotationProcessor mn.micronaut.inject.java
-
     api mn.micronaut.inject.groovy
     api mn.micronaut.inject.java
     api mn.micronaut.http.client
