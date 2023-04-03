@@ -113,6 +113,11 @@ public class DiscoveryCache {
         }
     }
 
+    /**
+     * Refreshes the cache if it is stale, otherwise returns cached {@link Discovery} results.
+     *
+     * @return api set of {@link Discovery.APIResource}
+     */
     @Retryable
     Set<Discovery.APIResource> getLastAPIDiscovery() throws ApiException {
         long nowMillis = System.currentTimeMillis();
