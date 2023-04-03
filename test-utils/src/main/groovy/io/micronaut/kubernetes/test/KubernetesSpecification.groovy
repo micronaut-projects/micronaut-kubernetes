@@ -43,20 +43,25 @@ abstract class KubernetesSpecification extends Specification {
 
     public static final String EXAMPLE_SERVICE_DEPLOYMENT = "k8s/example-service-deployment.yml"
 
+    @Shared
     @AutoCleanup
     @Inject
     KubernetesOperations operations
 
+    @Shared
     @Value('${kubernetes.client.namespace:micronaut-kubernetes}')
     String namespace
 
+    @Shared
     @Value('${spec.reuseNamespace:true}')
     boolean reuseNamespace
 
     @Property(name = "image.tag")
+    @Shared
     Optional<String> imageTag
 
     @Property(name = "image.prefix")
+    @Shared
     Optional<String> imagePrefix
 
     /**
