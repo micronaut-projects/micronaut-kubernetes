@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.configuration
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
@@ -13,6 +14,7 @@ import spock.lang.Requires
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-secret-spec")
+@Slf4j
 class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
 
     void setup() {

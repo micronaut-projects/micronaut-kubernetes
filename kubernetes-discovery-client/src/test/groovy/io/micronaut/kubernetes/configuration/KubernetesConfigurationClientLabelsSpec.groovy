@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.configuration
 
 import com.github.stefanbirkner.systemlambda.SystemLambda
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.Pod
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
@@ -16,6 +17,7 @@ import spock.lang.Requires
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-labels-spec")
+@Slf4j
 class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void setup() {

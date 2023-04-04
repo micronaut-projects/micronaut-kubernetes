@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.configuration
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
@@ -18,6 +19,7 @@ import jakarta.inject.Inject
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-spec")
+@Slf4j
 class KubernetesConfigurationClientSpec extends KubernetesSpecification {
 
     @Inject

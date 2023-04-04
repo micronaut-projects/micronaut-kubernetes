@@ -23,7 +23,6 @@ import io.fabric8.kubernetes.client.ConfigBuilder
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.kubernetes.client.LocalPortForward
-import io.fabric8.kubernetes.client.dsl.RollableScalableResource
 import io.micronaut.core.util.StringUtils
 import spock.util.concurrent.PollingConditions
 
@@ -79,7 +78,7 @@ class KubernetesOperations implements Closeable {
     }
 
     boolean deleteNamespace(String name) {
-        log.debug("Deleting namespace ${name}")
+        log.info("Deleting namespace ${name}")
         getClient().namespaces().delete(getNamespace(name))
         def waitTime = 3000
         while (true) {
