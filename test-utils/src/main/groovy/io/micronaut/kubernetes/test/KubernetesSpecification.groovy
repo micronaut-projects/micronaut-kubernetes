@@ -67,7 +67,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def setupSpec() {
-        log.info("Using Kubernetes version: ${operations.client.getKubernetesVersion().major}.${operations.client.getKubernetesVersion().minor}")
+        log.info("Using Kubernetes version: ${operations.getClient(namespace).getKubernetesVersion().major}.${operations.getClient(namespace).getKubernetesVersion().minor}")
         if (reuseNamespace && operations.getNamespace(namespace) != null) {
             log.info("Reusing namespace ${namespace}")
         } else {
