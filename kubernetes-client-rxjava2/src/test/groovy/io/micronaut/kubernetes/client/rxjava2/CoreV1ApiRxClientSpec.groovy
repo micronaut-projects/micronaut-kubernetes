@@ -3,7 +3,7 @@ package io.micronaut.kubernetes.client.rxjava2
 
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.annotation.Property
-import io.micronaut.kubernetes.test.KubernetesSpecification
+import io.micronaut.kubernetes.client.rxjava2.utils.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires

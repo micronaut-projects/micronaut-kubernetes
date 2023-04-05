@@ -5,7 +5,7 @@ import io.fabric8.kubernetes.api.model.Pod
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
-import io.micronaut.kubernetes.test.KubernetesSpecification
+import io.micronaut.kubernetes.utils.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import reactor.core.publisher.Flux
