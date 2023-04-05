@@ -40,7 +40,6 @@ micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', ver
 micronaut-serde = { module = 'io.micronaut.serde:micronaut-serde-bom', version.ref = 'micronaut-serde'}
 micronaut-validation = { module = 'io.micronaut.validation:micronaut-validation-bom', version.ref = 'micronaut-validation'}
 
-
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 
 micronaut-gradle-plugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }
