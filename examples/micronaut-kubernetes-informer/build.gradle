@@ -15,9 +15,9 @@ micronaut {
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
-    annotationProcessor(mnSerde.micronaut.serde.processor)
     implementation(mnValidation.micronaut.validation)
-    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.jackson.databind)
+    compileOnly mn.micronaut.inject.java
     implementation(mn.micronaut.runtime)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
@@ -39,12 +39,5 @@ tasks {
 
     dockerBuildNative {
         images = ['micronaut-kubernetes-informer-example']
-    }
-}
-
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute(module("io.micronaut:micronaut-jackson-databind"))
-                .using(module("io.micronaut.serde:micronaut-serde-jackson:2.0.0-M1"))
     }
 }
