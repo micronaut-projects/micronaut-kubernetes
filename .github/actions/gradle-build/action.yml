@@ -11,7 +11,7 @@ runs:
   steps:
     - name: Build with Gradle
       shell: bash
-      run: ./gradlew check --no-daemon --continue
+      run: ./gradlew check --no-daemon --continue --no-build-cache
       env:
         TESTCONTAINERS_RYUK_DISABLED: 'true'
         PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"

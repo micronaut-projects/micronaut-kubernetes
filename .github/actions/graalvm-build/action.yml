@@ -13,7 +13,7 @@ runs:
       run: |
         set -e
         for EXAMPLE in $(ls ./examples); do
-          ./gradlew ${EXAMPLE}:test --continue --no-daemon --no-build-cache
+          ./gradlew examples:${EXAMPLE}:test --continue --no-daemon --no-build-cache
         done
       env:
         TESTCONTAINERS_RYUK_DISABLED: 'true'
