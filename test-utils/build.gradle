@@ -11,7 +11,7 @@ dependencies {
     api 'io.fabric8:kubernetes-client:6.5.1'
     api("org.spockframework:spock-core:${spockVersion}")
     api "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    api "ch.qos.logback:logback-classic:1.2.10"
+    api "ch.qos.logback:logback-classic:1.4.6"
 }
 
 repositories {
