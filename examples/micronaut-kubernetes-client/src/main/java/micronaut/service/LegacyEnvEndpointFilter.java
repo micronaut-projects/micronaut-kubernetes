@@ -3,8 +3,7 @@ package micronaut.service;
 import io.micronaut.management.endpoint.env.EnvironmentEndpointFilter;
 import io.micronaut.management.endpoint.env.EnvironmentFilterSpecification;
 import jakarta.inject.Singleton;
-
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Singleton
 public class LegacyEnvEndpointFilter implements EnvironmentEndpointFilter {

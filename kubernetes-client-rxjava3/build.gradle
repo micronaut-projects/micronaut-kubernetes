@@ -3,11 +3,11 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor project(":kubernetes-client-processor")
+    annotationProcessor projects.kubernetesClientProcessor
 
-    api project(":kubernetes-client")
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
+    api projects.kubernetesClient
+    implementation libs.rxjava3
 
-    testImplementation project(":test-utils")
+    testImplementation projects.testUtils
 }
 compileJava.options.fork = true

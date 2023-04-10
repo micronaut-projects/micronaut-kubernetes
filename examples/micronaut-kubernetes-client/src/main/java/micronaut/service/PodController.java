@@ -22,9 +22,9 @@ import io.kubernetes.client.openapi.models.V1PodList;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.runtime.context.scope.Refreshable;
-
 import jakarta.inject.Inject;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Map;
 import java.util.stream.Collectors;
 
