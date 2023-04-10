@@ -38,10 +38,3 @@ tasks {
         images = ['micronaut-kubernetes-client-example']
     }
 }
-
-configurations.all {
-    resolutionStrategy.dependencySubstitution {
-        substitute(module("io.micronaut:micronaut-jackson-databind"))
-                .using(module("io.micronaut.serde:micronaut-serde-jackson:2.0.0-M1"))
-    }
-}
