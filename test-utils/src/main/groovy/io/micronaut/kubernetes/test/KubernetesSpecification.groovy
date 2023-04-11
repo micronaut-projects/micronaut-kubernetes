@@ -78,7 +78,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def setupSpec() {
-        log.info("Using Kubernetes version: ${operations.client.getKubernetesVersion().major}.${operations.client.getKubernetesVersion().minor}")
+        log.info("Using Kubernetes version: ${operations.getClient(namespace).getKubernetesVersion().major}.${operations.getClient(namespace).getKubernetesVersion().minor}")
         if (reuseNamespace && operations.getNamespace(namespace) != null) {
             log.info("Reusing namespace ${namespace}")
         } else {
@@ -99,22 +99,11 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def cleanupSpec() {
-        def retry = 10
-        for (int i=0; i<retry; i++) {
-            try {
-                if (reuseNamespace && operations.getNamespace(namespace) != null) {
-                    log.info("Skipping cleanup of namespace ${namespace}")
-                } else {
-                    log.info("Cleaning up namespace ${namespace}")
-                    operations.deleteNamespace(namespace)
-                }
-                break
-            } catch (KubernetesClientException e) {
-                if (i == retry - 1) {
-                    throw e
-                }
-                sleep(1000 * (i+1))
-            }
+        if (reuseNamespace && operations.getNamespace(namespace) != null) {
+            log.info("Skipping cleanup of namespace ${namespace}")
+        } else {
+            log.info("Cleaning up namespace ${namespace}")
+            operations.deleteNamespace(namespace)
         }
         log.info("Finished cleaning")
     }
@@ -248,7 +237,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     protected static URL loadFileFromClasspath(String path) {
-        ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get();
+        ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get()
         Optional<URL> resource = loader.getResource("classpath:${path}")
         return resource.orElseThrow(
                 () -> new IllegalArgumentException("File ${path} not found on classpath!"))

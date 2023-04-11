@@ -1,14 +1,10 @@
 plugins {
+    id 'io.micronaut.build.internal.kubernetes-examples'
     id("groovy")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-    id("io.micronaut.application") version "3.7.0"
-}
-
-repositories {
-    mavenCentral()
 }
 
 micronaut {
+    version '4.0.0-SNAPSHOT'
     runtime("netty")
     testRuntime("spock2")
     processing {
@@ -18,24 +14,22 @@ micronaut {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("javax.annotation:javax.annotation-api")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut:micronaut-management")
-    implementation project(':kubernetes-discovery-client')
-    runtimeOnly("ch.qos.logback:logback-classic")
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+    annotationProcessor(mnSerde.micronaut.serde.processor)
+    implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.runtime)
+    implementation(mn.micronaut.http.client)
+    implementation(mn.micronaut.management)
+    implementation projects.kubernetesDiscoveryClient
 
-    testImplementation project(":test-utils")
+    runtimeOnly(mnLogging.logback.classic)
+
+    testImplementation projects.testUtils
 }
 
 application {
     mainClass.set("micronaut.client.Application")
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks {
@@ -47,4 +41,3 @@ tasks {
         images = ['micronaut-kubernetes-example-client']
     }
 }
-

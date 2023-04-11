@@ -1,22 +1,20 @@
 plugins {
-    id 'io.micronaut.build.internal.kubernetes-test-module'
+    id 'java-library'
+    id 'groovy'
+    id 'io.micronaut.build.internal.kubernetes-tests'
 }
 
 dependencies {
-    annotationProcessor "io.micronaut:micronaut-inject-groovy"
-
-    implementation "org.codehaus.groovy:groovy:$groovyVersion"
-    api "io.micronaut:micronaut-inject-groovy"
-    api "io.micronaut:micronaut-http-client:$micronautVersion"
-    api 'io.fabric8:kubernetes-client:6.5.1'
-    api("org.spockframework:spock-core:${spockVersion}")
-    api "io.micronaut.test:micronaut-test-spock:$micronautTestVersion"
-    api "ch.qos.logback:logback-classic:1.2.10"
+    annotationProcessor mn.micronaut.inject.groovy
+    annotationProcessor mn.micronaut.inject.java
+    api mn.micronaut.inject.groovy
+    api mn.micronaut.inject.java
+    api mn.micronaut.http.client
+    api libs.io.fabric8.kubernetes.client
+    api libs.spock.core
+    api mnTest.micronaut.test.spock
+    api mnLogging.logback.classic
     implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
     implementation 'org.bouncycastle:bcprov-ext-jdk15on:1.70'
-}
-
-repositories {
-    mavenCentral()
 }

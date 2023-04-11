@@ -6,8 +6,8 @@ import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder
 import io.fabric8.kubernetes.api.model.apps.DeploymentSpecBuilder
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
+import micronaut.operator.utils.KubernetesSpecification
 import io.micronaut.core.util.StringUtils
-import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit
 
 @MicronautTest(startApplication = false, environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "ConfigMapOperatorControllerSpec")
+@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-operator")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Slf4j

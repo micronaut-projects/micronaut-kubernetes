@@ -21,10 +21,10 @@ import io.micronaut.context.env.Environment
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
+import micronaut.informer.utils.KubernetesSpecification
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions

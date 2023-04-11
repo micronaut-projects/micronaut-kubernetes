@@ -6,7 +6,7 @@ import io.fabric8.kubernetes.api.model.rbac.ClusterRoleBuilder
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.test.KubernetesSpecification
+import io.micronaut.kubernetes.client.informer.utils.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject

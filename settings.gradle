@@ -6,8 +6,10 @@ pluginManagement {
 }
 
 plugins {
-    id 'io.micronaut.build.shared.settings' version '5.4.8'
+    id 'io.micronaut.build.shared.settings' version '6.3.5'
 }
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = 'kubernetes-parent'
 
@@ -22,7 +24,17 @@ include 'kubernetes-informer'
 include 'kubernetes-operator'
 include 'test-utils'
 
-file('examples').eachDir {
-    include it.name
-    project(":${it.name}").projectDir = it
+include 'examples:micronaut-client'
+include 'examples:micronaut-kubernetes-client'
+include 'examples:micronaut-kubernetes-informer'
+include 'examples:micronaut-kubernetes-operator'
+include 'examples:micronaut-service'
+
+micronautBuild {
+    addSnapshotRepository()
+    importMicronautCatalog()
+    importMicronautCatalog("micronaut-logging")
+    importMicronautCatalog("micronaut-reactor")
+    importMicronautCatalog("micronaut-serde")
+    importMicronautCatalog("micronaut-validation")
 }

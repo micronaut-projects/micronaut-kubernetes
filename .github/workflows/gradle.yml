@@ -25,7 +25,8 @@ jobs:
       OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
     strategy:
       matrix:
-        java: ['8', '11', '17']
+        java: ['17']
+        k8s: ['1.21']
     steps:
       - uses: actions/checkout@v3
         with:

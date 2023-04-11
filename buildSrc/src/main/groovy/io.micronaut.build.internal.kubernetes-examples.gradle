@@ -1,0 +1,9 @@
+plugins {
+    id "io.micronaut.build.internal.kubernetes-tests"
+    id 'io.micronaut.application'
+    id 'com.github.johnrengelman.shadow'
+}
+
+dependencies {
+    mn.snakeyaml
+}

@@ -6,7 +6,7 @@ import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceEndpointProvider
 import io.micronaut.kubernetes.discovery.provider.KubernetesServiceInstanceServiceProvider
 import io.micronaut.kubernetes.test.KubectlCommands
-import io.micronaut.kubernetes.test.KubernetesSpecification
+import io.micronaut.kubernetes.utils.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import reactor.core.publisher.Flux

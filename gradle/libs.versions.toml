@@ -1,0 +1,46 @@
+[versions]
+
+micronaut = "4.0.0-M1"
+micronaut-docs = "2.0.0"
+micronaut-test = '4.0.0-M1'
+micronaut-gradle-plugin = "4.0.0-SNAPSHOT"
+
+groovy = '4.0.11'
+spock = '2.3-groovy-4.0'
+
+graal-svm = "22.0.0.2"
+javapoet = '1.13.0'
+rxjava2 = '2.2.21'
+rxjava3 = '3.1.5'
+shadow = '7.1.1'
+system-lambda = '1.2.1'
+io-kubernetes-client-java = '18.0.0'
+io-fabric8-kubernetes-client = '6.5.1'
+
+micronaut-discovery = "4.0.0-M1"
+micronaut-logging = "1.0.0-SNAPSHOT"
+micronaut-reactor = "3.0.0-M1"
+micronaut-serde = '2.0.0-M1'
+micronaut-validation = '4.0.0-M2'
+
+[libraries]
+graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
+javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
+rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }
+rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
+system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "system-lambda" }
+
+io-kubernetes-client-java = { module = "io.kubernetes:client-java", version.ref = "io-kubernetes-client-java" }
+io-kubernetes-client-java-extended = { module = "io.kubernetes:client-java-extended", version.ref = "io-kubernetes-client-java" }
+io-fabric8-kubernetes-client = { module = "io.fabric8:kubernetes-client", version.ref = "io-fabric8-kubernetes-client" }
+
+micronaut-logging = { module = "io.micronaut.logging:micronaut-logging-bom", version.ref = "micronaut-logging" }
+micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
+micronaut-serde = { module = 'io.micronaut.serde:micronaut-serde-bom', version.ref = 'micronaut-serde'}
+micronaut-validation = { module = 'io.micronaut.validation:micronaut-validation-bom', version.ref = 'micronaut-validation'}
+
+micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
+
+micronaut-gradle-plugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }
+shadow-plugin = { module = "gradle.plugin.com.github.johnrengelman:shadow", version.ref = "shadow" }
