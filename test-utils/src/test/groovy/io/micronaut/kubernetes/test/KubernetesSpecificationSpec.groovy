@@ -7,6 +7,9 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "image.tag", value = "test_image_tag")
+@Property(name = "image.prefix", value = "image_prefix/")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-specification-spec")
 class KubernetesSpecificationSpec extends KubernetesSpecification{
 
     def "it created example service"(){
@@ -26,4 +29,10 @@ class KubernetesSpecificationSpec extends KubernetesSpecification{
         def deployment = operations.getDeployment("secure-deployment", namespace)
         deployment.status.availableReplicas == 1
     }
+
+    def "test get image name"() {
+        expect:
+        getImageName("test") == "image_prefix/test:test_image_tag"
+    }
+
 }

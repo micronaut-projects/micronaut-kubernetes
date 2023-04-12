@@ -21,6 +21,8 @@ import io.micronaut.context.annotation.Requires as MicronautRequires
 @Property(name = "spec.name", value = "HelloControllerSpec")
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-client")
+@Property(name = "micronaut.http.client.connect-timeout", value = "100s")
+@Property(name = "micronaut.http.client.read-timeout", value = "100s")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 class HelloControllerSpec extends KubernetesSpecification {
 

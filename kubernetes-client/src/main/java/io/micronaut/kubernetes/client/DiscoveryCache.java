@@ -21,6 +21,7 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.openapi.ApiException;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.retry.annotation.Retryable;
 import jakarta.inject.Inject;
 import jakarta.inject.Provider;
 import jakarta.inject.Singleton;
@@ -112,7 +113,13 @@ public class DiscoveryCache {
         }
     }
 
-    private Set<Discovery.APIResource> getLastAPIDiscovery() throws ApiException {
+    /**
+     * Refreshes the cache if it is stale, otherwise returns cached {@link Discovery} results.
+     *
+     * @return api set of {@link Discovery.APIResource}
+     */
+    @Retryable
+    Set<Discovery.APIResource> getLastAPIDiscovery() throws ApiException {
         long nowMillis = System.currentTimeMillis();
         if (nowMillis < nextDiscoveryRefreshTimeMillis) {
             return lastAPIDiscovery;

@@ -16,6 +16,12 @@ on:
 jobs:
   build:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_KEY_FILE }}
+      OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
     runs-on: ubuntu-latest
     steps:
        # https://github.com/actions/virtual-environments/issues/709
@@ -39,13 +45,27 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
+      - name: Configure Kubectl
+        uses: oracle-actions/configure-kubectl-oke@v1.3.1
+        id: test-configure-kubectl-oke-action
+        with:
+          cluster: ${{ secrets.OKE_CLUSTER_OCID }}
+      - name: Run Kubectl
+        run: kubectl get nodes -A
       - name: Optional setup step
         env:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          GIT_COMMIT_HASH: ${{ github.sha }}
+          JOB_ID: sonar-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
+          OCI_CLI_REGION: ${{ secrets.OCI_REGION }}
+          OCI_TENANCY_NAME: ${{ secrets.OCI_TENANCY_NAME }}
+          JAVA_VERSION: '11'
+          AUTH_TOKEN: ${{ secrets.OCI_AUTH_TOKEN }}
+          OCIR_USERNAME: ${{ secrets.OCIR_USERNAME }}
         run: |
-          [ -f ./setup.sh ] && ./setup.sh || true
+          [ -f ./setup.sh ] && ./setup.sh || [ ! -f ./setup.sh ]
       - name: Analyse with Gradle
         run: |
           ./gradlew check sonarqube --no-daemon --continue --no-build-cache
@@ -54,5 +74,17 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
           GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
           GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          IMAGE_TAG: 'java-11-${{ github.sha }}'
+          IMAGE_PREFIX: '${{ secrets.OCI_REGION }}.ocir.io/${{ secrets.OCI_TENANCY_NAME }}/'
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KUBERNETES_TRUST_CERTIFICATES: 'true'
+      - name: Optional teardown step
+        if: always()
+        env:
+          GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
+          GRADLE_ENTERPRISE_CACHE_USERNAME: ${{ secrets.GRADLE_ENTERPRISE_CACHE_USERNAME }}
+          GRADLE_ENTERPRISE_CACHE_PASSWORD: ${{ secrets.GRADLE_ENTERPRISE_CACHE_PASSWORD }}
+          JOB_ID: sonar-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}
+        run: |
+          [ -f ./teardown.sh ] && ./teardown.sh || true

@@ -1,11 +1,13 @@
 package micronaut.operator
 
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.*
 import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder
 import io.fabric8.kubernetes.api.model.apps.DeploymentSpecBuilder
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import micronaut.operator.utils.KubernetesSpecification
+import io.micronaut.core.util.StringUtils
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
@@ -18,6 +20,7 @@ import java.util.concurrent.TimeUnit
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-operator")
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Slf4j
 class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
 
     static String configMapName = "new-configmap"
@@ -25,6 +28,9 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
+        def imageName = getImageName("micronaut-kubernetes-operator-example")
+        log.info("Image name: ${imageName}")
+
         operations.deleteConfigMap(configMapName, namespace)
 
         operations.createRole("operator-reconciler-role", namespace,
@@ -58,8 +64,8 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
                                         .withSpec(new PodSpecBuilder()
                                                 .withContainers(new ContainerBuilder()
                                                         .withName("operator")
-                                                        .withImage("micronaut-kubernetes-operator-example")
-                                                        .withImagePullPolicy("Never")
+                                                        .withImage(imageName)
+                                                        .withImagePullPolicy("IfNotPresent")
                                                         .withPorts(new ContainerPortBuilder()
                                                                 .withName("http")
                                                                 .withContainerPort(8080)

@@ -1,8 +1,10 @@
 package io.micronaut.kubernetes.configuration
 
 import com.github.stefanbirkner.systemlambda.SystemLambda
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.Pod
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
 import io.micronaut.kubernetes.utils.KubernetesSpecification
@@ -13,6 +15,9 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-labels-spec")
+@Slf4j
 class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void setup() {
@@ -82,7 +87,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -109,7 +114,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
         when:
@@ -131,7 +136,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["missing.label"],
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.config-maps.pod-labels": ["missing.label"],
                                                                         "kubernetes.client.config-maps.exception-on-pod-labels-missing": "true"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
@@ -156,7 +161,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
         Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true,
+        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.namespace": namespace, "kubernetes.client.secrets.enabled": true,
                                                                         "kubernetes.client.secrets.pod-labels": ["missing.label"],
                                                                         "kubernetes.client.secrets.exception-on-pod-labels-missing": "true"], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)

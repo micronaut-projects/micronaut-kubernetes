@@ -1,6 +1,8 @@
 package io.micronaut.kubernetes.test
 
+import io.fabric8.kubernetes.client.KubernetesClientException
 import org.yaml.snakeyaml.Yaml
+import spock.lang.AutoCleanup
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Specification
@@ -11,6 +13,7 @@ import java.nio.file.Paths
 class KubernetesOperationsSpec extends Specification{
 
     @Shared
+    @AutoCleanup
     KubernetesOperations operations = new KubernetesOperations()
 
     def setupSpec() {
@@ -19,8 +22,19 @@ class KubernetesOperationsSpec extends Specification{
     }
 
     def cleanupSpec() {
+        def retry = 3
         if (operations.getNamespace("test-namespace") != null) {
-            operations.deleteNamespace("test-namespace")
+            for (int i=0; i<retry; i++) {
+                try {
+                    operations.deleteNamespace("test-namespace")
+                    return
+                } catch (KubernetesClientException e) {
+                    if (i == retry - 1) {
+                        throw e
+                    }
+                    sleep(1000 * (i+1))
+                }
+            }
         }
     }
 

@@ -181,6 +181,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                         })
                         .flatMap(labelSelector ->
                                 client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
+                        .retry(5)
                         .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
                         .onErrorResume(throwable -> exceptionOnPodLabelsMissing
                                 ? Mono.error(throwable)

@@ -35,6 +35,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.concurrent.ExecutorService;
 
 import static io.micronaut.scheduling.TaskExecutors.IO;
@@ -84,6 +85,9 @@ public class ApiClientFactory {
             clientBuilder = ClientBuilder.standard();
         }
         updateBuilderConfiguration(apiClientConfiguration, clientBuilder);
+        if (clientBuilder.getReadTimeout().isZero()) {
+            clientBuilder.setReadTimeout(Duration.ofSeconds(10));
+        }
         return clientBuilder;
     }
 

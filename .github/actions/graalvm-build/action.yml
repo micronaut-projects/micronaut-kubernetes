@@ -1,10 +1,6 @@
 #TODO move this action to https://github.com/micronaut-projects/github-actions
 name: Build steps for GitHub gradle workflow
 description: Perform build steps for gradle workflow
-inputs:
-  java:
-    description: java version
-    required: true
 runs:
   using: "composite"
   steps:

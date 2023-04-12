@@ -1,6 +1,8 @@
 package io.micronaut.kubernetes.configuration
 
+import groovy.util.logging.Slf4j
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.utils.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
@@ -10,6 +12,9 @@ import spock.lang.Requires
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Property(name = "spec.reuseNamespace", value = "false")
+@Property(name = "kubernetes.client.namespace", value = "kubernetes-configuration-client-filter-spec")
+@Slf4j
 class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
 
     void setup() {

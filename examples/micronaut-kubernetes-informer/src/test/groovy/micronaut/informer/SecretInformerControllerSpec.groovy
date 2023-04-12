@@ -1,5 +1,6 @@
 package micronaut.informer
 
+import groovy.util.logging.Slf4j
 import io.fabric8.kubernetes.api.model.ContainerBuilder
 import io.fabric8.kubernetes.api.model.ContainerPortBuilder
 import io.fabric8.kubernetes.api.model.HTTPGetActionBuilder
@@ -32,9 +33,9 @@ import java.util.concurrent.TimeUnit
 
 @MicronautTest(environments = [Environment.KUBERNETES], startApplication = false)
 @Property(name = "spec.name", value = "SecretInformerControllerSpec")
-@Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-informer")
 @Requires({ TestUtils.kubernetesApiAvailable() })
+@Slf4j
 class SecretInformerControllerSpec extends KubernetesSpecification {
 
     @Inject
@@ -45,6 +46,9 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
         createBaseResources(namespace)
+        def imageName = getImageName("micronaut-kubernetes-informer-example")
+        log.info("Image name: ${imageName}")
+
         def client = operations.getClient(namespace)
         def informerDeployment = client.apps().deployments().createOrReplace(
                 new DeploymentBuilder()
@@ -63,8 +67,8 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
                                         .withSpec(new PodSpecBuilder()
                                                 .withContainers(new ContainerBuilder()
                                                         .withName("informer")
-                                                        .withImage("micronaut-kubernetes-informer-example")
-                                                        .withImagePullPolicy("Never")
+                                                        .withImage(imageName)
+                                                        .withImagePullPolicy("IfNotPresent")
                                                         .withPorts(new ContainerPortBuilder()
                                                                 .withName("http")
                                                                 .withContainerPort(8080)
@@ -112,10 +116,16 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     }
 
     void "test all"() {
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
         expect:
-        testClient.all().size() == 4
-        testClient.secret("test-secret")
-        testClient.secret("test-secret").data.containsKey("username")
+        conditions.eventually {
+            // kind adds "default-token" secret to every namespace. That's why we check with >= to make sure it works both with OKE and kind
+            testClient.all().size() >= 3
+            testClient.secret("mounted-secret")
+            testClient.secret("another-secret")
+            testClient.secret("test-secret")
+            testClient.secret("test-secret").data.containsKey("username")
+        }
     }
 
 
@@ -134,7 +144,10 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
-            testClient.all().size() == 5
+            testClient.all().size() >= 4
+            testClient.secret("mounted-secret")
+            testClient.secret("another-secret")
+            testClient.secret("test-secret")
             testClient.secret(secretName)
         }
 
@@ -143,7 +156,11 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
         then:
         conditions.eventually {
-            testClient.all().size() == 4
+            testClient.all().size() >= 3
+            testClient.secret("mounted-secret")
+            testClient.secret("another-secret")
+            testClient.secret("test-secret")
+            !testClient.secret(secretName)
         }
     }
 

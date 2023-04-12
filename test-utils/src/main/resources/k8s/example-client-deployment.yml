@@ -14,7 +14,7 @@ spec:
       containers:
         - name: example-client
           image: micronaut-kubernetes-example-client
-          imagePullPolicy: "Never"
+          imagePullPolicy: "IfNotPresent"
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
