@@ -22,6 +22,7 @@ import io.fabric8.kubernetes.api.model.rbac.*
 import io.fabric8.kubernetes.client.ConfigBuilder
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
+import io.fabric8.kubernetes.client.KubernetesClientBuilder
 import io.fabric8.kubernetes.client.LocalPortForward
 import io.micronaut.core.util.StringUtils
 import spock.util.concurrent.PollingConditions
@@ -45,10 +46,13 @@ class KubernetesOperations implements Closeable {
 
     KubernetesClient getClient(String namespace = 'default') {
         return kubernetesClientMap.computeIfAbsent(namespace, ns ->
-                new DefaultKubernetesClient(new ConfigBuilder().withTrustCerts(true)
+                new KubernetesClientBuilder()
+                .withConfig(new ConfigBuilder().withTrustCerts(true)
                         .withNamespace(ns)
+                        .withRequestTimeout(30000)
                         .build()
-                )
+                ).build()
+
         )
     }
 
