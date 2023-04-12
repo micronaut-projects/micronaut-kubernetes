@@ -20,7 +20,6 @@ import io.fabric8.kubernetes.api.model.*
 import io.fabric8.kubernetes.api.model.apps.Deployment
 import io.fabric8.kubernetes.api.model.rbac.*
 import io.fabric8.kubernetes.client.ConfigBuilder
-import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClientBuilder
 import io.fabric8.kubernetes.client.LocalPortForward
@@ -49,6 +48,7 @@ class KubernetesOperations implements Closeable {
                 new KubernetesClientBuilder()
                 .withConfig(new ConfigBuilder().withTrustCerts(true)
                         .withNamespace(ns)
+                        .withRequestRetryBackoffLimit(5)
                         .withRequestTimeout(30000)
                         .build()
                 ).build()
@@ -83,7 +83,7 @@ class KubernetesOperations implements Closeable {
 
     boolean deleteNamespace(String name) {
         log.info("Deleting namespace ${name}")
-        getClient().namespaces().delete(getNamespace(name))
+        getClient().namespaces().resource(getNamespace(name)).delete()
         def waitTime = 3000
         while (true) {
             def namespaces = getClient().namespaces().list().items.stream()
