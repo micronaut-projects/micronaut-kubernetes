@@ -17,7 +17,7 @@ system-lambda = '1.2.1'
 io-kubernetes-client-java = '18.0.0'
 io-fabric8-kubernetes-client = '6.5.1'
 
-micronaut-discovery = "4.0.0-M1"
+micronaut-discovery = "4.0.0-SNAPSHOT"
 micronaut-logging = "1.0.0-SNAPSHOT"
 micronaut-reactor = "3.0.0-M1"
 micronaut-serde = '2.0.0-M1'
