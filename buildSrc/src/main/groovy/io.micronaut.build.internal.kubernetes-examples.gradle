@@ -7,3 +7,7 @@ plugins {
 dependencies {
     mn.snakeyaml
 }
+
+graalvmNative {
+    testSupport = false
+}
