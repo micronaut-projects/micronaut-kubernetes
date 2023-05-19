@@ -10,7 +10,9 @@ dependencies {
     compileOnly "org.graalvm.nativeimage:svm"
 
     api project(":kubernetes-informer")
-    api("io.kubernetes:client-java-extended:${ioKubernetesClientJava}")
+    api("io.kubernetes:client-java-extended:${ioKubernetesClientJava}") {
+        exclude(group: 'org.slf4j', module: 'slf4j-api')
+    }
     implementation "io.micronaut:micronaut-runtime"
 
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"

@@ -11,7 +11,9 @@ dependencies {
 
     api project(":kubernetes-client-reactor")
     api project(":kubernetes-informer")
-    api "io.kubernetes:client-java-extended:${ioKubernetesClientJava}"
+    api("io.kubernetes:client-java-extended:${ioKubernetesClientJava}"){
+        exclude(group: 'org.slf4j', module: 'slf4j-api')
+    }
 
     api "io.micronaut.discovery:micronaut-discovery-client"
     implementation "io.micronaut:micronaut-runtime"
