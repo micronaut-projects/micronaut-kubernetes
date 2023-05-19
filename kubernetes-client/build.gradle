@@ -7,7 +7,9 @@ dependencies {
     annotationProcessor project(":kubernetes-client-processor")
 
     api "io.micronaut:micronaut-inject"
-    api "io.kubernetes:client-java:${ioKubernetesClientJava}"
+    api("io.kubernetes:client-java:${ioKubernetesClientJava}") {
+        exclude(group: 'org.slf4j', module: 'slf4j-api')
+    }
     implementation "io.micronaut:micronaut-runtime"
     compileOnly("org.graalvm.nativeimage:svm")
 
