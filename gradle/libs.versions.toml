@@ -24,6 +24,9 @@ micronaut-serde = '2.0.0-M1'
 micronaut-validation = '4.0.0-M2'
 
 [libraries]
+# Core
+micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+
 graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
 rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }
