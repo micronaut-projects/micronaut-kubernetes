@@ -18,7 +18,6 @@ dependencies {
     annotationProcessor(mnSerde.micronaut.serde.processor)
     implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnValidation.micronaut.validation)
-    implementation(mn.micronaut.runtime)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
     implementation projects.kubernetesOperator

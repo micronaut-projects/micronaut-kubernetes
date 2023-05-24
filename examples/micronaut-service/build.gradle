@@ -16,7 +16,6 @@ micronaut {
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
     implementation(mnValidation.micronaut.validation)
-    implementation(mn.micronaut.runtime)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.jackson.databind)
     implementation(mn.micronaut.management)
