@@ -16,9 +16,11 @@
 package micronaut.client;
 
 import io.micronaut.discovery.DiscoveryClient;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Produces;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 import org.reactivestreams.Publisher;
@@ -43,6 +45,7 @@ public class HelloController {
     }
 
     @Get("/all")
+    @Produces(value = MediaType.APPLICATION_JSON)
     public Publisher<List<String>> all() {
         return discoveryClient.getServiceIds();
     }

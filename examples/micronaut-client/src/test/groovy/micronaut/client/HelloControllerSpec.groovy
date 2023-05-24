@@ -2,7 +2,7 @@ package micronaut.client
 
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.http.MediaType
+    import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
@@ -110,7 +110,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         @Get(processes = MediaType.TEXT_PLAIN)
         String index()
 
-        @Get(uri = "/all", processes = MediaType.TEXT_PLAIN)
+        @Get(uri = "/all", processes = MediaType.APPLICATION_JSON)
         String all()
 
         @Get(uri = "/enemies", processes = MediaType.TEXT_PLAIN)
