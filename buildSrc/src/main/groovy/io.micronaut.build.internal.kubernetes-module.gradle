@@ -2,3 +2,10 @@ plugins {
     id "io.micronaut.build.internal.module"
     id "io.micronaut.build.internal.kubernetes-base"
 }
+
+// Fix for JavaDoc not finding generated classes
+configurations {
+    internalJavadocClasspathElements {
+        outgoing.artifact(tasks.named("jar"))
+    }
+}
