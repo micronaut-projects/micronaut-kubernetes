@@ -110,7 +110,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         @Get(processes = MediaType.TEXT_PLAIN)
         String index()
 
-        @Get(uri = "/all", processes = MediaType.TEXT_PLAIN)
+        @Get(uri = "/all", processes = MediaType.APPLICATION_JSON)
         String all()
 
         @Get(uri = "/enemies", processes = MediaType.TEXT_PLAIN)

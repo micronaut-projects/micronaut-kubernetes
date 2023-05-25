@@ -31,7 +31,6 @@ include 'examples:micronaut-kubernetes-operator'
 include 'examples:micronaut-service'
 
 micronautBuild {
-    addSnapshotRepository()
     importMicronautCatalog()
     importMicronautCatalog("micronaut-logging")
     importMicronautCatalog("micronaut-reactor")

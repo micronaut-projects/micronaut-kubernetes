@@ -1,11 +1,12 @@
 [versions]
 
-micronaut = "4.0.0-M2"
+micronaut = "4.0.0-M5"
+micronaut-platform = "4.0.0-M2"
 micronaut-docs = "2.0.0"
-micronaut-test = '4.0.0-M2'
-micronaut-gradle-plugin = "4.0.0-M1"
+micronaut-test = "4.0.0-M4"
+micronaut-gradle-plugin = "4.0.0-M4"
 
-groovy = '4.0.11'
+groovy = "4.0.12"
 spock = '2.3-groovy-4.0'
 
 graal-svm = "22.3.1"
@@ -17,13 +18,16 @@ system-lambda = '1.2.1'
 io-kubernetes-client-java = '18.0.0'
 io-fabric8-kubernetes-client = '6.6.0'
 
-micronaut-discovery = "4.0.0-M1"
-micronaut-logging = "1.0.0-SNAPSHOT"
-micronaut-reactor = "3.0.0-M1"
+micronaut-discovery = "4.0.0-M2"
+micronaut-logging = "1.0.0-M2"
+micronaut-reactor = "3.0.0-M2"
 micronaut-serde = '2.0.0-M1'
 micronaut-validation = '4.0.0-M2'
 
 [libraries]
+# Core
+micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+
 graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
 rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }

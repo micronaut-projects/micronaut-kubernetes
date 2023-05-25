@@ -4,7 +4,7 @@ plugins {
 }
 
 micronaut {
-    version '4.0.0-SNAPSHOT'
+    version libs.versions.micronaut.platform.get()
     runtime("netty")
     testRuntime("spock2")
     processing {
@@ -18,7 +18,6 @@ dependencies {
     implementation(mnValidation.micronaut.validation)
     implementation(mn.micronaut.jackson.databind)
     compileOnly mn.micronaut.inject.java
-    implementation(mn.micronaut.runtime)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
     implementation projects.kubernetesInformer
