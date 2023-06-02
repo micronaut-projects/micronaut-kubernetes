@@ -22,11 +22,11 @@ shadow = '8.0.0'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '18.0.0'
 io-fabric8-kubernetes-client = '6.6.0'
-dekorate = '3.6.1'
+managed-dekorate = '3.6.1'
 
 
 [libraries]
-boms-dekorate = { module = 'io.dekorate:dekorate-bom', version.ref = 'dekorate' }
+boms-dekorate = { module = 'io.dekorate:dekorate-bom', version.ref = 'managed-dekorate' }
 # Core
 micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
 
