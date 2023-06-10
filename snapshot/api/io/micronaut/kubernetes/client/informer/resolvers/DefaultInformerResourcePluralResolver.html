@@ -102,7 +102,7 @@ implements <a href="InformerResourcePluralResolver.html" title="interface in io.
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.kubernetes.client.DiscoveryCache)" class="member-name-link">DefaultInformerResourcePluralResolver</a><wbr>(<a href="../../DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a>&nbsp;discoveryCache)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.kubernetes.client.DiscoveryCache)" class="member-name-link">DefaultInformerResourcePluralResolver</a><wbr>(@Nullable <a href="../../DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a>&nbsp;discoveryCache)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -118,8 +118,8 @@ implements <a href="InformerResourcePluralResolver.html" title="interface in io.
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolveInformerResourcePlural(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">resolveInformerResourcePlural</a><wbr>(io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolveInformerResourcePlural(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">resolveInformerResourcePlural</a><wbr>(@NonNull io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -142,7 +142,7 @@ implements <a href="InformerResourcePluralResolver.html" title="interface in io.
 <section class="detail" id="&lt;init&gt;(io.micronaut.kubernetes.client.DiscoveryCache)">
 <h3>DefaultInformerResourcePluralResolver</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DefaultInformerResourcePluralResolver</span><wbr><span class="parameters">(@Nullable
- <a href="../../DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a>&nbsp;discoveryCache)</span></div>
+ @Nullable <a href="../../DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a>&nbsp;discoveryCache)</span></div>
 </section>
 </li>
 </ul>
@@ -157,8 +157,8 @@ implements <a href="InformerResourcePluralResolver.html" title="interface in io.
 <section class="detail" id="resolveInformerResourcePlural(io.micronaut.core.annotation.AnnotationValue)">
 <h3>resolveInformerResourcePlural</h3>
 <div class="member-signature"><span class="annotations">@NonNull
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolveInformerResourcePlural</span><wbr><span class="parameters">(@NonNull
- io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolveInformerResourcePlural</span><wbr><span class="parameters">(@NonNull
+ @NonNull io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="InformerResourcePluralResolver.html#resolveInformerResourcePlural(io.micronaut.core.annotation.AnnotationValue)">resolveInformerResourcePlural</a></code>&nbsp;in interface&nbsp;<code><a href="InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a></code></dd>

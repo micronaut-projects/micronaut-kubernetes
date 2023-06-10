@@ -120,9 +120,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>io.kubernetes.client.extended.controller.reconciler.Result</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#reconcile(io.kubernetes.client.extended.controller.reconciler.Request,io.micronaut.kubernetes.client.operator.OperatorResourceLister)" class="member-name-link">reconcile</a><wbr>(io.kubernetes.client.extended.controller.reconciler.Request&nbsp;request,
- <a href="OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a>&lt;<a href="ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NonNull io.kubernetes.client.extended.controller.reconciler.Result</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#reconcile(io.kubernetes.client.extended.controller.reconciler.Request,io.micronaut.kubernetes.client.operator.OperatorResourceLister)" class="member-name-link">reconcile</a><wbr>(@NonNull io.kubernetes.client.extended.controller.reconciler.Request&nbsp;request,
+ @NonNull <a href="OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a>&lt;<a href="ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Reconcile the resource identified by the <code>Request</code>.</div>
 </div>
@@ -144,10 +144,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="reconcile(io.kubernetes.client.extended.controller.reconciler.Request,io.micronaut.kubernetes.client.operator.OperatorResourceLister)">
 <h3>reconcile</h3>
 <div class="member-signature"><span class="annotations">@NonNull
-</span><span class="return-type">io.kubernetes.client.extended.controller.reconciler.Result</span>&nbsp;<span class="element-name">reconcile</span><wbr><span class="parameters">(@NonNull
- io.kubernetes.client.extended.controller.reconciler.Request&nbsp;request,
+</span><span class="return-type">@NonNull io.kubernetes.client.extended.controller.reconciler.Result</span>&nbsp;<span class="element-name">reconcile</span><wbr><span class="parameters">(@NonNull
+ @NonNull io.kubernetes.client.extended.controller.reconciler.Request&nbsp;request,
  @NonNull
- <a href="OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a>&lt;<a href="ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</span></div>
+ @NonNull <a href="OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a>&lt;<a href="ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</span></div>
 <div class="block">Reconcile the resource identified by the <code>Request</code>. This operation is required to be idempotent.
  <p>
  The <a href="OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator"><code>OperatorResourceLister</code></a> <code>lister</code> is used to retrieve resource from the local

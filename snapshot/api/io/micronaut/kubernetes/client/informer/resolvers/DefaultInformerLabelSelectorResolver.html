@@ -102,7 +102,7 @@ implements <a href="InformerLabelSelectorResolver.html" title="interface in io.m
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.context.BeanContext)" class="member-name-link">DefaultInformerLabelSelectorResolver</a><wbr>(io.micronaut.context.BeanContext&nbsp;beanContext)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.context.BeanContext)" class="member-name-link">DefaultInformerLabelSelectorResolver</a><wbr>(@NonNull io.micronaut.context.BeanContext&nbsp;beanContext)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -118,8 +118,8 @@ implements <a href="InformerLabelSelectorResolver.html" title="interface in io.m
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolveInformerLabels(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">resolveInformerLabels</a><wbr>(io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#resolveInformerLabels(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">resolveInformerLabels</a><wbr>(@NonNull io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolves the informer's watched resources label selector.</div>
 </div>
@@ -144,7 +144,7 @@ implements <a href="InformerLabelSelectorResolver.html" title="interface in io.m
 <section class="detail" id="&lt;init&gt;(io.micronaut.context.BeanContext)">
 <h3>DefaultInformerLabelSelectorResolver</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">DefaultInformerLabelSelectorResolver</span><wbr><span class="parameters">(@NonNull
- io.micronaut.context.BeanContext&nbsp;beanContext)</span></div>
+ @NonNull io.micronaut.context.BeanContext&nbsp;beanContext)</span></div>
 </section>
 </li>
 </ul>
@@ -159,8 +159,8 @@ implements <a href="InformerLabelSelectorResolver.html" title="interface in io.m
 <section class="detail" id="resolveInformerLabels(io.micronaut.core.annotation.AnnotationValue)">
 <h3>resolveInformerLabels</h3>
 <div class="member-signature"><span class="annotations">@Nullable
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolveInformerLabels</span><wbr><span class="parameters">(@NonNull
- io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">resolveInformerLabels</span><wbr><span class="parameters">(@NonNull
+ @NonNull io.micronaut.core.annotation.AnnotationValue&lt;<a href="../Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a>&gt;&nbsp;informer)</span></div>
 <div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="InformerLabelSelectorResolver.html#resolveInformerLabels(io.micronaut.core.annotation.AnnotationValue)">InformerLabelSelectorResolver</a></code></span></div>
 <div class="block">Resolves the informer's watched resources label selector.</div>
 <dl class="notes">

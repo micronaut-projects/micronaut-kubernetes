@@ -115,9 +115,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>io.kubernetes.client.extended.leaderelection.LeaderElectionConfig</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#leaderElectionConfig(io.kubernetes.client.extended.leaderelection.Lock,io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration,io.kubernetes.client.openapi.models.V1OwnerReference)" class="member-name-link">leaderElectionConfig</a><wbr>(io.kubernetes.client.extended.leaderelection.Lock&nbsp;lock,
- <a href="../configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a>&nbsp;electionConfigProperties,
- io.kubernetes.client.openapi.models.V1OwnerReference&nbsp;ownerReference)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#leaderElectionConfig(io.kubernetes.client.extended.leaderelection.Lock,io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration,io.kubernetes.client.openapi.models.V1OwnerReference)" class="member-name-link">leaderElectionConfig</a><wbr>(@NonNull io.kubernetes.client.extended.leaderelection.Lock&nbsp;lock,
+ @NonNull <a href="../configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a>&nbsp;electionConfigProperties,
+ @Nullable io.kubernetes.client.openapi.models.V1OwnerReference&nbsp;ownerReference)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Builds the <code>LeaderElectionConfig</code> from the <a href="../configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration"><code>LeaderElectionConfiguration</code></a>.</div>
 </div>
@@ -157,11 +157,11 @@ loadScripts(document, 'script');</script>
 <h3>leaderElectionConfig</h3>
 <div class="member-signature"><span class="annotations">@Singleton
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">io.kubernetes.client.extended.leaderelection.LeaderElectionConfig</span>&nbsp;<span class="element-name">leaderElectionConfig</span><wbr><span class="parameters">(@NonNull
- io.kubernetes.client.extended.leaderelection.Lock&nbsp;lock,
+ @NonNull io.kubernetes.client.extended.leaderelection.Lock&nbsp;lock,
  @NonNull
- <a href="../configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a>&nbsp;electionConfigProperties,
+ @NonNull <a href="../configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a>&nbsp;electionConfigProperties,
  @Nullable
- io.kubernetes.client.openapi.models.V1OwnerReference&nbsp;ownerReference)</span></div>
+ @Nullable io.kubernetes.client.openapi.models.V1OwnerReference&nbsp;ownerReference)</span></div>
 <div class="block">Builds the <code>LeaderElectionConfig</code> from the <a href="../configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration"><code>LeaderElectionConfiguration</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
