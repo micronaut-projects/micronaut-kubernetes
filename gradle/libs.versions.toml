@@ -9,7 +9,7 @@ micronaut-gradle-plugin = "4.0.0-M3"
 groovy = "4.0.12"
 spock = '2.3-groovy-4.0'
 
-graal-svm = "22.3.2"
+graal-svm = "23.0.0"
 javapoet = '1.13.0'
 rxjava2 = '2.2.21'
 rxjava3 = '3.1.6'
