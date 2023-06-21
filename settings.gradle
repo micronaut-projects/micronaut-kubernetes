@@ -32,7 +32,6 @@ include 'examples:micronaut-service'
 
 micronautBuild {
     importMicronautCatalog()
-    importMicronautCatalog("micronaut-logging")
     importMicronautCatalog("micronaut-reactor")
     importMicronautCatalog("micronaut-serde")
     importMicronautCatalog("micronaut-validation")
