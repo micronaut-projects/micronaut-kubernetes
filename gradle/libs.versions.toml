@@ -6,6 +6,8 @@ micronaut-docs = "2.0.0"
 micronaut-test = "4.0.0-M7"
 micronaut-gradle-plugin = "4.0.0-M6"
 
+managed-dekorate = '3.7.0'
+
 groovy = "4.0.12"
 spock = '2.3-groovy-4.0'
 
@@ -27,6 +29,7 @@ micronaut-validation = '4.0.0-M11'
 [libraries]
 # Core
 micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+boms-dekorate = { module = 'io.dekorate:dekorate-bom', version.ref = 'managed-dekorate' }
 
 graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
