@@ -1,9 +1,9 @@
 [versions]
 
 micronaut = "4.0.0-RC5"
-micronaut-platform = "4.0.0-M4"
+micronaut-platform = "4.0.0-M5"
 micronaut-docs = "2.0.0"
-micronaut-test = "4.0.0-M7"
+micronaut-test = "4.0.0-M9"
 micronaut-gradle-plugin = "4.0.0-M8"
 
 groovy = "4.0.12"
@@ -18,9 +18,9 @@ system-lambda = '1.2.1'
 io-kubernetes-client-java = '18.0.0'
 io-fabric8-kubernetes-client = '6.7.2'
 
-micronaut-discovery = "4.0.0-M4"
-micronaut-logging = "1.0.0-M4"
-micronaut-reactor = "3.0.0-M9"
+micronaut-discovery = "4.0.0-M5"
+micronaut-logging = "1.0.0-M5"
+micronaut-reactor = "3.0.0-M10"
 micronaut-serde = '2.0.0-M12'
 micronaut-validation = '4.0.0-M11'
 
