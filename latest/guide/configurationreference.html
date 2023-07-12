@@ -46,14 +46,14 @@
         <div class="docs-content">
             <div class="project">
                 <h1>Configuration Reference</h1>
-                <p><strong>Version:</strong>4.0.1</p>
+                <p><strong>Version:</strong>5.0.0</p>
                 <p></p>
             </div>
 <div class="sect2">
 <h3 id="_kubernetes_client_config_properties">Kubernetes Client Config Properties</h3>
-<a id="io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration" href="#io.micronaut.kubernetes.client.ApiClientConfiguration.ApiDiscoveryCacheConfiguration">&#128279;</a>
+<a id="io.micronaut.kubernetes.client.ApiClientConfiguration$ApiDiscoveryCacheConfiguration" href="#io.micronaut.kubernetes.client.ApiClientConfiguration$ApiDiscoveryCacheConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html">ApiDiscoveryCacheConfiguration</a></caption>
+<caption class="title">Table 1. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/ApiClientConfiguration.ApiDiscoveryCacheConfiguration.html">ApiClientConfiguration$ApiDiscoveryCacheConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -70,8 +70,7 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.api-discovery.cache.refresh-interval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default refresh interval of API discovery.</p>
-<p class="tableblock"> @return refresh interval in minutes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default refresh interval of API discovery.</p></td>
 </tr>
 </tbody>
 </table>
@@ -95,32 +94,32 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.base-path</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes api base path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kubernetes api base path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.ca-path</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes ca file path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kubernetes ca file path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.token-path</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes auth token file path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kubernetes auth token file path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.kube-config-path</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes kube config path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kubernetes kube config path</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@return kubernetes client namespace</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kubernetes client namespace</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.verify-ssl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">@return should verify ssl</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">should verify ssl</p></td>
 </tr>
 </tbody>
 </table>
@@ -128,9 +127,210 @@
 </div>
 <div class="sect2">
 <h3 id="_kubernetes_discovery_client_config_properties">Kubernetes Discovery Client Config Properties</h3>
+<a id="io.micronaut.kubernetes.KubernetesConfiguration$KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration$KubernetesDiscoveryConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.exception-on-pod-labels-missing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.KubernetesConfiguration$KubernetesConfigMapsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration$KubernetesConfigMapsConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.exception-on-pod-labels-missing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.paths</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.use-api</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.watch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.KubernetesConfiguration$KubernetesSecretsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration$KubernetesSecretsConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.exception-on-pod-labels-missing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enabled flag.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.paths</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.use-api</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.KubernetesConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 6. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration" href="#io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
+<caption class="title">Table 7. Configuration Properties for <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -147,249 +347,27 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.service-id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set service id.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set service name.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Service namespace.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace of service. If null then default configured namespace is used.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.mode</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Set service discovery mode.</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.port</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets port number. Required in case of multi-port resource.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesDiscoveryConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesDiscoveryConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The discovery configuration</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.includes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.excludes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.pod-labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.exception-on-pod-labels-missing</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true an exception will be thrown if at least one of the configured pod labels is not found
- among the application&#8217;s pod labels.
- Default value ({@link #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">default service discovery mode</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesConfigMapsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesConfigMapsConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfigMapsConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The config maps configuration properties</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.includes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.excludes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.pod-labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.exception-on-pod-labels-missing</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true an exception will be thrown if at least one of the configured pod labels is not found
- among the application&#8217;s pod labels.
- Default value ({@link #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.paths</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">where config maps are mounted</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.use-api</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">whether to use the API to read config maps when {@link #paths} is used.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.config-maps.watch</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">flag to watch for the ConfigMap changes.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesSecretsConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the {@link KubernetesSecretsConfiguration}.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.includes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to include</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.excludes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">the names to exclude</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.pod-labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">labels to match</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.exception-on-pod-labels-missing</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If set to true an exception will be thrown if at least one of the configured pod labels is not found
- among the application&#8217;s pod labels.
- Default value ({@link #DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING}).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">enabled flag.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.paths</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">where secrets are mounted</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.secrets.use-api</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">whether to use the API to read secrets when {@link #paths} is used.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.KubernetesConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the namespace.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port configuration in case of multi-port resource.</p></td>
 </tr>
 </tbody>
 </table>
@@ -416,20 +394,17 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.informer.sync-timeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Timout for informer to get synchronised.</p>
-<p class="tableblock"> @return timeout in seconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timout for informer to get synchronised.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.informer.sync-step-timeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout step to check whether the informer has synchronised.</p>
-<p class="tableblock"> @return step timeout in milliseconds</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout step to check whether the informer has synchronised.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.informer.resync-period</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Resync period to use for all informers.</p>
-<p class="tableblock"> @return resync period</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resync period to use for all informers.</p></td>
 </tr>
 </tbody>
 </table>
@@ -456,28 +431,30 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.leader-election.lock.lease-duration</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the lock lease duration.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock lease duration. See .
+ Default .</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.leader-election.lock.renew-deadline</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the lock renew deadline. If the {@link io.kubernetes.client.extended.leaderelection.LeaderElector} fails to
- renew the lock within the deadline then the controller looses the lock.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock renew deadline. If the  fails to
+ renew the lock within the deadline then the controller looses the lock. Default .</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.leader-election.lock.retry-period</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the lock acquire retry period.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock acquire retry period. See . Default
+ .</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.leader-election.lock.resource-name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the lock resource name.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock resource name. If not provided then the application name is used.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.leader-election.lock.resource-namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the lock resource namespace.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock resource namespace. If not provided then the application namespaces is used.</p></td>
 </tr>
 </tbody>
 </table>
@@ -501,14 +478,12 @@
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.worker-count</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The operator controller worker count. Default "16".</p>
-<p class="tableblock"> @return controller worker count</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operator controller worker count. Default .</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.ready-timeout</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout to wait before the informers are checked for readiness.</p>
-<p class="tableblock"> @return ready timeout</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout to wait before the informers are checked for readiness.</p></td>
 </tr>
 </tbody>
 </table>
