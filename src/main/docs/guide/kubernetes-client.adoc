@@ -4,7 +4,7 @@ The complete list of available beans is declared in the link:{sourcedir}/kuberne
 
 First you need add a dependency on the `micronaut-kubernetes-client` module:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client:{version}[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client[]
 
 Then you can simply use Micronaut injection to get configured apis object from package `io.kubernetes.client.openapi.apis` :
 
@@ -60,7 +60,7 @@ In addition to the official Kubernetes Java SDK `Async` clients, this module pro
 
 For RxJava 2 add the following dependency:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:{version}[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2[]
 
 The module contains all official Kubernetes API beans in format `<ApiClassName>RxClient`,
 for example the `CoreV1Api` class is injected as `CoreV1ApiRxClient`.
@@ -92,7 +92,7 @@ public class MyService {
 
 For RxJava 3 add the following dependency:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3:{version}[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3[]
 
 The module contains all official Kubernetes API beans in format `<ApiClassName>RxClient`,
 for example the `CoreV1Api` class is injected as `CoreV1ApiRxClient`.
@@ -124,7 +124,7 @@ public class MyService {
 
 For Reactor add the following dependency:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-reactor:{version}[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-reactor[]
 
 The module contains all official Kubernetes API beans in format `<ApiClassName>ReactiveClient`,
 for example the `CoreV1Api` class is injected as `CoreV1ApiReactiveClient`.

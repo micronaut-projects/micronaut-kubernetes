@@ -2,7 +2,7 @@ The `micronaut-kubernetes-operator` module integrates the official Kubernetes Ja
 
 First you need add a dependency on the `micronaut-kubernetes-operator` module:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-operator:{version}[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-operator[]
 
 Then create a bean that implements api:kubernetes.client.operator.ResourceReconciler[] with the Kubernetes resource type of your choice. Then add the ann:kubernetes.client.operator.Operator[] annotation trough the which you provide the configuration for the controllers that will be created by Micronaut for your reconciler.
 

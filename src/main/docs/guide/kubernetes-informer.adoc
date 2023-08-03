@@ -2,7 +2,7 @@ The `micronaut-kubernetes-informer` module integrates the https://javadoc.io/doc
 
 First you need add a dependency on the `micronaut-kubernetes-informer` module:
 
-dependency:io.micronaut.kubernetes:micronaut-kubernetes-informer:{version}[]
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-informer[]
 
 Then create a bean that implements https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] with the Kubernetes resource type of your choice and add the ann:kubernetes.client.informer.Informer[] annotation trough which you provide the configuration for the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer].
 
