@@ -244,7 +244,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client:5.0.2-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -252,7 +252,6 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
-    &lt;version&gt;5.0.2-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -492,13 +491,11 @@ Note that <code>endpoint</code> is the default global discovery mode. That can b
 <div class="paragraph">
 <p>Micronaut authenticates to the Kubernetes API using the token mounted at <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code>.
 Note that by default, the service account used may only have permissions over the <code>kube-system</code> namespace. The service discovery
-functionality requires some additiona read permissions. Refer to the
-<a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
+functionality requires some additiona read permissions. Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
 about Role-based access control (RBAC).</p>
 </div>
 <div class="paragraph">
-<p>One of the options is to create the following <code>Role</code> and <code>RoleBinding</code> (make sure to apply them to the service account used,
-if not <code>default</code>):</p>
+<p>One of the options is to create the following <code>Role</code> and <code>RoleBinding</code> (make sure to apply them to the service account used, if not <code>default</code>):</p>
 </div>
 <div class="listingblock">
 <div class="title"><code>auth.yml</code></div>
@@ -1322,7 +1319,7 @@ information about how to configure it.</p>
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client:5.0.2-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1330,7 +1327,6 @@ information about how to configure it.</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client&lt;/artifactId&gt;
-    &lt;version&gt;5.0.2-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -1438,7 +1434,7 @@ specifically:</p>
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2:5.0.2-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava2")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1446,7 +1442,6 @@ specifically:</p>
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-rxjava2&lt;/artifactId&gt;
-    &lt;version&gt;5.0.2-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -1488,7 +1483,7 @@ public class MyService {
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3:5.0.2-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1496,7 +1491,6 @@ public class MyService {
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-rxjava3&lt;/artifactId&gt;
-    &lt;version&gt;5.0.2-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -1535,7 +1529,20 @@ public class MyService {
 <p>For Reactor add the following dependency:</p>
 </div>
 <div class="paragraph">
-<p>dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-<a href="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/5/0/2-SNAPSHOT/.html">2-SNAPSHOT</a></p>
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-reactor")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-reactor&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div></p>
 </div>
 <div class="paragraph">
 <p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;ReactiveClient</code>,
@@ -1612,7 +1619,7 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-informer:5.0.2-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-informer")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1620,7 +1627,6 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-informer&lt;/artifactId&gt;
-    &lt;version&gt;5.0.2-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
@@ -1861,7 +1867,7 @@ public class SharedInformerCache {
 <p>        <div class="listingblock multi-language-sample">
 <div class="title"></div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-operator:5.0.2-SNAPSHOT")</span></code></pre>
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-operator")</span></code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1869,7 +1875,6 @@ public class SharedInformerCache {
 <pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-operator&lt;/artifactId&gt;
-    &lt;version&gt;5.0.2-SNAPSHOT&lt;/version&gt;
 &lt;/dependency&gt;</code></pre>
 </div>
 </div></p>
