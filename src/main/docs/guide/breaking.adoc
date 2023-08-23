@@ -1,6 +1,6 @@
 ## Micronaut Kubernetes 4.x
 
-Micronaut Kubernetes 4.0.0 updates to Kubernetes Client v18 (major). This mayor upgrade of the Kubernetes Client addresses several security CVEs.
+Micronaut Kubernetes 4.0.0 updates to Kubernetes Client v18 (major). This major upgrade of the Kubernetes Client addresses several security CVEs.
 
 ## Micronaut Kubernetes 3.x
 
