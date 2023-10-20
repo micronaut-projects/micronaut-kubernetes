@@ -2,6 +2,7 @@ plugins {
     id 'java-library'
     id 'groovy'
     id 'io.micronaut.build.internal.kubernetes-tests'
+    id("io.micronaut.build.internal.common")
 }
 
 dependencies {
@@ -14,4 +15,14 @@ dependencies {
     api libs.spock.core
     api mnTest.micronaut.test.spock
     api mnLogging.logback.classic
+}
+
+spotless {
+    groovy {
+        targetExclude("**/test/**")
+    }
+}
+
+tasks.withType(Checkstyle) {
+    enabled = false
 }
