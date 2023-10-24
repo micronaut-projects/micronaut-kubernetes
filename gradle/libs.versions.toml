@@ -22,7 +22,7 @@ micronaut-discovery = "4.0.1"
 micronaut-logging = "1.0.0"
 micronaut-reactor = "3.0.2"
 micronaut-serde = '2.2.6'
-micronaut-validation = '4.0.0'
+micronaut-validation = '4.0.3'
 
 [libraries]
 # Core
