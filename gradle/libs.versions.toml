@@ -1,6 +1,6 @@
 [versions]
 
-micronaut = "4.1.10"
+micronaut = "4.1.11"
 micronaut-platform = "4.1.5"
 micronaut-docs = "2.0.0"
 micronaut-test = "4.1.0"
