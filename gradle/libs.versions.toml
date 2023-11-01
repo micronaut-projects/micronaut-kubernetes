@@ -1,24 +1,24 @@
 [versions]
 
-micronaut = "4.1.10"
+micronaut = "4.1.11"
 micronaut-platform = "4.1.5"
 micronaut-docs = "2.0.0"
-micronaut-test = "4.0.0"
+micronaut-test = "4.1.0"
 micronaut-gradle-plugin = "4.1.2"
 
-groovy = "4.0.15"
+groovy = "4.0.12"
 spock = '2.3-groovy-4.0'
 
-graal-svm = "23.1.1"
+graal-svm = "23.0.0"
 javapoet = '1.13.0'
 rxjava2 = '2.2.21'
 rxjava3 = '3.1.8'
 shadow = '8.0.0'
 system-lambda = '1.2.1'
-io-kubernetes-client-java = '18.0.1'
-io-fabric8-kubernetes-client = '6.9.0'
+io-kubernetes-client-java = '18.0.0'
+io-fabric8-kubernetes-client = '6.9.1'
 
-micronaut-discovery = "4.0.3"
+micronaut-discovery = "4.0.1"
 micronaut-logging = "1.1.2"
 micronaut-reactor = "3.1.0"
 micronaut-serde = '2.2.6'
