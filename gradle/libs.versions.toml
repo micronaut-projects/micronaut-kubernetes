@@ -1,10 +1,10 @@
 [versions]
 
-micronaut = "4.1.11"
+micronaut = "4.2.0"
 micronaut-platform = "4.1.5"
 micronaut-docs = "2.0.0"
 micronaut-test = "4.1.0"
-micronaut-gradle-plugin = "4.1.2"
+micronaut-gradle-plugin = "4.2.0"
 
 groovy = "4.0.12"
 spock = '2.3-groovy-4.0'
@@ -21,8 +21,8 @@ io-fabric8-kubernetes-client = '6.9.2'
 micronaut-discovery = "4.1.0"
 micronaut-logging = "1.1.2"
 micronaut-reactor = "3.1.0"
-micronaut-serde = '2.3.2'
-micronaut-validation = '4.0.3'
+micronaut-serde = '2.4.0'
+micronaut-validation = '4.2.0'
 
 [libraries]
 # Core
