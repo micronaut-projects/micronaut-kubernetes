@@ -3,14 +3,13 @@ set -ex
 
 #
 # Defaults
-K8S_DEFAULT_VERSION="1.27"
+K8S_DEFAULT_VERSION="1.21"
 KUBECTL_DEFAULT_VERSION="v1.19.2"
 KIND_VERSION="v0.11.1"
 EXAMPLE_SERVICE_RUNTIME=${EXAMPLE_SERVICE_RUNTIME:="java"}
 
 #
 # K8s images required for KIND version
-K8S_127="kindest/node:v1.27.3@sha256:3966ac761ae0136263ffdb6cfd4db23ef8a83cba8a463690e98317add2c9ba72"
 K8S_121="kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6"
 K8S_120="kindest/node:v1.20.7@sha256:cbeaf907fc78ac97ce7b625e4bf0de16e3ea725daf6b04f930bd14c67c671ff9"
 K8S_119="kindest/node:v1.19.11@sha256:07db187ae84b4b7de440a73886f008cf903fcf5764ba8106a9fd5243d6f32729"
@@ -37,9 +36,7 @@ echo "KUBECTL_VERSION = $KUBECTL_VERSION"
 
 #
 # Resolve kind node image
-if [[ "1.27" == "${K8S_VERSION}" ]]; then
-  KIND_NODE_IMAGE_VERSION=$K8S_127
-elif [[ "1.21" == "${K8S_VERSION}" ]]; then
+if [[ "1.21" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_121
 elif [[ "1.20" == "${K8S_VERSION}" ]]; then
   KIND_NODE_IMAGE_VERSION=$K8S_120
