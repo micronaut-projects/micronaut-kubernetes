@@ -180,7 +180,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                             }
                         })
                         .flatMap(labelSelector ->
-                                client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
+                                client.listNamespacedConfigMap(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null, null))
                         .doOnError(ApiException.class, throwable -> LOG.error("Error to list ConfigMaps in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
                         .onErrorResume(throwable -> exceptionOnPodLabelsMissing
                                 ? Mono.error(throwable)
@@ -297,7 +297,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
                 Flux<PropertySource> secretListFlowable = computePodLabelSelector(client,
                     configuration.getSecrets().getPodLabels(), configuration.getNamespace(), labels, exceptionOnPodLabelsMissing)
-                        .flatMap(labelSelector -> client.listNamespacedSecret(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null))
+                        .flatMap(labelSelector -> client.listNamespacedSecret(configuration.getNamespace(), null, null, null, null, labelSelector, null, null, null, null, null))
                         .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Secrets in the namespace [" + configuration.getNamespace() + "]: " + throwable.getResponseBody(), throwable))
                         .onErrorResume(throwable -> exceptionOnPodLabelsMissing
                                                        ? Mono.error(throwable)

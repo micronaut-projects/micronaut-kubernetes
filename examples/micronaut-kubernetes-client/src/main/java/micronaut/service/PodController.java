@@ -43,7 +43,7 @@ public class PodController {
 
     @Get("/{namespace}")
     public Map<String, String> index(final @NotNull String namespace) throws ApiException {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, false);
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, false);
         return v1PodList.getItems().stream()
                 .filter(p -> p.getStatus() != null)
                 .collect(Collectors.toMap(

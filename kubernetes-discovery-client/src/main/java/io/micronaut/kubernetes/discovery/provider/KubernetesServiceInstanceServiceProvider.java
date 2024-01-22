@@ -69,7 +69,7 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractV1ServiceP
             LOG.trace("Using API to fetch services from namespace [{}]", namespace);
         }
 
-        return client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null)
+        return client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null)
                 .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Services from namespace [" + namespace + "]: " + throwable.getResponseBody(), throwable))
                 .flatMapIterable(V1ServiceList::getItems);
     }
