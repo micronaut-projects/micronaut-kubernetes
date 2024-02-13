@@ -9,4 +9,5 @@ kubernetes-informer: Kubernetes Informer
 kubernetes-operator: Kubernetes Operator
 logging: Logging and debugging
 breaking: Breaking Changes
+kubernetesGuides: Guides
 repository: Repository

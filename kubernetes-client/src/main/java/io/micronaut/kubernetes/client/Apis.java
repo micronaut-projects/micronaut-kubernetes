@@ -15,9 +15,6 @@
  */
 package io.micronaut.kubernetes.client;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import io.kubernetes.client.openapi.apis.AdmissionregistrationApi;
 import io.kubernetes.client.openapi.apis.AdmissionregistrationV1Api;
 import io.kubernetes.client.openapi.apis.ApiextensionsApi;
@@ -34,7 +31,6 @@ import io.kubernetes.client.openapi.apis.AuthorizationV1Api;
 import io.kubernetes.client.openapi.apis.AutoscalingApi;
 import io.kubernetes.client.openapi.apis.AutoscalingV1Api;
 import io.kubernetes.client.openapi.apis.AutoscalingV2Api;
-import io.kubernetes.client.openapi.apis.AutoscalingV2beta2Api;
 import io.kubernetes.client.openapi.apis.BatchApi;
 import io.kubernetes.client.openapi.apis.BatchV1Api;
 import io.kubernetes.client.openapi.apis.CertificatesApi;
@@ -49,7 +45,6 @@ import io.kubernetes.client.openapi.apis.DiscoveryV1Api;
 import io.kubernetes.client.openapi.apis.EventsApi;
 import io.kubernetes.client.openapi.apis.EventsV1Api;
 import io.kubernetes.client.openapi.apis.FlowcontrolApiserverApi;
-import io.kubernetes.client.openapi.apis.FlowcontrolApiserverV1beta1Api;
 import io.kubernetes.client.openapi.apis.FlowcontrolApiserverV1beta2Api;
 import io.kubernetes.client.openapi.apis.InternalApiserverApi;
 import io.kubernetes.client.openapi.apis.InternalApiserverV1alpha1Api;
@@ -67,9 +62,11 @@ import io.kubernetes.client.openapi.apis.SchedulingApi;
 import io.kubernetes.client.openapi.apis.SchedulingV1Api;
 import io.kubernetes.client.openapi.apis.StorageApi;
 import io.kubernetes.client.openapi.apis.StorageV1Api;
-import io.kubernetes.client.openapi.apis.StorageV1beta1Api;
 import io.kubernetes.client.openapi.apis.VersionApi;
 import io.kubernetes.client.openapi.apis.WellKnownApi;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Internal annotation to trigger the creation of Api clients.
@@ -99,7 +96,6 @@ public @interface Apis {
             AutoscalingApi.class,
             AutoscalingV1Api.class,
             AutoscalingV2Api .class,
-            AutoscalingV2beta2Api.class,
             BatchApi.class,
             BatchV1Api.class,
             CertificatesApi.class,
@@ -114,7 +110,6 @@ public @interface Apis {
             EventsApi.class,
             EventsV1Api.class,
             FlowcontrolApiserverApi.class,
-            FlowcontrolApiserverV1beta1Api.class,
             FlowcontrolApiserverV1beta2Api.class,
             InternalApiserverApi.class,
             InternalApiserverV1alpha1Api.class,
@@ -132,7 +127,6 @@ public @interface Apis {
             SchedulingV1Api.class,
             StorageApi.class,
             StorageV1Api.class,
-            StorageV1beta1Api.class,
             VersionApi.class,
             WellKnownApi.class,
     };

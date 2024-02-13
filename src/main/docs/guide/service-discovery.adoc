@@ -265,4 +265,14 @@ kubernetes:
         - env: prod
 ----
 
+
 Note that the filtering is not applied on manually configured service configurations.
+
+## Service discovery guides
+
+See the following guides to learn more about Kubernetes service discovery using the Micronaut Framework:
+
+- https://guides.micronaut.io/latest/micronaut-k8s.html[Kubernetes Service Discovery and Distributed Configuration]
+- https://guides.micronaut.io/latest/micronaut-k8s-aws.html[Service Discovery and Distributed Configuration with Amazon Elastic Kubernetes Service (EKS)]
+- https://guides.micronaut.io/latest/micronaut-k8s-gcp.html[Service Discovery and Distributed Configuration with Google Kubernetes Engine (GKE)]
+- https://guides.micronaut.io/latest/micronaut-k8s-oci.html[Service Discovery and Distributed Configuration with Oracle Cloud Container Engine for Kubernetes (OKE)]

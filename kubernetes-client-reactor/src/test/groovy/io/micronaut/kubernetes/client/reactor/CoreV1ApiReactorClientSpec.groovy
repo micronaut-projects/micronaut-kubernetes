@@ -37,6 +37,7 @@ class CoreV1ApiReactorClientSpec extends KubernetesSpecification {
                 null,
                 null,
                 null,
+                null,
                 null).block()
 
         then:
@@ -55,6 +56,7 @@ class CoreV1ApiReactorClientSpec extends KubernetesSpecification {
                 null,
                 null,
                 "label=red",
+                null,
                 null,
                 null,
                 null,
