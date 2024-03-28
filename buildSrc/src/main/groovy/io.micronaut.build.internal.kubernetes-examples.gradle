@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    mn.snakeyaml
+    runtimeOnly(mn.snakeyaml)
 }
 
 graalvmNative {
