@@ -13,13 +13,13 @@ import jakarta.inject.Inject;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @MicronautTest(environments = Environment.KUBERNETES)
-public class HelloControllerTest {
+class HelloControllerTest {
 
     @Inject
     EmbeddedServer embeddedServer;
 
     @Test
-    public void testIndex() throws Exception {
+    void testIndex() throws Exception {
         try(HttpClient client = embeddedServer.getApplicationContext().createBean(HttpClient.class, embeddedServer.getURL())) {
             HttpRequest<?> request = HttpRequest.GET("/hello/Alvaro").accept(MediaType.TEXT_PLAIN);
             assertTrue(client.toBlocking().exchange(request, String.class).body().startsWith("Hello, Alvaro"));
