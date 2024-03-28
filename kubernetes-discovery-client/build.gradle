@@ -23,3 +23,9 @@ dependencies {
 
     testRuntimeOnly mn.snakeyaml
 }
+
+test {
+    distribution {
+        enabled = false
+    }
+}

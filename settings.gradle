@@ -41,6 +41,7 @@ gradleEnterprise {
     buildScan {
         capture {
             testLogging = false
+            buildLogging = false
         }
     }
 }
