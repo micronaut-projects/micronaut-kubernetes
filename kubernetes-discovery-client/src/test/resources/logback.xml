@@ -1,3 +1,24 @@
 <configuration>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %gray([core]) [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--
+     OFF on purpose...
+
+     Logging in this module introduces flakiness in the build.
+
+     It looks like there's an interrupted exception inside the
+     kubernetes client, and this causes issues with the build-scan
+     trying to capture the log lines.
+    -->
+
+    <root level="OFF">
+        <appender-ref ref="STDOUT"/>
+    </root>
 </configuration>
