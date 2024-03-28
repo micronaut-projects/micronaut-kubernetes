@@ -11,7 +11,7 @@
     <!--
      OFF on purpose...
 
-     Logging in this module introduces flakiness in the build.
+     Logging in this module introduces flakiness in the build on CI.
 
      It looks like there's an interrupted exception inside the
      kubernetes client, and this causes issues with the build-scan
