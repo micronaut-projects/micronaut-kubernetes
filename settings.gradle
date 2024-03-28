@@ -33,6 +33,7 @@ include 'examples:example-service'
 micronautBuild {
     useStandardizedProjectNames = true
     nonStandardProjectNamePrefixes.add("test-utils")
+    nonStandardProjectNamePrefixes.add("examples")
 
     importMicronautCatalog()
     importMicronautCatalog("micronaut-reactor")
