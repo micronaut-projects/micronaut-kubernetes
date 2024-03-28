@@ -84,6 +84,7 @@ class KubernetesOperations implements Closeable {
                     .map(it -> it.metadata.name).collect(Collectors.toList())
             if (namespaces.contains(name)) {
                 log.info("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...")
+                Thread.sleep(waitTime)
             } else {
                 log.info("Namespace sucessfully deleted: ${namespaces}")
                 break

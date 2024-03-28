@@ -9,7 +9,7 @@ dependencies {
     compileOnly mn.micronaut.inject.java
     compileOnly libs.graal.svm
 
-    api projects.kubernetesClient
+    api projects.micronautKubernetesClient
     implementation mn.micronaut.runtime
     api mn.micronaut.context
 

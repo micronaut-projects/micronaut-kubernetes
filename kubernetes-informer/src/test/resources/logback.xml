@@ -8,7 +8,17 @@
         </encoder>
     </appender>
 
-    <root level="info">
+    <!--
+     OFF on purpose...
+
+     Logging in this module introduces flakiness in the build on CI.
+
+     It looks like there's an interrupted exception inside the
+     kubernetes client, and this causes issues with the build-scan
+     trying to capture the log lines.
+    -->
+
+    <root level="OFF">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

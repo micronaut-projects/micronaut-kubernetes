@@ -3,11 +3,9 @@ plugins {
 }
 
 dependencies {
-    annotationProcessor projects.kubernetesClientProcessor
-    api projects.kubernetesClient
+    annotationProcessor projects.micronautKubernetesClientProcessor
+    api projects.micronautKubernetesClient
     api mnReactor.micronaut.reactor
 
     testImplementation projects.testUtils
 }
-
-compileJava.options.fork = true
