@@ -1,39 +1,40 @@
 plugins {
     id 'io.micronaut.build.internal.kubernetes-examples'
-    id("groovy")
+    id 'groovy'
 }
 
 micronaut {
     version libs.versions.micronaut.platform.get()
     runtime("netty")
-    testRuntime("junit5")
+    testRuntime("spock2")
     processing {
         incremental(true)
-        annotations("micronaut.service.*")
+        annotations("micronaut.informer.*")
     }
 }
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
     implementation(mnValidation.micronaut.validation)
-    implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.jackson.databind)
+    compileOnly mn.micronaut.inject.java
+    implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
-    implementation projects.kubernetesDiscoveryClient
-
+    implementation projects.micronautKubernetesInformer
     runtimeOnly(mnLogging.logback.classic)
+    testImplementation projects.testUtils
 }
 
 application {
-    mainClass.set("micronaut.service.Application")
+    mainClass.set("micronaut.informer.Application")
 }
 
 tasks {
     dockerBuild {
-        images = ['micronaut-kubernetes-example-service']
+        images = ['micronaut-kubernetes-informer-example']
     }
 
     dockerBuildNative {
-        images = ['micronaut-kubernetes-example-service']
+        images = ['micronaut-kubernetes-informer-example']
     }
 }

@@ -20,7 +20,7 @@ dependencies {
     implementation(mnSerde.micronaut.serde.jackson)
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
-    implementation projects.kubernetesDiscoveryClient
+    implementation projects.micronautKubernetesDiscoveryClient
 
     runtimeOnly(mnLogging.logback.classic)
 

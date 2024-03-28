@@ -1,6 +1,6 @@
 plugins {
     id 'io.micronaut.build.internal.kubernetes-examples'
-    id 'groovy'
+    id("groovy")
 }
 
 micronaut {
@@ -15,12 +15,11 @@ micronaut {
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
-    annotationProcessor(mnSerde.micronaut.serde.processor)
     implementation(mnValidation.micronaut.validation)
     implementation(mn.micronaut.http.client)
-    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.jackson.databind)
     implementation(mn.micronaut.management)
-    implementation projects.kubernetesClient
+    implementation projects.micronautKubernetesDiscoveryClient
 
     runtimeOnly(mnLogging.logback.classic)
 }
@@ -28,12 +27,13 @@ dependencies {
 application {
     mainClass.set("micronaut.service.Application")
 }
+
 tasks {
     dockerBuild {
-        images = ['micronaut-kubernetes-client-example']
+        images = ['micronaut-kubernetes-example-service']
     }
 
     dockerBuildNative {
-        images = ['micronaut-kubernetes-client-example']
+        images = ['micronaut-kubernetes-example-service']
     }
 }

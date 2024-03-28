@@ -6,37 +6,34 @@ plugins {
 micronaut {
     version libs.versions.micronaut.platform.get()
     runtime("netty")
-    testRuntime("spock2")
+    testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("micronaut.operator.*")
+        annotations("micronaut.service.*")
     }
 }
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
     annotationProcessor(mnSerde.micronaut.serde.processor)
-    implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnValidation.micronaut.validation)
     implementation(mn.micronaut.http.client)
+    implementation(mnSerde.micronaut.serde.jackson)
     implementation(mn.micronaut.management)
-    implementation projects.kubernetesOperator
+    implementation projects.micronautKubernetesClient
 
     runtimeOnly(mnLogging.logback.classic)
-
-    testImplementation projects.testUtils
 }
 
 application {
-    mainClass.set("micronaut.operator.Application")
+    mainClass.set("micronaut.service.Application")
 }
-
 tasks {
     dockerBuild {
-        images = ['micronaut-kubernetes-operator-example']
+        images = ['micronaut-kubernetes-client-example']
     }
 
     dockerBuildNative {
-        images = ['micronaut-kubernetes-operator-example']
+        images = ['micronaut-kubernetes-client-example']
     }
 }
