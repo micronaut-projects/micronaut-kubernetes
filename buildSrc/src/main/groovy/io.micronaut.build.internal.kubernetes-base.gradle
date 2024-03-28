@@ -7,3 +7,10 @@ configurations.all {
         preferProjectModules()
     }
 }
+
+tasks.withType(Test).configureEach {
+    distribution {
+        enabled = false
+        maxRemoteExecutors = 2
+    }
+}
