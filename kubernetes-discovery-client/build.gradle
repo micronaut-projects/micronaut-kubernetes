@@ -24,8 +24,7 @@ dependencies {
     testRuntimeOnly mn.snakeyaml
 }
 
-test {
-    distribution {
-        enabled = false
-    }
+tasks.withType(Test).configureEach {
+    // for system lambda
+    jvmArgs("--add-opens=java.base/java.util=ALL-UNNAMED")
 }
