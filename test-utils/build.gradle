@@ -11,7 +11,6 @@ dependencies {
     api mn.micronaut.inject.java
     api mn.micronaut.http.client
     api libs.io.fabric8.kubernetes.client
-    api libs.spock.core
     api mnTest.micronaut.test.spock
     api mnLogging.logback.classic
 }

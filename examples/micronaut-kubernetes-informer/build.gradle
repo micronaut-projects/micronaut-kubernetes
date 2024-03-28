@@ -21,9 +21,7 @@ dependencies {
     implementation(mn.micronaut.http.client)
     implementation(mn.micronaut.management)
     implementation projects.kubernetesInformer
-
     runtimeOnly(mnLogging.logback.classic)
-
     testImplementation projects.testUtils
 }
 
