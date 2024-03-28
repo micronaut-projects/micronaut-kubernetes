@@ -27,4 +27,7 @@ dependencies {
 tasks.withType(Test).configureEach {
     // for system lambda
     jvmArgs("--add-opens=java.base/java.util=ALL-UNNAMED")
+
+    // Test to see if this improves stability
+    predictiveSelection.enabled = false
 }
