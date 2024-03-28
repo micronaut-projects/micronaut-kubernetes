@@ -18,6 +18,7 @@ dependencies {
     implementation mn.micronaut.jackson.databind
 
     testImplementation libs.micronaut.discovery.client
+    testImplementation libs.system.lambda
     testImplementation(projects.testUtils)
 
     testRuntimeOnly mn.snakeyaml
