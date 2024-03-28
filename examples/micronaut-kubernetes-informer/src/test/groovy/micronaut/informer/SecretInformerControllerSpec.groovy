@@ -24,6 +24,8 @@ import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
@@ -36,6 +38,8 @@ import java.util.concurrent.TimeUnit
 @Property(name = "kubernetes.client.namespace", value = "micronaut-example-informer")
 @Requires({ TestUtils.kubernetesApiAvailable() })
 class SecretInformerControllerSpec extends KubernetesSpecification {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecretInformerControllerSpec)
 
     @Inject
     @Shared
@@ -113,7 +117,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
     void "test all"() {
         expect:
-        println testClient.all().metadata.name
+        LOG.info("Secret names {}", testClient.all().metadata.name)
         testClient.all().size() == 4
         testClient.secret("test-secret")
         testClient.secret("test-secret").data.containsKey("username")
