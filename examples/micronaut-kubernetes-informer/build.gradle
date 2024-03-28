@@ -29,6 +29,10 @@ application {
     mainClass.set("micronaut.informer.Application")
 }
 
+test {
+    testLogging.showStandardStreams = true
+}
+
 tasks {
     dockerBuild {
         images = ['micronaut-kubernetes-informer-example']
