@@ -10,4 +10,3 @@ dependencies {
 
     testImplementation projects.testUtils
 }
-compileJava.options.fork = true
