@@ -1,9 +1,6 @@
 <configuration>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <withJansi>true</withJansi>
-        <!-- encoders are assigned the type
-             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
             <pattern>%cyan(%d{HH:mm:ss.SSS}) %gray([example-service]) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n</pattern>
         </encoder>
@@ -13,8 +10,8 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <logger name="io.micronaut.kubernetes" level="TRACE"/>
-    <logger name="io.micronaut.kubernetes.health" level="DEBUG"/>
-    <logger name="io.kubernetes.client" level="TRACE"/>
+<!--    <logger name="io.micronaut.kubernetes" level="TRACE"/>-->
+<!--    <logger name="io.micronaut.kubernetes.health" level="DEBUG"/>-->
+<!--    <logger name="io.kubernetes.client" level="TRACE"/>-->
 
 </configuration>
