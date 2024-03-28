@@ -11,3 +11,9 @@ dependencies {
 graalvmNative {
     testSupport = false
 }
+
+dockerfile {
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
+        baseImage("eclipse-temurin:21-jre-jammy")
+    }
+}

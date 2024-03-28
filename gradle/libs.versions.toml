@@ -4,7 +4,7 @@ micronaut = "4.2.3"
 micronaut-platform = "4.1.5"
 micronaut-docs = "2.0.0"
 micronaut-test = "4.1.0"
-micronaut-gradle-plugin = "4.2.1"
+micronaut-gradle-plugin = "4.3.5"
 
 graal-svm = "23.1.2"
 javapoet = '1.13.0'
