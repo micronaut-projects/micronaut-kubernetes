@@ -36,3 +36,11 @@ micronautBuild {
     importMicronautCatalog("micronaut-serde")
     importMicronautCatalog("micronaut-validation")
 }
+
+gradleEnterprise {
+    buildScan {
+        capture {
+            testLogging = false
+        }
+    }
+}
