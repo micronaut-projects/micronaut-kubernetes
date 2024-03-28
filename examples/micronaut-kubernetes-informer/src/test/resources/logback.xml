@@ -14,6 +14,7 @@
     </root>
 
     <logger name="io.micronaut" level="DEBUG"/>
+    <logger name="micronaut.informer" level="DEBUG"/>
     <!--    <logger name="io.micronaut.context.env" level="TRACE"/>-->
     <!--    <logger name="io.micronaut.context.condition" level="DEBUG"/>-->
 

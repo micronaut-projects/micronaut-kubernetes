@@ -117,7 +117,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
 
     void "test all"() {
         expect:
-        LOG.info("Secret names {}", testClient.all().metadata.name)
+        LOG.info("All secrets: {}", testClient.all())
         testClient.all().size() == 4
         testClient.secret("test-secret")
         testClient.secret("test-secret").data.containsKey("username")

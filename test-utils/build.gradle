@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'groovy'
+    id("io.micronaut.build.internal.common")
     id 'io.micronaut.build.internal.kubernetes-tests'
 }
 

@@ -16,12 +16,18 @@
 package micronaut.informer;
 
 import io.kubernetes.client.openapi.models.V1Secret;
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 
 @Controller
 public class SecretInformerController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecretInformerController.class);
 
     private final SecretResourceEventHandler secretResourceEventHandler;
 
@@ -31,7 +37,13 @@ public class SecretInformerController {
 
     @Get("/all")
     public Collection<V1Secret> all() {
-        return secretResourceEventHandler.getV1SecretMap().values();
+        Collection<V1Secret> values = secretResourceEventHandler.getV1SecretMap().values();
+        if (CollectionUtils.isNotEmpty(values)) {
+            values.forEach(secret -> {
+                LOG.info("Secret: {}", secret.getMetadata().getName());
+            });
+        }
+        return values;
     }
 
     @Get("/secret/{key}")

@@ -19,6 +19,7 @@
     <logger name="io.micronaut.kubernetes.health" level="DEBUG"/>
     <logger name="io.kubernetes.client" level="TRACE"/>
     <logger name="io.micronaut.health" level="TRACE"/>
+    <logger name="micronaut.informer" level="TRACE"/>
 <!--    <logger name="io.micronaut.management" level="TRACE"/>-->
     <!--    <logger name="io.micronaut.context.env" level="TRACE"/>-->
 
