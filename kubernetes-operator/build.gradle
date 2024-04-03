@@ -4,12 +4,11 @@ plugins {
 
 dependencies {
     annotationProcessor mn.micronaut.graal
-    
 
     compileOnly mn.micronaut.inject.java
     compileOnly libs.graal.svm
 
-    api projects.kubernetesInformer
+    api projects.micronautKubernetesInformer
     api libs.io.kubernetes.client.java.extended
     implementation mn.micronaut.runtime
 

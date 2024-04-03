@@ -1,0 +1,42 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-examples'
+    id("groovy")
+}
+
+micronaut {
+    version libs.versions.micronaut.platform.get()
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("micronaut.client.*")
+    }
+}
+
+dependencies {
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+    annotationProcessor(mnSerde.micronaut.serde.processor)
+    implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.http.client)
+    implementation(mn.micronaut.management)
+    implementation projects.micronautKubernetesDiscoveryClient
+
+    runtimeOnly(mnLogging.logback.classic)
+
+    testImplementation projects.testUtils
+}
+
+application {
+    mainClass.set("micronaut.client.Application")
+}
+
+tasks {
+    dockerBuild {
+        images = ['micronaut-kubernetes-example-client']
+    }
+
+    dockerBuildNative {
+        images = ['micronaut-kubernetes-example-client']
+    }
+}

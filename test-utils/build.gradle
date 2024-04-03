@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'groovy'
+    id("io.micronaut.build.internal.common")
     id 'io.micronaut.build.internal.kubernetes-tests'
 }
 
@@ -11,7 +12,6 @@ dependencies {
     api mn.micronaut.inject.java
     api mn.micronaut.http.client
     api libs.io.fabric8.kubernetes.client
-    api libs.spock.core
     api mnTest.micronaut.test.spock
     api mnLogging.logback.classic
 }

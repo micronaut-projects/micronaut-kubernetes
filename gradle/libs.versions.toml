@@ -4,10 +4,7 @@ micronaut = "4.2.3"
 micronaut-platform = "4.1.5"
 micronaut-docs = "2.0.0"
 micronaut-test = "4.1.0"
-micronaut-gradle-plugin = "4.2.1"
-
-groovy = "4.0.12"
-spock = '2.3-groovy-4.0'
+micronaut-gradle-plugin = "4.3.5"
 
 graal-svm = "23.1.2"
 javapoet = '1.13.0'
@@ -27,12 +24,12 @@ micronaut-validation = '4.2.0'
 [libraries]
 # Core
 micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
+micronaut-platform = { module = 'io.micronaut.platform:micronaut-platform', version.ref = 'micronaut-platform' }
 
 graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
 rxjava2 = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava2" }
 rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
-spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
 system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "system-lambda" }
 
 io-kubernetes-client-java = { module = "io.kubernetes:client-java", version.ref = "io-kubernetes-client-java" }

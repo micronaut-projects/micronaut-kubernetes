@@ -1,13 +1,23 @@
 plugins {
     id "io.micronaut.build.internal.kubernetes-tests"
-    id 'io.micronaut.application'
+    id "io.micronaut.application"
     id 'com.github.johnrengelman.shadow'
 }
 
 dependencies {
-    mn.snakeyaml
+    runtimeOnly(mn.snakeyaml)
 }
 
 graalvmNative {
+    toolchainDetection = false
     testSupport = false
+    metadataRepository {
+        enabled = true
+    }
+}
+
+dockerfile {
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
+        baseImage("eclipse-temurin:21-jre-jammy")
+    }
 }
