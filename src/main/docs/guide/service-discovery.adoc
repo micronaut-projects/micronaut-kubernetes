@@ -152,7 +152,7 @@ Service discovery mode is a mechanism that allows to support different strategie
 
 Currently Micronaut Kubernetes implements two discovery modes:
 
-* `endpoint` mode uses the Kubernetes `Endpoins` API for the service discovery. Note that the service load balancing is handled by Microunat application.
+* `endpoint` mode uses the Kubernetes `Endpoints` API for the service discovery. Note that the service load balancing is handled by Microunat application.
 * `service` mode uses the Kubernetes `Service` API for the service discovery. The `service` mode extracts the service `ClusterIP` address from the Service status.
 
 Both discovery modes are using the `metadata.name` for the Service ID identificator.
