@@ -20,11 +20,14 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.util.Strings;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * This class is inspired by the implementation of the <a href="https://github.com/kubernetes-client/java/blob/release-13/util/src/main/java/io/kubernetes/client/util/ModelMapper.java">io.kubernetes.client.util.ModelMapper.java</a>.
@@ -38,11 +41,16 @@ import java.util.Map;
  */
 public class ModelMapper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ModelMapper.class);
+
     // Model's api-group prefix to kubernetes api-group
     private final Map<String, String> preBuiltApiGroups = new HashMap<>();
 
     // Model's api-version midfix to kubernetes api-version
     private final List<String> preBuiltApiVersions = new ArrayList<>();
+
+    // This allows parsing custom (not included in kubernetes core) api versions
+    private final Pattern customVersionParser = Pattern.compile("(V[a-z1-9]+)[A-Z]+[a-zA-Z0-9]+");
 
     public ModelMapper() {
         initApiGroupMap();
@@ -85,17 +93,37 @@ public class ModelMapper {
     private Pair<String, String> getApiGroup(String name) {
         return preBuiltApiGroups.entrySet().stream()
                 .filter(e -> name.startsWith(e.getKey()))
-                .map(e -> new MutablePair<String, String>(e.getValue(), name.substring(e.getKey().length())))
+                .map(e -> new MutablePair<>(e.getValue(), name.substring(e.getKey().length())))
                 .findFirst()
-                .orElse(new MutablePair<String, String>(null, name));
+                .orElse(new MutablePair<>(null, name));
     }
 
     private Pair<String, String> getApiVersion(String name) {
         return preBuiltApiVersions.stream()
                 .filter(name::startsWith)
-                .map(v -> new MutablePair<String, String>(v.toLowerCase(), name.substring(v.length())))
+                .map(v -> new MutablePair<>(v, extractKind(v, name)))
                 .findFirst()
-                .orElse(new MutablePair<String, String>(null, name));
+                .orElseGet(() -> {
+                    String version = tryGuessCustomApiVersion(name);
+                    return new MutablePair<>(version, extractKind(version, name));
+                });
+    }
+
+    private String extractKind(String version, String name){
+        return version == null ? name : name.substring(version.length());
+    }
+
+    private String tryGuessCustomApiVersion(String name) {
+        var patternMatcher = customVersionParser.matcher(name);
+
+        if (patternMatcher.matches() && patternMatcher.groupCount() == 1) {
+            return patternMatcher.group(1);
+        }
+
+        // Warn the user to avoid wasted debug time (cfr https://github.com/micronaut-projects/micronaut-kubernetes/issues/639)
+        LOG.warn("Could not extract ApiVersion from entity {}", name);
+
+        return null;
     }
 
     /**
@@ -109,8 +137,9 @@ public class ModelMapper {
         Pair<String, String> versionAndOther = getApiVersion(groupAndOther.getRight());
 
         String group = Strings.nullToEmpty(groupAndOther.getLeft());
-        String version = versionAndOther.getLeft();
+        String version = versionAndOther.getLeft() == null ? null : versionAndOther.getLeft().toLowerCase();
         String kind = versionAndOther.getRight();
+
         return new GroupVersionKind(group, version, kind);
     }
 }

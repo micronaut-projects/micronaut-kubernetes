@@ -25,4 +25,15 @@ class ModelMapperSpec extends Specification {
             it.kind == "ClusterRole"
         }
     }
+
+    def "it resolves custom api versions"() {
+        expect:
+        with(mapper.getGroupVersionKindByClass(V3CustomResource)) {
+            it.version == "v3"
+            it.group == ""
+            it.kind == "CustomResource"
+        }
+    }
+
+    static class V3CustomResource{}
 }
