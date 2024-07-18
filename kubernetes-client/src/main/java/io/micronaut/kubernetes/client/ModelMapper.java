@@ -50,7 +50,9 @@ public class ModelMapper {
     private final List<String> preBuiltApiVersions = new ArrayList<>();
 
     // This allows parsing custom (not included in kubernetes core) api versions
-    private final Pattern customVersionParser = Pattern.compile("(V[a-z1-9]+)[A-Z]+[a-zA-Z0-9]+");
+    // It is based on the kubernetes core one available at https://github.com/kubernetes/apimachinery/blob/master/pkg/util/version/version.go
+    // and is completed to be able to proceed to extraction from a java class name
+    private final Pattern customVersionParser = Pattern.compile("^\\s*(V(?:[0-9]+(?:\\.[0-9]+)*)(?:[a-z0-9]*)*)[A-Z]+[a-zA-Z0-9]*$");
 
     public ModelMapper() {
         initApiGroupMap();
