@@ -18,7 +18,7 @@ micronaut-discovery = "4.3.0"
 micronaut-logging = "1.1.2"
 micronaut-reactor = "3.2.1"
 micronaut-serde = '2.9.0'
-micronaut-validation = '4.5.0'
+micronaut-validation = '4.6.1'
 
 [libraries]
 # Core
