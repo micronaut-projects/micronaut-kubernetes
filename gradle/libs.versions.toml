@@ -17,8 +17,8 @@ io-fabric8-kubernetes-client = '6.13.3'
 micronaut-discovery = "4.4.0"
 micronaut-logging = "1.4.0"
 micronaut-reactor = "3.5.0"
-micronaut-serde = '2.10.2'
 micronaut-validation = '4.6.1'
+micronaut-serde = "2.11.0"
 
 [libraries]
 # Core
