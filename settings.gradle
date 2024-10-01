@@ -15,6 +15,7 @@ rootProject.name = 'kubernetes-parent'
 
 include 'kubernetes-bom'
 include 'kubernetes-client'
+include 'kubernetes-client-openapi'
 include 'kubernetes-client-processor'
 include 'kubernetes-client-reactor'
 include 'kubernetes-client-rxjava2'
@@ -39,4 +40,5 @@ micronautBuild {
     importMicronautCatalog("micronaut-reactor")
     importMicronautCatalog("micronaut-serde")
     importMicronautCatalog("micronaut-validation")
+    importMicronautCatalog("micronaut-openapi")
 }

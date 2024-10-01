@@ -1,0 +1,62 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+    id 'io.micronaut.openapi' version libs.versions.micronaut.gradle.plugin
+}
+
+micronaut {
+    openapi {
+        client(layout.buildDirectory.file("openapi.yaml").get().asFile) {
+            apiPackageName = "io.micronaut.kubernetes.client.openapi.api"
+            modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
+            clientId = "kubernetes-client"
+            useReactive = false
+            alwaysUseGenerateHttpResponse = true
+        }
+    }
+}
+
+dependencies {
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+    annotationProcessor(mnSerde.micronaut.serde.processor)
+    annotationProcessor(mn.micronaut.inject.java)
+    implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mnOpenapi.micronaut.openapi)
+    implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
+    compileOnly(mn.micronaut.http.client)
+    compileOnly(libs.netty.incubator.codec.http3) // ClientSslBuilderImpl doesn't compile without it
+}
+
+tasks.register("prepareOpenapiSpec") {
+    inputs.property("kubernetes-client-version", libs.versions.io.kubernetes.client.java)
+    def outputFile = layout.buildDirectory.file("openapi.yaml")
+    doLast {
+        def clientVersion = inputs.getProperties().get("kubernetes-client-version")
+        def uri = uri("https://raw.githubusercontent.com/kubernetes-client/java/refs/tags/v${clientVersion}/kubernetes/api/openapi.yaml")
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()))
+             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile.get().asFile)))) {
+            println "Downloading kubernetes client spec file: ${uri}"
+            String line
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("x-implements")) {
+                    // skip lines which contains x-implements because we don't want that generated classes implement
+                    // io.kubernetes.client.common.KubernetesObject and io.kubernetes.client.common.KubernetesListObject
+                    reader.readLine() // skip one more line because it contains KubernetesObject interface
+                } else {
+                    writer.writeLine(line)
+                }
+            }
+        }
+    }
+    outputs.file(outputFile)
+}
+
+generateClientOpenApiApis.dependsOn("prepareOpenapiSpec")
+generateClientOpenApiModels.dependsOn("prepareOpenapiSpec")
+
+
+
+/*tasks.withType(JavaCompile).configureEach {
+    options.fork = true
+    options.forkOptions.jvmArgs.add("-DmaxYamlCodePoints=10485760")
+}*/

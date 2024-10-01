@@ -3,7 +3,7 @@ micronaut = "4.5.4"
 micronaut-platform = "4.5.1"
 micronaut-docs = "2.0.0"
 micronaut-test = "4.1.0"
-micronaut-gradle-plugin = "4.4.3"
+micronaut-gradle-plugin = "4.4.2"
 
 graal-svm = "24.0.2"
 javapoet = '1.13.0'
@@ -12,13 +12,15 @@ rxjava3 = '3.1.9'
 shadow = '8.0.0'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '19.0.1'
-io-fabric8-kubernetes-client = '6.13.4'
+io-fabric8-kubernetes-client = '6.13.3'
+netty-incubator-codec-http3 = "0.0.28.Final"
 
 micronaut-discovery = "4.3.0"
 micronaut-logging = "1.1.2"
 micronaut-reactor = "3.4.1"
 micronaut-serde = '2.10.2'
 micronaut-validation = '4.6.1'
+micronaut-openapi = '6.11.1'
 
 [libraries]
 # Core
@@ -34,10 +36,12 @@ system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref
 io-kubernetes-client-java = { module = "io.kubernetes:client-java", version.ref = "io-kubernetes-client-java" }
 io-kubernetes-client-java-extended = { module = "io.kubernetes:client-java-extended", version.ref = "io-kubernetes-client-java" }
 io-fabric8-kubernetes-client = { module = "io.fabric8:kubernetes-client", version.ref = "io-fabric8-kubernetes-client" }
+netty-incubator-codec-http3 = { module = "io.netty.incubator:netty-incubator-codec-http3", version.ref = "netty-incubator-codec-http3" }
 
 micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
 micronaut-serde = { module = 'io.micronaut.serde:micronaut-serde-bom', version.ref = 'micronaut-serde'}
 micronaut-validation = { module = 'io.micronaut.validation:micronaut-validation-bom', version.ref = 'micronaut-validation'}
+micronaut-openapi = { module = 'io.micronaut.openapi:micronaut-openapi-bom', version.ref = 'micronaut-openapi'}
 
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 
