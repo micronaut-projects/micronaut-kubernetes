@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi;
+package io.micronaut.kubernetes.client.openapi.credential.model;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.spec.InvalidKeySpecException;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.serde.annotation.Serdeable;
 
-public interface KubernetesPrivateKeyLoader {
-
-    PrivateKey loadPrivateKey(byte[] clientKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException;
+/**
+ * ExecCredential is used by exec-based plugins to communicate credentials to HTTP transports.
+ *
+ * @param apiVersion the api version
+ * @param kind the kind of exec credential
+ * @param status the holder for credentials that should be used to contact the API
+ */
+@Serdeable.Deserializable
+public record ExecCredential(
+    @Nullable String apiVersion,
+    @Nullable String kind,
+    @Nullable ExecCredentialStatus status
+) {
 }

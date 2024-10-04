@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.config;
+package io.micronaut.kubernetes.client.openapi.config.model;
 
 import io.micronaut.core.annotation.Nullable;
 
@@ -22,13 +22,17 @@ import io.micronaut.core.annotation.Nullable;
  *
  * @param clientCertificateData the PEM-encoded data from a client cert file for TLS
  * @param clientKeyData the PEM-encoded data from a client key file for TLS
+ * @param token the bearer token for authentication to the kubernetes cluster
  * @param username the username for basic authentication to the kubernetes cluster
  * @param password the password for basic authentication to the kubernetes cluster
+ * @param exec the custom exec-based authentication plugin for the kubernetes cluster
  */
 public record AuthInfo(
     @Nullable byte[] clientCertificateData,
     @Nullable byte[] clientKeyData,
+    @Nullable String token,
     @Nullable String username,
-    @Nullable String password
+    @Nullable String password,
+    @Nullable ExecConfig exec
 ) {
 }

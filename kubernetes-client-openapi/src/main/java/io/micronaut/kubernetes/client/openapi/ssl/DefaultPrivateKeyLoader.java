@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi;
+package io.micronaut.kubernetes.client.openapi.ssl;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import jakarta.inject.Singleton;
@@ -36,12 +36,12 @@ import java.security.spec.RSAPrivateCrtKeySpec;
 import java.util.Base64;
 
 /**
- * The private key loader implementation copied from
+ * Default implementation of the private key loader which contains code copied from
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.1/util/src/main/java/io/kubernetes/client/util/SSLUtils.java">SSLUtils</a>.
  */
 @Singleton
 @BootstrapContextCompatible
-public class BouncyCastlePrivateKeyLoader implements KubernetesPrivateKeyLoader {
+class DefaultPrivateKeyLoader implements KubernetesPrivateKeyLoader {
 
     @Override
     public PrivateKey loadPrivateKey(byte[] clientKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {

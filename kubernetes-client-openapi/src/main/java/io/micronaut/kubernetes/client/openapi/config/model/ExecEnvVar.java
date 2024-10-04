@@ -13,21 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.config;
+package io.micronaut.kubernetes.client.openapi.config.model;
 
 import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
 
 /**
- * Cluster contains information about how to communicate with a kubernetes cluster.
+ * Environment variable used when executing an exec-based credential plugin.
  *
- * @param server the address of the kubernetes cluster
- * @param certificateAuthorityData the PEM-encoded certificate authority certificates
- * @param insecureSkipTlsVerify skips the validity check for the server's certificate which makes your HTTPS connections insecure
+ * @param name the name of environment variable
+ * @param value the value of environment variable
  */
-public record Cluster(
-    @NonNull String server,
-    @Nullable byte[] certificateAuthorityData,
-    @Nullable Boolean insecureSkipTlsVerify
+public record ExecEnvVar(
+    @NonNull String name,
+    @NonNull String value
 ) {
 }

@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.config;
+package io.micronaut.kubernetes.client.openapi.config.model;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 
 /**
- * Context is a tuple of references to a cluster, a user and a namespace.
+ * Cluster contains information about how to communicate with a kubernetes cluster.
  *
- * @param cluster the name of the cluster for this context
- * @param user the name of the authInfo for this context
- * @param namespace the default namespace to use on unspecified requests
+ * @param server the address of the kubernetes cluster
+ * @param certificateAuthorityData the PEM-encoded certificate authority certificates
+ * @param insecureSkipTlsVerify skips the validity check for the server's certificate which makes your HTTPS connections insecure
  */
-public record Context(
-    @NonNull String cluster,
-    @NonNull String user,
-    @Nullable String namespace
+public record Cluster(
+    @NonNull String server,
+    @Nullable byte[] certificateAuthorityData,
+    @Nullable Boolean insecureSkipTlsVerify
 ) {
 }

@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi;
+package io.micronaut.kubernetes.client.openapi.ssl;
 
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.client.netty.ssl.NettyClientSslBuilder;
 import io.micronaut.http.ssl.ClientSslConfiguration;
 import io.micronaut.http.ssl.SslConfiguration;
-import io.micronaut.kubernetes.client.openapi.config.AuthInfo;
-import io.micronaut.kubernetes.client.openapi.config.Cluster;
+import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
+import io.micronaut.kubernetes.client.openapi.config.model.Cluster;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 
 import java.io.ByteArrayInputStream;
@@ -35,7 +36,8 @@ import java.util.Optional;
 /**
  * The ssl builder which uses data from a kube config file to create a key store and trust store.
  */
-class KubernetesClientSslBuilder extends NettyClientSslBuilder {
+@Internal
+public class KubernetesClientSslBuilder extends NettyClientSslBuilder {
 
     private KubeConfig kubeConfig;
     private KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;

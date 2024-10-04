@@ -15,36 +15,43 @@
  */
 package io.micronaut.kubernetes.client.openapi.config;
 
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
+import io.micronaut.kubernetes.client.openapi.config.model.Cluster;
+import io.micronaut.kubernetes.client.openapi.config.model.Context;
+import io.micronaut.kubernetes.client.openapi.config.model.ExecConfig;
+import io.micronaut.kubernetes.client.openapi.config.model.ExecEnvVar;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+/**
+ * Holder for data loaded from the kube config file.
+ */
 public class KubeConfig {
-
     static final String REQUIRED_FIELD_ERROR_MSG = "'%s' not found in the kube config file";
 
     private final Path kubeConfigParentPath;
+    private final String currentContextName;
     private final Map<String, Context> contexts = new HashMap<>();
     private final Map<String, Cluster> clusters = new HashMap<>();
     private final Map<String, AuthInfo> users = new HashMap<>();
-    private String currentContextName;
-
-    private String currentNamespace;
-    private final Object preferences;
 
     public KubeConfig(String kubeConfigPath, Map<String, Object> configMap) {
         kubeConfigParentPath = kubeConfigPath.startsWith("file:")
             ? Path.of(kubeConfigPath).getParent()
             : Path.of(kubeConfigPath.substring(5)).getParent();
-
-        preferences = configMap.get("preferences");
 
         String currentContext = (String) configMap.get("current-context");
         validateRequiredField(currentContext, "current-context", null);
@@ -80,6 +87,24 @@ public class KubeConfig {
     public AuthInfo getUser() {
         Context currentContext = contexts.get(currentContextName);
         return users.get(currentContext.user());
+    }
+
+    public Path getKubeConfigParentPath() {
+        return kubeConfigParentPath;
+    }
+
+    public boolean isClientCertAuthEnabled () {
+        AuthInfo user = getUser();
+        return user.clientCertificateData() != null && user.clientKeyData() != null;
+    }
+
+    public boolean isBasicAuthEnabled () {
+        AuthInfo user = getUser();
+        return StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password());
+    }
+
+    public boolean isExecCommandProvided() {
+        return getUser().exec() != null;
     }
 
     private String getName(Map<String, Object> map, String parentFieldName) {
@@ -120,9 +145,47 @@ public class KubeConfig {
         byte[] clientKeyData = getDataBytes(
             (String) userMap.get("client-key-data"),
             (String) userMap.get("client-key"));
+        String token = getToken(
+            (String) userMap.get("token"),
+            (String) userMap.get("tokenFile"));
         String username = (String) userMap.get("username");
         String password = (String) userMap.get("password");
-        return new AuthInfo(clientCertificateData, clientKeyData, username, password);
+        ExecConfig exec = getExecConfig(userMap);
+        return new AuthInfo(clientCertificateData, clientKeyData, token, username, password, exec);
+    }
+
+    private ExecConfig getExecConfig(Map<String, Object> map) {
+        Map<String, Object> execMap = (Map<String, Object>) map.get("exec");
+        if (CollectionUtils.isEmpty(execMap)) {
+            return null;
+        }
+        String apiVersion = (String) execMap.get("apiVersion");
+        validateRequiredField(execMap, "apiVersion", "users.user.exec");
+        if (!"client.authentication.k8s.io/v1beta1".equals(apiVersion)
+            && !"client.authentication.k8s.io/v1alpha1".equals(apiVersion)) {
+            throw new IllegalArgumentException("Unrecognized users.user.exec.apiVersion: " + apiVersion);
+        }
+        String command = (String) execMap.get("command");
+        validateRequiredField(command, "command", "users.user.exec");
+        List<String> args = (List<String>) execMap.get("args");
+        List<ExecEnvVar> env = getExecEnvVars(execMap);
+        return new ExecConfig(apiVersion, command, args, env);
+    }
+
+    private List<ExecEnvVar> getExecEnvVars(Map<String, Object> map) {
+        List<Map<String, Object>> envVars = (List<Map<String, Object>>) map.get("env");
+        if (CollectionUtils.isEmpty(envVars)) {
+            return null;
+        }
+        List<ExecEnvVar> envVarResult = new ArrayList<>(envVars.size());
+        envVars.forEach(envVarMap -> {
+            String name = (String) envVarMap.get("name");
+            validateRequiredField(name, "name", "users.user.exec.env");
+            String value = (String) envVarMap.get("value");
+            validateRequiredField(name, "value", "users.user.exec.env");
+            envVarResult.add(new ExecEnvVar(name, value));
+        });
+        return envVarResult;
     }
 
     private void validateRequiredField(Object field, String fieldName, String parentFieldName) {
@@ -145,6 +208,20 @@ public class KubeConfig {
                 return Files.readAllBytes(dataAbsolutePath);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to read file: " + dataAbsolutePath, e);
+            }
+        }
+        return null;
+    }
+
+    private String getToken(String token, String tokenFile) {
+        if (StringUtils.isNotEmpty(token)) {
+            return token;
+        } else if (StringUtils.isNotEmpty(tokenFile)) {
+            try {
+                byte[] data = Files.readAllBytes(FileSystems.getDefault().getPath(tokenFile));
+                return new String(data, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read token file: " + tokenFile, e);
             }
         }
         return null;

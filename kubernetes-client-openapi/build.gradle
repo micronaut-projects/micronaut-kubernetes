@@ -22,8 +22,9 @@ dependencies {
     implementation(mnValidation.micronaut.validation)
     implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnOpenapi.micronaut.openapi)
-    implementation("org.bouncycastle:bcpkix-jdk18on:1.76")
+    implementation(libs.bcpkix.jdk18on)
     compileOnly(mn.micronaut.http.client)
+    compileOnly(mn.micronaut.json.core)
     compileOnly(libs.netty.incubator.codec.http3) // ClientSslBuilderImpl doesn't compile without it
 }
 

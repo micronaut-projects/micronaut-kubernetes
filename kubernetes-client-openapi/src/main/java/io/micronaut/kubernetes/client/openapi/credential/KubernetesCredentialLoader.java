@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi;
+package io.micronaut.kubernetes.client.openapi.credential;
 
-import io.micronaut.context.annotation.BootstrapContextCompatible;
-import io.micronaut.context.annotation.ConfigurationProperties;
+/**
+ * The loader for credential used in kubernetes api service authentication.
+ */
+public interface KubernetesCredentialLoader {
 
-import java.util.Optional;
-
-@ConfigurationProperties(KubernetesClientConfiguration.PREFIX)
-@BootstrapContextCompatible
-public interface KubernetesClientConfiguration {
-
-    String PREFIX = "kubernetes.client";
-
-    Optional<String> getKubeConfigPath();
+    /**
+     * Gets a bearer token for request authentication.
+     *
+     * @return bearer token
+     */
+    String getToken();
 }
