@@ -84,3 +84,13 @@ Also note that in order to see the full details of the health checks you may nee
 https://docs.micronaut.io/latest/guide/index.html#healthEndpoint[the documentation of the Health Endpoint] for more
 information about how to configure it.
 ====
+
+By default the KubernetesHealthIndicator is enabled. To disable it use the following configuration:
+
+[source,yaml]
+----
+endpoints:
+  health:
+    kubernetes:
+      enabled: false
+----

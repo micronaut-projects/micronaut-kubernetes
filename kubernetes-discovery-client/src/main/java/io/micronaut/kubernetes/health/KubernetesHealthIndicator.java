@@ -22,6 +22,7 @@ import io.kubernetes.client.openapi.models.V1Pod;
 import io.kubernetes.client.openapi.models.V1PodStatus;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.health.HealthStatus;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
@@ -50,6 +51,7 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
 @Requires(beans = HealthEndpoint.class)
 @Requires(env = Environment.KUBERNETES)
 @Requires(property = HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT)
+@Requires(property = HealthEndpoint.PREFIX + ".kubernetes.enabled", notEquals = StringUtils.FALSE)
 public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<String, Object>> {
 
     public static final String NAME = "kubernetes";
