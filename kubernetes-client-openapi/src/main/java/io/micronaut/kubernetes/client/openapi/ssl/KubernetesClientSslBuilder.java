@@ -89,7 +89,7 @@ public class KubernetesClientSslBuilder extends NettyClientSslBuilder {
 
     @Override
     protected Optional<KeyStore> getTrustStore(SslConfiguration ssl) throws Exception {
-        Cluster cluster = kubeConfig.getCurrentCluster();
+        Cluster cluster = kubeConfig.getCluster();
 
         Boolean insecureSkipTlsVerify = cluster.insecureSkipTlsVerify();
         if (insecureSkipTlsVerify != null && insecureSkipTlsVerify) {

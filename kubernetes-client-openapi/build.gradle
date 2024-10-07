@@ -55,9 +55,7 @@ tasks.register("prepareOpenapiSpec") {
 generateClientOpenApiApis.dependsOn("prepareOpenapiSpec")
 generateClientOpenApiModels.dependsOn("prepareOpenapiSpec")
 
-
-
-/*tasks.withType(JavaCompile).configureEach {
+tasks.withType(JavaCompile).configureEach {
     options.fork = true
     options.forkOptions.jvmArgs.add("-DmaxYamlCodePoints=10485760")
-}*/
+}

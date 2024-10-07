@@ -43,11 +43,14 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
     private static final long BUFFER_IN_MINUTES = 1L;
 
     private final KubeConfig kubeConfig;
+    private final ObjectMapper objectMapper;
 
     private ExecCredential execCredential;
 
-    ExecCommandCredentialLoader(KubernetesClientConfiguration kubernetesClientConfiguration) {
+    ExecCommandCredentialLoader(KubernetesClientConfiguration kubernetesClientConfiguration,
+                                ObjectMapper objectMapper) {
         kubeConfig = kubernetesClientConfiguration.getKubeConfig();
+        this.objectMapper = objectMapper;
         setExecCredential();
     }
 
@@ -94,7 +97,8 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
         ExecConfig exec = kubeConfig.getUser().exec();
         String command = exec.command();
         if (command.contains(File.separator) && !command.startsWith(File.separator)) {
-            command = kubeConfig.getKubeConfigParentPath().getParent().resolve(command).normalize().toString();
+            // path relative to the directory of the kube config file
+            command = kubeConfig.getKubeConfigParentPath().resolve(command).normalize().toString();
         }
         processArgs.add(command);
 
@@ -113,8 +117,6 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
         }
 
         Process process = processBuilder.start();
-
-        ObjectMapper objectMapper = ObjectMapper.getDefault();
         ExecCredential execCredentialResult;
         try (InputStream inputStream = process.getInputStream()) {
             execCredentialResult = objectMapper.readValue(inputStream, ExecCredential.class);

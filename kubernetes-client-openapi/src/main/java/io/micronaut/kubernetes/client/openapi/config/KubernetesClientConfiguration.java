@@ -19,11 +19,14 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.io.ResourceResolver;
+import io.micronaut.core.io.file.FileSystemResourceLoader;
+import io.micronaut.core.util.StringUtils;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,10 +50,12 @@ public class KubernetesClientConfiguration {
         this.resourceResolver = resourceResolver;
     }
 
-    void setKubeConfigPath(String kubeConfigPath) {
-        this.kubeConfigPath = kubeConfigPath;
-    }
-
+    /**
+     * Gets {@link KubeConfig} instance created from {@link #kubeConfigPath} if provided,
+     * otherwise created from {HOME_DIR}/.kube/conf file.
+     *
+     * @return {@link KubeConfig} instance
+     */
     public KubeConfig getKubeConfig() {
         if (kubeConfig == null) {
             loadKubeConfig();
@@ -59,20 +64,28 @@ public class KubernetesClientConfiguration {
     }
 
     private void loadKubeConfig() {
-        /*Optional<String> kubeConfigPathOptional = kubernetesClientConfiguration.getKubeConfigPath();
-
-        String kubeConfigPath;
-        if (kubeConfigPathOptional.isEmpty()) {
-            //TODO: use home directory
-            kubeConfigPath = "";
-        } else {
-            kubeConfigPath = kubeConfigPathOptional.get();
-        }*/
+        if (StringUtils.isEmpty(kubeConfigPath)) {
+            String homeDir = findHomeDir();
+            if (StringUtils.isNotEmpty(homeDir)) {
+                kubeConfigPath = FileSystemResourceLoader.PREFIX + Path.of(homeDir, ".kube", "config");
+            }
+        }
         Optional<InputStream> inputStreamOptional = resourceResolver.getResourceAsStream(kubeConfigPath);
         InputStream inputStream = inputStreamOptional.orElseThrow(
             () -> new IllegalArgumentException("Kube config not found: " + kubeConfigPath));
         Yaml yaml = new Yaml(new SafeConstructor(new LoaderOptions()));
         Map<String, Object> configMap = yaml.load(inputStream);
         kubeConfig = new KubeConfig(kubeConfigPath, configMap);
+    }
+
+    private String findHomeDir() {
+        if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+            String userProfile = System.getenv("USERPROFILE");
+            if (StringUtils.isNotEmpty(userProfile)) {
+                return userProfile;
+            }
+        }
+        String envHome = System.getenv("HOME");
+        return StringUtils.isEmpty(envHome) ? null : envHome;
     }
 }

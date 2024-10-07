@@ -34,7 +34,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Holder for data loaded from the kube config file.
@@ -50,8 +49,8 @@ public class KubeConfig {
 
     public KubeConfig(String kubeConfigPath, Map<String, Object> configMap) {
         kubeConfigParentPath = kubeConfigPath.startsWith("file:")
-            ? Path.of(kubeConfigPath).getParent()
-            : Path.of(kubeConfigPath.substring(5)).getParent();
+            ? Path.of(kubeConfigPath.substring(5)).getParent()
+            : Path.of(kubeConfigPath).getParent();
 
         String currentContext = (String) configMap.get("current-context");
         validateRequiredField(currentContext, "current-context", null);
@@ -79,30 +78,60 @@ public class KubeConfig {
         });
     }
 
-    public Cluster getCurrentCluster() {
+    /**
+     * Gets a cluster from the current context.
+     *
+     * @return {@link Cluster} instance
+     */
+    public Cluster getCluster() {
         Context currentContext = contexts.get(currentContextName);
         return clusters.get(currentContext.cluster());
     }
 
+    /**
+     * Gets a user from the current context.
+     *
+     * @return {@link AuthInfo} instance
+     */
     public AuthInfo getUser() {
         Context currentContext = contexts.get(currentContextName);
         return users.get(currentContext.user());
     }
 
+    /**
+     * Gets a path of the parent folder of the kube config file.
+     *
+     * @return {@link Path} instance
+     */
     public Path getKubeConfigParentPath() {
         return kubeConfigParentPath;
     }
 
-    public boolean isClientCertAuthEnabled () {
+    /**
+     * Checks whether the kube config contains the client certificate authentication data.
+     *
+     * @return {@code true} if the client certificate authentication data is provided in the kube config
+     */
+    public boolean isClientCertAuthEnabled() {
         AuthInfo user = getUser();
         return user.clientCertificateData() != null && user.clientKeyData() != null;
     }
 
+    /**
+     * Checks whether the kube config contains the basic authentication data (username and password).
+     *
+     * @return {@code true} if the basic authentication data is provided in the kube config
+     */
     public boolean isBasicAuthEnabled () {
         AuthInfo user = getUser();
         return StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password());
     }
 
+    /**
+     * Checks whether the exec command is provided for getting authentication token.
+     *
+     * @return {@code true} if the exec command is provided in the kube config
+     */
     public boolean isExecCommandProvided() {
         return getUser().exec() != null;
     }

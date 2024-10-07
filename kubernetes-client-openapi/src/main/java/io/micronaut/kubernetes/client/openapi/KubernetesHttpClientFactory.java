@@ -59,6 +59,9 @@ import jakarta.inject.Singleton;
 import java.net.URI;
 import java.util.Collections;
 
+/**
+ * Factory for kubernetes http client.
+ */
 @Factory
 @Context
 @Internal
@@ -84,7 +87,7 @@ class KubernetesHttpClientFactory {
     @Named(CLIENT_ID)
     @BootstrapContextCompatible
     protected DefaultHttpClient getKubernetesHttpClient() {
-        URI uri = URI.create(kubeConfig.getCurrentCluster().server());
+        URI uri = URI.create(kubeConfig.getCluster().server());
 
         return new DefaultHttpClient(LoadBalancer.fixed(uri),
             null,
