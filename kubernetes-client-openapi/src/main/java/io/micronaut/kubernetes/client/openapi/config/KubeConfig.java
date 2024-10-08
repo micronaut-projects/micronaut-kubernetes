@@ -108,26 +108,6 @@ public class KubeConfig {
     }
 
     /**
-     * Checks whether the kube config contains the client certificate authentication data.
-     *
-     * @return {@code true} if the client certificate authentication data is provided in the kube config
-     */
-    public boolean isClientCertAuthEnabled() {
-        AuthInfo user = getUser();
-        return user.clientCertificateData() != null && user.clientKeyData() != null;
-    }
-
-    /**
-     * Checks whether the kube config contains the basic authentication data (username and password).
-     *
-     * @return {@code true} if the basic authentication data is provided in the kube config
-     */
-    public boolean isBasicAuthEnabled () {
-        AuthInfo user = getUser();
-        return StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password());
-    }
-
-    /**
      * Checks whether the exec command is provided for getting authentication token.
      *
      * @return {@code true} if the exec command is provided in the kube config

@@ -44,15 +44,18 @@ class KubernetesHttpClientFilter {
 
     @RequestFilter
     void doFilter(MutableHttpRequest<?> request) {
-        if (kubeConfig.isClientCertAuthEnabled()) {
+        AuthInfo user = kubeConfig.getUser();
+        if (user.clientCertificateData() != null && user.clientKeyData() != null) {
             return;
         }
-        if (kubeConfig.isBasicAuthEnabled()) {
-            AuthInfo user = kubeConfig.getUser();
+        if (StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password())) {
             request.basicAuth(user.username(), user.password());
             return;
         }
         String token = kubernetesCredentialLoader.getToken();
+        if (StringUtils.isEmpty(token)) {
+            token = user.token();
+        }
         if (StringUtils.isNotEmpty(token)) {
             request.bearerAuth(token);
         }
