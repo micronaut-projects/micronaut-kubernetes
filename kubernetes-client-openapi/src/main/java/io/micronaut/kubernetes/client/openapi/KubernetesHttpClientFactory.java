@@ -19,6 +19,7 @@ import io.micronaut.buffer.netty.NettyByteBufferFactory;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionService;
@@ -65,6 +66,8 @@ import java.util.Collections;
 @Factory
 @Context
 @Internal
+@BootstrapContextCompatible
+@Requires(beans = KubernetesClientConfiguration.class)
 class KubernetesHttpClientFactory {
     static final String CLIENT_ID = "kubernetes-client";
 

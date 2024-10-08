@@ -17,10 +17,12 @@ package io.micronaut.kubernetes.client.openapi.config;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.io.file.FileSystemResourceLoader;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.core.util.Toggleable;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -33,10 +35,11 @@ import java.util.Optional;
 /**
  * Kubernetes client configuration.
  */
-@ConfigurationProperties(KubernetesClientConfiguration.PREFIX)
-@BootstrapContextCompatible
 @Internal
-public class KubernetesClientConfiguration {
+@BootstrapContextCompatible
+@ConfigurationProperties(KubernetesClientConfiguration.PREFIX)
+@Requires(property = KubernetesClientConfiguration.PREFIX + ".enabled", value = StringUtils.TRUE, defaultValue = StringUtils.TRUE)
+public class KubernetesClientConfiguration implements Toggleable {
 
     public static final String PREFIX = "kubernetes.client";
 
@@ -44,10 +47,35 @@ public class KubernetesClientConfiguration {
 
     private String kubeConfigPath;
 
+    private boolean enabled = true;
+
     private KubeConfig kubeConfig;
 
     KubernetesClientConfiguration(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
+    }
+
+    /**
+     * Sets kube config path.
+     *
+     * @param kubeConfigPath kube config path
+     */
+    void setKubeConfigPath(String kubeConfigPath) {
+        this.kubeConfigPath = kubeConfigPath;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * Enables or disables kubernetes client.
+     *
+     * @param enabled {@code true} to enable kubernetes client
+     */
+    void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     /**

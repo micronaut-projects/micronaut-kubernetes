@@ -3,6 +3,12 @@ plugins {
     id 'io.micronaut.openapi' version libs.versions.micronaut.gradle.plugin
 }
 
+micronautBuild {
+    binaryCompatibility {
+        enabled.set(false)
+    }
+}
+
 micronaut {
     openapi {
         client(layout.buildDirectory.file("openapi.yaml").get().asFile) {
@@ -10,7 +16,6 @@ micronaut {
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
             clientId = "kubernetes-client"
             useReactive = false
-            alwaysUseGenerateHttpResponse = true
         }
     }
 }
@@ -26,6 +31,9 @@ dependencies {
     compileOnly(mn.micronaut.http.client)
     compileOnly(mn.micronaut.json.core)
     compileOnly(libs.netty.incubator.codec.http3) // ClientSslBuilderImpl doesn't compile without it
+    testImplementation(libs.testcontainers.k3s)
+    testImplementation(mn.micronaut.http.client)
+    testImplementation(mn.micronaut.http.server.netty)
 }
 
 tasks.register("prepareOpenapiSpec") {
@@ -54,8 +62,3 @@ tasks.register("prepareOpenapiSpec") {
 
 generateClientOpenApiApis.dependsOn("prepareOpenapiSpec")
 generateClientOpenApiModels.dependsOn("prepareOpenapiSpec")
-
-tasks.withType(JavaCompile).configureEach {
-    options.fork = true
-    options.forkOptions.jvmArgs.add("-DmaxYamlCodePoints=10485760")
-}

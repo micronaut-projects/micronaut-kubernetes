@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecConfig;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecEnvVar;
@@ -37,6 +38,7 @@ import java.util.Map;
  * The credential loader which uses the exec command from the kube config to get credentials.
  */
 @Singleton
+@BootstrapContextCompatible
 class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
     private static final Logger LOG = LoggerFactory.getLogger(ExecCommandCredentialLoader.class);
 

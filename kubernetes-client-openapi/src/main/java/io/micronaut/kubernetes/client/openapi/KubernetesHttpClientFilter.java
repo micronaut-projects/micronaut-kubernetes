@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi;
 
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.annotation.ClientFilter;
@@ -29,6 +30,7 @@ import io.micronaut.kubernetes.client.openapi.credential.KubernetesCredentialLoa
  * if the client certificate authentication is not enabled.
  */
 @ClientFilter(serviceId = "kubernetes-client")
+@Requires(beans = KubernetesClientConfiguration.class)
 class KubernetesHttpClientFilter {
 
     private final KubeConfig kubeConfig;
