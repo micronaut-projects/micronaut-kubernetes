@@ -1,0 +1,52 @@
+The `micronaut-kubernetes-client-openapi` module uses Micronaut Netty HTTP Client and generated apis and modules from https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml[Kubernetes Client OpenAPI Spec].
+
+First you need to add a dependency on the `micronaut-kubernetes-client-openapi` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi[]
+
+Then you can simply use Micronaut injection to get configured apis object from package `io.micronaut.kubernetes.client.openapi.api`:
+
+[source,java]
+----
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
+import io.micronaut.kubernetes.client.openapi.model.V1PodList;
+import jakarta.inject.Singleton;
+
+@Singleton
+public class MyService {
+
+    private final CoreV1Api coreV1Api;
+
+    public MyService(CoreV1Api coreV1Api) {
+        this.coreV1Api = coreV1Api;
+    }
+
+    public void myMethod(String namespace) {
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null);
+    }
+}
+----
+
+.Configuration
+
+[configuration]
+----
+kubernetes:
+    client:
+        enabled: true
+        kube-config-path: /path/to/kubeconfig
+----
+
+|=======
+|*Name* |*Description*
+|enabled |Whether to enable the client. Default: `true`
+|kube-config-path |Absolute path to the kube config file. Default: `$HOME/.kube/config`
+|=======
+
+## Authentication
+
+The client supports the following authentication strategies:
+
+* client certificate (certificate and private key provided in the kube config file)
+* basic authentication (username and password provided in the kube config file)
+* token authentication (token provided in the kube config file or by executing the command from the kube config file)

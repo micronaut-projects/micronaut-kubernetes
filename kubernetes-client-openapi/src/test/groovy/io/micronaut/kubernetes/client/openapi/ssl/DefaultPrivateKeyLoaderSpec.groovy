@@ -44,6 +44,6 @@ class DefaultPrivateKeyLoaderSpec extends Specification {
         ResourceResolver resourceResolver = new ResourceResolver()
         Optional<InputStream> inputStream = resourceResolver.getResourceAsStream("classpath:key/" + filePath)
         byte[] resourceBytes = inputStream.get().readAllBytes()
-        return keyLoader.loadPrivateKey(resourceBytes);
+        return keyLoader.loadPrivateKey(resourceBytes)
     }
 }
