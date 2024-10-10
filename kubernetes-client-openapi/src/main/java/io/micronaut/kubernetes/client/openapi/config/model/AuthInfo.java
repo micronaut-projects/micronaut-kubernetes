@@ -17,6 +17,9 @@ package io.micronaut.kubernetes.client.openapi.config.model;
 
 import io.micronaut.core.annotation.Nullable;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * AuthInfo contains information that describes identity information.
  *
@@ -35,4 +38,40 @@ public record AuthInfo(
     @Nullable String password,
     @Nullable ExecConfig exec
 ) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AuthInfo authInfo = (AuthInfo) o;
+        return Arrays.equals(clientCertificateData, authInfo.clientCertificateData)
+            && Arrays.equals(clientKeyData, authInfo.clientKeyData)
+            && Objects.equals(token, authInfo.token)
+            && Objects.equals(username, authInfo.username)
+            && Objects.equals(password, authInfo.password)
+            && Objects.equals(exec, authInfo.exec);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(token, username, password, exec);
+        result = 31 * result + Arrays.hashCode(clientCertificateData);
+        result = 31 * result + Arrays.hashCode(clientKeyData);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthInfo{" +
+            "clientCertificateData=" + Arrays.toString(clientCertificateData) +
+            ", clientKeyData=" + Arrays.toString(clientKeyData) +
+            ", token='" + token + '\'' +
+            ", username='" + username + '\'' +
+            ", password='" + password + '\'' +
+            ", exec=" + exec +
+            '}';
+    }
 }

@@ -20,6 +20,8 @@ import io.micronaut.core.annotation.Nullable;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Holds credentials for the transport to use.
@@ -36,4 +38,36 @@ public record ExecCredentialStatus(
     @Nullable byte[] clientKeyData,
     @Nullable ZonedDateTime expirationTimestamp
 ) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ExecCredentialStatus that = (ExecCredentialStatus) o;
+        return Objects.equals(token, that.token)
+            && Arrays.equals(clientCertificateData, that.clientCertificateData)
+            && Arrays.equals(clientKeyData, that.clientKeyData)
+            && Objects.equals(expirationTimestamp, that.expirationTimestamp);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(token, expirationTimestamp);
+        result = 31 * result + Arrays.hashCode(clientCertificateData);
+        result = 31 * result + Arrays.hashCode(clientKeyData);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ExecCredentialStatus{" +
+            "token='" + token + '\'' +
+            ", clientCertificateData=" + Arrays.toString(clientCertificateData) +
+            ", clientKeyData=" + Arrays.toString(clientKeyData) +
+            ", expirationTimestamp=" + expirationTimestamp +
+            '}';
+    }
 }

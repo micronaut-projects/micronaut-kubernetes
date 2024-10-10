@@ -37,7 +37,8 @@ import java.util.Optional;
  * The ssl builder which uses data from a kube config file to create a key store and trust store.
  */
 @Internal
-public class KubernetesClientSslBuilder extends NettyClientSslBuilder {
+public final class KubernetesClientSslBuilder extends NettyClientSslBuilder {
+    private static final String X509_CERTIFICATE_TYPE = "X509";
 
     private KubeConfig kubeConfig;
     private KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
@@ -59,23 +60,26 @@ public class KubernetesClientSslBuilder extends NettyClientSslBuilder {
             return Optional.empty();
         }
 
-        CertificateFactory certFactory = CertificateFactory.getInstance("X509");
+        CertificateFactory certFactory = CertificateFactory.getInstance(X509_CERTIFICATE_TYPE);
         Collection<? extends Certificate> certs = certFactory.generateCertificates(new ByteArrayInputStream(clientCert));
 
         String keyAlias;
-        if (ssl.getKey().getAlias().isPresent()) {
-            keyAlias = ssl.getKey().getAlias().get();
+        Optional<String> keyAliasOpt = ssl.getKey().getAlias();
+        if (keyAliasOpt.isPresent()) {
+            keyAlias = keyAliasOpt.get();
         } else {
-            keyAlias = ((X509Certificate) certs.stream().findFirst().get()).getSubjectX500Principal().getName();
+            keyAlias = ((X509Certificate) certs.iterator().next()).getSubjectX500Principal().getName();
         }
 
         PrivateKey privateKey = kubernetesPrivateKeyLoader.loadPrivateKey(clientKey);
 
+        Optional<String> keyPassOpt = ssl.getKey().getPassword();
+        Optional<String> keyStorePassOpt = ssl.getKeyStore().getPassword();
         String keyPass;
-        if (ssl.getKey().getPassword().isPresent()) {
-            keyPass = ssl.getKey().getPassword().get();
-        } else if (ssl.getKeyStore().getPassword().isPresent()) {
-            keyPass = ssl.getKeyStore().getPassword().get();
+        if (keyPassOpt.isPresent()) {
+            keyPass = keyPassOpt.get();
+        } else if (keyStorePassOpt.isPresent()) {
+            keyPass = keyStorePassOpt.get();
         } else {
             keyPass = "";
             ssl.getKey().setPassword("");

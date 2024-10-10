@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi;
 
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.annotation.ClientFilter;
@@ -29,9 +30,10 @@ import io.micronaut.kubernetes.client.openapi.credential.KubernetesCredentialLoa
  * Filter which sets the authorization request header with basic or bearer token
  * if the client certificate authentication is not enabled.
  */
-@ClientFilter(serviceId = "kubernetes-client")
+@ClientFilter(serviceId = KubernetesHttpClientFactory.CLIENT_ID)
 @Requires(beans = KubernetesClientConfiguration.class)
-class KubernetesHttpClientFilter {
+@Internal
+final class KubernetesHttpClientFilter {
 
     private final KubeConfig kubeConfig;
     private final KubernetesCredentialLoader kubernetesCredentialLoader;

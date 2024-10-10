@@ -18,6 +18,9 @@ package io.micronaut.kubernetes.client.openapi.config.model;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Cluster contains information about how to communicate with a kubernetes cluster.
  *
@@ -30,4 +33,33 @@ public record Cluster(
     @Nullable byte[] certificateAuthorityData,
     @Nullable Boolean insecureSkipTlsVerify
 ) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Cluster cluster = (Cluster) o;
+        return Objects.equals(server, cluster.server)
+            && Arrays.equals(certificateAuthorityData, cluster.certificateAuthorityData)
+            && Objects.equals(insecureSkipTlsVerify, cluster.insecureSkipTlsVerify);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(server, insecureSkipTlsVerify);
+        result = 31 * result + Arrays.hashCode(certificateAuthorityData);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Cluster{" +
+            "server='" + server + '\'' +
+            ", certificateAuthorityData=" + Arrays.toString(certificateAuthorityData) +
+            ", insecureSkipTlsVerify=" + insecureSkipTlsVerify +
+            '}';
+    }
 }

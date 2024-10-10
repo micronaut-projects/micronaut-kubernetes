@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential;
 
+import io.micronaut.core.annotation.Nullable;
+
 /**
  * The loader for credential used in kubernetes api service authentication.
  */
@@ -25,5 +27,5 @@ public interface KubernetesCredentialLoader {
      *
      * @return bearer token
      */
-    String getToken();
+    @Nullable String getToken();
 }

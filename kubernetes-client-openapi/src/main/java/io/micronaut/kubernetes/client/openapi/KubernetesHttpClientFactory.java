@@ -68,7 +68,7 @@ import java.util.Collections;
 @Internal
 @BootstrapContextCompatible
 @Requires(beans = KubernetesClientConfiguration.class)
-class KubernetesHttpClientFactory {
+final class KubernetesHttpClientFactory {
     static final String CLIENT_ID = "kubernetes-client";
 
     private final KubeConfig kubeConfig;
@@ -97,7 +97,7 @@ class KubernetesHttpClientFactory {
             new DefaultHttpClientConfiguration(),
             null,
             defaultHttpClientFilterResolver,
-            defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList("kubernetes-client"), null)),
+            defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), null)),
             new DefaultThreadFactory(MultithreadEventLoopGroup.class),
             new KubernetesClientSslBuilder(resourceResolver, kubeConfig, kubernetesPrivateKeyLoader),
             createDefaultMediaTypeRegistry(),

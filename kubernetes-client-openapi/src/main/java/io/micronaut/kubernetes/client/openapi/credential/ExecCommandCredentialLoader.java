@@ -16,12 +16,12 @@
 package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
+import io.micronaut.json.JsonMapper;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecConfig;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecEnvVar;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.credential.model.ExecCredential;
-import io.micronaut.serde.ObjectMapper;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,14 +45,14 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
     private static final long BUFFER_IN_MINUTES = 1L;
 
     private final KubeConfig kubeConfig;
-    private final ObjectMapper objectMapper;
+    private final JsonMapper jsonMapper;
 
-    private ExecCredential execCredential;
+    private volatile ExecCredential execCredential;
 
     ExecCommandCredentialLoader(KubernetesClientConfiguration kubernetesClientConfiguration,
-                                ObjectMapper objectMapper) {
+                                JsonMapper jsonMapper) {
         kubeConfig = kubernetesClientConfiguration.getKubeConfig();
-        this.objectMapper = objectMapper;
+        this.jsonMapper = jsonMapper;
         setExecCredential();
     }
 
@@ -121,7 +121,7 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
         Process process = processBuilder.start();
         ExecCredential execCredentialResult;
         try (InputStream inputStream = process.getInputStream()) {
-            execCredentialResult = objectMapper.readValue(inputStream, ExecCredential.class);
+            execCredentialResult = jsonMapper.readValue(inputStream, ExecCredential.class);
         }
         if (execCredentialResult.status() == null || execCredentialResult.status().token() == null) {
             throw new RuntimeException("Command '" + command + "' didn't provide token");

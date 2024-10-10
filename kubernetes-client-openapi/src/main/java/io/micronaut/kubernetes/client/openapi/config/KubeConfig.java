@@ -38,8 +38,12 @@ import java.util.Map;
 /**
  * Holder for data loaded from the kube config file.
  */
-public class KubeConfig {
+public final class KubeConfig {
     static final String REQUIRED_FIELD_ERROR_MSG = "'%s' not found in the kube config file";
+    private static final String CONTEXTS_FIELD = "contexts";
+    private static final String CLUSTERS_FIELD = "clusters";
+    private static final String CLUSTER_FIELD = "cluster";
+    private static final String USERS_FIELD = "users";
 
     private final Path kubeConfigParentPath;
     private final String currentContextName;
@@ -56,25 +60,25 @@ public class KubeConfig {
         validateRequiredField(currentContext, "current-context", null);
         currentContextName = currentContext;
 
-        List<Object> contextList = (List<Object>) configMap.get("contexts");
-        validateRequiredField(contextList, "contexts", null);
+        List<Object> contextList = (List<Object>) configMap.get(CONTEXTS_FIELD);
+        validateRequiredField(contextList, CONTEXTS_FIELD, null);
         contextList.forEach(obj -> {
             Map<String, Object> map = (Map<String, Object>) obj;
-            contexts.put(getName(map, "contexts"), getContext(map));
+            contexts.put(getName(map, CONTEXTS_FIELD), getContext(map));
         });
 
-        List<Object> clusterList = (List<Object>) configMap.get("clusters");
-        validateRequiredField(clusterList, "clusters", null);
+        List<Object> clusterList = (List<Object>) configMap.get(CLUSTERS_FIELD);
+        validateRequiredField(clusterList, CLUSTERS_FIELD, null);
         clusterList.forEach(obj -> {
             Map<String, Object> map = (Map<String, Object>) obj;
-            clusters.put(getName(map, "clusters"), getCluster(map));
+            clusters.put(getName(map, CLUSTERS_FIELD), getCluster(map));
         });
 
-        List<Object> userList = (List<Object>) configMap.get("users");
-        validateRequiredField(userList, "users", null);
+        List<Object> userList = (List<Object>) configMap.get(USERS_FIELD);
+        validateRequiredField(userList, USERS_FIELD, null);
         userList.forEach(obj -> {
             Map<String, Object> map = (Map<String, Object>) obj;
-            users.put(getName(map, "users"), getUser(map));
+            users.put(getName(map, USERS_FIELD), getUser(map));
         });
     }
 
@@ -124,9 +128,9 @@ public class KubeConfig {
 
     private Context getContext(Map<String, Object> map) {
         Map<String, Object> contextMap = (Map<String, Object>) map.get("context");
-        validateRequiredField(contextMap, "context", "contexts");
-        String cluster = (String) contextMap.get("cluster");
-        validateRequiredField(cluster, "cluster", "contexts.context");
+        validateRequiredField(contextMap, "context", CONTEXTS_FIELD);
+        String cluster = (String) contextMap.get(CLUSTER_FIELD);
+        validateRequiredField(cluster, CLUSTER_FIELD, "contexts.context");
         String user = (String) contextMap.get("user");
         validateRequiredField(user, "user", "contexts.context");
         String namespace = (String) contextMap.get("namespace");
@@ -134,8 +138,8 @@ public class KubeConfig {
     }
 
     private Cluster getCluster(Map<String, Object> map) {
-        Map<String, Object> clusterMap = (Map<String, Object>) map.get("cluster");
-        validateRequiredField(clusterMap, "cluster", "clusters");
+        Map<String, Object> clusterMap = (Map<String, Object>) map.get(CLUSTER_FIELD);
+        validateRequiredField(clusterMap, CLUSTER_FIELD, CLUSTERS_FIELD);
         String server = (String) clusterMap.get("server");
         validateRequiredField(server, "server", "clusters.cluster");
         byte[] certificateAuthorityData = getDataBytes(
@@ -147,7 +151,7 @@ public class KubeConfig {
 
     private AuthInfo getUser(Map<String, Object> map) {
         Map<String, Object> userMap = (Map<String, Object>) map.get("user");
-        validateRequiredField(userMap, "user", "users");
+        validateRequiredField(userMap, "user", USERS_FIELD);
         byte[] clientCertificateData = getDataBytes(
             (String) userMap.get("client-certificate-data"),
             (String) userMap.get("client-certificate"));
