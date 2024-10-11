@@ -22,6 +22,7 @@ import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.annotation.ClientFilter;
 import io.micronaut.http.annotation.RequestFilter;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
+import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.credential.KubernetesCredentialLoader;
@@ -38,9 +39,9 @@ final class KubernetesHttpClientFilter {
     private final KubeConfig kubeConfig;
     private final KubernetesCredentialLoader kubernetesCredentialLoader;
 
-    KubernetesHttpClientFilter(KubernetesClientConfiguration kubernetesClientConfiguration,
+    KubernetesHttpClientFilter(KubeConfigLoader kubeConfigLoader,
                                KubernetesCredentialLoader kubernetesCredentialLoader) {
-        kubeConfig = kubernetesClientConfiguration.getKubeConfig();
+        kubeConfig = kubeConfigLoader.getKubeConfig();
         this.kubernetesCredentialLoader = kubernetesCredentialLoader;
     }
 

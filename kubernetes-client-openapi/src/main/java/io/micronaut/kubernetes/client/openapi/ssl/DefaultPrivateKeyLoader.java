@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.ssl;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
+import io.micronaut.core.annotation.Internal;
 import jakarta.inject.Singleton;
 
 import java.io.BufferedReader;
@@ -35,7 +36,8 @@ import java.util.Base64;
  */
 @Singleton
 @BootstrapContextCompatible
-class DefaultPrivateKeyLoader implements KubernetesPrivateKeyLoader {
+@Internal
+public class DefaultPrivateKeyLoader implements KubernetesPrivateKeyLoader {
 
     @Override
     public PrivateKey loadPrivateKey(byte[] clientKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {

@@ -16,11 +16,12 @@
 package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.json.JsonMapper;
-import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
+import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
+import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecConfig;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecEnvVar;
-import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.credential.model.ExecCredential;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -28,18 +29,21 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * The credential loader which uses the exec command from the kube config to get credentials.
  */
 @Singleton
 @BootstrapContextCompatible
-class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
+@Internal
+public class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
     private static final Logger LOG = LoggerFactory.getLogger(ExecCommandCredentialLoader.class);
 
     private static final long BUFFER_IN_MINUTES = 1L;
@@ -49,9 +53,8 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
 
     private volatile ExecCredential execCredential;
 
-    ExecCommandCredentialLoader(KubernetesClientConfiguration kubernetesClientConfiguration,
-                                JsonMapper jsonMapper) {
-        kubeConfig = kubernetesClientConfiguration.getKubeConfig();
+    ExecCommandCredentialLoader(KubeConfigLoader kubeConfigLoader, JsonMapper jsonMapper) {
+        kubeConfig = kubeConfigLoader.getKubeConfig();
         this.jsonMapper = jsonMapper;
         setExecCredential();
     }
@@ -100,7 +103,12 @@ class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
         String command = exec.command();
         if (command.contains(File.separator) && !command.startsWith(File.separator)) {
             // path relative to the directory of the kube config file
-            command = kubeConfig.getKubeConfigParentPath().resolve(command).normalize().toString();
+            Optional<Path> parentPath = kubeConfig.getKubeConfigParentPath();
+            if (parentPath.isEmpty()) {
+                throw new IllegalArgumentException("Failed to execute command relative to the kube config file path " +
+                    "since the kube config file path not provided. Command: " + command);
+            }
+            command = parentPath.get().resolve(command).normalize().toString();
         }
         processArgs.add(command);
 

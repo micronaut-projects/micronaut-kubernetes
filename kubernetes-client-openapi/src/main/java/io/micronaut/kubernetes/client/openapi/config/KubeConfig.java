@@ -34,6 +34,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Holder for data loaded from the kube config file.
@@ -51,8 +52,12 @@ public final class KubeConfig {
     private final Map<String, Cluster> clusters = new HashMap<>();
     private final Map<String, AuthInfo> users = new HashMap<>();
 
+    public KubeConfig(Map<String, Object> configMap) {
+        this(null, configMap);
+    }
+
     public KubeConfig(String kubeConfigPath, Map<String, Object> configMap) {
-        kubeConfigParentPath = kubeConfigPath.startsWith("file:")
+        kubeConfigParentPath = kubeConfigPath == null ? null : kubeConfigPath.startsWith("file:")
             ? Path.of(kubeConfigPath.substring(5)).getParent()
             : Path.of(kubeConfigPath).getParent();
 
@@ -107,8 +112,8 @@ public final class KubeConfig {
      *
      * @return {@link Path} instance
      */
-    public Path getKubeConfigParentPath() {
-        return kubeConfigParentPath;
+    public Optional<Path> getKubeConfigParentPath() {
+        return Optional.ofNullable(kubeConfigParentPath);
     }
 
     /**
@@ -216,6 +221,10 @@ public final class KubeConfig {
         if (StringUtils.isNotEmpty(configData)) {
             return Base64.getDecoder().decode(configData);
         } else if (StringUtils.isNotEmpty(dataRelativePath)) {
+            if (kubeConfigParentPath == null) {
+                throw new RuntimeException("Failed to read the file whose path is relative to the kube config file path" +
+                    " since the kube config file path not provided. The file relative path: " + dataRelativePath);
+            }
             Path dataAbsolutePath = kubeConfigParentPath.resolve(dataRelativePath).normalize();
             try {
                 return Files.readAllBytes(dataAbsolutePath);

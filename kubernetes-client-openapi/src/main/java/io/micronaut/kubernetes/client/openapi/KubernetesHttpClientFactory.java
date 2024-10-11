@@ -43,6 +43,7 @@ import io.micronaut.http.netty.body.NettyWritableBodyWriter;
 import io.micronaut.json.JsonMapper;
 import io.micronaut.json.codec.JsonMediaTypeCodec;
 import io.micronaut.json.codec.JsonStreamMediaTypeCodec;
+import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.ssl.KubernetesClientSslBuilder;
 import io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
@@ -76,11 +77,11 @@ final class KubernetesHttpClientFactory {
     private final ResourceResolver resourceResolver;
     private final DefaultHttpClientFilterResolver defaultHttpClientFilterResolver;
 
-    KubernetesHttpClientFactory(KubernetesClientConfiguration kubernetesClientConfiguration,
+    KubernetesHttpClientFactory(KubeConfigLoader kubeConfigLoader,
                                 KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,
                                 ResourceResolver resourceResolver,
                                 DefaultHttpClientFilterResolver defaultHttpClientFilterResolver) {
-        kubeConfig = kubernetesClientConfiguration.getKubeConfig();
+        kubeConfig = kubeConfigLoader.getKubeConfig();
         this.kubernetesPrivateKeyLoader = kubernetesPrivateKeyLoader;
         this.resourceResolver = resourceResolver;
         this.defaultHttpClientFilterResolver = defaultHttpClientFilterResolver;
