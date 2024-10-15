@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.config;
 
+import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
@@ -222,7 +223,7 @@ public final class KubeConfig {
             return Base64.getDecoder().decode(configData);
         } else if (StringUtils.isNotEmpty(dataRelativePath)) {
             if (kubeConfigParentPath == null) {
-                throw new RuntimeException("Failed to read the file whose path is relative to the kube config file path" +
+                throw new ConfigurationException("Failed to read the file whose path is relative to the kube config file path" +
                     " since the kube config file path not provided. The file relative path: " + dataRelativePath);
             }
             Path dataAbsolutePath = kubeConfigParentPath.resolve(dataRelativePath).normalize();

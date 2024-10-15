@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.config;
 
-import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.io.ResourceResolver;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -28,7 +28,6 @@ import java.util.Optional;
 /**
  * Abstract implementation of {@link KubeConfigLoader} which provides common methods for loading kube config.
  */
-@Internal
 public abstract class AbstractKubeConfigLoader implements KubeConfigLoader {
 
     private final ResourceResolver resourceResolver;
@@ -50,7 +49,7 @@ public abstract class AbstractKubeConfigLoader implements KubeConfigLoader {
         return kubeConfig;
     }
 
-    protected abstract KubeConfig loadKubeConfig();
+    protected abstract @Nullable KubeConfig loadKubeConfig();
 
     /**
      * Loads kube config from the file on given path.

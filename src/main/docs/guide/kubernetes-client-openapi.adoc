@@ -1,4 +1,11 @@
-The `micronaut-kubernetes-client-openapi` module uses Micronaut Netty HTTP Client and generated apis and modules from https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml[Kubernetes Client OpenAPI Spec].
+The `micronaut-kubernetes-client-openapi` module uses Micronaut Netty HTTP Client and generated apis and modules from the OpenApi https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml[Spec] of the official Java client library for Kubernetes.
+
+Advantages of this client over the official Java client library for Kubernetes:
+
+* No extra dependencies needed (OkHttp, Bouncy Castle, Kotlin etc.)
+* Unified configuration with Micronaut HTTP client
+* Support for plugging in filters
+* Native Image compatibility
 
 First you need to add a dependency on the `micronaut-kubernetes-client-openapi` module:
 
@@ -34,19 +41,40 @@ public class MyService {
 kubernetes:
     client:
         enabled: true
-        kube-config-path: /path/to/kubeconfig
+        kube-config-path: file:/path/to/kubeconfig
+        service-account:
+            enabled: true
+            certificate-authority-path: file:/path/to/certificate/authority/file
+            token-path: file:/path/to/token/file
+            token-reload-interval: 2m
 ----
 
 |=======
 |*Name* |*Description*
 |enabled |Whether to enable the client. Default: `true`
-|kube-config-path |Absolute path to the kube config file. Default: `$HOME/.kube/config`
+|kube-config-path |Absolute path to the kube config file. Default: `file:$HOME/.kube/config`
+|service-account.enabled |Whether to enable the service account authentication. Default: `true`
+|service-account.certificate-authority-path |Absolute path to the certificate authority file. Default: `file:/var/run/secrets/kubernetes.io/serviceaccount/ca.crt`
+|service-account.token-path |Absolute path to the token file. Default: `file:/var/run/secrets/kubernetes.io/serviceaccount/token`
+|service-account.token-reload-interval |Token reload interval. Default: `60s`
 |=======
 
 ## Authentication
 
 The client supports the following authentication strategies:
 
-* client certificate (certificate and private key provided in the kube config file)
+* client certificate authentication (certificate and private key provided in the kube config file)
 * basic authentication (username and password provided in the kube config file)
 * token authentication (token provided in the kube config file or by executing the command from the kube config file)
+* service account authentication (used only if the kube config file not provided and running inside the kubernetes cluster)
+
+## Customization
+
+There are several interfaces that can be implemented to change default implementations:
+
+* link:{api}/io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html[KubeConfigLoader] - a custom implementation can be used when a kube config file needs to be loaded from a cloud service. There is also an option of extending link:{api}/io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html[AbstractKubeConfigLoader] which caches the loaded kube config data and provides a few helper methods.
+* link:{api}/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html[KubernetesTokenLoader] - a custom implementation can be used for loading a bearer token. link:{api}/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html[KubernetesHttpClientFilter] iterates through a list of implementations of this interface and creates the Authorization header using the token from the first implementation which returns it. The following implementations are currently used:
+** link:{api}/io/micronaut/kubernetes/client/openapi/credential/ExecCommandCredentialLoader.html[ExecCommandCredentialLoader] - implementation which executes the command from the kube config file to get the token.
+** link:{api}/io/micronaut/kubernetes/client/openapi/credential/KubeConfigTokenLoader.html[KubeConfigTokenLoader] - implementation which uses the token from the kube config file.
+** link:{api}/io/micronaut/kubernetes/client/openapi/credential/ServiceAccountTokenLoader.html[ServiceAccountTokenLoader] - implementation which uses the service account token.
+* link:{api}/io/micronaut/kubernetes/client/openapi/ssl/KubernetesPrivateKeyLoader.html[KubernetesPrivateKeyLoader] - a custom implementation can be used if there is a need for usage of third party libraries (for example, Bouncy Castle) to load the private key when the client certificate authentication is used.
