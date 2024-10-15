@@ -20,7 +20,7 @@ import java.nio.file.Path
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class KubernetesTokenAuthSpec extends Specification {
+class ExecCommandTokenAuthSpec extends Specification {
 
     static final String KUBE_CONFIG = """
 apiVersion: v1
@@ -50,7 +50,7 @@ current-context: test-context
 
     @AutoCleanup
     EmbeddedServer server = ApplicationContext.run(EmbeddedServer, [
-            'spec.name': 'TokenAuthServer',
+            'spec.name': 'ExecCommandTokenAuthServer',
             'kubernetes.client.enabled': false
     ])
 
@@ -99,7 +99,7 @@ current-context: test-context
     }
 
     @Controller
-    @Requires(property = 'spec.name', value = 'TokenAuthServer')
+    @Requires(property = 'spec.name', value = 'ExecCommandTokenAuthServer')
     static class BasicAuthController {
         @Get("/api/v1/pods")
         V1PodList auth(@Header('Authorization') String authorization) {

@@ -22,6 +22,8 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.core.util.Toggleable;
 
+import java.time.Duration;
+
 /**
  * Kubernetes client configuration.
  */
@@ -37,8 +39,10 @@ public class KubernetesClientConfiguration implements Toggleable {
 
     private boolean enabled = true;
 
+    private ServiceAccount serviceAccount = new ServiceAccount();
+
     /**
-     * Gets kube config path.
+     * Path of the kube config file. Default: {@code file:$HOME/.kube/config}.
      *
      * @return kube config path
      */
@@ -55,17 +59,127 @@ public class KubernetesClientConfiguration implements Toggleable {
         this.kubeConfigPath = kubeConfigPath;
     }
 
+    /**
+     * Enable/disable kubernetes client. Default: {@code true}.
+     *
+     * @return {@code true} if kubernetes client is enabled, {@code false} otherwise
+     */
     @Override
     public boolean isEnabled() {
         return enabled;
     }
 
     /**
-     * Enables or disables kubernetes client.
+     * Enable/disable kubernetes client.
      *
      * @param enabled {@code true} to enable kubernetes client
      */
     void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    /**
+     * Service account authentication configuration.
+     *
+     * @return service account authentication configuration
+     */
+    public ServiceAccount getServiceAccount() {
+        return serviceAccount;
+    }
+
+    /**
+     * Sets service account authentication configuration.
+     *
+     * @param serviceAccount service account authentication configuration
+     */
+    public void setServiceAccount(ServiceAccount serviceAccount) {
+        this.serviceAccount = serviceAccount;
+    }
+
+    /**
+     * Service account authentication configuration.
+     */
+    @ConfigurationProperties("service-account")
+    public static class ServiceAccount {
+        private static final String SERVICE_ACCOUNT_DIR = "file:/var/run/secrets/kubernetes.io/serviceaccount/";
+        private static final String CA_PATH = SERVICE_ACCOUNT_DIR + "ca.crt";
+        private static final String TOKEN_PATH = SERVICE_ACCOUNT_DIR + "token";
+
+        private boolean enabled = true;
+        private String certificateAuthorityPath = CA_PATH;
+        private String tokenPath = TOKEN_PATH;
+        private Duration tokenReloadInterval = Duration.ofSeconds(60);
+
+        /**
+         * Enable/disable service account authentication. Default: {@code true}.
+         *
+         * @return {@code true} if service account authentication enabled, {@code false} otherwise
+         */
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        /**
+         * Enable/disable service account authentication.
+         *
+         * @param enabled {@code true} to enable service account authentication
+         */
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
+        /**
+         * Path to the certificate authority file. Default: {@code file:/var/run/secrets/kubernetes.io/serviceaccount/ca.crt}.
+         *
+         * @return path to the certificate authority file
+         */
+        public String getCertificateAuthorityPath() {
+            return certificateAuthorityPath;
+        }
+
+        /**
+         * Sets path to the certificate authority file.
+         *
+         * @param certificateAuthorityPath path to the certificate authority file
+         */
+        public void setCertificateAuthorityPath(String certificateAuthorityPath) {
+            this.certificateAuthorityPath = certificateAuthorityPath;
+        }
+
+        /**
+         * Path to the token file. Default: {@code file:/var/run/secrets/kubernetes.io/serviceaccount/token}.
+         *
+         * @return path to the token file
+         */
+        public String getTokenPath() {
+            return tokenPath;
+        }
+
+        /**
+         * Sets path to the token file.
+         *
+         * @param tokenPath path to the token file
+         */
+        public void setTokenPath(String tokenPath) {
+            this.tokenPath = tokenPath;
+        }
+
+        /**
+         * Token reload interval. Default: {@code 60s}.
+         *
+         * @return token reload interval
+         */
+        public Duration getTokenReloadInterval() {
+            return tokenReloadInterval;
+        }
+
+        /**
+         * Sets token reload interval.
+         *
+         * @param tokenReloadInterval token reload interval
+         */
+        public void setTokenReloadInterval(Duration tokenReloadInterval) {
+            this.tokenReloadInterval = tokenReloadInterval;
+        }
     }
 }

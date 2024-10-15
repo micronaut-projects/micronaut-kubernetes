@@ -20,10 +20,12 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.io.ResourceResolver;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.bind.DefaultRequestBinderRegistry;
 import io.micronaut.http.body.ContextlessMessageBodyHandlerRegistry;
@@ -43,11 +45,11 @@ import io.micronaut.http.netty.body.NettyWritableBodyWriter;
 import io.micronaut.json.JsonMapper;
 import io.micronaut.json.codec.JsonMediaTypeCodec;
 import io.micronaut.json.codec.JsonStreamMediaTypeCodec;
+import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
+import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.ssl.KubernetesClientSslBuilder;
 import io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader;
-import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
-import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.runtime.ApplicationConfiguration;
 import io.micronaut.websocket.context.WebSocketBeanRegistry;
 import io.netty.channel.Channel;
@@ -57,8 +59,11 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 
 /**
@@ -70,18 +75,25 @@ import java.util.Collections;
 @BootstrapContextCompatible
 @Requires(beans = KubernetesClientConfiguration.class)
 final class KubernetesHttpClientFactory {
+
     static final String CLIENT_ID = "kubernetes-client";
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesHttpClientFactory.class);
+    private static final String ENV_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
+    private static final String ENV_SERVICE_PORT = "KUBERNETES_SERVICE_PORT";
 
     private final KubeConfig kubeConfig;
+    private final KubernetesClientConfiguration kubernetesClientConfiguration;
     private final KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
     private final ResourceResolver resourceResolver;
     private final DefaultHttpClientFilterResolver defaultHttpClientFilterResolver;
 
     KubernetesHttpClientFactory(KubeConfigLoader kubeConfigLoader,
+                                KubernetesClientConfiguration kubernetesClientConfiguration,
                                 KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,
                                 ResourceResolver resourceResolver,
                                 DefaultHttpClientFilterResolver defaultHttpClientFilterResolver) {
         kubeConfig = kubeConfigLoader.getKubeConfig();
+        this.kubernetesClientConfiguration = kubernetesClientConfiguration;
         this.kubernetesPrivateKeyLoader = kubernetesPrivateKeyLoader;
         this.resourceResolver = resourceResolver;
         this.defaultHttpClientFilterResolver = defaultHttpClientFilterResolver;
@@ -90,9 +102,25 @@ final class KubernetesHttpClientFactory {
     @Singleton
     @Named(CLIENT_ID)
     @BootstrapContextCompatible
-    protected DefaultHttpClient getKubernetesHttpClient() {
-        URI uri = URI.create(kubeConfig.getCluster().server());
-
+    protected DefaultHttpClient getKubernetesHttpClient() throws URISyntaxException {
+        URI uri;
+        if (kubeConfig != null) {
+            LOG.debug("Trying to configure client from kube config");
+            uri = URI.create(kubeConfig.getCluster().server());
+        } else if (kubernetesClientConfiguration.getServiceAccount().isEnabled()) {
+            LOG.debug("Trying to configure client from service account");
+            String host = System.getenv(ENV_SERVICE_HOST);
+            if (StringUtils.isEmpty(host)) {
+                throw new ConfigurationException(ENV_SERVICE_HOST + " environment variable not found");
+            }
+            String port = System.getenv(ENV_SERVICE_PORT);
+            if (StringUtils.isEmpty(port)) {
+                throw new ConfigurationException(ENV_SERVICE_PORT + " environment variable not found");
+            }
+            uri = new URI("https", null, host, Integer.valueOf(port), null, null, null);
+        } else {
+            throw new ConfigurationException("Kube config not provided nor service account authentication enabled");
+        }
         return new DefaultHttpClient(LoadBalancer.fixed(uri),
             null,
             new DefaultHttpClientConfiguration(),
@@ -100,7 +128,7 @@ final class KubernetesHttpClientFactory {
             defaultHttpClientFilterResolver,
             defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), null)),
             new DefaultThreadFactory(MultithreadEventLoopGroup.class),
-            new KubernetesClientSslBuilder(resourceResolver, kubeConfig, kubernetesPrivateKeyLoader),
+            new KubernetesClientSslBuilder(resourceResolver, kubeConfig, kubernetesPrivateKeyLoader, kubernetesClientConfiguration),
             createDefaultMediaTypeRegistry(),
             createDefaultMessageBodyHandlerRegistry(),
             WebSocketBeanRegistry.EMPTY,

@@ -25,7 +25,9 @@ import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
-import io.micronaut.kubernetes.client.openapi.credential.KubernetesCredentialLoader;
+import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader;
+
+import java.util.List;
 
 /**
  * Filter which sets the authorization request header with basic or bearer token
@@ -37,27 +39,32 @@ import io.micronaut.kubernetes.client.openapi.credential.KubernetesCredentialLoa
 final class KubernetesHttpClientFilter {
 
     private final KubeConfig kubeConfig;
-    private final KubernetesCredentialLoader kubernetesCredentialLoader;
+    private final List<KubernetesTokenLoader> kubernetesTokenLoaders;
 
     KubernetesHttpClientFilter(KubeConfigLoader kubeConfigLoader,
-                               KubernetesCredentialLoader kubernetesCredentialLoader) {
+                               List<KubernetesTokenLoader> kubernetesTokenLoaders) {
         kubeConfig = kubeConfigLoader.getKubeConfig();
-        this.kubernetesCredentialLoader = kubernetesCredentialLoader;
+        this.kubernetesTokenLoaders = kubernetesTokenLoaders;
     }
 
     @RequestFilter
     void doFilter(MutableHttpRequest<?> request) {
-        AuthInfo user = kubeConfig.getUser();
-        if (user.clientCertificateData() != null && user.clientKeyData() != null) {
-            return;
+        if (kubeConfig != null && kubeConfig.getUser() != null) {
+            AuthInfo user = kubeConfig.getUser();
+            if (user.clientCertificateData() != null && user.clientKeyData() != null) {
+                return;
+            }
+            if (StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password())) {
+                request.basicAuth(user.username(), user.password());
+                return;
+            }
         }
-        if (StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password())) {
-            request.basicAuth(user.username(), user.password());
-            return;
-        }
-        String token = kubernetesCredentialLoader.getToken();
-        if (StringUtils.isEmpty(token)) {
-            token = user.token();
+        String token = null;
+        for (KubernetesTokenLoader kubernetesTokenLoader : kubernetesTokenLoaders) {
+            token = kubernetesTokenLoader.getToken();
+            if (StringUtils.isNotEmpty(token)) {
+                break;
+            }
         }
         if (StringUtils.isNotEmpty(token)) {
             request.bearerAuth(token);

@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.config;
 
-import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 
 /**
  * The loader for kube config file.
@@ -27,5 +27,5 @@ public interface KubeConfigLoader {
      *
      * @return kube config
      */
-    @NonNull KubeConfig getKubeConfig();
+    @Nullable KubeConfig getKubeConfig();
 }

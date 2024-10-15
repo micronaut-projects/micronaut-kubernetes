@@ -16,11 +16,12 @@
 package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.order.Ordered;
 
 /**
- * The loader for credential used in kubernetes api service authentication.
+ * The loader for bearer token used in kubernetes api service authentication.
  */
-public interface KubernetesCredentialLoader {
+public interface KubernetesTokenLoader extends Ordered {
 
     /**
      * Gets a bearer token for request authentication.

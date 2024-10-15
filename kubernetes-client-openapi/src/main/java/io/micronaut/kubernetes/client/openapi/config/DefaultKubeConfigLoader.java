@@ -24,6 +24,7 @@ import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 /**
@@ -50,9 +51,13 @@ public final class DefaultKubeConfigLoader extends AbstractKubeConfigLoader {
         if (StringUtils.isEmpty(kubeConfigPath)) {
             String homeDir = findHomeDir();
             if (StringUtils.isEmpty(homeDir)) {
-                throw new IllegalArgumentException("Kube config file path not provided and home directory not found");
+                return null;
             }
-            kubeConfigPath = FileSystemResourceLoader.PREFIX + Path.of(homeDir, ".kube", "config");
+            Path homeKubeConfigPath = Path.of(homeDir, ".kube", "config");
+            if (!Files.exists(homeKubeConfigPath)) {
+                return null;
+            }
+            kubeConfigPath = FileSystemResourceLoader.PREFIX + homeKubeConfigPath;
         }
         LOG.info("Loading kube config: {}", kubeConfigPath);
         return loadKubeConfigFromFile(kubeConfigPath);

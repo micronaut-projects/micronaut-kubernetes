@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -43,10 +44,12 @@ import java.util.Optional;
 @Singleton
 @BootstrapContextCompatible
 @Internal
-public class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
+final class ExecCommandCredentialLoader implements KubernetesTokenLoader {
     private static final Logger LOG = LoggerFactory.getLogger(ExecCommandCredentialLoader.class);
 
-    private static final long BUFFER_IN_MINUTES = 1L;
+    private static final int ORDER = 10;
+
+    private static final Duration BUFFER = Duration.ofSeconds(60);
 
     private final KubeConfig kubeConfig;
     private final JsonMapper jsonMapper;
@@ -56,7 +59,6 @@ public class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
     ExecCommandCredentialLoader(KubeConfigLoader kubeConfigLoader, JsonMapper jsonMapper) {
         kubeConfig = kubeConfigLoader.getKubeConfig();
         this.jsonMapper = jsonMapper;
-        setExecCredential();
     }
 
     @Override
@@ -65,8 +67,13 @@ public class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
         return execCredential == null ? null : execCredential.status().token();
     }
 
+    @Override
+    public int getOrder() {
+        return ORDER;
+    }
+
     private void setExecCredential() {
-        if (!kubeConfig.isExecCommandProvided()) {
+        if (kubeConfig == null || !kubeConfig.isExecCommandProvided()) {
             return;
         }
         if (shouldLoadCredential()) {
@@ -75,7 +82,7 @@ public class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
                     try {
                         execCredential = loadCredential();
                     } catch (Exception e) {
-                        throw new RuntimeException("Failed to load exec credential", e);
+                        LOG.error("Failed to load exec credential", e);
                     }
                 }
             }
@@ -91,8 +98,8 @@ public class ExecCommandCredentialLoader implements KubernetesCredentialLoader {
             return false;
         }
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-        LOG.debug("Check whether credential loading needed, now={}, buffer={}, expiration={}", now, BUFFER_IN_MINUTES, expiration);
-        return expiration.isBefore(now.plusMinutes(BUFFER_IN_MINUTES));
+        LOG.debug("Check whether credential loading needed, now={}, buffer={}, expiration={}", now, BUFFER, expiration);
+        return expiration.isBefore(now.plusSeconds(BUFFER.toSeconds()));
     }
 
     private ExecCredential loadCredential() throws Exception {

@@ -20,11 +20,13 @@ import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.http.client.netty.ssl.NettyClientSslBuilder;
 import io.micronaut.http.ssl.ClientSslConfiguration;
 import io.micronaut.http.ssl.SslConfiguration;
+import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
+import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.config.model.Cluster;
-import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.cert.Certificate;
@@ -40,19 +42,27 @@ import java.util.Optional;
 public final class KubernetesClientSslBuilder extends NettyClientSslBuilder {
     private static final String X509_CERTIFICATE_TYPE = "X509";
 
-    private KubeConfig kubeConfig;
-    private KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
+    private final ResourceResolver resourceResolver;
+    private final KubeConfig kubeConfig;
+    private final KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
+    private final KubernetesClientConfiguration kubernetesClientConfiguration;
 
     public KubernetesClientSslBuilder(ResourceResolver resourceResolver,
                                       KubeConfig kubeConfig,
-                                      KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader) {
+                                      KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,
+                                      KubernetesClientConfiguration kubernetesClientConfiguration) {
         super(resourceResolver);
+        this.resourceResolver = resourceResolver;
         this.kubeConfig = kubeConfig;
         this.kubernetesPrivateKeyLoader = kubernetesPrivateKeyLoader;
+        this.kubernetesClientConfiguration = kubernetesClientConfiguration;
     }
 
     @Override
     protected Optional<KeyStore> getKeyStore(SslConfiguration ssl) throws Exception {
+        if (kubeConfig == null || kubeConfig.getUser() == null) {
+            return Optional.empty();
+        }
         AuthInfo user = kubeConfig.getUser();
         byte[] clientCert = user.clientCertificateData();
         byte[] clientKey = user.clientKeyData();
@@ -93,15 +103,25 @@ public final class KubernetesClientSslBuilder extends NettyClientSslBuilder {
 
     @Override
     protected Optional<KeyStore> getTrustStore(SslConfiguration ssl) throws Exception {
-        Cluster cluster = kubeConfig.getCluster();
-
-        Boolean insecureSkipTlsVerify = cluster.insecureSkipTlsVerify();
-        if (insecureSkipTlsVerify != null && insecureSkipTlsVerify) {
-            ((ClientSslConfiguration) ssl).setInsecureTrustAllCertificates(true);
-            return Optional.empty();
+        byte[] caBytes = null;
+        if (kubeConfig != null) {
+            Cluster cluster = kubeConfig.getCluster();
+            Boolean insecureSkipTlsVerify = cluster.insecureSkipTlsVerify();
+            if (insecureSkipTlsVerify != null && insecureSkipTlsVerify) {
+                ((ClientSslConfiguration) ssl).setInsecureTrustAllCertificates(true);
+                return Optional.empty();
+            }
+            caBytes = cluster.certificateAuthorityData();
+        } else if (kubernetesClientConfiguration.getServiceAccount().isEnabled()) {
+            String caPath = kubernetesClientConfiguration.getServiceAccount().getCertificateAuthorityPath();
+            Optional<InputStream> inputStreamOpt = resourceResolver.getResourceAsStream(caPath);
+            if (inputStreamOpt.isEmpty()) {
+                return Optional.empty();
+            }
+            InputStream inputStream = inputStreamOpt.get();
+            caBytes = inputStream.readAllBytes();
         }
 
-        byte[] caBytes = cluster.certificateAuthorityData();
         if (caBytes == null) {
             return Optional.empty();
         }
