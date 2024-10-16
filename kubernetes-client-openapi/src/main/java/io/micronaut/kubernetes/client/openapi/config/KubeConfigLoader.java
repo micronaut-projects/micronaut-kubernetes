@@ -23,7 +23,10 @@ import io.micronaut.core.annotation.Nullable;
 public interface KubeConfigLoader {
 
     /**
-     * Gets kube config.
+     * Returns {@link KubeConfig} instance which contains data from the kube config file. The method is
+     * called multiple times during the application context startup so the {@link KubeConfig} instance
+     * should be created when the method is called for the first time, cached and then returned by subsequent calls.
+     * Since it is called only in the context startup, it doesn't require thread synchronization.
      *
      * @return kube config
      */

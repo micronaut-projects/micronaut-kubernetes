@@ -13,26 +13,7 @@ dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi[]
 
 Then you can simply use Micronaut injection to get configured apis object from package `io.micronaut.kubernetes.client.openapi.api`:
 
-[source,java]
-----
-import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
-import io.micronaut.kubernetes.client.openapi.model.V1PodList;
-import jakarta.inject.Singleton;
-
-@Singleton
-public class MyService {
-
-    private final CoreV1Api coreV1Api;
-
-    public MyService(CoreV1Api coreV1Api) {
-        this.coreV1Api = coreV1Api;
-    }
-
-    public void myMethod(String namespace) {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null);
-    }
-}
-----
+snippet::micronaut.client.PodController[project-base="examples/example-kubernetes-client-openapi", source="main"]
 
 .Configuration
 
