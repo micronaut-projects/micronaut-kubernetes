@@ -3,6 +3,13 @@ io.micronaut.kubernetes.client
 io.micronaut.kubernetes.client.graalvm
 io.micronaut.kubernetes.client.informer
 io.micronaut.kubernetes.client.informer.resolvers
+io.micronaut.kubernetes.client.openapi.api
+io.micronaut.kubernetes.client.openapi.config
+io.micronaut.kubernetes.client.openapi.config.model
+io.micronaut.kubernetes.client.openapi.credential
+io.micronaut.kubernetes.client.openapi.credential.model
+io.micronaut.kubernetes.client.openapi.model
+io.micronaut.kubernetes.client.openapi.ssl
 io.micronaut.kubernetes.client.operator
 io.micronaut.kubernetes.client.operator.configuration
 io.micronaut.kubernetes.client.operator.controller

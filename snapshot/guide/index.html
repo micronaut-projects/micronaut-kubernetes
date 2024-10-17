@@ -58,17 +58,19 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes Client</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-informer"><strong>8</strong><span>Kubernetes Informer</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client-openapi"><strong>8</strong><span>Kubernetes Client OpenAPI</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-operator"><strong>9</strong><span>Kubernetes Operator</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-informer"><strong>9</strong><span>Kubernetes Informer</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>10</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-operator"><strong>10</strong><span>Kubernetes Operator</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>11</strong><span>Breaking Changes</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>11</strong><span>Logging and debugging</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetesGuides"><strong>12</strong><span>Guides</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>12</strong><span>Breaking Changes</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>13</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetesGuides"><strong>13</strong><span>Guides</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>14</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -113,17 +115,19 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client"><a href="#kubernetes-client"><strong>7</strong><span>Kubernetes Client</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-informer"><a href="#kubernetes-informer"><strong>8</strong><span>Kubernetes Informer</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client-openapi"><a href="#kubernetes-client-openapi"><strong>8</strong><span>Kubernetes Client OpenAPI</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-operator"><a href="#kubernetes-operator"><strong>9</strong><span>Kubernetes Operator</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-informer"><a href="#kubernetes-informer"><strong>9</strong><span>Kubernetes Informer</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>10</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-operator"><a href="#kubernetes-operator"><strong>10</strong><span>Kubernetes Operator</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>11</strong><span>Breaking Changes</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>11</strong><span>Logging and debugging</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetesGuides"><a href="#kubernetesGuides"><strong>12</strong><span>Guides</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>12</strong><span>Breaking Changes</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>13</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetesGuides"><a href="#kubernetesGuides"><strong>13</strong><span>Guides</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>14</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -1628,7 +1632,290 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 </div>
 </div>
 
-<h1 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>8 Kubernetes Informer</h1>
+<h1 id="kubernetes-client-openapi"><a class="anchor" href="#kubernetes-client-openapi"></a>8 Kubernetes Client OpenAPI</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/kubernetes-client-openapi.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The <code>micronaut-kubernetes-client-openapi</code> module uses Micronaut Netty HTTP Client and generated apis and modules from the OpenApi <a href="https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml">Spec</a> of the official Java client library for Kubernetes.</p>
+</div>
+<div class="paragraph">
+<p>Advantages of this client over the official Java client library for Kubernetes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>No extra dependencies needed (OkHttp, Bouncy Castle, Kotlin etc.)</p>
+</li>
+<li>
+<p>Unified configuration with Micronaut HTTP client</p>
+</li>
+<li>
+<p>Support for plugging in filters</p>
+</li>
+<li>
+<p>Native Image compatibility</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>First you need to add a dependency on the <code>micronaut-kubernetes-client-openapi</code> module:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-openapi&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div></p>
+</div>
+<div class="paragraph">
+<p>Then you can simply use Micronaut injection to get configured apis object from package <code>io.micronaut.kubernetes.client.openapi.api</code>:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.client;
+
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
+import io.micronaut.kubernetes.client.openapi.model.V1Pod;
+import io.micronaut.kubernetes.client.openapi.model.V1PodList;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Controller("/pods")
+@ExecuteOn(TaskExecutors.BLOCKING)
+public class PodController {
+
+    @Inject
+    CoreV1Api coreV1Api;
+
+    @Get("/{namespace}/{name}")
+    public String getPod(final @NotNull String namespace, final @NotNull String name) {
+        V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace, null);
+        return v1Pod.getStatus().getPhase();
+    }
+
+    @Get("/{namespace}")
+    public Map&lt;String, String&gt; getPods(final @NotNull String namespace) {
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, false);
+        return v1PodList.getItems().stream()
+                .filter(p -&gt; p.getStatus() != null)
+                .collect(Collectors.toMap(
+                        p -&gt; p.getMetadata().getName(),
+                        p -&gt; p.getStatus().getPhase()));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="openblock">
+<div class="title">Configuration</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.enabled=true
+kubernetes.client.kube-config-path=file:/path/to/kubeconfig
+kubernetes.client.service-account.enabled=true
+kubernetes.client.service-account.certificate-authority-path=file:/path/to/certificate/authority/file
+kubernetes.client.service-account.token-path=file:/path/to/token/file
+kubernetes.client.service-account.token-reload-interval=2m</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+    client:
+        enabled: true
+        kube-config-path: file:/path/to/kubeconfig
+        service-account:
+            enabled: true
+            certificate-authority-path: file:/path/to/certificate/authority/file
+            token-path: file:/path/to/token/file
+            token-reload-interval: 2m</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    enabled=true
+    kube-config-path="file:/path/to/kubeconfig"
+    [kubernetes.client.service-account]
+      enabled=true
+      certificate-authority-path="file:/path/to/certificate/authority/file"
+      token-path="file:/path/to/token/file"
+      token-reload-interval="2m"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    enabled = true
+    kubeConfigPath = "file:/path/to/kubeconfig"
+    serviceAccount {
+      enabled = true
+      certificateAuthorityPath = "file:/path/to/certificate/authority/file"
+      tokenPath = "file:/path/to/token/file"
+      tokenReloadInterval = "2m"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      enabled = true
+      kube-config-path = "file:/path/to/kubeconfig"
+      service-account {
+        enabled = true
+        certificate-authority-path = "file:/path/to/certificate/authority/file"
+        token-path = "file:/path/to/token/file"
+        token-reload-interval = "2m"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "enabled": true,
+      "kube-config-path": "file:/path/to/kubeconfig",
+      "service-account": {
+        "enabled": true,
+        "certificate-authority-path": "file:/path/to/certificate/authority/file",
+        "token-path": "file:/path/to/token/file",
+        "token-reload-interval": "2m"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to enable the client. Default: <code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">kube-config-path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Absolute path to the kube config file. Default: <code>file:$HOME/.kube/config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">service-account.enabled</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether to enable the service account authentication. Default: <code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">service-account.certificate-authority-path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Absolute path to the certificate authority file. Default: <code>file:/var/run/secrets/kubernetes.io/serviceaccount/ca.crt</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">service-account.token-path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Absolute path to the token file. Default: <code>file:/var/run/secrets/kubernetes.io/serviceaccount/token</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">service-account.token-reload-interval</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Token reload interval. Default: <code>60s</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect1">
+<h2 id="_authentication">Authentication</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The client supports the following authentication strategies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>client certificate authentication (certificate and private key provided in the kube config file)</p>
+</li>
+<li>
+<p>basic authentication (username and password provided in the kube config file)</p>
+</li>
+<li>
+<p>token authentication (token provided in the kube config file or by executing the command from the kube config file)</p>
+</li>
+<li>
+<p>service account authentication (used only if the kube config file not provided and running inside the kubernetes cluster)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_customization">Customization</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are several interfaces that can be implemented to change default implementations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html">KubeConfigLoader</a> - a custom implementation can be used when a kube config file needs to be loaded from a cloud service. There is also an option of extending <a href="../api/io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html">AbstractKubeConfigLoader</a> which caches the loaded kube config data and provides a few helper methods.</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html">KubernetesTokenLoader</a> - a custom implementation can be used for loading a bearer token. <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html">KubernetesHttpClientFilter</a> iterates through a list of implementations of this interface and creates the Authorization header using the token from the first implementation which returns it. The following implementations are currently used:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/ExecCommandCredentialLoader.html">ExecCommandCredentialLoader</a> - implementation which executes the command from the kube config file to get the token.</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/KubeConfigTokenLoader.html">KubeConfigTokenLoader</a> - implementation which uses the token from the kube config file.</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/ServiceAccountTokenLoader.html">ServiceAccountTokenLoader</a> - implementation which uses the service account token.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/ssl/KubernetesPrivateKeyLoader.html">KubernetesPrivateKeyLoader</a> - a custom implementation can be used if there is a need for usage of third party libraries (for example, Bouncy Castle) to load the private key when the client certificate authentication is used.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<h1 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>9 Kubernetes Informer</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/kubernetes-informer.adoc"'>
@@ -1876,7 +2163,7 @@ public class SharedInformerCache {
 </div>
 </div>
 
-<h1 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>9 Kubernetes Operator</h1>
+<h1 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>10 Kubernetes Operator</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/kubernetes-operator.adoc"'>
@@ -2244,7 +2531,7 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
 </div>
 </div>
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>10 Logging and debugging</h1>
+<h1 id="logging"><a class="anchor" href="#logging"></a>11 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/logging.adoc"'>
@@ -2279,7 +2566,7 @@ to <code>DEBUG</code>:</p>
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
-<h1 id="breaking"><a class="anchor" href="#breaking"></a>11 Breaking Changes</h1>
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>12 Breaking Changes</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/breaking.adoc"'>
@@ -2311,7 +2598,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 </div>
 </div>
 
-<h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>12 Guides</h1>
+<h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>13 Guides</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/kubernetesGuides.adoc"'>
@@ -2327,7 +2614,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <p><a href="https://guides.micronaut.io/latest/tag-kubernetes.html" class="bare">https://guides.micronaut.io/latest/tag-kubernetes.html</a></p>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>13 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>14 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.2.x/src/main/docs/guide/repository.adoc"'>
