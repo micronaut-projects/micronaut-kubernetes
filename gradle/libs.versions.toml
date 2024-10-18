@@ -21,7 +21,7 @@ micronaut-logging = "1.1.2"
 micronaut-reactor = "3.4.1"
 micronaut-serde = '2.10.2'
 micronaut-validation = '4.6.1'
-micronaut-openapi = '6.11.1'
+micronaut-openapi = '6.13.0'
 
 [libraries]
 # Core
