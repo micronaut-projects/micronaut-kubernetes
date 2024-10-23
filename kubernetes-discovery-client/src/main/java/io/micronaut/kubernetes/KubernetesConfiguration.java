@@ -15,6 +15,11 @@
  */
 package io.micronaut.kubernetes;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
@@ -23,12 +28,6 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.kubernetes.client.NamespaceResolver;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Encapsulates constants for Kubernetes configuration.
@@ -250,30 +249,15 @@ public class KubernetesConfiguration {
     }
 
     /**
-     * Kubernetes secrets configuration properties.
+     * Base class for config-maps and secrets.
      */
-    @ConfigurationProperties(KubernetesSecretsConfiguration.PREFIX)
-    @BootstrapContextCompatible
-    public static class KubernetesSecretsConfiguration extends AbstractKubernetesConfiguration {
-
-        static final String PREFIX = "secrets";
-
-        static final boolean DEFAULT_ENABLED = false;
-
-        private boolean enabled = DEFAULT_ENABLED;
+    public abstract static class AbstractConfigConfiguration extends AbstractKubernetesConfiguration {
         private Collection<String> paths;
         private boolean useApi;
+        private boolean watch;
 
-        @Override
-        public boolean isEnabled() {
-            return enabled;
-        }
-
-        /**
-         * @param enabled enabled flag.
-         */
-        public void setEnabled(boolean enabled) {
-            this.enabled = enabled;
+        AbstractConfigConfiguration(boolean defaultWatch) {
+            watch = defaultWatch;
         }
 
         /**
@@ -306,54 +290,9 @@ public class KubernetesConfiguration {
         public void setUseApi(boolean useApi) {
             this.useApi = useApi;
         }
-    }
-
-    /**
-     * Kubernetes config maps configuration properties.
-     */
-    @ConfigurationProperties(KubernetesConfigMapsConfiguration.PREFIX)
-    @BootstrapContextCompatible
-    public static class KubernetesConfigMapsConfiguration extends AbstractKubernetesConfiguration {
-        public static final String PREFIX = "config-maps";
-        static final boolean DEFAULT_WATCH = true;
-
-        private Collection<String> paths;
-        private boolean useApi;
-        private boolean watch = DEFAULT_WATCH;
 
         /**
-         * @return paths where config maps are mounted
-         */
-        public Collection<String> getPaths() {
-            if (paths == null) {
-                return Collections.emptySet();
-            }
-            return paths;
-        }
-
-        /**
-         * @param paths where config maps are mounted
-         */
-        public void setPaths(Collection<String> paths) {
-            this.paths = paths;
-        }
-
-        /**
-         * @return whether to use the API to read config maps when {@link #paths} is used.
-         */
-        public boolean isUseApi() {
-            return useApi;
-        }
-
-        /**
-         * @param useApi whether to use the API to read config maps when {@link #paths} is used.
-         */
-        public void setUseApi(boolean useApi) {
-            this.useApi = useApi;
-        }
-
-        /**
-         * @return whether to enable watching for the ConfigMap changes. Defaults to {@value DEFAULT_WATCH}.
+         * @return whether to enable watching for the ConfigMap changes.
          */
         public boolean isWatch() {
             return watch;
@@ -364,6 +303,52 @@ public class KubernetesConfiguration {
          */
         public void setWatch(boolean watch) {
             this.watch = watch;
+        }
+    }
+
+    /**
+     * Kubernetes secrets configuration properties.
+     */
+    @ConfigurationProperties(KubernetesSecretsConfiguration.PREFIX)
+    @BootstrapContextCompatible
+    public static class KubernetesSecretsConfiguration extends AbstractConfigConfiguration {
+
+        static final String PREFIX = "secrets";
+
+        static final boolean DEFAULT_ENABLED = false;
+        static final boolean DEFAULT_WATCH = false;
+
+        private boolean enabled = DEFAULT_ENABLED;
+
+        public KubernetesSecretsConfiguration() {
+            super(DEFAULT_WATCH);
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return enabled;
+        }
+
+        /**
+         * @param enabled enabled flag.
+         */
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+    }
+
+    /**
+     * Kubernetes config maps configuration properties.
+     */
+    @ConfigurationProperties(KubernetesConfigMapsConfiguration.PREFIX)
+    @BootstrapContextCompatible
+    public static class KubernetesConfigMapsConfiguration extends AbstractConfigConfiguration {
+        public static final String PREFIX = "config-maps";
+
+        static final boolean DEFAULT_WATCH = true;
+
+        public KubernetesConfigMapsConfiguration() {
+            super(DEFAULT_WATCH);
         }
     }
 }

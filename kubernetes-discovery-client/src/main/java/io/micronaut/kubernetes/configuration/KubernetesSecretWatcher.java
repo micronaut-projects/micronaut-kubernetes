@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.configuration;
 
-import io.kubernetes.client.openapi.models.V1ConfigMap;
-import io.kubernetes.client.openapi.models.V1ConfigMapList;
+import io.kubernetes.client.openapi.models.V1Secret;
+import io.kubernetes.client.openapi.models.V1SecretList;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
@@ -33,7 +33,7 @@ import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Inject;
 
 /**
- * Watches for ConfigMap changes and makes the appropriate changes to the {@link Environment} by adding or removing
+ * Watches for Secret changes and makes the appropriate changes to the {@link Environment} by adding or removing
  * {@link PropertySource}s.
  *
  * @author Álvaro Sánchez-Mariscal
@@ -43,14 +43,14 @@ import jakarta.inject.Inject;
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)
 @Requires(property = ConfigurationClient.ENABLED, value = "true", defaultValue = "false")
-@Requires(condition = KubernetesConfigMapWatcherCondition.class)
-@Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class, resourcePlural = "configmaps", apiGroup = "", labelSelectorSupplier = KubernetesConfigMapLabelSupplier.class)
-public final class KubernetesConfigMapWatcher extends AbstractKubernetesConfigWatcher<V1ConfigMap> {
+@Requires(condition = KubernetesSecretWatcherCondition.class)
+@Informer(apiType = V1Secret.class, apiListType = V1SecretList.class, resourcePlural = "secrets", apiGroup = "", labelSelectorSupplier = KubernetesSecretLabelSupplier.class)
+public final class KubernetesSecretWatcher extends AbstractKubernetesConfigWatcher<V1Secret> {
 
     private final KubernetesConfiguration configuration;
 
     @Inject
-    public KubernetesConfigMapWatcher(Environment environment, KubernetesConfiguration configuration, ApplicationEventPublisher<RefreshEvent> eventPublisher) {
+    public KubernetesSecretWatcher(Environment environment, KubernetesConfiguration configuration, ApplicationEventPublisher<RefreshEvent> eventPublisher) {
         super(environment, eventPublisher);
 
         this.configuration = configuration;
@@ -62,12 +62,12 @@ public final class KubernetesConfigMapWatcher extends AbstractKubernetesConfigWa
     }
 
     @Override
-    PropertySource readAsPropertySource(V1ConfigMap configMap) {
-        return KubernetesUtils.configMapAsPropertySource(configMap);
+    PropertySource readAsPropertySource(V1Secret secret) {
+        return KubernetesUtils.secretAsPropertySource(secret);
     }
 
     @Override
     KubernetesConfiguration.AbstractConfigConfiguration getConfig() {
-        return configuration.getConfigMaps();
+        return configuration.getSecrets();
     }
 }
