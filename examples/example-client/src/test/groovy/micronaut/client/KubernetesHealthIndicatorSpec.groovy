@@ -1,9 +1,11 @@
 package micronaut.client
 
+import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.kubernetes.health.KubernetesHealthIndicator
 import micronaut.client.utils.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -43,6 +45,17 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
         details.kubernetes.details.containerStatuses.first().name == "example-service"
         details.kubernetes.details.containerStatuses.first().image.endsWith "example-service:latest"
         details.kubernetes.details.containerStatuses.first().ready == true
+    }
+
+    void "bean of type KubernetesHealthIndicator does not exist if you set endpoints.health.kubernetes.enabled=false"() {
+        when:
+        ApplicationContext applicationContext = ApplicationContext.run(['endpoints.health.kubernetes.enabled': 'false'])
+
+        then:
+        !applicationContext.containsBean(KubernetesHealthIndicator)
+
+        cleanup:
+        applicationContext.close()
     }
 
     @Client("http://localhost:9999")
