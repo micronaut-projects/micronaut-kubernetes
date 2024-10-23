@@ -44,11 +44,11 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigWatcher.class);
 
-    private final Environment environment;
-    private final ApplicationEventPublisher<RefreshEvent> eventPublisher;
-
     // this flag controls when to start reflecting the changes to the discovery client
     final AtomicBoolean serviceStarted = new AtomicBoolean(false);
+
+    private final Environment environment;
+    private final ApplicationEventPublisher<RefreshEvent> eventPublisher;
 
     AbstractKubernetesConfigWatcher(Environment environment, ApplicationEventPublisher<RefreshEvent> eventPublisher) {
         this.environment = environment;

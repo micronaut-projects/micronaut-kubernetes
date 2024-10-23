@@ -13,9 +13,11 @@ import spock.lang.Specification
 @Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesSecretWatcherSpec extends Specification {
 
-    void "KubernetesSecretWatcher not exists when informer is enabled"() {
+    void "KubernetesSecretWatcher not exists when only config-client is enabled"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "micronaut.config-client.enabled": "true"
+        ], Environment.KUBERNETES)
 
         expect:
         !applicationContext.containsBean(KubernetesSecretWatcher)
@@ -23,7 +25,11 @@ class KubernetesSecretWatcherSpec extends Specification {
 
     void "KubernetesSecretWatcher is explicitly enabled"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.watch": "true"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.secrets.watch": "true",
+                "kubernetes.client.secrets.enabled": "true",
+                "micronaut.config-client.enabled": "true"
+        ], Environment.KUBERNETES)
 
         expect:
         applicationContext.containsBean(KubernetesSecretWatcher)
@@ -31,7 +37,11 @@ class KubernetesSecretWatcherSpec extends Specification {
 
     void "KubernetesSecretWatcher is disabled when config-client is disabled"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["micronaut.config-client.enabled": "false"], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.secrets.watch": "true",
+                "kubernetes.client.secrets.enabled": "true",
+                "micronaut.config-client.enabled": "false"
+        ], Environment.KUBERNETES)
 
         expect:
         !applicationContext.containsBean(KubernetesSecretWatcher)
@@ -39,7 +49,12 @@ class KubernetesSecretWatcherSpec extends Specification {
 
     void "KubernetesSecretWatcher is disabled when mounted volume paths are specified"() {
         given:
-        ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.paths": ["path1"]], Environment.KUBERNETES)
+        ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.secrets.watch": "true",
+                "kubernetes.client.secrets.enabled": "true",
+                "micronaut.config-client.enabled": "true",
+                "kubernetes.client.secrets.paths": ["path1"]
+        ], Environment.KUBERNETES)
 
         expect:
         !applicationContext.containsBean(KubernetesSecretWatcher)
@@ -48,8 +63,11 @@ class KubernetesSecretWatcherSpec extends Specification {
     void "KubernetesSecretWatcher is enabled when mounted volume paths are specified and use-api is enabled"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run([
+                "kubernetes.client.secrets.watch": "true",
+                "kubernetes.client.secrets.enabled": "true",
+                "micronaut.config-client.enabled": "true",
                 "kubernetes.client.secrets.paths"  : ["path1"],
-                "kubernetes.client.secrets.use-api": true
+                "kubernetes.client.secrets.use-api": "true"
         ], Environment.KUBERNETES)
 
         expect:
