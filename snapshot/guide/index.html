@@ -1326,6 +1326,17 @@ information about how to configure it.</p>
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>By default the KubernetesHealthIndicator is enabled. To disable it use the following configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">endpoints:
+  health:
+    kubernetes:
+      enabled: false</code></pre>
+</div>
+</div>
 </div>
 </div>
 
