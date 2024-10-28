@@ -1199,6 +1199,35 @@ take precedence over the ones coming from the API.</p>
 </table>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_watching_for_changes_in_secrets">Watching for changes in Secrets</h3>
+<div class="paragraph">
+<p>If watch is enabled, this configuration module will watch for <code>Secret</code>s added/modified/deleted, and provided that the
+changes match with the above filters, they will be propagated to the <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means that those changes will be immediately available in your application without a restart.</p>
+</div>
+<div class="paragraph">
+<p>If you want to enable watching for Secret changes, set <code>kubernetes.client.secrets.watch</code> to <code>true</code>.
+This should be done in the <code>bootstrap.yml</code> configuration file because the configuration client is initialized during the
+bootstrap phase, which happens before evaluating the <code>application.yml</code> configuration file.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When <code>kubernetes.client.secrets.use-api</code> is set to <code>false</code>, watching for the changes won&#8217;t be started.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </div>
 

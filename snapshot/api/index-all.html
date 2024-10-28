@@ -76,6 +76,17 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html#%3Cinit%3E(io.micronaut.core.io.ResourceResolver)" class="member-name-link">AbstractKubeConfigLoader(ResourceResolver)</a> - Constructor for class io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html" title="class in io.micronaut.kubernetes.client.openapi.config">AbstractKubeConfigLoader</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a>&lt;<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="type parameter in AbstractKubernetesConfigWatcher">T</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Watches for ConfigMap/Secret changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
+ <code>PropertySource</code>s.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>AbstractKubernetesConfigWatcherCondition</code></a> is enabled.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html#%3Cinit%3E()" class="member-name-link">AbstractKubernetesConfigWatcherCondition()</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
 <div class="block">Abstract implementation of kubernetes service instance provider.</div>
@@ -3018,12 +3029,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set configMapKeyRef in a chainable fashion.</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
-<dd>
-<div class="block">Based on configuration dynamically evaluates the label selector.</div>
-</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#%3Cinit%3E(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration)" class="member-name-link">ConfigMapLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html#configMapLock()" class="member-name-link">configMapLock()</a> - Method in class io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></dt>
 <dd>
 <div class="block">Creates the <code>ConfigMapLock</code>.</div>
@@ -3036,6 +3041,8 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set configSource in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html#configuration" class="member-name-link">configuration</a> - Variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/CoreV1Api.html#connectDeleteNamespacedPodProxy(java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">connectDeleteNamespacedPodProxy(String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/CoreV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoreV1Api</a></dt>
 <dd>
 <div class="block">connect DELETE requests to proxy of Pod</div>
@@ -6376,7 +6383,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html#get()" class="member-name-link">get()</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyNamespacesSupplier</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html#get()" class="member-name-link">get()</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></dt>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html#get()" class="member-name-link">get()</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html#get(io.kubernetes.client.extended.controller.reconciler.Request)" class="member-name-link">get(Request)</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a></dt>
 <dd>
@@ -11951,9 +11958,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">paths is a collection of paths that map requests to backends.</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#getPaths()" class="member-name-link">getPaths()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#getPaths()" class="member-name-link">getPaths()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html#getPaths()" class="member-name-link">getPaths()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1HTTPIngressPath.html#getPathType()" class="member-name-link">getPathType()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1HTTPIngressPath.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1HTTPIngressPath</a></dt>
 <dd>
@@ -16577,11 +16582,9 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Attempts to guess whether this port should be connected to using SSL.</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#isUseApi()" class="member-name-link">isUseApi()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html#isUseApi()" class="member-name-link">isUseApi()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#isUseApi()" class="member-name-link">isUseApi()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#isWatch()" class="member-name-link">isWatch()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html#isWatch()" class="member-name-link">isWatch()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1JSONSchemaProps.html#items(java.lang.Object)" class="member-name-link">items(Object)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1JSONSchemaProps.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1JSONSchemaProps</a></dt>
 <dd>
@@ -22175,18 +22178,18 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesClientSslBuilder.html#%3Cinit%3E(io.micronaut.core.io.ResourceResolver,io.micronaut.kubernetes.client.openapi.config.KubeConfig,io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader,io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration)" class="member-name-link">KubernetesClientSslBuilder(ResourceResolver, KubeConfig, KubernetesPrivateKeyLoader, KubernetesClientConfiguration)</a> - Constructor for class io.micronaut.kubernetes.client.openapi.ssl.<a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesClientSslBuilder.html" title="class in io.micronaut.kubernetes.client.openapi.ssl">KubernetesClientSslBuilder</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Based on configuration dynamically evaluates the label selector for config maps.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html#%3Cinit%3E(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration)" class="member-name-link">KubernetesConfigMapLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#%3Cinit%3E()" class="member-name-link">KubernetesConfigMapsConfiguration()</a> - Constructor for class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
 <div class="block">Watches for ConfigMap changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
  <code>PropertySource</code>s.</div>
-</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.kubernetes.client.openapi.ApiClient,io.kubernetes.client.openapi.apis.CoreV1Api,io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration,java.util.concurrent.ExecutorService,io.micronaut.context.event.ApplicationEventPublisher)" class="member-name-link">KubernetesConfigMapWatcher(Environment, ApiClient, CoreV1Api, CoreV1ApiReactorClient, KubernetesConfiguration, ExecutorService, ApplicationEventPublisher&lt;RefreshEvent&gt;)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
-<dd>
-<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Use new version <a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.micronaut.kubernetes.KubernetesConfiguration,io.micronaut.context.event.ApplicationEventPublisher)"><code>KubernetesConfigMapWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher)</code></a></div>
-</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.micronaut.kubernetes.KubernetesConfiguration,io.micronaut.context.event.ApplicationEventPublisher)" class="member-name-link">KubernetesConfigMapWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher&lt;RefreshEvent&gt;)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
 <dd>&nbsp;</dd>
@@ -22203,6 +22206,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#%3Cinit%3E(io.micronaut.kubernetes.client.NamespaceResolver)" class="member-name-link">KubernetesConfiguration(NamespaceResolver)</a> - Constructor for class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>
 <div class="block">Default constructor.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a> - Class in <a href="io/micronaut/kubernetes/package-summary.html">io.micronaut.kubernetes</a></dt>
+<dd>
+<div class="block">Base class for config-maps and secrets.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a> - Class in <a href="io/micronaut/kubernetes/package-summary.html">io.micronaut.kubernetes</a></dt>
 <dd>
@@ -22244,7 +22251,26 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Interface for kubernetes private key loaders.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Based on configuration dynamically evaluates the label selector for config maps.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html#%3Cinit%3E(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration)" class="member-name-link">KubernetesSecretLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#%3Cinit%3E()" class="member-name-link">KubernetesSecretsConfiguration()</a> - Constructor for class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Watches for Secret changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
+ <code>PropertySource</code>s.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.micronaut.kubernetes.KubernetesConfiguration,io.micronaut.context.event.ApplicationEventPublisher)" class="member-name-link">KubernetesSecretWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher&lt;RefreshEvent&gt;)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcherCondition</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
+<dd>
+<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>KubernetesSecretWatcherCondition</code></a> is enabled.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html#%3Cinit%3E()" class="member-name-link">KubernetesSecretWatcherCondition()</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcherCondition</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
@@ -23120,7 +23146,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set matchConstraints in a chainable fashion.</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html#matches(io.micronaut.context.condition.ConditionContext)" class="member-name-link">matches(ConditionContext)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcherCondition</a></dt>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html#matches(io.micronaut.context.condition.ConditionContext)" class="member-name-link">matches(ConditionContext)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1LabelSelector.html#matchExpressions(java.util.List)" class="member-name-link">matchExpressions(List&lt;V1LabelSelectorRequirement&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></dt>
 <dd>
@@ -24792,17 +24818,19 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html#%3Cinit%3E()" class="member-name-link">OkHttpClientLogging()</a> - Constructor for class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html" title="class in io.micronaut.kubernetes.client">OkHttpClientLogging</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onAdd(io.kubernetes.client.openapi.models.V1ConfigMap)" class="member-name-link">onAdd(V1ConfigMap)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onAdd(T)" class="member-name-link">onAdd(T)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#onAddFilter()" class="member-name-link">onAddFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onApplicationEvent(io.micronaut.discovery.event.ServiceReadyEvent)" class="member-name-link">onApplicationEvent(ServiceReadyEvent)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html#onApplicationEvent(io.micronaut.discovery.event.ServiceReadyEvent)" class="member-name-link">onApplicationEvent(ServiceReadyEvent)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html#onCreated(io.micronaut.context.event.BeanCreatedEvent)" class="member-name-link">onCreated(BeanCreatedEvent&lt;ResourceEventHandler&lt;ApiType&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html#onCreated(io.micronaut.context.event.BeanCreatedEvent)" class="member-name-link">onCreated(BeanCreatedEvent&lt;ResourceReconciler&lt;ApiType&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onDelete(io.kubernetes.client.openapi.models.V1ConfigMap,boolean)" class="member-name-link">onDelete(V1ConfigMap, boolean)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onDelete(T,boolean)" class="member-name-link">onDelete(T, boolean)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#onDeleteFilter()" class="member-name-link">onDeleteFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
 <dd>&nbsp;</dd>
@@ -24836,7 +24864,7 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/rxjava3/ApiCallbackEmitter.html#onSuccess(T,int,java.util.Map)" class="member-name-link">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.rxjava3.<a href="io/micronaut/kubernetes/client/rxjava3/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava3">ApiCallbackEmitter</a></dt>
 <dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onUpdate(io.kubernetes.client.openapi.models.V1ConfigMap,io.kubernetes.client.openapi.models.V1ConfigMap)" class="member-name-link">onUpdate(V1ConfigMap, V1ConfigMap)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
+<dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onUpdate(T,T)" class="member-name-link">onUpdate(T, T)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#onUpdateFilter()" class="member-name-link">onUpdateFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
 <dd>&nbsp;</dd>
@@ -34061,9 +34089,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the path property value</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#setPaths(java.util.Collection)" class="member-name-link">setPaths(Collection&lt;String&gt;)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setPaths(java.util.Collection)" class="member-name-link">setPaths(Collection&lt;String&gt;)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html#setPaths(java.util.Collection)" class="member-name-link">setPaths(Collection&lt;String&gt;)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1HTTPIngressRuleValue.html#setPaths(java.util.List)" class="member-name-link">setPaths(List&lt;V1HTTPIngressPath&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1HTTPIngressRuleValue.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1HTTPIngressRuleValue</a></dt>
 <dd>
@@ -36981,9 +37007,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the usages property value</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#setUseApi(boolean)" class="member-name-link">setUseApi(boolean)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#setUseApi(boolean)" class="member-name-link">setUseApi(boolean)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html#setUseApi(boolean)" class="member-name-link">setUseApi(boolean)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ResourceQuotaStatus.html#setUsed(java.util.Map)" class="member-name-link">setUsed(Map&lt;String, String&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ResourceQuotaStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceQuotaStatus</a></dt>
 <dd>
@@ -37325,7 +37349,7 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the warning property value</div>
 </dd>
-<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#setWatch(boolean)" class="member-name-link">setWatch(boolean)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html#setWatch(boolean)" class="member-name-link">setWatch(boolean)</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceConversion.html#setWebhook(io.micronaut.kubernetes.client.openapi.model.V1WebhookConversion)" class="member-name-link">setWebhook(V1WebhookConversion)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceConversion.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CustomResourceConversion</a></dt>
 <dd>

@@ -68,6 +68,15 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Abstract implementation of <a href="io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.config"><code>KubeConfigLoader</code></a> which provides common methods for loading kube config.</div>
 </div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a>&lt;<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="type parameter in AbstractKubernetesConfigWatcher">T</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Watches for ConfigMap/Secret changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
+ <code>PropertySource</code>s.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>AbstractKubernetesConfigWatcherCondition</code></a> is enabled.</div>
+</div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Abstract implementation of kubernetes service instance provider.</div>
@@ -197,281 +206,281 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Cluster contains information about how to communicate with a kubernetes cluster.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/ConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
-<div class="block">Based on configuration dynamically evaluates the label selector.</div>
-</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/config/model/Context.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">Context</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/config/model/Context.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">Context</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Context is a tuple of references to a cluster, a user and a namespace.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The <code>DefaultController</code> builder.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator">ControllerConfiguration</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The operator controller configuration.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Factory for the <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Implements <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.ControllerConfigurationBuilder.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl.ControllerConfigurationBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Operator configuration builder.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ControllerFactory.html" title="class in io.micronaut.kubernetes.client.operator">ControllerFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Bean creates the controllers based on the <a href="io/micronaut/kubernetes/client/operator/ControllerConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ControllerConfiguration</code></a> and registers them as singletons into
  the bean context.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerManagerBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerManagerBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The <code>ControllerManager</code> builder.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerWatchBuilder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller">ControllerWatchBuilder</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The <code>ControllerWatch</code> builder.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoordinationApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoordinationApi</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoordinationV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoordinationV1Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoordinationApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoordinationApi</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoreApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoreApi</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoordinationV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoordinationV1Api</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoreV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoreV1Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoreApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoreApi</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EndpointPort.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EndpointPort</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CoreV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoreV1Api</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EndpointPort.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EndpointPort</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">EndpointPort is a tuple that describes a single port.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Event is a report of an event somewhere in the cluster.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EventList.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EventList</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EventList.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EventList</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">EventList is a list of events.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EventSeries.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EventSeries</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EventSeries.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EventSeries</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">EventSeries contain information on series of events, i.e.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CustomObjectsApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CustomObjectsApi</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultAddFilter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/CustomObjectsApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CustomObjectsApi</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultAddFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultAddFilter</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default filter for added resources.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implementation of the <a href="io/micronaut/kubernetes/client/operator/controller/ControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>ControllerBuilder</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerManagerBuilder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerManagerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerManagerBuilder</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/operator/controller/ControllerManagerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>ControllerManagerBuilder</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerWatchBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultControllerWatchBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultControllerWatchBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/operator/controller/ControllerWatchBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>ControllerWatchBuilder</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultDeleteFilter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultDeleteFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultDeleteFilter</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default filter for deleted resources.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerApiGroupResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerApiGroupResolver</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerApiGroupResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerApiGroupResolver</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers"><code>InformerApiGroupResolver</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerLabelSelectorResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerLabelSelectorResolver</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerLabelSelectorResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerLabelSelectorResolver</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers"><code>InformerLabelSelectorResolver</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerNamespaceResolver</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerNamespaceResolver</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers"><code>InformerNamespaceResolver</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerResourcePluralResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerResourcePluralResolver</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/resolvers/DefaultInformerResourcePluralResolver.html" title="class in io.micronaut.kubernetes.client.informer.resolvers">DefaultInformerResourcePluralResolver</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers"><code>InformerResourcePluralResolver</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/DefaultKubeConfigLoader.html" title="class in io.micronaut.kubernetes.client.openapi.config">DefaultKubeConfigLoader</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/DefaultKubeConfigLoader.html" title="class in io.micronaut.kubernetes.client.openapi.config">DefaultKubeConfigLoader</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implementation which creates <a href="io/micronaut/kubernetes/client/openapi/config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config"><code>KubeConfig</code></a> instance from data stored in a kube config file.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultLeaderElectingControllerBuilder</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/controller/DefaultLeaderElectingControllerBuilder.html" title="class in io.micronaut.kubernetes.client.operator.controller">DefaultLeaderElectingControllerBuilder</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/operator/controller/LeaderElectingControllerBuilder.html" title="interface in io.micronaut.kubernetes.client.operator.controller"><code>LeaderElectingControllerBuilder</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">DefaultLockIdentityProvider</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/leaderelection/DefaultLockIdentityProvider.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">DefaultLockIdentityProvider</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implementation of <a href="io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html" title="interface in io.micronaut.kubernetes.client.operator.leaderelection"><code>LockIdentityProvider</code></a> which resolves the unique lock identity from the <code>HOSTNAME</code>
  environment variable.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html" title="class in io.micronaut.kubernetes.client">DefaultNamespaceResolver</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html" title="class in io.micronaut.kubernetes.client">DefaultNamespaceResolver</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implemention of <a href="io/micronaut/kubernetes/client/NamespaceResolver.html" title="interface in io.micronaut.kubernetes.client"><code>NamespaceResolver</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DefaultPodNameResolver.html" title="class in io.micronaut.kubernetes.client">DefaultPodNameResolver</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DefaultPodNameResolver.html" title="class in io.micronaut.kubernetes.client">DefaultPodNameResolver</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The default implementation of <a href="io/micronaut/kubernetes/client/PodNameResolver.html" title="interface in io.micronaut.kubernetes.client"><code>PodNameResolver</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/ssl/DefaultPrivateKeyLoader.html" title="class in io.micronaut.kubernetes.client.openapi.ssl">DefaultPrivateKeyLoader</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/ssl/DefaultPrivateKeyLoader.html" title="class in io.micronaut.kubernetes.client.openapi.ssl">DefaultPrivateKeyLoader</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implementation of the private key loader which supports PKCS#1, PKCS#8 and SEC 1 private key standards.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default implementation of the <a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer"><code>SharedIndexInformerFactory</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultUpdateFilter</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/filter/DefaultUpdateFilter.html" title="class in io.micronaut.kubernetes.client.operator.filter">DefaultUpdateFilter</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default filter for updated resources.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/DiscoveryApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">DiscoveryApi</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/DiscoveryApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">DiscoveryApi</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DiscoveryCache.html" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Bean that provides caching over the <code>Discovery</code> results.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DiscoveryFactory.html" title="class in io.micronaut.kubernetes.client">DiscoveryFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/DiscoveryFactory.html" title="class in io.micronaut.kubernetes.client">DiscoveryFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Factory for <code>Discovery</code>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/DiscoveryV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">DiscoveryV1Api</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/DiscoveryV1EndpointPort.html" title="class in io.micronaut.kubernetes.client.openapi.model">DiscoveryV1EndpointPort</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/DiscoveryV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">DiscoveryV1Api</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/DiscoveryV1EndpointPort.html" title="class in io.micronaut.kubernetes.client.openapi.model">DiscoveryV1EndpointPort</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">EndpointPort represents a Port used by an EndpointSlice</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/EmptyLabelSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyLabelSupplier</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/EmptyLabelSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyLabelSupplier</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default label supplier for the <a href="io/micronaut/kubernetes/client/informer/Informer.html#labelSelectorSupplier()"><code>Informer.labelSelectorSupplier()</code></a> that returns empty string.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyNamespacesSupplier</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/EmptyNamespacesSupplier.html" title="class in io.micronaut.kubernetes.client.informer">EmptyNamespacesSupplier</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Default namespaces supplier for the <a href="io/micronaut/kubernetes/client/informer/Informer.html#namespacesSupplier()"><code>Informer.namespacesSupplier()</code></a> ()} that returns empty array.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/EventsApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">EventsApi</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/EventsV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">EventsV1Api</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/EventsApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">EventsApi</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/EventsV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1Event</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/EventsV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">EventsV1Api</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/EventsV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1Event</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Event is a report of an event somewhere in the cluster.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/EventsV1EventList.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1EventList</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/EventsV1EventList.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1EventList</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">EventList is a list of Event objects.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/EventsV1EventSeries.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1EventSeries</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/EventsV1EventSeries.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1EventSeries</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">EventSeries contain information on series of events, i.e.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/config/model/ExecConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecConfig</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/config/model/ExecConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecConfig</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">ExecConfig specifies a command to provide client credentials.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredential</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredential</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">ExecCredential is used by exec-based plugins to communicate credentials to HTTP transports.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredentialStatus</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredentialStatus</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Holds credentials for the transport to use.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/config/model/ExecEnvVar.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecEnvVar</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab4">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab4"><a href="io/micronaut/kubernetes/client/openapi/config/model/ExecEnvVar.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecEnvVar</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab4">
 <div class="block">Environment variable used when executing an exec-based credential plugin.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverApi</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverV1beta2Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverV1beta2Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverApi</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverV1beta3Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverV1beta3Api</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverV1beta2Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverV1beta2Api</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a>&lt;<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="type parameter in IndexerComposite">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverV1beta3Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverV1beta3Api</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a>&lt;<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="type parameter in IndexerComposite">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The <code>Indexer</code> composite for the given <code>ApiType</code> that provides
  access to the <code>Store</code> resources.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerCompositeFactory</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerCompositeFactory</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Factory for <a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer"><code>IndexerComposite</code></a>.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab7">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab7"><a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab7">
 <div class="block">Annotation used in combination with <code>ResourceEventHandler</code> will cause the
  <code>SharedIndexInformer</code> will be created by <a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer"><code>ResourceEventHandlerBeanListener</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer">InformerAnnotationUtils</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer">InformerAnnotationUtils</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Utility class for resolvers.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerApiGroupResolver</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerApiGroupResolver</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The informer's resource api group.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The informer configuration.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer">InformerFactoryLifecycleListener</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/InformerFactoryLifecycleListener.html" title="class in io.micronaut.kubernetes.client.informer">InformerFactoryLifecycleListener</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Starts up and shuts down the <a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer"><code>SharedIndexInformerFactory</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerLabelSelectorResolver</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerLabelSelectorResolver</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Informer label selector resolver.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerNamespaceResolver</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerNamespaceResolver</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Informer namespace resolver.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Resolves the k8s resource plural.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.discovery.informer">InstanceProviderInformerNamespaceResolver</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/informer/InstanceProviderInformerNamespaceResolver.html" title="class in io.micronaut.kubernetes.discovery.informer">InstanceProviderInformerNamespaceResolver</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Resolver for the namespaces to watch by <a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" title="interface in io.micronaut.kubernetes.discovery"><code>KubernetesServiceInstanceProvider</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/InternalApiserverApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">InternalApiserverApi</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/InternalApiserverV1alpha1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">InternalApiserverV1alpha1Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/InternalApiserverApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">InternalApiserverApi</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubeConfig</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/InternalApiserverV1alpha1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">InternalApiserverV1alpha1Api</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubeConfig</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Holder for data loaded from the kube config file.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.config">KubeConfigLoader</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.config">KubeConfigLoader</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The loader for kube config file.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html" title="class in io.micronaut.kubernetes.client.processor">KubernetesApisProcessor</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html" title="class in io.micronaut.kubernetes.client.processor">KubernetesApisProcessor</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">An annotation processor that generates the Kubernetes APIs factories.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Kubernetes client configuration.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration.ServiceAccount</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration.ServiceAccount</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Service account authentication configuration.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html" title="class in io.micronaut.kubernetes.client.graalvm">KubernetesClientFeature</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html" title="class in io.micronaut.kubernetes.client.graalvm">KubernetesClientFeature</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Configures native image generation.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesClientSslBuilder.html" title="class in io.micronaut.kubernetes.client.openapi.ssl">KubernetesClientSslBuilder</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesClientSslBuilder.html" title="class in io.micronaut.kubernetes.client.openapi.ssl">KubernetesClientSslBuilder</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The ssl builder which uses data from a kube config file to create a key store and trust store.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Based on configuration dynamically evaluates the label selector for config maps.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
@@ -486,33 +495,50 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Encapsulates constants for Kubernetes configuration.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Base class for config-maps and secrets.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Kubernetes config maps configuration properties.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Configuration class for the discovery client of Kubernetes.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Kubernetes secrets configuration properties.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A <code>ConfigurationClient</code> implementation that provides <code>PropertySource</code>s read from Kubernetes ConfigMap's.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">A <code>DiscoveryClient</code> implementation for Kubernetes using the API.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/health/KubernetesHealthIndicator.html" title="class in io.micronaut.kubernetes.health">KubernetesHealthIndicator</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/health/KubernetesHealthIndicator.html" title="class in io.micronaut.kubernetes.health">KubernetesHealthIndicator</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Health indicator to show the current Pod information.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesPrivateKeyLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.ssl">KubernetesPrivateKeyLoader</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesPrivateKeyLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.ssl">KubernetesPrivateKeyLoader</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Interface for kubernetes private key loaders.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Based on configuration dynamically evaluates the label selector for config maps.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Watches for Secret changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
+ <code>PropertySource</code>s.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcherCondition</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>KubernetesSecretWatcherCondition</code></a> is enabled.</div>
 </div>
 <div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab2">

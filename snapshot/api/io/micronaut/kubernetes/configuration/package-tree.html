@@ -59,10 +59,21 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" class="type-name-link external-link" title="class or interface in java.lang">Object</a>
 <ul>
-<li class="circle">io.micronaut.kubernetes.configuration.<a href="ConfigMapLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">ConfigMapLabelSupplier</a> (implements java.util.function.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Supplier.html" title="class or interface in java.util.function" class="external-link">Supplier</a>&lt;T&gt;)</li>
-<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesConfigMapWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a> (implements io.kubernetes.client.informer.ResourceEventHandler&lt;ApiType&gt;)</li>
-<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesConfigMapWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcherCondition</a> (implements io.micronaut.context.condition.Condition)</li>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="AbstractKubernetesConfigWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a>&lt;T&gt; (implements io.kubernetes.client.informer.ResourceEventHandler&lt;ApiType&gt;)
+<ul>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesConfigMapWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></li>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesSecretWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a></li>
+</ul>
+</li>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="AbstractKubernetesConfigWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a> (implements io.micronaut.context.condition.Condition)
+<ul>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesConfigMapWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcherCondition</a></li>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesSecretWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcherCondition</a></li>
+</ul>
+</li>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesConfigMapLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></li>
 <li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesConfigurationClient.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a> (implements io.micronaut.discovery.config.ConfigurationClient)</li>
+<li class="circle">io.micronaut.kubernetes.configuration.<a href="KubernetesSecretLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></li>
 </ul>
 </li>
 </ul>
