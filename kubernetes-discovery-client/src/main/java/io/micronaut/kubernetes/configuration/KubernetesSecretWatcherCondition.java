@@ -20,15 +20,15 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 
 /**
- * Condition evaluates when the {@link KubernetesConfigMapWatcherCondition} is enabled.
+ * Condition evaluates when the {@link KubernetesSecretWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
  * @since 3.1
  */
 @Internal
-public class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
+public class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
     @Override
     KubernetesConfiguration.AbstractConfigConfiguration getConfig(ConditionContext context) {
-        return context.getBean(KubernetesConfiguration.KubernetesConfigMapsConfiguration.class);
+        return context.getBean(KubernetesConfiguration.KubernetesSecretsConfiguration.class);
     }
 }

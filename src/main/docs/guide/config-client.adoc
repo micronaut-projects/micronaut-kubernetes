@@ -367,3 +367,19 @@ kubernetes:
 In this scenario, if there are property keys defined in both type of secrets, the ones coming from mounted volumes will
 take precedence over the ones coming from the API.
 ====
+
+### Watching for changes in Secrets
+
+If watch is enabled, this configuration module will watch for ``Secret``s added/modified/deleted, and provided that the
+changes match with the above filters, they will be propagated to the `Environment` and refresh it.
+
+This means that those changes will be immediately available in your application without a restart.
+
+If you want to enable watching for Secret changes, set `kubernetes.client.secrets.watch` to `true`.
+This should be done in the `bootstrap.yml` configuration file because the configuration client is initialized during the
+bootstrap phase, which happens before evaluating the `application.yml` configuration file.
+
+[NOTE]
+====
+When `kubernetes.client.secrets.use-api` is set to `false`, watching for the changes won't be started.
+====

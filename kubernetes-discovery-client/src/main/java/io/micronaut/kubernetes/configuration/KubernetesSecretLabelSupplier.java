@@ -15,20 +15,25 @@
  */
 package io.micronaut.kubernetes.configuration;
 
-import io.micronaut.context.condition.ConditionContext;
-import io.micronaut.core.annotation.Internal;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
 import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import jakarta.inject.Singleton;
 
 /**
- * Condition evaluates when the {@link KubernetesConfigMapWatcherCondition} is enabled.
- *
- * @author Pavol Gressa
- * @since 3.1
+ * Based on configuration dynamically evaluates the label selector for config maps.
  */
-@Internal
-public class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
+@Singleton
+@Requires(env = Environment.KUBERNETES)
+public class KubernetesSecretLabelSupplier extends AbstractKubernetesConfigLabelSupplier {
+
+    public KubernetesSecretLabelSupplier(CoreV1ApiReactorClient coreV1ApiReactorClient, KubernetesConfiguration configuration) {
+       super(coreV1ApiReactorClient, configuration);
+    }
+
     @Override
-    KubernetesConfiguration.AbstractConfigConfiguration getConfig(ConditionContext context) {
-        return context.getBean(KubernetesConfiguration.KubernetesConfigMapsConfiguration.class);
+    KubernetesConfiguration.AbstractConfigConfiguration getConfig() {
+        return configuration.getSecrets();
     }
 }
