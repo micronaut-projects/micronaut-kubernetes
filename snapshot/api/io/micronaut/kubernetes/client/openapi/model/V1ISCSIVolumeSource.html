@@ -212,7 +212,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">lun represents iSCSI Target Lun number.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPortals()" class="member-name-link">getPortals</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">portals is the iSCSI Target Portal List.</div>
@@ -254,7 +254,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Set lun in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#portals(java.util.List)" class="member-name-link">portals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#portals(java.util.List)" class="member-name-link">portals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set portals in a chainable fashion.</div>
 </div>
@@ -304,7 +304,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the lun property value</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPortals(java.util.List)" class="member-name-link">setPortals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPortals(java.util.List)" class="member-name-link">setPortals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the portals property value</div>
 </div>
@@ -348,6 +348,48 @@ loadScripts(document, 'script');</script>
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="JSON_PROPERTY_IQN">
+<h3>JSON_PROPERTY_IQN</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_IQN</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_IQN">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_LUN">
+<h3>JSON_PROPERTY_LUN</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_LUN</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_LUN">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_TARGET_PORTAL">
+<h3>JSON_PROPERTY_TARGET_PORTAL</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_TARGET_PORTAL</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_TARGET_PORTAL">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
 <li>
 <section class="detail" id="JSON_PROPERTY_CHAP_AUTH_DISCOVERY">
 <h3>JSON_PROPERTY_CHAP_AUTH_DISCOVERY</h3>
@@ -405,20 +447,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="JSON_PROPERTY_IQN">
-<h3>JSON_PROPERTY_IQN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_IQN</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_IQN">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="JSON_PROPERTY_ISCSI_INTERFACE">
 <h3>JSON_PROPERTY_ISCSI_INTERFACE</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_ISCSI_INTERFACE</span></div>
@@ -427,20 +455,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_ISCSI_INTERFACE">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="JSON_PROPERTY_LUN">
-<h3>JSON_PROPERTY_LUN</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_LUN</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_LUN">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -488,20 +502,6 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
-<li>
-<section class="detail" id="JSON_PROPERTY_TARGET_PORTAL">
-<h3>JSON_PROPERTY_TARGET_PORTAL</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_TARGET_PORTAL</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ISCSIVolumeSource.JSON_PROPERTY_TARGET_PORTAL">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -527,6 +527,105 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getIqn()">
+<h3>getIqn</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getIqn</span>()</div>
+<div class="block">iqn is the target iSCSI Qualified Name.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the iqn property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setIqn(java.lang.String)">
+<h3>setIqn</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIqn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;iqn)</span></div>
+<div class="block">Set the iqn property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>iqn</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="iqn(java.lang.String)">
+<h3>iqn</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">iqn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;iqn)</span></div>
+<div class="block">Set iqn in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getLun()">
+<h3>getLun</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getLun</span>()</div>
+<div class="block">lun represents iSCSI Target Lun number.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the lun property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setLun(java.lang.Integer)">
+<h3>setLun</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLun</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;lun)</span></div>
+<div class="block">Set the lun property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>lun</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="lun(java.lang.Integer)">
+<h3>lun</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">lun</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;lun)</span></div>
+<div class="block">Set lun in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getTargetPortal()">
+<h3>getTargetPortal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getTargetPortal</span>()</div>
+<div class="block">targetPortal is iSCSI Target Portal. The Portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the targetPortal property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setTargetPortal(java.lang.String)">
+<h3>setTargetPortal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetPortal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;targetPortal)</span></div>
+<div class="block">Set the targetPortal property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>targetPortal</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="targetPortal(java.lang.String)">
+<h3>targetPortal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">targetPortal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;targetPortal)</span></div>
+<div class="block">Set targetPortal in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getChapAuthDiscovery()">
 <h3>getChapAuthDiscovery</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getChapAuthDiscovery</span>()</div>
@@ -542,6 +641,10 @@ loadScripts(document, 'script');</script>
 <h3>setChapAuthDiscovery</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setChapAuthDiscovery</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;chapAuthDiscovery)</span></div>
 <div class="block">Set the chapAuthDiscovery property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>chapAuthDiscovery</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -571,6 +674,10 @@ loadScripts(document, 'script');</script>
 <h3>setChapAuthSession</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setChapAuthSession</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;chapAuthSession)</span></div>
 <div class="block">Set the chapAuthSession property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>chapAuthSession</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -600,6 +707,10 @@ loadScripts(document, 'script');</script>
 <h3>setFsType</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFsType</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fsType)</span></div>
 <div class="block">Set the fsType property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>fsType</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -629,6 +740,10 @@ loadScripts(document, 'script');</script>
 <h3>setInitiatorName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setInitiatorName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;initiatorName)</span></div>
 <div class="block">Set the initiatorName property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>initiatorName</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -636,35 +751,6 @@ loadScripts(document, 'script');</script>
 <h3>initiatorName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">initiatorName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;initiatorName)</span></div>
 <div class="block">Set initiatorName in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getIqn()">
-<h3>getIqn</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getIqn</span>()</div>
-<div class="block">iqn is the target iSCSI Qualified Name.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the iqn property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setIqn(java.lang.String)">
-<h3>setIqn</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIqn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;iqn)</span></div>
-<div class="block">Set the iqn property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="iqn(java.lang.String)">
-<h3>iqn</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">iqn</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;iqn)</span></div>
-<div class="block">Set iqn in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
@@ -687,6 +773,10 @@ loadScripts(document, 'script');</script>
 <h3>setIscsiInterface</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIscsiInterface</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;iscsiInterface)</span></div>
 <div class="block">Set the iscsiInterface property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>iscsiInterface</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -701,38 +791,9 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="getLun()">
-<h3>getLun</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getLun</span>()</div>
-<div class="block">lun represents iSCSI Target Lun number.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the lun property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setLun(java.lang.Integer)">
-<h3>setLun</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLun</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;lun)</span></div>
-<div class="block">Set the lun property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="lun(java.lang.Integer)">
-<h3>lun</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">lun</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;lun)</span></div>
-<div class="block">Set lun in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getPortals()">
 <h3>getPortals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getPortals</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getPortals</span>()</div>
 <div class="block">portals is the iSCSI Target Portal List. The portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260).</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -743,14 +804,18 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="setPortals(java.util.List)">
 <h3>setPortals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPortals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPortals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</span></div>
 <div class="block">Set the portals property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>portals</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
 <section class="detail" id="portals(java.util.List)">
 <h3>portals</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">portals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">portals</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;portals)</span></div>
 <div class="block">Set portals in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -785,6 +850,10 @@ loadScripts(document, 'script');</script>
 <h3>setReadOnly</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setReadOnly</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;readOnly)</span></div>
 <div class="block">Set the readOnly property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>readOnly</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -813,6 +882,10 @@ loadScripts(document, 'script');</script>
 <h3>setSecretRef</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSecretRef</span><wbr><span class="parameters">(<a href="V1LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LocalObjectReference</a>&nbsp;secretRef)</span></div>
 <div class="block">Set the secretRef property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>secretRef</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -820,35 +893,6 @@ loadScripts(document, 'script');</script>
 <h3>secretRef</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">secretRef</span><wbr><span class="parameters">(<a href="V1LocalObjectReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LocalObjectReference</a>&nbsp;secretRef)</span></div>
 <div class="block">Set secretRef in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getTargetPortal()">
-<h3>getTargetPortal</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getTargetPortal</span>()</div>
-<div class="block">targetPortal is iSCSI Target Portal. The Portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260).</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the targetPortal property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setTargetPortal(java.lang.String)">
-<h3>setTargetPortal</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTargetPortal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;targetPortal)</span></div>
-<div class="block">Set the targetPortal property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="targetPortal(java.lang.String)">
-<h3>targetPortal</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></span>&nbsp;<span class="element-name">targetPortal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;targetPortal)</span></div>
-<div class="block">Set targetPortal in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1ISCSIVolumeSource for chaining.</dd>

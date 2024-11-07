@@ -127,9 +127,38 @@
 </div>
 <div class="sect2">
 <h3 id="_micronaut_kubernetes_client_openapi_config_properties">Micronaut Kubernetes Client Openapi Config Properties</h3>
+<a id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration" href="#io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html">KubernetesClientConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.kube-config-path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path of the kube config file. Default: {@code file:$HOME/.kube/config}.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable/disable kubernetes client. Default: {@code true}.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration$ServiceAccount" href="#io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration$ServiceAccount">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html">KubernetesClientConfiguration$ServiceAccount</a></caption>
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html">KubernetesClientConfiguration$ServiceAccount</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -162,35 +191,6 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.service-account.token-reload-interval</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Token reload interval. Default: {@code 60s}.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration" href="#io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html">KubernetesClientConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.kube-config-path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Path of the kube config file. Default: {@code file:$HOME/.kube/config}.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enable/disable kubernetes client. Default: {@code true}.</p></td>
 </tr>
 </tbody>
 </table>

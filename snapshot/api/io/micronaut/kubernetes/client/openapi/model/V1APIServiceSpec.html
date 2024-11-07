@@ -271,6 +271,34 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="JSON_PROPERTY_GROUP_PRIORITY_MINIMUM">
+<h3>JSON_PROPERTY_GROUP_PRIORITY_MINIMUM</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_GROUP_PRIORITY_MINIMUM</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1APIServiceSpec.JSON_PROPERTY_GROUP_PRIORITY_MINIMUM">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_VERSION_PRIORITY">
+<h3>JSON_PROPERTY_VERSION_PRIORITY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_VERSION_PRIORITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1APIServiceSpec.JSON_PROPERTY_VERSION_PRIORITY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_CA_BUNDLE">
 <h3>JSON_PROPERTY_CA_BUNDLE</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_CA_BUNDLE</span></div>
@@ -293,20 +321,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1APIServiceSpec.JSON_PROPERTY_GROUP">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="JSON_PROPERTY_GROUP_PRIORITY_MINIMUM">
-<h3>JSON_PROPERTY_GROUP_PRIORITY_MINIMUM</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_GROUP_PRIORITY_MINIMUM</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1APIServiceSpec.JSON_PROPERTY_GROUP_PRIORITY_MINIMUM">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -354,20 +368,6 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
-<li>
-<section class="detail" id="JSON_PROPERTY_VERSION_PRIORITY">
-<h3>JSON_PROPERTY_VERSION_PRIORITY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_VERSION_PRIORITY</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1APIServiceSpec.JSON_PROPERTY_VERSION_PRIORITY">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -392,6 +392,72 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getGroupPriorityMinimum()">
+<h3>getGroupPriorityMinimum</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getGroupPriorityMinimum</span>()</div>
+<div class="block">GroupPriorityMininum is the priority this group should have at least. Higher priority means that the group is preferred by clients over lower priority ones. Note that other versions of this group might specify even higher GroupPriorityMininum values such that the whole group gets a higher priority. The primary sort is based on GroupPriorityMinimum, ordered highest number to lowest (20 before 10). The secondary sort is based on the alphabetical comparison of the name of the object.  (v1.bar before v1.foo) We&#39;d recommend something like: *.k8s.io (except extensions) at 18000 and PaaSes (OpenShift, Deis) are recommended to be in the 2000s</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the groupPriorityMinimum property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setGroupPriorityMinimum(java.lang.Integer)">
+<h3>setGroupPriorityMinimum</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGroupPriorityMinimum</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;groupPriorityMinimum)</span></div>
+<div class="block">Set the groupPriorityMinimum property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>groupPriorityMinimum</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="groupPriorityMinimum(java.lang.Integer)">
+<h3>groupPriorityMinimum</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1APIServiceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIServiceSpec</a></span>&nbsp;<span class="element-name">groupPriorityMinimum</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;groupPriorityMinimum)</span></div>
+<div class="block">Set groupPriorityMinimum in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1APIServiceSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getVersionPriority()">
+<h3>getVersionPriority</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getVersionPriority</span>()</div>
+<div class="block">VersionPriority controls the ordering of this API version inside of its group.  Must be greater than zero. The primary sort is based on VersionPriority, ordered highest to lowest (20 before 10). Since it&#39;s inside of a group, the number can be small, probably in the 10s. In case of equal version priorities, the version string will be used to compute the order inside a group. If the version string is \&quot;kube-like\&quot;, it will sort above non \&quot;kube-like\&quot; version strings, which are ordered lexicographically. \&quot;Kube-like\&quot; versions start with a \&quot;v\&quot;, then are followed by a number (the major version), then optionally the string \&quot;alpha\&quot; or \&quot;beta\&quot; and another number (the minor version). These are sorted first by GA &gt; beta &gt; alpha (where GA is a version with no suffix such as beta or alpha), and then by comparing major version, then minor version. An example sorted list of versions: v10, v2, v1, v11beta2, v10beta3, v3beta1, v12alpha1, v11alpha2, foo1, foo10.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the versionPriority property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setVersionPriority(java.lang.Integer)">
+<h3>setVersionPriority</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVersionPriority</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;versionPriority)</span></div>
+<div class="block">Set the versionPriority property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>versionPriority</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="versionPriority(java.lang.Integer)">
+<h3>versionPriority</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1APIServiceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIServiceSpec</a></span>&nbsp;<span class="element-name">versionPriority</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;versionPriority)</span></div>
+<div class="block">Set versionPriority in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1APIServiceSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getCaBundle()">
 <h3>getCaBundle</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">getCaBundle</span>()</div>
@@ -407,6 +473,10 @@ loadScripts(document, 'script');</script>
 <h3>setCaBundle</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCaBundle</span><wbr><span class="parameters">(byte[]&nbsp;caBundle)</span></div>
 <div class="block">Set the caBundle property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>caBundle</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -436,6 +506,10 @@ loadScripts(document, 'script');</script>
 <h3>setGroup</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGroup</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;group)</span></div>
 <div class="block">Set the group property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>group</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -443,35 +517,6 @@ loadScripts(document, 'script');</script>
 <h3>group</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1APIServiceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIServiceSpec</a></span>&nbsp;<span class="element-name">group</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;group)</span></div>
 <div class="block">Set group in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1APIServiceSpec for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getGroupPriorityMinimum()">
-<h3>getGroupPriorityMinimum</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getGroupPriorityMinimum</span>()</div>
-<div class="block">GroupPriorityMininum is the priority this group should have at least. Higher priority means that the group is preferred by clients over lower priority ones. Note that other versions of this group might specify even higher GroupPriorityMininum values such that the whole group gets a higher priority. The primary sort is based on GroupPriorityMinimum, ordered highest number to lowest (20 before 10). The secondary sort is based on the alphabetical comparison of the name of the object.  (v1.bar before v1.foo) We&#39;d recommend something like: *.k8s.io (except extensions) at 18000 and PaaSes (OpenShift, Deis) are recommended to be in the 2000s</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the groupPriorityMinimum property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setGroupPriorityMinimum(java.lang.Integer)">
-<h3>setGroupPriorityMinimum</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGroupPriorityMinimum</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;groupPriorityMinimum)</span></div>
-<div class="block">Set the groupPriorityMinimum property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="groupPriorityMinimum(java.lang.Integer)">
-<h3>groupPriorityMinimum</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1APIServiceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIServiceSpec</a></span>&nbsp;<span class="element-name">groupPriorityMinimum</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;groupPriorityMinimum)</span></div>
-<div class="block">Set groupPriorityMinimum in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1APIServiceSpec for chaining.</dd>
@@ -494,6 +539,10 @@ loadScripts(document, 'script');</script>
 <h3>setInsecureSkipTLSVerify</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setInsecureSkipTLSVerify</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;insecureSkipTLSVerify)</span></div>
 <div class="block">Set the insecureSkipTLSVerify property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>insecureSkipTLSVerify</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -522,6 +571,10 @@ loadScripts(document, 'script');</script>
 <h3>setService</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setService</span><wbr><span class="parameters">(<a href="ApiregistrationV1ServiceReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">ApiregistrationV1ServiceReference</a>&nbsp;service)</span></div>
 <div class="block">Set the service property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>service</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -551,6 +604,10 @@ loadScripts(document, 'script');</script>
 <h3>setVersion</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVersion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;version)</span></div>
 <div class="block">Set the version property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>version</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -558,35 +615,6 @@ loadScripts(document, 'script');</script>
 <h3>version</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1APIServiceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIServiceSpec</a></span>&nbsp;<span class="element-name">version</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;version)</span></div>
 <div class="block">Set version in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1APIServiceSpec for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getVersionPriority()">
-<h3>getVersionPriority</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getVersionPriority</span>()</div>
-<div class="block">VersionPriority controls the ordering of this API version inside of its group.  Must be greater than zero. The primary sort is based on VersionPriority, ordered highest to lowest (20 before 10). Since it&#39;s inside of a group, the number can be small, probably in the 10s. In case of equal version priorities, the version string will be used to compute the order inside a group. If the version string is \&quot;kube-like\&quot;, it will sort above non \&quot;kube-like\&quot; version strings, which are ordered lexicographically. \&quot;Kube-like\&quot; versions start with a \&quot;v\&quot;, then are followed by a number (the major version), then optionally the string \&quot;alpha\&quot; or \&quot;beta\&quot; and another number (the minor version). These are sorted first by GA &gt; beta &gt; alpha (where GA is a version with no suffix such as beta or alpha), and then by comparing major version, then minor version. An example sorted list of versions: v10, v2, v1, v11beta2, v10beta3, v3beta1, v12alpha1, v11alpha2, foo1, foo10.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the versionPriority property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setVersionPriority(java.lang.Integer)">
-<h3>setVersionPriority</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVersionPriority</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;versionPriority)</span></div>
-<div class="block">Set the versionPriority property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="versionPriority(java.lang.Integer)">
-<h3>versionPriority</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1APIServiceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIServiceSpec</a></span>&nbsp;<span class="element-name">versionPriority</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;versionPriority)</span></div>
-<div class="block">Set versionPriority in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1APIServiceSpec for chaining.</dd>

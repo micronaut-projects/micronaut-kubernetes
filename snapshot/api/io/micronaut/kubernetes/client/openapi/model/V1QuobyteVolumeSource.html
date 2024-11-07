@@ -255,6 +255,34 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="JSON_PROPERTY_REGISTRY">
+<h3>JSON_PROPERTY_REGISTRY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_REGISTRY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1QuobyteVolumeSource.JSON_PROPERTY_REGISTRY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_VOLUME">
+<h3>JSON_PROPERTY_VOLUME</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_VOLUME</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1QuobyteVolumeSource.JSON_PROPERTY_VOLUME">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_GROUP">
 <h3>JSON_PROPERTY_GROUP</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_GROUP</span></div>
@@ -277,20 +305,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1QuobyteVolumeSource.JSON_PROPERTY_READ_ONLY">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="JSON_PROPERTY_REGISTRY">
-<h3>JSON_PROPERTY_REGISTRY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_REGISTRY</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1QuobyteVolumeSource.JSON_PROPERTY_REGISTRY">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -324,20 +338,6 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
-<li>
-<section class="detail" id="JSON_PROPERTY_VOLUME">
-<h3>JSON_PROPERTY_VOLUME</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_VOLUME</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1QuobyteVolumeSource.JSON_PROPERTY_VOLUME">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -362,6 +362,72 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getRegistry()">
+<h3>getRegistry</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getRegistry</span>()</div>
+<div class="block">registry represents a single or multiple Quobyte Registry services specified as a string as host:port pair (multiple entries are separated with commas) which acts as the central registry for volumes</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the registry property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setRegistry(java.lang.String)">
+<h3>setRegistry</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRegistry</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;registry)</span></div>
+<div class="block">Set the registry property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>registry</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="registry(java.lang.String)">
+<h3>registry</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1QuobyteVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1QuobyteVolumeSource</a></span>&nbsp;<span class="element-name">registry</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;registry)</span></div>
+<div class="block">Set registry in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1QuobyteVolumeSource for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getVolume()">
+<h3>getVolume</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getVolume</span>()</div>
+<div class="block">volume is a string that references an already created Quobyte volume by name.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the volume property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setVolume(java.lang.String)">
+<h3>setVolume</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVolume</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;volume)</span></div>
+<div class="block">Set the volume property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>volume</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="volume(java.lang.String)">
+<h3>volume</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1QuobyteVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1QuobyteVolumeSource</a></span>&nbsp;<span class="element-name">volume</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;volume)</span></div>
+<div class="block">Set volume in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1QuobyteVolumeSource for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getGroup()">
 <h3>getGroup</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getGroup</span>()</div>
@@ -377,6 +443,10 @@ loadScripts(document, 'script');</script>
 <h3>setGroup</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setGroup</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;group)</span></div>
 <div class="block">Set the group property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>group</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -406,6 +476,10 @@ loadScripts(document, 'script');</script>
 <h3>setReadOnly</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setReadOnly</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;readOnly)</span></div>
 <div class="block">Set the readOnly property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>readOnly</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -413,35 +487,6 @@ loadScripts(document, 'script');</script>
 <h3>readOnly</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1QuobyteVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1QuobyteVolumeSource</a></span>&nbsp;<span class="element-name">readOnly</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;readOnly)</span></div>
 <div class="block">Set readOnly in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1QuobyteVolumeSource for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getRegistry()">
-<h3>getRegistry</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getRegistry</span>()</div>
-<div class="block">registry represents a single or multiple Quobyte Registry services specified as a string as host:port pair (multiple entries are separated with commas) which acts as the central registry for volumes</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the registry property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setRegistry(java.lang.String)">
-<h3>setRegistry</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRegistry</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;registry)</span></div>
-<div class="block">Set the registry property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="registry(java.lang.String)">
-<h3>registry</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1QuobyteVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1QuobyteVolumeSource</a></span>&nbsp;<span class="element-name">registry</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;registry)</span></div>
-<div class="block">Set registry in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1QuobyteVolumeSource for chaining.</dd>
@@ -464,6 +509,10 @@ loadScripts(document, 'script');</script>
 <h3>setTenant</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTenant</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;tenant)</span></div>
 <div class="block">Set the tenant property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>tenant</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -493,6 +542,10 @@ loadScripts(document, 'script');</script>
 <h3>setUser</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUser</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;user)</span></div>
 <div class="block">Set the user property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>user</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -500,35 +553,6 @@ loadScripts(document, 'script');</script>
 <h3>user</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1QuobyteVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1QuobyteVolumeSource</a></span>&nbsp;<span class="element-name">user</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;user)</span></div>
 <div class="block">Set user in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1QuobyteVolumeSource for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getVolume()">
-<h3>getVolume</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getVolume</span>()</div>
-<div class="block">volume is a string that references an already created Quobyte volume by name.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the volume property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setVolume(java.lang.String)">
-<h3>setVolume</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setVolume</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;volume)</span></div>
-<div class="block">Set the volume property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="volume(java.lang.String)">
-<h3>volume</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1QuobyteVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1QuobyteVolumeSource</a></span>&nbsp;<span class="element-name">volume</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;volume)</span></div>
-<div class="block">Set volume in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1QuobyteVolumeSource for chaining.</dd>

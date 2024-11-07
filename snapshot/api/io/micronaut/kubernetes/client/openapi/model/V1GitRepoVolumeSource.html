@@ -200,20 +200,6 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="JSON_PROPERTY_DIRECTORY">
-<h3>JSON_PROPERTY_DIRECTORY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_DIRECTORY</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1GitRepoVolumeSource.JSON_PROPERTY_DIRECTORY">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="JSON_PROPERTY_REPOSITORY">
 <h3>JSON_PROPERTY_REPOSITORY</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_REPOSITORY</span></div>
@@ -222,6 +208,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1GitRepoVolumeSource.JSON_PROPERTY_REPOSITORY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_DIRECTORY">
+<h3>JSON_PROPERTY_DIRECTORY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_DIRECTORY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1GitRepoVolumeSource.JSON_PROPERTY_DIRECTORY">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -264,35 +264,6 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getDirectory()">
-<h3>getDirectory</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getDirectory</span>()</div>
-<div class="block">directory is the target directory name. Must not contain or start with &#39;..&#39;.  If &#39;.&#39; is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the directory property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setDirectory(java.lang.String)">
-<h3>setDirectory</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDirectory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;directory)</span></div>
-<div class="block">Set the directory property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="directory(java.lang.String)">
-<h3>directory</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1GitRepoVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1GitRepoVolumeSource</a></span>&nbsp;<span class="element-name">directory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;directory)</span></div>
-<div class="block">Set directory in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1GitRepoVolumeSource for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getRepository()">
 <h3>getRepository</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getRepository</span>()</div>
@@ -308,6 +279,10 @@ loadScripts(document, 'script');</script>
 <h3>setRepository</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRepository</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;repository)</span></div>
 <div class="block">Set the repository property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>repository</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -315,6 +290,39 @@ loadScripts(document, 'script');</script>
 <h3>repository</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1GitRepoVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1GitRepoVolumeSource</a></span>&nbsp;<span class="element-name">repository</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;repository)</span></div>
 <div class="block">Set repository in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1GitRepoVolumeSource for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getDirectory()">
+<h3>getDirectory</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getDirectory</span>()</div>
+<div class="block">directory is the target directory name. Must not contain or start with &#39;..&#39;.  If &#39;.&#39; is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the directory property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setDirectory(java.lang.String)">
+<h3>setDirectory</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDirectory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;directory)</span></div>
+<div class="block">Set the directory property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>directory</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="directory(java.lang.String)">
+<h3>directory</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1GitRepoVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1GitRepoVolumeSource</a></span>&nbsp;<span class="element-name">directory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;directory)</span></div>
+<div class="block">Set directory in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1GitRepoVolumeSource for chaining.</dd>
@@ -337,6 +345,10 @@ loadScripts(document, 'script');</script>
 <h3>setRevision</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRevision</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;revision)</span></div>
 <div class="block">Set the revision property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>revision</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>

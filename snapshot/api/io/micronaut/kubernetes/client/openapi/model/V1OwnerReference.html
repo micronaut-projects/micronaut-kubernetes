@@ -271,34 +271,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="JSON_PROPERTY_BLOCK_OWNER_DELETION">
-<h3>JSON_PROPERTY_BLOCK_OWNER_DELETION</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_BLOCK_OWNER_DELETION</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1OwnerReference.JSON_PROPERTY_BLOCK_OWNER_DELETION">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="JSON_PROPERTY_CONTROLLER">
-<h3>JSON_PROPERTY_CONTROLLER</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_CONTROLLER</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1OwnerReference.JSON_PROPERTY_CONTROLLER">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="JSON_PROPERTY_KIND">
 <h3>JSON_PROPERTY_KIND</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_KIND</span></div>
@@ -335,6 +307,34 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1OwnerReference.JSON_PROPERTY_UID">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_BLOCK_OWNER_DELETION">
+<h3>JSON_PROPERTY_BLOCK_OWNER_DELETION</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_BLOCK_OWNER_DELETION</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1OwnerReference.JSON_PROPERTY_BLOCK_OWNER_DELETION">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_CONTROLLER">
+<h3>JSON_PROPERTY_CONTROLLER</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_CONTROLLER</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1OwnerReference.JSON_PROPERTY_CONTROLLER">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -381,6 +381,10 @@ loadScripts(document, 'script');</script>
 <h3>setApiVersion</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setApiVersion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;apiVersion)</span></div>
 <div class="block">Set the apiVersion property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>apiVersion</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -388,64 +392,6 @@ loadScripts(document, 'script');</script>
 <h3>apiVersion</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1OwnerReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1OwnerReference</a></span>&nbsp;<span class="element-name">apiVersion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;apiVersion)</span></div>
 <div class="block">Set apiVersion in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1OwnerReference for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getBlockOwnerDeletion()">
-<h3>getBlockOwnerDeletion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getBlockOwnerDeletion</span>()</div>
-<div class="block">If true, AND if the owner has the \&quot;foregroundDeletion\&quot; finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs \&quot;delete\&quot; permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the blockOwnerDeletion property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setBlockOwnerDeletion(java.lang.Boolean)">
-<h3>setBlockOwnerDeletion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBlockOwnerDeletion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;blockOwnerDeletion)</span></div>
-<div class="block">Set the blockOwnerDeletion property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="blockOwnerDeletion(java.lang.Boolean)">
-<h3>blockOwnerDeletion</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1OwnerReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1OwnerReference</a></span>&nbsp;<span class="element-name">blockOwnerDeletion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;blockOwnerDeletion)</span></div>
-<div class="block">Set blockOwnerDeletion in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1OwnerReference for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getController()">
-<h3>getController</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getController</span>()</div>
-<div class="block">If true, this reference points to the managing controller.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the controller property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setController(java.lang.Boolean)">
-<h3>setController</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setController</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;controller)</span></div>
-<div class="block">Set the controller property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="controller(java.lang.Boolean)">
-<h3>controller</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1OwnerReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1OwnerReference</a></span>&nbsp;<span class="element-name">controller</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;controller)</span></div>
-<div class="block">Set controller in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1OwnerReference for chaining.</dd>
@@ -468,6 +414,10 @@ loadScripts(document, 'script');</script>
 <h3>setKind</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setKind</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;kind)</span></div>
 <div class="block">Set the kind property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>kind</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -497,6 +447,10 @@ loadScripts(document, 'script');</script>
 <h3>setName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
 <div class="block">Set the name property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>name</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -526,6 +480,10 @@ loadScripts(document, 'script');</script>
 <h3>setUid</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUid</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uid)</span></div>
 <div class="block">Set the uid property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>uid</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -533,6 +491,72 @@ loadScripts(document, 'script');</script>
 <h3>uid</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1OwnerReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1OwnerReference</a></span>&nbsp;<span class="element-name">uid</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uid)</span></div>
 <div class="block">Set uid in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1OwnerReference for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getBlockOwnerDeletion()">
+<h3>getBlockOwnerDeletion</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getBlockOwnerDeletion</span>()</div>
+<div class="block">If true, AND if the owner has the \&quot;foregroundDeletion\&quot; finalizer, then the owner cannot be deleted from the key-value store until this reference is removed. See https://kubernetes.io/docs/concepts/architecture/garbage-collection/#foreground-deletion for how the garbage collector interacts with this field and enforces the foreground deletion. Defaults to false. To set this field, a user needs \&quot;delete\&quot; permission of the owner, otherwise 422 (Unprocessable Entity) will be returned.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the blockOwnerDeletion property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setBlockOwnerDeletion(java.lang.Boolean)">
+<h3>setBlockOwnerDeletion</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBlockOwnerDeletion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;blockOwnerDeletion)</span></div>
+<div class="block">Set the blockOwnerDeletion property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>blockOwnerDeletion</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="blockOwnerDeletion(java.lang.Boolean)">
+<h3>blockOwnerDeletion</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1OwnerReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1OwnerReference</a></span>&nbsp;<span class="element-name">blockOwnerDeletion</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;blockOwnerDeletion)</span></div>
+<div class="block">Set blockOwnerDeletion in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1OwnerReference for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getController()">
+<h3>getController</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getController</span>()</div>
+<div class="block">If true, this reference points to the managing controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the controller property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setController(java.lang.Boolean)">
+<h3>setController</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setController</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;controller)</span></div>
+<div class="block">Set the controller property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>controller</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="controller(java.lang.Boolean)">
+<h3>controller</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1OwnerReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1OwnerReference</a></span>&nbsp;<span class="element-name">controller</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;controller)</span></div>
+<div class="block">Set controller in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1OwnerReference for chaining.</dd>

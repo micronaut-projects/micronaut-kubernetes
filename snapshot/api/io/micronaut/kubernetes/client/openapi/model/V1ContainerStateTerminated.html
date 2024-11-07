@@ -272,20 +272,6 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="JSON_PROPERTY_CONTAINER_I_D">
-<h3>JSON_PROPERTY_CONTAINER_I_D</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_CONTAINER_I_D</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ContainerStateTerminated.JSON_PROPERTY_CONTAINER_I_D">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="JSON_PROPERTY_EXIT_CODE">
 <h3>JSON_PROPERTY_EXIT_CODE</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_EXIT_CODE</span></div>
@@ -294,6 +280,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ContainerStateTerminated.JSON_PROPERTY_EXIT_CODE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_CONTAINER_I_D">
+<h3>JSON_PROPERTY_CONTAINER_I_D</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_CONTAINER_I_D</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1ContainerStateTerminated.JSON_PROPERTY_CONTAINER_I_D">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -392,35 +392,6 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getContainerID()">
-<h3>getContainerID</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getContainerID</span>()</div>
-<div class="block">Container&#39;s ID in the format &#39;&lt;type&gt;://&lt;container_id&gt;&#39;</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the containerID property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setContainerID(java.lang.String)">
-<h3>setContainerID</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setContainerID</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;containerID)</span></div>
-<div class="block">Set the containerID property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="containerID(java.lang.String)">
-<h3>containerID</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ContainerStateTerminated.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStateTerminated</a></span>&nbsp;<span class="element-name">containerID</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;containerID)</span></div>
-<div class="block">Set containerID in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1ContainerStateTerminated for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getExitCode()">
 <h3>getExitCode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getExitCode</span>()</div>
@@ -436,6 +407,10 @@ loadScripts(document, 'script');</script>
 <h3>setExitCode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setExitCode</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;exitCode)</span></div>
 <div class="block">Set the exitCode property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>exitCode</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -443,6 +418,39 @@ loadScripts(document, 'script');</script>
 <h3>exitCode</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ContainerStateTerminated.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStateTerminated</a></span>&nbsp;<span class="element-name">exitCode</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;exitCode)</span></div>
 <div class="block">Set exitCode in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1ContainerStateTerminated for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getContainerID()">
+<h3>getContainerID</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getContainerID</span>()</div>
+<div class="block">Container&#39;s ID in the format &#39;&lt;type&gt;://&lt;container_id&gt;&#39;</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the containerID property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setContainerID(java.lang.String)">
+<h3>setContainerID</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setContainerID</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;containerID)</span></div>
+<div class="block">Set the containerID property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>containerID</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="containerID(java.lang.String)">
+<h3>containerID</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ContainerStateTerminated.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStateTerminated</a></span>&nbsp;<span class="element-name">containerID</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;containerID)</span></div>
+<div class="block">Set containerID in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1ContainerStateTerminated for chaining.</dd>
@@ -465,6 +473,10 @@ loadScripts(document, 'script');</script>
 <h3>setFinishedAt</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFinishedAt</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html" title="class or interface in java.time" class="external-link">ZonedDateTime</a>&nbsp;finishedAt)</span></div>
 <div class="block">Set the finishedAt property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>finishedAt</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -494,6 +506,10 @@ loadScripts(document, 'script');</script>
 <h3>setMessage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMessage</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</span></div>
 <div class="block">Set the message property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>message</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -523,6 +539,10 @@ loadScripts(document, 'script');</script>
 <h3>setReason</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setReason</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</span></div>
 <div class="block">Set the reason property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>reason</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -552,6 +572,10 @@ loadScripts(document, 'script');</script>
 <h3>setSignal</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSignal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;signal)</span></div>
 <div class="block">Set the signal property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>signal</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -581,6 +605,10 @@ loadScripts(document, 'script');</script>
 <h3>setStartedAt</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStartedAt</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/ZonedDateTime.html" title="class or interface in java.time" class="external-link">ZonedDateTime</a>&nbsp;startedAt)</span></div>
 <div class="block">Set the startedAt property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>startedAt</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>

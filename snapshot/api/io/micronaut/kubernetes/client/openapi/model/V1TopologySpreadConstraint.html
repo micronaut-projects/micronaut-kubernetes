@@ -156,7 +156,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getLabelSelector()" class="member-name-link">getLabelSelector</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMatchLabelKeys()" class="member-name-link">getMatchLabelKeys</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated.</div>
@@ -200,7 +200,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Set labelSelector in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#matchLabelKeys(java.util.List)" class="member-name-link">matchLabelKeys</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#matchLabelKeys(java.util.List)" class="member-name-link">matchLabelKeys</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set matchLabelKeys in a chainable fashion.</div>
 </div>
@@ -230,7 +230,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the labelSelector property value</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatchLabelKeys(java.util.List)" class="member-name-link">setMatchLabelKeys</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMatchLabelKeys(java.util.List)" class="member-name-link">setMatchLabelKeys</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the matchLabelKeys property value</div>
 </div>
@@ -295,6 +295,48 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="JSON_PROPERTY_MAX_SKEW">
+<h3>JSON_PROPERTY_MAX_SKEW</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_MAX_SKEW</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_MAX_SKEW">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_TOPOLOGY_KEY">
+<h3>JSON_PROPERTY_TOPOLOGY_KEY</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_TOPOLOGY_KEY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_TOPOLOGY_KEY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_WHEN_UNSATISFIABLE">
+<h3>JSON_PROPERTY_WHEN_UNSATISFIABLE</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_WHEN_UNSATISFIABLE</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_WHEN_UNSATISFIABLE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_LABEL_SELECTOR">
 <h3>JSON_PROPERTY_LABEL_SELECTOR</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_LABEL_SELECTOR</span></div>
@@ -317,20 +359,6 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_MATCH_LABEL_KEYS">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="JSON_PROPERTY_MAX_SKEW">
-<h3>JSON_PROPERTY_MAX_SKEW</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_MAX_SKEW</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_MAX_SKEW">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -378,34 +406,6 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
-<li>
-<section class="detail" id="JSON_PROPERTY_TOPOLOGY_KEY">
-<h3>JSON_PROPERTY_TOPOLOGY_KEY</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_TOPOLOGY_KEY</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_TOPOLOGY_KEY">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="JSON_PROPERTY_WHEN_UNSATISFIABLE">
-<h3>JSON_PROPERTY_WHEN_UNSATISFIABLE</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_WHEN_UNSATISFIABLE</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1TopologySpreadConstraint.JSON_PROPERTY_WHEN_UNSATISFIABLE">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -431,74 +431,6 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getLabelSelector()">
-<h3>getLabelSelector</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></span>&nbsp;<span class="element-name">getLabelSelector</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the labelSelector property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setLabelSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
-<h3>setLabelSelector</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLabelSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;labelSelector)</span></div>
-<div class="block">Set the labelSelector property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="labelSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
-<h3>labelSelector</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">labelSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;labelSelector)</span></div>
-<div class="block">Set labelSelector in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getMatchLabelKeys()">
-<h3>getMatchLabelKeys</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getMatchLabelKeys</span>()</div>
-<div class="block">MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn&#39;t set. Keys that don&#39;t exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector.  This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default).</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the matchLabelKeys property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setMatchLabelKeys(java.util.List)">
-<h3>setMatchLabelKeys</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMatchLabelKeys</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</span></div>
-<div class="block">Set the matchLabelKeys property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="matchLabelKeys(java.util.List)">
-<h3>matchLabelKeys</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">matchLabelKeys</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</span></div>
-<div class="block">Set matchLabelKeys in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="addmatchLabelKeysItem(java.lang.String)">
-<h3>addmatchLabelKeysItem</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">addmatchLabelKeysItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;matchLabelKeysItem)</span></div>
-<div class="block">Add an item to the matchLabelKeys property in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getMaxSkew()">
 <h3>getMaxSkew</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getMaxSkew</span>()</div>
@@ -514,6 +446,10 @@ loadScripts(document, 'script');</script>
 <h3>setMaxSkew</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMaxSkew</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxSkew)</span></div>
 <div class="block">Set the maxSkew property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>maxSkew</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -521,93 +457,6 @@ loadScripts(document, 'script');</script>
 <h3>maxSkew</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">maxSkew</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxSkew)</span></div>
 <div class="block">Set maxSkew in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getMinDomains()">
-<h3>getMinDomains</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getMinDomains</span>()</div>
-<div class="block">MinDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats \&quot;global minimum\&quot; as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won&#39;t schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule.  For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | |  P P  |  P P  |  P P  | The number of domains is less than 5(MinDomains), so \&quot;global minimum\&quot; is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew.  This is a beta field and requires the MinDomainsInPodTopologySpread feature gate to be enabled (enabled by default).</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the minDomains property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setMinDomains(java.lang.Integer)">
-<h3>setMinDomains</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMinDomains</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;minDomains)</span></div>
-<div class="block">Set the minDomains property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="minDomains(java.lang.Integer)">
-<h3>minDomains</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">minDomains</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;minDomains)</span></div>
-<div class="block">Set minDomains in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getNodeAffinityPolicy()">
-<h3>getNodeAffinityPolicy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getNodeAffinityPolicy</span>()</div>
-<div class="block">NodeAffinityPolicy indicates how we will treat Pod&#39;s nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.  If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the nodeAffinityPolicy property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setNodeAffinityPolicy(java.lang.String)">
-<h3>setNodeAffinityPolicy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNodeAffinityPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeAffinityPolicy)</span></div>
-<div class="block">Set the nodeAffinityPolicy property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="nodeAffinityPolicy(java.lang.String)">
-<h3>nodeAffinityPolicy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">nodeAffinityPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeAffinityPolicy)</span></div>
-<div class="block">Set nodeAffinityPolicy in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getNodeTaintsPolicy()">
-<h3>getNodeTaintsPolicy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getNodeTaintsPolicy</span>()</div>
-<div class="block">NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included.  If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the nodeTaintsPolicy property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setNodeTaintsPolicy(java.lang.String)">
-<h3>setNodeTaintsPolicy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNodeTaintsPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeTaintsPolicy)</span></div>
-<div class="block">Set the nodeTaintsPolicy property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="nodeTaintsPolicy(java.lang.String)">
-<h3>nodeTaintsPolicy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">nodeTaintsPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeTaintsPolicy)</span></div>
-<div class="block">Set nodeTaintsPolicy in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
@@ -630,6 +479,10 @@ loadScripts(document, 'script');</script>
 <h3>setTopologyKey</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setTopologyKey</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;topologyKey)</span></div>
 <div class="block">Set the topologyKey property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>topologyKey</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -659,6 +512,10 @@ loadScripts(document, 'script');</script>
 <h3>setWhenUnsatisfiable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setWhenUnsatisfiable</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;whenUnsatisfiable)</span></div>
 <div class="block">Set the whenUnsatisfiable property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>whenUnsatisfiable</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -666,6 +523,181 @@ loadScripts(document, 'script');</script>
 <h3>whenUnsatisfiable</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">whenUnsatisfiable</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;whenUnsatisfiable)</span></div>
 <div class="block">Set whenUnsatisfiable in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getLabelSelector()">
+<h3>getLabelSelector</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></span>&nbsp;<span class="element-name">getLabelSelector</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the labelSelector property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setLabelSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
+<h3>setLabelSelector</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setLabelSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;labelSelector)</span></div>
+<div class="block">Set the labelSelector property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>labelSelector</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="labelSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
+<h3>labelSelector</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">labelSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;labelSelector)</span></div>
+<div class="block">Set labelSelector in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMatchLabelKeys()">
+<h3>getMatchLabelKeys</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getMatchLabelKeys</span>()</div>
+<div class="block">MatchLabelKeys is a set of pod label keys to select the pods over which spreading will be calculated. The keys are used to lookup values from the incoming pod labels, those key-value labels are ANDed with labelSelector to select the group of existing pods over which spreading will be calculated for the incoming pod. The same key is forbidden to exist in both MatchLabelKeys and LabelSelector. MatchLabelKeys cannot be set when LabelSelector isn&#39;t set. Keys that don&#39;t exist in the incoming pod labels will be ignored. A null or empty list means only match against labelSelector.  This is a beta field and requires the MatchLabelKeysInPodTopologySpread feature gate to be enabled (enabled by default).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the matchLabelKeys property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setMatchLabelKeys(java.util.List)">
+<h3>setMatchLabelKeys</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMatchLabelKeys</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</span></div>
+<div class="block">Set the matchLabelKeys property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>matchLabelKeys</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="matchLabelKeys(java.util.List)">
+<h3>matchLabelKeys</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">matchLabelKeys</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;matchLabelKeys)</span></div>
+<div class="block">Set matchLabelKeys in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addmatchLabelKeysItem(java.lang.String)">
+<h3>addmatchLabelKeysItem</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">addmatchLabelKeysItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;matchLabelKeysItem)</span></div>
+<div class="block">Add an item to the matchLabelKeys property in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getMinDomains()">
+<h3>getMinDomains</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getMinDomains</span>()</div>
+<div class="block">MinDomains indicates a minimum number of eligible domains. When the number of eligible domains with matching topology keys is less than minDomains, Pod Topology Spread treats \&quot;global minimum\&quot; as 0, and then the calculation of Skew is performed. And when the number of eligible domains with matching topology keys equals or greater than minDomains, this value has no effect on scheduling. As a result, when the number of eligible domains is less than minDomains, scheduler won&#39;t schedule more than maxSkew Pods to those domains. If value is nil, the constraint behaves as if MinDomains is equal to 1. Valid values are integers greater than 0. When value is not nil, WhenUnsatisfiable must be DoNotSchedule.  For example, in a 3-zone cluster, MaxSkew is set to 2, MinDomains is set to 5 and pods with the same labelSelector spread as 2/2/2: | zone1 | zone2 | zone3 | |  P P  |  P P  |  P P  | The number of domains is less than 5(MinDomains), so \&quot;global minimum\&quot; is treated as 0. In this situation, new pod with the same labelSelector cannot be scheduled, because computed skew will be 3(3 - 0) if new Pod is scheduled to any of the three zones, it will violate MaxSkew.  This is a beta field and requires the MinDomainsInPodTopologySpread feature gate to be enabled (enabled by default).</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the minDomains property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setMinDomains(java.lang.Integer)">
+<h3>setMinDomains</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setMinDomains</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;minDomains)</span></div>
+<div class="block">Set the minDomains property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>minDomains</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="minDomains(java.lang.Integer)">
+<h3>minDomains</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">minDomains</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;minDomains)</span></div>
+<div class="block">Set minDomains in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getNodeAffinityPolicy()">
+<h3>getNodeAffinityPolicy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getNodeAffinityPolicy</span>()</div>
+<div class="block">NodeAffinityPolicy indicates how we will treat Pod&#39;s nodeAffinity/nodeSelector when calculating pod topology spread skew. Options are: - Honor: only nodes matching nodeAffinity/nodeSelector are included in the calculations. - Ignore: nodeAffinity/nodeSelector are ignored. All nodes are included in the calculations.  If this value is nil, the behavior is equivalent to the Honor policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the nodeAffinityPolicy property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setNodeAffinityPolicy(java.lang.String)">
+<h3>setNodeAffinityPolicy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNodeAffinityPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeAffinityPolicy)</span></div>
+<div class="block">Set the nodeAffinityPolicy property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeAffinityPolicy</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="nodeAffinityPolicy(java.lang.String)">
+<h3>nodeAffinityPolicy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">nodeAffinityPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeAffinityPolicy)</span></div>
+<div class="block">Set nodeAffinityPolicy in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getNodeTaintsPolicy()">
+<h3>getNodeTaintsPolicy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getNodeTaintsPolicy</span>()</div>
+<div class="block">NodeTaintsPolicy indicates how we will treat node taints when calculating pod topology spread skew. Options are: - Honor: nodes without taints, along with tainted nodes for which the incoming pod has a toleration, are included. - Ignore: node taints are ignored. All nodes are included.  If this value is nil, the behavior is equivalent to the Ignore policy. This is a beta-level feature default enabled by the NodeInclusionPolicyInPodTopologySpread feature flag.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the nodeTaintsPolicy property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setNodeTaintsPolicy(java.lang.String)">
+<h3>setNodeTaintsPolicy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNodeTaintsPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeTaintsPolicy)</span></div>
+<div class="block">Set the nodeTaintsPolicy property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeTaintsPolicy</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="nodeTaintsPolicy(java.lang.String)">
+<h3>nodeTaintsPolicy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1TopologySpreadConstraint.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TopologySpreadConstraint</a></span>&nbsp;<span class="element-name">nodeTaintsPolicy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeTaintsPolicy)</span></div>
+<div class="block">Set nodeTaintsPolicy in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1TopologySpreadConstraint for chaining.</dd>

@@ -582,7 +582,10 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIDriver</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -610,7 +613,10 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSINode</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -641,7 +647,10 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIStorageCapacity</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -669,7 +678,10 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1StorageClass</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -697,7 +709,10 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -731,7 +746,9 @@ loadScripts(document, 'script');</script>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIDriver</dd>
+<dd>OK (status code 200)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -765,7 +782,9 @@ loadScripts(document, 'script');</script>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSINode</dd>
+<dd>OK (status code 200)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -820,7 +839,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1Status</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -875,7 +895,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1Status</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -933,7 +954,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1Status</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -988,7 +1010,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1Status</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1043,7 +1066,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1Status</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1080,7 +1104,9 @@ loadScripts(document, 'script');</script>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1Status</dd>
+<dd>OK (status code 200)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1114,7 +1140,9 @@ loadScripts(document, 'script');</script>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1StorageClass</dd>
+<dd>OK (status code 200)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1148,7 +1176,9 @@ loadScripts(document, 'script');</script>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Accepted (status code 202)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1161,7 +1191,8 @@ loadScripts(document, 'script');</script>
 <div class="block">get available resources</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>V1APIResourceList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1207,7 +1238,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIDriverList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1253,7 +1285,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSINodeList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1299,7 +1332,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIStorageCapacityList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1348,7 +1382,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIStorageCapacityList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1394,7 +1429,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1StorageClassList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1440,7 +1476,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachmentList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1475,7 +1512,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIDriver</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1510,7 +1549,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSINode</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1548,7 +1589,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIStorageCapacity</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1583,7 +1626,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1StorageClass</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1618,7 +1663,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1653,7 +1700,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1672,7 +1721,8 @@ loadScripts(document, 'script');</script>
 <dd><code>name</code> - name of the CSIDriver (required)</dd>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIDriver</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1691,7 +1741,8 @@ loadScripts(document, 'script');</script>
 <dd><code>name</code> - name of the CSINode (required)</dd>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSINode</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1713,7 +1764,8 @@ loadScripts(document, 'script');</script>
 <dd><code>namespace</code> - object name and auth scope, such as for teams and projects (required)</dd>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIStorageCapacity</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1732,7 +1784,8 @@ loadScripts(document, 'script');</script>
 <dd><code>name</code> - name of the StorageClass (required)</dd>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1StorageClass</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1751,7 +1804,8 @@ loadScripts(document, 'script');</script>
 <dd><code>name</code> - name of the VolumeAttachment (required)</dd>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1770,7 +1824,8 @@ loadScripts(document, 'script');</script>
 <dd><code>name</code> - name of the VolumeAttachment (required)</dd>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1801,7 +1856,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIDriver</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1832,7 +1889,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSINode</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1866,7 +1925,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1CSIStorageCapacity</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1897,7 +1958,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1StorageClass</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1928,7 +1991,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1959,7 +2024,9 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dd><code>fieldValidation</code> - fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. (optional)</dd>
 <dt>Returns:</dt>
-<dd>V1VolumeAttachment</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>

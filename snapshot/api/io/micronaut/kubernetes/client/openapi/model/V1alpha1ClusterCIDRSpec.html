@@ -216,6 +216,20 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="JSON_PROPERTY_PER_NODE_HOST_BITS">
+<h3>JSON_PROPERTY_PER_NODE_HOST_BITS</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_PER_NODE_HOST_BITS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1alpha1ClusterCIDRSpec.JSON_PROPERTY_PER_NODE_HOST_BITS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_IPV4">
 <h3>JSON_PROPERTY_IPV4</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_IPV4</span></div>
@@ -257,20 +271,6 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
-<li>
-<section class="detail" id="JSON_PROPERTY_PER_NODE_HOST_BITS">
-<h3>JSON_PROPERTY_PER_NODE_HOST_BITS</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_PER_NODE_HOST_BITS</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1alpha1ClusterCIDRSpec.JSON_PROPERTY_PER_NODE_HOST_BITS">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
 </ul>
 </section>
 </li>
@@ -294,6 +294,39 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="getPerNodeHostBits()">
+<h3>getPerNodeHostBits</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getPerNodeHostBits</span>()</div>
+<div class="block">perNodeHostBits defines the number of host bits to be configured per node. A subnet mask determines how much of the address is used for network bits and host bits. For example an IPv4 address of 192.168.0.0/24, splits the address into 24 bits for the network portion and 8 bits for the host portion. To allocate 256 IPs, set this field to 8 (a /24 mask for IPv4 or a /120 for IPv6). Minimum value is 4 (16 IPs). This field is immutable.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the perNodeHostBits property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setPerNodeHostBits(java.lang.Integer)">
+<h3>setPerNodeHostBits</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPerNodeHostBits</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;perNodeHostBits)</span></div>
+<div class="block">Set the perNodeHostBits property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>perNodeHostBits</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="perNodeHostBits(java.lang.Integer)">
+<h3>perNodeHostBits</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha1ClusterCIDRSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1ClusterCIDRSpec</a></span>&nbsp;<span class="element-name">perNodeHostBits</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;perNodeHostBits)</span></div>
+<div class="block">Set perNodeHostBits in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1alpha1ClusterCIDRSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="getIpv4()">
 <h3>getIpv4</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getIpv4</span>()</div>
@@ -309,6 +342,10 @@ loadScripts(document, 'script');</script>
 <h3>setIpv4</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIpv4</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ipv4)</span></div>
 <div class="block">Set the ipv4 property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ipv4</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -338,6 +375,10 @@ loadScripts(document, 'script');</script>
 <h3>setIpv6</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setIpv6</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;ipv6)</span></div>
 <div class="block">Set the ipv6 property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>ipv6</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -366,6 +407,10 @@ loadScripts(document, 'script');</script>
 <h3>setNodeSelector</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setNodeSelector</span><wbr><span class="parameters">(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</span></div>
 <div class="block">Set the nodeSelector property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>nodeSelector</code> - property value to set</dd>
+</dl>
 </section>
 </li>
 <li>
@@ -373,35 +418,6 @@ loadScripts(document, 'script');</script>
 <h3>nodeSelector</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha1ClusterCIDRSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1ClusterCIDRSpec</a></span>&nbsp;<span class="element-name">nodeSelector</span><wbr><span class="parameters">(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</span></div>
 <div class="block">Set nodeSelector in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1alpha1ClusterCIDRSpec for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getPerNodeHostBits()">
-<h3>getPerNodeHostBits</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getPerNodeHostBits</span>()</div>
-<div class="block">perNodeHostBits defines the number of host bits to be configured per node. A subnet mask determines how much of the address is used for network bits and host bits. For example an IPv4 address of 192.168.0.0/24, splits the address into 24 bits for the network portion and 8 bits for the host portion. To allocate 256 IPs, set this field to 8 (a /24 mask for IPv4 or a /120 for IPv6). Minimum value is 4 (16 IPs). This field is immutable.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the perNodeHostBits property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setPerNodeHostBits(java.lang.Integer)">
-<h3>setPerNodeHostBits</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPerNodeHostBits</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;perNodeHostBits)</span></div>
-<div class="block">Set the perNodeHostBits property value</div>
-</section>
-</li>
-<li>
-<section class="detail" id="perNodeHostBits(java.lang.Integer)">
-<h3>perNodeHostBits</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha1ClusterCIDRSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1ClusterCIDRSpec</a></span>&nbsp;<span class="element-name">perNodeHostBits</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;perNodeHostBits)</span></div>
-<div class="block">Set perNodeHostBits in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1alpha1ClusterCIDRSpec for chaining.</dd>

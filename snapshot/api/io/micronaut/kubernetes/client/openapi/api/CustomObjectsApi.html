@@ -446,7 +446,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -482,7 +483,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -521,7 +523,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -560,7 +563,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -602,7 +606,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -644,7 +649,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -662,7 +668,8 @@ loadScripts(document, 'script');</script>
 <dd><code>group</code> - The custom resource&#39;s group name (required)</dd>
 <dd><code>version</code> - The custom resource&#39;s version (required)</dd>
 <dt>Returns:</dt>
-<dd>V1APIResourceList</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -686,7 +693,8 @@ loadScripts(document, 'script');</script>
 <dd><code>plural</code> - the custom object&#39;s plural name. For TPRs this would be lowercase plural kind. (required)</dd>
 <dd><code>name</code> - the custom object&#39;s name (required)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>A single Resource (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -711,7 +719,8 @@ loadScripts(document, 'script');</script>
 <dd><code>plural</code> - the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)</dd>
 <dd><code>name</code> - the custom object&#39;s name (required)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -736,7 +745,8 @@ loadScripts(document, 'script');</script>
 <dd><code>plural</code> - the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)</dd>
 <dd><code>name</code> - the custom object&#39;s name (required)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -763,7 +773,8 @@ loadScripts(document, 'script');</script>
 <dd><code>plural</code> - the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)</dd>
 <dd><code>name</code> - the custom object&#39;s name (required)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>A single Resource (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -791,7 +802,8 @@ loadScripts(document, 'script');</script>
 <dd><code>plural</code> - the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)</dd>
 <dd><code>name</code> - the custom object&#39;s name (required)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -819,7 +831,8 @@ loadScripts(document, 'script');</script>
 <dd><code>plural</code> - the custom resource&#39;s plural name. For TPRs this would be lowercase plural kind. (required)</dd>
 <dd><code>name</code> - the custom object&#39;s name (required)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -871,7 +884,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -926,7 +940,8 @@ loadScripts(document, 'script');</script>
 <dd><code>timeoutSeconds</code> - Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. (optional)</dd>
 <dd><code>watch</code> - Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -963,7 +978,8 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1001,7 +1017,8 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1039,7 +1056,8 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1079,7 +1097,8 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1120,7 +1139,8 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1161,7 +1181,8 @@ loadScripts(document, 'script');</script>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). (optional)</dd>
 <dd><code>force</code> - Force is going to \&quot;force\&quot; Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1194,7 +1215,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1228,7 +1250,9 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1262,7 +1286,9 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1298,7 +1324,8 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1335,7 +1362,9 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
@@ -1372,7 +1401,9 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldManager</code> - fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. (optional)</dd>
 <dt>Returns:</dt>
-<dd>Object</dd>
+<dd>OK (status code 200)
+         or Created (status code 201)
+         or Unauthorized (status code 401)</dd>
 </dl>
 </section>
 </li>
