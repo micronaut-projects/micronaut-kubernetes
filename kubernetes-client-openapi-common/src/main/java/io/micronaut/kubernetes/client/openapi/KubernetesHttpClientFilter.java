@@ -26,6 +26,8 @@ import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader;
+import io.micronaut.scheduling.TaskExecutors;
+import io.micronaut.scheduling.annotation.ExecuteOn;
 
 import java.util.List;
 
@@ -48,6 +50,7 @@ final class KubernetesHttpClientFilter {
     }
 
     @RequestFilter
+    @ExecuteOn(TaskExecutors.BLOCKING)
     void doFilter(MutableHttpRequest<?> request) {
         if (kubeConfig != null && kubeConfig.getUser() != null) {
             AuthInfo user = kubeConfig.getUser();
