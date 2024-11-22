@@ -1,6 +1,6 @@
-package io.micronaut.kubernetes.client.openapi
+package io.micronaut.kubernetes.client.openapi.reactor
 
-import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
+import io.micronaut.kubernetes.client.openapi.api.reactor.CoreV1ApiReactor
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
@@ -34,7 +34,7 @@ class KubernetesClientCertAuthSpec extends Specification implements TestProperty
     Path kubeConfigFile = kubeConfigDir.resolve("config")
 
     @Inject
-    CoreV1Api api
+    CoreV1ApiReactor api
 
     @Override
     Map<String, String> getProperties() {
@@ -66,6 +66,7 @@ class KubernetesClientCertAuthSpec extends Specification implements TestProperty
                 null,
                 null,
                 null)
+                .block()
 
         then:
         response.getItems() != null

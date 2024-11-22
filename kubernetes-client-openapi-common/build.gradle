@@ -18,21 +18,19 @@ micronaut {
     }
     openapi {
         client("client", tasks.named("downloadKubernetesClientOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
-            apiPackageName = "io.micronaut.kubernetes.client.openapi.api"
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
-            clientId = "kubernetes-client"
-            useReactive = false
         }
     }
 }
 
-generateClientOpenApiModels.enabled = false
+generateClientOpenApiApis.enabled = false
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
+    annotationProcessor(mnSerde.micronaut.serde.processor)
+    annotationProcessor(mn.micronaut.inject.java)
     implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnOpenapi.micronaut.openapi)
-    api(projects.micronautKubernetesClientOpenapiCommon)
-    testImplementation(libs.testcontainers.k3s)
-    testImplementation(mn.micronaut.http.server.netty)
+    implementation(mn.micronaut.http.client)
 }

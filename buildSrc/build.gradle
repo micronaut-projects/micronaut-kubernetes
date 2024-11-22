@@ -11,3 +11,12 @@ dependencies {
     implementation libs.micronaut.gradle.plugin
     implementation libs.shadow.plugin
 }
+
+gradlePlugin {
+    plugins {
+        kubernetesClientOpenApi {
+            id = "io.micronaut.kubernetes.client.openapi"
+            implementationClass = "io.micronaut.kubernetes.client.openapi.KubernetesClientOpenApiPlugin"
+        }
+    }
+}
