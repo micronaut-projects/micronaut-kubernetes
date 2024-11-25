@@ -1,4 +1,4 @@
-The `micronaut-kubernetes-client-openapi` module uses Micronaut Netty HTTP Client and generated apis and modules from the OpenApi https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml[Spec] of the official Java client library for Kubernetes.
+The Micronaut Kubernetes Client OpenApi is a kubernetes client which uses Micronaut Netty HTTP Client and generated apis and modules from the OpenApi https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml[Spec] of the official Java client library for Kubernetes.
 
 Advantages of this client over the official Java client library for Kubernetes:
 
@@ -7,6 +7,15 @@ Advantages of this client over the official Java client library for Kubernetes:
 * Support for plugging in filters
 * Native Image compatibility
 
+The client comes in two flavors:
+
+* `micronaut-kubernetes-client-openapi` module implements a blocking client
+* `micronaut-kubernetes-client-openapi-reactor` module implements a reactive client using https://projectreactor.io[Project Reactor]
+
+The `micronaut-kubernetes-client-openapi-common` module contains code that is shared between both above mentioned clients.
+
+.Blocking Client
+
 First you need to add a dependency on the `micronaut-kubernetes-client-openapi` module:
 
 dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi[]
@@ -14,6 +23,16 @@ dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi[]
 Then you can simply use Micronaut injection to get configured apis object from package `io.micronaut.kubernetes.client.openapi.api`:
 
 snippet::micronaut.client.PodController[project-base="examples/example-kubernetes-client-openapi", source="main"]
+
+.Reactive Client
+
+First you need to add a dependency on the `micronaut-kubernetes-client-openapi-reactor` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-reactor[]
+
+Then you can simply use Micronaut injection to get configured apis object from package `io.micronaut.kubernetes.client.openapi.api.reactor`:
+
+snippet::micronaut.client.PodController[project-base="examples/example-kubernetes-client-openapi-reactor", source="main"]
 
 .Configuration
 
