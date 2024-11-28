@@ -30,9 +30,17 @@ generateClientOpenApiModels.enabled = false
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
+    annotationProcessor(mnSerde.micronaut.serde.processor)
     implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnOpenapi.micronaut.openapi)
     api(projects.micronautKubernetesClientOpenapiCommon)
     testImplementation(libs.testcontainers.k3s)
     testImplementation(mn.micronaut.http.server.netty)
+
+    testImplementation mnTest.micronaut.test.junit5
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    testAnnotationProcessor mn.micronaut.inject.java
+    testImplementation libs.io.kubernetes.client.java
+    testImplementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
 }
