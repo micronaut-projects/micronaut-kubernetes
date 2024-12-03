@@ -41,6 +41,7 @@ dependencies {
     testImplementation mnTest.micronaut.test.junit5
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
     testAnnotationProcessor mn.micronaut.inject.java
+    testAnnotationProcessor(mnSerde.micronaut.serde.processor)
     testImplementation libs.io.kubernetes.client.java
     testImplementation("com.fasterxml.jackson.core:jackson-databind:2.17.2")
 }
