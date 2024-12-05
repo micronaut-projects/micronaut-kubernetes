@@ -15,7 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi;
 
-import io.micronaut.buffer.netty.NettyByteBufferFactory;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
@@ -26,9 +25,7 @@ import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.http.MediaType;
 import io.micronaut.http.bind.DefaultRequestBinderRegistry;
-import io.micronaut.http.body.ContextlessMessageBodyHandlerRegistry;
 import io.micronaut.http.body.MessageBodyHandlerRegistry;
 import io.micronaut.http.client.DefaultHttpClientConfiguration;
 import io.micronaut.http.client.LoadBalancer;
@@ -37,20 +34,11 @@ import io.micronaut.http.client.filter.DefaultHttpClientFilterResolver;
 import io.micronaut.http.client.netty.DefaultHttpClient;
 import io.micronaut.http.client.netty.NettyClientCustomizer;
 import io.micronaut.http.codec.MediaTypeCodecRegistry;
-import io.micronaut.http.netty.body.NettyByteBufMessageBodyHandler;
-import io.micronaut.http.netty.body.NettyCharSequenceBodyWriter;
-import io.micronaut.http.netty.body.NettyJsonHandler;
-import io.micronaut.http.netty.body.NettyJsonStreamHandler;
-import io.micronaut.http.netty.body.NettyWritableBodyWriter;
-import io.micronaut.json.JsonMapper;
-import io.micronaut.json.codec.JsonMediaTypeCodec;
-import io.micronaut.json.codec.JsonStreamMediaTypeCodec;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.ssl.KubernetesClientSslBuilder;
 import io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader;
-import io.micronaut.runtime.ApplicationConfiguration;
 import io.micronaut.websocket.context.WebSocketBeanRegistry;
 import io.netty.channel.Channel;
 import io.netty.channel.MultithreadEventLoopGroup;
@@ -64,7 +52,9 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.util.Collections;
+import java.util.Optional;
 
 /**
  * Factory for kubernetes http client.
@@ -86,23 +76,29 @@ final class KubernetesHttpClientFactory {
     private final KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
     private final ResourceResolver resourceResolver;
     private final DefaultHttpClientFilterResolver defaultHttpClientFilterResolver;
+    private final MessageBodyHandlerRegistry messageBodyHandlerRegistry;
+    private final MediaTypeCodecRegistry mediaTypeCodecRegistry;
 
     KubernetesHttpClientFactory(KubeConfigLoader kubeConfigLoader,
                                 KubernetesClientConfiguration kubernetesClientConfiguration,
                                 KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,
                                 ResourceResolver resourceResolver,
-                                DefaultHttpClientFilterResolver defaultHttpClientFilterResolver) {
+                                DefaultHttpClientFilterResolver defaultHttpClientFilterResolver,
+                                MessageBodyHandlerRegistry messageBodyHandlerRegistry,
+                                MediaTypeCodecRegistry mediaTypeCodecRegistry) {
         kubeConfig = kubeConfigLoader.getKubeConfig();
         this.kubernetesClientConfiguration = kubernetesClientConfiguration;
         this.kubernetesPrivateKeyLoader = kubernetesPrivateKeyLoader;
         this.resourceResolver = resourceResolver;
         this.defaultHttpClientFilterResolver = defaultHttpClientFilterResolver;
+        this.messageBodyHandlerRegistry = messageBodyHandlerRegistry;
+        this.mediaTypeCodecRegistry = mediaTypeCodecRegistry;
     }
 
     @Singleton
     @Named(CLIENT_ID)
     @BootstrapContextCompatible
-    protected DefaultHttpClient getKubernetesHttpClient() throws URISyntaxException {
+    DefaultHttpClient getKubernetesHttpClient() throws URISyntaxException {
         URI uri;
         if (kubeConfig != null) {
             LOG.debug("Trying to configure client from kube config");
@@ -117,20 +113,26 @@ final class KubernetesHttpClientFactory {
             if (StringUtils.isEmpty(port)) {
                 throw new ConfigurationException(ENV_SERVICE_PORT + " environment variable not found");
             }
-            uri = new URI("https", null, host, Integer.valueOf(port), null, null, null);
+            uri = new URI("https", null, host, Integer.parseInt(port), null, null, null);
         } else {
             throw new ConfigurationException("Kube config not provided nor service account authentication enabled");
         }
+        DefaultHttpClientConfiguration httpClientConfiguration = new DefaultHttpClientConfiguration();
+        Optional<Duration> readTimeout = httpClientConfiguration.getReadTimeout();
+        if (readTimeout.isPresent()) {
+            httpClientConfiguration.setRequestTimeout(readTimeout.get().plusSeconds(1));
+            httpClientConfiguration.setReadTimeout(Duration.ZERO);
+        }
         return new DefaultHttpClient(LoadBalancer.fixed(uri),
             null,
-            new DefaultHttpClientConfiguration(),
+            httpClientConfiguration,
             null,
             defaultHttpClientFilterResolver,
             defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), null)),
             new DefaultThreadFactory(MultithreadEventLoopGroup.class),
             new KubernetesClientSslBuilder(resourceResolver, kubeConfig, kubernetesPrivateKeyLoader, kubernetesClientConfiguration),
-            createDefaultMediaTypeRegistry(),
-            createDefaultMessageBodyHandlerRegistry(),
+            mediaTypeCodecRegistry,
+            messageBodyHandlerRegistry,
             WebSocketBeanRegistry.EMPTY,
             new DefaultRequestBinderRegistry(ConversionService.SHARED),
             null,
@@ -145,29 +147,5 @@ final class KubernetesHttpClientFactory {
             null,
             ConversionService.SHARED,
             null);
-    }
-
-    private static MediaTypeCodecRegistry createDefaultMediaTypeRegistry() {
-        JsonMapper mapper = JsonMapper.createDefault();
-        ApplicationConfiguration configuration = new ApplicationConfiguration();
-        return MediaTypeCodecRegistry.of(
-            new JsonMediaTypeCodec(mapper, configuration, null),
-            new JsonStreamMediaTypeCodec(mapper, configuration, null)
-        );
-    }
-
-    private static MessageBodyHandlerRegistry createDefaultMessageBodyHandlerRegistry() {
-        ApplicationConfiguration applicationConfiguration = new ApplicationConfiguration();
-        ContextlessMessageBodyHandlerRegistry registry = new ContextlessMessageBodyHandlerRegistry(
-            applicationConfiguration,
-            NettyByteBufferFactory.DEFAULT,
-            new NettyByteBufMessageBodyHandler(),
-            new NettyWritableBodyWriter(applicationConfiguration)
-        );
-        JsonMapper mapper = JsonMapper.createDefault();
-        registry.add(MediaType.APPLICATION_JSON_TYPE, new NettyJsonHandler<>(mapper));
-        registry.add(MediaType.APPLICATION_JSON_TYPE, new NettyCharSequenceBodyWriter());
-        registry.add(MediaType.APPLICATION_JSON_STREAM_TYPE, new NettyJsonStreamHandler<>(mapper));
-        return registry;
     }
 }

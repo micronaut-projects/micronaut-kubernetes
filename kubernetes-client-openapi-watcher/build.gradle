@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+import io.micronaut.kubernetes.client.openapi.tasks.CreateWatcherSpec
 import io.micronaut.kubernetes.client.openapi.tasks.DownloadSpec
 
 plugins {
@@ -15,13 +17,19 @@ micronautBuild {
 micronaut {
     kubernetesClientOpenApi {
         specVersion = libs.versions.io.kubernetes.client.java.get()
+        modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
     }
     openapi {
-        client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
-            apiPackageName = "io.micronaut.kubernetes.client.openapi.api"
+        client("client", tasks.named("createWatcherOpenApiSpec", CreateWatcherSpec).flatMap(CreateWatcherSpec::getWatcherSpecFile)) {
+            apiPackageName = "io.micronaut.kubernetes.client.openapi.watcher.api"
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
+            apiNameSuffix = "ApiWatcher"
             clientId = "kubernetes-client"
-            useReactive = false
+            useReactive = true
+            fluxForArrays = true
+            typeMapping = tasks.named("createWatcherOpenApiSpec", CreateWatcherSpec).flatMap(CreateWatcherSpec::getWatcherTypeMappingsFile).map { t->
+                return evaluate(t.getAsFile())
+            }
         }
     }
 }
@@ -30,9 +38,12 @@ generateClientOpenApiModels.enabled = false
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
+    annotationProcessor(mnSerde.micronaut.serde.processor)
     implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnOpenapi.micronaut.openapi)
     api(projects.micronautKubernetesClientOpenapiCommon)
     testImplementation(libs.testcontainers.k3s)
     testImplementation(mn.micronaut.http.server.netty)
+    testImplementation(projects.micronautKubernetesClientOpenapi)
 }

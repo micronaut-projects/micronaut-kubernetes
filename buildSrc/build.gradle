@@ -10,6 +10,7 @@ repositories {
 dependencies {
     implementation libs.micronaut.gradle.plugin
     implementation libs.shadow.plugin
+    implementation("org.yaml:snakeyaml:2.2")
 }
 
 gradlePlugin {
