@@ -1,5 +1,5 @@
 plugins {
-    id 'java-gradle-plugin'
+    id 'groovy-gradle-plugin'
 }
 
 repositories {
@@ -10,6 +10,8 @@ repositories {
 dependencies {
     implementation(libs.micronaut.gradle.plugin)
     implementation(libs.snakeyaml)
+    implementation("org.spockframework:spock-core:2.3-groovy-3.0")
+    implementation("org.spockframework:spock-junit4:2.3-groovy-3.0")
 }
 
 gradlePlugin {
