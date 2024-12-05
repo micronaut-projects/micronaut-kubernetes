@@ -1,0 +1,22 @@
+plugins {
+    id 'java-gradle-plugin'
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+    implementation(libs.micronaut.gradle.plugin)
+    implementation(libs.snakeyaml)
+}
+
+gradlePlugin {
+    plugins {
+        kubernetesClientOpenApi {
+            id = "io.micronaut.kubernetes.client.openapi"
+            implementationClass = "io.micronaut.kubernetes.client.openapi.KubernetesClientOpenApiPlugin"
+        }
+    }
+}

@@ -1,6 +1,4 @@
-import groovy.json.JsonSlurper
 import io.micronaut.kubernetes.client.openapi.tasks.CreateWatcherSpec
-import io.micronaut.kubernetes.client.openapi.tasks.DownloadSpec
 
 plugins {
     id 'io.micronaut.build.internal.kubernetes-module'
