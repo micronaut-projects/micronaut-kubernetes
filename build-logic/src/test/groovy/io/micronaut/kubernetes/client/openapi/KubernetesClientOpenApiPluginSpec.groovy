@@ -3,7 +3,6 @@ package io.micronaut.kubernetes.client.openapi
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.Task
-import org.gradle.api.file.DirectoryProperty
 import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -12,10 +11,7 @@ import spock.lang.Specification
 class KubernetesClientOpenApiPluginSpec extends Specification {
 
     @Rule
-    TemporaryFolder testProjectDir = TemporaryFolder.builder()
-            .assureDeletion()
-            .parentFolder(new File("/Users/milenkosupic/GCN/source/github/micronaut-projects/temp/micronaut-kubernetes/build-logic/build/aaaaa"))
-            .build()
+    TemporaryFolder testProjectDir = new TemporaryFolder()
 
     Project project
 
