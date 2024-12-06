@@ -28,10 +28,16 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Custom deserializer for kubernetes watch streaming events.
+ * <p>Custom deserializer for kubernetes streamed events.</p>
+ * <br />
+ * <p>The deserializer first checks a value of the {@code type} field to determine how to
+ * deserialize a value of the {@code object} field. If the value of the {@code type} field is equal
+ * to {@code ERROR}, then the {@code object} field will be deserialized into an instance of {@link V1Status},
+ * otherwise the {@code object} field will be deserialized into an instance of the class passed as the type parameter.
+ * </p>
  */
 @Singleton
-public class WatchEventDeserializer implements Deserializer<WatchEvent<?>> {
+class WatchEventDeserializer implements Deserializer<WatchEvent<?>> {
 
     @Override
     public @Nullable WatchEvent<?> deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super WatchEvent<?>> type) throws IOException {

@@ -21,11 +21,12 @@ import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.serde.annotation.Serdeable;
 
 /**
+ * Holder for deserialized kubernetes streamed event.
  *
- * @param type
- * @param object
- * @param status
- * @param <T>
+ * @param type the type of event (ADDED, MODIFIED, DELETED, ERROR, BOOKMARK)
+ * @param object the object
+ * @param status the instance of V1Status
+ * @param <T> the object type
  */
 @Serdeable
 public record WatchEvent<T>(
