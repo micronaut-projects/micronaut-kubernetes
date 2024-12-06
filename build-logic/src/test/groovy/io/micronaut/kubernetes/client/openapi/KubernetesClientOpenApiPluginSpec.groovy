@@ -63,6 +63,4 @@ class KubernetesClientOpenApiPluginSpec extends Specification {
         expectedWatcherSpec.text == project.getLayout().getBuildDirectory().file("openapi-watcher.yaml").get().asFile.text
         expectedWatcherTypeMapping.text == project.getLayout().getBuildDirectory().file("openapi-watcher-type-mappings.txt").get().asFile.text
     }
-
-
 }
