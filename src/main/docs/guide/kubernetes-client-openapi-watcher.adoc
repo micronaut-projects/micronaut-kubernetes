@@ -10,3 +10,29 @@ snippet::micronaut.client.SecretController[project-base="examples/example-kubern
 
 [IMPORTANT]
 The streaming will work only if the `watch` parameter is set to `true`.
+
+The Kubernetes streamed events are deserialized into the following `io.micronaut.kubernetes.client.openapi.watcher.WatchEvent` class:
+
+[source,java]
+----
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.kubernetes.client.openapi.model.V1Status;
+import io.micronaut.serde.annotation.Serdeable;
+
+@Serdeable
+public record WatchEvent<T>(
+    @NonNull String type,
+    @Nullable T object,
+    @Nullable V1Status status
+) {
+}
+----
+
+[cols="1,5"]
+|=======
+|*Name* |*Description*
+|type   |The type of the streamed event. At the moment the type can be one of the following values: ADDED, MODIFIED, DELETED, ERROR, BOOKMARK
+|object |The data for the watched object (V1Namespace, V1Pod etc.). The value will be empty only if the event type is `ERROR`
+|status |The instance of V1Status which won't be empty only if the event type is `ERROR`
+|=======
