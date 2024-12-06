@@ -1,0 +1,12 @@
+The Micronaut Kubernetes Client OpenApi Watcher implements streaming of Kubernetes events using the Micronaut Kubernetes Client OpenApi client.
+
+First you need to add a dependency on the `micronaut-kubernetes-client-openapi-watcher` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-watcher[]
+
+Then you can simply use Micronaut injection to get configured apis object from package `io.micronaut.kubernetes.client.openapi.watcher.api`:
+
+snippet::micronaut.client.SecretController[project-base="examples/example-kubernetes-client-openapi-watcher", source="main"]
+
+[IMPORTANT]
+The streaming will work only if the `watch` parameter is set to `true`.

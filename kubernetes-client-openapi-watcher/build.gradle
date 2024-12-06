@@ -42,6 +42,7 @@ dependencies {
     implementation(mnSerde.micronaut.serde.jackson)
     implementation(mnOpenapi.micronaut.openapi)
     api(projects.micronautKubernetesClientOpenapiCommon)
+    api(mnReactor.micronaut.reactor)
     testImplementation(libs.testcontainers.k3s)
     testImplementation(mn.micronaut.http.server.netty)
     testImplementation(projects.micronautKubernetesClientOpenapi)

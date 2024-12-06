@@ -2,4 +2,4 @@ micronaut:
   server:
     port: 8082
   application:
-    name: micronaut-kubernetes-client-openapi
+    name: micronaut-kubernetes-client-openapi-reactor
