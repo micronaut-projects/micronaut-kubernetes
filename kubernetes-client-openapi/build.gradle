@@ -12,10 +12,11 @@ micronautBuild {
     }
 }
 
+kubernetesClientOpenApi {
+    specVersion = libs.versions.io.kubernetes.client.java.get()
+}
+
 micronaut {
-    kubernetesClientOpenApi {
-        specVersion = libs.versions.io.kubernetes.client.java.get()
-    }
     openapi {
         client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
             apiPackageName = "io.micronaut.kubernetes.client.openapi.api"

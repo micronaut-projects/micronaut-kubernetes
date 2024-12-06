@@ -1,0 +1,64 @@
+openapi: 3.0.1
+info:
+  title: Kubernetes
+  version: release-1.27
+servers:
+- url: /
+security:
+- BearerToken: []
+paths:
+  /api/v1/namespaces:
+    get:
+      description: list or watch objects of kind Namespace
+      operationId: listNamespace
+      parameters:
+      - description: test1
+        in: query
+        name: timeoutSeconds
+        schema:
+          type: integer
+      - description: test2
+        in: query
+        name: watch
+        schema:
+          type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/v1.Namespace'
+            application/yaml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/v1.Namespace'
+            application/vnd.kubernetes.protobuf:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/v1.Namespace'
+            application/json;stream=watch:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/v1.Namespace'
+            application/vnd.kubernetes.protobuf;stream=watch:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/v1.Namespace'
+          description: OK
+        '401':
+          content: {}
+          description: Unauthorized
+      tags:
+      - core_v1
+      x-kubernetes-action: list
+      x-kubernetes-group-version-kind:
+        group: ''
+        kind: Namespace
+        version: v1
+      x-accepts: application/json

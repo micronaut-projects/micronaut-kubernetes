@@ -8,8 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.micronaut.gradle.plugin)
-    implementation(libs.snakeyaml)
+    implementation("org.yaml:snakeyaml:2.2")
     implementation("org.spockframework:spock-core:2.3-groovy-3.0")
     implementation("org.spockframework:spock-junit4:2.3-groovy-3.0")
 }
@@ -21,4 +20,8 @@ gradlePlugin {
             implementationClass = "io.micronaut.kubernetes.client.openapi.KubernetesClientOpenApiPlugin"
         }
     }
+}
+
+test {
+    useJUnitPlatform()
 }

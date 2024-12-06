@@ -1,0 +1,96 @@
+openapi: 3.0.1
+info:
+  title: Kubernetes
+  version: release-1.27
+servers:
+  - url: /
+security:
+  - BearerToken: []
+paths:
+  /api/:
+    get:
+      description: should be removed - there is no watch param
+      operationId: getAPIVersions
+      responses:
+        "200":
+          description: test
+  /api/v1/componentstatuses:
+    get:
+      description: should be removed - there is no watch param
+      operationId: listComponentStatus
+      parameters:
+        - description: test
+          in: query
+          name: allowWatchBookmarks
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: test
+  /api/v1/namespaces:
+    get:
+      description: list or watch objects of kind Namespace
+      operationId: listNamespace
+      parameters:
+        - description: test1
+          in: query
+          name: timeoutSeconds
+          schema:
+            type: integer
+        - description: test2
+          in: query
+          name: watch
+          schema:
+            type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1.NamespaceList'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/v1.NamespaceList'
+            application/vnd.kubernetes.protobuf:
+              schema:
+                $ref: '#/components/schemas/v1.NamespaceList'
+            application/json;stream=watch:
+              schema:
+                $ref: '#/components/schemas/v1.NamespaceList'
+            application/vnd.kubernetes.protobuf;stream=watch:
+              schema:
+                $ref: '#/components/schemas/v1.NamespaceList'
+          description: OK
+        "401":
+          content: { }
+          description: Unauthorized
+      tags:
+        - core_v1
+      x-kubernetes-action: list
+      x-kubernetes-group-version-kind:
+        group: ""
+        kind: Namespace
+        version: v1
+      x-accepts: application/json
+    post:
+      description: should be removed - not 'get' operation
+      operationId: createNamespace
+      parameters:
+        - description: If 'true', then the output is pretty printed.
+          in: query
+          name: pretty
+          schema:
+            type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/v1.Namespace'
+        required: true
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    v1.NamespaceList:
+      description: NamespaceList is a list of Namespaces.

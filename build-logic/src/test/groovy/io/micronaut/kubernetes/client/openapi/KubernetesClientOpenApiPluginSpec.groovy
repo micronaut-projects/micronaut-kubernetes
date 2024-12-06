@@ -1,79 +1,72 @@
 package io.micronaut.kubernetes.client.openapi
 
-import org.gradle.testkit.runner.BuildResult
-import org.gradle.testkit.runner.GradleRunner
-import org.gradle.testkit.runner.TaskOutcome
+import org.gradle.api.Action
+import org.gradle.api.Project
+import org.gradle.api.Task
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.testfixtures.ProjectBuilder
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
-import java.nio.file.Path
-
 class KubernetesClientOpenApiPluginSpec extends Specification {
 
     @Rule
-    TemporaryFolder testProjectDir = new TemporaryFolder()
-    Path baseDir
+    TemporaryFolder testProjectDir = TemporaryFolder.builder()
+            .assureDeletion()
+            .parentFolder(new File("/Users/milenkosupic/GCN/source/github/micronaut-projects/temp/micronaut-kubernetes/build-logic/build/aaaaa"))
+            .build()
 
-    File getSettingsFile() {
-        baseDir.resolve("settings.gradle").toFile()
-    }
+    Project project
 
-    File getBuildFile() {
-        baseDir.resolve("build.gradle").toFile()
-    }
+    Task downloadOpenApiSpecTask
 
-    String getMicronautVersion() {
-        System.getProperty("micronautVersion")
-    }
+    Action downloadOpenApiSpecAction
+
+    Task createWatcherOpenApiSpecTask
+
+    Action createWatcherOpenApiSpecAction
 
     def setup() {
-        baseDir = testProjectDir.root.toPath()
+        testProjectDir.newFolder("build")
+        project = ProjectBuilder.builder().withProjectDir(testProjectDir.getRoot()).build()
+        project.getPluginManager().apply("io.micronaut.kubernetes.client.openapi")
+        def tasks = project.getTasks()
+        downloadOpenApiSpecTask = tasks.getByName("downloadOpenApiSpec")
+        downloadOpenApiSpecAction = downloadOpenApiSpecTask.getActions().get(0)
+        createWatcherOpenApiSpecTask = tasks.getByName("createWatcherOpenApiSpec")
+        createWatcherOpenApiSpecAction = createWatcherOpenApiSpecTask.getActions().get(0)
     }
 
-    BuildResult build(String... args) {
-        def runner = GradleRunner.create().withPluginClasspath()
-        runner.withProjectDir(baseDir.toFile())
-                .withArguments(["--no-watch-fs",
-                                "-S",
-                                "-Porg.gradle.java.installations.auto-download=false",
-                                "-Porg.gradle.java.installations.auto-detect=false",
-                                "-Dio.micronaut.graalvm.rich.output=false",
-                                *args])
-                .forwardStdOutput(System.out.newWriter())
-                .forwardStdError(System.err.newWriter())
-                .withDebug(true)
-                .run()
-    }
-
-    def "test plugin"() {
+    def "test download open api spec"() {
         given:
-        settingsFile << "rootProject.name = 'hello-world'"
-        buildFile << """
-            plugins {
-                id 'io.micronaut.build.internal.kubernetes-module'
-                id 'io.micronaut.openapi'
-                id 'io.micronaut.kubernetes.client.openapi'
-            }
-
-            micronaut {
-                version "$micronautVersion"
-                runtime "netty"
-                testRuntime "junit5"
-            }
-            mainClassName="example.Application"
-        """
-
+        def extension = project.getExtensions().getByName("kubernetesClientOpenApi")
+        extension.specUrl.set(getClass().getResource('/openapi-input-1.yaml').toString())
+        def expectedFile = new File(getClass().getResource('/openapi-output-1.yaml').toURI())
 
         when:
-        def result = build('build')
-
-        def task = result.task(":build")
-        println result.output
+        downloadOpenApiSpecAction.execute(downloadOpenApiSpecTask)
 
         then:
-        task.outcome == TaskOutcome.SUCCESS
-        //testProjectDir.root.toPath()
-                //.resolve('build/classes/java/test/example/$ExampleTest$Definition.class').toFile().exists()
+        expectedFile.text == project.getLayout().getBuildDirectory().file("openapi.yaml").get().asFile.text
     }
+
+    def "test create watcher open api spec"() {
+        given:
+        def extension = project.getExtensions().getByName("kubernetesClientOpenApi")
+        extension.specUrl.set(getClass().getResource('/openapi-input-2.yaml').toString())
+        extension.modelPackageName.set("io.micronaut.kubernetes.client.openapi.model")
+        def expectedWatcherSpec = new File(getClass().getResource('/openapi-output-2.yaml').toURI())
+        def expectedWatcherTypeMapping = new File(getClass().getResource('/openapi-output-type-mappings.txt').toURI())
+
+        when:
+        downloadOpenApiSpecAction.execute(downloadOpenApiSpecTask)
+        createWatcherOpenApiSpecAction.execute(createWatcherOpenApiSpecTask)
+
+        then:
+        expectedWatcherSpec.text == project.getLayout().getBuildDirectory().file("openapi-watcher.yaml").get().asFile.text
+        expectedWatcherTypeMapping.text == project.getLayout().getBuildDirectory().file("openapi-watcher-type-mappings.txt").get().asFile.text
+    }
+
+
 }

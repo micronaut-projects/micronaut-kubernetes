@@ -12,11 +12,12 @@ micronautBuild {
     }
 }
 
+kubernetesClientOpenApi {
+    specVersion = libs.versions.io.kubernetes.client.java.get()
+    modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
+}
+
 micronaut {
-    kubernetesClientOpenApi {
-        specVersion = libs.versions.io.kubernetes.client.java.get()
-        modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
-    }
     openapi {
         client("client", tasks.named("createWatcherOpenApiSpec", CreateWatcherSpec).flatMap(CreateWatcherSpec::getWatcherSpecFile)) {
             apiPackageName = "io.micronaut.kubernetes.client.openapi.watcher.api"

@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi;
 
-import io.micronaut.gradle.MicronautExtension;
-import io.micronaut.gradle.PluginsHelper;
 import io.micronaut.kubernetes.client.openapi.tasks.CreateWatcherSpec;
 import io.micronaut.kubernetes.client.openapi.tasks.DownloadSpec;
 import org.gradle.api.Plugin;
@@ -34,8 +32,7 @@ public class KubernetesClientOpenApiPlugin implements Plugin<Project> {
 
     @Override
     public void apply(Project project) {
-        MicronautExtension micronautExtension = PluginsHelper.findMicronautExtension(project);
-        KubernetesClientOpenApiExtension kubernetesClientOpenApiExtension = micronautExtension.getExtensions()
+        KubernetesClientOpenApiExtension kubernetesClientOpenApiExtension = project.getExtensions()
             .create("kubernetesClientOpenApi", KubernetesClientOpenApiExtension.class);
         TaskProvider<DownloadSpec> downloadSpecTask = project.getTasks().register("downloadOpenApiSpec", DownloadSpec.class, task -> {
             task.setGroup("kubernetes client openapi");
