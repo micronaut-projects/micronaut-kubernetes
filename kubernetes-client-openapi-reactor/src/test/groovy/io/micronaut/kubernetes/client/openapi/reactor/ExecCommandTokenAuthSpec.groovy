@@ -5,11 +5,11 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Header
-import io.micronaut.kubernetes.client.openapi.api.reactor.CoreV1ApiReactor
 import io.micronaut.kubernetes.client.openapi.credential.model.ExecCredential
 import io.micronaut.kubernetes.client.openapi.credential.model.ExecCredentialStatus
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
+import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
 import io.micronaut.runtime.server.EmbeddedServer
 import spock.lang.AutoCleanup
 import spock.lang.Shared
