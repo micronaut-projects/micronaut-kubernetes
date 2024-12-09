@@ -40,18 +40,24 @@ import java.util.List;
 @Internal
 final class KubernetesHttpClientFilter {
 
-    private final KubeConfig kubeConfig;
+    private final KubeConfigLoader kubeConfigLoader;
+    private KubeConfig kubeConfig;
+    private boolean retrievedConfig = false;
     private final List<KubernetesTokenLoader> kubernetesTokenLoaders;
 
     KubernetesHttpClientFilter(KubeConfigLoader kubeConfigLoader,
                                List<KubernetesTokenLoader> kubernetesTokenLoaders) {
-        kubeConfig = kubeConfigLoader.getKubeConfig();
+        this.kubeConfigLoader = kubeConfigLoader;
         this.kubernetesTokenLoaders = kubernetesTokenLoaders;
     }
 
     @RequestFilter
     @ExecuteOn(TaskExecutors.BLOCKING)
     void doFilter(MutableHttpRequest<?> request) {
+        if (!retrievedConfig) {
+            kubeConfig = kubeConfigLoader.getKubeConfig();
+            retrievedConfig = true;
+        }
         if (kubeConfig != null && kubeConfig.getUser() != null) {
             AuthInfo user = kubeConfig.getUser();
             if (user.clientCertificateData() != null && user.clientKeyData() != null) {
