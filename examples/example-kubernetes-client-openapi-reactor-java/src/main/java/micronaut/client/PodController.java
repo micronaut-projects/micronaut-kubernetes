@@ -2,7 +2,7 @@ package micronaut.client;
 
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import io.micronaut.kubernetes.client.openapi.api.reactor.CoreV1ApiReactor;
+import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
 import reactor.core.publisher.Mono;
