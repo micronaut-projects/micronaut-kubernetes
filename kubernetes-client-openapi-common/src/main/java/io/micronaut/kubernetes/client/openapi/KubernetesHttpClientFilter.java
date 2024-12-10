@@ -19,6 +19,7 @@ import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.ProviderUtils;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.order.Ordered;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.annotation.ClientFilter;
@@ -33,6 +34,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Provider;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -45,7 +47,7 @@ import java.util.List;
 final class KubernetesHttpClientFilter {
 
     private Provider<KubeConfig> kubeConfigProvider;
-    private final Provider<Collection<KubernetesTokenLoader>> kubernetesTokenLoaders;
+    private final Provider<List<KubernetesTokenLoader>> kubernetesTokenLoaders;
 
     KubernetesHttpClientFilter(Provider<KubeConfigLoader> kubeConfigLoader,
                                ApplicationContext applicationContext) {
@@ -54,7 +56,8 @@ final class KubernetesHttpClientFilter {
         this.kubeConfigProvider = ProviderUtils.memoized(
             () -> kubeConfigLoader.get().getKubeConfig());
         this.kubernetesTokenLoaders = ProviderUtils.memoized(
-            () -> applicationContext.getBeansOfType(KubernetesTokenLoader.class));
+            () -> applicationContext.getBeansOfType(KubernetesTokenLoader.class)
+                .stream().sorted(Comparator.comparing(Ordered::getOrder)).toList());
     }
 
     @RequestFilter
