@@ -9,6 +9,7 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Header
 import io.micronaut.http.client.HttpClient
+import io.micronaut.http.client.annotation.Client
 import io.micronaut.http.client.netty.DefaultHttpClient
 import io.micronaut.http.uri.UriBuilder
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
@@ -18,6 +19,7 @@ import io.micronaut.kubernetes.client.openapi.config.KubeConfig
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
 import io.micronaut.runtime.server.EmbeddedServer
+import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.yaml.snakeyaml.LoaderOptions
 import org.yaml.snakeyaml.Yaml
@@ -27,43 +29,17 @@ import spock.lang.Specification
 
 class ClientConfigLoaderSpec extends Specification {
 
-    static final String KUBE_CONFIG = """
-apiVersion: v1
-kind: Config
-clusters:
-  - name: test-cluster
-    cluster:
-      server: %s
-users:
-  - name: test-user
-    user:
-      token: test-token
-contexts:
-  - name: test-context
-    context:
-      cluster: test-cluster
-      user: test-user
-current-context: test-context
-"""
-
     @AutoCleanup
     EmbeddedServer kubernetesServer = ApplicationContext.run(EmbeddedServer, [
-            'spec.name': 'ClientConfigLoaderKubernetesServer',
+            'spec.name': 'ClientConfigLoader-Server',
             'kubernetes.client.enabled': false
-    ])
-
-    @AutoCleanup
-    EmbeddedServer kubeConfigProviderServer = ApplicationContext.run(EmbeddedServer, [
-            'spec.name': 'ClientConfigLoaderKubeConfigProviderServer',
-            'kubernetes.client.enabled': false,
-            'kubernetes.server.url': kubernetesServer.URL
     ])
 
     def 'list pods when token authentication is used'() {
         given:
         ApplicationContext clientContext = ApplicationContext.run([
-                'spec.name': 'ClientConfigLoaderClientContext',
-                'kube.config.provider.url': kubeConfigProviderServer.URL
+                'spec.name': 'ClientConfigLoader-Client',
+                'kube.config.provider.url': kubernetesServer.URL
         ])
 
         when:
@@ -89,15 +65,15 @@ current-context: test-context
     }
 
     @Singleton
-    @Requires(property = 'spec.name', value = 'ClientConfigLoaderClientContext')
+    @Requires(property = 'spec.name', value = 'ClientConfigLoader-Client')
     @Replaces(DefaultKubeConfigLoader.class)
     static class CustomKubeConfigLoader extends AbstractKubeConfigLoader {
 
         HttpClient httpClient
 
-        protected CustomKubeConfigLoader(ResourceResolver resourceResolver, @Value("\${kube.config.provider.url}") kubeConfigProviderUrl) {
+        protected CustomKubeConfigLoader(ResourceResolver resourceResolver, @Client("\${kube.config.provider.url}") HttpClient client) {
             super(resourceResolver)
-            httpClient = DefaultHttpClient.builder().uri(URI.create(kubeConfigProviderUrl)).build()
+            httpClient = client
         }
 
         @Override
@@ -111,19 +87,38 @@ current-context: test-context
     }
 
     @Controller
-    @Requires(property = 'spec.name', value = 'ClientConfigLoaderKubeConfigProviderServer')
+    @Requires(property = 'spec.name', value = 'ClientConfigLoader-Server')
     static class KubeConfigProviderController {
 
-        @Value("\${kubernetes.server.url}") String kubernetesServerUrl
+        static final String KUBE_CONFIG = """\
+apiVersion: v1
+kind: Config
+clusters:
+  - name: test-cluster
+    cluster:
+      server: %s
+users:
+  - name: test-user
+    user:
+      token: test-token
+contexts:
+  - name: test-context
+    context:
+      cluster: test-cluster
+      user: test-user
+current-context: test-context
+"""
+
+        @Inject EmbeddedServer server
 
         @Get("/kube-config")
         String getKubeConfig() {
-            return KUBE_CONFIG.formatted(kubernetesServerUrl)
+            return KUBE_CONFIG.formatted(server.getURI())
         }
     }
 
     @Controller
-    @Requires(property = 'spec.name', value = 'ClientConfigLoaderKubernetesServer')
+    @Requires(property = 'spec.name', value = 'ClientConfigLoader-Server')
     static class KubernetesServerController {
         @Get("/api/v1/pods")
         V1PodList auth(@Header('Authorization') String authorization) {
