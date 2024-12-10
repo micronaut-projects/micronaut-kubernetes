@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi;
 
+import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.ProviderUtils;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.StringUtils;
@@ -28,7 +30,9 @@ import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
+import jakarta.inject.Provider;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,24 +44,23 @@ import java.util.List;
 @Internal
 final class KubernetesHttpClientFilter {
 
-    private final KubeConfigLoader kubeConfigLoader;
-    private KubeConfig kubeConfig;
-    private boolean retrievedConfig = false;
-    private final List<KubernetesTokenLoader> kubernetesTokenLoaders;
+    private Provider<KubeConfig> kubeConfigProvider;
+    private final Provider<Collection<KubernetesTokenLoader>> kubernetesTokenLoaders;
 
-    KubernetesHttpClientFilter(KubeConfigLoader kubeConfigLoader,
-                               List<KubernetesTokenLoader> kubernetesTokenLoaders) {
-        this.kubeConfigLoader = kubeConfigLoader;
-        this.kubernetesTokenLoaders = kubernetesTokenLoaders;
+    KubernetesHttpClientFilter(Provider<KubeConfigLoader> kubeConfigLoader,
+                               ApplicationContext applicationContext) {
+        // Retrieval has to be delegated to filtering, as any of these classes might
+        // depend on a client causing a circular dependency.
+        this.kubeConfigProvider = ProviderUtils.memoized(
+            () -> kubeConfigLoader.get().getKubeConfig());
+        this.kubernetesTokenLoaders = ProviderUtils.memoized(
+            () -> applicationContext.getBeansOfType(KubernetesTokenLoader.class));
     }
 
     @RequestFilter
     @ExecuteOn(TaskExecutors.BLOCKING)
     void doFilter(MutableHttpRequest<?> request) {
-        if (!retrievedConfig) {
-            kubeConfig = kubeConfigLoader.getKubeConfig();
-            retrievedConfig = true;
-        }
+        KubeConfig kubeConfig = kubeConfigProvider.get();
         if (kubeConfig != null && kubeConfig.getUser() != null) {
             AuthInfo user = kubeConfig.getUser();
             if (user.clientCertificateData() != null && user.clientKeyData() != null) {
@@ -69,7 +72,7 @@ final class KubernetesHttpClientFilter {
             }
         }
         String token = null;
-        for (KubernetesTokenLoader kubernetesTokenLoader : kubernetesTokenLoaders) {
+        for (KubernetesTokenLoader kubernetesTokenLoader : kubernetesTokenLoaders.get()) {
             token = kubernetesTokenLoader.getToken();
             if (StringUtils.isNotEmpty(token)) {
                 break;
