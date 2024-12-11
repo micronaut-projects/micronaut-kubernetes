@@ -43,7 +43,7 @@ import java.util.Collection;
 @Internal
 final class KubernetesHttpClientFilter {
 
-    private Provider<KubeConfig> kubeConfigProvider;
+    private final Provider<KubeConfig> kubeConfigProvider;
     private final Provider<Collection<KubernetesTokenLoader>> kubernetesTokenLoaders;
 
     KubernetesHttpClientFilter(Provider<KubeConfigLoader> kubeConfigLoader,
