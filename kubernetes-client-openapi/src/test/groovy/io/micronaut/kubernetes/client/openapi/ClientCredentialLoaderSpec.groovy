@@ -1,14 +1,17 @@
-package io.micronaut.kubernetes.client.openapi.reactor
+package io.micronaut.kubernetes.client.openapi
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.annotation.BootstrapContextCompatible
 import io.micronaut.context.annotation.Requires
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Header
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
+import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
 import io.micronaut.runtime.server.EmbeddedServer
+import jakarta.inject.Singleton
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -16,9 +19,9 @@ import spock.lang.Specification
 import java.nio.file.Files
 import java.nio.file.Path
 
-class KubeConfigTokenAuthSpec extends Specification {
+class ClientCredentialLoaderSpec extends Specification {
 
-    static final String KUBE_CONFIG = """
+    static final String KUBE_CONFIG = """\
 apiVersion: v1
 kind: Config
 clusters:
@@ -28,7 +31,7 @@ clusters:
 users:
   - name: test-user
     user:
-      token: test-token
+      token: test-user
 contexts:
   - name: test-context
     context:
@@ -39,7 +42,7 @@ current-context: test-context
 
     @AutoCleanup
     EmbeddedServer server = ApplicationContext.run(EmbeddedServer, [
-            'spec.name': 'KubeConfigTokenAuthServer',
+            'spec.name': 'ClientCredentialLoaderSpec-Server',
             'kubernetes.client.enabled': false
     ])
 
@@ -58,15 +61,16 @@ current-context: test-context
         }
     }
 
-    def 'list pods when token authentication is used'() {
+    def 'list pods when basic authentication is used'() {
         given:
-        kubeConfigFile.toFile().text = KUBE_CONFIG.formatted(server.URL, server.URL)
+        kubeConfigFile.toFile().text = KUBE_CONFIG.formatted(server.URL)
         ApplicationContext clientContext = ApplicationContext.run([
+                'spec.name': 'ClientCredentialLoaderSpec-Client',
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString()
         ])
 
         when:
-        V1PodList response = clientContext.getBean(CoreV1ApiReactor.class).listPodForAllNamespaces(
+        V1PodList response = clientContext.getBean(CoreV1Api.class).listPodForAllNamespaces(
                 null,
                 null,
                 null,
@@ -78,7 +82,6 @@ current-context: test-context
                 null,
                 null,
                 null)
-                .block()
 
         then:
         response.getItems() != null
@@ -88,15 +91,46 @@ current-context: test-context
         clientContext.close()
     }
 
+    @Singleton
+    @Requires(property = 'spec.name', value = 'ClientCredentialLoaderSpec-Client')
+    @BootstrapContextCompatible
+    static class FirstCredentialLoader implements KubernetesTokenLoader {
+
+        @Override
+        String getToken() {
+            return "first"
+        }
+
+        @Override
+        int getOrder() {
+            return -1
+        }
+    }
+
+    @Singleton
+    @Requires(property = 'spec.name', value = 'ClientCredentialLoaderSpec-Client')
+    @BootstrapContextCompatible
+    static class SecondCredentialLoader implements KubernetesTokenLoader {
+
+        @Override
+        String getToken() {
+            return "second"
+        }
+
+        @Override
+        int getOrder() {
+            return 0
+        }
+    }
+
     @Controller
-    @Requires(property = 'spec.name', value = 'KubeConfigTokenAuthServer')
+    @Requires(property = 'spec.name', value = 'ClientCredentialLoaderSpec-Server')
     static class BasicAuthController {
         @Get("/api/v1/pods")
         V1PodList auth(@Header('Authorization') String authorization) {
-            return authorization == "Bearer test-token"
+            return authorization == "Bearer first"
                     ? new V1PodList(Arrays.asList(new V1Pod()))
                     : new V1PodList(Collections.emptyList())
-
         }
     }
 }

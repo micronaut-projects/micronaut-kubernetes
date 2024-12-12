@@ -1,7 +1,7 @@
 package io.micronaut.kubernetes.client.openapi.reactor
 
-import io.micronaut.kubernetes.client.openapi.api.reactor.CoreV1ApiReactor
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
+import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
 import jakarta.inject.Inject

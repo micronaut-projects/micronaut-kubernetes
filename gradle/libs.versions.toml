@@ -1,6 +1,6 @@
 [versions]
 micronaut = "4.7.7"
-micronaut-platform = "4.6.3"
+micronaut-platform = "4.7.1"
 micronaut-docs = "2.0.0"
 micronaut-test = "4.1.0"
 micronaut-gradle-plugin = "4.4.4"
@@ -16,10 +16,10 @@ io-fabric8-kubernetes-client = '6.13.4'
 netty-incubator-codec-http3 = '0.0.28.Final'
 testcontainers-k3s = '1.20.4'
 
-micronaut-discovery = "4.3.0"
+micronaut-discovery = "4.5.0"
 micronaut-logging = "1.1.2"
 micronaut-reactor = "3.6.0"
-micronaut-serde = '2.11.2'
+micronaut-serde = '2.13.0'
 micronaut-validation = '4.8.0'
 micronaut-openapi = '6.13.2'
 
