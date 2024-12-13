@@ -6,12 +6,6 @@ plugins {
     id 'io.micronaut.kubernetes.client.openapi'
 }
 
-micronautBuild {
-    binaryCompatibility {
-        enabled.set(false)
-    }
-}
-
 kubernetesClientOpenApi {
     specVersion = libs.versions.io.kubernetes.client.java.get()
 }
