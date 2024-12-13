@@ -19,8 +19,6 @@ kubernetesClientOpenApi {
 micronaut {
     openapi {
         client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
-            apiPackageName = "io.micronaut.kubernetes.client.openapi.api.reactor"
-        client("client", tasks.named("downloadKubernetesClientOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
             apiPackageName = "io.micronaut.kubernetes.client.openapi.reactor.api"
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
             apiNameSuffix = "ApiReactor"
