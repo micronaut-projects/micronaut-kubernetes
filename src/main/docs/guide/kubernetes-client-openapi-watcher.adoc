@@ -11,7 +11,7 @@ snippet::micronaut.client.SecretController[project-base="examples/example-kubern
 [IMPORTANT]
 The streaming will work only if the `watch` parameter is set to `true`.
 
-The Kubernetes streamed events are deserialized into the following `io.micronaut.kubernetes.client.openapi.watcher.WatchEvent` class:
+The Kubernetes streamed events are deserialized into the link:{api}/io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html[WatchEvent] class:
 
 [source, java]
 ----
