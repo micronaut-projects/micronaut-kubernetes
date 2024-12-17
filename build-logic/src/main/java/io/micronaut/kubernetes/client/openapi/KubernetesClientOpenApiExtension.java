@@ -37,9 +37,9 @@ public interface KubernetesClientOpenApiExtension {
     Property<String> getSpecVersion();
 
     /**
-     * The new name for the downloaded OpenApi spec file.
+     * The model package name used for creating streaming response types.
      *
-     * @return the new name for the downloaded OpenApi spec file
+     * @return the model package name
      */
-    Property<String> getFileName();
+    Property<String> getModelPackageName();
 }

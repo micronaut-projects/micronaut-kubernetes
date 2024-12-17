@@ -1,0 +1,27 @@
+The Micronaut Kubernetes Client OpenApi Watcher implements streaming of Kubernetes events using the Micronaut Kubernetes Client OpenApi client.
+
+First you need to add a dependency on the `micronaut-kubernetes-client-openapi-watcher` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-watcher[]
+
+Then you can simply use Micronaut injection to get configured apis object from package `io.micronaut.kubernetes.client.openapi.watcher.api`:
+
+snippet::micronaut.client.SecretController[project-base="examples/example-kubernetes-client-openapi-watcher", source="main"]
+
+[IMPORTANT]
+The streaming will work only if the `watch` parameter is set to `true`.
+
+The Kubernetes streamed events are deserialized into the link:{api}/io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html[WatchEvent] class:
+
+[source, java]
+----
+include::kubernetes-client-openapi-watcher/src/main/java/io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.java[tags=class, indent=0]
+----
+
+[cols="1,5"]
+|=======
+|*Name* |*Description*
+|type   |The type of the streamed event. At the moment the type can be one of the following values: ADDED, MODIFIED, DELETED, ERROR, BOOKMARK
+|object |The data for the watched object (V1Namespace, V1Pod etc.). The value will be empty only if the event type is `ERROR`
+|status |The instance of V1Status which won't be empty only if the event type is `ERROR`
+|=======

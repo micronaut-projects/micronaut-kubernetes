@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: Kubernetes
+  version: release-1.27
+servers:
+  - url: /
+security:
+  - BearerToken: []
+paths:
+components:
+  schemas:
+    v1.NamespaceList:
+      description: NamespaceList is a list of Namespaces.
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        items:
+          description: 'Items is the list of Namespace objects in the list. More info:
+              https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/'
+          items:
+            $ref: '#/components/schemas/v1.Namespace'
+          type: array
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          $ref: '#/components/schemas/v1.ListMeta'
+      required:
+        - items
+      type: object
+      x-kubernetes-group-version-kind:
+        - group: ""
+          kind: NamespaceList
+          version: v1
+      x-implements:
+        - io.kubernetes.client.common.KubernetesListObject
+    v1.Namespace:
+      description: Namespace provides a scope for Names. Use of multiple namespaces
+        is optional.
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          $ref: '#/components/schemas/v1.ObjectMeta'
+        spec:
+          $ref: '#/components/schemas/v1.NamespaceSpec'
+        status:
+          $ref: '#/components/schemas/v1.NamespaceStatus'
+      type: object
+      x-kubernetes-group-version-kind:
+        - group: ""
+          kind: Namespace
+          version: v1
+      x-implements:
+        - io.kubernetes.client.common.KubernetesObject

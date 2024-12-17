@@ -1,0 +1,1 @@
+["v1.Namespace": "io.micronaut.kubernetes.client.openapi.watcher.WatchEvent<io.micronaut.kubernetes.client.openapi.model.V1Namespace>"]

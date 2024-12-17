@@ -3,6 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         mavenCentral()
     }
+    includeBuild "build-logic"
 }
 
 plugins {
@@ -18,6 +19,7 @@ include 'kubernetes-client'
 include 'kubernetes-client-openapi'
 include 'kubernetes-client-openapi-common'
 include 'kubernetes-client-openapi-reactor'
+include 'kubernetes-client-openapi-watcher'
 include 'kubernetes-client-processor'
 include 'kubernetes-client-reactor'
 include 'kubernetes-client-rxjava2'
@@ -31,6 +33,7 @@ include 'examples:example-client'
 include 'examples:example-kubernetes-client'
 include 'examples:example-kubernetes-client-openapi-java'
 include 'examples:example-kubernetes-client-openapi-reactor-java'
+include 'examples:example-kubernetes-client-openapi-watcher-java'
 include 'examples:example-kubernetes-informer'
 include 'examples:example-kubernetes-operator'
 include 'examples:example-service'
