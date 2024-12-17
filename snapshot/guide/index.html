@@ -60,17 +60,19 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client-openapi"><strong>8</strong><span>Kubernetes Client OpenAPI</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-informer"><strong>9</strong><span>Kubernetes Informer</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client-openapi-watcher"><strong>9</strong><span>Kubernetes Client OpenAPI Watcher</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-operator"><strong>10</strong><span>Kubernetes Operator</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-informer"><strong>10</strong><span>Kubernetes Informer</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>11</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetes-operator"><strong>11</strong><span>Kubernetes Operator</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>12</strong><span>Breaking Changes</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>12</strong><span>Logging and debugging</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetesGuides"><strong>13</strong><span>Guides</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>13</strong><span>Breaking Changes</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>14</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetesGuides"><strong>14</strong><span>Guides</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>15</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -117,17 +119,19 @@
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client-openapi"><a href="#kubernetes-client-openapi"><strong>8</strong><span>Kubernetes Client OpenAPI</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-informer"><a href="#kubernetes-informer"><strong>9</strong><span>Kubernetes Informer</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-client-openapi-watcher"><a href="#kubernetes-client-openapi-watcher"><strong>9</strong><span>Kubernetes Client OpenAPI Watcher</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-operator"><a href="#kubernetes-operator"><strong>10</strong><span>Kubernetes Operator</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-informer"><a href="#kubernetes-informer"><strong>10</strong><span>Kubernetes Informer</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>11</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetes-operator"><a href="#kubernetes-operator"><strong>11</strong><span>Kubernetes Operator</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>12</strong><span>Breaking Changes</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>12</strong><span>Logging and debugging</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetesGuides"><a href="#kubernetesGuides"><strong>13</strong><span>Guides</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>13</strong><span>Breaking Changes</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>14</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetesGuides"><a href="#kubernetesGuides"><strong>14</strong><span>Guides</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>15</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -2033,7 +2037,119 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
 </div>
 </div>
 
-<h1 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>9 Kubernetes Informer</h1>
+<h1 id="kubernetes-client-openapi-watcher"><a class="anchor" href="#kubernetes-client-openapi-watcher"></a>9 Kubernetes Client OpenAPI Watcher</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi-watcher.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Micronaut Kubernetes Client OpenApi Watcher implements streaming of Kubernetes events using the Micronaut Kubernetes Client OpenApi client.</p>
+</div>
+<div class="paragraph">
+<p>First you need to add a dependency on the <code>micronaut-kubernetes-client-openapi-watcher</code> module:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-watcher")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-openapi-watcher&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div></p>
+</div>
+<div class="paragraph">
+<p>Then you can simply use Micronaut injection to get configured apis object from package <code>io.micronaut.kubernetes.client.openapi.watcher.api</code>:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.client;
+
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.kubernetes.client.openapi.watcher.api.CoreV1ApiWatcher;
+import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller("/secrets")
+public class SecretController {
+    private static final Logger LOG = LoggerFactory.getLogger(SecretController.class);
+
+    @Inject
+    CoreV1ApiWatcher coreV1ApiWatcher;
+
+    @Get("/{namespace}")
+    public void startWatchingSecrets(final @NotNull String namespace) {
+        coreV1ApiWatcher.listNamespacedSecret(namespace, null, null, null, null, null, null, null, null, null, null, true)
+            .subscribe(event -&gt; LOG.info(event.toString()));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+The streaming will work only if the <code>watch</code> parameter is set to <code>true</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Kubernetes streamed events are deserialized into the <a href="../api/io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html">WatchEvent</a> class:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Serdeable
+public record WatchEvent&lt;T&gt;(
+    @NonNull String type,
+    @Nullable T object,
+    @Nullable V1Status status
+) {
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Name</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Description</strong></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The type of the streamed event. At the moment the type can be one of the following values: ADDED, MODIFIED, DELETED, ERROR, BOOKMARK</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">object</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The data for the watched object (V1Namespace, V1Pod etc.). The value will be empty only if the event type is <code>ERROR</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The instance of V1Status which won&#8217;t be empty only if the event type is <code>ERROR</code></p></td>
+</tr>
+</tbody>
+</table>
+
+<h1 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>10 Kubernetes Informer</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-informer.adoc"'>
@@ -2281,7 +2397,7 @@ public class SharedInformerCache {
 </div>
 </div>
 
-<h1 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>10 Kubernetes Operator</h1>
+<h1 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>11 Kubernetes Operator</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-operator.adoc"'>
@@ -2649,7 +2765,7 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
 </div>
 </div>
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>11 Logging and debugging</h1>
+<h1 id="logging"><a class="anchor" href="#logging"></a>12 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/logging.adoc"'>
@@ -2684,7 +2800,7 @@ to <code>DEBUG</code>:</p>
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
-<h1 id="breaking"><a class="anchor" href="#breaking"></a>12 Breaking Changes</h1>
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>13 Breaking Changes</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/breaking.adoc"'>
@@ -2716,7 +2832,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 </div>
 </div>
 
-<h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>13 Guides</h1>
+<h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>14 Guides</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetesGuides.adoc"'>
@@ -2732,7 +2848,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <p><a href="https://guides.micronaut.io/latest/tag-kubernetes.html" class="bare">https://guides.micronaut.io/latest/tag-kubernetes.html</a></p>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>14 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>15 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/repository.adoc"'>

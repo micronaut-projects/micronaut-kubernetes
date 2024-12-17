@@ -11,6 +11,8 @@ io.micronaut.kubernetes.client.openapi.credential.model
 io.micronaut.kubernetes.client.openapi.model
 io.micronaut.kubernetes.client.openapi.reactor.api
 io.micronaut.kubernetes.client.openapi.ssl
+io.micronaut.kubernetes.client.openapi.watcher
+io.micronaut.kubernetes.client.openapi.watcher.api
 io.micronaut.kubernetes.client.operator
 io.micronaut.kubernetes.client.operator.configuration
 io.micronaut.kubernetes.client.operator.controller
