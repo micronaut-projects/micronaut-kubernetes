@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.watcher;
 
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.type.Argument;
@@ -36,8 +37,9 @@ import java.util.Optional;
  * otherwise the {@code object} field will be deserialized into an instance of the class passed as the type parameter.
  * </p>
  */
+@Internal
 @Singleton
-class WatchEventDeserializer implements Deserializer<WatchEvent<?>> {
+final class WatchEventDeserializer implements Deserializer<WatchEvent<?>> {
 
     @Override
     public @Nullable WatchEvent<?> deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super WatchEvent<?>> type) throws IOException {

@@ -13,20 +13,9 @@ The streaming will work only if the `watch` parameter is set to `true`.
 
 The Kubernetes streamed events are deserialized into the following `io.micronaut.kubernetes.client.openapi.watcher.WatchEvent` class:
 
-[source,java]
+[source, java]
 ----
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
-import io.micronaut.kubernetes.client.openapi.model.V1Status;
-import io.micronaut.serde.annotation.Serdeable;
-
-@Serdeable
-public record WatchEvent<T>(
-    @NonNull String type,
-    @Nullable T object,
-    @Nullable V1Status status
-) {
-}
+include::kubernetes-client-openapi-watcher/src/main/java/io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.java[tags=class, indent=0]
 ----
 
 [cols="1,5"]

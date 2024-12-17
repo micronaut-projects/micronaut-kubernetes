@@ -28,6 +28,7 @@ import io.micronaut.serde.annotation.Serdeable;
  * @param status the instance of V1Status
  * @param <T> the object type
  */
+// tag::class[]
 @Serdeable
 public record WatchEvent<T>(
     @NonNull String type,
@@ -35,3 +36,4 @@ public record WatchEvent<T>(
     @Nullable V1Status status
 ) {
 }
+// end::class[]

@@ -10,7 +10,7 @@ import org.gradle.api.tasks.TaskAction;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.File;
@@ -151,7 +151,7 @@ public abstract class CreateWatcherSpec extends DefaultTask {
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setPrettyFlow(true);
         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        return new Yaml(new Constructor(loaderOptions), new Representer(dumperOptions));
+        return new Yaml(new SafeConstructor(loaderOptions), new Representer(dumperOptions));
     }
 
     private void createWatcherSpecFile(Yaml yaml, Map<String, Object> watcherSpecMap) throws IOException {
