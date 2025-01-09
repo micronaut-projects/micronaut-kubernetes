@@ -7,8 +7,8 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.inject.qualifiers.Qualifiers;
-import io.micronaut.kubernetes.client.openapi.annotation.KubernetesClientApi;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.reactor.annotation.KubernetesClientApiReactor;
 import io.micronaut.kubernetes.client.openapi.watcher.annotation.KubernetesClientApiWatcher;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -92,12 +92,13 @@ class InformerApiCallFactory {
      */
     private ExecMethodHolder createListExecMethodHolder() {
         ExecMethodHolder execMethodHolder = new ExecMethodHolder();
-        Collection<BeanDefinition<?>> beanDefinitions = applicationContext.getBeanDefinitions(Qualifiers.byAnnotation(() -> KubernetesClientApi.class));
+        Collection<BeanDefinition<?>> beanDefinitions = applicationContext.getBeanDefinitions(Qualifiers.byAnnotation(() -> KubernetesClientApiReactor.class));
         beanDefinitions.forEach(beanDefinition -> beanDefinition.getExecutableMethods().forEach(execMethod -> {
             if (!hasParameter(execMethod, "watch")) {
                 return;
             }
             String returnListTypeName = execMethod.getReturnType()
+                .getWrappedType()
                 .getType()
                 .getName();
             if (returnListTypeName.endsWith("List")) {

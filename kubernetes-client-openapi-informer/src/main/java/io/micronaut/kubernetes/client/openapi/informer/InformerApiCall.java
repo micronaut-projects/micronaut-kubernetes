@@ -6,6 +6,7 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.watcher.WatchEvent;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 class InformerApiCall<ApiType extends KubernetesObject> {
 
-    private final ExecutableMethod<Object, KubernetesListObject> listExecMethod;
+    private final ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod;
     private final Object listBean;
     private final ParamHolder listParamHolder;
 
@@ -27,7 +28,7 @@ class InformerApiCall<ApiType extends KubernetesObject> {
 
     private final String namespace;
 
-    InformerApiCall(ExecutableMethod<Object, KubernetesListObject> listExecMethod,
+    InformerApiCall(ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod,
                     Object listBean,
                     ExecutableMethod<Object, Flux<WatchEvent<ApiType>>> watchExecMethod,
                     Object watchBean,
@@ -47,7 +48,7 @@ class InformerApiCall<ApiType extends KubernetesObject> {
         this.namespace = namespace;
     }
 
-    KubernetesListObject list(String resourceVersion) {
+    Mono<KubernetesListObject> list(String resourceVersion) {
         listParamHolder.setValue("resourceVersion", resourceVersion);
         return listExecMethod.invoke(listBean, listParamHolder.values);
     }

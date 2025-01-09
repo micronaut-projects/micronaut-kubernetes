@@ -12,6 +12,7 @@ import io.micronaut.kubernetes.client.openapi.watcher.WatchEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.Disposable;
+import reactor.util.retry.RetryBackoffSpec;
 
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -26,8 +27,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * // get list of all items and get the resource version at the moment of call
- *         // and then use the resource version to watch.
+ * Gets list of all items and the resource version at the moment of call and then uses
+ * the resource version to watch for new events.
  * @param <ApiType>
  */
 class InformerWatcher<ApiType extends KubernetesObject> {
@@ -37,13 +38,14 @@ class InformerWatcher<ApiType extends KubernetesObject> {
     private static final Duration WATCH_CLIENT_SIDE_TIMEOUT = Duration.ofMinutes(5);
 
     private final AtomicBoolean stopped = new AtomicBoolean(false);
-    private final AtomicBoolean reloadObjects = new AtomicBoolean(true);
-    private final AtomicReference<Disposable> disposable = new AtomicReference<>();
+    private final AtomicReference<Disposable> listDisposable = new AtomicReference<>();
+    private final AtomicReference<Disposable> watcherDisposable = new AtomicReference<>();
 
     private final Class<ApiType> apiTypeClass;
     private final InformerApiCall<ApiType> informerApiCall;
     private final DeltaFIFO deltaFifo;
 
+    private volatile boolean relistObjects;
     private volatile String lastSyncResourceVersion;
     private volatile boolean isLastSyncResourceVersionUnavailable;
 
@@ -55,72 +57,81 @@ class InformerWatcher<ApiType extends KubernetesObject> {
 
     void stop() {
         stopped.set(true);
-        disposable.get().dispose();
+        if (listDisposable.get() != null) {
+            listDisposable.get().dispose();
+        }
+        if (watcherDisposable.get() != null) {
+            watcherDisposable.get().dispose();
+        }
         logInfo("Stopped informer watcher");
     }
 
     void start() {
         logInfo("Starting informer watcher");
-        run();
+        listObjects();
     }
 
     private void restart() {
         logDebug("Restarting informer watcher after client timed out or thrown error");
-        run();
+        if (relistObjects) {
+            listObjects();
+        } else {
+            startWatcher();
+        }
     }
 
-    private void run() {
+    private void listObjects() {
         if (stopped.get()) {
             return;
         }
-        if (reloadObjects.get()) {
-            logDebug("Getting list of existing objects");
 
-            KubernetesListObject list = getKubernetesListObjectWithRetry();
+        logDebug("Getting list of existing objects");
 
-            reloadObjects.set(false);
-            lastSyncResourceVersion = list.getMetadata().getResourceVersion();
-            isLastSyncResourceVersionUnavailable = false;
+        Disposable newDisposable = informerApiCall.list(getRelistResourceVersion())
+            .retryWhen(RetryBackoffSpec.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
+                .maxBackoff(Duration.ofSeconds(30))
+                .doBeforeRetry(it -> logInfo("Failed to get a list of existing objects, retrying...[{}]", it)))
+            .subscribe(this::replaceObjectsAndStartWatcher);
 
-            logDebug("Found resourceVersion={} in retrieved list metadata", lastSyncResourceVersion);
+        if (stopped.get()) {
+            newDisposable.dispose();
+        } else {
+            listDisposable.set(newDisposable);
+        }
+    }
 
-            deltaFifo.replace((List<KubernetesObject>) list.getItems());
+    private void replaceObjectsAndStartWatcher(KubernetesListObject list) {
+        lastSyncResourceVersion = list.getMetadata().getResourceVersion();
+        isLastSyncResourceVersionUnavailable = false;
+        relistObjects = false;
+
+        logDebug("Found resourceVersion={} in retrieved list metadata", lastSyncResourceVersion);
+
+        deltaFifo.replace((List<KubernetesObject>) list.getItems());
+
+        startWatcher();
+    }
+
+    private void startWatcher() {
+        if (stopped.get()) {
+            return;
         }
 
         int jitteredTimeoutSeconds = Double.valueOf(WATCH_CLIENT_SIDE_TIMEOUT.getSeconds() * (1 + Math.random())).intValue();
-
-        if (stopped.get()) {
-            return;
-        }
-
-        logDebug("Start watching with resourceVersion={}, watchTime={}sec", lastSyncResourceVersion, jitteredTimeoutSeconds);
+        logDebug("Starting watcher with resourceVersion={}, watchTime={}sec", lastSyncResourceVersion, jitteredTimeoutSeconds);
 
         Disposable newDisposable = informerApiCall.watch(lastSyncResourceVersion, jitteredTimeoutSeconds)
+            .retryWhen(RetryBackoffSpec.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
+                .maxBackoff(Duration.ofSeconds(30))
+                .filter(this::isConnectException)
+                .doBeforeRetry(it -> logInfo("Failed to start watcher, retrying...[{}]", it)))
             .doAfterTerminate(this::restart)
             .subscribe(this::handleWatchEvent, this::handleError);
 
         if (stopped.get()) {
             newDisposable.dispose();
         } else {
-            disposable.set(newDisposable);
-        }
-    }
-
-    private KubernetesListObject getKubernetesListObjectWithRetry() {
-        int retryCount = 0;
-        while (true) {
-            try {
-                return informerApiCall.list(getRelistResourceVersion());
-            } catch (RuntimeException e) {
-                retryCount++;
-                int retryPeriodInSeconds = Math.min(retryCount * 2, 30);
-                logError("Failed to get a list of existing objects, will retry in {} seconds", retryPeriodInSeconds, e);
-                try {
-                    Thread.sleep(retryPeriodInSeconds * 1000L);
-                } catch (InterruptedException ex) {
-                    // ignore
-                }
-            }
+            watcherDisposable.set(newDisposable);
         }
     }
 
@@ -134,23 +145,22 @@ class InformerWatcher<ApiType extends KubernetesObject> {
         return StringUtils.isEmpty(lastSyncResourceVersion) ? "0" : lastSyncResourceVersion;
     }
 
+    private boolean isConnectException(Throwable t) {
+        return t instanceof HttpClientException
+            && t.getCause() != null
+            && t.getCause().getCause() instanceof ConnectException;
+    }
+
     private void handleError(Throwable t) {
-        // If this is "connection refused" error, it means that most likely
-        // the api server is not responsive. It doesn't make sense to re-list all
-        // objects because most likely we will be able to restart watch where
-        // we ended.
-        if (t instanceof HttpClientException) {
-            // thrown when the api server becomes unavailable after streaming started
-            if (t instanceof ResponseClosedException) {
-                return;
-            }
-            // thrown when the api server becomes unavailable before streaming started
-            if (t.getCause() != null && t.getCause().getCause() instanceof ConnectException) {
-                return;
-            }
+        logError("Watcher failure", t);
+        // If this is the response closed exception (thrown when the api server becomes
+        // unavailable after streaming started), don't relist objects because most likely
+        // we will be able to restart watch where we ended.
+        if (t instanceof ResponseClosedException) {
+            return;
         }
-        // unknown error, reload objects
-        reloadObjects.set(true);
+        // unknown error, relist objects
+        relistObjects = true;
     }
 
     private void handleWatchEvent(WatchEvent<ApiType> watchEvent) {
@@ -164,11 +174,11 @@ class InformerWatcher<ApiType extends KubernetesObject> {
             if (status == null) {
                 logError("Received ERROR event without status: {}", watchEvent);
             } else if (status.getCode() == HttpURLConnection.HTTP_GONE) {
+                relistObjects = true;
                 isLastSyncResourceVersionUnavailable = true;
                 logError("Resource version and watch connection expired, resourceVersion={}, statusMessage={}",
                     lastSyncResourceVersion,
                     status.getMessage());
-                reloadObjects.set(true);
             } else {
                 logError("Received ERROR event: {}", watchEvent);
             }
@@ -193,7 +203,7 @@ class InformerWatcher<ApiType extends KubernetesObject> {
             // A `Bookmark` means watch has synced here, just update the resourceVersion
         }
         lastSyncResourceVersion = newResourceVersion;
-        logDebug("Updated resourceVersion to {}", lastSyncResourceVersion);
+        logDebug("Updated resource version, resourceVersion={}", lastSyncResourceVersion);
     }
 
     private void logError(String message, Object... arguments) {
