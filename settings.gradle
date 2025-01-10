@@ -32,6 +32,7 @@ include 'test-utils'
 
 include 'examples:example-client'
 include 'examples:example-kubernetes-client'
+include 'examples:example-kubernetes-client-openapi-informer-java'
 include 'examples:example-kubernetes-client-openapi-java'
 include 'examples:example-kubernetes-client-openapi-reactor-java'
 include 'examples:example-kubernetes-client-openapi-watcher-java'

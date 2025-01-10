@@ -24,6 +24,8 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
  * This has been taken from the official client:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/SharedInformer.java">SharedInformer</a>
  * </p>
+ *
+ * @param <ApiType> kubernetes api type
  */
 public interface SharedInformer<ApiType extends KubernetesObject> {
 

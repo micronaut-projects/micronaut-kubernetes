@@ -29,6 +29,8 @@ import java.util.function.Function;
  * This has been taken from the official client:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/SharedIndexInformer.java">SharedIndexInformer</a>
  * </p>
+ *
+ * @param <ApiType> kubernetes api type
  */
 public interface SharedIndexInformer<ApiType extends KubernetesObject> extends SharedInformer<ApiType> {
 

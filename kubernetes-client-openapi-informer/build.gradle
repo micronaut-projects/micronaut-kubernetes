@@ -1,0 +1,15 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
+micronautBuild {
+    binaryCompatibility {
+        enabledAfter('6.4.0') // adjust as needed
+    }
+}
+
+dependencies {
+    api(projects.micronautKubernetesClientOpenapiReactor)
+    api(projects.micronautKubernetesClientOpenapiWatcher)
+    implementation(mn.micronaut.http.client)
+}

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2025 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.util.StringUtils;
@@ -29,9 +44,10 @@ import java.util.stream.Collectors;
 /**
  * Gets list of all items and the resource version at the moment of call and then uses
  * the resource version to watch for new events.
- * @param <ApiType>
+ *
+ * @param <ApiType> kubernetes api type
  */
-class InformerWatcher<ApiType extends KubernetesObject> {
+final class InformerWatcher<ApiType extends KubernetesObject> {
 
     private static final Logger LOG = LoggerFactory.getLogger(InformerWatcher.class);
 
@@ -41,18 +57,22 @@ class InformerWatcher<ApiType extends KubernetesObject> {
     private final AtomicReference<Disposable> listDisposable = new AtomicReference<>();
     private final AtomicReference<Disposable> watcherDisposable = new AtomicReference<>();
 
-    private final Class<ApiType> apiTypeClass;
     private final InformerApiCall<ApiType> informerApiCall;
     private final DeltaFIFO deltaFifo;
+    private final InformerLogger informerLogger;
 
     private volatile boolean relistObjects;
     private volatile String lastSyncResourceVersion;
     private volatile boolean isLastSyncResourceVersionUnavailable;
 
     InformerWatcher(Class<ApiType> apiTypeClass, InformerApiCall<ApiType> informerApiCall, DeltaFIFO deltaFifo) {
-        this.apiTypeClass = apiTypeClass;
         this.informerApiCall = informerApiCall;
         this.deltaFifo = deltaFifo;
+        this.informerLogger = new InformerLogger(LOG, apiTypeClass, informerApiCall.getNamespace());
+    }
+
+    String getLastSyncResourceVersion() {
+        return lastSyncResourceVersion;
     }
 
     void stop() {
@@ -63,16 +83,16 @@ class InformerWatcher<ApiType extends KubernetesObject> {
         if (watcherDisposable.get() != null) {
             watcherDisposable.get().dispose();
         }
-        logInfo("Stopped informer watcher");
+        informerLogger.logInfo("Stopped informer watcher");
     }
 
     void start() {
-        logInfo("Starting informer watcher");
+        informerLogger.logInfo("Starting informer watcher");
         listObjects();
     }
 
     private void restart() {
-        logDebug("Restarting informer watcher after client timed out or thrown error");
+        informerLogger.logDebug("Restarting informer watcher after client timed out or thrown error");
         if (relistObjects) {
             listObjects();
         } else {
@@ -85,12 +105,12 @@ class InformerWatcher<ApiType extends KubernetesObject> {
             return;
         }
 
-        logDebug("Getting list of existing objects");
+        informerLogger.logDebug("Getting list of existing objects");
 
         Disposable newDisposable = informerApiCall.list(getRelistResourceVersion())
             .retryWhen(RetryBackoffSpec.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
                 .maxBackoff(Duration.ofSeconds(30))
-                .doBeforeRetry(it -> logInfo("Failed to get a list of existing objects, retrying...[{}]", it)))
+                .doBeforeRetry(it -> informerLogger.logInfo("Failed to get a list of existing objects, retrying...[{}]", it)))
             .subscribe(this::replaceObjectsAndStartWatcher);
 
         if (stopped.get()) {
@@ -105,7 +125,7 @@ class InformerWatcher<ApiType extends KubernetesObject> {
         isLastSyncResourceVersionUnavailable = false;
         relistObjects = false;
 
-        logDebug("Found resourceVersion={} in retrieved list metadata", lastSyncResourceVersion);
+        informerLogger.logDebug("Found resourceVersion={} in retrieved list metadata", lastSyncResourceVersion);
 
         deltaFifo.replace((List<KubernetesObject>) list.getItems());
 
@@ -118,13 +138,13 @@ class InformerWatcher<ApiType extends KubernetesObject> {
         }
 
         int jitteredTimeoutSeconds = Double.valueOf(WATCH_CLIENT_SIDE_TIMEOUT.getSeconds() * (1 + Math.random())).intValue();
-        logDebug("Starting watcher with resourceVersion={}, watchTime={}sec", lastSyncResourceVersion, jitteredTimeoutSeconds);
+        informerLogger.logDebug("Starting watcher with resourceVersion={}, watchTime={}sec", lastSyncResourceVersion, jitteredTimeoutSeconds);
 
         Disposable newDisposable = informerApiCall.watch(lastSyncResourceVersion, jitteredTimeoutSeconds)
             .retryWhen(RetryBackoffSpec.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
                 .maxBackoff(Duration.ofSeconds(30))
                 .filter(this::isConnectException)
-                .doBeforeRetry(it -> logInfo("Failed to start watcher, retrying...[{}]", it)))
+                .doBeforeRetry(it -> informerLogger.logInfo("Failed to start watcher, retrying...[{}]", it)))
             .doAfterTerminate(this::restart)
             .subscribe(this::handleWatchEvent, this::handleError);
 
@@ -152,7 +172,7 @@ class InformerWatcher<ApiType extends KubernetesObject> {
     }
 
     private void handleError(Throwable t) {
-        logError("Watcher failure", t);
+        informerLogger.logError("Watcher failure", t);
         // If this is the response closed exception (thrown when the api server becomes
         // unavailable after streaming started), don't relist objects because most likely
         // we will be able to restart watch where we ended.
@@ -166,21 +186,21 @@ class InformerWatcher<ApiType extends KubernetesObject> {
     private void handleWatchEvent(WatchEvent<ApiType> watchEvent) {
         Optional<EventType> eventType = EventType.findByType(watchEvent.type());
         if (eventType.isEmpty()) {
-            logError("Unrecognized event type: {}", watchEvent);
+            informerLogger.logError("Unrecognized event type: {}", watchEvent);
             return;
         }
         if (eventType.get() == EventType.ERROR) {
             V1Status status = watchEvent.status();
             if (status == null) {
-                logError("Received ERROR event without status: {}", watchEvent);
+                informerLogger.logError("Received ERROR event without status: {}", watchEvent);
             } else if (status.getCode() == HttpURLConnection.HTTP_GONE) {
                 relistObjects = true;
                 isLastSyncResourceVersionUnavailable = true;
-                logError("Resource version and watch connection expired, resourceVersion={}, statusMessage={}",
+                informerLogger.logError("Resource version and watch connection expired, resourceVersion={}, statusMessage={}",
                     lastSyncResourceVersion,
                     status.getMessage());
             } else {
-                logError("Received ERROR event: {}", watchEvent);
+                informerLogger.logError("Received ERROR event: {}", watchEvent);
             }
             return;
         }
@@ -203,49 +223,7 @@ class InformerWatcher<ApiType extends KubernetesObject> {
             // A `Bookmark` means watch has synced here, just update the resourceVersion
         }
         lastSyncResourceVersion = newResourceVersion;
-        logDebug("Updated resource version, resourceVersion={}", lastSyncResourceVersion);
-    }
-
-    private void logError(String message, Object... arguments) {
-        if (LOG.isErrorEnabled()) {
-            LOG.error(createLogMessage(message), createLogArgs(arguments));
-        }
-    }
-
-    private void logInfo(String message, Object... arguments) {
-        if (LOG.isInfoEnabled()) {
-            LOG.info(createLogMessage(message), createLogArgs(arguments));
-        }
-    }
-
-    private void logDebug(String message, Object... arguments) {
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(createLogMessage(message), createLogArgs(arguments));
-        }
-    }
-
-    private String createLogMessage(String message) {
-        String namespace = informerApiCall.getNamespace();
-        String messagePrefix = StringUtils.isEmpty(namespace) ? "Type={}: " : "Type={}, Namespace={}: ";
-        return messagePrefix + message;
-    }
-
-    private Object[] createLogArgs(Object... arguments) {
-        String namespace = informerApiCall.getNamespace();
-        Object[] newArguments;
-        if (StringUtils.isEmpty(namespace)) {
-            newArguments = new Object[arguments.length + 1];
-            newArguments[0] = apiTypeClass.getSimpleName();
-        } else {
-            newArguments = new Object[arguments.length + 2];
-            newArguments[0] = apiTypeClass.getSimpleName();
-            newArguments[1] = namespace;
-        }
-        if (arguments.length > 0) {
-            int destPos = StringUtils.isEmpty(namespace) ? 1 : 2;
-            System.arraycopy(arguments, 0, newArguments, destPos, arguments.length);
-        }
-        return newArguments;
+        informerLogger.logDebug("Updated resource version, resourceVersion={}", lastSyncResourceVersion);
     }
 
     private enum EventType {
