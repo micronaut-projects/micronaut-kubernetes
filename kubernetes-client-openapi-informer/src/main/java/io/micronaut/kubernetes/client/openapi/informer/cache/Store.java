@@ -16,18 +16,26 @@
 package io.micronaut.kubernetes.client.openapi.informer.cache;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Interface for implementations which stores objects.
  *
  * <p>
- * This has been taken from the official client:
+ * This has been taken and slightly modified from the official client:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/Store.java">Store</a>
  * </p>
  *
  * @param <ApiType> kubernetes api type
  */
 public interface Store<ApiType> {
+
+    /**
+     * Returns a function which creates an object key.
+     *
+     * @return function which creates an object key
+     */
+    Function<ApiType, String> getKeyFunction();
 
     /**
      * Inserts an item into the store.
@@ -58,24 +66,11 @@ public interface Store<ApiType> {
     void replace(List<ApiType> objects);
 
     /**
-     * Resync sends a resync event for each item.
-     */
-    void resync();
-
-    /**
      * Returns a list of keys of all objects that are currently in the store.
      *
      * @return list of all keys
      */
     List<String> listKeys();
-
-    /**
-     * Returns the requested item.
-     *
-     * @param obj specific obj
-     * @return the requested item if exist
-     */
-    Object get(ApiType obj);
 
     /**
      * Returns the request item with specific key.

@@ -23,21 +23,13 @@ import java.util.function.Function;
  * Indexer extends Store interface and adds index/de-index methods.
  *
  * <p>
- * This has been taken from the official client:
+ * This has been taken and slightly modified from the official client:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/Indexer.java">Indexer</a>
  * </p>
  *
  * @param <ApiType> kubernetes api type
  */
 public interface Indexer<ApiType> extends Store<ApiType> {
-
-    /**
-     * Retrieve a list of objects that match on the named indexing function.
-     *
-     * @param indexName specific indexing function
-     * @return matched objects
-     */
-    List<ApiType> index(String indexName, ApiType obj);
 
     /**
      * Returns a list of object keys by index name and index key.
@@ -63,11 +55,4 @@ public interface Indexer<ApiType> extends Store<ApiType> {
      * @return registered indexers
      */
     Map<String, Function<ApiType, List<String>>> getIndexers();
-
-    /**
-     * Add additional indexers to the store.
-     *
-     * @param indexers indexers to add
-     */
-    void addIndexers(Map<String, Function<ApiType, List<String>>> indexers);
 }

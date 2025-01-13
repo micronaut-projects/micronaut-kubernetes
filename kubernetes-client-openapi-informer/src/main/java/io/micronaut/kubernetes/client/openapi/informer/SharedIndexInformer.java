@@ -18,28 +18,17 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
 /*
- * Extends shared informer with indexer operability.
+ * Extends shared informer with indexer.
  *
  * <p>
- * This has been taken from the official client:
+ * This has been taken and slightly modified from the official client:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/SharedIndexInformer.java">SharedIndexInformer</a>
  * </p>
  *
  * @param <ApiType> kubernetes api type
  */
 public interface SharedIndexInformer<ApiType extends KubernetesObject> extends SharedInformer<ApiType> {
-
-    /**
-     * Adds indexers.
-     *
-     * @param indexers the map of indexers
-     */
-    void addIndexers(Map<String, Function<ApiType, List<String>>> indexers);
 
     /**
      * Returns the internal indexer store.

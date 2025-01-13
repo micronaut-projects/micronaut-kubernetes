@@ -6,7 +6,6 @@ import io.micronaut.kubernetes.client.openapi.informer.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,6 @@ public class SecretInformer {
     @PostConstruct
     void initialize() {
         createSecretInformer("test-informer-namespace");
-        sharedIndexInformerFactory.startAllRegisteredInformers();
     }
 
     private void createSecretInformer(String namespace) {
@@ -49,10 +47,5 @@ public class SecretInformer {
                     LOG.info("{} secret deleted!", secret.getMetadata().getName());
                 }
             });
-    }
-
-    @PreDestroy
-    public void clear() {
-        sharedIndexInformerFactory.stopAllRegisteredInformers();
     }
 }

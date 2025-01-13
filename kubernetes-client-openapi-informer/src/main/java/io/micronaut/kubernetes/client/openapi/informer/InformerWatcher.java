@@ -20,7 +20,6 @@ import io.micronaut.http.client.exceptions.HttpClientException;
 import io.micronaut.http.client.exceptions.ResponseClosedException;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.cache.DeltaFIFO;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.kubernetes.client.openapi.watcher.WatchEvent;
