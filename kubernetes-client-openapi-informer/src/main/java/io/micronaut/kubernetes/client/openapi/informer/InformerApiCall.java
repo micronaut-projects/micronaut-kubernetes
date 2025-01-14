@@ -79,18 +79,21 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
     }
 
     private static class ParamHolder {
-        private final Map<String, Integer> position = new HashMap<>();
+        private final Map<String, Integer> positions = new HashMap<>();
         private final Object[] values;
 
         private ParamHolder(Argument<?>[] arguments) {
             values = new Object[arguments.length];
             for (int i = 0; i < arguments.length; i++) {
-                position.put(arguments[i].getName(), i);
+                positions.put(arguments[i].getName(), i);
             }
         }
 
         private void setValue(String paramName, Object paramValue) {
-            values[position.get(paramName)] = paramValue;
+            Integer position = positions.get(paramName);
+            if (position != null) {
+                values[position] = paramValue;
+            }
         }
     }
 }

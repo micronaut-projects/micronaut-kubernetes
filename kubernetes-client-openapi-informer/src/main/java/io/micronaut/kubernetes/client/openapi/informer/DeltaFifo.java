@@ -46,7 +46,7 @@ import java.util.function.Function;
  */
 class DeltaFifo {
 
-    private static final Logger log = LoggerFactory.getLogger(DeltaFifo.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeltaFifo.class);
 
     private final Function<KubernetesObject, String> keyFunc;
 
@@ -126,7 +126,7 @@ class DeltaFifo {
                 }
                 KubernetesObject deletedObject = store.getByKey(storedKey);
                 if (deletedObject == null) {
-                    log.warn("Key {} does not exist in known objects store, placing DeleteFinalStateUnknown marker without object", storedKey);
+                    LOG.warn("Key {} does not exist in known objects store, placing DeleteFinalStateUnknown marker without object", storedKey);
                 }
                 queueDeletion++;
                 queueActionLocked(DeltaType.Deleted, new DeletedFinalStateUnknown<>(storedKey, deletedObject));
@@ -149,7 +149,14 @@ class DeltaFifo {
         try {
             List<String> keys = store.listKeys();
             for (String key : keys) {
-                syncKeyLocked(key);
+                if (CollectionUtils.isNotEmpty(items.get(key))) {
+                    continue;
+                }
+                KubernetesObject object = store.getByKey(key);
+                if (object == null) {
+                    continue;
+                }
+                queueActionLocked(DeltaType.Sync, object);
             }
         } finally {
             lock.writeLock().unlock();
@@ -220,22 +227,6 @@ class DeltaFifo {
             return deletedObject.key();
         }
         return keyFunc.apply(object);
-    }
-
-    /** Add Sync delta. Caller must hold the lock. */
-    private void syncKeyLocked(String key) {
-        KubernetesObject object = store.getByKey(key);
-        if (object == null) {
-            return;
-        }
-
-        String id = keyOf(object);
-        Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>> deltas = items.get(id);
-        if (CollectionUtils.isNotEmpty(deltas)) {
-            return;
-        }
-
-        queueActionLocked(DeltaType.Sync, object);
     }
 
     // re-listing and watching can deliver the same update multiple times in any

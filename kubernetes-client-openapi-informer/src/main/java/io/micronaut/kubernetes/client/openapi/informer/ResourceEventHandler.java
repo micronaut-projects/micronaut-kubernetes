@@ -16,24 +16,22 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 
-/*
- * Extends shared informer with indexer.
+/**
+ * Interface for event handlers.
  *
  * <p>
  * The code has been copied from the official client and modified:
- * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/SharedIndexInformer.java">SharedIndexInformer</a>
+ * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/ResourceEventHandler.java">ResourceEventHandler</a>
  * </p>
  *
  * @param <ApiType> kubernetes api type
  */
-public interface SharedIndexInformer<ApiType extends KubernetesObject> extends SharedInformer<ApiType> {
+public interface ResourceEventHandler<ApiType extends KubernetesObject> {
 
-    /**
-     * Returns the internal indexer store.
-     *
-     * @return the internal indexer store
-     */
-    Indexer<ApiType> getIndexer();
+    void onAdd(ApiType obj);
+
+    void onUpdate(ApiType oldObj, ApiType newObj);
+
+    void onDelete(ApiType obj, boolean deletedFinalStateUnknown);
 }

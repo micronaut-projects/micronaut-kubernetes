@@ -43,6 +43,7 @@ import java.util.function.Function;
 public class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType> {
 
     public static final String DEFAULT_INDEX_NAME = "namespace";
+    public static final String DEFAULT_GLOBAL_INDEX_KEY = "global";
 
     private final Function<ApiType, String> keyFunction;
 
@@ -212,6 +213,9 @@ public class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType>
 
     private static List<String> getDefaultIndexFunc(KubernetesObject obj) {
         V1ObjectMeta metadata = obj.getMetadata();
-        return metadata == null ? Collections.emptyList() : Collections.singletonList(metadata.getNamespace());
+        String indexKey = StringUtils.isEmpty(metadata.getNamespace())
+            ? DEFAULT_GLOBAL_INDEX_KEY
+            : metadata.getNamespace();
+        return Collections.singletonList(indexKey);
     }
 }
