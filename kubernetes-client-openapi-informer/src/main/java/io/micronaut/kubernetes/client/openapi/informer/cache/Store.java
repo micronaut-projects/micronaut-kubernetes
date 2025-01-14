@@ -22,7 +22,7 @@ import java.util.function.Function;
  * Interface for implementations which stores objects.
  *
  * <p>
- * This has been taken and slightly modified from the official client:
+ * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/Store.java">Store</a>
  * </p>
  *

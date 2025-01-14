@@ -34,9 +34,11 @@ import java.util.function.Function;
  * Cache is a java port of k/client-go's ThreadSafeStore. It basically saves and indexes all the entries.
  *
  * <p>
- * This has been taken and modified from the official client:
+ * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/Cache.java">Cache</a>
  * </p>
+ *
+ * @param <ApiType> kubernetes api type
  */
 public class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType> {
 
@@ -199,8 +201,8 @@ public class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType>
     }
 
     private static String getDefaultKeyFunc(KubernetesObject object) {
-        if (object instanceof DeletedFinalStateUnknown<?> deleteObj) {
-            return deleteObj.getKey();
+        if (object instanceof DeletedFinalStateUnknown<?> deletedObject) {
+            return deletedObject.key();
         }
         V1ObjectMeta metadata = object.getMetadata();
         return StringUtils.isEmpty(metadata.getNamespace())

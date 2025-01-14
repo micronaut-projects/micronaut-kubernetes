@@ -21,7 +21,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
  * Common accessors for kubernetes object.
  *
  * <p>
- * This has been taken from the official client:
+ * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/kubernetes/src/main/java/io/kubernetes/client/common/KubernetesObject.java">KubernetesObject</a>
  * </p>
  */

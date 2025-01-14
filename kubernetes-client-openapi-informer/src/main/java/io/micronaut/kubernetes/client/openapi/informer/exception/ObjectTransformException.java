@@ -19,7 +19,7 @@ package io.micronaut.kubernetes.client.openapi.informer.exception;
  * Exception thrown during object transformation.
  *
  * <p>
- * This has been taken from the official client:
+ * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/exception/ObjectTransformException.java">ObjectTransformException</a>
  * </p>
  */

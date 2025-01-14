@@ -57,14 +57,14 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
     private final AtomicReference<Disposable> watcherDisposable = new AtomicReference<>();
 
     private final InformerApiCall<ApiType> informerApiCall;
-    private final DeltaFIFO deltaFifo;
+    private final DeltaFifo deltaFifo;
     private final InformerLogger informerLogger;
 
     private volatile boolean relistObjects;
     private volatile String lastSyncResourceVersion;
     private volatile boolean isLastSyncResourceVersionUnavailable;
 
-    InformerWatcher(Class<ApiType> apiTypeClass, InformerApiCall<ApiType> informerApiCall, DeltaFIFO deltaFifo) {
+    InformerWatcher(Class<ApiType> apiTypeClass, InformerApiCall<ApiType> informerApiCall, DeltaFifo deltaFifo) {
         this.informerApiCall = informerApiCall;
         this.deltaFifo = deltaFifo;
         this.informerLogger = new InformerLogger(LOG, apiTypeClass, informerApiCall.getNamespace());
@@ -209,13 +209,13 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
         String newResourceVersion = meta.getResourceVersion();
         switch (eventType.get()) {
             case ADDED:
-                deltaFifo.add(object);
+                deltaFifo.add(DeltaFifo.DeltaType.Added, object);
                 break;
             case MODIFIED:
-                deltaFifo.update(object);
+                deltaFifo.add(DeltaFifo.DeltaType.Updated, object);
                 break;
             case DELETED:
-                deltaFifo.delete(object);
+                deltaFifo.add(DeltaFifo.DeltaType.Deleted, object);
                 break;
             case BOOKMARK:
                 break;

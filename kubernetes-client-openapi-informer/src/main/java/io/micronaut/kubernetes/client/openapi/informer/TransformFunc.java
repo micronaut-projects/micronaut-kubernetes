@@ -28,7 +28,7 @@ import io.micronaut.kubernetes.client.openapi.informer.exception.ObjectTransform
  * reduce component memory usage if a given component doesn't care about them.
  *
  * <p>
- * This has been taken from the official client:
+ * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/TransformFunc.java">TransformFunc</a>
  * </p>
  */

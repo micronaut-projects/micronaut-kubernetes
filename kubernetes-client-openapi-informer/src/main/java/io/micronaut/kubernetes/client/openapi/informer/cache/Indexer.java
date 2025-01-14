@@ -23,7 +23,7 @@ import java.util.function.Function;
  * Indexer extends Store interface and adds index/de-index methods.
  *
  * <p>
- * This has been taken and slightly modified from the official client:
+ * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/Indexer.java">Indexer</a>
  * </p>
  *
