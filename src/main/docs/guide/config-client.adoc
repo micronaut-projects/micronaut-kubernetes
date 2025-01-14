@@ -25,7 +25,7 @@ Supported formats for ``ConfigMap``s are:
 
 The configuration client by default will read all the ``ConfigMap``s for the configured namespace. You can further filter
 which config map names are processed by defining `kubernetes.client.config-maps.includes` or
-`kubernetes.client.config-maps.excludes`:
+`kubernetes.client.config-maps.excludes` in `bootstrap.yml`:
 
 [source,yaml]
 ----
@@ -135,7 +135,7 @@ This will make Kubernetes to create file per data entry:
 
 While you could potentially use the `java.io` or `java.nio` APIs to read the contents yourself, this configuration module
 can convert them into a ``PropertySource`` so that you can consume the values much more easily. In order to do so, define
-the following configuration:
+the following configuration in `bootstrap.yml`:
 
 [source,yaml]
 ----
@@ -223,7 +223,7 @@ kubernetes:
 ----
 
 The configuration client, by default, will read all the ``Secret``s for the configured namespace. You can further filter
-which config map names are processed by defining `kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes`:
+which config map names are processed by defining `kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes` in `bootstrap.yml`:
 
 [source,yaml]
 ----
