@@ -718,6 +718,25 @@ discovery:</p>
 instances in your application.</p>
 </div>
 <div class="paragraph">
+<p>To get started, you need to declare the following dependency:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div></p>
+</div>
+<div class="paragraph">
 <p>Then, in any bean you can read the configuration values from the <code>ConfigMap</code> or <code>Secret</code> using <code>@Value</code> or
 <a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
 </div>
