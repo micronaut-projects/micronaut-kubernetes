@@ -1,6 +1,10 @@
 The Configuration client will read Kubernetes' ``ConfigMap``s and ``Secret``s instances and make them available as ``PropertySource``s
 instances in your application.
 
+To get started, you need to declare the following dependency:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-discovery-client[]
+
 Then, in any bean you can read the configuration values from the `ConfigMap` or `Secret` using `@Value` or
 https://docs.micronaut.io/latest/guide/index.html#config[any other way to read configuration values].
 
