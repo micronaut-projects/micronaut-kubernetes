@@ -60,6 +60,14 @@ class DeltaFifo {
 
     private final Store<? extends KubernetesObject> store;
 
+    // populated is set to true if the first batch of items inserted by Replace() has
+    // been populated or Delete/Add/Update was called first
+    private boolean populated = false;
+
+    // initialPopulationCount is the number of items inserted by the first call of Replace()
+    private int initialPopulationCount;
+
+    /** lock provides thread safety * */
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     private final Condition notEmpty;
@@ -79,6 +87,7 @@ class DeltaFifo {
     void add(DeltaType deltaType, KubernetesObject object) {
         lock.writeLock().lock();
         try {
+            populated = true;
             if (deltaType == DeltaType.Deleted) {
                 String id = keyOf(object);
                 // Skip the "deletion" action if the object doesn't
@@ -108,6 +117,7 @@ class DeltaFifo {
             }
 
             List<String> storedKeys = store.listKeys();
+            int queueDeletion = 0;
             for (String storedKey : storedKeys) {
                 if (keys.contains(storedKey)) {
                     continue;
@@ -116,7 +126,13 @@ class DeltaFifo {
                 if (deletedObject == null) {
                     LOG.warn("Key {} does not exist in known objects store, placing DeleteFinalStateUnknown marker without object", storedKey);
                 }
+                queueDeletion++;
                 queueActionLocked(DeltaType.Deleted, new DeletedFinalStateUnknown<>(storedKey, deletedObject));
+            }
+
+            if (!populated) {
+                populated = true;
+                initialPopulationCount = objects.size() + queueDeletion;
             }
         } finally {
             lock.writeLock().unlock();
@@ -158,10 +174,27 @@ class DeltaFifo {
             while (queue.isEmpty()) {
                 notEmpty.await();
             }
+            if (initialPopulationCount > 0) {
+                initialPopulationCount--;
+            }
             String id = queue.removeFirst();
             func.accept(items.remove(id));
         } finally {
             lock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * Returns info whether the first synchronization has been completed.
+     *
+     * @return {@code true} if the first synchronization has been completed
+     */
+    boolean hasSynced() {
+        lock.readLock().lock();
+        try {
+            return populated && initialPopulationCount == 0;
+        } finally {
+            lock.readLock().unlock();
         }
     }
 

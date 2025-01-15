@@ -57,6 +57,11 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
     void stop();
 
     /**
+     * Returns true if the shared informer's store has been synced after informer started.
+     */
+    boolean hasSynced();
+
+    /**
      * Returns the last sync resource version.
      *
      * <p>The last sync resource version is the resource version observed when last synced with

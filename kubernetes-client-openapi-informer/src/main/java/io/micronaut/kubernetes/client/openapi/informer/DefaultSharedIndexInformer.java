@@ -168,6 +168,11 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
     }
 
     @Override
+    public boolean hasSynced() {
+        return deltaFifo.hasSynced();
+    }
+
+    @Override
     public String lastSyncResourceVersion() {
         if (!started) {
             return StringUtils.EMPTY_STRING;
