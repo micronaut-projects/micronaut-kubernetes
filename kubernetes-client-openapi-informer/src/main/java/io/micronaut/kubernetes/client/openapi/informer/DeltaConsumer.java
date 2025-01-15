@@ -95,6 +95,8 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
                     indexer.delete(transformedObject);
                     processor.distribute(new ProcessorListener.DeleteNotification<>(object), false);
                     break;
+                default:
+                    break;
             }
         });
     }

@@ -25,6 +25,8 @@ import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
  * but the watch deletion event was missed. In this case we don't know the final "resting" state
  * of the object, so there is a chance the included object is stale.
  *
+ * @param key the object key
+ * @param object the kubernetes object
  * @param <ApiType> kubernetes api type
  */
 @Internal

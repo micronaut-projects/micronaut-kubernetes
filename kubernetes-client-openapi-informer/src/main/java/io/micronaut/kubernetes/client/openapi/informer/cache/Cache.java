@@ -47,13 +47,13 @@ public class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType>
 
     private final Function<ApiType, String> keyFunction;
 
-    /** indexers stores index functions by index names */
+    // indexers stores index functions by index names
     private final Map<String, Function<ApiType, List<String>>> indexers = new HashMap<>();
 
-    /** items stores object instances by keys created from the key function */
+    // items stores object instances by keys created from the key function
     private final Map<String, ApiType> items = new HashMap<>();
 
-    /** indices stores objects' keys by their indices for each index name */
+    // indices stores objects' keys by their indices for each index name
     private final Map<String, Map<String, Set<String>>> indices = new HashMap<>();
 
     public Cache() {

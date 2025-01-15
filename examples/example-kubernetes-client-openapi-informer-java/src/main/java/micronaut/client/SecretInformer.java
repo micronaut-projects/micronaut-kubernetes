@@ -1,9 +1,9 @@
 package micronaut.client;
 
 import io.micronaut.context.annotation.Context;
-import io.micronaut.kubernetes.client.openapi.informer.DefaultSharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.openapi.informer.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Singleton;
@@ -16,9 +16,9 @@ public class SecretInformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecretInformer.class);
 
-    private final DefaultSharedIndexInformerFactory sharedIndexInformerFactory;
+    private final SharedIndexInformerFactory sharedIndexInformerFactory;
 
-    SecretInformer(DefaultSharedIndexInformerFactory sharedIndexInformerFactory) {
+    SecretInformer(SharedIndexInformerFactory sharedIndexInformerFactory) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
     }
 

@@ -217,7 +217,7 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
             case DELETED:
                 deltaFifo.add(DeltaFifo.DeltaType.Deleted, object);
                 break;
-            case BOOKMARK:
+            default:
                 break;
             // A `Bookmark` means watch has synced here, just update the resourceVersion
         }

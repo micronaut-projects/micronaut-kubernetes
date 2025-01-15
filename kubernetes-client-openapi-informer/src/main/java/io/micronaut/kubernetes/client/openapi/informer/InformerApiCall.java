@@ -78,7 +78,7 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
         return namespace;
     }
 
-    private static class ParamHolder {
+    private static final class ParamHolder {
         private final Map<String, Integer> positions = new HashMap<>();
         private final Object[] values;
 

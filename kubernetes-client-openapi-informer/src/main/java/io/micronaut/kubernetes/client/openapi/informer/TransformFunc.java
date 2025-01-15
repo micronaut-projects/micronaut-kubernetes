@@ -18,15 +18,15 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.exception.ObjectTransformException;
 
-/*
+/**
  * TransformFunc allows for transforming an object before it will be processed
  * and put into the cache and before the corresponding handlers will be called on it.
  * TransformFunc (similarly to ResourceEventHandler functions) should be able
  * to correctly handle the tombstone of type DeletedFinalStateUnknown.
- *
+ * <p>
  * The most common usage pattern is to clean up some parts of the object to
  * reduce component memory usage if a given component doesn't care about them.
- *
+ * </p>
  * <p>
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/TransformFunc.java">TransformFunc</a>

@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 
-/*
+/**
  * Extends shared informer with indexer.
  *
  * <p>
