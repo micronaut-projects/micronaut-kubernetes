@@ -223,7 +223,8 @@ kubernetes:
 ----
 
 The configuration client, by default, will read all the ``Secret``s for the configured namespace. You can further filter
-which config map names are processed by defining `kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes` in `bootstrap.yml`:
+which config map names are processed by defining `kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes` in https://docs.micronaut.io/latest/guide/#bootstrap[bootstrap configuration]:
+
 
 [source,yaml]
 ----
