@@ -27,7 +27,7 @@ The configuration client by default will read all the ``ConfigMap``s for the con
 which config map names are processed by defining `kubernetes.client.config-maps.includes` or
 `kubernetes.client.config-maps.excludes` in https://docs.micronaut.io/latest/guide/#bootstrap[bootstrap configuration]:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
