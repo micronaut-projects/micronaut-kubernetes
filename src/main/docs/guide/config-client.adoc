@@ -135,7 +135,7 @@ This will make Kubernetes to create file per data entry:
 
 While you could potentially use the `java.io` or `java.nio` APIs to read the contents yourself, this configuration module
 can convert them into a ``PropertySource`` so that you can consume the values much more easily. In order to do so, define
-the following configuration in `bootstrap.yml`:
+the following configuration in https://docs.micronaut.io/latest/guide/#bootstrap[bootstrap configuration]:
 
 [source,yaml]
 ----
