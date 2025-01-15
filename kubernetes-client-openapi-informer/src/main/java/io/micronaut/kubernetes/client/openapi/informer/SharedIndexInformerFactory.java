@@ -67,6 +67,18 @@ public interface SharedIndexInformerFactory {
         Cache<ApiType> cache);
 
     /**
+     * Returns already created {@link SharedIndexInformer}.
+     *
+     * @param apiTypeClass the api type class
+     * @param namespace    the namespace
+     * @param <ApiType>    api type
+     * @return instance of {@link SharedIndexInformer}
+     */
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
+        Class<ApiType> apiTypeClass,
+        String namespace);
+
+    /**
      * Starts all registered informers.
      */
     void startAllRegisteredInformers();

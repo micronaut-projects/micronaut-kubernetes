@@ -15,12 +15,14 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import jakarta.inject.Singleton;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -38,7 +40,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     private final InformerApiCallFactory informerApiCallFactory;
     private final ThreadFactory threadFactory;
     private final ExecutorService informerExecutor;
-    private final List<DefaultSharedIndexInformer> informers = new ArrayList<>();
+    private final Map<InformerKey, SharedIndexInformer> informers = new HashMap<>();
 
     DefaultSharedIndexInformerFactory(InformerApiCallFactory informerApiCallFactory, ThreadFactory threadFactory) {
         this.informerApiCallFactory = informerApiCallFactory;
@@ -68,6 +70,12 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         long resyncPeriodMillis,
         Cache<ApiType> cache) {
 
+        InformerKey<ApiType> informerKey = new InformerKey<>(apiTypeClass, namespace);
+        if (informers.containsKey(informerKey)) {
+            throw new IllegalStateException("Informer has been already created for apiTypeClass=" +
+                apiTypeClass + " and namespace=" + namespace);
+        }
+
         InformerApiCall<ApiType> informerApiCall = informerApiCallFactory.createInformerApiCall(apiTypeClass, namespace);
 
         DefaultSharedIndexInformer<ApiType> informer = new DefaultSharedIndexInformer<>(
@@ -77,18 +85,32 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             informerApiCall,
             resyncPeriodMillis,
             cache);
-        informers.add(informer);
+        informers.put(informerKey, informer);
         return informer;
     }
 
     @Override
+    public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
+        Class<ApiType> apiTypeClass,
+        String namespace) {
+        InformerKey<ApiType> informerKey = new InformerKey<>(apiTypeClass, namespace);
+        return informers.get(informerKey);
+    }
+
+    @Override
     public void startAllRegisteredInformers() {
-        informers.forEach(informer -> informerExecutor.submit(informer::run));
+        informers.values().forEach(informer -> informerExecutor.submit(informer::run));
     }
 
     @Override
     public void stopAllRegisteredInformers() {
-        informers.forEach(informer -> informerExecutor.submit(informer::stop));
+        informers.values().forEach(SharedInformer::stop);
         informerExecutor.shutdownNow();
+    }
+
+    record InformerKey<ApiType extends KubernetesObject>(
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace
+    ) {
     }
 }
