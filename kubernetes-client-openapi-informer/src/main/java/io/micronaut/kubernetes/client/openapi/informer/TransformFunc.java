@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.exception.ObjectTransformException;
 
 /**
  * TransformFunc allows for transforming an object before it will be processed
@@ -40,5 +39,5 @@ public interface TransformFunc {
      * @param object the original object to be transformed
      * @return the transformed object
      */
-    KubernetesObject transform(KubernetesObject object) throws ObjectTransformException;
+    KubernetesObject transform(KubernetesObject object);
 }

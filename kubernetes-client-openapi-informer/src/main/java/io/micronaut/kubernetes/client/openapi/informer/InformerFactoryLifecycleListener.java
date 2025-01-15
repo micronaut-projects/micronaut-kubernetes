@@ -23,16 +23,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Starts up and shuts down the {@link DefaultSharedIndexInformerFactory}.
+ * Starts up and shuts down the {@link SharedIndexInformerFactory}.
  */
 @Singleton
 final class InformerFactoryLifecycleListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(InformerFactoryLifecycleListener.class);
 
-    private final DefaultSharedIndexInformerFactory informerFactory;
+    private final SharedIndexInformerFactory informerFactory;
 
-    InformerFactoryLifecycleListener(DefaultSharedIndexInformerFactory informerFactory) {
+    InformerFactoryLifecycleListener(SharedIndexInformerFactory informerFactory) {
         this.informerFactory = informerFactory;
     }
 

@@ -21,6 +21,8 @@ import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
 /**
@@ -35,11 +37,13 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     private final InformerApiCallFactory informerApiCallFactory;
     private final ThreadFactory threadFactory;
+    private final ExecutorService informerExecutor;
     private final List<DefaultSharedIndexInformer> informers = new ArrayList<>();
 
     DefaultSharedIndexInformerFactory(InformerApiCallFactory informerApiCallFactory, ThreadFactory threadFactory) {
         this.informerApiCallFactory = informerApiCallFactory;
         this.threadFactory = threadFactory;
+        this.informerExecutor = Executors.newCachedThreadPool(threadFactory);
     }
 
     @Override
@@ -79,11 +83,12 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public void startAllRegisteredInformers() {
-        informers.forEach(DefaultSharedIndexInformer::run);
+        informers.forEach(informer -> informerExecutor.submit(informer::run));
     }
 
     @Override
     public void stopAllRegisteredInformers() {
-        informers.forEach(DefaultSharedIndexInformer::stop);
+        informers.forEach(informer -> informerExecutor.submit(informer::stop));
+        informerExecutor.shutdownNow();
     }
 }
