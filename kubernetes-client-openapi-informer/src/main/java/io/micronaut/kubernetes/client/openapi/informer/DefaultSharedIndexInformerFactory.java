@@ -20,6 +20,7 @@ import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
+import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         String namespace,
         String labelSelector,
         long resyncPeriodMillis) {
-        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, new Cache<>());
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null);
     }
 
     @Override
@@ -82,12 +83,16 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         String labelSelector,
         long resyncPeriodMillis) {
 
+        if (namespaces == null) {
+            throw new IllegalArgumentException("The list of namespaces must be provided");
+        }
+
         List<SharedIndexInformer<ApiType>> informerList = new ArrayList<>(namespaces.size());
         namespaces.forEach(namespace -> {
             if (StringUtils.isEmpty(namespace)) {
                 throw new IllegalArgumentException("The namespaces list must not contain empty strings");
             }
-            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, new Cache<>()));
+            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null));
         });
 
         return informerList;
@@ -99,7 +104,11 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         String namespace,
         String labelSelector,
         long resyncPeriodMillis,
-        Cache<ApiType> cache) {
+        Indexer<ApiType> indexer) {
+
+        if (apiTypeClass == null) {
+            throw new IllegalArgumentException("The apiTypeClass must be provided");
+        }
 
         InformerKey<ApiType> informerKey = new InformerKey<>(apiTypeClass, namespace);
         if (informers.containsKey(informerKey)) {
@@ -115,7 +124,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             threadFactory,
             informerApiCall,
             resyncPeriodMillis,
-            cache);
+            indexer == null ? new Cache<>() : indexer);
         informers.put(informerKey, informer);
         return informer;
     }
@@ -124,6 +133,11 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
         Class<ApiType> apiTypeClass,
         String namespace) {
+
+        if (apiTypeClass == null) {
+            throw new IllegalArgumentException("The apiTypeClass must be provided");
+        }
+
         InformerKey<ApiType> informerKey = new InformerKey<>(apiTypeClass, namespace);
         return informers.get(informerKey);
     }

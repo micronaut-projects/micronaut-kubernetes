@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
+import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 
 import java.util.List;
 
@@ -80,7 +80,7 @@ public interface SharedIndexInformerFactory {
      *                           for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces
      * @param labelSelector      the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a>
      * @param resyncPeriodMillis the resync period in milliseconds
-     * @param cache              the cache
+     * @param indexer            the indexer
      * @param <ApiType>          api type
      * @return instance of {@link SharedIndexInformer}
      */
@@ -89,7 +89,7 @@ public interface SharedIndexInformerFactory {
         @Nullable String namespace,
         @Nullable String labelSelector,
         long resyncPeriodMillis,
-        @NonNull Cache<ApiType> cache);
+        @Nullable Indexer<ApiType> indexer);
 
     /**
      * Creates a new {@link SharedIndexInformer} for each namespace.

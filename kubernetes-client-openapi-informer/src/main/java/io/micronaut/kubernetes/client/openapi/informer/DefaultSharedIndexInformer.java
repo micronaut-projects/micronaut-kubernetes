@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import org.slf4j.Logger;
@@ -74,12 +73,12 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
                                ThreadFactory threadFactory,
                                InformerApiCall<ApiType> informerApiCall,
                                long resyncPeriodMillis,
-                               Cache<ApiType> cache) {
+                               Indexer<ApiType> indexer) {
         this.apiTypeClass = apiTypeClass;
         this.namespace = namespace;
         this.informerLogger = new InformerLogger(LOG, apiTypeClass, namespace);
-        deltaFifo = new DeltaFifo(cache);
-        indexer = cache;
+        this.indexer = indexer;
+        deltaFifo = new DeltaFifo(indexer);
         this.threadFactory = threadFactory;
         processor = new SharedProcessor<>(threadFactory);
         informerWatcher = new InformerWatcher<>(apiTypeClass, informerApiCall, deltaFifo);
@@ -103,7 +102,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
         if (resyncCheckPeriodMillis > 0) {
             informerLogger.logInfo("Resync job enabled, resyncCheckPeriodMillis={}", resyncCheckPeriodMillis);
             ResyncRunnable resyncRunnable = new ResyncRunnable(deltaFifo, processor::shouldResync, apiTypeClass, namespace);
-            resyncExecutor.scheduleAtFixedRate(resyncRunnable::run, resyncCheckPeriodMillis, resyncCheckPeriodMillis, TimeUnit.MILLISECONDS);
+            resyncExecutor.scheduleAtFixedRate(resyncRunnable, resyncCheckPeriodMillis, resyncCheckPeriodMillis, TimeUnit.MILLISECONDS);
         } else {
             informerLogger.logInfo("Resync job disabled");
         }

@@ -17,7 +17,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.cache.Store;
+import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +58,7 @@ final class DeltaFifo {
     // at least one Delta.
     private final Deque<String> queue = new LinkedList<>();
 
-    private final Store<? extends KubernetesObject> store;
+    private final Indexer<? extends KubernetesObject> store;
 
     // populated is set to true if the first batch of items inserted by Replace() has
     // been populated or Delete/Add/Update was called first
@@ -72,7 +72,7 @@ final class DeltaFifo {
 
     private final Condition notEmpty;
 
-    DeltaFifo(Store<? extends KubernetesObject> store) {
+    DeltaFifo(Indexer<? extends KubernetesObject> store) {
         keyFunc = (Function<KubernetesObject, String>) store.getKeyFunction();
         this.store = store;
         notEmpty = lock.writeLock().newCondition();
