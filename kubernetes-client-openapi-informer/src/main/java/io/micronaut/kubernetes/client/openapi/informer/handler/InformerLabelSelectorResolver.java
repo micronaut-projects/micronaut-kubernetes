@@ -18,21 +18,20 @@ package io.micronaut.kubernetes.client.openapi.informer.handler;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.NonNull;
-
-import java.util.Set;
+import io.micronaut.core.annotation.Nullable;
 
 /**
- * Informer namespace resolver.
+ * Informer label selector resolver.
  */
-@DefaultImplementation(DefaultInformerNamespaceResolver.class)
-interface InformerNamespaceResolver {
+@DefaultImplementation(DefaultInformerLabelSelectorResolver.class)
+interface InformerLabelSelectorResolver {
 
     /**
-     * Resolves the namespaces for the informer's watched resources.
+     * Resolves the informer's watched resources label selector.
      *
      * @param annotationValue the informer annotation value
-     * @return set of namespaces
+     * @return resource label selector or null
      */
-    @NonNull
-    Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> annotationValue);
+    @Nullable
+    String resolveInformerLabels(@NonNull AnnotationValue<Informer> annotationValue);
 }

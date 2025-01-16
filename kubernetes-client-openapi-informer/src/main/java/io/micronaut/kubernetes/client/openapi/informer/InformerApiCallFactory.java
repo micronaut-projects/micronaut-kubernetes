@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.type.Argument;
 import io.micronaut.core.util.StringUtils;
@@ -66,7 +67,11 @@ final class InformerApiCallFactory {
      * @param <ApiType>    kubernetes api type
      * @return an instance of {@link InformerApiCall}
      */
-    <ApiType extends KubernetesObject> InformerApiCall<ApiType> createInformerApiCall(Class<ApiType> apiTypeClass, @Nullable String namespace) {
+    <ApiType extends KubernetesObject> InformerApiCall<ApiType> createInformerApiCall(
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace,
+        @Nullable String labelSelector) {
+
         String apiTypeClassName = apiTypeClass.getName();
         boolean useNamespace;
         ExecutableMethod listExecMethod;
@@ -96,7 +101,7 @@ final class InformerApiCallFactory {
         Class<?> watchBeanType = watchExecMethodHolder.beanTypes.get(apiTypeClassName);
         Object watchBean = applicationContext.getBean(watchBeanType);
 
-        return new InformerApiCall<ApiType>(listExecMethod, listBean, watchExecMethod, watchBean, namespace);
+        return new InformerApiCall<ApiType>(listExecMethod, listBean, watchExecMethod, watchBean, namespace, labelSelector);
     }
 
     /**

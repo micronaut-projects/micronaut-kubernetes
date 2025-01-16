@@ -55,21 +55,31 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
         String namespace) {
-        return sharedIndexInformerFor(apiTypeClass, namespace, DEFAULT_RESYNC_PERIOD);
+        return sharedIndexInformerFor(apiTypeClass, namespace, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
         String namespace,
+        String labelSelector) {
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, DEFAULT_RESYNC_PERIOD);
+    }
+
+    @Override
+    public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
+        String namespace,
+        String labelSelector,
         long resyncPeriodMillis) {
-        return sharedIndexInformerFor(apiTypeClass, namespace, resyncPeriodMillis, new Cache<>());
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, new Cache<>());
     }
 
     @Override
     public <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
         Class<ApiType> apiTypeClass,
         List<String> namespaces,
+        String labelSelector,
         long resyncPeriodMillis) {
 
         List<SharedIndexInformer<ApiType>> informerList = new ArrayList<>(namespaces.size());
@@ -77,7 +87,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             if (StringUtils.isEmpty(namespace)) {
                 throw new IllegalArgumentException("The namespaces list must not contain empty strings");
             }
-            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, resyncPeriodMillis, new Cache<>()));
+            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, new Cache<>()));
         });
 
         return informerList;
@@ -87,6 +97,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
         String namespace,
+        String labelSelector,
         long resyncPeriodMillis,
         Cache<ApiType> cache) {
 
@@ -96,7 +107,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
                 apiTypeClass + " and namespace=" + namespace);
         }
 
-        InformerApiCall<ApiType> informerApiCall = informerApiCallFactory.createInformerApiCall(apiTypeClass, namespace);
+        InformerApiCall<ApiType> informerApiCall = informerApiCallFactory.createInformerApiCall(apiTypeClass, namespace, labelSelector);
 
         DefaultSharedIndexInformer<ApiType> informer = new DefaultSharedIndexInformer<>(
             apiTypeClass,

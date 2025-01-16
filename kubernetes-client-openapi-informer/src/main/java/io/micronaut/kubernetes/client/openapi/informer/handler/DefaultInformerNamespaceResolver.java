@@ -70,6 +70,7 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
         if (namespacesSupplier.isPresent()) {
             Class<? extends Supplier<String[]>> namespaceSupplierClass = (Class<? extends Supplier<String[]>>) namespacesSupplier.get();
             if (!Objects.equals(namespaceSupplierClass, EmptyNamespacesSupplier.class)) {
+                LOG.trace("Found [{}] namespaces supplier in @Informer's 'namespacesSupplier' value", namespaceSupplierClass);
                 Supplier<String[]> supplierBean = beanContext.getBean(namespaceSupplierClass);
                 String[] suppliedNamespaces = supplierBean.get();
                 if (LOG.isTraceEnabled()) {

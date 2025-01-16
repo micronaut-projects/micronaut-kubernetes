@@ -15,24 +15,16 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.handler;
 
-import io.micronaut.context.annotation.DefaultImplementation;
-import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.util.StringUtils;
 
-import java.util.Set;
+import java.util.function.Supplier;
 
 /**
- * Informer namespace resolver.
+ * Default label supplier for the {@link Informer#labelSelectorSupplier()} that returns empty string.
  */
-@DefaultImplementation(DefaultInformerNamespaceResolver.class)
-interface InformerNamespaceResolver {
-
-    /**
-     * Resolves the namespaces for the informer's watched resources.
-     *
-     * @param annotationValue the informer annotation value
-     * @return set of namespaces
-     */
-    @NonNull
-    Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> annotationValue);
+final class EmptyLabelSupplier implements Supplier<String> {
+    @Override
+    public String get() {
+        return StringUtils.EMPTY_STRING;
+    }
 }

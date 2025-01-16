@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.type.Argument;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
@@ -43,21 +45,24 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
 
     private final String namespace;
 
-    InformerApiCall(ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod,
-                    Object listBean,
-                    ExecutableMethod<Object, Flux<WatchEvent<ApiType>>> watchExecMethod,
-                    Object watchBean,
-                    String namespace) {
+    InformerApiCall(@NonNull ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod,
+                    @NonNull Object listBean,
+                    @NonNull ExecutableMethod<Object, Flux<WatchEvent<ApiType>>> watchExecMethod,
+                    @NonNull Object watchBean,
+                    @Nullable String namespace,
+                    @Nullable String labelSelector) {
         this.listExecMethod = listExecMethod;
         this.listBean = listBean;
         listParamHolder = new ParamHolder(listExecMethod.getArguments());
         listParamHolder.setValue("namespace", namespace);
+        listParamHolder.setValue("labelSelector", labelSelector);
         listParamHolder.setValue("watch", false);
 
         this.watchExecMethod = watchExecMethod;
         this.watchBean = watchBean;
         watchParamHolder = new ParamHolder(watchExecMethod.getArguments());
         watchParamHolder.setValue("namespace", namespace);
+        watchParamHolder.setValue("labelSelector", labelSelector);
         watchParamHolder.setValue("watch", true);
 
         this.namespace = namespace;

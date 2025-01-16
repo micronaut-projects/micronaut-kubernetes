@@ -77,4 +77,20 @@ public @interface Informer {
      * @return resync check period, if 0L returned then default minimal resync interval is used
      */
     long resyncCheckPeriod() default 0L;
+
+    /**
+     * Informer label selector.
+     *
+     * @return label selector
+     * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
+     */
+    String labelSelector() default "";
+
+    /**
+     * Informer label selector supplier.
+     *
+     * @return label selector supplier
+     * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
+     */
+    Class<? extends Supplier<String>> labelSelectorSupplier() default EmptyLabelSupplier.class;
 }

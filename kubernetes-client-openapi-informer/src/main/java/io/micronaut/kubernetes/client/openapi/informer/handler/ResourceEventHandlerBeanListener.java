@@ -42,12 +42,15 @@ final class ResourceEventHandlerBeanListener<ApiType extends KubernetesObject> i
 
     private final SharedIndexInformerFactory sharedIndexInformerFactory;
     private final InformerNamespaceResolver informerNamespaceResolver;
+    private final InformerLabelSelectorResolver labelSelectorResolver;
 
     ResourceEventHandlerBeanListener(
         SharedIndexInformerFactory sharedIndexInformerFactory,
-        InformerNamespaceResolver informerNamespaceResolver) {
+        InformerNamespaceResolver informerNamespaceResolver,
+        InformerLabelSelectorResolver labelSelectorResolver) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
         this.informerNamespaceResolver = informerNamespaceResolver;
+        this.labelSelectorResolver = labelSelectorResolver;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
@@ -60,12 +63,13 @@ final class ResourceEventHandlerBeanListener<ApiType extends KubernetesObject> i
             Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
                 .orElseThrow(() -> new NullPointerException("The apiType parameter of @Informer is required."));
             Set<String> namespaces = informerNamespaceResolver.resolveInformerNamespaces(annotationValue);
+            String labelSelector = labelSelectorResolver.resolveInformerLabels(annotationValue);
             long resyncCheckPeriod = annotationValue.longValue("resyncCheckPeriod").orElse(0L);
             if (CollectionUtils.isEmpty(namespaces)) {
-                sharedIndexInformerFactory.sharedIndexInformerFor(apiType, null, resyncCheckPeriod)
+                sharedIndexInformerFactory.sharedIndexInformerFor(apiType, null, labelSelector, resyncCheckPeriod)
                     .addEventHandler(eventHandler);
             } else {
-                sharedIndexInformerFactory.sharedIndexInformersFor(apiType, new ArrayList<>(namespaces), resyncCheckPeriod)
+                sharedIndexInformerFactory.sharedIndexInformersFor(apiType, new ArrayList<>(namespaces), labelSelector, resyncCheckPeriod)
                     .forEach(informer -> informer.addEventHandler(eventHandler));
             }
         }

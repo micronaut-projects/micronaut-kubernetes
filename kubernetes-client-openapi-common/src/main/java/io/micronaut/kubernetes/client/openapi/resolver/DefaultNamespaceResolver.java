@@ -39,6 +39,7 @@ import java.nio.file.Paths;
 @Singleton
 @BootstrapContextCompatible
 @Requires(env = Environment.KUBERNETES)
+@Requires(beans = KubernetesClientConfiguration.class)
 final class DefaultNamespaceResolver implements NamespaceResolver {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultNamespaceResolver.class);
