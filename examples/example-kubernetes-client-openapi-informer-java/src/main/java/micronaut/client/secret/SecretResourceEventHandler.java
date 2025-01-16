@@ -1,8 +1,8 @@
 package micronaut.client.secret;
 
 import io.micronaut.context.annotation.Context;
-import io.micronaut.kubernetes.client.openapi.informer.Informer;
-import io.micronaut.kubernetes.client.openapi.informer.ResourceEventHandler;
+import io.micronaut.kubernetes.client.openapi.informer.handler.Informer;
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

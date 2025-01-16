@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

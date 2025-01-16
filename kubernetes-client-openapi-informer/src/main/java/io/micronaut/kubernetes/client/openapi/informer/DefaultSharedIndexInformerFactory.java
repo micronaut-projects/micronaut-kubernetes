@@ -17,12 +17,15 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import jakarta.inject.Singleton;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -40,7 +43,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     private final InformerApiCallFactory informerApiCallFactory;
     private final ThreadFactory threadFactory;
     private final ExecutorService informerExecutor;
-    private final Map<InformerKey, SharedIndexInformer> informers = new HashMap<>();
+    private final Map<InformerKey, SharedIndexInformer> informers = new ConcurrentHashMap<>();
 
     DefaultSharedIndexInformerFactory(InformerApiCallFactory informerApiCallFactory, ThreadFactory threadFactory) {
         this.informerApiCallFactory = informerApiCallFactory;
@@ -61,6 +64,23 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         String namespace,
         long resyncPeriodMillis) {
         return sharedIndexInformerFor(apiTypeClass, namespace, resyncPeriodMillis, new Cache<>());
+    }
+
+    @Override
+    public <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
+        Class<ApiType> apiTypeClass,
+        List<String> namespaces,
+        long resyncPeriodMillis) {
+
+        List<SharedIndexInformer<ApiType>> informerList = new ArrayList<>(namespaces.size());
+        namespaces.forEach(namespace -> {
+            if (StringUtils.isEmpty(namespace)) {
+                throw new IllegalArgumentException("The namespaces list must not contain empty strings");
+            }
+            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, resyncPeriodMillis, new Cache<>()));
+        });
+
+        return informerList;
     }
 
     @Override

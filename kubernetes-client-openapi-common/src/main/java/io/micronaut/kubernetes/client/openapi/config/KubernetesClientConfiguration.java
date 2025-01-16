@@ -39,6 +39,8 @@ public class KubernetesClientConfiguration implements Toggleable {
 
     private boolean enabled = true;
 
+    private String namespace;
+
     private ServiceAccount serviceAccount = new ServiceAccount();
 
     /**
@@ -79,6 +81,24 @@ public class KubernetesClientConfiguration implements Toggleable {
     }
 
     /**
+     * Kubernetes client namespace.
+     *
+     * @return kubernetes client namespace
+     */
+    public String getNamespace() {
+        return namespace;
+    }
+
+    /**
+     * Sets kubernetes client namespace.
+     *
+     * @param namespace the kubernetes client namespace
+     */
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
+    /**
      * Service account authentication configuration.
      *
      * @return service account authentication configuration
@@ -104,10 +124,12 @@ public class KubernetesClientConfiguration implements Toggleable {
         private static final String SERVICE_ACCOUNT_DIR = "file:/var/run/secrets/kubernetes.io/serviceaccount/";
         private static final String CA_PATH = SERVICE_ACCOUNT_DIR + "ca.crt";
         private static final String TOKEN_PATH = SERVICE_ACCOUNT_DIR + "token";
+        private static final String NAMESPACE_PATH = SERVICE_ACCOUNT_DIR + "namespace";
 
         private boolean enabled = true;
         private String certificateAuthorityPath = CA_PATH;
         private String tokenPath = TOKEN_PATH;
+        private String namespacePath = NAMESPACE_PATH;
         private Duration tokenReloadInterval = Duration.ofSeconds(60);
 
         /**
@@ -162,6 +184,24 @@ public class KubernetesClientConfiguration implements Toggleable {
          */
         public void setTokenPath(String tokenPath) {
             this.tokenPath = tokenPath;
+        }
+
+        /**
+         * Path to the namespace file. Default: {@code file:/var/run/secrets/kubernetes.io/serviceaccount/namespace}.
+         *
+         * @return path to the namespace file
+         */
+        public String getNamespacePath() {
+            return namespacePath;
+        }
+
+        /**
+         * Sets path to the namespace file.
+         *
+         * @param namespacePath path to the namespace file
+         */
+        public void setNamespacePath(String namespacePath) {
+            this.namespacePath = namespacePath;
         }
 
         /**

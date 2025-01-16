@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 
 /**
  * Defines basic methods of an informer.
@@ -58,6 +59,8 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
 
     /**
      * Returns true if the shared informer's store has been synced after informer started.
+     *
+     * @return true if the shared informer's store has been synced after informer started
      */
     boolean hasSynced();
 

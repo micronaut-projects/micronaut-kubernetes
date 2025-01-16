@@ -19,6 +19,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

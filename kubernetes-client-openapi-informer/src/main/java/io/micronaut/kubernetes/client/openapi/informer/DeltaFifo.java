@@ -44,7 +44,7 @@ import java.util.function.Function;
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/DeltaFIFO.java">DeltaFIFO</a>
  * </p>
  */
-class DeltaFifo {
+final class DeltaFifo {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeltaFifo.class);
 
@@ -67,7 +67,7 @@ class DeltaFifo {
     // initialPopulationCount is the number of items inserted by the first call of Replace()
     private int initialPopulationCount;
 
-    /** lock provides thread safety * */
+    // lock provides thread safety
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     private final Condition notEmpty;

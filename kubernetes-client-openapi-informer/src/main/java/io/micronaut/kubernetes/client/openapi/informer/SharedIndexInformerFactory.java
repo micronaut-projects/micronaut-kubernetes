@@ -19,6 +19,8 @@ import io.micronaut.core.annotation.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 
+import java.util.List;
+
 /**
  * Informer factory interface.
  */
@@ -28,8 +30,9 @@ public interface SharedIndexInformerFactory {
      * Creates a new {@link SharedIndexInformer}.
      *
      * @param apiTypeClass the api type class
-     * @param namespace    the namespace
-     * @param <ApiType>    api type
+     * @param namespace    the namespace should be set to {@code null} for cluster-wide objects (e.g. V1Node) or
+     *                     for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces
+     * @param <ApiType>    kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
@@ -40,9 +43,10 @@ public interface SharedIndexInformerFactory {
      * Creates a new {@link SharedIndexInformer}.
      *
      * @param apiTypeClass       the api type class
-     * @param namespace          the namespace
-     * @param resyncPeriodMillis the resync period
-     * @param <ApiType>          api type
+     * @param namespace          the namespace should be set to {@code null} for cluster-wide objects (e.g. V1Node) or
+     *                           for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces
+     * @param resyncPeriodMillis the resync period in milliseconds
+     * @param <ApiType>          kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
@@ -54,8 +58,9 @@ public interface SharedIndexInformerFactory {
      * Creates a new {@link SharedIndexInformer}.
      *
      * @param apiTypeClass       the api type class
-     * @param namespace          the namespace
-     * @param resyncPeriodMillis the resync period
+     * @param namespace          the namespace should be set to {@code null} for cluster-wide objects (e.g. V1Node) or
+     *                           for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces
+     * @param resyncPeriodMillis the resync period in milliseconds
      * @param cache              the cache
      * @param <ApiType>          api type
      * @return instance of {@link SharedIndexInformer}
@@ -65,6 +70,20 @@ public interface SharedIndexInformerFactory {
         @Nullable String namespace,
         long resyncPeriodMillis,
         Cache<ApiType> cache);
+
+    /**
+     * Creates a new {@link SharedIndexInformer} for each namespace.
+     *
+     * @param apiTypeClass       the api type class
+     * @param namespaces         the list of namespaces
+     * @param resyncPeriodMillis the resync period
+     * @param <ApiType>          kubernetes api type
+     * @return list of {@link SharedIndexInformer} instances. The order of informers in the returned list matches the order of namespaces in the input namespace list.
+     */
+    <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
+        Class<ApiType> apiTypeClass,
+        List<String> namespaces,
+        long resyncPeriodMillis);
 
     /**
      * Returns already created {@link SharedIndexInformer}.

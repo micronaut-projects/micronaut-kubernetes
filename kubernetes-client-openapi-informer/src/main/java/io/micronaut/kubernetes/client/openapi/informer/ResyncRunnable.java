@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 /**
  * Runnable which resync the object cache if required by listeners.
  */
-class ResyncRunnable implements Runnable {
+final class ResyncRunnable implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(ResyncRunnable.class);
 

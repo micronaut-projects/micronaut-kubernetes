@@ -13,15 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.informer;
+package io.micronaut.kubernetes.client.openapi.informer.handler;
 
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.event.BeanCreatedEvent;
 import io.micronaut.context.event.BeanCreatedEventListener;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * BeanCreatedEventListener for the {@link ResourceEventHandler} beans annotated by {@link Informer} annotation that
@@ -35,24 +41,34 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 final class ResourceEventHandlerBeanListener<ApiType extends KubernetesObject> implements BeanCreatedEventListener<ResourceEventHandler<ApiType>> {
 
     private final SharedIndexInformerFactory sharedIndexInformerFactory;
+    private final InformerNamespaceResolver informerNamespaceResolver;
 
-    ResourceEventHandlerBeanListener(SharedIndexInformerFactory sharedIndexInformerFactory) {
+    ResourceEventHandlerBeanListener(
+        SharedIndexInformerFactory sharedIndexInformerFactory,
+        InformerNamespaceResolver informerNamespaceResolver) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
+        this.informerNamespaceResolver = informerNamespaceResolver;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public ResourceEventHandler<ApiType> onCreated(BeanCreatedEvent<ResourceEventHandler<ApiType>> event) {
         BeanDefinition<ResourceEventHandler<ApiType>> beanDefinition = event.getBeanDefinition();
+        ResourceEventHandler eventHandler = event.getBean();
         if (beanDefinition.hasAnnotation(Informer.class)) {
             AnnotationValue<Informer> annotationValue = beanDefinition.getAnnotation(Informer.class);
             Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
                 .orElseThrow(() -> new NullPointerException("The apiType parameter of @Informer is required."));
-            String namespace = annotationValue.stringValue("namespace").orElse(null);
+            Set<String> namespaces = informerNamespaceResolver.resolveInformerNamespaces(annotationValue);
             long resyncCheckPeriod = annotationValue.longValue("resyncCheckPeriod").orElse(0L);
-            SharedIndexInformer sharedIndexInformer = sharedIndexInformerFactory.sharedIndexInformerFor(apiType, namespace, resyncCheckPeriod);
-            sharedIndexInformer.addEventHandler(event.getBean());
+            if (CollectionUtils.isEmpty(namespaces)) {
+                sharedIndexInformerFactory.sharedIndexInformerFor(apiType, null, resyncCheckPeriod)
+                    .addEventHandler(eventHandler);
+            } else {
+                sharedIndexInformerFactory.sharedIndexInformersFor(apiType, new ArrayList<>(namespaces), resyncCheckPeriod)
+                    .forEach(informer -> informer.addEventHandler(eventHandler));
+            }
         }
-        return event.getBean();
+        return eventHandler;
     }
 }

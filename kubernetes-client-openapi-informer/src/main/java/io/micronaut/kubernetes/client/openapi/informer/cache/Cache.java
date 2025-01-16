@@ -40,7 +40,7 @@ import java.util.function.Function;
  *
  * @param <ApiType> kubernetes api type
  */
-public class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType> {
+public final class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType> {
 
     public static final String DEFAULT_INDEX_NAME = "namespace";
     public static final String DEFAULT_GLOBAL_INDEX_KEY = "global";

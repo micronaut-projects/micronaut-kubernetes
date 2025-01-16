@@ -1,9 +1,9 @@
 package micronaut.client.configmap;
 
 import io.micronaut.context.annotation.Context;
-import io.micronaut.kubernetes.client.openapi.informer.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
