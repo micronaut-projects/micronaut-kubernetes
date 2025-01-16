@@ -84,7 +84,8 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
         if (namespace.equals(Informer.RESOLVE_AUTOMATICALLY)) {
             if (namespaces.isEmpty()) {
                 if (namespaceResolver == null) {
-                    throw new IllegalStateException("Namespace not found in @Informer's members and namespace resolver not found");
+                    throw new IllegalStateException("The @Informer's namespace value is set to " + Informer.RESOLVE_AUTOMATICALLY +
+                        " but namespace resolver not found");
                 } else {
                     String resolvedNamespace = namespaceResolver.resolveNamespace();
                     LOG.trace("No namespace resolved from @Informer's members, using: {}", resolvedNamespace);

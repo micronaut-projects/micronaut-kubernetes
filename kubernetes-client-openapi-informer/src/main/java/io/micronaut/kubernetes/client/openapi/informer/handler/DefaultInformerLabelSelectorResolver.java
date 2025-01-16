@@ -49,6 +49,9 @@ final class DefaultInformerLabelSelectorResolver implements InformerLabelSelecto
     public String resolveInformerLabels(@NonNull AnnotationValue<Informer> annotationValue) {
         String labelSelector = null;
 
+        Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
+            .orElseThrow(() -> new NullPointerException("The apiType parameter of @Informer is required."));
+
         Optional<String> labelSelectorOptional = annotationValue.stringValue("labelSelector");
         if (labelSelectorOptional.isPresent() && StringUtils.isNotEmpty(labelSelectorOptional.get())) {
             labelSelector = labelSelectorOptional.get();
@@ -66,12 +69,7 @@ final class DefaultInformerLabelSelectorResolver implements InformerLabelSelecto
                 labelSelector = labelSelector == null ? labelSelectorSupplierLabels : labelSelector + "," + labelSelectorSupplierLabels;
             }
         }
-
-        if (LOG.isInfoEnabled()) {
-            Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
-                .orElseThrow(() -> new NullPointerException("The apiType parameter of @Informer is required."));
-            LOG.info("Resolved informer labelSelector for apiType={}: {}", apiType, labelSelector);
-        }
+        LOG.info("Resolved informer labelSelector for apiType={}: {}", apiType, labelSelector);
         return labelSelector;
     }
 }
