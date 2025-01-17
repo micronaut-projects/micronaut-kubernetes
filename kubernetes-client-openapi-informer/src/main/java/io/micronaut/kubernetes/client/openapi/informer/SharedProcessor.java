@@ -116,4 +116,9 @@ final class SharedProcessor<ApiType extends KubernetesObject> {
         }
         return resyncNeeded;
     }
+
+    // visible for testing
+    List<ProcessorListener<ApiType>> getListeners() {
+        return listeners;
+    }
 }

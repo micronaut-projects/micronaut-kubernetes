@@ -85,7 +85,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
         resyncCheckPeriodMillis = resyncPeriodMillis > 0 && resyncPeriodMillis < MINIMUM_RESYNC_PERIOD_MILLIS
             ? MINIMUM_RESYNC_PERIOD_MILLIS
             : resyncPeriodMillis;
-        defaultEventHandlerResyncPeriodMillis = resyncPeriodMillis;
+        defaultEventHandlerResyncPeriodMillis = resyncCheckPeriodMillis;
         resyncExecutor = resyncCheckPeriodMillis > 0 ? Executors.newSingleThreadScheduledExecutor(threadFactory) : null;
     }
 
@@ -187,5 +187,10 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
             throw new IllegalStateException("Cannot set transform func to a running informer");
         }
         this.transformFunc = transformFunc;
+    }
+
+    // visible for testing
+    SharedProcessor<ApiType> getProcessor() {
+        return processor;
     }
 }

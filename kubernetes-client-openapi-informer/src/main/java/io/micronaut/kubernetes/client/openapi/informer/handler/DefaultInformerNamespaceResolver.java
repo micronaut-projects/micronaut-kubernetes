@@ -25,6 +25,7 @@ import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -60,21 +61,24 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
 
         Optional<String[]> optionalNamespaces = annotationValue.get("namespaces", String[].class);
         if (optionalNamespaces.isPresent()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Found [{}] namespaces in @Informer's 'namespaces' value", String.join(",", optionalNamespaces.get()));
+            String[] namespaceArray = optionalNamespaces.get();
+            if (namespaceArray.length > 0) {
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace("Found {} namespaces in @Informer's 'namespaces' value", Arrays.toString(namespaceArray));
+                }
+                Collections.addAll(namespaces, namespaceArray);
             }
-            Collections.addAll(namespaces, optionalNamespaces.get());
         }
 
         Optional<Class<? extends Supplier>> namespacesSupplier = annotationValue.classValue("namespacesSupplier", Supplier.class);
         if (namespacesSupplier.isPresent()) {
             Class<? extends Supplier<String[]>> namespaceSupplierClass = (Class<? extends Supplier<String[]>>) namespacesSupplier.get();
             if (!Objects.equals(namespaceSupplierClass, EmptyNamespacesSupplier.class)) {
-                LOG.trace("Found [{}] namespaces supplier in @Informer's 'namespacesSupplier' value", namespaceSupplierClass);
+                LOG.trace("Found [{}] namespaces supplier in @Informer's 'namespacesSupplier' value", namespaceSupplierClass.getName());
                 Supplier<String[]> supplierBean = beanContext.getBean(namespaceSupplierClass);
                 String[] suppliedNamespaces = supplierBean.get();
                 if (LOG.isTraceEnabled()) {
-                    LOG.trace("Found [{}] namespaces using @Informer's 'namespacesSupplier' value", String.join(",", suppliedNamespaces));
+                    LOG.trace("Found {} namespaces using @Informer's 'namespacesSupplier' value", Arrays.toString(suppliedNamespaces));
                 }
                 Collections.addAll(namespaces, suppliedNamespaces);
             }
@@ -98,11 +102,11 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
         }
 
         if (namespaces.contains(Informer.ALL_NAMESPACES)) {
-            LOG.info("Resolved informer namespaces for apiType={}: {}", apiType, Informer.ALL_NAMESPACES);
+            LOG.info("Resolved {} for apiType={}", Informer.ALL_NAMESPACES, apiType);
             return Collections.emptySet();
 
         }
-        LOG.info("Resolved informer namespaces for apiType={}: {}", apiType, namespaces);
+        LOG.info("Resolved {} namespaces for apiType={}", namespaces, apiType);
         return namespaces;
     }
 }

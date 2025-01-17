@@ -105,6 +105,11 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
         return resyncPeriodInMillis != 0 && (now.isAfter(nextResync) || now.equals(nextResync));
     }
 
+    // visible for testing
+    long getResyncPeriodInMillis() {
+        return resyncPeriodInMillis;
+    }
+
     interface Notification {
     }
 

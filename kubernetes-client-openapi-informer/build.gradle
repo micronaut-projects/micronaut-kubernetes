@@ -12,4 +12,6 @@ dependencies {
     api(projects.micronautKubernetesClientOpenapiReactor)
     api(projects.micronautKubernetesClientOpenapiWatcher)
     implementation(mn.micronaut.http.client)
+
+    testImplementation(libs.testcontainers.k3s)
 }

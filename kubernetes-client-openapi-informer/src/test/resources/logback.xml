@@ -4,7 +4,7 @@
             <pattern>%d{HH:mm:ss.SSS} %gray([core]) [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="io.micronaut.kubernetes.client.openapi.informer.InformerWatcher" level="DEBUG"/>
+    <logger name="io.micronaut.kubernetes.client.openapi.informer.InformerSpecK3S" level="WARN"/>
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>

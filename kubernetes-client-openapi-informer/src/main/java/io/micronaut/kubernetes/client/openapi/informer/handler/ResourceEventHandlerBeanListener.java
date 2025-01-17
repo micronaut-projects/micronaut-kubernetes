@@ -16,13 +16,15 @@
 package io.micronaut.kubernetes.client.openapi.informer.handler;
 
 import io.micronaut.context.annotation.Context;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.event.BeanCreatedEvent;
 import io.micronaut.context.event.BeanCreatedEventListener;
 import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.informer.InformerConfiguration;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 
@@ -37,7 +39,7 @@ import java.util.Set;
  * @param <ApiType> kubernetes api type
  */
 @Context
-@Internal
+@Requires(property = InformerConfiguration.PREFIX + ".enabled", value = StringUtils.TRUE, defaultValue = StringUtils.TRUE)
 final class ResourceEventHandlerBeanListener<ApiType extends KubernetesObject> implements BeanCreatedEventListener<ResourceEventHandler<ApiType>> {
 
     private final SharedIndexInformerFactory sharedIndexInformerFactory;

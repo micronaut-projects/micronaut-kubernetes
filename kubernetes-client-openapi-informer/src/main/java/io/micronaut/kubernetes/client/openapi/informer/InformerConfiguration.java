@@ -16,13 +16,15 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.Toggleable;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 
 /**
  * The informer configuration.
  */
+@Internal
 @ConfigurationProperties(InformerConfiguration.PREFIX)
-interface InformerConfiguration extends Toggleable {
+public interface InformerConfiguration extends Toggleable {
     String PREFIX = KubernetesClientConfiguration.PREFIX + ".informer";
 }

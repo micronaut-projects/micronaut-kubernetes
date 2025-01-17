@@ -62,14 +62,14 @@ final class DefaultInformerLabelSelectorResolver implements InformerLabelSelecto
         if (labelSelectorSupplier.isPresent()) {
             Class<? extends Supplier<String>> selectorSupplierClass = (Class<? extends Supplier<String>>) labelSelectorSupplier.get();
             if (!Objects.equals(selectorSupplierClass, EmptyLabelSupplier.class)) {
-                LOG.trace("Found [{}] label selector supplier in @Informer's 'labelSelectorSupplier' value", selectorSupplierClass);
+                LOG.trace("Found [{}] label selector supplier in @Informer's 'labelSelectorSupplier' value", selectorSupplierClass.getName());
                 Supplier<String> supplierBean = beanContext.getBean(selectorSupplierClass);
                 String labelSelectorSupplierLabels = supplierBean.get();
                 LOG.trace("Found [{}] label selector using label selector supplier", labelSelectorSupplierLabels);
                 labelSelector = labelSelector == null ? labelSelectorSupplierLabels : labelSelector + "," + labelSelectorSupplierLabels;
             }
         }
-        LOG.info("Resolved informer labelSelector for apiType={}: {}", apiType, labelSelector);
+        LOG.info("Resolved [{}] label selector for apiType={}", labelSelector, apiType);
         return labelSelector;
     }
 }

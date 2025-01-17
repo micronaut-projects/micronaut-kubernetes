@@ -113,7 +113,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         InformerKey<ApiType> informerKey = new InformerKey<>(apiTypeClass, namespace);
         if (informers.containsKey(informerKey)) {
             throw new IllegalStateException("Informer has been already created for apiTypeClass=" +
-                apiTypeClass + " and namespace=" + namespace);
+                apiTypeClass.getName() + " and namespace=" + namespace);
         }
 
         InformerApiCall<ApiType> informerApiCall = informerApiCallFactory.createInformerApiCall(apiTypeClass, namespace, labelSelector);
