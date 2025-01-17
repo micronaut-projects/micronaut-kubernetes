@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.resolver;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import jakarta.inject.Singleton;
@@ -25,8 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.util.Optional;
 
 /**
  * Default implementation of {@link NamespaceResolver}. The resolution of namespace is evaluated in this order:
@@ -48,17 +49,22 @@ final class DefaultNamespaceResolver implements NamespaceResolver {
 
     private final String namespace;
 
-    DefaultNamespaceResolver(KubernetesClientConfiguration kubernetesClientConfiguration) {
+    DefaultNamespaceResolver(ResourceResolver resourceResolver, KubernetesClientConfiguration kubernetesClientConfiguration) {
         String resolvedNamespace = kubernetesClientConfiguration.getNamespace();
         if (StringUtils.isEmpty(resolvedNamespace)) {
             String namespacePath = kubernetesClientConfiguration.getServiceAccount().getNamespacePath();
-            namespacePath = namespacePath.startsWith("file:") ? namespacePath.substring(5) : namespacePath;
             LOG.debug("Trying to read the namespace from the file: {}", namespacePath);
-            try {
-                resolvedNamespace = Files.readString(Paths.get(namespacePath));
-                LOG.debug("Namespace: {}", resolvedNamespace);
-            } catch (IOException e) {
-                LOG.warn("An error has occurred when reading the file: {}. Kubernetes namespace will be set to: {}", namespacePath, DEFAULT_NAMESPACE);
+            Optional<InputStream> inputStreamOpt = resourceResolver.getResourceAsStream(namespacePath);
+            if (inputStreamOpt.isPresent()) {
+                InputStream inputStream = inputStreamOpt.get();
+                try {
+                    resolvedNamespace = new String(inputStream.readAllBytes());
+                } catch (IOException e) {
+                    LOG.error("Failed to read the namespace file: {}. Kubernetes namespace will be set to: {}", namespacePath, DEFAULT_NAMESPACE);
+                    resolvedNamespace = DEFAULT_NAMESPACE;
+                }
+            } else {
+                LOG.info("The namespace file not found: {}. Kubernetes namespace will be set to: {}", namespacePath, DEFAULT_NAMESPACE);
                 resolvedNamespace = DEFAULT_NAMESPACE;
             }
         }
