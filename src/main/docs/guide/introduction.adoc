@@ -1,10 +1,13 @@
-This project eases https://kubernetes.io[Kubernetes] integration with Micronaut.
+This project eases https://kubernetes.io[Kubernetes] integration with Micronaut by providing the following two different implementation of kubernetes client:
 
-It adds support for the following features:
+* `micronaut-kubernetes-client` module provides an implementation which integrates with the official https://github.com/kubernetes-client/java[Kubernetes Java SDK] client
+* `micronaut-kubernetes-client-openapi` module provides an in-house client implementation which uses Micronaut Netty HTTP Client and generated apis and modules from the Kubernetes Java SDK https://github.com/kubernetes-client/java/blob/master/kubernetes/api/openapi.yaml[OpenApi Spec]
 
-* Service Discovery.
-* Configuration client for config maps and secrets.
-* Kubernetes blocking and non-blocking clients built on top of official Kubernetes Java SDK
+The project adds support for the following features:
+
+* Service Discovery (currently supported only by `micronaut-kubernetes-client`)
+* Configuration client for config maps and secrets (currently supported only by `micronaut-kubernetes-client`)
+* Kubernetes blocking and non-blocking clients (supported by both `micronaut-kubernetes-client` and `micronaut-kubernetes-client-openapi`)
 
 To use the `BUILD-SNAPSHOT` version of this library, check the
 https://docs.micronaut.io/latest/guide/index.html#usingsnapshots[documentation to use snapshots].

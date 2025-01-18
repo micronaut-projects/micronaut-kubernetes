@@ -1,0 +1,6 @@
+The Micronaut Kubernetes Client OpenApi Informer implements the Kubernetes Informer feature.
+It is built on top of Micronaut Kubernetes Client OpenApi Watcher and provides an internal cache of watched kubernetes objects.
+
+First you need to add a dependency on the `micronaut-kubernetes-client-openapi-informer` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-informer[]

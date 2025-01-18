@@ -14,7 +14,7 @@ The client comes in two flavors:
 
 The `micronaut-kubernetes-client-openapi-common` module contains code that is shared between both above mentioned clients.
 
-.Blocking Client
+### Blocking Client
 
 First you need to add a dependency on the `micronaut-kubernetes-client-openapi` module:
 
@@ -24,7 +24,7 @@ Then you can simply use Micronaut injection to get configured apis object from p
 
 snippet::micronaut.client.PodController[project-base="examples/example-kubernetes-client-openapi", source="main"]
 
-.Reactive Client
+### Reactive Client
 
 First you need to add a dependency on the `micronaut-kubernetes-client-openapi-reactor` module:
 
