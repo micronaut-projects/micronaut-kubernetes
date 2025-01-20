@@ -207,7 +207,7 @@ class DefaultInformerNamespaceResolverSpec extends Specification {
     private static final class SimpleNamespacesSupplier1 implements Supplier<String[]> {
         @Override
         String[] get() {
-            return new String[] {'namespace4'};
+            return new String[] {'namespace4'}
         }
     }
 
@@ -221,7 +221,7 @@ class DefaultInformerNamespaceResolverSpec extends Specification {
     private static final class SimpleNamespacesSupplier2 implements Supplier<String[]> {
         @Override
         String[] get() {
-            return new String[] {'namespace4'};
+            return new String[] {'namespace4'}
         }
     }
 

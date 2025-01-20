@@ -72,15 +72,12 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
     }
 
     private void resolveFromNamespacesAttribute(AnnotationValue<Informer> annotationValue, Set<String> namespaces) {
-        Optional<String[]> optionalNamespaces = annotationValue.get("namespaces", String[].class);
-        if (optionalNamespaces.isPresent()) {
-            String[] namespaceArray = optionalNamespaces.get();
-            if (namespaceArray.length > 0) {
-                if (LOG.isTraceEnabled()) {
-                    LOG.trace("Found {} namespaces in @Informer's 'namespaces' value", Arrays.toString(namespaceArray));
-                }
-                Collections.addAll(namespaces, namespaceArray);
+        String[] namespaceArray = annotationValue.stringValues("namespaces");
+        if (namespaceArray.length > 0) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Found {} namespaces in @Informer's 'namespaces' value", Arrays.toString(namespaceArray));
             }
+            Collections.addAll(namespaces, namespaceArray);
         }
     }
 
@@ -102,7 +99,7 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
     }
 
     private void resolveFromNamespaceAttribute(AnnotationValue<Informer> annotationValue, Set<String> namespaces) {
-        String namespace = annotationValue.get("namespace", String.class).orElse(Informer.RESOLVE_AUTOMATICALLY);
+        String namespace = annotationValue.stringValue("namespace").orElse(Informer.RESOLVE_AUTOMATICALLY);
         if (namespace.equals(Informer.RESOLVE_AUTOMATICALLY)) {
             if (namespaces.isEmpty()) {
                 if (namespaceResolver == null) {

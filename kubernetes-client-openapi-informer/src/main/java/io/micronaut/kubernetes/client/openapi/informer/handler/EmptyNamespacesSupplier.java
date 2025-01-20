@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.handler;
 
+import io.micronaut.core.util.StringUtils;
+
 import java.util.function.Supplier;
 
 /**
@@ -23,6 +25,6 @@ import java.util.function.Supplier;
 final class EmptyNamespacesSupplier implements Supplier<String[]> {
     @Override
     public String[] get() {
-        return new String[0];
+        return StringUtils.EMPTY_STRING_ARRAY;
     }
 }
