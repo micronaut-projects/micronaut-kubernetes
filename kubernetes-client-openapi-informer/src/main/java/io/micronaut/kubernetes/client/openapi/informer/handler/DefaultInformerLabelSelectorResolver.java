@@ -69,7 +69,7 @@ final class DefaultInformerLabelSelectorResolver implements InformerLabelSelecto
                 labelSelector = labelSelector == null ? labelSelectorSupplierLabels : labelSelector + "," + labelSelectorSupplierLabels;
             }
         }
-        LOG.info("Resolved [{}] label selector for apiType={}", labelSelector, apiType);
+        LOG.debug("Resolved [{}] label selector for apiType={}", labelSelector, apiType);
         return labelSelector;
     }
 }

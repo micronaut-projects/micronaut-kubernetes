@@ -67,7 +67,7 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
             return Collections.emptySet();
 
         }
-        LOG.info("Resolved {} namespaces for apiType={}", namespaces, apiType);
+        LOG.debug("Resolved {} namespaces for apiType={}", namespaces, apiType);
         return namespaces;
     }
 
