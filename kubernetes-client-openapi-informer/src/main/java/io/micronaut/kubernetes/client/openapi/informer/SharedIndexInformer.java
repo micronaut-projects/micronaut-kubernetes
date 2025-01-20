@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 
@@ -35,5 +36,6 @@ public interface SharedIndexInformer<ApiType extends KubernetesObject> extends S
      *
      * @return the internal indexer store
      */
+    @NonNull
     Indexer<ApiType> getIndexer();
 }

@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.handler;
 
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 
 /**
@@ -29,9 +30,9 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
  */
 public interface ResourceEventHandler<ApiType extends KubernetesObject> {
 
-    void onAdd(ApiType obj);
+    void onAdd(@NonNull ApiType obj);
 
-    void onUpdate(ApiType oldObj, ApiType newObj);
+    void onUpdate(@NonNull ApiType oldObj, @NonNull ApiType newObj);
 
-    void onDelete(ApiType obj, boolean deletedFinalStateUnknown);
+    void onDelete(@NonNull ApiType obj, boolean deletedFinalStateUnknown);
 }

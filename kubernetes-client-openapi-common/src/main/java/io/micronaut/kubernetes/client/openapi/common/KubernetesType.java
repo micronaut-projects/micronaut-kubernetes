@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.common;
 
+import io.micronaut.core.annotation.Internal;
+
 /**
  * Equivalence to TypeMeta from kubernetes/client-go.
  *
@@ -27,6 +29,7 @@ package io.micronaut.kubernetes.client.openapi.common;
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/kubernetes/src/main/java/io/kubernetes/client/common/KubernetesType.java">KubernetesType</a>
  * </p>
  */
+@Internal
 public interface KubernetesType {
 
     /**

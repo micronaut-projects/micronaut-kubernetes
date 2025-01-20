@@ -15,6 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.cache;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+
 import java.util.List;
 import java.util.function.Function;
 
@@ -35,6 +38,7 @@ public interface Store<ApiType> {
      *
      * @return function which creates an object key
      */
+    @NonNull
     Function<ApiType, String> getKeyFunction();
 
     /**
@@ -42,34 +46,35 @@ public interface Store<ApiType> {
      *
      * @param obj specific obj
      */
-    void add(ApiType obj);
+    void add(@NonNull ApiType obj);
 
     /**
      * Sets an item in the store to its updated state.
      *
      * @param obj specific obj
      */
-    void update(ApiType obj);
+    void update(@NonNull ApiType obj);
 
     /**
      * Removes an item from the store.
      *
      * @param obj specific obj
      */
-    void delete(ApiType obj);
+    void delete(@NonNull ApiType obj);
 
     /**
      * Replace the content in the cache completely.
      *
      * @param objects list of kubernetes objects
      */
-    void replace(List<ApiType> objects);
+    void replace(@NonNull List<ApiType> objects);
 
     /**
      * Returns a list of keys of all objects that are currently in the store.
      *
      * @return list of all keys
      */
+    @NonNull
     List<String> listKeys();
 
     /**
@@ -78,12 +83,14 @@ public interface Store<ApiType> {
      * @param key specific key
      * @return the request item
      */
-    ApiType getByKey(String key);
+    @Nullable
+    ApiType getByKey(@NonNull String key);
 
     /**
      * Returns a list of all the items.
      *
      * @return list of all the items
      */
+    @NonNull
     List<ApiType> list();
 }

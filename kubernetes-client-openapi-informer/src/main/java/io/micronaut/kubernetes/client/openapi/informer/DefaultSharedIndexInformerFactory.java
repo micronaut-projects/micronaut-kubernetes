@@ -30,6 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.function.Function;
 
 /**
  * Default implementation of {@link SharedIndexInformerFactory}.
@@ -73,7 +74,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         String namespace,
         String labelSelector,
         long resyncPeriodMillis) {
-        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null);
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null, null);
     }
 
     @Override
@@ -92,7 +93,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             if (StringUtils.isEmpty(namespace)) {
                 throw new IllegalArgumentException("The namespaces list must not contain empty strings");
             }
-            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null));
+            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null, null));
         });
 
         return informerList;
@@ -104,7 +105,8 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         String namespace,
         String labelSelector,
         long resyncPeriodMillis,
-        Indexer<ApiType> indexer) {
+        Function<ApiType, String> cacheKeyFunction,
+        Map<String, Function<ApiType, List<String>>> cacheIndexFunctions) {
 
         if (apiTypeClass == null) {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
@@ -116,6 +118,8 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
                 apiTypeClass.getName() + " and namespace=" + namespace);
         }
 
+        Indexer<ApiType> indexer = new Cache<>(cacheKeyFunction, cacheIndexFunctions);
+
         InformerApiCall<ApiType> informerApiCall = informerApiCallFactory.createInformerApiCall(apiTypeClass, namespace, labelSelector);
 
         DefaultSharedIndexInformer<ApiType> informer = new DefaultSharedIndexInformer<>(
@@ -124,7 +128,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             threadFactory,
             informerApiCall,
             resyncPeriodMillis,
-            indexer == null ? new Cache<>() : indexer);
+            indexer);
         informers.put(informerKey, informer);
         return informer;
     }

@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 
@@ -35,7 +37,7 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      *
      * @param handler the handler
      */
-    void addEventHandler(ResourceEventHandler<ApiType> handler);
+    void addEventHandler(@NonNull ResourceEventHandler<ApiType> handler);
 
     /**
      * Adds an event handler to the shared informer using the specified resync period.
@@ -45,7 +47,7 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      * @param handler the event handler
      * @param resyncPeriod the specific resync period
      */
-    void addEventHandlerWithResyncPeriod(ResourceEventHandler<ApiType> handler, long resyncPeriod);
+    void addEventHandlerWithResyncPeriod(@NonNull ResourceEventHandler<ApiType> handler, long resyncPeriod);
 
     /**
      * Starts the shared informer, which won't be stopped until the stop method is called.
@@ -73,6 +75,7 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      *
      * @return the last sync resource version
      */
+    @Nullable
     String lastSyncResourceVersion();
 
     /**
@@ -88,5 +91,5 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      *
      * @param transformFunc the transform function
      */
-    void setTransform(TransformFunc transformFunc);
+    void setTransform(@NonNull TransformFunc transformFunc);
 }

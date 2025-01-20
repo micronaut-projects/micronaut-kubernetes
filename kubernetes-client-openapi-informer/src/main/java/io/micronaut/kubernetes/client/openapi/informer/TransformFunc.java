@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 
 /**
@@ -39,5 +40,6 @@ public interface TransformFunc {
      * @param object the original object to be transformed
      * @return the transformed object
      */
-    KubernetesObject transform(KubernetesObject object);
+    @NonNull
+    KubernetesObject transform(@NonNull KubernetesObject object);
 }

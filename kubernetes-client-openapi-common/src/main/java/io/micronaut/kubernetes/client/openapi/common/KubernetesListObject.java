@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.common;
 
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.model.V1ListMeta;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  * </p>
  */
 @SuppressWarnings("java:S1452")
+@Internal
 public interface KubernetesListObject extends KubernetesType {
 
     /**

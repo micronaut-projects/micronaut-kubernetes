@@ -18,9 +18,10 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Informer factory interface.
@@ -36,6 +37,7 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>    kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
+    @NonNull
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         @NonNull Class<ApiType> apiTypeClass,
         @Nullable String namespace);
@@ -50,6 +52,7 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>     kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
+    @NonNull
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         @NonNull Class<ApiType> apiTypeClass,
         @Nullable String namespace,
@@ -66,6 +69,7 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>          kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
+    @NonNull
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         @NonNull Class<ApiType> apiTypeClass,
         @Nullable String namespace,
@@ -75,21 +79,24 @@ public interface SharedIndexInformerFactory {
     /**
      * Creates a new {@link SharedIndexInformer}.
      *
-     * @param apiTypeClass       the api type class
-     * @param namespace          the namespace should be set to {@code null} for cluster-wide objects (e.g. V1Node) or
-     *                           for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces
-     * @param labelSelector      the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a>
-     * @param resyncPeriodMillis the resync period in milliseconds
-     * @param indexer            the indexer
-     * @param <ApiType>          api type
+     * @param apiTypeClass        the api type class
+     * @param namespace           the namespace should be set to {@code null} for cluster-wide objects (e.g. V1Node) or
+     *                            for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces
+     * @param labelSelector       the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a>
+     * @param resyncPeriodMillis  the resync period in milliseconds
+     * @param cacheKeyFunction    the function that is used to create cache key
+     * @param cacheIndexFunctions the map of functions used to create indexes
+     * @param <ApiType>           api type
      * @return instance of {@link SharedIndexInformer}
      */
+    @NonNull
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         @NonNull Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         long resyncPeriodMillis,
-        @Nullable Indexer<ApiType> indexer);
+        @Nullable Function<ApiType, String> cacheKeyFunction,
+        @Nullable Map<String, Function<ApiType, List<String>>> cacheIndexFunctions);
 
     /**
      * Creates a new {@link SharedIndexInformer} for each namespace.
@@ -101,6 +108,7 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>          kubernetes api type
      * @return list of {@link SharedIndexInformer} instances. The order of informers in the returned list matches the order of namespaces in the input namespace list.
      */
+    @NonNull
     <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
         @NonNull Class<ApiType> apiTypeClass,
         @NonNull List<String> namespaces,
@@ -115,6 +123,7 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>    api type
      * @return instance of {@link SharedIndexInformer}
      */
+    @Nullable
     <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
         @NonNull Class<ApiType> apiTypeClass,
         @Nullable String namespace);

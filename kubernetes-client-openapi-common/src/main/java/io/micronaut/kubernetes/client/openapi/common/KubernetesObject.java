@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.common;
 
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 
 /**
@@ -25,6 +26,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/kubernetes/src/main/java/io/kubernetes/client/common/KubernetesObject.java">KubernetesObject</a>
  * </p>
  */
+@Internal
 public interface KubernetesObject extends KubernetesType {
 
     /**

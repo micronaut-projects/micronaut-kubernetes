@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.cache;
 
+import io.micronaut.core.annotation.NonNull;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -38,7 +40,8 @@ public interface Indexer<ApiType> extends Store<ApiType> {
      * @param indexKey  the index key
      * @return the list of kubernetes object keys
      */
-    List<String> indexKeys(String indexName, String indexKey);
+    @NonNull
+    List<String> indexKeys(@NonNull String indexName, @NonNull String indexKey);
 
     /**
      * Returns a list of objects by index name and index key.
@@ -47,12 +50,14 @@ public interface Indexer<ApiType> extends Store<ApiType> {
      * @param indexKey  the index key
      * @return the list of kubernetes objects
      */
-    List<ApiType> byIndex(String indexName, String indexKey);
+    @NonNull
+    List<ApiType> byIndex(@NonNull String indexName, @NonNull String indexKey);
 
     /**
      * Return the indexers registered with the store.
      *
      * @return registered indexers
      */
+    @NonNull
     Map<String, Function<ApiType, List<String>>> getIndexers();
 }

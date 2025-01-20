@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.cache;
 
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
@@ -40,6 +41,7 @@ import java.util.function.Function;
  *
  * @param <ApiType> kubernetes api type
  */
+@Internal
 public final class Cache<ApiType extends KubernetesObject> implements Indexer<ApiType> {
 
     public static final String DEFAULT_INDEX_NAME = "namespace";
@@ -70,11 +72,16 @@ public final class Cache<ApiType extends KubernetesObject> implements Indexer<Ap
 
     public Cache(Function<ApiType, String> keyFunction,
                  Map<String, Function<ApiType, List<String>>> indexFunctions) {
-        this.keyFunction = keyFunction;
-        indexFunctions.forEach((indexName, indexFunc) -> {
-            indexers.put(indexName, indexFunc);
-            indices.put(indexName, new HashMap<>());
-        });
+        this.keyFunction = keyFunction == null ? Cache::getDefaultKeyFunc : keyFunction;
+        if (indexFunctions == null) {
+            indexers.put(DEFAULT_INDEX_NAME, Cache::getDefaultIndexFunc);
+            indices.put(DEFAULT_INDEX_NAME, new HashMap<>());
+        } else {
+            indexFunctions.forEach((indexName, indexFunc) -> {
+                indexers.put(indexName, indexFunc);
+                indices.put(indexName, new HashMap<>());
+            });
+        }
     }
 
     @Override
