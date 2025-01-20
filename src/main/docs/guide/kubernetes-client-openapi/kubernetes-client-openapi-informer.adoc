@@ -4,3 +4,61 @@ It is built on top of Micronaut Kubernetes Client OpenApi Watcher and provides a
 First you need to add a dependency on the `micronaut-kubernetes-client-openapi-informer` module:
 
 dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-informer[]
+
+Then create a bean that implements api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] with the
+Kubernetes resource type of your choice and add the ann:kubernetes.client.openapi.informer.handler.Informer[] annotation
+trough which you provide the configuration for the api:kubernetes.client.openapi.informer.SharedIndexInformer[].
+
+The example below illustrates the declaration of the ann:kubernetes.client.openapi.informer.handler.Informer[] with the
+api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] for handling the changes of the Kubernetes `V1Secret` resource.
+
+snippet::micronaut.client.secret.SecretResourceEventHandler[project-base="examples/example-kubernetes-client-openapi-informer", source="main"]
+<1> The ann:kubernetes.client.openapi.informer.handler.Informer[] annotation defines the Kubernetes resource type and namespace
+<2> The api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] interface declares method handlers for added, updated and deleted resource
+
+To create an Informer for non-namespaced resource like `V1ClusterRole`, configure the `@Informer` with namespace set to `Informer.ALL_NAMESPACES`.
+
+The ann:kubernetes.client.openapi.informer.handler.Informer[] annotation provides several configuration options:
+
+.@Informer attributes
+[cols="1,5"]
+|===
+|Element | Description
+|`apiType`               | The resource api type that must extend from the api:kubernetes.client.openapi.common.KubernetesObject[].
+                           For Kubernetes core resources the types can be found in `io.micronaut.kubernetes.client.openapi.model` package.
+                           For example `io.micronaut.kubernetes.client.openapi.model.V1Secret`.
+|`namespace`             | Namespace of the watched resource. If left empty then namespace is resolved by api:kubernetes.client.openapi.resolver.NamespaceResolver[].
+                           To watch resources from all namespaces configure this parameter to `Informer.ALL_NAMESPACES`.
+|`namespaces`            | List of the namespaces of the watcher resource. The api:kubernetes.client.openapi.informer.SharedIndexInformer[]
+                           will be created for every namespace and all events will be delivered to the specified `ResourceEventHandler`.
+|`namespacesSupplier`    | `Supplier` class that provides the list of namespaces to watch. Note that the supplier class needs to be a bean in the application context and it is intended
+                           for dynamic evaluation of the namespaces to watch. Finally the `namespace`, `namespaces` and `namespacesSupplier` can be used in combination.
+|`labelSelector`         | Informer label selector, see https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors[Label selectors] for more information.
+                           By default there is no label selector.
+|`labelSelectorSupplier` | `Supplier` class for the label selector. Note that the supplier class needs to be a bean in the application context.
+                           Finally the `labelSelector` and `labelSelectorSupplier` can be used in combination.
+|`resyncCheckPeriod`     | How often to check the need for resync of resources. If left empty the default resync check period is used.
+|===
+
+IMPORTANT: The concept of shared informer means that the api:kubernetes.client.openapi.informer.SharedIndexInformer[]
+for the respective Kubernetes resource type is registered just once for the given namespace. The next request to register another `SharedIndexInformer` of the
+same Kubernetes resource type within the same namespace will result in throwing the `Informer has been already created` exception.
+
+== Programmatic creation of SharedIndexInformer
+
+Use the bean api:kubernetes.client.openapi.informer.SharedIndexInformerFactory[] to create the api:kubernetes.client.openapi.informer.SharedIndexInformer[] programmatically:
+
+snippet::micronaut.client.configmap.ConfigMapInformer[project-base="examples/example-kubernetes-client-openapi-informer", source="main"]
+
+By using the api:kubernetes.client.openapi.informer.SharedIndexInformerFactory[] bean you can also get an existing informer:
+
+snippet::micronaut.client.configmap.ConfigMapController[project-base="examples/example-kubernetes-client-openapi-informer", source="main", tags="get"]
+
+== SharedIndexInformer local cache
+
+The api:kubernetes.client.openapi.informer.SharedIndexInformer[] has an internal cache that is eventually consistent with the authoritative state.
+The local cache starts out empty, and gets populated and updated.
+
+The cache is exposed by api:kubernetes.client.openapi.informer.SharedIndexInformer[] `getIndexer()` method:
+
+snippet::micronaut.client.configmap.ConfigMapController[project-base="examples/example-kubernetes-client-openapi-informer", source="main", tags="getAll"]

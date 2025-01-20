@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Context
-@Informer(apiType = V1Secret.class, namespace = SecretResourceEventHandler.NAMESPACE)
-public class SecretResourceEventHandler implements ResourceEventHandler<V1Secret> {
+@Informer(apiType = V1Secret.class, namespace = SecretResourceEventHandler.NAMESPACE) // <1>
+class SecretResourceEventHandler implements ResourceEventHandler<V1Secret> { // <2>
 
     private static final Logger LOG = LoggerFactory.getLogger(SecretResourceEventHandler.class);
 
-    public static final String NAMESPACE = "test-informer-namespace";
+    static final String NAMESPACE = "test-informer-namespace";
 
     @Override
     public void onAdd(V1Secret obj) {

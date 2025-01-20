@@ -19,6 +19,7 @@ class ConfigMapController {
     }
 
     @Get
+    //tag::getAll[]
     List<V1ConfigMap> all() {
         SharedIndexInformer<V1ConfigMap> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
             V1ConfigMap.class,
@@ -26,12 +27,15 @@ class ConfigMapController {
         Indexer<V1ConfigMap> indexer = informer.getIndexer();
         return indexer.list();
     }
+    //end::getAll[]
 
     @Get("/{name}")
     V1ConfigMap configMap(String name) {
+        //tag::get[]
         SharedIndexInformer<V1ConfigMap> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
             V1ConfigMap.class,
             ConfigMapInformer.NAMESPACE);
+        //end::get[]
         Indexer<V1ConfigMap> indexer = informer.getIndexer();
         return indexer.getByKey(ConfigMapInformer.NAMESPACE + "/" + name);
     }

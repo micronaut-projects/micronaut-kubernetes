@@ -42,10 +42,12 @@ kubernetes:
     client:
         enabled: true
         kube-config-path: file:/path/to/kubeconfig
+        namespace: test-namespace
         service-account:
             enabled: true
             certificate-authority-path: file:/path/to/certificate/authority/file
             token-path: file:/path/to/token/file
+            namespace-path: file:/path/to/namespace/file
             token-reload-interval: 2m
 ----
 
@@ -53,9 +55,11 @@ kubernetes:
 |*Name* |*Description*
 |enabled |Whether to enable the client. Default: `true`
 |kube-config-path |Absolute path to the kube config file. Default: `file:$HOME/.kube/config`
+|namespace |Namespace the app runs in. Not required.
 |service-account.enabled |Whether to enable the service account authentication. Default: `true`
 |service-account.certificate-authority-path |Absolute path to the certificate authority file. Default: `file:/var/run/secrets/kubernetes.io/serviceaccount/ca.crt`
 |service-account.token-path |Absolute path to the token file. Default: `file:/var/run/secrets/kubernetes.io/serviceaccount/token`
+|service-account.namespace-path |Absolute path to the namespace file. Default: `file:/var/run/secrets/kubernetes.io/serviceaccount/namespace`
 |service-account.token-reload-interval |Token reload interval. Default: `60s`
 |=======
 
