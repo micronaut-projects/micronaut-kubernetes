@@ -88,7 +88,7 @@ final class DeltaFifo {
         lock.writeLock().lock();
         try {
             populated = true;
-            if (deltaType == DeltaType.Deleted) {
+            if (deltaType == DeltaType.DELETED) {
                 String id = keyOf(object);
                 // Skip the "deletion" action if the object doesn't
                 // exist in store and doesn't have corresponding item in items.
@@ -113,7 +113,7 @@ final class DeltaFifo {
             Set<String> keys = new HashSet<>();
             for (KubernetesObject object : objects) {
                 keys.add(keyOf(object));
-                queueActionLocked(DeltaType.Sync, object);
+                queueActionLocked(DeltaType.SYNC, object);
             }
 
             List<String> storedKeys = store.listKeys();
@@ -127,7 +127,7 @@ final class DeltaFifo {
                     LOG.warn("Key {} does not exist in known objects store, placing DeleteFinalStateUnknown marker without object", storedKey);
                 }
                 queueDeletion++;
-                queueActionLocked(DeltaType.Deleted, new DeletedFinalStateUnknown<>(storedKey, deletedObject));
+                queueActionLocked(DeltaType.DELETED, new DeletedFinalStateUnknown<>(storedKey, deletedObject));
             }
 
             if (!populated) {
@@ -154,7 +154,7 @@ final class DeltaFifo {
                 if (object == null) {
                     continue;
                 }
-                queueActionLocked(DeltaType.Sync, object);
+                queueActionLocked(DeltaType.SYNC, object);
             }
         } finally {
             lock.writeLock().unlock();
@@ -257,8 +257,8 @@ final class DeltaFifo {
 
         // TODO: remove this after the cause of memory leakage is confirmed
         // Squashing deltas w/ the same resource version, note that is a temporary fix that eases memory intensity.
-        if (d1.getKey() != DeltaType.Deleted
-            && d2.getKey() != DeltaType.Deleted
+        if (d1.getKey() != DeltaType.DELETED
+            && d2.getKey() != DeltaType.DELETED
             && Objects.equals(d1.getValue().getMetadata().getResourceVersion(), d2.getValue().getMetadata().getResourceVersion())) {
             return d1;
         }
@@ -269,13 +269,13 @@ final class DeltaFifo {
     private AbstractMap.SimpleEntry<DeltaType, KubernetesObject> dedupDeletionDeltas(
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d1,
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d2) {
-        if (!d1.getKey().equals(DeltaType.Deleted) || !d2.getKey().equals(DeltaType.Deleted)) {
+        if (!d1.getKey().equals(DeltaType.DELETED) || !d2.getKey().equals(DeltaType.DELETED)) {
             return null;
         }
         return d2.getValue() instanceof DeletedFinalStateUnknown<?> ? d1 : d2;
     }
 
     enum DeltaType {
-        Added, Updated, Deleted, Sync
+        ADDED, UPDATED, DELETED, SYNC
     }
 }

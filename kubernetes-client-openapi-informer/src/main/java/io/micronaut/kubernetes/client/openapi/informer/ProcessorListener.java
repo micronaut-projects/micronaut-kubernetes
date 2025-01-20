@@ -37,6 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @param <ApiType> kubernetes api type
  */
+@SuppressWarnings("java:S2142")
 final class ProcessorListener<ApiType extends KubernetesObject> implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorListener.class);

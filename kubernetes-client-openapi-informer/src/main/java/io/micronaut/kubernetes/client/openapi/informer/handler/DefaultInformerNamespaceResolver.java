@@ -50,7 +50,6 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
         this.namespaceResolver = namespaceResolver;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @NonNull
     public Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> annotationValue) {
@@ -59,6 +58,20 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
         Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
             .orElseThrow(() -> new NullPointerException("The apiType parameter of @Informer is required."));
 
+        resolveFromNamespacesAttribute(annotationValue, namespaces);
+        resolveFromNamespaceSupplierAttribute(annotationValue, namespaces);
+        resolveFromNamespaceAttribute(annotationValue, namespaces);
+
+        if (namespaces.contains(Informer.ALL_NAMESPACES)) {
+            LOG.info("Resolved {} for apiType={}", Informer.ALL_NAMESPACES, apiType);
+            return Collections.emptySet();
+
+        }
+        LOG.info("Resolved {} namespaces for apiType={}", namespaces, apiType);
+        return namespaces;
+    }
+
+    private void resolveFromNamespacesAttribute(AnnotationValue<Informer> annotationValue, Set<String> namespaces) {
         Optional<String[]> optionalNamespaces = annotationValue.get("namespaces", String[].class);
         if (optionalNamespaces.isPresent()) {
             String[] namespaceArray = optionalNamespaces.get();
@@ -69,7 +82,10 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
                 Collections.addAll(namespaces, namespaceArray);
             }
         }
+    }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private void resolveFromNamespaceSupplierAttribute(AnnotationValue<Informer> annotationValue, Set<String> namespaces) {
         Optional<Class<? extends Supplier>> namespacesSupplier = annotationValue.classValue("namespacesSupplier", Supplier.class);
         if (namespacesSupplier.isPresent()) {
             Class<? extends Supplier<String[]>> namespaceSupplierClass = (Class<? extends Supplier<String[]>>) namespacesSupplier.get();
@@ -83,7 +99,9 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
                 Collections.addAll(namespaces, suppliedNamespaces);
             }
         }
+    }
 
+    private void resolveFromNamespaceAttribute(AnnotationValue<Informer> annotationValue, Set<String> namespaces) {
         String namespace = annotationValue.get("namespace", String.class).orElse(Informer.RESOLVE_AUTOMATICALLY);
         if (namespace.equals(Informer.RESOLVE_AUTOMATICALLY)) {
             if (namespaces.isEmpty()) {
@@ -100,13 +118,5 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
             LOG.trace("Found [{}] namespace in @Informer's 'namespace' value", namespace);
             namespaces.add(namespace);
         }
-
-        if (namespaces.contains(Informer.ALL_NAMESPACES)) {
-            LOG.info("Resolved {} for apiType={}", Informer.ALL_NAMESPACES, apiType);
-            return Collections.emptySet();
-
-        }
-        LOG.info("Resolved {} namespaces for apiType={}", namespaces, apiType);
-        return namespaces;
     }
 }

@@ -30,6 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @param <ApiType> kubernetes api type
  */
+@SuppressWarnings("java:S2142")
 final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(DeltaConsumer.class);
 
@@ -77,10 +78,10 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
             KubernetesObject object = delta.getValue();
             ApiType transformedObject = transformFunc == null ? (ApiType) object : (ApiType) transformFunc.transform(object);
             switch (deltaType) {
-                case Sync:
-                case Added:
-                case Updated:
-                    boolean isSync = deltaType == DeltaFifo.DeltaType.Sync;
+                case SYNC:
+                case ADDED:
+                case UPDATED:
+                    boolean isSync = deltaType == DeltaFifo.DeltaType.SYNC;
                     String key = indexer.getKeyFunction().apply(transformedObject);
                     ApiType oldObject = indexer.getByKey(key);
                     if (oldObject != null) {
@@ -91,7 +92,7 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
                         processor.distribute(new ProcessorListener.AddNotification<>(object), isSync);
                     }
                     break;
-                case Deleted:
+                case DELETED:
                     indexer.delete(transformedObject);
                     processor.distribute(new ProcessorListener.DeleteNotification<>(object), false);
                     break;

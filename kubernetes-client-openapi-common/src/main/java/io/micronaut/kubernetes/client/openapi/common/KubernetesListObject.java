@@ -27,6 +27,7 @@ import java.util.List;
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/kubernetes/src/main/java/io/kubernetes/client/common/KubernetesListObject.java">KubernetesListObject</a>
  * </p>
  */
+@SuppressWarnings("java:S1452")
 public interface KubernetesListObject extends KubernetesType {
 
     /**

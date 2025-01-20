@@ -26,7 +26,7 @@ import io.micronaut.kubernetes.client.openapi.watcher.WatchEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.Disposable;
-import reactor.util.retry.RetryBackoffSpec;
+import reactor.util.retry.Retry;
 
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
@@ -46,6 +46,7 @@ import java.util.stream.Collectors;
  *
  * @param <ApiType> kubernetes api type
  */
+@SuppressWarnings("java:S2245")
 final class InformerWatcher<ApiType extends KubernetesObject> {
 
     private static final Logger LOG = LoggerFactory.getLogger(InformerWatcher.class);
@@ -107,7 +108,7 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
         informerLogger.logDebug("Getting list of existing objects");
 
         Disposable newDisposable = informerApiCall.list(getRelistResourceVersion())
-            .retryWhen(RetryBackoffSpec.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
+            .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
                 .maxBackoff(Duration.ofSeconds(30))
                 .doBeforeRetry(it -> informerLogger.logInfo("Failed to get a list of existing objects, retrying...[{}]", it)))
             .subscribe(this::replaceObjectsAndStartWatcher);
@@ -136,11 +137,11 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
             return;
         }
 
-        int jitteredTimeoutSeconds = Double.valueOf(WATCH_CLIENT_SIDE_TIMEOUT.getSeconds() * (1 + Math.random())).intValue();
+        int jitteredTimeoutSeconds = (int) (WATCH_CLIENT_SIDE_TIMEOUT.getSeconds() * (1 + Math.random()));
         informerLogger.logDebug("Starting watcher with resourceVersion={}, watchTime={}sec", lastSyncResourceVersion, jitteredTimeoutSeconds);
 
         Disposable newDisposable = informerApiCall.watch(lastSyncResourceVersion, jitteredTimeoutSeconds)
-            .retryWhen(RetryBackoffSpec.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
+            .retryWhen(Retry.backoff(Long.MAX_VALUE, Duration.ofSeconds(1))
                 .maxBackoff(Duration.ofSeconds(30))
                 .filter(this::isConnectException)
                 .doBeforeRetry(it -> informerLogger.logInfo("Failed to start watcher, retrying...[{}]", it)))
@@ -209,13 +210,13 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
         String newResourceVersion = meta.getResourceVersion();
         switch (eventType.get()) {
             case ADDED:
-                deltaFifo.add(DeltaFifo.DeltaType.Added, object);
+                deltaFifo.add(DeltaFifo.DeltaType.ADDED, object);
                 break;
             case MODIFIED:
-                deltaFifo.add(DeltaFifo.DeltaType.Updated, object);
+                deltaFifo.add(DeltaFifo.DeltaType.UPDATED, object);
                 break;
             case DELETED:
-                deltaFifo.add(DeltaFifo.DeltaType.Deleted, object);
+                deltaFifo.add(DeltaFifo.DeltaType.DELETED, object);
                 break;
             default:
                 break;

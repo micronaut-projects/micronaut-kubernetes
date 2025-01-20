@@ -15,12 +15,12 @@ class DeltaFifoSpec extends Specification {
         def deltasResult = []
 
         when:
-        deltaFifo.add(DeltaFifo.DeltaType.Added, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.ADDED, pod)
         deltaFifo.pop(deltas -> deltasResult.add(deltas.peekFirst()))
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Added
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.ADDED
         deltasResult.get(0).getValue() == pod
     }
 
@@ -31,12 +31,12 @@ class DeltaFifoSpec extends Specification {
         def deltasResult = []
 
         when:
-        deltaFifo.add(DeltaFifo.DeltaType.Updated, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.UPDATED, pod)
         deltaFifo.pop(deltas -> deltasResult.add(deltas.peekFirst()))
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Updated
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.UPDATED
         deltasResult.get(0).getValue() == pod
     }
 
@@ -49,12 +49,12 @@ class DeltaFifoSpec extends Specification {
 
         when:
         cache.add(pod)
-        deltaFifo.add(DeltaFifo.DeltaType.Deleted, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.DELETED, pod)
         deltaFifo.pop(deltas -> deltasResult.add(deltas.peekFirst()))
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Deleted
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.DELETED
         deltasResult.get(0).getValue() == pod
     }
 
@@ -70,7 +70,7 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Sync
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.SYNC
         deltasResult.get(0).getValue() == pod
     }
 
@@ -83,8 +83,8 @@ class DeltaFifoSpec extends Specification {
 
         when:
         cache.add(pod)
-        deltaFifo.add(DeltaFifo.DeltaType.Added, pod)
-        deltaFifo.add(DeltaFifo.DeltaType.Deleted, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.ADDED, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.DELETED, pod)
         deltaFifo.pop(deltas -> {
             def delta = deltas.poll()
             while (delta != null) {
@@ -95,17 +95,17 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 2
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Added
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.ADDED
         deltasResult.get(0).getValue() == pod
-        deltasResult.get(1).getKey() == DeltaFifo.DeltaType.Deleted
+        deltasResult.get(1).getKey() == DeltaFifo.DeltaType.DELETED
         deltasResult.get(1).getValue() == pod
 
         when:
         deltasResult.clear()
         cache.add(pod)
-        deltaFifo.add(DeltaFifo.DeltaType.Added, pod)
-        deltaFifo.add(DeltaFifo.DeltaType.Deleted, pod)
-        deltaFifo.add(DeltaFifo.DeltaType.Deleted, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.ADDED, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.DELETED, pod)
+        deltaFifo.add(DeltaFifo.DeltaType.DELETED, pod)
         deltaFifo.pop(deltas -> {
             def delta = deltas.poll()
             while (delta != null) {
@@ -116,9 +116,9 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 2
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Added
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.ADDED
         deltasResult.get(0).getValue() == pod
-        deltasResult.get(1).getKey() == DeltaFifo.DeltaType.Deleted
+        deltasResult.get(1).getKey() == DeltaFifo.DeltaType.DELETED
         deltasResult.get(1).getValue() == pod
     }
 
@@ -136,7 +136,7 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.Sync
+        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.SYNC
         deltasResult.get(0).getValue() == pod
     }
 }
