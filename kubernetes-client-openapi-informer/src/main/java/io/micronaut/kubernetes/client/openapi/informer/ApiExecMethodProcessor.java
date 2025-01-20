@@ -34,6 +34,7 @@ import java.util.Optional;
  *
  * @param <A> kubernetes api annotation type
  */
+@SuppressWarnings("java:S1452")
 abstract class ApiExecMethodProcessor<A extends Annotation> implements ExecutableMethodProcessor<A> {
 
     private final Map<String, Class<?>> beanTypes = new HashMap<>();

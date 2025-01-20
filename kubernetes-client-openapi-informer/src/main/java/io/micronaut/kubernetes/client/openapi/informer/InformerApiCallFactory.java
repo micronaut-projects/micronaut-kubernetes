@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * kubernetes api types and {@link ExecutableMethod} instances which can be used for
  * execution of {@code list} and {@code watch} api calls.
  */
-@SuppressWarnings({"rawtypes", "java:S1872"})
+@SuppressWarnings("rawtypes")
 @Singleton
 final class InformerApiCallFactory {
     private static final Logger LOG = LoggerFactory.getLogger(InformerApiCallFactory.class);

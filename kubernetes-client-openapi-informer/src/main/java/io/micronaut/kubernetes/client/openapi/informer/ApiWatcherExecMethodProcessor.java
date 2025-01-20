@@ -27,6 +27,7 @@ import java.util.Optional;
  * Creates mappings between kubernetes api types and {@link ExecutableMethod} instances which can be
  * used for execution of {@code watch} api calls.
  */
+@SuppressWarnings("java:S1872")
 @Singleton
 final class ApiWatcherExecMethodProcessor extends ApiExecMethodProcessor<KubernetesClientApiWatcher> {
 
