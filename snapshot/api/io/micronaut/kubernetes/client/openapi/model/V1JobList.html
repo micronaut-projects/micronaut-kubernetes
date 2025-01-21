@@ -75,10 +75,15 @@ loadScripts(document, 'script');</script>
 <div class="inheritance">io.micronaut.kubernetes.client.openapi.model.V1JobList</div>
 </div>
 <section class="class-description" id="class-description">
+<dl class="notes">
+<dt>All Implemented Interfaces:</dt>
+<dd><code><a href="../common/KubernetesListObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a></code>, <code><a href="../common/KubernetesType.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a></code></dd>
+</dl>
 <hr>
 <div class="type-signature"><span class="annotations">@Generated("io.micronaut.openapi.generator.JavaMicronautClientCodegen")
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">V1JobList</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="../common/KubernetesListObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a></span></div>
 <div class="block">JobList is a collection of jobs.</div>
 </section>
 <section class="summary">
@@ -161,7 +166,9 @@ loadScripts(document, 'script');</script>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1ListMeta.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ListMeta</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMetadata()" class="member-name-link">getMetadata</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets list metadata.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -304,6 +311,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1Job.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Job</a>&gt;</span>&nbsp;<span class="element-name">getItems</span>()</div>
 <div class="block">items is the list of Jobs.</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../common/KubernetesListObject.html#getItems()">getItems</a></code>&nbsp;in interface&nbsp;<code><a href="../common/KubernetesListObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a></code></dd>
 <dt>Returns:</dt>
 <dd>the items property value</dd>
 </dl>
@@ -348,6 +357,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getApiVersion</span>()</div>
 <div class="block">APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../common/KubernetesType.html#getApiVersion()">getApiVersion</a></code>&nbsp;in interface&nbsp;<code><a href="../common/KubernetesType.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a></code></dd>
 <dt>Returns:</dt>
 <dd>the apiVersion property value</dd>
 </dl>
@@ -381,6 +392,8 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getKind</span>()</div>
 <div class="block">Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../common/KubernetesType.html#getKind()">getKind</a></code>&nbsp;in interface&nbsp;<code><a href="../common/KubernetesType.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a></code></dd>
 <dt>Returns:</dt>
 <dd>the kind property value</dd>
 </dl>
@@ -412,7 +425,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getMetadata()">
 <h3>getMetadata</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ListMeta.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ListMeta</a></span>&nbsp;<span class="element-name">getMetadata</span>()</div>
+<div class="block"><span class="descfrm-type-label">Description copied from interface:&nbsp;<code><a href="../common/KubernetesListObject.html#getMetadata()">KubernetesListObject</a></code></span></div>
+<div class="block">Gets list metadata.
+
+ <p>ListMeta describes metadata that synthetic resources must have, including lists and various
+ status objects. A resource may have only one of {ObjectMeta, ListMeta}.</div>
 <dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="../common/KubernetesListObject.html#getMetadata()">getMetadata</a></code>&nbsp;in interface&nbsp;<code><a href="../common/KubernetesListObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a></code></dd>
 <dt>Returns:</dt>
 <dd>the metadata property value</dd>
 </dl>

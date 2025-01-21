@@ -161,6 +161,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set activeDeadlineSeconds in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#add(ApiType)" class="member-name-link">add(ApiType)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#add(ApiType)" class="member-name-link">add(ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Inserts an item into the store.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html#add(java.lang.String,io.kubernetes.client.informer.cache.Indexer)" class="member-name-link">add(String, Indexer&lt;ApiType&gt;)</a> - Method in class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a></dt>
 <dd>
 <div class="block">Add <code>Indexer</code> to the composite.</div>
@@ -480,6 +486,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1PodStatus.html#addephemeralContainerStatusesItem(io.micronaut.kubernetes.client.openapi.model.V1ContainerStatus)" class="member-name-link">addephemeralContainerStatusesItem(V1ContainerStatus)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1PodStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodStatus</a></dt>
 <dd>
 <div class="block">Add an item to the ephemeralContainerStatuses property in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#addEventHandler(io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler)" class="member-name-link">addEventHandler(ResourceEventHandler&lt;ApiType&gt;)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">Adds event handler.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#addEventHandlerWithResyncPeriod(io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler,long)" class="member-name-link">addEventHandlerWithResyncPeriod(ResourceEventHandler&lt;ApiType&gt;, long)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">Adds an event handler to the shared informer using the specified resync period.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1IPBlock.html#addexceptItem(java.lang.String)" class="member-name-link">addexceptItem(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1IPBlock.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1IPBlock</a></dt>
 <dd>
@@ -1551,6 +1565,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html#ALL_NAMESPACES" class="member-name-link">ALL_NAMESPACES</a> - Static variable in annotation interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#ALL_NAMESPACES" class="member-name-link">ALL_NAMESPACES</a> - Static variable in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CSINodeDriver.html#allocatable(io.micronaut.kubernetes.client.openapi.model.V1VolumeNodeResources)" class="member-name-link">allocatable(V1VolumeNodeResources)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CSINodeDriver.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CSINodeDriver</a></dt>
 <dd>
 <div class="block">Set allocatable in a chainable fashion.</div>
@@ -1763,6 +1779,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Set apiServerID in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html#apiType()" class="member-name-link">apiType()</a> - Element in annotation interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></dt>
+<dd>
+<div class="block">The resource type.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#apiType()" class="member-name-link">apiType()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
 <dd>
 <div class="block">The resource type.</div>
 </dd>
@@ -2689,6 +2709,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Builds service instance.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html#byIndex(java.lang.String,java.lang.String)" class="member-name-link">byIndex(String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Indexer</a></dt>
+<dd>
+<div class="block">Returns a list of objects by index name and index key.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#byIndex(java.lang.String,java.lang.String)" class="member-name-link">byIndex(String, String)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
 </dl>
 <h2 class="title" id="I:C">C</h2>
 <dl class="index">
@@ -2704,6 +2730,18 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set caBundle in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="type parameter in Cache">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt; - Class in <a href="io/micronaut/kubernetes/client/openapi/informer/cache/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.cache</a></dt>
+<dd>
+<div class="block">Cache is a java port of k/client-go's ThreadSafeStore.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#%3Cinit%3E()" class="member-name-link">Cache()</a> - Constructor for class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#%3Cinit%3E(java.util.function.Function)" class="member-name-link">Cache(Function&lt;ApiType, String&gt;)</a> - Constructor for class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#%3Cinit%3E(java.util.function.Function,java.util.Map)" class="member-name-link">Cache(Function&lt;ApiType, String&gt;, Map&lt;String, Function&lt;ApiType, List&lt;String&gt;&gt;&gt;)</a> - Constructor for class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#%3Cinit%3E(java.util.Map)" class="member-name-link">Cache(Map&lt;String, Function&lt;ApiType, List&lt;String&gt;&gt;&gt;)</a> - Constructor for class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1AzureDiskVolumeSource.html#cachingMode(java.lang.String)" class="member-name-link">cachingMode(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1AzureDiskVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AzureDiskVolumeSource</a></dt>
 <dd>
 <div class="block">Set cachingMode in a chainable fashion.</div>
@@ -4393,6 +4431,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set decodableVersions in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#DEFAULT_GLOBAL_INDEX_KEY" class="member-name-link">DEFAULT_GLOBAL_INDEX_KEY</a> - Static variable in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#DEFAULT_INDEX_NAME" class="member-name-link">DEFAULT_INDEX_NAME</a> - Static variable in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#DEFAULT_LEASE_DURATION_IN_SECONDS" class="member-name-link">DEFAULT_LEASE_DURATION_IN_SECONDS</a> - Static variable in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#DEFAULT_MODE" class="member-name-link">DEFAULT_MODE</a> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
@@ -4543,6 +4585,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1JSONSchemaProps.html#definitions(java.util.Map)" class="member-name-link">definitions(Map&lt;String, V1JSONSchemaProps&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1JSONSchemaProps.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1JSONSchemaProps</a></dt>
 <dd>
 <div class="block">Set definitions in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#delete(ApiType)" class="member-name-link">delete(ApiType)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#delete(ApiType)" class="member-name-link">delete(ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Removes an item from the store.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/ApiregistrationV1Api.html#deleteAPIService(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteAPIService(String, String, String, Integer, Boolean, String, V1DeleteOptions)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/ApiregistrationV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ApiregistrationV1Api</a></dt>
 <dd>
@@ -5119,6 +5167,15 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/reactor/api/ApiextensionsV1ApiReactor.html#deleteCustomResourceDefinition(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCustomResourceDefinition(String, String, String, Integer, Boolean, String, V1DeleteOptions)</a> - Method in interface io.micronaut.kubernetes.client.openapi.reactor.api.<a href="io/micronaut/kubernetes/client/openapi/reactor/api/ApiextensionsV1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">ApiextensionsV1ApiReactor</a></dt>
 <dd>
 <div class="block">delete a CustomResourceDefinition</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="type parameter in DeletedFinalStateUnknown">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt; - Record Class in <a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a></dt>
+<dd>
+<div class="block">DeletedFinalStateUnknown is placed into a DeltaFIFO in the case where an object was deleted
+ but the watch deletion event was missed.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#%3Cinit%3E(java.lang.String,ApiType)" class="member-name-link">DeletedFinalStateUnknown(String, ApiType)</a> - Constructor for record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>DeletedFinalStateUnknown</code> record class.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverV1beta2Api.html#deleteFlowSchema(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteFlowSchema(String, String, String, Integer, Boolean, String, V1DeleteOptions)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/FlowcontrolApiserverV1beta2Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">FlowcontrolApiserverV1beta2Api</a></dt>
 <dd>
@@ -5902,6 +5959,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.credential.model.<a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredentialStatus</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -8136,6 +8197,12 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#getApiType()" class="member-name-link">getApiType()</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesType.html#getApiVersion()" class="member-name-link">getApiVersion()</a> - Method in interface io.micronaut.kubernetes.client.openapi.common.<a href="io/micronaut/kubernetes/client/openapi/common/KubernetesType.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a></dt>
+<dd>
+<div class="block">Gets api version.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#getApiVersion()" class="member-name-link">getApiVersion()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AuthenticationV1TokenRequest.html#getApiVersion()" class="member-name-link">getApiVersion()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AuthenticationV1TokenRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">AuthenticationV1TokenRequest</a></dt>
 <dd>
 <div class="block">APIVersion defines the versioned schema of this representation of an object.</div>
@@ -8919,6 +8986,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1TokenRequestSpec.html#getBoundObjectRef()" class="member-name-link">getBoundObjectRef()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1TokenRequestSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TokenRequestSpec</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/VersionInfo.html#getBuildDate()" class="member-name-link">getBuildDate()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/VersionInfo.html" title="class in io.micronaut.kubernetes.client.openapi.model">VersionInfo</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#getByKey(java.lang.String)" class="member-name-link">getByKey(String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Returns the request item with specific key.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#getByKey(java.lang.String)" class="member-name-link">getByKey(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1WebhookClientConfig.html#getCaBundle()" class="member-name-link">getCaBundle()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1WebhookClientConfig.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1WebhookClientConfig</a></dt>
 <dd>
@@ -9754,6 +9827,10 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1Probe.html#getExec()" class="member-name-link">getExec()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1Probe.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Probe</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#getExistingSharedIndexInformer(java.lang.Class,java.lang.String)" class="member-name-link">getExistingSharedIndexInformer(Class&lt;ApiType&gt;, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Returns already created <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#getExistingSharedIndexInformer(java.lang.String,java.lang.Class)" class="member-name-link">getExistingSharedIndexInformer(String, Class&lt;ApiType&gt;)</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html#getExistingSharedIndexInformer(java.lang.String,java.lang.Class)" class="member-name-link">getExistingSharedIndexInformer(String, Class&lt;ApiType&gt;)</a> - Method in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a></dt>
@@ -10364,6 +10441,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Incomplete is true when the rules returned by this call are incomplete.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html#getIndexer()" class="member-name-link">getIndexer()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a></dt>
+<dd>
+<div class="block">Returns the internal indexer store.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#getIndexers()" class="member-name-link">getIndexers()</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html#getIndexers()" class="member-name-link">getIndexers()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Indexer</a></dt>
+<dd>
+<div class="block">Return the indexers registered with the store.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1IngressLoadBalancerStatus.html#getIngress()" class="member-name-link">getIngress()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1IngressLoadBalancerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1IngressLoadBalancerStatus</a></dt>
 <dd>
 <div class="block">ingress is a list containing ingress points for the load-balancer.</div>
@@ -10479,6 +10566,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ISCSIVolumeSource.html#getIscsiInterface()" class="member-name-link">getIscsiInterface()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ISCSIVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ISCSIVolumeSource</a></dt>
 <dd>
 <div class="block">iscsiInterface is the interface Name that uses an iSCSI transport.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html#getItems()" class="member-name-link">getItems()</a> - Method in interface io.micronaut.kubernetes.client.openapi.common.<a href="io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a></dt>
+<dd>
+<div class="block">Gets the object items.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EventList.html#getItems()" class="member-name-link">getItems()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/CoreV1EventList.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1EventList</a></dt>
 <dd>
@@ -10802,6 +10893,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The label key that the selector applies to.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#getKeyFunction()" class="member-name-link">getKeyFunction()</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#getKeyFunction()" class="member-name-link">getKeyFunction()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Returns a function which creates an object key.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1RBDPersistentVolumeSource.html#getKeyring()" class="member-name-link">getKeyring()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1RBDPersistentVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RBDPersistentVolumeSource</a></dt>
 <dd>
 <div class="block">keyring is the path to key ring for RBDUser.</div>
@@ -10811,6 +10908,12 @@ loadScripts(document, 'script');</script>
 <div class="block">keyring is the path to key ring for RBDUser.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesClientSslBuilder.html#getKeyStore(io.micronaut.http.ssl.SslConfiguration)" class="member-name-link">getKeyStore(SslConfiguration)</a> - Method in class io.micronaut.kubernetes.client.openapi.ssl.<a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesClientSslBuilder.html" title="class in io.micronaut.kubernetes.client.openapi.ssl">KubernetesClientSslBuilder</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesType.html#getKind()" class="member-name-link">getKind()</a> - Method in interface io.micronaut.kubernetes.client.openapi.common.<a href="io/micronaut/kubernetes/client/openapi/common/KubernetesType.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a></dt>
+<dd>
+<div class="block">Gets kind.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#getKind()" class="member-name-link">getKind()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AuthenticationV1TokenRequest.html#getKind()" class="member-name-link">getKind()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AuthenticationV1TokenRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">AuthenticationV1TokenRequest</a></dt>
 <dd>
@@ -12002,6 +12105,16 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">MessageExpression declares a CEL expression that evaluates to the validation failure message that is returned when this rule fails.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html#getMetadata()" class="member-name-link">getMetadata()</a> - Method in interface io.micronaut.kubernetes.client.openapi.common.<a href="io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a></dt>
+<dd>
+<div class="block">Gets list metadata.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html#getMetadata()" class="member-name-link">getMetadata()</a> - Method in interface io.micronaut.kubernetes.client.openapi.common.<a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a></dt>
+<dd>
+<div class="block">Gets metadata.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#getMetadata()" class="member-name-link">getMetadata()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AuthenticationV1TokenRequest.html#getMetadata()" class="member-name-link">getMetadata()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AuthenticationV1TokenRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">AuthenticationV1TokenRequest</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html#getMetadata()" class="member-name-link">getMetadata()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a></dt>
@@ -12728,6 +12841,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html#getNamespace()" class="member-name-link">getNamespace()</a> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/ApiClientConfiguration.html" title="interface in io.micronaut.kubernetes.client">ApiClientConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html#getNamespace()" class="member-name-link">getNamespace()</a> - Method in class io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a></dt>
+<dd>
+<div class="block">Kubernetes client namespace.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html#getNamespace()" class="member-name-link">getNamespace()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1ServiceReference</a></dt>
 <dd>
 <div class="block">&#x60;namespace&#x60; is the namespace of the service.</div>
@@ -12829,6 +12946,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/reactor/api/CustomObjectsApiReactor.html#getNamespacedCustomObjectStatus(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">getNamespacedCustomObjectStatus(String, String, String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.reactor.api.<a href="io/micronaut/kubernetes/client/openapi/reactor/api/CustomObjectsApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">CustomObjectsApiReactor</a></dt>
 <dd>
 <div class="block">read status of the specified namespace scoped custom object</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html#getNamespacePath()" class="member-name-link">getNamespacePath()</a> - Method in class io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration.ServiceAccount</a></dt>
+<dd>
+<div class="block">Path to the namespace file.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1beta2ResourcePolicyRule.html#getNamespaces()" class="member-name-link">getNamespaces()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1beta2ResourcePolicyRule.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ResourcePolicyRule</a></dt>
 <dd>
@@ -16397,6 +16518,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1ServiceReference</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1WebhookClientConfig.html#hashCode()" class="member-name-link">hashCode()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1WebhookClientConfig.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1WebhookClientConfig</a></dt>
@@ -17469,6 +17594,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#hasSynced()" class="member-name-link">hasSynced()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">Returns true if the shared informer's store has been synced after informer started.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html#hasValidPortConfiguration(java.util.List,io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration)" class="member-name-link">hasValidPortConfiguration(List&lt;AbstractKubernetesServiceInstanceProvider.PortBinder&gt;, KubernetesServiceConfiguration)</a> - Static method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a></dt>
 <dd>
 <div class="block">Validates the necessity of having port configuration based on number of declared <code>ports</code>.</div>
@@ -17656,6 +17785,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set incomplete in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Indexer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html" title="type parameter in Indexer">ApiType</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/cache/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.cache</a></dt>
+<dd>
+<div class="block">Indexer extends Store interface and adds index/de-index methods.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery.informer">IndexerComposite</a>&lt;<a href="io/micronaut/kubernetes/discovery/informer/IndexerComposite.html" title="type parameter in IndexerComposite">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/discovery/informer/package-summary.html">io.micronaut.kubernetes.discovery.informer</a></dt>
 <dd>
 <div class="block">The <code>Indexer</code> composite for the given <code>ApiType</code> that provides
@@ -17669,12 +17802,23 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html#%3Cinit%3E(io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory)" class="member-name-link">IndexerCompositeFactory(SharedIndexInformerFactory)</a> - Constructor for class io.micronaut.kubernetes.discovery.informer.<a href="io/micronaut/kubernetes/discovery/informer/IndexerCompositeFactory.html" title="class in io.micronaut.kubernetes.discovery.informer">IndexerCompositeFactory</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html#indexKeys(java.lang.String,java.lang.String)" class="member-name-link">indexKeys(String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Indexer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Indexer</a></dt>
+<dd>
+<div class="block">Returns a list of object keys by index name and index key.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#indexKeys(java.lang.String,java.lang.String)" class="member-name-link">indexKeys(String, String)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#informer()" class="member-name-link">informer()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html" class="type-name-link" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a> - Annotation Interface in <a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a></dt>
 <dd>
 <div class="block">Annotation used in combination with <code>ResourceEventHandler</code> will cause the
  <code>SharedIndexInformer</code> will be created by <a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer"><code>ResourceEventHandlerBeanListener</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" class="type-name-link" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a> - Annotation Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/handler/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.handler</a></dt>
+<dd>
+<div class="block">Annotation used in combination with <a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler"><code>ResourceEventHandler</code></a> will cause
+ <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a> be created by <code>ResourceEventHandlerBeanListener</code>.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#INFORMER_ENABLED" class="member-name-link">INFORMER_ENABLED</a> - Static variable in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -17689,6 +17833,10 @@ loadScripts(document, 'script');</script>
 <div class="block">The informer's resource api group.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a> - Interface in <a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a></dt>
+<dd>
+<div class="block">The informer configuration.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/InformerConfiguration.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer">InformerConfiguration</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a></dt>
 <dd>
 <div class="block">The informer configuration.</div>
 </dd>
@@ -17802,6 +17950,8 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/package-summary.html">io.micronaut.kubernetes.client.openapi.api</a> - package io.micronaut.kubernetes.client.openapi.api</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/package-summary.html">io.micronaut.kubernetes.client.openapi.common</a> - package io.micronaut.kubernetes.client.openapi.common</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/package-summary.html">io.micronaut.kubernetes.client.openapi.config</a> - package io.micronaut.kubernetes.client.openapi.config</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/model/package-summary.html">io.micronaut.kubernetes.client.openapi.config.model</a> - package io.micronaut.kubernetes.client.openapi.config.model</dt>
@@ -17810,13 +17960,25 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/model/package-summary.html">io.micronaut.kubernetes.client.openapi.credential.model</a> - package io.micronaut.kubernetes.client.openapi.credential.model</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a> - package io.micronaut.kubernetes.client.openapi.informer</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.cache</a> - package io.micronaut.kubernetes.client.openapi.informer.cache</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.handler</a> - package io.micronaut.kubernetes.client.openapi.informer.handler</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/package-summary.html">io.micronaut.kubernetes.client.openapi.model</a> - package io.micronaut.kubernetes.client.openapi.model</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/reactor/annotation/package-summary.html">io.micronaut.kubernetes.client.openapi.reactor.annotation</a> - package io.micronaut.kubernetes.client.openapi.reactor.annotation</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/reactor/api/package-summary.html">io.micronaut.kubernetes.client.openapi.reactor.api</a> - package io.micronaut.kubernetes.client.openapi.reactor.api</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/resolver/package-summary.html">io.micronaut.kubernetes.client.openapi.resolver</a> - package io.micronaut.kubernetes.client.openapi.resolver</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/ssl/package-summary.html">io.micronaut.kubernetes.client.openapi.ssl</a> - package io.micronaut.kubernetes.client.openapi.ssl</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/package-summary.html">io.micronaut.kubernetes.client.openapi.watcher</a> - package io.micronaut.kubernetes.client.openapi.watcher</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/watcher/annotation/package-summary.html">io.micronaut.kubernetes.client.openapi.watcher.annotation</a> - package io.micronaut.kubernetes.client.openapi.watcher.annotation</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/api/package-summary.html">io.micronaut.kubernetes.client.openapi.watcher.api</a> - package io.micronaut.kubernetes.client.openapi.watcher.api</dt>
 <dd>&nbsp;</dd>
@@ -22786,6 +22948,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set kernelVersion in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#key()" class="member-name-link">key()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#param-key"><code>key</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1AuditAnnotation.html#key(java.lang.String)" class="member-name-link">key(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1AuditAnnotation.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1AuditAnnotation</a></dt>
 <dd>
 <div class="block">Set key in a chainable fashion.</div>
@@ -23518,6 +23684,14 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html#%3Cinit%3E()" class="member-name-link">KubernetesApisProcessor()</a> - Constructor for class io.micronaut.kubernetes.client.processor.<a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html" title="class in io.micronaut.kubernetes.client.processor">KubernetesApisProcessor</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/reactor/annotation/KubernetesClientApiReactor.html" class="type-name-link" title="annotation interface in io.micronaut.kubernetes.client.openapi.reactor.annotation">KubernetesClientApiReactor</a> - Annotation Interface in <a href="io/micronaut/kubernetes/client/openapi/reactor/annotation/package-summary.html">io.micronaut.kubernetes.client.openapi.reactor.annotation</a></dt>
+<dd>
+<div class="block">Internal annotation used for finding kubernetes client api reactor beans.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/watcher/annotation/KubernetesClientApiWatcher.html" class="type-name-link" title="annotation interface in io.micronaut.kubernetes.client.openapi.watcher.annotation">KubernetesClientApiWatcher</a> - Annotation Interface in <a href="io/micronaut/kubernetes/client/openapi/watcher/annotation/package-summary.html">io.micronaut.kubernetes.client.openapi.watcher.annotation</a></dt>
+<dd>
+<div class="block">Internal annotation used for finding kubernetes client api watcher beans.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a> - Class in <a href="io/micronaut/kubernetes/client/openapi/config/package-summary.html">io.micronaut.kubernetes.client.openapi.config</a></dt>
 <dd>
 <div class="block">Kubernetes client configuration.</div>
@@ -23609,6 +23783,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Constructor.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/common/package-summary.html">io.micronaut.kubernetes.client.openapi.common</a></dt>
+<dd>
+<div class="block">Common accessors for kubernetes list objects.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/common/package-summary.html">io.micronaut.kubernetes.client.openapi.common</a></dt>
+<dd>
+<div class="block">Common accessors for kubernetes object.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesPrivateKeyLoader.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.ssl">KubernetesPrivateKeyLoader</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/ssl/package-summary.html">io.micronaut.kubernetes.client.openapi.ssl</a></dt>
 <dd>
 <div class="block">Interface for kubernetes private key loaders.</div>
@@ -23692,6 +23874,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">The loader for bearer token used in kubernetes api service authentication.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesType.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/common/package-summary.html">io.micronaut.kubernetes.client.openapi.common</a></dt>
+<dd>
+<div class="block">Equivalence to TypeMeta from kubernetes/client-go.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html" class="type-name-link" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a> - Class in <a href="io/micronaut/kubernetes/util/package-summary.html">io.micronaut.kubernetes.util</a></dt>
 <dd>
 <div class="block">Utility class with methods to help with ConfigMaps and Secrets.</div>
@@ -23709,6 +23895,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Informer label selector.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#labelSelector()" class="member-name-link">labelSelector()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
+<dd>
+<div class="block">Informer label selector.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1PodAffinityTerm.html#labelSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" class="member-name-link">labelSelector(V1LabelSelector)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1PodAffinityTerm.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodAffinityTerm</a></dt>
 <dd>
 <div class="block">Set labelSelector in a chainable fashion.</div>
@@ -23722,6 +23912,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Set labelSelectorPath in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html#labelSelectorSupplier()" class="member-name-link">labelSelectorSupplier()</a> - Element in annotation interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></dt>
+<dd>
+<div class="block">Informer label selector supplier.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#labelSelectorSupplier()" class="member-name-link">labelSelectorSupplier()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
 <dd>
 <div class="block">Informer label selector supplier.</div>
 </dd>
@@ -23772,6 +23966,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CronJobStatus.html#lastSuccessfulTime(java.time.ZonedDateTime)" class="member-name-link">lastSuccessfulTime(ZonedDateTime)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CronJobStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CronJobStatus</a></dt>
 <dd>
 <div class="block">Set lastSuccessfulTime in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#lastSyncResourceVersion()" class="member-name-link">lastSyncResourceVersion()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">Returns the last sync resource version.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html#lastTimestamp(java.time.ZonedDateTime)" class="member-name-link">lastTimestamp(ZonedDateTime)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a></dt>
 <dd>
@@ -23960,6 +24158,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ResourceRequirements.html#limits(java.util.Map)" class="member-name-link">limits(Map&lt;String, String&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></dt>
 <dd>
 <div class="block">Set limits in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#list()" class="member-name-link">list()</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#list()" class="member-name-link">list()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Returns a list of all the items.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/ApiregistrationV1Api.html#listAPIService(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)" class="member-name-link">listAPIService(String, Boolean, String, String, String, Integer, String, String, Boolean, Integer, Boolean)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/ApiregistrationV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ApiregistrationV1Api</a></dt>
 <dd>
@@ -24314,6 +24518,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/api/BatchV1ApiWatcher.html#listJobForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)" class="member-name-link">listJobForAllNamespaces(Boolean, String, String, String, Integer, String, String, String, Boolean, Integer, Boolean)</a> - Method in interface io.micronaut.kubernetes.client.openapi.watcher.api.<a href="io/micronaut/kubernetes/client/openapi/watcher/api/BatchV1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">BatchV1ApiWatcher</a></dt>
 <dd>
 <div class="block">list or watch objects of kind Job</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#listKeys()" class="member-name-link">listKeys()</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#listKeys()" class="member-name-link">listKeys()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Returns a list of keys of all objects that are currently in the store.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceDefinitionNames.html#listKind(java.lang.String)" class="member-name-link">listKind(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceDefinitionNames.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CustomResourceDefinitionNames</a></dt>
 <dd>
@@ -26591,6 +26801,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/config/model/Context.html#param-namespace"><code>namespace</code></a> record component.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#namespace()" class="member-name-link">namespace()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
+<dd>
+<div class="block">Watched resource namespace.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html#namespace(java.lang.String)" class="member-name-link">namespace(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1ServiceReference</a></dt>
 <dd>
 <div class="block">Set namespace in a chainable fashion.</div>
@@ -26669,7 +26883,15 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Resolves the Kubernetes namespace for the Micronaut application.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/resolver/NamespaceResolver.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.resolver">NamespaceResolver</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/resolver/package-summary.html">io.micronaut.kubernetes.client.openapi.resolver</a></dt>
+<dd>
+<div class="block">Resolves the Kubernetes namespace for the Micronaut application.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html#namespaces()" class="member-name-link">namespaces()</a> - Element in annotation interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></dt>
+<dd>
+<div class="block">Watched resource namespaces.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#namespaces()" class="member-name-link">namespaces()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
 <dd>
 <div class="block">Watched resource namespaces.</div>
 </dd>
@@ -26706,6 +26928,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Set namespaceSelector in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html#namespacesSupplier()" class="member-name-link">namespacesSupplier()</a> - Element in annotation interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></dt>
+<dd>
+<div class="block">Namespaces supplier bean class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#namespacesSupplier()" class="member-name-link">namespacesSupplier()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
 <dd>
 <div class="block">Namespaces supplier bean class.</div>
 </dd>
@@ -26906,6 +27132,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:O">O</h2>
 <dl class="index">
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#object()" class="member-name-link">object()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#param-object"><code>object</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#object()" class="member-name-link">object()</a> - Method in record class io.micronaut.kubernetes.client.openapi.watcher.<a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#param-object"><code>object</code></a> record component.</div>
@@ -26986,6 +27216,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html#%3Cinit%3E()" class="member-name-link">OkHttpClientLogging()</a> - Constructor for class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/OkHttpClientLogging.html" title="class in io.micronaut.kubernetes.client">OkHttpClientLogging</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html#onAdd(ApiType)" class="member-name-link">onAdd(ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onAdd(T)" class="member-name-link">onAdd(T)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#onAddFilter()" class="member-name-link">onAddFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
@@ -26997,6 +27229,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html#onCreated(io.micronaut.context.event.BeanCreatedEvent)" class="member-name-link">onCreated(BeanCreatedEvent&lt;ResourceEventHandler&lt;ApiType&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html#onCreated(io.micronaut.context.event.BeanCreatedEvent)" class="member-name-link">onCreated(BeanCreatedEvent&lt;ResourceReconciler&lt;ApiType&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html#onDelete(ApiType,boolean)" class="member-name-link">onDelete(ApiType, boolean)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onDelete(T,boolean)" class="member-name-link">onDelete(T, boolean)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
 <dd>&nbsp;</dd>
@@ -27031,6 +27265,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html#onSuccess(T,int,java.util.Map)" class="member-name-link">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.rxjava2.<a href="io/micronaut/kubernetes/client/rxjava2/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava2">ApiCallbackEmitter</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/rxjava3/ApiCallbackEmitter.html#onSuccess(T,int,java.util.Map)" class="member-name-link">onSuccess(T, int, Map&lt;String, List&lt;String&gt;&gt;)</a> - Method in class io.micronaut.kubernetes.client.rxjava3.<a href="io/micronaut/kubernetes/client/rxjava3/ApiCallbackEmitter.html" title="class in io.micronaut.kubernetes.client.rxjava3">ApiCallbackEmitter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html#onUpdate(ApiType,ApiType)" class="member-name-link">onUpdate(ApiType, ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onUpdate(T,T)" class="member-name-link">onUpdate(T, T)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
 <dd>&nbsp;</dd>
@@ -28469,6 +28705,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.informer">InformerConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in class io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/InformerConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/InformerConfiguration.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">InformerConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in class io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a></dt>
 <dd>&nbsp;</dd>
@@ -29948,6 +30186,12 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set renewTime in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#replace(java.util.List)" class="member-name-link">replace(List&lt;ApiType&gt;)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Replace the content in the cache completely.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#replace(java.util.List)" class="member-name-link">replace(List&lt;ApiType&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/ApiregistrationV1Api.html#replaceAPIService(java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1APIService,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">replaceAPIService(String, V1APIService, String, String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/ApiregistrationV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ApiregistrationV1Api</a></dt>
 <dd>
 <div class="block">replace the specified APIService</div>
@@ -30902,6 +31146,8 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/Informer.html#RESOLVE_AUTOMATICALLY" class="member-name-link">RESOLVE_AUTOMATICALLY</a> - Static variable in annotation interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer">Informer</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#RESOLVE_AUTOMATICALLY" class="member-name-link">RESOLVE_AUTOMATICALLY</a> - Static variable in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html#resolveApiListType(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">resolveApiListType(AnnotationValue&lt;Informer&gt;)</a> - Static method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/InformerAnnotationUtils.html" title="class in io.micronaut.kubernetes.client.informer">InformerAnnotationUtils</a></dt>
 <dd>
 <div class="block">Resolves the resource <code>KubernetesListObject</code> api list type from the <a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer"><code>Informer</code></a>'s <code>AnnotationValue</code>.</div>
@@ -30939,6 +31185,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html#resolveNamespace()" class="member-name-link">resolveNamespace()</a> - Method in class io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DefaultNamespaceResolver.html" title="class in io.micronaut.kubernetes.client">DefaultNamespaceResolver</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/NamespaceResolver.html#resolveNamespace()" class="member-name-link">resolveNamespace()</a> - Method in interface io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/NamespaceResolver.html" title="interface in io.micronaut.kubernetes.client">NamespaceResolver</a></dt>
+<dd>
+<div class="block">Resolves namespace.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/resolver/NamespaceResolver.html#resolveNamespace()" class="member-name-link">resolveNamespace()</a> - Method in interface io.micronaut.kubernetes.client.openapi.resolver.<a href="io/micronaut/kubernetes/client/openapi/resolver/NamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.openapi.resolver">NamespaceResolver</a></dt>
 <dd>
 <div class="block">Resolves namespace.</div>
 </dd>
@@ -31005,6 +31255,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha2ResourceClaimSpec.html#resourceClassName(java.lang.String)" class="member-name-link">resourceClassName(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha2ResourceClaimSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha2ResourceClaimSpec</a></dt>
 <dd>
 <div class="block">Set resourceClassName in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="type parameter in ResourceEventHandler">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/handler/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.handler</a></dt>
+<dd>
+<div class="block">Interface for event handlers.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a>&lt;<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="type parameter in ResourceEventHandlerBeanListener">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt; - Class in <a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a></dt>
 <dd>
@@ -31165,6 +31419,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">How often to check if the listener need a resync.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html#resyncCheckPeriod()" class="member-name-link">resyncCheckPeriod()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.informer.handler">Informer</a></dt>
+<dd>
+<div class="block">Period in milliseconds which defines how often to check whether the listener need a resync.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1StatusDetails.html#retryAfterSeconds(java.lang.Integer)" class="member-name-link">retryAfterSeconds(Integer)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1StatusDetails.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StatusDetails</a></dt>
 <dd>
 <div class="block">Set retryAfterSeconds in a chainable fashion.</div>
@@ -31248,6 +31506,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ValidatingWebhook.html#rules(java.util.List)" class="member-name-link">rules(List&lt;V1RuleWithOperations&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ValidatingWebhook.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ValidatingWebhook</a></dt>
 <dd>
 <div class="block">Set rules in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#run()" class="member-name-link">run()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">Starts the shared informer, which won't be stopped until the stop method is called.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1PodSecurityContext.html#runAsGroup(java.lang.Long)" class="member-name-link">runAsGroup(Long)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1PodSecurityContext.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodSecurityContext</a></dt>
 <dd>
@@ -36945,6 +37207,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the nameservers property value</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html#setNamespace(java.lang.String)" class="member-name-link">setNamespace(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a></dt>
+<dd>
+<div class="block">Sets kubernetes client namespace.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html#setNamespace(java.lang.String)" class="member-name-link">setNamespace(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1ServiceReference</a></dt>
 <dd>
 <div class="block">Set the namespace property value</div>
@@ -37022,6 +37288,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1APIResource.html#setNamespaced(java.lang.Boolean)" class="member-name-link">setNamespaced(Boolean)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1APIResource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIResource</a></dt>
 <dd>
 <div class="block">Set the namespaced property value</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html#setNamespacePath(java.lang.String)" class="member-name-link">setNamespacePath(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration.ServiceAccount</a></dt>
+<dd>
+<div class="block">Sets path to the namespace file.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1beta2ResourcePolicyRule.html#setNamespaces(java.util.List)" class="member-name-link">setNamespaces(List&lt;String&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1beta2ResourcePolicyRule.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ResourcePolicyRule</a></dt>
 <dd>
@@ -40117,6 +40387,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set the topologySpreadConstraints property value</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#setTransform(io.micronaut.kubernetes.client.openapi.informer.TransformFunc)" class="member-name-link">setTransform(TransformFunc)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">The TransformFunc is called for each object which is about to be stored.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1ClusterTrustBundleSpec.html#setTrustBundle(java.lang.String)" class="member-name-link">setTrustBundle(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1ClusterTrustBundleSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1ClusterTrustBundleSpec</a></dt>
 <dd>
 <div class="block">Set the trustBundle property value</div>
@@ -40869,9 +41143,33 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set shareable in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="type parameter in SharedIndexInformer">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a></dt>
+<dd>
+<div class="block">Extends shared informer with indexer.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a> - Interface in <a href="io/micronaut/kubernetes/client/informer/package-summary.html">io.micronaut.kubernetes.client.informer</a></dt>
 <dd>
 <div class="block">Informer factory interface.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a></dt>
+<dd>
+<div class="block">Informer factory interface.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#sharedIndexInformerFor(java.lang.Class,java.lang.String)" class="member-name-link">sharedIndexInformerFor(Class&lt;ApiType&gt;, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Creates a new <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String)" class="member-name-link">sharedIndexInformerFor(Class&lt;ApiType&gt;, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Creates a new <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,long)" class="member-name-link">sharedIndexInformerFor(Class&lt;ApiType&gt;, String, String, long)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Creates a new <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,long,java.util.function.Function,java.util.Map)" class="member-name-link">sharedIndexInformerFor(Class&lt;ApiType&gt;, String, String, long, Function&lt;ApiType, String&gt;, Map&lt;String, Function&lt;ApiType, List&lt;String&gt;&gt;&gt;)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Creates a new <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#sharedIndexInformerFor(java.lang.Class,java.lang.Class,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Long,boolean)" class="member-name-link">sharedIndexInformerFor(Class&lt;ApiType&gt;, Class&lt;ApiListType&gt;, String, String, String, String, Long, boolean)</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></dt>
 <dd>&nbsp;</dd>
@@ -40879,11 +41177,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Creates new <code>SharedIndexInformer</code>.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#sharedIndexInformersFor(java.lang.Class,java.util.List,java.lang.String,long)" class="member-name-link">sharedIndexInformersFor(Class&lt;ApiType&gt;, List&lt;String&gt;, String, long)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Creates a new <a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a> for each namespace.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#sharedIndexInformersFor(java.lang.Class,java.lang.Class,java.lang.String,java.lang.String,java.util.List,java.lang.String,java.lang.Long,boolean)" class="member-name-link">sharedIndexInformersFor(Class&lt;ApiType&gt;, Class&lt;ApiListType&gt;, String, String, List&lt;String&gt;, String, Long, boolean)</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html#sharedIndexInformersFor(java.lang.Class,java.lang.Class,java.lang.String,java.lang.String,java.util.List,java.lang.String,java.lang.Long,boolean)" class="member-name-link">sharedIndexInformersFor(Class&lt;ApiType&gt;, Class&lt;ApiListType&gt;, String, String, List&lt;String&gt;, String, Long, boolean)</a> - Method in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a></dt>
 <dd>
 <div class="block">Creates new <code>SharedIndexInformer</code>s for every namespace from <code>namespaces</code> param.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="type parameter in SharedInformer">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a></dt>
+<dd>
+<div class="block">Defines basic methods of an informer.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1AzureFilePersistentVolumeSource.html#shareName(java.lang.String)" class="member-name-link">shareName(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1AzureFilePersistentVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AzureFilePersistentVolumeSource</a></dt>
 <dd>
@@ -41192,6 +41498,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html#startAllRegisteredInformers()" class="member-name-link">startAllRegisteredInformers()</a> - Method in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a></dt>
 <dd>
 <div class="block">Start all registered informers.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#startAllRegisteredInformers()" class="member-name-link">startAllRegisteredInformers()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Starts all registered informers.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ContainerStatus.html#started(java.lang.Boolean)" class="member-name-link">started(Boolean)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a></dt>
 <dd>
@@ -41517,11 +41827,19 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set stdinOnce in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#stop()" class="member-name-link">stop()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
+<dd>
+<div class="block">Stops the shared informer.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html#stopAllRegisteredInformers()" class="member-name-link">stopAllRegisteredInformers()</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/DefaultSharedIndexInformerFactory.html" title="class in io.micronaut.kubernetes.client.informer">DefaultSharedIndexInformerFactory</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html#stopAllRegisteredInformers()" class="member-name-link">stopAllRegisteredInformers()</a> - Method in interface io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a></dt>
 <dd>
 <div class="block">Stop all registered informers.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html#stopAllRegisteredInformers()" class="member-name-link">stopAllRegisteredInformers()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></dt>
+<dd>
+<div class="block">Stops all registered informers.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceDefinitionVersion.html#storage(java.lang.Boolean)" class="member-name-link">storage(Boolean)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceDefinitionVersion.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CustomResourceDefinitionVersion</a></dt>
 <dd>
@@ -41598,6 +41916,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1StorageVersionStatus.html#storageVersions(java.util.List)" class="member-name-link">storageVersions(List&lt;V1alpha1ServerStorageVersion&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1StorageVersionStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1StorageVersionStatus</a></dt>
 <dd>
 <div class="block">Set storageVersions in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="type parameter in Store">ApiType</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/cache/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.cache</a></dt>
+<dd>
+<div class="block">Interface for implementations which stores objects.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceDefinitionStatus.html#storedVersions(java.util.List)" class="member-name-link">storedVersions(List&lt;String&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceDefinitionStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CustomResourceDefinitionStatus</a></dt>
 <dd>
@@ -41965,6 +42287,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.credential.model.<a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredentialStatus</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html" title="class in io.micronaut.kubernetes.client.openapi.informer">DeletedFinalStateUnknown</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -43046,6 +43372,15 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#toString()" class="member-name-link">toString()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/TransformFunc.html#transform(io.micronaut.kubernetes.client.openapi.common.KubernetesObject)" class="member-name-link">transform(KubernetesObject)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/TransformFunc.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">TransformFunc</a></dt>
+<dd>
+<div class="block">Transforms given object.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/TransformFunc.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer">TransformFunc</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/package-summary.html">io.micronaut.kubernetes.client.openapi.informer</a></dt>
+<dd>
+<div class="block">TransformFunc allows for transforming an object before it will be processed
+ and put into the cache and before the corresponding handlers will be called on it.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1ClusterTrustBundleSpec.html#trustBundle(java.lang.String)" class="member-name-link">trustBundle(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1ClusterTrustBundleSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1ClusterTrustBundleSpec</a></dt>
 <dd>
 <div class="block">Set trustBundle in a chainable fashion.</div>
@@ -43332,6 +43667,12 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha2ResourceClaimSchedulingStatus.html#unsuitableNodes(java.util.List)" class="member-name-link">unsuitableNodes(List&lt;String&gt;)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha2ResourceClaimSchedulingStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha2ResourceClaimSchedulingStatus</a></dt>
 <dd>
 <div class="block">Set unsuitableNodes in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html#update(ApiType)" class="member-name-link">update(ApiType)</a> - Method in class io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Cache.html" title="class in io.micronaut.kubernetes.client.openapi.informer.cache">Cache</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html#update(ApiType)" class="member-name-link">update(ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.cache.<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a></dt>
+<dd>
+<div class="block">Sets an item in the store to its updated state.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1DaemonSetStatus.html#updatedNumberScheduled(java.lang.Integer)" class="member-name-link">updatedNumberScheduled(Integer)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1DaemonSetStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1DaemonSetStatus</a></dt>
 <dd>
