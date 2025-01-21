@@ -29,6 +29,7 @@ micronaut {
             typeMapping = tasks.named("createWatcherOpenApiSpec", CreateWatcherSpec).flatMap(CreateWatcherSpec::getWatcherTypeMappingsFile).map { t->
                 return evaluate(t.getAsFile())
             }
+            additionalClientTypeAnnotations = ["@io.micronaut.kubernetes.client.openapi.watcher.annotation.KubernetesClientApiWatcher"]
         }
     }
 }

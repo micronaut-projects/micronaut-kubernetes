@@ -66,14 +66,12 @@ public abstract class DownloadSpec extends DefaultTask {
             getLogger().info("Downloading kubernetes client openapi spec file: {}", specUrl);
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.contains("x-implements")) {
-                    // skip lines which contains x-implements because we don't want that generated classes implement
-                    // io.kubernetes.client.common.KubernetesObject and io.kubernetes.client.common.KubernetesListObject
-                    reader.readLine(); // skip one more line because it contains KubernetesObject interface
+                if (line.contains("io.kubernetes.client.common")) {
+                    writer.write(line.replace("io.kubernetes.client.common", "io.micronaut.kubernetes.client.openapi.common"));
                 } else {
                     writer.write(line);
-                    writer.newLine();
                 }
+                writer.newLine();
             }
             getLogger().info("Downloaded kubernetes client openapi spec file: {}", specFile.getAbsolutePath());
         }

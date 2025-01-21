@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory
 import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.k3s.K3sContainer
 import org.testcontainers.utility.DockerImageName
+import reactor.core.Disposable
+import reactor.core.publisher.Flux
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -70,11 +72,9 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
 
         Map<String, List<String>> events = new ConcurrentHashMap<>()
 
-        apiWatcher.listNamespacedSecret(namespaceName, null, null, null, null,
+        Flux<WatchEvent<V1Secret>> flux = apiWatcher.listNamespacedSecret(namespaceName, null, null, null, null,
                 null, null, null, null, null, null, true)
-                .subscribe(event -> {
-                    events.computeIfAbsent(event.object.metadata.name, key -> []).add(event.type)
-                })
+        Disposable disposable = flux.subscribe(event -> {events.computeIfAbsent(event.object.metadata.name, key -> []).add(event.type)})
 
         replaceSecret(namespaceName, secretName)
         V1Status v1Status = deleteSecret(namespaceName, secretName)
@@ -89,6 +89,9 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
             events.get(secretName)?.get(2) == 'DELETED'
         }
         v1Status.status == "Success"
+
+        cleanup:
+        disposable?.dispose()
     }
 
     private void createNamespace(String namespaceName) {
