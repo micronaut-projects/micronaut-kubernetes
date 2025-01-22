@@ -24,7 +24,7 @@ class KubernetesDiscoveryClientFilterSpec extends KubernetesSpecification implem
     PollingConditions pollingConditions = new PollingConditions()
 
     @Unroll
-    void "it can filter includes services with watchEnabled #watchEnabled and mode #mode"() {
+    void "mstest it can filter includes services with watchEnabled #watchEnabled and mode #mode"() {
         given:
         ApplicationContext applicationContext = ApplicationContext.run([
                 "kubernetes.client.namespace"                                          : namespace,
