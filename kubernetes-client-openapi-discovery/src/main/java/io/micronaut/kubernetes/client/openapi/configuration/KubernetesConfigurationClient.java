@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.EmptyPropertySource;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
@@ -63,12 +64,6 @@ import java.util.function.Predicate;
 final class KubernetesConfigurationClient implements ConfigurationClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
-
-    static final String CONFIG_MAP_LIST_RESOURCE_VERSION = "configMapListResourceVersion";
-    static final String CONFIG_MAP_RESOURCE_VERSION = "configMapResourceVersion";
-    static final String KUBERNETES_CONFIG_MAP_LIST_NAME = "Kubernetes ConfigMapList";
-    static final String KUBERNETES_CONFIG_MAP_NAME_SUFFIX = " (Kubernetes ConfigMap)";
-    static final String KUBERNETES_SECRET_NAME_SUFFIX = " (Kubernetes Secret)";
 
     private static final Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
 
@@ -161,47 +156,33 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
             .doOnNext(labelSelector -> LOG.trace("Going to list ConfigMaps from namespace [{}] with label selector [{}]", namespace, labelSelector))
             .flatMap(labelSelector -> client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null))
             .doOnError(throwable -> LOG.error("Failed to list ConfigMaps in the namespace [{}]", namespace, throwable))
-            .onErrorResume(throwable -> exceptionOnPodLabelsMissing
-                ? Mono.error(throwable)
-                : Mono.just(new V1ConfigMapList(new ArrayList<>())))
+            .onErrorResume(throwable -> exceptionOnPodLabelsMissing ? Mono.error(throwable) : Mono.just(new V1ConfigMapList(new ArrayList<>())))
             .doOnNext(configMapList -> LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size()))
             .flux()
             .flatMap(configMapList -> Flux.merge(
-                Flux.just(configMapListAsPropertySource(configMapList)),
+                Flux.just(KubernetesConfigUtils.kubernetesListAsPropertySource(configMapList)),
                 Flux.fromIterable(configMapList.getItems())
                     .filter(includesFilter.and(excludesFilter))
-                    .doOnNext(configMap -> LOG.debug("Adding config map with name {}", configMap.getMetadata().getName()))
                     .map(KubernetesConfigUtils::configMapAsPropertySource)
-            ));
+            ))
+            .filter(propertySource -> !(propertySource instanceof EmptyPropertySource))
+            .doOnNext(KubernetesConfigurationClient::addPropertySourceToCache);
     }
 
     private Flux<PropertySource> readConfigMapsFromMountedVolumes(Collection<String> paths) {
-        LOG.debug("Reading ConfigMaps from the following mounted volumes: {}", paths);
-
+        LOG.debug("Reading ConfigMaps from mounted volumes: {}", paths);
         List<PropertySource> propertySources = new ArrayList<>();
-
-        paths.stream()
-            .map(Paths::get)
-            .forEach(path -> {
-                LOG.trace("Reading ConfigMaps from the following mounted volume: {}", path);
-                Map<String, String> configMapFiles = readFiles(path);
-                LOG.debug("Property sources found on path '{}': {}", path, configMapFiles.keySet());
-                if (!configMapFiles.isEmpty()) {
-                    List<PropertySource> mountedMapPropertySources = KubernetesConfigUtils.configMapAsPropertySource(path.toString(), configMapFiles);
-                    mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
-                    propertySources.addAll(mountedMapPropertySources);
-                }
-            });
-
+        paths.forEach(path -> {
+            LOG.trace("Reading ConfigMaps from mounted volume: {}", path);
+            Map<String, String> configMapFiles = readFiles(Paths.get(path));
+            LOG.debug("ConfigMaps file found on path '{}': {}", path, configMapFiles.keySet());
+            if (!configMapFiles.isEmpty()) {
+                List<PropertySource> mountedMapPropertySources = KubernetesConfigUtils.configMapAsPropertySource(path, configMapFiles);
+                mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
+                propertySources.addAll(mountedMapPropertySources);
+            }
+        });
         return Flux.fromIterable(propertySources);
-    }
-
-    private static PropertySource configMapListAsPropertySource(V1ConfigMapList configMapList) {
-        String resourceVersion = configMapList.getMetadata() != null ? configMapList.getMetadata().getResourceVersion() : "-1";
-        LOG.debug("Adding config map list with version {}", resourceVersion);
-        return PropertySource.of(KUBERNETES_CONFIG_MAP_LIST_NAME,
-            Collections.singletonMap(CONFIG_MAP_LIST_RESOURCE_VERSION, resourceVersion),
-            EnvironmentPropertySource.POSITION + 100);
     }
 
     private Publisher<PropertySource> getPropertySourcesFromSecrets() {
@@ -238,37 +219,34 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
             .doOnNext(labelSelector -> LOG.trace("Going to list Secrets from namespace [{}] with label selector [{}]", namespace, labelSelector))
             .flatMap(labelSelector -> client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null))
             .doOnError(throwable -> LOG.error("Failed to list Secrets in the namespace [{}]", namespace, throwable))
-            .onErrorResume(throwable -> exceptionOnPodLabelsMissing
-                ? Mono.error(throwable)
-                : Mono.just(new V1SecretList(new ArrayList<>())))
+            .onErrorResume(throwable -> exceptionOnPodLabelsMissing ? Mono.error(throwable) : Mono.just(new V1SecretList(new ArrayList<>())))
             .doOnNext(secretList -> LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size()))
-            .flatMapIterable(V1SecretList::getItems)
-            .filter(secretTypeFilter.and(includesFilter).and(excludesFilter))
-            .doOnNext(secret -> LOG.debug("Adding secret with name {}", secret.getMetadata().getName()))
-            .map(KubernetesConfigUtils::secretAsPropertySource);
+            .flux()
+            .flatMap(secretList -> Flux.merge(
+                Flux.just(KubernetesConfigUtils.kubernetesListAsPropertySource(secretList)),
+                Flux.fromIterable(secretList.getItems())
+                    .filter(secretTypeFilter.and(includesFilter).and(excludesFilter))
+                    .map(KubernetesConfigUtils::secretAsPropertySource)
+            ))
+            .filter(propertySource -> !(propertySource instanceof EmptyPropertySource))
+            .doOnNext(KubernetesConfigurationClient::addPropertySourceToCache);
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private Flux<PropertySource> readSecretsFromMountedVolumes(Collection<String> paths) {
-        LOG.debug("Reading Secrets from the following mounted volumes: {}", paths);
-
+        LOG.debug("Reading Secrets from mounted volumes: {}", paths);
         List<PropertySource> propertySources = new ArrayList<>();
-
-        paths.stream()
-            .map(Paths::get)
-            .forEach(path -> {
-                LOG.trace("Reading Secrets from the following mounted volume: {}", path);
-                Map<String, Object> secretFiles = (Map) readFiles(path);
-                LOG.debug("Property sources found on path '{}': {}", path, secretFiles.keySet());
-                if (!secretFiles.isEmpty()) {
-                    String propertySourceName = path + KUBERNETES_SECRET_NAME_SUFFIX;
-                    int priority = EnvironmentPropertySource.POSITION + 150;
-                    PropertySource propertySource = PropertySource.of(propertySourceName, secretFiles, priority);
-                    addPropertySourceToCache(propertySource);
-                    propertySources.add(propertySource);
-                }
-            });
-
+        paths.forEach(path -> {
+            LOG.trace("Reading Secrets from mounted volume: {}", path);
+            Map<String, Object> secretFiles = (Map) readFiles(Paths.get(path));
+            LOG.debug("Secrets file found on path '{}': {}", path, secretFiles.keySet());
+            if (!secretFiles.isEmpty()) {
+                String propertySourceName = KubernetesConfigUtils.createPropertySourceName(path, V1Secret.class);
+                PropertySource propertySource = PropertySource.of(propertySourceName, secretFiles, EnvironmentPropertySource.POSITION + 150);
+                addPropertySourceToCache(propertySource);
+                propertySources.add(propertySource);
+            }
+        });
         return Flux.fromIterable(propertySources);
     }
 

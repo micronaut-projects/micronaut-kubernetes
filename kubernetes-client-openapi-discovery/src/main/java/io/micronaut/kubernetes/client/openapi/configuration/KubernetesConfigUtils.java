@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.configuration;
 
+import io.micronaut.context.env.EmptyPropertySource;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
@@ -22,6 +23,8 @@ import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
+import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.health.KubernetesHealthIndicator;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
@@ -38,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -50,8 +54,68 @@ final class KubernetesConfigUtils {
 
     private static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
 
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceLoader.class).spliterator(), false)
-        .collect(Collectors.toList());
+    private static final String PROPERTY_SOURCE_NAME_TEMPLATE = "%s (Kubernetes %s)";
+    private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
+    private static final String LIST_RES_VERSION_PROP_NAME_TEMPLATE = "%s.resource-version";
+
+    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS;
+    private static final Set<String> PROPERTY_SOURCE_EXTENSIONS;
+
+    static {
+        PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceLoader.class).spliterator(), false).collect(Collectors.toList());
+        PROPERTY_SOURCE_EXTENSIONS = PROPERTY_SOURCE_READERS.stream().flatMap(it -> it.getExtensions().stream()).collect(Collectors.toSet());
+    }
+
+    /**
+     * Creates a property source from given kubernetes list object.
+     *
+     * @param kubernetesListObject the kubernetes list object
+     * @return property source
+     */
+    static PropertySource kubernetesListAsPropertySource(KubernetesListObject kubernetesListObject) {
+        String objectType = kubernetesListObject.getClass().getSimpleName();
+        String resVersionPropertyName = LIST_RES_VERSION_PROP_NAME_TEMPLATE.formatted(objectType.toLowerCase());
+        String resVersionPropertyValue = kubernetesListObject.getMetadata().getResourceVersion();
+        LOG.trace("Creating PropertySource with resourceVersion={} for {}", resVersionPropertyValue, objectType);
+        return PropertySource.of("Kubernetes " + objectType,
+            Collections.singletonMap(resVersionPropertyName, resVersionPropertyValue),
+            EnvironmentPropertySource.POSITION + 100);
+    }
+
+    /**
+     * Creates a property name for property which contains resource version of given kubernetes object.
+     *
+     * @param kubernetesObject the kubernetes object
+     * @return property name
+     */
+    static String createResVersionPropertyName(KubernetesObject kubernetesObject) {
+        String objectType = kubernetesObject.getClass().getSimpleName();
+        String objectName = kubernetesObject.getMetadata().getName();
+        return OBJECT_RES_VERSION_PROP_NAME_TEMPLATE.formatted(objectType.toLowerCase(), objectName);
+    }
+
+    /**
+     * Creates a property source name from given kubernetes object.
+     *
+     * @param kubernetesObject the kubernetes object
+     * @return property source name
+     */
+    static String createPropertySourceName(KubernetesObject kubernetesObject) {
+        String objectName = kubernetesObject.getMetadata().getName();
+        String objectType = kubernetesObject.getClass().getSimpleName();
+        return PROPERTY_SOURCE_NAME_TEMPLATE.formatted(objectName, objectType);
+    }
+
+    /**
+     * Creates a property source name from given file path.
+     *
+     * @param filePath the file path
+     * @param type the kubernetes type
+     * @return property source name
+     */
+    static String createPropertySourceName(String filePath, Class<? extends KubernetesObject> type) {
+        return PROPERTY_SOURCE_NAME_TEMPLATE.formatted(filePath, type.getSimpleName());
+    }
 
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
@@ -60,34 +124,41 @@ final class KubernetesConfigUtils {
      * @return {@link PropertySource} instance
      */
     static PropertySource configMapAsPropertySource(V1ConfigMap configMap) {
-        LOG.trace("Creating PropertySource for ConfigMap: {}", configMap);
-        String name = getPropertySourceName(configMap);
+        LOG.trace("Creating PropertySource for ConfigMap: {}", configMap.getMetadata().getName());
         Map<String, String> data = configMap.getData();
         if (CollectionUtils.isEmpty(data)) {
-            return PropertySource.of(Collections.emptyMap());
+            return new EmptyPropertySource();
         }
 
+        Map<String, Object> propertySourceData;
         Map.Entry<String, String> entry = data.entrySet().iterator().next();
-        if (data.size() > 1 || getExtension(entry.getKey()).isEmpty()) {
+        Optional<String> extensionOpt = getExtension(entry.getKey());
+        if (data.size() > 1 || extensionOpt.isEmpty()) {
             LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
-            data.putIfAbsent(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
-            Map<String, Object> propertySourceData = new HashMap<>(data);
-            return PropertySource.of(name, propertySourceData);
+            propertySourceData = new HashMap<>(data);
         } else {
             LOG.trace("Considering this ConfigMap as containing values from a single file");
-            String extension = getExtension(entry.getKey()).get();
-            int priority = EnvironmentPropertySource.POSITION + 100;
-            PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
+            String extension = extensionOpt.get();
+            Optional<PropertySourceReader> propertySourceReader = PROPERTY_SOURCE_READERS.stream()
                 .filter(reader -> reader.getExtensions().contains(extension))
-                .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
-                .peek(map -> map.putIfAbsent(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
-                .map(map -> PropertySource.of(entry.getKey() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map, priority))
-                .findFirst()
-                .orElse(PropertySource.of(Collections.emptyMap()));
+                .findFirst();
+            if (propertySourceReader.isEmpty()) {
+                LOG.info("Could not find property source reader for extension '{}' from ConfigMap '{}'. Supported extensions: {}",
+                    extension, configMap.getMetadata().getName(), PROPERTY_SOURCE_EXTENSIONS);
+                propertySourceData = Collections.emptyMap();
+            } else {
+                propertySourceData = propertySourceReader.get().read(entry.getKey(), entry.getValue().getBytes());
+            }
+        }
 
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-
-            return propertySource;
+        if (propertySourceData.isEmpty()) {
+            return new EmptyPropertySource();
+        } else {
+            String propertySourceName = createPropertySourceName(configMap);
+            String resVersionPropertyName = createResVersionPropertyName(configMap);
+            String resVersionPropertyValue = configMap.getMetadata().getResourceVersion();
+            propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+            return PropertySource.of(propertySourceName, propertySourceData, EnvironmentPropertySource.POSITION + 100);
         }
     }
 
@@ -99,32 +170,29 @@ final class KubernetesConfigUtils {
      * @return list of {@link PropertySource} instances
      */
     static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data) {
-        LOG.trace("Creating {} PropertySources for ConfigMaps mounted at: {}", data.size(), mountPoint);
-        if (CollectionUtils.isEmpty(data)) {
-            return Collections.singletonList(PropertySource.of(Collections.emptyMap()));
-        }
-
         List<PropertySource> propertySources = new ArrayList<>(data.size());
 
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            Optional<String> extension = getExtension(entry.getKey());
-            if (extension.isEmpty()) {
-                LOG.info("Failed to deduce the extension for file: {}", entry.getKey());
-                continue;
+        data.forEach((fileName, fileContent) -> {
+            LOG.trace("Creating PropertySource for ConfigMap from file: {}", fileName);
+            Optional<String> extensionOpt = getExtension(fileName);
+            if (extensionOpt.isEmpty()) {
+                LOG.info("Failed to deduce the extension for file: {}", fileName);
+                return;
             }
 
-            String fileExtension = extension.get();
-            String propertyName = mountPoint + "/" + entry.getKey() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-
-            int priority = EnvironmentPropertySource.POSITION + 150;
-            PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
-                .filter(reader -> reader.getExtensions().contains(fileExtension))
-                .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
-                .map(map -> PropertySource.of(propertyName, map, priority))
-                .findFirst()
-                .orElse(PropertySource.of(Collections.emptyMap()));
-            propertySources.add(propertySource);
-        }
+            String extension = extensionOpt.get();
+            Optional<PropertySourceReader> propertySourceReader = PROPERTY_SOURCE_READERS.stream()
+                .filter(reader -> reader.getExtensions().contains(extension))
+                .findFirst();
+            if (propertySourceReader.isEmpty()) {
+                LOG.info("Could not find property source reader for extension '{}' from file '{}'. Supported extensions: {}",
+                    extension, fileName, PROPERTY_SOURCE_EXTENSIONS);
+            } else {
+                String propertySourceName = createPropertySourceName(mountPoint + "/" + fileName, V1ConfigMap.class);
+                Map<String, Object> propertySourceData = propertySourceReader.get().read(fileName, fileContent.getBytes());
+                propertySources.add(PropertySource.of(propertySourceName, propertySourceData, EnvironmentPropertySource.POSITION + 150));
+            }
+        });
 
         return propertySources;
     }
@@ -136,21 +204,19 @@ final class KubernetesConfigUtils {
      * @return {@link PropertySource} instance
      */
     static PropertySource secretAsPropertySource(V1Secret secret) {
-        LOG.trace("Creating PropertySource for Secret: {}", secret);
-        String name = secret.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_SECRET_NAME_SUFFIX;
+        LOG.trace("Creating PropertySource for Secret: {}", secret.getMetadata().getName());
         Map<String, byte[]> data = secret.getData();
-        Map<String, Object> propertySourceData;
-        if (data != null) {
-            propertySourceData = data.entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
-        } else {
-            propertySourceData = Collections.emptyMap();
+        if (data == null) {
+            return new EmptyPropertySource();
         }
-        int priority = EnvironmentPropertySource.POSITION + 100;
-        PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
-        KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-        return propertySource;
+        Map<String, Object> propertySourceData = data.entrySet()
+            .stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
+        String resVersionPropertyName = createResVersionPropertyName(secret);
+        String resVersionPropertyValue = secret.getMetadata().getResourceVersion();
+        propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+        String propertySourceName = createPropertySourceName(secret);
+        return PropertySource.of(propertySourceName, propertySourceData, EnvironmentPropertySource.POSITION + 100);
     }
 
     /**
@@ -164,8 +230,8 @@ final class KubernetesConfigUtils {
      * @return the label selector filter
      */
     static Mono<String> computePodLabelSelector(CoreV1ApiReactor client, List<String> podLabelKeys,
-                                                       String namespace, Map<String, String> labels,
-                                                       boolean exceptionOnPodLabelsMissing) {
+                                                String namespace, Map<String, String> labels,
+                                                boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (StringUtils.isEmpty(host) || CollectionUtils.isEmpty(podLabelKeys)) {
@@ -214,10 +280,6 @@ final class KubernetesConfigUtils {
             .collect(Collectors.joining(","));
         LOG.trace("labelSelector: {}", labelSelector);
         return labelSelector;
-    }
-
-    private static String getPropertySourceName(V1ConfigMap configMap) {
-        return configMap.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
     }
 
     private static Optional<String> getExtension(String filename) {
