@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.discovery;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.discovery.ServiceInstance;
 import org.reactivestreams.Publisher;
 
@@ -30,17 +32,20 @@ public interface KubernetesServiceInstanceProvider {
     /**
      * @return the provider mode name.
      */
+    @NonNull
     String getMode();
 
     /**
      * @param serviceConfiguration service discovery configuration
      * @return discovered service instances
      */
-    Publisher<List<ServiceInstance>> getInstances(KubernetesServiceConfiguration serviceConfiguration);
+    @SingleResult
+    Publisher<List<ServiceInstance>> getInstances(@NonNull KubernetesServiceConfiguration serviceConfiguration);
 
     /**
      * @param namespace namespace
      * @return provider service ids for given namespace
      */
-    Publisher<String> getServiceIds(String namespace);
+    @SingleResult
+    Publisher<String> getServiceIds(@NonNull String namespace);
 }

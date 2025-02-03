@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.discovery.provider;
 
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration;
@@ -23,7 +24,6 @@ import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceInstanc
 import io.micronaut.kubernetes.client.openapi.model.V1Service;
 import io.micronaut.kubernetes.client.openapi.model.V1ServicePort;
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec;
-import io.micronaut.kubernetes.client.openapi.util.KubernetesUtils;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +57,13 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
     }
 
     @Override
+    public Publisher<String> getServiceIds(String namespace) {
+        return listServices(namespace)
+            .filter(KubernetesDiscoveryUtils.discoveryConfigurationFilter(discoveryConfiguration))
+            .map(service -> service.getMetadata().getName());
+    }
+
+    @Override
     public Publisher<List<ServiceInstance>> getInstances(KubernetesServiceConfiguration serviceConfiguration) {
         String serviceName = serviceConfiguration.getName().orElseThrow(
             () -> new IllegalArgumentException("KubernetesServiceConfiguration is missing name."));
@@ -72,51 +79,27 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
             .defaultIfEmpty(Collections.emptyList());
     }
 
-    @Override
-    public Publisher<String> getServiceIds(String namespace) {
-        return listServices(namespace)
-            .filter(KubernetesDiscoveryUtils.discoveryConfigurationFilter(discoveryConfiguration))
-            .mapNotNull(KubernetesUtils::objectNameOrNull)
-            .filter(Objects::nonNull);
-    }
-
     private static List<ServiceInstance> buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
+        String errorMessage = validateService(serviceConfiguration, service);
+        if (StringUtils.isNotEmpty(errorMessage)) {
+            LOG.error("Failed to create a service instance for service [{}] - {}: V1Service={}",
+                serviceConfiguration.getName(),
+                errorMessage,
+                service);
+            return Collections.emptyList();
+        }
+
         V1ServiceSpec serviceSpec = service.getSpec();
-        if (serviceSpec == null) {
-            LOG.error("Failed to create a service instance for service [{}], 'spec' not found in V1Service: {}",
-                serviceConfiguration.getName(),
-                service);
-            return Collections.emptyList();
-        }
-
-        List<V1ServicePort> servicePorts = serviceSpec.getPorts();
-        if (CollectionUtils.isEmpty(servicePorts)) {
-            LOG.error("Failed to create a service instance for service [{}], 'ports' not found in V1Service: {}",
-                serviceConfiguration.getName(),
-                service);
-            return Collections.emptyList();
-        }
-
-        if (servicePorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
-            LOG.error("Failed to create a service instance for service [{}], 'ports' contains multiple values " +
-                    "in V1Service, so desired port value needs to be configured manually: {}",
-                serviceConfiguration.getName(),
-                service);
-            return Collections.emptyList();
-        }
-
-        Optional<V1ServicePort> servicePortOpt = servicePorts.stream()
+        Optional<V1ServicePort> servicePortOpt = serviceSpec.getPorts().stream()
             .filter(port -> serviceConfiguration.getPort().isEmpty() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
             .findFirst();
         if (servicePortOpt.isEmpty()) {
-            LOG.error("Failed to create a service instance for service [{}], configured port [{}] doesn't match port names found in V1Service: {}",
+            LOG.error("Failed to create a service instance for service [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
                 serviceConfiguration.getName(),
                 serviceConfiguration.getPort().get(),
                 service);
             return Collections.emptyList();
         }
-
-        V1ServicePort servicePort = servicePortOpt.get();
 
         String address;
         String clusterIp = serviceSpec.getClusterIP();
@@ -131,6 +114,7 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
             return Collections.emptyList();
         }
 
+        V1ServicePort servicePort = servicePortOpt.get();
         ServiceInstance serviceInstance = KubernetesDiscoveryUtils.buildServiceInstance(
             serviceConfiguration.getServiceId(),
             servicePort.getName(),
@@ -138,6 +122,21 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
             address,
             service.getMetadata());
         return Collections.singletonList(serviceInstance);
+    }
+
+    private static String validateService(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
+        V1ServiceSpec serviceSpec = service.getSpec();
+        if (serviceSpec == null) {
+            return "The 'spec' field value not found";
+        }
+        List<V1ServicePort> servicePorts = serviceSpec.getPorts();
+        if (CollectionUtils.isEmpty(servicePorts)) {
+            return "The 'ports' field value not found";
+        }
+        if (servicePorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
+            return "The 'ports' field contains multiple values, so desired port value needs to be configured manually";
+        }
+        return StringUtils.EMPTY_STRING;
     }
 
     abstract Mono<V1Service> getService(String name, String namespace);

@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.discovery.provider;
 
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration;
@@ -24,7 +25,6 @@ import io.micronaut.kubernetes.client.openapi.model.CoreV1EndpointPort;
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress;
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset;
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints;
-import io.micronaut.kubernetes.client.openapi.util.KubernetesUtils;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,8 +61,7 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
     public Publisher<String> getServiceIds(String namespace) {
         return listEndpoints(namespace)
             .filter(KubernetesDiscoveryUtils.discoveryConfigurationFilter(discoveryConfiguration))
-            .mapNotNull(KubernetesUtils::objectNameOrNull)
-            .filter(Objects::nonNull);
+            .map(endpoints -> endpoints.getMetadata().getName());
     }
 
     @Override
@@ -92,44 +91,27 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
 
         List<ServiceInstance> serviceInstances = new ArrayList<>();
 
-        endpointsSubsets.forEach(endpointsSubset -> {
-            List<V1EndpointAddress> endpointAddresses = endpointsSubset.getAddresses();
-            if (CollectionUtils.isEmpty(endpointAddresses)) {
-                LOG.warn("Skipped processing of V1EndpointSubset for service [{}], 'addresses' not found in V1EndpointSubset: {}",
+        endpointsSubsets.forEach(endpointSubset -> {
+            String errorMessage = validateEndpointsSubset(serviceConfiguration, endpointSubset);
+            if (StringUtils.isNotEmpty(errorMessage)) {
+                LOG.warn("Skipped processing of V1EndpointSubset for service [{}] - {}: V1EndpointSubset={}",
                     serviceConfiguration.getName(),
-                    endpointsSubset);
+                    errorMessage,
+                    endpointSubset);
                 return;
             }
-
-            List<CoreV1EndpointPort> endpointPorts = endpointsSubset.getPorts();
-            if (CollectionUtils.isEmpty(endpointPorts)) {
-                LOG.warn("Skipped processing of V1EndpointSubset for service [{}], 'ports' not found in V1EndpointSubset: {}",
-                    serviceConfiguration.getName(),
-                    endpointsSubset);
-                return;
-            }
-
-            if (endpointPorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
-                LOG.warn("Skipped processing of V1EndpointSubset for service [{}], 'ports' contains multiple value " +
-                        "in V1EndpointSubset, so desired port value needs to be configured manually: {}",
-                    serviceConfiguration.getName(),
-                    endpointsSubset);
-                return;
-            }
-
-            Optional<CoreV1EndpointPort> endpointPortOpt = endpointPorts.stream()
+            Optional<CoreV1EndpointPort> endpointPortOpt = endpointSubset.getPorts().stream()
                 .filter(port -> serviceConfiguration.getPort().isEmpty() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
                 .findFirst();
             if (endpointPortOpt.isEmpty()) {
-                LOG.warn("Skipped processing of V1EndpointSubset for service [{}], configured port [{}] doesn't match port names found in V1EndpointSubset: {}",
+                LOG.warn("Skipped processing of V1EndpointSubset for service [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1EndpointSubset={}",
                     serviceConfiguration.getName(),
                     serviceConfiguration.getPort().get(),
-                    endpointsSubset);
+                    endpointSubset);
                 return;
             }
-
             CoreV1EndpointPort endpointPort = endpointPortOpt.get();
-            endpointsSubset.getAddresses().forEach(endpointAddress -> {
+            endpointSubset.getAddresses().forEach(endpointAddress -> {
                 ServiceInstance serviceInstance = KubernetesDiscoveryUtils.buildServiceInstance(
                     serviceConfiguration.getServiceId(),
                     endpointPort.getName(),
@@ -140,6 +122,21 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
             });
         });
         return serviceInstances;
+    }
+
+    private static String validateEndpointsSubset(KubernetesServiceConfiguration serviceConfiguration, V1EndpointSubset endpointSubset) {
+        List<V1EndpointAddress> endpointAddresses = endpointSubset.getAddresses();
+        if (CollectionUtils.isEmpty(endpointAddresses)) {
+            return "The 'addresses' field value not found";
+        }
+        List<CoreV1EndpointPort> endpointPorts = endpointSubset.getPorts();
+        if (CollectionUtils.isEmpty(endpointPorts)) {
+            return "The 'ports' field value not found";
+        }
+        if (endpointPorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
+            return "The 'ports' field contains multiple values, so desired port value needs to be configured manually";
+        }
+        return StringUtils.EMPTY_STRING;
     }
 
     abstract Mono<V1Endpoints> getEndpoints(String name, String namespace);

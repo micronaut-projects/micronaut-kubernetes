@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.discovery;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import jakarta.inject.Inject;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 /**
  * Discovery configuration for Kubernetes service.
  */
+@Internal
 @EachProperty(KubernetesServiceConfiguration.PREFIX)
 @BootstrapContextCompatible
 public class KubernetesServiceConfiguration {

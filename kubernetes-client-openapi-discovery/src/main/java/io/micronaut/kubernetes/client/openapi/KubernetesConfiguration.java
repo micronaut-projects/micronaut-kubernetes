@@ -19,6 +19,7 @@ import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
@@ -35,6 +36,7 @@ import java.util.Map;
  * @author Sergio del Amo
  * @author Álvaro Sánchez-Mariscal
  */
+@Internal
 @Requires(env = Environment.KUBERNETES)
 @ConfigurationProperties(KubernetesConfiguration.PREFIX)
 @BootstrapContextCompatible
