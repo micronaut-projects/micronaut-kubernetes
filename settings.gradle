@@ -18,6 +18,7 @@ include 'kubernetes-bom'
 include 'kubernetes-client'
 include 'kubernetes-client-openapi'
 include 'kubernetes-client-openapi-common'
+include 'kubernetes-client-openapi-discovery'
 include 'kubernetes-client-openapi-informer'
 include 'kubernetes-client-openapi-reactor'
 include 'kubernetes-client-openapi-watcher'
@@ -31,6 +32,7 @@ include 'kubernetes-operator'
 include 'test-utils'
 
 include 'examples:example-client'
+//include 'examples:example-client-openapi'
 include 'examples:example-kubernetes-client'
 include 'examples:example-kubernetes-client-openapi-informer-java'
 include 'examples:example-kubernetes-client-openapi-java'
@@ -39,6 +41,7 @@ include 'examples:example-kubernetes-client-openapi-watcher-java'
 include 'examples:example-kubernetes-informer'
 include 'examples:example-kubernetes-operator'
 include 'examples:example-service'
+//include 'examples:example-service-openapi'
 
 micronautBuild {
     useStandardizedProjectNames = true

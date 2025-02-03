@@ -18,7 +18,10 @@ micronaut {
             apiNameSuffix = "ApiReactor"
             clientId = "kubernetes-client"
             useReactive = true
-            additionalClientTypeAnnotations = ["@io.micronaut.kubernetes.client.openapi.reactor.annotation.KubernetesClientApiReactor"]
+            additionalClientTypeAnnotations = [
+                    "@io.micronaut.kubernetes.client.openapi.reactor.annotation.KubernetesClientApiReactor",
+                    "@io.micronaut.context.annotation.BootstrapContextCompatible"
+            ]
         }
     }
 }
