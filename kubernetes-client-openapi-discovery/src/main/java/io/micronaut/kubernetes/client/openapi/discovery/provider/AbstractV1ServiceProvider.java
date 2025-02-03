@@ -74,16 +74,17 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
             .doOnNext(endpoints -> LOG.debug("Found [{}] service. Applying filters (if any and service not manually configured)", endpoints.getMetadata().getName()))
             .filter(KubernetesDiscoveryUtils.serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
             .map(service -> buildServiceInstance(serviceConfiguration, service))
-            .doOnError(throwable -> LOG.error("Error while processing discovered Service [{}]", serviceConfiguration.getName(), throwable))
+            .doOnError(throwable -> LOG.error("Error while processing discovered Service [{}]", serviceName, throwable))
             .onErrorReturn(Collections.emptyList())
             .defaultIfEmpty(Collections.emptyList());
     }
 
     private static List<ServiceInstance> buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
+        String serviceName = serviceConfiguration.getName().get();
         String errorMessage = validateService(serviceConfiguration, service);
         if (StringUtils.isNotEmpty(errorMessage)) {
             LOG.error("Failed to create a service instance for service [{}] - {}: V1Service={}",
-                serviceConfiguration.getName(),
+                serviceName,
                 errorMessage,
                 service);
             return Collections.emptyList();
@@ -95,7 +96,7 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
             .findFirst();
         if (servicePortOpt.isEmpty()) {
             LOG.error("Failed to create a service instance for service [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
-                serviceConfiguration.getName(),
+                serviceName,
                 serviceConfiguration.getPort().get(),
                 service);
             return Collections.emptyList();
@@ -104,12 +105,12 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
         String address;
         String clusterIp = serviceSpec.getClusterIP();
         if (clusterIp != null && !Objects.equals(clusterIp, "None")) {
-            address = serviceSpec.getClusterIP();
+            address = clusterIp;
         } else if (Objects.equals(serviceSpec.getType(), EXTERNAL_NAME)) {
             address = serviceSpec.getExternalName();
         } else {
             LOG.error("Failed to create a service instance for service [{}], could not resolve service address from V1Service: {}",
-                serviceConfiguration.getName(),
+                serviceName,
                 service);
             return Collections.emptyList();
         }

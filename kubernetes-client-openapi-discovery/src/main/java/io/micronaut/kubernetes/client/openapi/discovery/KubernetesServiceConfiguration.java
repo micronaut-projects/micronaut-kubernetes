@@ -42,19 +42,15 @@ public class KubernetesServiceConfiguration {
     private final boolean manual;
 
     @Inject
-    public KubernetesServiceConfiguration(@Parameter String serviceId) {
+    KubernetesServiceConfiguration(@Parameter String serviceId) {
         this(serviceId, null, null, null, null, true);
     }
 
-    public KubernetesServiceConfiguration(String serviceId, boolean manual) {
+    KubernetesServiceConfiguration(String serviceId, boolean manual) {
         this(serviceId, null, null, null, null, manual);
     }
 
-    public KubernetesServiceConfiguration(String serviceId, String name, String namespace) {
-        this(serviceId, name, namespace, null, null, false);
-    }
-
-    public KubernetesServiceConfiguration(String serviceId, String name, String namespace, String mode, String port, boolean manual) {
+    private KubernetesServiceConfiguration(String serviceId, String name, String namespace, String mode, String port, boolean manual) {
         this.serviceId = serviceId;
         this.name = name;
         this.namespace = namespace;

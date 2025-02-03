@@ -23,9 +23,9 @@ import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.health.KubernetesHealthIndicator;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
@@ -238,7 +238,7 @@ final class KubernetesConfigUtils {
             return Mono.just(computeLabelSelector(labels));
         }
 
-        String podName = System.getenv(KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE);
+        String podName = System.getenv(KubernetesConfiguration.HOSTNAME_ENV_VARIABLE);
         return client.readNamespacedPod(podName, namespace, null)
             .doOnError(throwable -> LOG.error("Failed to read the Pod [{}] the application is running in", podName, throwable))
             .map(pod -> {

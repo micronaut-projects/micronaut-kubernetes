@@ -47,7 +47,7 @@ final class KubernetesServiceInstanceServiceProvider extends AbstractV1ServicePr
 
     @Override
     public Mono<V1Service> getService(String name, String namespace) {
-        LOG.trace("Using API to fetch Service[{}] from namespace [{}]", name, namespace);
+        LOG.trace("Using API to fetch Service [{}] from namespace [{}]", name, namespace);
         return client.readNamespacedService(name, namespace, null)
                 .doOnError(throwable -> LOG.error("Failed to fetch Service [{}] from namespace [{}]", name, namespace, throwable));
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2025 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +43,8 @@ import java.util.Map;
 public class KubernetesConfiguration {
 
     public static final String PREFIX = "kubernetes.client";
+
+    public static final String HOSTNAME_ENV_VARIABLE = "HOSTNAME";
 
     private String namespace;
 
