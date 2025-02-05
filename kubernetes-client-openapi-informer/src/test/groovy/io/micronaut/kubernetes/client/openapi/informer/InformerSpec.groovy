@@ -69,17 +69,17 @@ class InformerSpec extends Specification {
     def setupKubernetes() {
         try (ApplicationContext context = ApplicationContext.run([
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
-                'spec.name': 'SetupKubernetes'
+                'spec.name'                         : 'SetupKubernetes'
         ])) {
             CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
             createNamespace(api, NAMESPACE_NAME_1)
             createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_11, [:])
-            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_12, ['label-key':'label-value-1'])
-            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_13, ['label-key':'label-value-2'])
+            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_12, ['label-key': 'label-value-1'])
+            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_13, ['label-key': 'label-value-2'])
             createNamespace(api, NAMESPACE_NAME_2)
             createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_21, [:])
-            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_22, ['label-key':'label-value-1'])
-            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_23, ['label-key':'label-value-2'])
+            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_22, ['label-key': 'label-value-1'])
+            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_23, ['label-key': 'label-value-2'])
         }
     }
 
@@ -87,7 +87,7 @@ class InformerSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run([
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
-                'spec.name': 'WithoutLabelSelector'
+                'spec.name'                         : 'WithoutLabelSelector'
         ])
         CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
         AllNamespacesEventHandler allNamespacesEventHandler = context.getBean(AllNamespacesEventHandler.class)
@@ -153,7 +153,7 @@ class InformerSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run([
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
-                'spec.name': 'WithLabelSelector'
+                'spec.name'                         : 'WithLabelSelector'
         ])
         CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
         AllNamespacesLabelSelectorEventHandler allNamespacesEventHandler = context.getBean(AllNamespacesLabelSelectorEventHandler.class)
@@ -161,8 +161,8 @@ class InformerSpec extends Specification {
         SecondNamespaceLabelSelectorEventHandler secondNamespaceEventHandler = context.getBean(SecondNamespaceLabelSelectorEventHandler.class)
 
         when:
-        createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key':'label-value-1'])
-        replaceSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key':'label-value-1'])
+        createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key': 'label-value-1'])
+        replaceSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key': 'label-value-1'])
         deleteSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15)
         createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_16, [:])
         deleteSecret(api, NAMESPACE_NAME_1, SECRET_NAME_16)
@@ -205,7 +205,7 @@ class InformerSpec extends Specification {
         given:
         ApplicationContext context = ApplicationContext.run([
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
-                'spec.name': 'WaitOnInitialSync'
+                'spec.name'                         : 'WaitOnInitialSync'
         ])
         def sharedIndexInformerFactory = context.getBean(SharedIndexInformerFactory.class)
         def eventHandler = context.getBean(FirstNamespaceWaitOnInitialSyncEventHandler.class)
@@ -248,7 +248,7 @@ class InformerSpec extends Specification {
         objectMeta.name(TEST_SECRET_NAME_PREFIX + secretName)
         objectMeta.labels(secretLabels)
         secret.metadata(objectMeta)
-        secret.data(["test-key":"test-value".bytes])
+        secret.data(["test-key": "test-value".bytes])
         api.createNamespacedSecret(namespaceName, secret, null, null, null, null)
                 .block()
     }
@@ -261,7 +261,7 @@ class InformerSpec extends Specification {
         objectMeta.name(TEST_SECRET_NAME_PREFIX + secretName)
         objectMeta.labels(secretLabels)
         secret.metadata(objectMeta)
-        secret.data(["test-key":"new-test-value".bytes])
+        secret.data(["test-key": "new-test-value".bytes])
         api.replaceNamespacedSecret(TEST_SECRET_NAME_PREFIX + secretName, namespaceName, secret, null, null, null, null)
                 .block()
     }
