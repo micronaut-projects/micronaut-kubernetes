@@ -3,12 +3,14 @@ io.micronaut.kubernetes.client
 io.micronaut.kubernetes.client.graalvm
 io.micronaut.kubernetes.client.informer
 io.micronaut.kubernetes.client.informer.resolvers
+io.micronaut.kubernetes.client.openapi
 io.micronaut.kubernetes.client.openapi.api
 io.micronaut.kubernetes.client.openapi.common
 io.micronaut.kubernetes.client.openapi.config
 io.micronaut.kubernetes.client.openapi.config.model
 io.micronaut.kubernetes.client.openapi.credential
 io.micronaut.kubernetes.client.openapi.credential.model
+io.micronaut.kubernetes.client.openapi.discovery
 io.micronaut.kubernetes.client.openapi.informer
 io.micronaut.kubernetes.client.openapi.informer.cache
 io.micronaut.kubernetes.client.openapi.informer.handler
@@ -17,6 +19,7 @@ io.micronaut.kubernetes.client.openapi.reactor.annotation
 io.micronaut.kubernetes.client.openapi.reactor.api
 io.micronaut.kubernetes.client.openapi.resolver
 io.micronaut.kubernetes.client.openapi.ssl
+io.micronaut.kubernetes.client.openapi.util
 io.micronaut.kubernetes.client.openapi.watcher
 io.micronaut.kubernetes.client.openapi.watcher.annotation
 io.micronaut.kubernetes.client.openapi.watcher.api
