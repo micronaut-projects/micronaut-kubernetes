@@ -96,6 +96,7 @@ public class KubernetesUtils {
         return kubernetesObject -> {
             Map<String, String> objectLabels = kubernetesObject.getMetadata().getLabels();
             if (CollectionUtils.isEmpty(objectLabels)) {
+                LOG.trace("Label includes filter not matched: {}", kubernetesObject.getMetadata().getName());
                 return false;
             }
             boolean result = labels.entrySet().stream().allMatch(

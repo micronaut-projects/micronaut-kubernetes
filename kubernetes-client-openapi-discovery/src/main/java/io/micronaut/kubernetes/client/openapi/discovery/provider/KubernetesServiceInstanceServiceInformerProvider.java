@@ -68,7 +68,7 @@ final class KubernetesServiceInstanceServiceInformerProvider extends AbstractV1S
         }
 
         LOG.debug("Going to create Informers of type {} in the namespaces: {}", V1Service.class.getName(), namespaces);
-        sharedIndexInformerFactory.sharedIndexInformersFor(V1Service.class, new ArrayList<>(namespaces), null, 0);
+        sharedIndexInformerFactory.sharedIndexInformersFor(V1Service.class, new ArrayList<>(namespaces), null, true, 0);
     }
 
     @Override
