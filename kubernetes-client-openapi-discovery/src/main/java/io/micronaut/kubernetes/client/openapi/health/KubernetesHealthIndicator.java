@@ -49,11 +49,11 @@ import java.util.Optional;
 @Requires(property = HealthEndpoint.PREFIX + ".kubernetes.enabled", notEquals = StringUtils.FALSE)
 final class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<String, Object>> {
 
+    static final String HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT = "hostname";
+
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesHealthIndicator.class);
 
     private static final String NAME = "kubernetes";
-
-    static final String HOSTNAME_ENV_VARIABLE_IN_PROPERTY_FORMAT = "hostname";
 
     private final CoreV1ApiReactor client;
     private final KubernetesConfiguration configuration;

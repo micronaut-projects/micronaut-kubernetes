@@ -136,7 +136,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends Specification {
     }
 
     @Unroll
-    void "test validation when using endpoint mode and [watchEnabled=#watchEnabled]"() {
+    void "test validation [watchEnabled=#watchEnabled]"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"                                      : false,

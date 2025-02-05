@@ -13,5 +13,5 @@ dependencies {
     api(libs.micronaut.discovery.client)
     compileOnly(mn.micronaut.management)
 
-    testImplementation(projects.testUtils)
+    testImplementation(libs.testcontainers.k3s)
 }
