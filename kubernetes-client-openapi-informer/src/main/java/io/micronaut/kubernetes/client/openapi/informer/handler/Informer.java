@@ -20,7 +20,9 @@ import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.DefaultScope;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.informer.InformerConfiguration;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -93,4 +95,13 @@ public @interface Informer {
      * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
      */
     Class<? extends Supplier<String>> labelSelectorSupplier() default EmptyLabelSupplier.class;
+
+    /**
+     * If set to {@code true}, the {@link SharedIndexInformerFactory#startAllRegisteredInformers()} will wait on
+     * the informers created from this annotation to get synced (existing kubernetes objects loaded to the
+     * informer's in-memory storage) or predefined timeout ({@link InformerConfiguration#getSyncTimeout()}) gets expired.
+     *
+     * @return {@code true} if the informer start method needs to be blocked until informers are synced
+     */
+    boolean waitForInitialSync() default false;
 }

@@ -31,7 +31,7 @@ class DefaultSharedIndexInformerFactorySpec extends Specification {
 
     def 'test informer created for each namespace'() {
         when:
-        def informers = sharedIndexInformerFactory.sharedIndexInformersFor(V1Secret.class, Arrays.asList("test1", "test2"), null, 0)
+        def informers = sharedIndexInformerFactory.sharedIndexInformersFor(V1Secret.class, Arrays.asList("test1", "test2"), null, false, 0)
         def informer1 = sharedIndexInformerFactory.getExistingSharedIndexInformer(V1Secret.class, "test1")
         def informer2 = sharedIndexInformerFactory.getExistingSharedIndexInformer(V1Secret.class, "test2")
 
@@ -52,7 +52,7 @@ class DefaultSharedIndexInformerFactorySpec extends Specification {
 
     def 'test list of namespaces not provided'() {
         when:
-        sharedIndexInformerFactory.sharedIndexInformersFor(V1Secret.class, null, null, 0)
+        sharedIndexInformerFactory.sharedIndexInformersFor(V1Secret.class, null, null, false, 0)
 
         then:
         def error = thrown(IllegalArgumentException)
@@ -61,7 +61,7 @@ class DefaultSharedIndexInformerFactorySpec extends Specification {
 
     def 'test namespaces contain empty string'() {
         when:
-        sharedIndexInformerFactory.sharedIndexInformersFor(V1Secret.class, Arrays.asList("", "test2"), null, 0)
+        sharedIndexInformerFactory.sharedIndexInformersFor(V1Secret.class, Arrays.asList("", "test2"), null, false, 0)
 
         then:
         def error = thrown(IllegalArgumentException)

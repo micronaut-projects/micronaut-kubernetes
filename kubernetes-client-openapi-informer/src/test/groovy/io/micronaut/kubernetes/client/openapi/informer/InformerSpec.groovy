@@ -21,7 +21,6 @@ import spock.util.concurrent.PollingConditions
 
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.concurrent.atomic.AtomicBoolean
 
 class InformerSpec extends Specification {
 
@@ -52,12 +51,10 @@ class InformerSpec extends Specification {
     @Shared
     Path kubeConfigFile = kubeConfigDir.resolve("config")
 
-    @Shared
-    AtomicBoolean kubernetesInitialized = new AtomicBoolean(false)
-
     def setupSpec() {
         k3s.start()
         kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
+        setupKubernetes()
     }
 
     def cleanupSpec() {
@@ -69,8 +66,12 @@ class InformerSpec extends Specification {
         }
     }
 
-    def initKubernetes(CoreV1ApiReactor api) {
-        if (!kubernetesInitialized.getAndSet(true)) {
+    def setupKubernetes() {
+        try (ApplicationContext context = ApplicationContext.run([
+                'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
+                'spec.name': 'SetupKubernetes'
+        ])) {
+            CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
             createNamespace(api, NAMESPACE_NAME_1)
             createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_11, [:])
             createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_12, ['label-key':'label-value-1'])
@@ -89,7 +90,6 @@ class InformerSpec extends Specification {
                 'spec.name': 'WithoutLabelSelector'
         ])
         CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
-        initKubernetes(api)
         AllNamespacesEventHandler allNamespacesEventHandler = context.getBean(AllNamespacesEventHandler.class)
         FirstNamespaceEventHandler firstNamespaceEventHandler = context.getBean(FirstNamespaceEventHandler.class)
         SecondNamespaceEventHandler secondNamespaceEventHandler = context.getBean(SecondNamespaceEventHandler.class)
@@ -156,7 +156,6 @@ class InformerSpec extends Specification {
                 'spec.name': 'WithLabelSelector'
         ])
         CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
-        initKubernetes(api)
         AllNamespacesLabelSelectorEventHandler allNamespacesEventHandler = context.getBean(AllNamespacesLabelSelectorEventHandler.class)
         FirstNamespaceLabelSelectorEventHandler firstNamespaceEventHandler = context.getBean(FirstNamespaceLabelSelectorEventHandler.class)
         SecondNamespaceLabelSelectorEventHandler secondNamespaceEventHandler = context.getBean(SecondNamespaceLabelSelectorEventHandler.class)
@@ -197,6 +196,34 @@ class InformerSpec extends Specification {
             secondNamespacesEventMessages.get(SECRET_NAME_22).size() == 1
             secondNamespacesEventMessages.get(SECRET_NAME_22).get(0) == 'Secret added'
         }
+
+        cleanup:
+        context.close()
+    }
+
+    def 'test secret informer wait for initial sync'() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
+                'spec.name': 'WaitOnInitialSync'
+        ])
+        def sharedIndexInformerFactory = context.getBean(SharedIndexInformerFactory.class)
+        def eventHandler = context.getBean(FirstNamespaceWaitOnInitialSyncEventHandler.class)
+
+        when:
+        def informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(V1Secret.class, NAMESPACE_NAME_1)
+        def keys = informer.getIndexer().listKeys()
+        def eventMessages = eventHandler.getEventMessages()
+
+        then:
+        keys.size() == 2
+        keys.get(0) == NAMESPACE_NAME_1 + "/" + TEST_SECRET_NAME_PREFIX + SECRET_NAME_12
+        keys.get(1) == NAMESPACE_NAME_1 + "/" + TEST_SECRET_NAME_PREFIX + SECRET_NAME_13
+        eventMessages.size() == 2
+        eventMessages.get(SECRET_NAME_12).size() == 1
+        eventMessages.get(SECRET_NAME_12).get(0) == 'Secret added'
+        eventMessages.get(SECRET_NAME_13).size() == 1
+        eventMessages.get(SECRET_NAME_13).get(0) == 'Secret added'
 
         cleanup:
         context.close()
@@ -309,4 +336,9 @@ class InformerSpec extends Specification {
     @Informer(apiType = V1Secret.class, namespace = NAMESPACE_NAME_2, labelSelector = "label-key=label-value-1")
     @Requires(property = 'spec.name', value = 'WithLabelSelector')
     private static final class SecondNamespaceLabelSelectorEventHandler extends BaseResourceEventHandler {}
+
+    @Context
+    @Informer(apiType = V1Secret.class, namespace = NAMESPACE_NAME_1, labelSelector = "label-key", waitForInitialSync = true)
+    @Requires(property = 'spec.name', value = 'WaitOnInitialSync')
+    private static final class FirstNamespaceWaitOnInitialSyncEventHandler extends BaseResourceEventHandler {}
 }

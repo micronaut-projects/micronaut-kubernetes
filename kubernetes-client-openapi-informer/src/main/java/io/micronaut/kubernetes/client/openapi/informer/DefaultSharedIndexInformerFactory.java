@@ -22,10 +22,15 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,16 +44,24 @@ import java.util.function.Function;
 @Singleton
 final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFactory {
 
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultSharedIndexInformerFactory.class);
+
     // period value which disables resync
     private static final long DEFAULT_RESYNC_PERIOD = 0L;
+    private static final boolean DEFAULT_WAIT_FOR_INITIAL_SYNC = false;
 
     private final InformerApiCallFactory informerApiCallFactory;
+    private final InformerConfiguration informerConfiguration;
     private final ThreadFactory threadFactory;
     private final ExecutorService informerExecutor;
     private final Map<InformerKey, SharedIndexInformer> informers = new ConcurrentHashMap<>();
+    private final Map<InformerKey, SharedIndexInformer> waitForInitialSyncInformers = new ConcurrentHashMap<>();
 
-    DefaultSharedIndexInformerFactory(InformerApiCallFactory informerApiCallFactory, ThreadFactory threadFactory) {
+    DefaultSharedIndexInformerFactory(InformerApiCallFactory informerApiCallFactory,
+                                      InformerConfiguration informerConfiguration,
+                                      ThreadFactory threadFactory) {
         this.informerApiCallFactory = informerApiCallFactory;
+        this.informerConfiguration = informerConfiguration;
         this.threadFactory = threadFactory;
         this.informerExecutor = Executors.newCachedThreadPool(threadFactory);
     }
@@ -65,7 +78,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         Class<ApiType> apiTypeClass,
         String namespace,
         String labelSelector) {
-        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, DEFAULT_RESYNC_PERIOD);
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, DEFAULT_WAIT_FOR_INITIAL_SYNC);
     }
 
     @Override
@@ -73,8 +86,18 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         Class<ApiType> apiTypeClass,
         String namespace,
         String labelSelector,
+        boolean waitForInitialSync) {
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, DEFAULT_RESYNC_PERIOD);
+    }
+
+    @Override
+    public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
+        String namespace,
+        String labelSelector,
+        boolean waitForInitialSync,
         long resyncPeriodMillis) {
-        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null, null);
+        return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, resyncPeriodMillis, null, null);
     }
 
     @Override
@@ -82,6 +105,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         Class<ApiType> apiTypeClass,
         List<String> namespaces,
         String labelSelector,
+        boolean waitForInitialSync,
         long resyncPeriodMillis) {
 
         if (namespaces == null) {
@@ -93,7 +117,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             if (StringUtils.isEmpty(namespace)) {
                 throw new IllegalArgumentException("The namespaces list must not contain empty strings");
             }
-            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, resyncPeriodMillis, null, null));
+            informerList.add(sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, resyncPeriodMillis, null, null));
         });
 
         return informerList;
@@ -104,6 +128,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         Class<ApiType> apiTypeClass,
         String namespace,
         String labelSelector,
+        boolean waitForInitialSync,
         long resyncPeriodMillis,
         Function<ApiType, String> cacheKeyFunction,
         Map<String, Function<ApiType, List<String>>> cacheIndexFunctions) {
@@ -130,6 +155,9 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             resyncPeriodMillis,
             indexer);
         informers.put(informerKey, informer);
+        if (waitForInitialSync) {
+            waitForInitialSyncInformers.put(informerKey, informer);
+        }
         return informer;
     }
 
@@ -149,6 +177,47 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     @Override
     public void startAllRegisteredInformers() {
         informers.values().forEach(informer -> informerExecutor.submit(informer::run));
+
+        if (waitForInitialSyncInformers.isEmpty()) {
+            return;
+        }
+
+        LOG.info("Waiting for initial sync of informers: {}", waitForInitialSyncInformers.keySet());
+
+        Duration syncTimeout = informerConfiguration.getSyncTimeout();
+        Duration syncStep = informerConfiguration.getSyncStepTimeout();
+
+        long waitLimit = System.currentTimeMillis() + syncTimeout.toMillis();
+        while (waitLimit > System.currentTimeMillis()) {
+            Set<InformerKey> syncedInformerKeys = new HashSet<>();
+            waitForInitialSyncInformers.forEach((informerKey, informer) -> {
+                if (informer.hasSynced()) {
+                    syncedInformerKeys.add(informerKey);
+                }
+            });
+            syncedInformerKeys.forEach(waitForInitialSyncInformers::remove);
+            if (waitForInitialSyncInformers.isEmpty()) {
+                break;
+            }
+
+            LOG.debug("Waiting {} millis to let informers to sync: {}", syncStep.toMillis(), waitForInitialSyncInformers.keySet());
+
+            try {
+                Thread.sleep(syncStep.toMillis());
+            } catch (InterruptedException e) {
+                LOG.warn("Active waiting for informers to sync has interrupted: {}", waitForInitialSyncInformers.keySet(), e);
+                break;
+            }
+        }
+
+        if (waitForInitialSyncInformers.isEmpty()) {
+            LOG.info("The initial sync of informers have been successfully completed");
+        } else {
+            LOG.warn("These informers {} didn't sync up in the predefined time. It may happen that some kubernetes object won't be " +
+                    "found in internal storages of those informers if requested before syncs get completed. Consider to raise the " +
+                    "sync timeout `kubernetes.client.informer.sync-timeout` which is currently configured to {}",
+                waitForInitialSyncInformers.keySet(), syncTimeout);
+        }
     }
 
     @Override
