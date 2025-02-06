@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.discovery.provider;
 
 import io.micronaut.core.util.CollectionUtils;
-import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration;
@@ -41,6 +40,8 @@ import java.util.Optional;
 abstract class AbstractV1ServiceProvider implements KubernetesServiceInstanceProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractV1ServiceProvider.class);
+
+    private static final String ERROR_MSG_PREFIX = "Failed to create a service instance for service";
 
     private static final String MODE = "service";
     private static final String EXTERNAL_NAME = "ExternalName";
@@ -81,25 +82,30 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
 
     private static List<ServiceInstance> buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
         String serviceName = serviceConfiguration.getName().get();
-        String errorMessage = validateService(serviceConfiguration, service);
-        if (StringUtils.isNotEmpty(errorMessage)) {
-            LOG.error("Failed to create a service instance for service [{}] - {}: V1Service={}",
-                serviceName,
-                errorMessage,
-                service);
+
+        V1ServiceSpec serviceSpec = service.getSpec();
+        if (serviceSpec == null) {
+            LOG.error("{} [{}] - The 'spec' field value not found: V1Service={}", ERROR_MSG_PREFIX, serviceName, service);
             return Collections.emptyList();
         }
 
-        V1ServiceSpec serviceSpec = service.getSpec();
-        Optional<V1ServicePort> servicePortOpt = serviceSpec.getPorts().stream()
-            .filter(port -> serviceConfiguration.getPort().isEmpty() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
-            .findFirst();
-        if (servicePortOpt.isEmpty()) {
-            LOG.error("Failed to create a service instance for service [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
-                serviceName,
-                serviceConfiguration.getPort().get(),
-                service);
-            return Collections.emptyList();
+        V1ServicePort servicePort = null;
+        List<V1ServicePort> servicePorts = serviceSpec.getPorts();
+        if (CollectionUtils.isNotEmpty(servicePorts)) {
+            if (servicePorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
+                LOG.error("{} [{}] - The 'ports' field contains multiple values, so desired port value needs to be configured manually: V1Service={}",
+                    ERROR_MSG_PREFIX, serviceName, service);
+                return Collections.emptyList();
+            }
+            Optional<V1ServicePort> servicePortOpt = servicePorts.stream()
+                .filter(port -> serviceConfiguration.getPort().isEmpty() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
+                .findFirst();
+            if (servicePortOpt.isEmpty()) {
+                LOG.error("{} [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
+                    ERROR_MSG_PREFIX, serviceName, serviceConfiguration.getPort().get(), service);
+                return Collections.emptyList();
+            }
+            servicePort = servicePortOpt.get();
         }
 
         String address;
@@ -109,35 +115,18 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
         } else if (Objects.equals(serviceSpec.getType(), EXTERNAL_NAME)) {
             address = serviceSpec.getExternalName();
         } else {
-            LOG.error("Failed to create a service instance for service [{}], could not resolve service address from V1Service: {}",
-                serviceName,
-                service);
+            LOG.error("{} [{}] - Could not resolve address from V1Service: {}", ERROR_MSG_PREFIX, serviceName, service);
             return Collections.emptyList();
         }
 
-        V1ServicePort servicePort = servicePortOpt.get();
         ServiceInstance serviceInstance = KubernetesDiscoveryUtils.buildServiceInstance(
             serviceConfiguration.getServiceId(),
-            servicePort.getName(),
-            servicePort.getPort(),
+            servicePort == null ? null : servicePort.getName(),
+            servicePort == null ? null : servicePort.getPort(),
             address,
             service.getMetadata());
+        LOG.trace("Created a service instance: {}", serviceInstance);
         return Collections.singletonList(serviceInstance);
-    }
-
-    private static String validateService(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
-        V1ServiceSpec serviceSpec = service.getSpec();
-        if (serviceSpec == null) {
-            return "The 'spec' field value not found";
-        }
-        List<V1ServicePort> servicePorts = serviceSpec.getPorts();
-        if (CollectionUtils.isEmpty(servicePorts)) {
-            return "The 'ports' field value not found";
-        }
-        if (servicePorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
-            return "The 'ports' field contains multiple values, so desired port value needs to be configured manually";
-        }
-        return StringUtils.EMPTY_STRING;
     }
 
     abstract Mono<V1Service> getService(String name, String namespace);

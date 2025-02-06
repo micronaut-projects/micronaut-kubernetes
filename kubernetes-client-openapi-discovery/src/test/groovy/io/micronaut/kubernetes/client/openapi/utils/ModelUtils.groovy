@@ -1,6 +1,5 @@
 package io.micronaut.kubernetes.client.openapi.utils
 
-import io.micronaut.core.util.StringUtils
 import io.micronaut.kubernetes.client.openapi.model.*
 
 class ModelUtils {
@@ -24,14 +23,10 @@ class ModelUtils {
         return namespace
     }
 
-    static V1ServicePort getServicePort(int port) {
-        return getServicePort(port, null)
-    }
-
     static V1ServicePort getServicePort(int port, String name) {
         V1ServicePort servicePort = new V1ServicePort(port)
         servicePort.setName(name)
-        servicePort.setTargetPort(StringUtils.isEmpty(name) ? String.valueOf(port) : name)
+        servicePort.setTargetPort(name)
         return servicePort
     }
 
@@ -42,11 +37,22 @@ class ModelUtils {
         return serviceSpec
     }
 
+    static V1ServiceSpec getServiceSpec(String externalName) {
+        V1ServiceSpec serviceSpec = new V1ServiceSpec()
+        serviceSpec.type("ExternalName")
+        serviceSpec.externalName(externalName)
+        return serviceSpec
+    }
+
     static V1Service getService(String name, V1ServiceSpec spec) {
+        return getService(name, spec, [:])
+    }
+
+    static V1Service getService(String name, V1ServiceSpec spec, Map<String, String> labels) {
         V1Service service = new V1Service()
         service.kind('Service')
         service.apiVersion('v1')
-        service.metadata(getObjectMeta(name))
+        service.metadata(getObjectMeta(name, labels))
         service.spec(spec)
         return service
     }

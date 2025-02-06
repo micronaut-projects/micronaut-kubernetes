@@ -177,7 +177,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends Specification {
     }
 
     @Unroll
-    void "get service instances using endpoint mode and [watchEnabled=#watchEnabled]"() {
+    void "get service instances [watchEnabled=#watchEnabled]"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"                                      : false,
@@ -364,7 +364,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends Specification {
         def serviceConfiguration = createKubernetesServiceConfiguration("endpoints-example-5", false)
         def serviceInstances = Mono.from(provider.getInstances(serviceConfiguration)).block()
 
-        then: "label filter applied so there are no returned service instances"
+        then: "label filter applied and not matched endpoints-example-5"
         serviceInstances.size() == 0
 
         when: "service configured manually for endpoints-example-5"

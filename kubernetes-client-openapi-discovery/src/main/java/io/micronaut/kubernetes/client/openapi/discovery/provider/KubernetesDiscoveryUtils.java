@@ -75,7 +75,7 @@ final class KubernetesDiscoveryUtils {
      */
     static ServiceInstance buildServiceInstance(String serviceId, String portName, Integer portNumber, String address, V1ObjectMeta metadata) {
         String scheme = isPortSecure(portName, portNumber) || isMetadataSecure(metadata) ? "https://" : "http://";
-        URI uri = URI.create(scheme + address + ":" + portNumber);
+        URI uri = portNumber == null ? URI.create(scheme + address) : URI.create(scheme + address + ":" + portNumber);
         LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}] with metadata [{}]", serviceId, uri, metadata);
         return ServiceInstance
             .builder(serviceId, uri)
@@ -92,7 +92,7 @@ final class KubernetesDiscoveryUtils {
      * @return Whether the port is considered secure
      */
     private static boolean isPortSecure(String portName, Integer portNumber) {
-        return String.valueOf(portNumber).endsWith("443") || "https".equals(portName);
+        return (portNumber != null && String.valueOf(portNumber).endsWith("443")) || "https".equals(portName);
     }
 
     /**

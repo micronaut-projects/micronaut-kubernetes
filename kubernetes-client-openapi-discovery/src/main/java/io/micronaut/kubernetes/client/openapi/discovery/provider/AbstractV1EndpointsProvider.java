@@ -84,9 +84,7 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
         String serviceName = serviceConfiguration.getName().get();
         List<V1EndpointSubset> endpointsSubsets = endpoints.getSubsets();
         if (CollectionUtils.isEmpty(endpointsSubsets)) {
-            LOG.error("Failed to create a service instance for service [{}], 'subsets' not found in V1Endpoints: {}",
-                serviceName,
-                endpoints);
+            LOG.error("Failed to create a service instance for service [{}], 'subsets' not found in V1Endpoints: {}", serviceName, endpoints);
             return Collections.emptyList();
         }
 
@@ -95,10 +93,7 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
         endpointsSubsets.forEach(endpointSubset -> {
             String errorMessage = validateEndpointsSubset(serviceConfiguration, endpointSubset);
             if (StringUtils.isNotEmpty(errorMessage)) {
-                LOG.warn("Skipped processing of V1EndpointSubset for service [{}] - {}: V1EndpointSubset={}",
-                    serviceName,
-                    errorMessage,
-                    endpointSubset);
+                LOG.warn("Skipped processing of V1EndpointSubset for service [{}] - {}: V1EndpointSubset={}", serviceName, errorMessage, endpointSubset);
                 return;
             }
             Optional<CoreV1EndpointPort> endpointPortOpt = endpointSubset.getPorts().stream()
@@ -106,9 +101,7 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
                 .findFirst();
             if (endpointPortOpt.isEmpty()) {
                 LOG.warn("Skipped processing of V1EndpointSubset for service [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1EndpointSubset={}",
-                    serviceName,
-                    serviceConfiguration.getPort().get(),
-                    endpointSubset);
+                    serviceName, serviceConfiguration.getPort().get(), endpointSubset);
                 return;
             }
             CoreV1EndpointPort endpointPort = endpointPortOpt.get();
@@ -122,6 +115,7 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
                 serviceInstances.add(serviceInstance);
             });
         });
+        LOG.trace("Created service instances: {}", serviceInstances);
         return serviceInstances;
     }
 
