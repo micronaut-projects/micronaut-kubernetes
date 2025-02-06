@@ -1,6 +1,14 @@
 package io.micronaut.kubernetes.client.openapi.utils
 
-import io.micronaut.kubernetes.client.openapi.model.*
+import io.micronaut.kubernetes.client.openapi.model.CoreV1EndpointPort
+import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress
+import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
+import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
+import io.micronaut.kubernetes.client.openapi.model.V1Namespace
+import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
+import io.micronaut.kubernetes.client.openapi.model.V1Service
+import io.micronaut.kubernetes.client.openapi.model.V1ServicePort
+import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
 
 class ModelUtils {
 

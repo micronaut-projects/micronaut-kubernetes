@@ -2,6 +2,7 @@ package io.micronaut.kubernetes.client.openapi.discovery.provider
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
+import io.micronaut.kubernetes.client.openapi.K3sContainerSpec
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
@@ -10,89 +11,51 @@ import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
 import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.k3s.K3sContainer
-import org.testcontainers.utility.DockerImageName
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.nio.file.Files
-import java.nio.file.Path
-
-class KubernetesServiceInstanceServiceProviderSpec extends Specification {
+class KubernetesServiceInstanceServiceProviderSpec extends K3sContainerSpec {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceServiceProviderSpec.class)
-    private static final Logger LOG_K3S = LoggerFactory.getLogger("K3S." + KubernetesServiceInstanceServiceProviderSpec.getSimpleName())
 
     private static final NAMESPACE_NAME_1 = "micronaut-service-provider-1"
     private static final NAMESPACE_NAME_2 = "micronaut-service-provider-2"
 
-    @Shared
-    @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.21.3-k3s1"))
-            .withLogConsumer(new Slf4jLogConsumer(LOG_K3S))
-
-    @Shared
-    Path kubeConfigDir = Files.createTempDirectory("kube-temp-")
-
-    @Shared
-    Path kubeConfigFile = kubeConfigDir.resolve("config")
-
-    def setupSpec() {
-        k3s.start()
-        kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
-        LOG.info("Kubernetes config file path: {}", kubeConfigFile)
-        setupKubernetes()
+    @Override
+    Logger getLogger() {
+        return LOG
     }
 
-    def setupKubernetes() {
-        try (ApplicationContext context = ApplicationContext.run([
-                "micronaut.config-client.enabled"   : false,
-                "kubernetes.client.kube-config-path": "file:" + kubeConfigFile.toString(),
-        ])) {
-            def api = context.getBean(CoreV1ApiReactor.class)
+    @Override
+    def setupKubernetes(CoreV1ApiReactor api) {
+        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
+        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
 
-            OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
-            OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
+        // service with two ports
+        V1ServiceSpec spec1 = ModelUtils.getServiceSpec("10.43.1.100", [ModelUtils.getServicePort(8081, "http"), ModelUtils.getServicePort(8082, "https")])
+        V1Service service1 = ModelUtils.getService("service-example-1", spec1)
+        OperationUtils.createService(api, NAMESPACE_NAME_1, service1)
 
-            // service with two ports
-            V1ServiceSpec spec1 = ModelUtils.getServiceSpec("10.43.1.100", [ModelUtils.getServicePort(8081, "http"), ModelUtils.getServicePort(8082, "https")])
-            V1Service service1 = ModelUtils.getService("service-example-1", spec1)
-            OperationUtils.createService(api, NAMESPACE_NAME_1, service1)
+        // service with single port
+        V1ServiceSpec spec2 = ModelUtils.getServiceSpec("10.43.1.101", [ModelUtils.getServicePort(8443, "port")])
+        V1Service service2 = ModelUtils.getService("service-example-2", spec2, ["foo": "bar"])
+        OperationUtils.createService(api, NAMESPACE_NAME_1, service2)
 
-            // service with single port
-            V1ServiceSpec spec2 = ModelUtils.getServiceSpec("10.43.1.101", [ModelUtils.getServicePort(8443, "port")])
-            V1Service service2 = ModelUtils.getService("service-example-2", spec2, ["foo": "bar"])
-            OperationUtils.createService(api, NAMESPACE_NAME_1, service2)
+        // service with external name
+        V1ServiceSpec spec3 = ModelUtils.getServiceSpec("test-external.com")
+        V1Service service3 = ModelUtils.getService("service-example-3", spec3)
+        OperationUtils.createService(api, NAMESPACE_NAME_1, service3)
 
-            // service with external name
-            V1ServiceSpec spec3 = ModelUtils.getServiceSpec("test-external.com")
-            V1Service service3 = ModelUtils.getService("service-example-3", spec3)
-            OperationUtils.createService(api, NAMESPACE_NAME_1, service3)
+        // service with external name and secure label
+        V1ServiceSpec spec4 = ModelUtils.getServiceSpec("test-external-secure.com")
+        V1Service service4 = ModelUtils.getService("service-example-4", spec4, ["secure": "true"])
+        OperationUtils.createService(api, NAMESPACE_NAME_1, service4)
 
-            // service with external name and secure label
-            V1ServiceSpec spec4 = ModelUtils.getServiceSpec("test-external-secure.com")
-            V1Service service4 = ModelUtils.getService("service-example-4", spec4, ["secure": "true"])
-            OperationUtils.createService(api, NAMESPACE_NAME_1, service4)
-
-            // service in another namespace
-            V1ServiceSpec spec5 = ModelUtils.getServiceSpec("10.43.1.201", [ModelUtils.getServicePort(8080, "port")])
-            V1Service service5 = ModelUtils.getService("service-example-5", spec5)
-            OperationUtils.createService(api, NAMESPACE_NAME_2, service5)
-        }
-    }
-
-    def cleanupSpec() {
-        if (kubeConfigFile != null) {
-            Files.deleteIfExists(kubeConfigFile)
-        }
-        if (kubeConfigDir) {
-            Files.deleteIfExists(kubeConfigDir)
-        }
+        // service in another namespace
+        V1ServiceSpec spec5 = ModelUtils.getServiceSpec("10.43.1.201", [ModelUtils.getServicePort(8080, "port")])
+        V1Service service5 = ModelUtils.getService("service-example-5", spec5)
+        OperationUtils.createService(api, NAMESPACE_NAME_2, service5)
     }
 
     @Unroll
@@ -529,6 +492,11 @@ class KubernetesServiceInstanceServiceProviderSpec extends Specification {
     }
 
     KubernetesServiceConfiguration createKubernetesServiceConfiguration(String serviceName, String portName, String namespace, boolean manual) {
-        new KubernetesServiceConfiguration(serviceName, serviceName, namespace, "service", portName, manual)
+        def config = new KubernetesServiceConfiguration(serviceName, manual)
+        config.setName(serviceName)
+        config.setPort(portName)
+        config.setNamespace(namespace)
+        config.setMode("service")
+        return config
     }
 }

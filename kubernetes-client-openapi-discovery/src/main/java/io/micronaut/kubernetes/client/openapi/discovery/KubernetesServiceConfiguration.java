@@ -34,7 +34,7 @@ public class KubernetesServiceConfiguration {
     public static final String NAME = "services";
     public static final String PREFIX = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + "." + NAME;
 
-    private String serviceId;
+    private final String serviceId;
     private String name;
     private String namespace;
     private String mode;
@@ -43,19 +43,11 @@ public class KubernetesServiceConfiguration {
 
     @Inject
     public KubernetesServiceConfiguration(@Parameter String serviceId) {
-        this(serviceId, null, null, null, null, true);
+        this(serviceId, true);
     }
 
     public KubernetesServiceConfiguration(String serviceId, boolean manual) {
-        this(serviceId, null, null, null, null, manual);
-    }
-
-    public KubernetesServiceConfiguration(String serviceId, String name, String namespace, String mode, String port, boolean manual) {
         this.serviceId = serviceId;
-        this.name = name;
-        this.namespace = namespace;
-        this.mode = mode;
-        this.port = port;
         this.manual = manual;
     }
 
@@ -64,15 +56,6 @@ public class KubernetesServiceConfiguration {
      */
     public String getServiceId() {
         return serviceId;
-    }
-
-    /**
-     * Set service id.
-     *
-     * @param serviceId the service id
-     */
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
     }
 
     /**

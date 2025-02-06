@@ -2,6 +2,7 @@ package io.micronaut.kubernetes.client.openapi.discovery.provider
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
+import io.micronaut.kubernetes.client.openapi.K3sContainerSpec
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
@@ -10,104 +11,66 @@ import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
 import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.k3s.K3sContainer
-import org.testcontainers.utility.DockerImageName
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.lang.Unroll
 
-import java.nio.file.Files
-import java.nio.file.Path
-
-class KubernetesServiceInstanceEndpointProviderSpec extends Specification {
+class KubernetesServiceInstanceEndpointProviderSpec extends K3sContainerSpec {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesServiceInstanceEndpointProviderSpec.class)
-    private static final Logger LOG_K3S = LoggerFactory.getLogger("K3S." + KubernetesServiceInstanceEndpointProviderSpec.getSimpleName())
 
     private static final NAMESPACE_NAME_1 = "micronaut-endpoint-provider-1"
     private static final NAMESPACE_NAME_2 = "micronaut-endpoint-provider-2"
 
-    @Shared
-    @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.21.3-k3s1"))
-            .withLogConsumer(new Slf4jLogConsumer(LOG_K3S))
-
-    @Shared
-    Path kubeConfigDir = Files.createTempDirectory("kube-temp-")
-
-    @Shared
-    Path kubeConfigFile = kubeConfigDir.resolve("config")
-
-    def setupSpec() {
-        k3s.start()
-        kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
-        LOG.info("Kubernetes config file path: {}", kubeConfigFile)
-        setupKubernetes()
+    @Override
+    Logger getLogger() {
+        return LOG
     }
 
-    def setupKubernetes() {
-        try (ApplicationContext context = ApplicationContext.run([
-                "micronaut.config-client.enabled"   : false,
-                "kubernetes.client.kube-config-path": "file:" + kubeConfigFile.toString(),
-        ])) {
-            def api = context.getBean(CoreV1ApiReactor.class)
+    @Override
+    def setupKubernetes(CoreV1ApiReactor api) {
+        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
+        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
 
-            OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
-            OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
+        // invalid endpoint - no subsets
+        V1Endpoints endpoints1 = ModelUtils.getEndpoints("endpoints-example-1", [])
+        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints1)
 
-            // invalid endpoint - no subsets
-            V1Endpoints endpoints1 = ModelUtils.getEndpoints("endpoints-example-1", [])
-            OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints1)
+        // invalid endpoint - no ports
+        V1EndpointSubset endpointSubset2 = ModelUtils.getEndpointSubset([ModelUtils.getEndpointAddress("10.244.0.5")], [])
+        V1Endpoints endpoints2 = ModelUtils.getEndpoints("endpoints-example-2", [endpointSubset2])
+        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints2)
 
-            // invalid endpoint - no ports
-            V1EndpointSubset endpointSubset2 = ModelUtils.getEndpointSubset([ModelUtils.getEndpointAddress("10.244.0.5")], [])
-            V1Endpoints endpoints2 = ModelUtils.getEndpoints("endpoints-example-2", [endpointSubset2])
-            OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints2)
+        // single endpoint with one address and two ports
+        V1EndpointSubset endpointSubset3 = ModelUtils.getEndpointSubset(
+                [ModelUtils.getEndpointAddress("0.0.0.1")],
+                [ModelUtils.getEndpointPort(8081, "http"), ModelUtils.getEndpointPort(8082, "https")])
+        V1Endpoints endpoints3 = ModelUtils.getEndpoints("endpoints-example-3", [endpointSubset3])
+        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints3)
 
-            // single endpoint with one address and two ports
-            V1EndpointSubset endpointSubset3 = ModelUtils.getEndpointSubset(
-                    [ModelUtils.getEndpointAddress("0.0.0.1")],
-                    [ModelUtils.getEndpointPort(8081, "http"), ModelUtils.getEndpointPort(8082, "https")])
-            V1Endpoints endpoints3 = ModelUtils.getEndpoints("endpoints-example-3", [endpointSubset3])
-            OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints3)
+        // single endpoint subset with two addresses and one port
+        V1EndpointSubset endpointSubset4 = ModelUtils.getEndpointSubset(
+                [ModelUtils.getEndpointAddress("1.0.0.1"), ModelUtils.getEndpointAddress("1.0.0.2")],
+                [ModelUtils.getEndpointPort(8443)])
+        V1Endpoints endpoints4 = ModelUtils.getEndpoints("endpoints-example-4", [endpointSubset4], ["foo": "bar"])
+        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints4)
 
-            // single endpoint subset with two addresses and one port
-            V1EndpointSubset endpointSubset4 = ModelUtils.getEndpointSubset(
-                    [ModelUtils.getEndpointAddress("1.0.0.1"), ModelUtils.getEndpointAddress("1.0.0.2")],
-                    [ModelUtils.getEndpointPort(8443)])
-            V1Endpoints endpoints4 = ModelUtils.getEndpoints("endpoints-example-4", [endpointSubset4], ["foo": "bar"])
-            OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints4)
+        // multiple endpoint subsets
+        V1EndpointSubset endpointSubset51 = ModelUtils.getEndpointSubset(
+                [ModelUtils.getEndpointAddress("2.0.0.1"), ModelUtils.getEndpointAddress("2.0.0.2")],
+                [ModelUtils.getEndpointPort(8081)])
+        V1EndpointSubset endpointSubset52 = ModelUtils.getEndpointSubset(
+                [ModelUtils.getEndpointAddress("3.0.0.1")],
+                [ModelUtils.getEndpointPort(8082)])
+        V1Endpoints endpoints5 = ModelUtils.getEndpoints("endpoints-example-5", [endpointSubset51, endpointSubset52])
+        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints5)
 
-            // multiple endpoint subsets
-            V1EndpointSubset endpointSubset51 = ModelUtils.getEndpointSubset(
-                    [ModelUtils.getEndpointAddress("2.0.0.1"), ModelUtils.getEndpointAddress("2.0.0.2")],
-                    [ModelUtils.getEndpointPort(8081)])
-            V1EndpointSubset endpointSubset52 = ModelUtils.getEndpointSubset(
-                    [ModelUtils.getEndpointAddress("3.0.0.1")],
-                    [ModelUtils.getEndpointPort(8082)])
-            V1Endpoints endpoints5 = ModelUtils.getEndpoints("endpoints-example-5", [endpointSubset51, endpointSubset52])
-            OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints5)
-
-            // endpoint in another namespace
-            V1EndpointSubset endpointSubset6 = ModelUtils.getEndpointSubset(
-                    [ModelUtils.getEndpointAddress("100.0.0.1")],
-                    [ModelUtils.getEndpointPort(8080, "http")])
-            V1Endpoints endpoints6 = ModelUtils.getEndpoints("endpoints-example-6", [endpointSubset6])
-            OperationUtils.createEndpoints(api, NAMESPACE_NAME_2, endpoints6)
-        }
-    }
-
-    def cleanupSpec() {
-        if (kubeConfigFile != null) {
-            Files.deleteIfExists(kubeConfigFile)
-        }
-        if (kubeConfigDir) {
-            Files.deleteIfExists(kubeConfigDir)
-        }
+        // endpoint in another namespace
+        V1EndpointSubset endpointSubset6 = ModelUtils.getEndpointSubset(
+                [ModelUtils.getEndpointAddress("100.0.0.1")],
+                [ModelUtils.getEndpointPort(8080, "http")])
+        V1Endpoints endpoints6 = ModelUtils.getEndpoints("endpoints-example-6", [endpointSubset6])
+        OperationUtils.createEndpoints(api, NAMESPACE_NAME_2, endpoints6)
     }
 
     @Unroll
@@ -559,8 +522,12 @@ class KubernetesServiceInstanceEndpointProviderSpec extends Specification {
         createKubernetesServiceConfiguration(endpointName, null, NAMESPACE_NAME_1, manual)
     }
 
-    KubernetesServiceConfiguration createKubernetesServiceConfiguration(String endpointName, String portName, String namespace, boolean manual) {
-        new KubernetesServiceConfiguration(endpointName, endpointName, namespace, "endpoint", portName, manual)
+    KubernetesServiceConfiguration createKubernetesServiceConfiguration(String serviceName, String portName, String namespace, boolean manual) {
+        def config = new KubernetesServiceConfiguration(serviceName, manual)
+        config.setName(serviceName)
+        config.setPort(portName)
+        config.setNamespace(namespace)
+        config.setMode("endpoint")
+        return config
     }
-
 }
