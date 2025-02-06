@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.client.openapi.utils
 
 import io.micronaut.kubernetes.client.openapi.model.CoreV1EndpointPort
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
@@ -97,5 +98,18 @@ class ModelUtils {
         endpoints.metadata(getObjectMeta(name, labels))
         endpoints.subsets(subsets)
         return endpoints
+    }
+
+    static V1ConfigMap getConfigMap(String name, Map<String, String> data) {
+        return getConfigMap(name, data, [:])
+    }
+
+    static V1ConfigMap getConfigMap(String name, Map<String, String> data, Map<String, String> labels) {
+        V1ConfigMap configMap = new V1ConfigMap()
+        configMap.kind('ConfigMap')
+        configMap.apiVersion('v1')
+        configMap.metadata(getObjectMeta(name, labels))
+        configMap.data(data)
+        return configMap
     }
 }

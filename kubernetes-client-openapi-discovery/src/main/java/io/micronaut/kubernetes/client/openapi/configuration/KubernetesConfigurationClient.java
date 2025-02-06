@@ -44,7 +44,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +119,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
      * @return the property source cache.
      */
     static Map<String, PropertySource> getPropertySourceCache() {
-        return Collections.unmodifiableMap(propertySources);
+        return propertySources;
     }
 
     private Flux<PropertySource> getPropertySourcesFromConfigMaps() {
