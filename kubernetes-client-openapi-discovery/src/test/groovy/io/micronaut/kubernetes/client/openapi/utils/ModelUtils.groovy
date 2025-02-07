@@ -2,22 +2,22 @@ package io.micronaut.kubernetes.client.openapi.utils
 
 import io.micronaut.kubernetes.client.openapi.model.CoreV1EndpointPort
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import io.micronaut.kubernetes.client.openapi.model.V1Container
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
+import io.micronaut.kubernetes.client.openapi.model.V1Pod
+import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServicePort
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
+import jakarta.validation.Valid
 
 class ModelUtils {
 
-    static V1ObjectMeta getObjectMeta(String name) {
-        return getObjectMeta(name, [:])
-    }
-
-    static V1ObjectMeta getObjectMeta(String name, Map<String, String> labels) {
+    static V1ObjectMeta getObjectMeta(String name, Map<String, String> labels = [:]) {
         V1ObjectMeta objectMeta = new V1ObjectMeta()
         objectMeta.name(name)
         objectMeta.labels(labels)
@@ -53,11 +53,7 @@ class ModelUtils {
         return serviceSpec
     }
 
-    static V1Service getService(String name, V1ServiceSpec spec) {
-        return getService(name, spec, [:])
-    }
-
-    static V1Service getService(String name, V1ServiceSpec spec, Map<String, String> labels) {
+    static V1Service getService(String name, V1ServiceSpec spec, Map<String, String> labels = [:]) {
         V1Service service = new V1Service()
         service.kind('Service')
         service.apiVersion('v1')
@@ -66,11 +62,7 @@ class ModelUtils {
         return service
     }
 
-    static CoreV1EndpointPort getEndpointPort(int port) {
-        return getEndpointPort(port, null)
-    }
-
-    static CoreV1EndpointPort getEndpointPort(int port, String name) {
+    static CoreV1EndpointPort getEndpointPort(int port, String name = null) {
         CoreV1EndpointPort endpointPort = new CoreV1EndpointPort(port)
         endpointPort.name(name)
         return endpointPort
@@ -87,11 +79,7 @@ class ModelUtils {
         return endpointSubset
     }
 
-    static V1Endpoints getEndpoints(String name, List<V1EndpointSubset> subsets) {
-        return getEndpoints(name, subsets, [:])
-    }
-
-    static V1Endpoints getEndpoints(String name, List<V1EndpointSubset> subsets, Map<String, String> labels) {
+    static V1Endpoints getEndpoints(String name, List<V1EndpointSubset> subsets, Map<String, String> labels = [:]) {
         V1Endpoints endpoints = new V1Endpoints()
         endpoints.kind('Endpoints')
         endpoints.apiVersion('v1')
@@ -100,16 +88,32 @@ class ModelUtils {
         return endpoints
     }
 
-    static V1ConfigMap getConfigMap(String name, Map<String, String> data) {
-        return getConfigMap(name, data, [:])
-    }
-
-    static V1ConfigMap getConfigMap(String name, Map<String, String> data, Map<String, String> labels) {
+    static V1ConfigMap getConfigMap(String name, Map<String, String> data, Map<String, String> labels = [:]) {
         V1ConfigMap configMap = new V1ConfigMap()
         configMap.kind('ConfigMap')
         configMap.apiVersion('v1')
         configMap.metadata(getObjectMeta(name, labels))
         configMap.data(data)
         return configMap
+    }
+
+    static V1Container getContainer(String name) {
+        V1Container container = new V1Container(name)
+        container.image("test-image")
+        return container
+    }
+
+    static V1PodSpec getPodSpec(List<V1Container> containers) {
+        V1PodSpec podSpec = new V1PodSpec(containers)
+        return podSpec
+    }
+
+    static V1Pod getPod(String name, V1PodSpec podSpec, Map<String, String> labels = [:]) {
+        V1Pod pod = new V1Pod()
+        pod.kind('Pod')
+        pod.apiVersion('v1')
+        pod.metadata(getObjectMeta(name, labels))
+        pod.spec(podSpec)
+        return pod
     }
 }

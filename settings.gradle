@@ -32,7 +32,6 @@ include 'kubernetes-operator'
 include 'test-utils'
 
 include 'examples:example-client'
-//include 'examples:example-client-openapi'
 include 'examples:example-kubernetes-client'
 include 'examples:example-kubernetes-client-openapi-informer-java'
 include 'examples:example-kubernetes-client-openapi-java'
@@ -41,7 +40,6 @@ include 'examples:example-kubernetes-client-openapi-watcher-java'
 include 'examples:example-kubernetes-informer'
 include 'examples:example-kubernetes-operator'
 include 'examples:example-service'
-//include 'examples:example-service-openapi'
 
 micronautBuild {
     useStandardizedProjectNames = true

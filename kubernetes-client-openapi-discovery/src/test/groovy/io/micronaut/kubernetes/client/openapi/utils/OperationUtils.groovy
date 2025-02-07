@@ -3,6 +3,7 @@ package io.micronaut.kubernetes.client.openapi.utils
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
+import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
 
@@ -22,5 +23,9 @@ class OperationUtils {
 
     static V1ConfigMap createConfigMap(CoreV1ApiReactor api, String namespace, V1ConfigMap configMap) {
         api.createNamespacedConfigMap(namespace, configMap, null, null, null, null).block()
+    }
+
+    static V1Pod createPod(CoreV1ApiReactor api, String namespace, V1Pod pod) {
+        api.createNamespacedPod(namespace, pod, null, null, null, null).block()
     }
 }
