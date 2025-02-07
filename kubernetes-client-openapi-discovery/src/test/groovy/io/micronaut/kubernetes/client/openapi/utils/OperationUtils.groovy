@@ -25,6 +25,14 @@ class OperationUtils {
         api.createNamespacedConfigMap(namespace, configMap, null, null, null, null).block()
     }
 
+    static V1ConfigMap replaceConfigMap(CoreV1ApiReactor api, String namespace, V1ConfigMap configMap) {
+        api.replaceNamespacedConfigMap(configMap.getMetadata().getName(), namespace, configMap, null, null, null, null).block()
+    }
+
+    static void deleteConfigMap(CoreV1ApiReactor api, String namespace, String name) {
+        api.deleteNamespacedConfigMap(name, namespace, null, null, null, null, null, null).block()
+    }
+
     static V1Pod createPod(CoreV1ApiReactor api, String namespace, V1Pod pod) {
         api.createNamespacedPod(namespace, pod, null, null, null, null).block()
     }

@@ -13,6 +13,7 @@ import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
 import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import spock.util.concurrent.PollingConditions
 
 import java.nio.file.Path
 
@@ -20,7 +21,8 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClientSpec.class)
 
-    private static final NAMESPACE_NAME = "micronaut-service-configuration"
+    private static final NAMESPACE_NAME_1 = "micronaut-service-configuration-1"
+    private static final NAMESPACE_NAME_2 = "micronaut-service-configuration-2"
 
     private static final GAME_CONFIG_JSON_PS_NAME = createConfigMapPropSourceName("game-config-json")
     private static final GAME_CONFIG_PROPERTIES_PS_NAME = createConfigMapPropSourceName("game-config-properties")
@@ -43,16 +45,24 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
 
     @Override
     def setupKubernetes(CoreV1ApiReactor api) {
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME))
+        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
 
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME, getJsonConfigMap())
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME, getPropertiesConfigMap())
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME, getYmlConfigMap())
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME, getLiteralConfigMap())
+        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getJsonConfigMap())
+        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getPropertiesConfigMap())
+        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getYmlConfigMap())
+        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getLiteralConfigMap())
 
-        V1PodSpec podSpec = ModelUtils.getPodSpec([ModelUtils.getContainer("test-cont-1")])
-        V1Pod pod = ModelUtils.getPod(POD_NAME, podSpec, ["podLabelKey1": "podLabelValue1", "podLabelKey2": "podLabelValue2"])
-        OperationUtils.createPod(api, NAMESPACE_NAME, pod)
+        V1PodSpec podSpec1 = ModelUtils.getPodSpec([ModelUtils.getContainer("test-cont-1")])
+        V1Pod pod1 = ModelUtils.getPod(POD_NAME, podSpec1, ["podLabelKey1": "podLabelValue1", "podLabelKey2": "podLabelValue2"])
+        OperationUtils.createPod(api, NAMESPACE_NAME_1, pod1)
+
+        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
+
+        OperationUtils.createConfigMap(api, NAMESPACE_NAME_2, getLiteralConfigMap())
+
+        V1PodSpec podSpec2 = ModelUtils.getPodSpec([ModelUtils.getContainer("test-cont-2")])
+        V1Pod pod2 = ModelUtils.getPod(POD_NAME, podSpec2, ["podLabelKey20": "podLabelValue20"])
+        OperationUtils.createPod(api, NAMESPACE_NAME_2, pod2)
     }
 
     void "read json, properties, yml and literal config maps"() {
@@ -60,7 +70,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"      : true,
                 "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"          : NAMESPACE_NAME,
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled": true,
                 "kubernetes.client.config-maps.use-api": true,
                 "kubernetes.client.config-maps.watch"  : false
@@ -110,12 +120,92 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         context.close()
     }
 
+    void "read config maps and watch enabled"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"       : true,
+                "kubernetes.client.kube-config-path"    : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"           : NAMESPACE_NAME_2,
+                "kubernetes.client.config-maps.enabled" : true,
+                "kubernetes.client.config-maps.use-api" : true,
+                "kubernetes.client.config-maps.watch"   : true,
+                "micronaut.config-client.read-timeout"  : "30m"
+        ], Environment.KUBERNETES)
+
+        def watcher = context.getBean(KubernetesConfigMapWatcher.class)
+        watcher.onApplicationEvent(null)
+
+        def api = context.getBean(CoreV1ApiReactor.class)
+        def conditions = new PollingConditions(timeout: 2)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        propertySources.size() == 2
+        propertySources.get(LITERAL_CONFIG_PS_NAME) != null
+        propertySources.get(LITERAL_CONFIG_PS_NAME).size() == 3
+        propertySources.get(LITERAL_CONFIG_PS_NAME).get("special.how") == "very"
+        propertySources.get(LITERAL_CONFIG_PS_NAME).get("special.type") == "charm"
+        propertySources.get(LITERAL_CONFIG_PS_NAME).contains(createResVersionConfigMapPropName("literal-config"))
+        propertySources.get(CONFIG_MAP_LIST_PS_NAME) != null
+        propertySources.get(CONFIG_MAP_LIST_PS_NAME).size() == 1
+        propertySources.get(CONFIG_MAP_LIST_PS_NAME).contains(CONFIG_MAP_LIST_PS_KEY)
+
+        when: "new config map is created"
+        def newConfigMapPropSourceName = createConfigMapPropSourceName("config-map-1")
+        def newConfigMap = ModelUtils.getConfigMap("config-map-1", ["test-key-1": "test-value-1", "test-key-2": "test-value-2"])
+        OperationUtils.createConfigMap(api, NAMESPACE_NAME_2, newConfigMap)
+
+        then: "new property source is created"
+        conditions.eventually {
+            with(KubernetesConfigurationClient.propertySourceCache) {
+                it.size() == 3
+                it.get(newConfigMapPropSourceName) != null
+                it.get(newConfigMapPropSourceName).size() == 3
+                it.get(newConfigMapPropSourceName).get("test-key-1") == "test-value-1"
+                it.get(newConfigMapPropSourceName).get("test-key-2") == "test-value-2"
+                it.get(newConfigMapPropSourceName).contains(createResVersionConfigMapPropName("config-map-1"))
+            }
+        }
+
+        when: "existing config map is replaced"
+        def updatedConfigMap = ModelUtils.getConfigMap("config-map-1", ["test-key-1": "test-value-10", "test-key-3": "test-value-3"])
+        OperationUtils.replaceConfigMap(api, NAMESPACE_NAME_2, updatedConfigMap)
+
+        then: "existing property source is updated"
+        conditions.eventually {
+            with(KubernetesConfigurationClient.propertySourceCache) {
+                it.size() == 3
+                it.get(newConfigMapPropSourceName) != null
+                it.get(newConfigMapPropSourceName).size() == 3
+                it.get(newConfigMapPropSourceName).get("test-key-1") == "test-value-10"
+                it.get(newConfigMapPropSourceName).get("test-key-3") == "test-value-3"
+                it.get(newConfigMapPropSourceName).contains(createResVersionConfigMapPropName("config-map-1"))
+            }
+        }
+
+        when: "existing config map is deleted"
+        OperationUtils.deleteConfigMap(api, NAMESPACE_NAME_2, "config-map-1")
+
+        then: "existing property source is deleted"
+        conditions.eventually {
+            with(KubernetesConfigurationClient.propertySourceCache) {
+                it.size() == 2
+                it.get(newConfigMapPropSourceName) == null
+            }
+        }
+
+        cleanup:
+        context.close()
+    }
+
     void "test includes filter for config maps"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"       : true,
                 "kubernetes.client.kube-config-path"    : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"           : NAMESPACE_NAME,
+                "kubernetes.client.namespace"           : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled" : true,
                 "kubernetes.client.config-maps.use-api" : true,
                 "kubernetes.client.config-maps.watch"   : false,
@@ -143,7 +233,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"       : true,
                 "kubernetes.client.kube-config-path"    : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"           : NAMESPACE_NAME,
+                "kubernetes.client.namespace"           : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled" : true,
                 "kubernetes.client.config-maps.use-api" : true,
                 "kubernetes.client.config-maps.watch"   : false,
@@ -171,7 +261,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"       : true,
                 "kubernetes.client.kube-config-path"    : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"           : NAMESPACE_NAME,
+                "kubernetes.client.namespace"           : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled" : true,
                 "kubernetes.client.config-maps.use-api" : true,
                 "kubernetes.client.config-maps.watch"   : false,
@@ -193,12 +283,38 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         context.close()
     }
 
+    void "test label filter for config maps"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": true,
+                "kubernetes.client.config-maps.use-api": true,
+                "kubernetes.client.config-maps.watch"  : false,
+                "kubernetes.client.config-maps.labels" : ["podLabelKey2": "podLabelValue2"]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        propertySources.size() == 2
+        propertySources.get(GAME_CONFIG_PROPERTIES_PS_NAME) != null
+        propertySources.get(GAME_CONFIG_PROPERTIES_PS_NAME).get("enemies") == "zombies"
+        propertySources.get(CONFIG_MAP_LIST_PS_NAME) != null
+        propertySources.get(CONFIG_MAP_LIST_PS_NAME).contains(CONFIG_MAP_LIST_PS_KEY)
+
+        cleanup:
+        context.close()
+    }
+
     void "test pod label key filter for config maps"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"         : true,
                 "kubernetes.client.kube-config-path"      : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"             : NAMESPACE_NAME,
+                "kubernetes.client.namespace"             : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled"   : true,
                 "kubernetes.client.config-maps.use-api"   : true,
                 "kubernetes.client.config-maps.watch"     : false,
@@ -226,7 +342,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         def properties = [
                 "micronaut.config-client.enabled"                              : true,
                 "kubernetes.client.kube-config-path"                           : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"                                  : NAMESPACE_NAME,
+                "kubernetes.client.namespace"                                  : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled"                        : true,
                 "kubernetes.client.config-maps.use-api"                        : true,
                 "kubernetes.client.config-maps.watch"                          : false,
@@ -253,7 +369,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"      : true,
                 "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
-                "kubernetes.client.namespace"          : NAMESPACE_NAME,
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
                 "kubernetes.client.config-maps.enabled": true,
                 "kubernetes.client.config-maps.use-api": false,
                 "kubernetes.client.config-maps.watch"  : false,
