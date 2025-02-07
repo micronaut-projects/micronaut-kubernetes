@@ -380,8 +380,8 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
     void "test reading of config maps from mounted volumes"() {
         given:
         def loader = ClassPathResourceLoader.defaultLoader(this.class.getClassLoader())
-        def mountedJsonUrl = loader.getResource("classpath:kubernetes/mounted.json")
-                .orElseThrow(() -> new FileNotFoundException("File 'kubernetes/mounted.json' not found on classpath"))
+        def mountedJsonUrl = loader.getResource("classpath:kubernetes/config-maps/mounted.json")
+                .orElseThrow(() -> new FileNotFoundException("File 'kubernetes/config-maps/mounted.json' not found on classpath"))
         Path parentPath = Path.of(mountedJsonUrl.toURI()).parent
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"      : true,
@@ -525,6 +525,199 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
                 it.get(newSecretPropSourceName) == null
             }
         }
+
+        cleanup:
+        context.close()
+    }
+
+    void "test includes filter for secrets"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": false,
+                "kubernetes.client.secrets.enabled"    : true,
+                "kubernetes.client.secrets.use-api"    : true,
+                "kubernetes.client.secrets.watch"      : false,
+                "kubernetes.client.secrets.includes"   : ["test-secret-2"]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        propertySources.size() == 2
+        propertySources.get(TEST_SECRET_2_PS_NAME) != null
+        propertySources.get(TEST_SECRET_2_PS_NAME).get("secretKey2") == "secretValue2"
+        propertySources.get(SECRET_LIST_PS_NAME) != null
+        propertySources.get(SECRET_LIST_PS_NAME).contains(SECRET_LIST_PS_KEY)
+
+        cleanup:
+        context.close()
+    }
+
+    void "test excludes filter for secrets"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": false,
+                "kubernetes.client.secrets.enabled"    : true,
+                "kubernetes.client.secrets.use-api"    : true,
+                "kubernetes.client.secrets.watch"      : false,
+                "kubernetes.client.secrets.excludes"   : ["test-secret-1", "test-secret-2"]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        propertySources.size() == 2
+        propertySources.get(TEST_SECRET_3_PS_NAME) != null
+        propertySources.get(TEST_SECRET_3_PS_NAME).get("secretKey3") == "secretValue3"
+        propertySources.get(SECRET_LIST_PS_NAME) != null
+        propertySources.get(SECRET_LIST_PS_NAME).contains(SECRET_LIST_PS_KEY)
+
+        cleanup:
+        context.close()
+    }
+
+    void "test multiple filters for secrets"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": false,
+                "kubernetes.client.secrets.enabled"    : true,
+                "kubernetes.client.secrets.use-api"    : true,
+                "kubernetes.client.secrets.watch"      : false,
+                "kubernetes.client.secrets.includes"   : ["test-secret-1", "test-secret-2"],
+                "kubernetes.client.secrets.excludes"   : ["test-secret-1"]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        propertySources.size() == 2
+        propertySources.get(TEST_SECRET_2_PS_NAME) != null
+        propertySources.get(TEST_SECRET_2_PS_NAME).get("secretKey2") == "secretValue2"
+        propertySources.get(SECRET_LIST_PS_NAME) != null
+        propertySources.get(SECRET_LIST_PS_NAME).contains(SECRET_LIST_PS_KEY)
+
+        cleanup:
+        context.close()
+    }
+
+    void "test label filter for secrets"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": false,
+                "kubernetes.client.secrets.enabled"    : true,
+                "kubernetes.client.secrets.use-api"    : true,
+                "kubernetes.client.secrets.watch"      : false,
+                "kubernetes.client.secrets.labels"     : ["podLabelKey2": "podLabelValue2"]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        propertySources.size() == 2
+        propertySources.get(TEST_SECRET_3_PS_NAME) != null
+        propertySources.get(TEST_SECRET_3_PS_NAME).get("secretKey3") == "secretValue3"
+        propertySources.get(SECRET_LIST_PS_NAME) != null
+        propertySources.get(SECRET_LIST_PS_NAME).contains(SECRET_LIST_PS_KEY)
+
+        cleanup:
+        context.close()
+    }
+
+    void "test pod label key filter for secrets"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": false,
+                "kubernetes.client.secrets.enabled"    : true,
+                "kubernetes.client.secrets.use-api"    : true,
+                "kubernetes.client.secrets.watch"      : false,
+                "kubernetes.client.secrets.pod-labels" : ["podLabelKey1"]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+
+        then:
+        System.getenv("KUBERNETES_SERVICE_HOST") == "localhost"
+        System.getenv("HOSTNAME") == POD_NAME
+        propertySources.size() == 2
+        propertySources.get(TEST_SECRET_2_PS_NAME) != null
+        propertySources.get(TEST_SECRET_2_PS_NAME).get("secretKey2") == "secretValue2"
+        propertySources.get(SECRET_LIST_PS_NAME) != null
+        propertySources.get(SECRET_LIST_PS_NAME).contains(SECRET_LIST_PS_KEY)
+
+        cleanup:
+        context.close()
+    }
+
+    void "test pod label key filter failure when exceptionOnPodLabelsMissing is enabled for secrets"() {
+        given:
+        def properties = [
+                "micronaut.config-client.enabled"                          : true,
+                "kubernetes.client.kube-config-path"                       : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"                              : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled"                    : false,
+                "kubernetes.client.secrets.enabled"                        : true,
+                "kubernetes.client.secrets.use-api"                        : true,
+                "kubernetes.client.secrets.watch"                          : false,
+                "kubernetes.client.secrets.pod-labels"                     : ["podLabelKey1", "podLabelKey100"],
+                "kubernetes.client.secrets.exception-on-pod-labels-missing": true
+        ]
+
+        when:
+        ApplicationContext.run(properties, Environment.KUBERNETES)
+
+        then:
+        System.getenv("KUBERNETES_SERVICE_HOST") == "localhost"
+        System.getenv("HOSTNAME") == POD_NAME
+        def e = thrown(ConfigurationException)
+        e.message.startsWith("Pod metadata does not contain label")
+    }
+
+    void "test reading of secrets from mounted volumes"() {
+        given:
+        def loader = ClassPathResourceLoader.defaultLoader(this.class.getClassLoader())
+        def secretFileUrl = loader.getResource("classpath:kubernetes/secrets/foo")
+                .orElseThrow(() -> new FileNotFoundException("File 'kubernetes/secrets/foo' not found on classpath"))
+        Path parentPath = Path.of(secretFileUrl.toURI()).parent
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"      : true,
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME_1,
+                "kubernetes.client.config-maps.enabled": false,
+                "kubernetes.client.secrets.enabled"    : true,
+                "kubernetes.client.secrets.use-api"    : false,
+                "kubernetes.client.secrets.watch"      : false,
+                "kubernetes.client.secrets.paths"      : [parentPath.toString()]
+        ], Environment.KUBERNETES)
+
+        when:
+        def propertySources = KubernetesConfigurationClient.propertySourceCache
+        def filePropertySourceKeyOpt = propertySources.keySet().stream().findFirst()
+
+        then:
+        propertySources.size() == 1
+        filePropertySourceKeyOpt.isPresent()
+        propertySources.get(filePropertySourceKeyOpt.get()).size() == 1
+        propertySources.get(filePropertySourceKeyOpt.get()).get("foo") == "bar"
 
         cleanup:
         context.close()
