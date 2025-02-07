@@ -38,6 +38,8 @@ The ann:kubernetes.client.openapi.informer.handler.Informer[] annotation provide
 |`labelSelectorSupplier` | `Supplier` class for the label selector. Note that the supplier class needs to be a bean in the application context.
                            Finally the `labelSelector` and `labelSelectorSupplier` can be used in combination.
 |`resyncCheckPeriod`     | How often to check the need for resync of resources. If left empty the default resync check period is used.
+|`waitForInitialSync`    | If set to `true`, the service startup will wait on informers created from this annotation to get synced (existing kubernetes objects loaded to the
+                           informer's in-memory storage) or timeout defined in api:kubernetes.client.openapi.informer.InformerConfiguration[] gets expired.
 |===
 
 IMPORTANT: The concept of shared informer means that the api:kubernetes.client.openapi.informer.SharedIndexInformer[]
