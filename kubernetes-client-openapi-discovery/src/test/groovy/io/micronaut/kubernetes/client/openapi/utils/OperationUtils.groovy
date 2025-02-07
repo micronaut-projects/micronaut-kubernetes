@@ -4,6 +4,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
 
@@ -35,5 +36,17 @@ class OperationUtils {
 
     static V1Pod createPod(CoreV1ApiReactor api, String namespace, V1Pod pod) {
         api.createNamespacedPod(namespace, pod, null, null, null, null).block()
+    }
+
+    static V1Secret createSecret(CoreV1ApiReactor api, String namespace, V1Secret secret) {
+        api.createNamespacedSecret(namespace, secret, null, null, null, null).block()
+    }
+
+    static V1Secret replaceSecret(CoreV1ApiReactor api, String namespace, V1Secret secret) {
+        api.replaceNamespacedSecret(secret.getMetadata().getName(), namespace, secret, null, null, null, null).block()
+    }
+
+    static void deleteSecret(CoreV1ApiReactor api, String namespace, String name) {
+        api.deleteNamespacedSecret(name, namespace, null, null, null, null, null, null).block()
     }
 }

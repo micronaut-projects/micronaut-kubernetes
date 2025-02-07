@@ -10,10 +10,10 @@ import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServicePort
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
-import jakarta.validation.Valid
 
 class ModelUtils {
 
@@ -115,5 +115,14 @@ class ModelUtils {
         pod.metadata(getObjectMeta(name, labels))
         pod.spec(podSpec)
         return pod
+    }
+
+    static V1Secret getSecret(String name, Map<String, byte[]> data, Map<String, String> labels = [:]) {
+        V1Secret secret = new V1Secret()
+        secret.kind('Secret')
+        secret.apiVersion('v1')
+        secret.metadata(getObjectMeta(name, labels))
+        secret.data(data)
+        return secret
     }
 }

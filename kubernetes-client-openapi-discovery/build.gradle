@@ -17,6 +17,6 @@ dependencies {
 }
 
 project.tasks.withType(Test).configureEach {
-    jvmArgs '-DKUBERNETES_SERVICE_HOST=localhost'
-    jvmArgs '-DHOSTNAME=test-pod'
+    environment.put("KUBERNETES_SERVICE_HOST", "localhost")
+    environment.put("HOSTNAME", "test-pod")
 }
