@@ -24,7 +24,7 @@ class KubernetesClientCertAuthSpec extends Specification implements TestProperty
 
     @Shared
     @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.21.3-k3s1"))
+    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
             .withLogConsumer(new Slf4jLogConsumer(logger))
 
     @Shared

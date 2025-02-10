@@ -32,7 +32,7 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
 
     @Shared
     @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.21.3-k3s1"))
+    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
             .withLogConsumer(new Slf4jLogConsumer(LOG))
 
     @Shared
@@ -127,6 +127,6 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
     }
 
     private V1Status deleteSecret(String namespaceName, String secretName) {
-        api.deleteNamespacedSecret(secretName, namespaceName, null, null, null, null, null, null)
+        return api.deleteNamespacedSecret(secretName, namespaceName, null, null, null, null, null, null).body()
     }
 }
