@@ -50,6 +50,9 @@ import java.util.stream.StreamSupport;
  */
 final class KubernetesConfigUtils {
 
+    static final int API_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 100;
+    static final int MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 150;
+
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
 
     private static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
@@ -57,9 +60,6 @@ final class KubernetesConfigUtils {
     private static final String PROPERTY_SOURCE_NAME_TEMPLATE = "%s (Kubernetes %s)";
     private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
     private static final String LIST_RES_VERSION_PROP_NAME_TEMPLATE = "%s.resource-version";
-
-    static final int API_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 100;
-    static final int MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 150;
 
     private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS;
     private static final Set<String> PROPERTY_SOURCE_EXTENSIONS;
