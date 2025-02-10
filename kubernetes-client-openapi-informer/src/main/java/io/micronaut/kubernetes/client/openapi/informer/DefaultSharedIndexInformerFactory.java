@@ -205,7 +205,8 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
             try {
                 Thread.sleep(syncStep.toMillis());
             } catch (InterruptedException e) {
-                LOG.warn("Active waiting for informers to sync has interrupted: {}", waitForInitialSyncInformers.keySet(), e);
+                LOG.warn("The thread has been interrupted while waiting for informers to sync: {}", waitForInitialSyncInformers.keySet(), e);
+                Thread.currentThread().interrupt();
                 break;
             }
         }

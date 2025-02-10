@@ -90,26 +90,11 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
         V1ServicePort servicePort = null;
         List<V1ServicePort> servicePorts = serviceSpec.getPorts();
         if (CollectionUtils.isNotEmpty(servicePorts)) {
-            Optional<String> configPortNameOpt = serviceConfiguration.getPort();
-            if (configPortNameOpt.isEmpty()) {
-                if (servicePorts.size() > 1) {
-                    LOG.error("{} [{}] - The 'ports' field contains multiple values, so desired port value needs to be configured manually: V1Service={}",
-                        ERROR_MSG_PREFIX, serviceName, service);
-                    return Collections.emptyList();
-                }
-                servicePort = servicePorts.get(0);
-            } else {
-                String configPortName = configPortNameOpt.get();
-                Optional<V1ServicePort> servicePortOpt = servicePorts.stream()
-                    .filter(port -> Objects.equals(port.getName(), configPortName))
-                    .findFirst();
-                if (servicePortOpt.isEmpty()) {
-                    LOG.error("{} [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
-                        ERROR_MSG_PREFIX, serviceName, configPortName, service);
-                    return Collections.emptyList();
-                }
-                servicePort = servicePortOpt.get();
+            Optional<V1ServicePort> servicePortOpt = getServicePort(serviceName, serviceConfiguration, service);
+            if (servicePortOpt.isEmpty()) {
+                return Collections.emptyList();
             }
+            servicePort = servicePortOpt.get();
         }
 
         String address;
@@ -131,6 +116,28 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
             service.getMetadata());
         LOG.trace("Created a service instance: {}", serviceInstance);
         return Collections.singletonList(serviceInstance);
+    }
+
+    private static Optional<V1ServicePort> getServicePort(String serviceName, KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
+        List<V1ServicePort> servicePorts = service.getSpec().getPorts();
+        Optional<String> configPortNameOpt = serviceConfiguration.getPort();
+        if (configPortNameOpt.isEmpty()) {
+            if (servicePorts.size() > 1) {
+                LOG.error("{} [{}] - The 'ports' field contains multiple values, so desired port value needs to be configured manually: V1Service={}",
+                    ERROR_MSG_PREFIX, serviceName, service);
+                return Optional.empty();
+            }
+            return Optional.of(servicePorts.get(0));
+        }
+        String configPortName = configPortNameOpt.get();
+        Optional<V1ServicePort> servicePortOpt = servicePorts.stream()
+            .filter(port -> Objects.equals(port.getName(), configPortName))
+            .findFirst();
+        if (servicePortOpt.isEmpty()) {
+            LOG.error("{} [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
+                ERROR_MSG_PREFIX, serviceName, configPortName, service);
+        }
+        return servicePortOpt;
     }
 
     abstract Mono<V1Service> getService(String name, String namespace);
