@@ -40,7 +40,8 @@ import java.util.Optional;
 /**
  * Service instance provider which uses {@link V1Endpoints} as source of service discovery.
  */
-abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceProvider {
+abstract sealed class AbstractV1EndpointsProvider implements KubernetesServiceInstanceProvider
+    permits KubernetesServiceInstanceEndpointInformerProvider, KubernetesServiceInstanceEndpointProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractV1EndpointsProvider.class);
 
