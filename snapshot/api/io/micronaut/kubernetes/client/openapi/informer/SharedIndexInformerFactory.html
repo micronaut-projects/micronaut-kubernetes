@@ -109,50 +109,39 @@ loadScripts(document, 'script');</script>
 <div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;<br>@NonNull <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;ApiType&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,boolean)" class="member-name-link">sharedIndexInformerFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,long)" class="member-name-link">sharedIndexInformerFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync)</code></div>
+ long&nbsp;resyncPeriodMillis)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;<br>@NonNull <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;ApiType&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,boolean,long)" class="member-name-link">sharedIndexInformerFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,long,java.util.function.Function,java.util.Map)" class="member-name-link">sharedIndexInformerFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync,
- long&nbsp;resyncPeriodMillis)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;<br>@NonNull <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;ApiType&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,boolean,long,java.util.function.Function,java.util.Map)" class="member-name-link">sharedIndexInformerFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync,
  long&nbsp;resyncPeriodMillis,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;ApiType,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;cacheKeyFunction,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;ApiType,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;&gt;&nbsp;cacheIndexFunctions)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;<br>@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;ApiType&gt;&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformersFor(java.lang.Class,java.util.List,java.lang.String,boolean,long)" class="member-name-link">sharedIndexInformersFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;<br>@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;ApiType&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#sharedIndexInformersFor(java.lang.Class,java.util.List,java.lang.String,long)" class="member-name-link">sharedIndexInformersFor</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
  @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;namespaces,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync,
  long&nbsp;resyncPeriodMillis)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a> for each namespace.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#startAllRegisteredInformers()" class="member-name-link">startAllRegisteredInformers</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#startAllRegisteredInformers()" class="member-name-link">startAllRegisteredInformers</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Starts all registered informers.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#stopAllRegisteredInformers()" class="member-name-link">stopAllRegisteredInformers</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#stopAllRegisteredInformers()" class="member-name-link">stopAllRegisteredInformers</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Stops all registered informers.</div>
 </div>
 </div>
@@ -217,7 +206,7 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,boolean)">
+<section class="detail" id="sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,long)">
 <h3>sharedIndexInformerFor</h3>
 <div class="member-signature"><span class="annotations">@NonNull
 </span><span class="type-parameters">&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</span>
@@ -227,36 +216,6 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync)</span></div>
-<div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
-<dl class="notes">
-<dt>Type Parameters:</dt>
-<dd><code>ApiType</code> - kubernetes api type</dd>
-<dt>Parameters:</dt>
-<dd><code>apiTypeClass</code> - the api type class</dd>
-<dd><code>namespace</code> - the namespace should be set to <code>null</code> for cluster-wide objects (e.g. V1Node) or
-                           for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces</dd>
-<dd><code>labelSelector</code> - the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a></dd>
-<dd><code>waitForInitialSync</code> - if set to <code>true</code>, the <a href="#startAllRegisteredInformers()"><code>startAllRegisteredInformers()</code></a> method will block until existing kubernetes objects
-                           of given type (in given namespace and filtered by given label selector if provided) get loaded into
-                           the informer's in-memory storage or predefined timeout (<a href="InformerConfiguration.html#getSyncTimeout()"><code>InformerConfiguration.getSyncTimeout()</code></a>) gets expired</dd>
-<dt>Returns:</dt>
-<dd>instance of <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,boolean,long)">
-<h3>sharedIndexInformerFor</h3>
-<div class="member-signature"><span class="annotations">@NonNull
-</span><span class="type-parameters">&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</span>
-<span class="return-type">@NonNull <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;ApiType&gt;</span>&nbsp;<span class="element-name">sharedIndexInformerFor</span><wbr><span class="parameters">(@NonNull
- @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;ApiType&gt;&nbsp;apiTypeClass,
- @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
- @Nullable
- @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync,
  long&nbsp;resyncPeriodMillis)</span></div>
 <div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a>.</div>
 <dl class="notes">
@@ -267,17 +226,14 @@ loadScripts(document, 'script');</script>
 <dd><code>namespace</code> - the namespace should be set to <code>null</code> for cluster-wide objects (e.g. V1Node) or
                            for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces</dd>
 <dd><code>labelSelector</code> - the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a></dd>
-<dd><code>waitForInitialSync</code> - if set to <code>true</code>, the <a href="#startAllRegisteredInformers()"><code>startAllRegisteredInformers()</code></a> method will block until existing kubernetes objects
-                           of given type (in given namespace and filtered by given label selector if provided) get loaded into
-                           the informer's in-memory storage or predefined timeout (<a href="InformerConfiguration.html#getSyncTimeout()"><code>InformerConfiguration.getSyncTimeout()</code></a>) gets expired</dd>
-<dd><code>resyncPeriodMillis</code> - the listener default resync period in milliseconds</dd>
+<dd><code>resyncPeriodMillis</code> - the resync period in milliseconds</dd>
 <dt>Returns:</dt>
 <dd>instance of <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a></dd>
 </dl>
 </section>
 </li>
 <li>
-<section class="detail" id="sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,boolean,long,java.util.function.Function,java.util.Map)">
+<section class="detail" id="sharedIndexInformerFor(java.lang.Class,java.lang.String,java.lang.String,long,java.util.function.Function,java.util.Map)">
 <h3>sharedIndexInformerFor</h3>
 <div class="member-signature"><span class="annotations">@NonNull
 </span><span class="type-parameters">&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</span>
@@ -287,7 +243,6 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync,
  long&nbsp;resyncPeriodMillis,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;ApiType,<wbr><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;cacheKeyFunction,
@@ -302,10 +257,7 @@ loadScripts(document, 'script');</script>
 <dd><code>namespace</code> - the namespace should be set to <code>null</code> for cluster-wide objects (e.g. V1Node) or
                             for namespaced objects (e.g. V1Secret) when the informer needs to handle kubernetes objects from all namespaces</dd>
 <dd><code>labelSelector</code> - the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a></dd>
-<dd><code>waitForInitialSync</code> - if set to <code>true</code>, the <a href="#startAllRegisteredInformers()"><code>startAllRegisteredInformers()</code></a> method will block until existing kubernetes objects
-                            of given type (in given namespace and filtered by given label selector if provided) get loaded into
-                            the informer's in-memory storage or predefined timeout (<a href="InformerConfiguration.html#getSyncTimeout()"><code>InformerConfiguration.getSyncTimeout()</code></a>) gets expired</dd>
-<dd><code>resyncPeriodMillis</code> - the listener default resync period in milliseconds</dd>
+<dd><code>resyncPeriodMillis</code> - the resync period in milliseconds</dd>
 <dd><code>cacheKeyFunction</code> - the function that is used to create cache key</dd>
 <dd><code>cacheIndexFunctions</code> - the map of functions used to create indexes</dd>
 <dt>Returns:</dt>
@@ -314,7 +266,7 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="sharedIndexInformersFor(java.lang.Class,java.util.List,java.lang.String,boolean,long)">
+<section class="detail" id="sharedIndexInformersFor(java.lang.Class,java.util.List,java.lang.String,long)">
 <h3>sharedIndexInformersFor</h3>
 <div class="member-signature"><span class="annotations">@NonNull
 </span><span class="type-parameters">&lt;ApiType extends <a href="../common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</span>
@@ -324,7 +276,6 @@ loadScripts(document, 'script');</script>
  @NonNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;namespaces,
  @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
- boolean&nbsp;waitForInitialSync,
  long&nbsp;resyncPeriodMillis)</span></div>
 <div class="block">Creates a new <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a> for each namespace.</div>
 <dl class="notes">
@@ -334,10 +285,7 @@ loadScripts(document, 'script');</script>
 <dd><code>apiTypeClass</code> - the api type class</dd>
 <dd><code>namespaces</code> - the list of namespaces</dd>
 <dd><code>labelSelector</code> - the <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">label selector</a></dd>
-<dd><code>waitForInitialSync</code> - if set to <code>true</code>, the <a href="#startAllRegisteredInformers()"><code>startAllRegisteredInformers()</code></a> method will block until existing kubernetes objects
-                           of given type (in given namespace and filtered by given label selector if provided) get loaded into
-                           the informer's in-memory storage or predefined timeout (<a href="InformerConfiguration.html#getSyncTimeout()"><code>InformerConfiguration.getSyncTimeout()</code></a>) gets expired</dd>
-<dd><code>resyncPeriodMillis</code> - the listener default resync period in milliseconds</dd>
+<dd><code>resyncPeriodMillis</code> - the resync period</dd>
 <dt>Returns:</dt>
 <dd>list of <a href="SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer"><code>SharedIndexInformer</code></a> instances. The order of informers in the returned list matches the order of namespaces in the input namespace list.</dd>
 </dl>
@@ -368,9 +316,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="startAllRegisteredInformers()">
 <h3>startAllRegisteredInformers</h3>
 <div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">startAllRegisteredInformers</span>()</div>
-<div class="block">Starts all registered informers. If there are informers created with <code>waitForInitialSync=true</code>,
- the method will block until in-memory storage of those informers get synced (existing kubernetes object loaded)
- or predefined timeout (<a href="InformerConfiguration.html#getSyncTimeout()"><code>InformerConfiguration.getSyncTimeout()</code></a>) gets expired.</div>
+<div class="block">Starts all registered informers.</div>
 </section>
 </li>
 <li>
