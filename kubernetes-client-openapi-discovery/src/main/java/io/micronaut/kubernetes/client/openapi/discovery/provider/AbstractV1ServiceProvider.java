@@ -74,15 +74,13 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
         return getService(serviceName, serviceNamespace)
             .doOnNext(endpoints -> LOG.debug("Found [{}] service. Applying filters (if any and service not manually configured)", endpoints.getMetadata().getName()))
             .filter(KubernetesDiscoveryUtils.serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
-            .map(service -> buildServiceInstance(serviceConfiguration, service))
+            .map(service -> buildServiceInstance(serviceName, serviceConfiguration, service))
             .doOnError(throwable -> LOG.error("Error while processing discovered Service [{}]", serviceName, throwable))
             .onErrorReturn(Collections.emptyList())
             .defaultIfEmpty(Collections.emptyList());
     }
 
-    private static List<ServiceInstance> buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
-        String serviceName = serviceConfiguration.getName().get();
-
+    private static List<ServiceInstance> buildServiceInstance(String serviceName, KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
         V1ServiceSpec serviceSpec = service.getSpec();
         if (serviceSpec == null) {
             LOG.error("{} [{}] - The 'spec' field value not found: V1Service={}", ERROR_MSG_PREFIX, serviceName, service);
@@ -92,20 +90,26 @@ abstract class AbstractV1ServiceProvider implements KubernetesServiceInstancePro
         V1ServicePort servicePort = null;
         List<V1ServicePort> servicePorts = serviceSpec.getPorts();
         if (CollectionUtils.isNotEmpty(servicePorts)) {
-            if (servicePorts.size() > 1 && serviceConfiguration.getPort().isEmpty()) {
-                LOG.error("{} [{}] - The 'ports' field contains multiple values, so desired port value needs to be configured manually: V1Service={}",
-                    ERROR_MSG_PREFIX, serviceName, service);
-                return Collections.emptyList();
+            Optional<String> configPortNameOpt = serviceConfiguration.getPort();
+            if (configPortNameOpt.isEmpty()) {
+                if (servicePorts.size() > 1) {
+                    LOG.error("{} [{}] - The 'ports' field contains multiple values, so desired port value needs to be configured manually: V1Service={}",
+                        ERROR_MSG_PREFIX, serviceName, service);
+                    return Collections.emptyList();
+                }
+                servicePort = servicePorts.get(0);
+            } else {
+                String configPortName = configPortNameOpt.get();
+                Optional<V1ServicePort> servicePortOpt = servicePorts.stream()
+                    .filter(port -> Objects.equals(port.getName(), configPortName))
+                    .findFirst();
+                if (servicePortOpt.isEmpty()) {
+                    LOG.error("{} [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
+                        ERROR_MSG_PREFIX, serviceName, configPortName, service);
+                    return Collections.emptyList();
+                }
+                servicePort = servicePortOpt.get();
             }
-            Optional<V1ServicePort> servicePortOpt = servicePorts.stream()
-                .filter(port -> serviceConfiguration.getPort().isEmpty() || Objects.equals(port.getName(), serviceConfiguration.getPort().get()))
-                .findFirst();
-            if (servicePortOpt.isEmpty()) {
-                LOG.error("{} [{}] - Configured port name [{}] doesn't match port names found in the 'ports' field: V1Service={}",
-                    ERROR_MSG_PREFIX, serviceName, serviceConfiguration.getPort().get(), service);
-                return Collections.emptyList();
-            }
-            servicePort = servicePortOpt.get();
         }
 
         String address;

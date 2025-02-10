@@ -32,6 +32,7 @@ import reactor.core.publisher.Flux;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -94,11 +95,15 @@ final class KubernetesDiscoveryClient implements DiscoveryClient {
             serviceConfiguration.setName(serviceId);
         }
 
-        if (serviceConfiguration.getMode().isEmpty()) {
-            serviceConfiguration.setMode(configuration.getDiscovery().getMode());
+        String mode;
+        Optional<String> modeOpt = serviceConfiguration.getMode();
+        if (modeOpt.isPresent()) {
+            mode = modeOpt.get();
+        } else {
+            mode = configuration.getDiscovery().getMode();
+            serviceConfiguration.setMode(mode);
         }
 
-        String mode = serviceConfiguration.getMode().get();
         if (!instanceProviders.containsKey(mode)) {
             LOG.error("Unrecognized kubernetes discovery mode: [{}], out of supported ones: {}", mode, instanceProviders.keySet());
             return Publishers.just(Collections.emptyList());

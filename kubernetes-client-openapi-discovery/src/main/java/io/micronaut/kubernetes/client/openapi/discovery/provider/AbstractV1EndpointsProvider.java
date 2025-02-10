@@ -74,14 +74,13 @@ abstract class AbstractV1EndpointsProvider implements KubernetesServiceInstanceP
         return getEndpoints(serviceName, serviceNamespace)
             .doOnNext(endpoints -> LOG.debug("Found [{}] endpoints. Applying filters (if any and service not manually configured)", endpoints.getMetadata().getName()))
             .filter(KubernetesDiscoveryUtils.serviceConfigurationDiscoveryFilter(serviceConfiguration, discoveryConfiguration))
-            .map(endpoints -> buildServiceInstance(serviceConfiguration, endpoints))
+            .map(endpoints -> buildServiceInstance(serviceName, serviceConfiguration, endpoints))
             .doOnError(throwable -> LOG.error("Error while processing discovered Endpoints [{}]", serviceName, throwable))
             .onErrorReturn(Collections.emptyList())
             .defaultIfEmpty(Collections.emptyList());
     }
 
-    private static List<ServiceInstance> buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Endpoints endpoints) {
-        String serviceName = serviceConfiguration.getName().get();
+    private static List<ServiceInstance> buildServiceInstance(String serviceName, KubernetesServiceConfiguration serviceConfiguration, V1Endpoints endpoints) {
         List<V1EndpointSubset> endpointsSubsets = endpoints.getSubsets();
         if (CollectionUtils.isEmpty(endpointsSubsets)) {
             LOG.error("Failed to create a service instance for service [{}], 'subsets' not found in V1Endpoints: {}", serviceName, endpoints);

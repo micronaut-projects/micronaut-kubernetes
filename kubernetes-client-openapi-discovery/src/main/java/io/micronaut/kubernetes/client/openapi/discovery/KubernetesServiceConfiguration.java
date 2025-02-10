@@ -31,8 +31,7 @@ import java.util.Optional;
 @EachProperty(KubernetesServiceConfiguration.PREFIX)
 @BootstrapContextCompatible
 public class KubernetesServiceConfiguration {
-    public static final String NAME = "services";
-    public static final String PREFIX = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + "." + NAME;
+    static final String PREFIX = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + ".services";
 
     private final String serviceId;
     private String name;
