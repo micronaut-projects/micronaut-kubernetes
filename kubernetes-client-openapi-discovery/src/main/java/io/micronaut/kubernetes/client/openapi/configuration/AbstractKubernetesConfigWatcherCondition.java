@@ -24,7 +24,8 @@ import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
  *
  * @author Pavol Gressa
  */
-abstract class AbstractKubernetesConfigWatcherCondition implements Condition {
+abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condition
+    permits KubernetesConfigMapWatcherCondition, KubernetesSecretWatcherCondition  {
 
     @Override
     public boolean matches(ConditionContext context) {

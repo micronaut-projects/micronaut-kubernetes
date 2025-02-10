@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventPublisher;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
@@ -40,7 +41,7 @@ import java.util.function.Predicate;
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactor.class)
-@Requires(property = ConfigurationClient.ENABLED, value = "true", defaultValue = "false")
+@Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
 @Requires(condition = KubernetesConfigMapWatcherCondition.class)
 @Informer(apiType = V1ConfigMap.class, labelSelectorSupplier = KubernetesConfigMapLabelSupplier.class)
 final class KubernetesConfigMapWatcher extends AbstractKubernetesConfigWatcher<V1ConfigMap> {

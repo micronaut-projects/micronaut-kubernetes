@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.discovery.provider;
 
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
@@ -102,6 +103,6 @@ final class KubernetesDiscoveryUtils {
      * @return {@code true} if there is a label named {@link #SECURE_LABEL} with value set to {@code true}, {@code false} otherwise
      */
     private static boolean isMetadataSecure(V1ObjectMeta objectMeta) {
-        return objectMeta.getLabels() != null && Objects.equals(objectMeta.getLabels().get(SECURE_LABEL), "true");
+        return objectMeta.getLabels() != null && Objects.equals(objectMeta.getLabels().get(SECURE_LABEL), StringUtils.TRUE);
     }
 }

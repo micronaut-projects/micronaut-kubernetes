@@ -27,7 +27,9 @@ import java.util.function.Supplier;
  *
  * @author Pavol Gressa
  */
-abstract class AbstractKubernetesConfigLabelSupplier implements Supplier<String> {
+abstract sealed class AbstractKubernetesConfigLabelSupplier implements Supplier<String>
+    permits KubernetesConfigMapLabelSupplier, KubernetesSecretLabelSupplier {
+
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigLabelSupplier.class);
 
     private final CoreV1ApiReactor coreV1ApiReactor;
@@ -50,7 +52,7 @@ abstract class AbstractKubernetesConfigLabelSupplier implements Supplier<String>
                 configConfiguration.getLabels(),
                 configuration.getDiscovery().isExceptionOnPodLabelsMissing())
             .block();
-        LOG.info("Computed kubernetes configuration discovery config label selector: {}", labelSelector);
+        LOG.debug("Computed kubernetes configuration discovery config label selector: {}", labelSelector);
         return labelSelector;
     }
 }

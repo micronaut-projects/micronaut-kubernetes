@@ -40,7 +40,8 @@ import java.util.function.Predicate;
  * @param <T> the type of Kubernetes object to watch
  * @author Álvaro Sánchez-Mariscal
  */
-abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject> implements ResourceEventHandler<T> {
+abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject>
+    implements ResourceEventHandler<T> permits KubernetesConfigMapWatcher, KubernetesSecretWatcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigWatcher.class);
 
