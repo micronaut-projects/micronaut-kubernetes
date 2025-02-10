@@ -127,6 +127,6 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
     }
 
     private V1Status deleteSecret(String namespaceName, String secretName) {
-        return api.deleteNamespacedSecret(secretName, namespaceName, null, null, null, null, null, null).body()
+        api.deleteNamespacedSecret(secretName, namespaceName, null, null, null, null, null, null)
     }
 }
