@@ -56,12 +56,14 @@ loadScripts(document, 'script');</script>
 <li><a href="io/micronaut/kubernetes/client/graalvm/package-tree.html">io.micronaut.kubernetes.client.graalvm</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/informer/package-tree.html">io.micronaut.kubernetes.client.informer</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/informer/resolvers/package-tree.html">io.micronaut.kubernetes.client.informer.resolvers</a>, </li>
+<li><a href="io/micronaut/kubernetes/client/openapi/package-tree.html">io.micronaut.kubernetes.client.openapi</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/api/package-tree.html">io.micronaut.kubernetes.client.openapi.api</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/common/package-tree.html">io.micronaut.kubernetes.client.openapi.common</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/config/package-tree.html">io.micronaut.kubernetes.client.openapi.config</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/config/model/package-tree.html">io.micronaut.kubernetes.client.openapi.config.model</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/credential/package-tree.html">io.micronaut.kubernetes.client.openapi.credential</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/credential/model/package-tree.html">io.micronaut.kubernetes.client.openapi.credential.model</a>, </li>
+<li><a href="io/micronaut/kubernetes/client/openapi/discovery/package-tree.html">io.micronaut.kubernetes.client.openapi.discovery</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/informer/package-tree.html">io.micronaut.kubernetes.client.openapi.informer</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/informer/cache/package-tree.html">io.micronaut.kubernetes.client.openapi.informer.cache</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/informer/handler/package-tree.html">io.micronaut.kubernetes.client.openapi.informer.handler</a>, </li>
@@ -70,6 +72,7 @@ loadScripts(document, 'script');</script>
 <li><a href="io/micronaut/kubernetes/client/openapi/reactor/api/package-tree.html">io.micronaut.kubernetes.client.openapi.reactor.api</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/resolver/package-tree.html">io.micronaut.kubernetes.client.openapi.resolver</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/ssl/package-tree.html">io.micronaut.kubernetes.client.openapi.ssl</a>, </li>
+<li><a href="io/micronaut/kubernetes/client/openapi/util/package-tree.html">io.micronaut.kubernetes.client.openapi.util</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/watcher/package-tree.html">io.micronaut.kubernetes.client.openapi.watcher</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/watcher/annotation/package-tree.html">io.micronaut.kubernetes.client.openapi.watcher.annotation</a>, </li>
 <li><a href="io/micronaut/kubernetes/client/openapi/watcher/api/package-tree.html">io.micronaut.kubernetes.client.openapi.watcher.api</a>, </li>
@@ -178,12 +181,19 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.kubernetes.client.<a href="io/micronaut/kubernetes/client/DiscoveryCache.html" class="type-name-link" title="class in io.micronaut.kubernetes.client">DiscoveryCache</a></li>
 <li class="circle">io.micronaut.discovery.DiscoveryConfiguration (implements io.micronaut.core.util.Toggleable)
 <ul>
+<li class="circle">io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.AbstractConfigConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration.AbstractConfigConfiguration</a>
+<ul>
+<li class="circle">io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></li>
+<li class="circle">io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesSecretsConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration.KubernetesSecretsConfiguration</a></li>
+</ul>
+</li>
 <li class="circle">io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.AbstractConfigConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration.AbstractConfigConfiguration</a>
 <ul>
 <li class="circle">io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></li>
 <li class="circle">io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></li>
 </ul>
 </li>
+<li class="circle">io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></li>
 <li class="circle">io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></li>
 </ul>
 </li>
@@ -218,12 +228,15 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration.ServiceAccount</a></li>
 <li class="circle">io.micronaut.kubernetes.client.graalvm.<a href="io/micronaut/kubernetes/client/graalvm/KubernetesClientFeature.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.graalvm">KubernetesClientFeature</a> (implements org.graalvm.nativeimage.hosted.Feature)</li>
 <li class="circle">io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></li>
+<li class="circle">io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration</a></li>
 <li class="circle">io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></li>
 <li class="circle">io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a> (implements io.micronaut.discovery.config.ConfigurationClient)</li>
 <li class="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a> (implements io.micronaut.discovery.DiscoveryClient)</li>
 <li class="circle">io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></li>
+<li class="circle">io.micronaut.kubernetes.client.openapi.discovery.<a href="io/micronaut/kubernetes/client/openapi/discovery/KubernetesServiceConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.discovery">KubernetesServiceConfiguration</a></li>
 <li class="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></li>
 <li class="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceList.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceList</a> (implements io.micronaut.discovery.ServiceInstanceList)</li>
+<li class="circle">io.micronaut.kubernetes.client.openapi.util.<a href="io/micronaut/kubernetes/client/openapi/util/KubernetesUtils.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.util">KubernetesUtils</a></li>
 <li class="circle">io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" class="type-name-link" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></li>
 <li class="circle">io.micronaut.kubernetes.client.operator.leaderelection.<a href="io/micronaut/kubernetes/client/operator/leaderelection/LeaderElectionConfigFactory.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.operator.leaderelection">LeaderElectionConfigFactory</a></li>
 <li class="circle">io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfigurationProperties</a> (implements io.micronaut.kubernetes.client.operator.configuration.<a href="io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfiguration.html" title="interface in io.micronaut.kubernetes.client.operator.configuration">LeaderElectionConfiguration</a>)</li>
@@ -894,6 +907,7 @@ loadScripts(document, 'script');</script>
 <li class="circle">io.micronaut.kubernetes.client.openapi.watcher.api.<a href="io/micronaut/kubernetes/client/openapi/watcher/api/InternalApiserverV1alpha1ApiWatcher.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">InternalApiserverV1alpha1ApiWatcher</a></li>
 <li class="circle">io.micronaut.kubernetes.client.openapi.config.<a href="io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.config">KubeConfigLoader</a></li>
 <li class="circle">io.micronaut.kubernetes.client.openapi.ssl.<a href="io/micronaut/kubernetes/client/openapi/ssl/KubernetesPrivateKeyLoader.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.ssl">KubernetesPrivateKeyLoader</a></li>
+<li class="circle">io.micronaut.kubernetes.client.openapi.discovery.<a href="io/micronaut/kubernetes/client/openapi/discovery/KubernetesServiceInstanceProvider.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.discovery">KubernetesServiceInstanceProvider</a></li>
 <li class="circle">io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceInstanceProvider.html" class="type-name-link" title="interface in io.micronaut.kubernetes.discovery">KubernetesServiceInstanceProvider</a></li>
 <li class="circle">io.micronaut.kubernetes.client.openapi.common.<a href="io/micronaut/kubernetes/client/openapi/common/KubernetesType.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesType</a>
 <ul>
