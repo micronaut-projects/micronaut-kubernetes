@@ -58,6 +58,9 @@ final class KubernetesConfigUtils {
     private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
     private static final String LIST_RES_VERSION_PROP_NAME_TEMPLATE = "%s.resource-version";
 
+    static final int API_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 100;
+    static final int MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 150;
+
     private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS;
     private static final Set<String> PROPERTY_SOURCE_EXTENSIONS;
 
@@ -79,7 +82,7 @@ final class KubernetesConfigUtils {
         LOG.trace("Creating PropertySource with resourceVersion={} for {}", resVersionPropertyValue, objectType);
         return PropertySource.of("Kubernetes " + objectType,
             Collections.singletonMap(resVersionPropertyName, resVersionPropertyValue),
-            EnvironmentPropertySource.POSITION + 100);
+            API_PROPERTY_SOURCE_PRIORITY);
     }
 
     /**
@@ -158,7 +161,7 @@ final class KubernetesConfigUtils {
             String resVersionPropertyName = createResVersionPropertyName(configMap);
             String resVersionPropertyValue = configMap.getMetadata().getResourceVersion();
             propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
-            return PropertySource.of(propertySourceName, propertySourceData, EnvironmentPropertySource.POSITION + 100);
+            return PropertySource.of(propertySourceName, propertySourceData, API_PROPERTY_SOURCE_PRIORITY);
         }
     }
 
@@ -190,7 +193,7 @@ final class KubernetesConfigUtils {
             } else {
                 String propertySourceName = createPropertySourceName(mountPoint + "/" + fileName, V1ConfigMap.class);
                 Map<String, Object> propertySourceData = propertySourceReader.get().read(fileName, fileContent.getBytes());
-                propertySources.add(PropertySource.of(propertySourceName, propertySourceData, EnvironmentPropertySource.POSITION + 150));
+                propertySources.add(PropertySource.of(propertySourceName, propertySourceData, MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY));
             }
         });
 
@@ -216,7 +219,7 @@ final class KubernetesConfigUtils {
         String resVersionPropertyValue = secret.getMetadata().getResourceVersion();
         propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
         String propertySourceName = createPropertySourceName(secret);
-        return PropertySource.of(propertySourceName, propertySourceData, EnvironmentPropertySource.POSITION + 100);
+        return PropertySource.of(propertySourceName, propertySourceData, API_PROPERTY_SOURCE_PRIORITY);
     }
 
     /**

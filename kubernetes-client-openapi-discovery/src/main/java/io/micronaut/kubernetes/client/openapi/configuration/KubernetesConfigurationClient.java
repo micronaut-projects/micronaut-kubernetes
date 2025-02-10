@@ -241,7 +241,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
             LOG.debug("Secrets file found on path '{}': {}", path, secretFiles.keySet());
             if (!secretFiles.isEmpty()) {
                 String propertySourceName = KubernetesConfigUtils.createPropertySourceName(path, V1Secret.class);
-                PropertySource propertySource = PropertySource.of(propertySourceName, secretFiles, EnvironmentPropertySource.POSITION + 150);
+                PropertySource propertySource = PropertySource.of(propertySourceName, secretFiles, KubernetesConfigUtils.MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY);
                 addPropertySourceToCache(propertySource);
                 propertySources.add(propertySource);
             }
