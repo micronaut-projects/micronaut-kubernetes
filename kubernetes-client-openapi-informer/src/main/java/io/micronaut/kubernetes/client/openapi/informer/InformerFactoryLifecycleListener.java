@@ -48,7 +48,7 @@ final class InformerFactoryLifecycleListener {
      */
     @EventListener
     void startInformerFactoryOnStartupEvent(StartupEvent startupEvent) {
-        LOG.info("Starting shared informer factory");
+        LOG.info("Starting all registered informers");
         informerFactory.startAllRegisteredInformers();
     }
 
@@ -59,7 +59,7 @@ final class InformerFactoryLifecycleListener {
      */
     @EventListener
     void shutdown(ShutdownEvent shutdownEvent) {
-        LOG.info("Closing shared informer factory on shutdown");
+        LOG.info("Stopping all registered informers on shutdown");
         informerFactory.stopAllRegisteredInformers();
     }
 }

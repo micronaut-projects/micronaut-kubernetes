@@ -69,11 +69,12 @@ final class ResourceEventHandlerBeanListener<ApiType extends KubernetesObject> i
             Set<String> namespaces = informerNamespaceResolver.resolveInformerNamespaces(annotationValue);
             String labelSelector = labelSelectorResolver.resolveInformerLabels(annotationValue);
             long resyncCheckPeriod = annotationValue.longValue("resyncCheckPeriod").orElse(0L);
+            boolean waitForInitialSync = annotationValue.booleanValue("waitForInitialSync").orElse(false);
             if (CollectionUtils.isEmpty(namespaces)) {
-                sharedIndexInformerFactory.sharedIndexInformerFor(apiType, null, labelSelector, resyncCheckPeriod)
+                sharedIndexInformerFactory.sharedIndexInformerFor(apiType, null, labelSelector, waitForInitialSync, resyncCheckPeriod)
                     .addEventHandler(eventHandler);
             } else {
-                sharedIndexInformerFactory.sharedIndexInformersFor(apiType, new ArrayList<>(namespaces), labelSelector, resyncCheckPeriod)
+                sharedIndexInformerFactory.sharedIndexInformersFor(apiType, new ArrayList<>(namespaces), labelSelector, waitForInitialSync, resyncCheckPeriod)
                     .forEach(informer -> informer.addEventHandler(eventHandler));
             }
         }

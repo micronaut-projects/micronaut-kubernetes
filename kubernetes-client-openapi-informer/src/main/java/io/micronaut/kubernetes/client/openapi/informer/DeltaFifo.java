@@ -174,11 +174,11 @@ final class DeltaFifo {
             while (queue.isEmpty()) {
                 notEmpty.await();
             }
+            String id = queue.removeFirst();
+            func.accept(items.remove(id));
             if (initialPopulationCount > 0) {
                 initialPopulationCount--;
             }
-            String id = queue.removeFirst();
-            func.accept(items.remove(id));
         } finally {
             lock.writeLock().unlock();
         }

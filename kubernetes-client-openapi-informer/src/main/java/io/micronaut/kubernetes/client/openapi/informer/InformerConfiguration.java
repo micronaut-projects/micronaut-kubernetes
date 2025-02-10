@@ -17,8 +17,11 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.util.Toggleable;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
+
+import java.time.Duration;
 
 /**
  * The informer configuration.
@@ -27,4 +30,20 @@ import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfigurati
 @ConfigurationProperties(InformerConfiguration.PREFIX)
 public interface InformerConfiguration extends Toggleable {
     String PREFIX = KubernetesClientConfiguration.PREFIX + ".informer";
+
+    /**
+     * Timout for informer to get synchronised.
+     *
+     * @return timeout for informer to get synchronised
+     */
+    @Bindable(defaultValue = "60s")
+    Duration getSyncTimeout();
+
+    /**
+     * Timeout step to check whether the informer has synchronised.
+     *
+     * @return step timeout in milliseconds
+     */
+    @Bindable(defaultValue = "200ms")
+    Duration getSyncStepTimeout();
 }

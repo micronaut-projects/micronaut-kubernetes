@@ -53,18 +53,19 @@ final class DefaultNamespaceResolver implements NamespaceResolver {
         String resolvedNamespace = kubernetesClientConfiguration.getNamespace();
         if (StringUtils.isEmpty(resolvedNamespace)) {
             String namespacePath = kubernetesClientConfiguration.getServiceAccount().getNamespacePath();
-            LOG.debug("Trying to read the namespace from the file: {}", namespacePath);
+            LOG.debug("Trying to read the Kubernetes namespace from the file: {}", namespacePath);
             Optional<InputStream> inputStreamOpt = resourceResolver.getResourceAsStream(namespacePath);
             if (inputStreamOpt.isPresent()) {
                 InputStream inputStream = inputStreamOpt.get();
                 try {
                     resolvedNamespace = new String(inputStream.readAllBytes());
                 } catch (IOException e) {
-                    LOG.error("Failed to read the namespace file: {}. Kubernetes namespace will be set to: {}", namespacePath, DEFAULT_NAMESPACE);
+                    LOG.error("Failed to read '{}' file so setting the Kubernetes namespace to: {}", namespacePath, DEFAULT_NAMESPACE);
                     resolvedNamespace = DEFAULT_NAMESPACE;
                 }
             } else {
-                LOG.info("The namespace file not found: {}. Kubernetes namespace will be set to: {}", namespacePath, DEFAULT_NAMESPACE);
+                LOG.info("The Kubernetes namespace not found in configuration files and there is no '{}' file, so setting the namespace to: {}",
+                    namespacePath, DEFAULT_NAMESPACE);
                 resolvedNamespace = DEFAULT_NAMESPACE;
             }
         }

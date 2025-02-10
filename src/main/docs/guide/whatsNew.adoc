@@ -1,6 +1,7 @@
 === Micronaut Data 6.3.0
 - Kubernetes Watcher support for Micronaut Kubernetes Client OpenApi
 - Kubernetes Informer support for Micronaut Kubernetes Client OpenApi
+- Kubernetes Service Discovery and Configuration Client support for Micronaut Kubernetes Client OpenApi
 
 === Micronaut Data 6.2.1
 - Reactive support for Micronaut Kubernetes Client OpenApi

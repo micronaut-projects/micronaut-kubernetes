@@ -5,9 +5,9 @@ This project eases https://kubernetes.io[Kubernetes] integration with Micronaut 
 
 The project adds support for the following features:
 
-* Service Discovery (currently supported only by `micronaut-kubernetes-client`)
-* Configuration client for config maps and secrets (currently supported only by `micronaut-kubernetes-client`)
-* Kubernetes blocking and non-blocking clients (supported by both `micronaut-kubernetes-client` and `micronaut-kubernetes-client-openapi`)
+* Service Discovery
+* Configuration client for config maps and secrets
+* Kubernetes blocking and non-blocking clients
 
 To use the `BUILD-SNAPSHOT` version of this library, check the
 https://docs.micronaut.io/latest/guide/index.html#usingsnapshots[documentation to use snapshots].

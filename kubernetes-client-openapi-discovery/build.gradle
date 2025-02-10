@@ -1,0 +1,22 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
+micronautBuild {
+    binaryCompatibility {
+        enabledAfter('6.3.0') // adjust as needed
+    }
+}
+
+dependencies {
+    api(projects.micronautKubernetesClientOpenapiInformer)
+    api(libs.micronaut.discovery.client)
+    compileOnly(mn.micronaut.management)
+
+    testImplementation(libs.testcontainers.k3s)
+}
+
+project.tasks.withType(Test).configureEach {
+    environment.put("KUBERNETES_SERVICE_HOST", "localhost")
+    environment.put("HOSTNAME", "test-pod")
+}
