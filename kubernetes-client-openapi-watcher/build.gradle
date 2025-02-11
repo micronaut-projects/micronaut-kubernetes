@@ -23,7 +23,7 @@ micronaut {
             apiPackageName = "io.micronaut.kubernetes.client.openapi.watcher.api"
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
             apiNameSuffix = "ApiWatcher"
-            clientId = "kubernetes-client"
+            clientId = "kubernetes"
             useReactive = true
             fluxForArrays = true
             typeMapping = tasks.named("createWatcherOpenApiSpec", CreateWatcherSpec).flatMap(CreateWatcherSpec::getWatcherTypeMappingsFile).map { t->

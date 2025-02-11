@@ -15,7 +15,7 @@ micronaut {
         client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
             apiPackageName = "io.micronaut.kubernetes.client.openapi.api"
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
-            clientId = "kubernetes-client"
+            clientId = "kubernetes"
             useReactive = false
             additionalClientTypeAnnotations = [
                     "@io.micronaut.context.annotation.BootstrapContextCompatible"
