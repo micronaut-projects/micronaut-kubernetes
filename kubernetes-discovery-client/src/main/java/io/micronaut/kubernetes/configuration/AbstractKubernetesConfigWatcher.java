@@ -58,6 +58,10 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     @Override
     public void onAdd(T config) {
         if (!serviceStarted.get()) {
+            LOG.trace("Skipped processing of added kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
+                config.getMetadata().getName(),
+                config.getClass().getSimpleName(),
+                config.getMetadata().getResourceVersion());
             return;
         }
 
@@ -80,6 +84,10 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     @Override
     public void onUpdate(T oldConfig, T newConfig) {
         if (!serviceStarted.get()) {
+            LOG.trace("Skipped processing of modified kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
+                newConfig.getMetadata().getName(),
+                newConfig.getClass().getSimpleName(),
+                newConfig.getMetadata().getResourceVersion());
             return;
         }
         PropertySource propertySource = null;
@@ -100,6 +108,10 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     @Override
     public void onDelete(T config, boolean deletedFinalStateUnknown) {
         if (!serviceStarted.get()) {
+            LOG.trace("Skipped processing of deleted kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
+                config.getMetadata().getName(),
+                config.getClass().getSimpleName(),
+                config.getMetadata().getResourceVersion());
             return;
         }
         PropertySource propertySource = null;
