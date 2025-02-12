@@ -127,43 +127,9 @@
 </div>
 <div class="sect2">
 <h3 id="_micronaut_kubernetes_client_openapi_common_config_properties">Micronaut Kubernetes Client Openapi Common Config Properties</h3>
-<a id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration" href="#io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html">KubernetesClientConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.kube-config-path</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Path of the kube config file. Default: {@code file:$HOME/.kube/config}.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Enable/disable kubernetes client. Default: {@code true}.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes client namespace.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration$ServiceAccount" href="#io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration$ServiceAccount">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html">KubernetesClientConfiguration$ServiceAccount</a></caption>
+<caption class="title">Table 3. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.ServiceAccount.html">KubernetesClientConfiguration$ServiceAccount</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -205,12 +171,220 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.client.openapi.KubernetesHttpClientConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesHttpClientConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 4. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientConfiguration.html">KubernetesHttpClientConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.http-version</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/HttpVersion.html">HttpVersion</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.log-level</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/logging/LogLevel.html">LogLevel</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.event-loop-group</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.ssl-configuration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/ssl/SslConfiguration.html">SslConfiguration</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.follow-redirects</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.exception-on-error-status</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.logger-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.default-charset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.nio.charset.Charset</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.channel-options</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.read-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.request-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.read-idle-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.connection-pool-idle-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.connect-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.connect-ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.shutdown-quiet-period</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.shutdown-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.num-of-threads</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Integer</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.thread-factory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.Class</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.max-content-length</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.proxy-type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.Proxy$Type</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.proxy-address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.SocketAddress</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.proxy-username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.proxy-password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.proxy-selector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.net.ProxySelector</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.plaintext-mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/client/HttpVersionSelection.PlaintextMode.html">HttpVersionSelection$PlaintextMode</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.alpn-modes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.allow-block-event-loop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.dns-resolution-mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../api/io/micronaut/http/client/HttpClientConfiguration.DnsResolutionMode.html">HttpClientConfiguration$DnsResolutionMode</a></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.address-resolver-group-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>micronaut.http.client.kubernetes.pcap-logging-path-pattern</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration" href="#io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html">KubernetesClientConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.kube-config-path</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path of the kube config file. Default: {@code file:$HOME/.kube/config}.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable/disable kubernetes client. Default: {@code true}.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kubernetes client namespace.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
 <h3 id="_micronaut_kubernetes_client_openapi_discovery_config_properties">Micronaut Kubernetes Client Openapi Discovery Config Properties</h3>
 <a id="io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesSecretsConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesSecretsConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></caption>
+<caption class="title">Table 6. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -272,126 +446,9 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration" href="#io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.namespace</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace of service. If null then default configured namespace is used.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.port</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Port configuration in case of multi-port resource.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesDiscoveryConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.enabled</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.includes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.excludes</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.pod-labels</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.exception-on-pod-labels-missing</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.openapi.KubernetesConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesConfigMapsConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesConfigMapsConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></caption>
+<caption class="title">Table 7. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -453,12 +510,129 @@
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration" href="#io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 8. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace of service. If null then default configured namespace is used.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.services.*.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port configuration in case of multi-port resource.</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.client.openapi.KubernetesConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 9. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.namespace</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
+<a id="io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.client.openapi.KubernetesConfiguration$KubernetesDiscoveryConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 10. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.includes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.excludes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Collection</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Map</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.pod-labels</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.util.List</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.exception-on-pod-labels-missing</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">boolean</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.discovery.mode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.lang.String</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 </div>
 <div class="sect2">
 <h3 id="_micronaut_kubernetes_client_openapi_informer_config_properties">Micronaut Kubernetes Client Openapi Informer Config Properties</h3>
 <a id="io.micronaut.kubernetes.client.openapi.informer.InformerConfiguration" href="#io.micronaut.kubernetes.client.openapi.informer.InformerConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/informer/InformerConfiguration.html">InformerConfiguration</a></caption>
+<caption class="title">Table 11. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/informer/InformerConfiguration.html">InformerConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -490,7 +664,7 @@
 <h3 id="_micronaut_kubernetes_discovery_client_config_properties">Micronaut Kubernetes Discovery Client Config Properties</h3>
 <a id="io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration" href="#io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. Configuration Properties for <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
+<caption class="title">Table 12. Configuration Properties for <a href="../api/io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html">KubernetesServiceConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -534,7 +708,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration$KubernetesDiscoveryConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration$KubernetesDiscoveryConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></caption>
+<caption class="title">Table 13. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html">KubernetesConfiguration$KubernetesDiscoveryConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -588,7 +762,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
+<caption class="title">Table 14. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.html">KubernetesConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -612,7 +786,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration$KubernetesConfigMapsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration$KubernetesConfigMapsConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 14. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></caption>
+<caption class="title">Table 15. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html">KubernetesConfiguration$KubernetesConfigMapsConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -676,7 +850,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.KubernetesConfiguration$KubernetesSecretsConfiguration" href="#io.micronaut.kubernetes.KubernetesConfiguration$KubernetesSecretsConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 15. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></caption>
+<caption class="title">Table 16. Configuration Properties for <a href="../api/io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html">KubernetesConfiguration$KubernetesSecretsConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -743,7 +917,7 @@
 <h3 id="_micronaut_kubernetes_informer_config_properties">Micronaut Kubernetes Informer Config Properties</h3>
 <a id="io.micronaut.kubernetes.client.informer.InformerConfiguration" href="#io.micronaut.kubernetes.client.informer.InformerConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 16. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/informer/InformerConfiguration.html">InformerConfiguration</a></caption>
+<caption class="title">Table 17. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/informer/InformerConfiguration.html">InformerConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -780,7 +954,7 @@
 <h3 id="_micronaut_kubernetes_operator_config_properties">Micronaut Kubernetes Operator Config Properties</h3>
 <a id="io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfigurationProperties" href="#io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfigurationProperties">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 17. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html">LeaderElectionConfigurationProperties</a></caption>
+<caption class="title">Table 18. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/operator/configuration/LeaderElectionConfigurationProperties.html">LeaderElectionConfigurationProperties</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -827,7 +1001,7 @@
 <div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.client.operator.configuration.OperatorConfigurationProperties" href="#io.micronaut.kubernetes.client.operator.configuration.OperatorConfigurationProperties">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 18. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html">OperatorConfigurationProperties</a></caption>
+<caption class="title">Table 19. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/operator/configuration/OperatorConfigurationProperties.html">OperatorConfigurationProperties</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
