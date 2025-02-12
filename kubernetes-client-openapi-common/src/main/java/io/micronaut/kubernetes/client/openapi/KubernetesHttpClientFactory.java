@@ -15,7 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi;
 
-import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
@@ -28,15 +27,12 @@ import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.bind.DefaultRequestBinderRegistry;
 import io.micronaut.http.body.MessageBodyHandlerRegistry;
-import io.micronaut.http.client.DefaultHttpClientConfiguration;
-import io.micronaut.http.client.HttpClientConfiguration;
 import io.micronaut.http.client.LoadBalancer;
 import io.micronaut.http.client.filter.ClientFilterResolutionContext;
 import io.micronaut.http.client.filter.DefaultHttpClientFilterResolver;
 import io.micronaut.http.client.netty.DefaultHttpClient;
 import io.micronaut.http.client.netty.NettyClientCustomizer;
 import io.micronaut.http.codec.MediaTypeCodecRegistry;
-import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
@@ -78,19 +74,19 @@ final class KubernetesHttpClientFactory {
     private final KubernetesClientConfiguration kubernetesClientConfiguration;
     private final KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
     private final ResourceResolver resourceResolver;
-    private final HttpClientConfiguration httpClientConfiguration;
+    private final KubernetesHttpClientConfiguration kubernetesHttpClientConfiguration;
     private final DefaultHttpClientFilterResolver defaultHttpClientFilterResolver;
     private final MessageBodyHandlerRegistry messageBodyHandlerRegistry;
     private final MediaTypeCodecRegistry mediaTypeCodecRegistry;
 
     KubernetesHttpClientFactory(KubeConfigLoader kubeConfigLoader,
                                 KubernetesClientConfiguration kubernetesClientConfiguration,
+                                KubernetesHttpClientConfiguration kubernetesHttpClientConfiguration,
                                 KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,
                                 ResourceResolver resourceResolver,
                                 DefaultHttpClientFilterResolver defaultHttpClientFilterResolver,
                                 MessageBodyHandlerRegistry messageBodyHandlerRegistry,
-                                MediaTypeCodecRegistry mediaTypeCodecRegistry,
-                                ApplicationContext applicationContext) {
+                                MediaTypeCodecRegistry mediaTypeCodecRegistry) {
         kubeConfig = kubeConfigLoader.getKubeConfig();
         this.kubernetesClientConfiguration = kubernetesClientConfiguration;
         this.kubernetesPrivateKeyLoader = kubernetesPrivateKeyLoader;
@@ -98,13 +94,7 @@ final class KubernetesHttpClientFactory {
         this.defaultHttpClientFilterResolver = defaultHttpClientFilterResolver;
         this.messageBodyHandlerRegistry = messageBodyHandlerRegistry;
         this.mediaTypeCodecRegistry = mediaTypeCodecRegistry;
-        httpClientConfiguration = applicationContext.findBean(HttpClientConfiguration.class, Qualifiers.byName(CLIENT_ID))
-            .orElse(new DefaultHttpClientConfiguration());
-        Optional<Duration> readTimeout = httpClientConfiguration.getReadTimeout();
-        if (readTimeout.isPresent()) {
-            httpClientConfiguration.setRequestTimeout(readTimeout.get().plusSeconds(1));
-            httpClientConfiguration.setReadTimeout(Duration.ZERO);
-        }
+        this.kubernetesHttpClientConfiguration = kubernetesHttpClientConfiguration;
     }
 
     @Singleton
@@ -129,9 +119,14 @@ final class KubernetesHttpClientFactory {
         } else {
             throw new ConfigurationException("Kube config not provided nor service account authentication enabled");
         }
+        Optional<Duration> readTimeout = kubernetesHttpClientConfiguration.getReadTimeout();
+        if (readTimeout.isPresent()) {
+            kubernetesHttpClientConfiguration.setRequestTimeout(readTimeout.get().plusSeconds(1));
+            kubernetesHttpClientConfiguration.setReadTimeout(Duration.ZERO);
+        }
         return new DefaultHttpClient(LoadBalancer.fixed(uri),
             null,
-            httpClientConfiguration,
+            kubernetesHttpClientConfiguration,
             null,
             defaultHttpClientFilterResolver,
             defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), null)),
