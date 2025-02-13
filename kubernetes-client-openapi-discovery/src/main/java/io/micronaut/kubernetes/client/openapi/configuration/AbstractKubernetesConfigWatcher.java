@@ -20,11 +20,11 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.util.CollectionUtils;
-import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
+import io.micronaut.runtime.server.event.ServerStartupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,81 +61,46 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @EventListener
-    void onApplicationEvent(ServiceReadyEvent event) {
+    void onApplicationEvent(ServerStartupEvent event) {
         serviceStarted.set(true);
     }
 
     @Override
     public void onAdd(T object) {
-        if (!serviceStarted.get()) {
-            LOG.trace("Skipped processing of added kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
-                object.getMetadata().getName(),
-                object.getClass().getSimpleName(),
-                object.getMetadata().getResourceVersion());
-            return;
-        }
         LOG.trace("Started processing of added kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
             object.getMetadata().getResourceVersion());
         if (objectFilter.test(object)) {
             Optional<PropertySource> propertySourceOpt = getPropertySource(object, true);
-            if (propertySourceOpt.isPresent()) {
-                PropertySource propertySource = propertySourceOpt.get();
-                KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-                refreshEnvironment();
-                LOG.trace("Added new PropertySource that was created from kubernetes object");
-            }
+            propertySourceOpt.ifPresent(propertySource -> updateCacheAndRefreshEnv(propertySource, false));
         }
         LOG.trace("Completed processing of added kubernetes object");
     }
 
     @Override
     public void onUpdate(T oldObject, T newObject) {
-        if (!serviceStarted.get()) {
-            LOG.trace("Skipped processing of modified kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
-                newObject.getMetadata().getName(),
-                newObject.getClass().getSimpleName(),
-                newObject.getMetadata().getResourceVersion());
-            return;
-        }
         LOG.trace("Started processing of modified kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             newObject.getMetadata().getName(),
             newObject.getClass().getSimpleName(),
             newObject.getMetadata().getResourceVersion());
         if (objectFilter.test(newObject)) {
             Optional<PropertySource> propertySourceOpt = getPropertySource(newObject, true);
-            if (propertySourceOpt.isPresent()) {
-                PropertySource propertySource = propertySourceOpt.get();
-                KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-                refreshEnvironment();
-                LOG.trace("Modified existing PropertySource that was created from kubernetes object");
-            }
+            propertySourceOpt.ifPresent(propertySource -> updateCacheAndRefreshEnv(propertySource, false));
         }
         LOG.trace("Completed processing of modified kubernetes object");
     }
 
     @Override
     public void onDelete(T object, boolean deletedFinalStateUnknown) {
-        if (!serviceStarted.get()) {
-            LOG.trace("Skipped processing of deleted kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
-                object.getMetadata().getName(),
-                object.getClass().getSimpleName(),
-                object.getMetadata().getResourceVersion());
-            return;
-        }
-        LOG.trace("Started processing of deleted kubernetes object, objectName={}, objectType={}, resourceVersion={}",
+        LOG.trace("Started processing of deleted kubernetes object, objectName={}, objectType={}, resourceVersion={}, deletedFinalStateUnknown={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
-            object.getMetadata().getResourceVersion());
+            object.getMetadata().getResourceVersion(),
+            deletedFinalStateUnknown);
         if (objectFilter.test(object)) {
             Optional<PropertySource> propertySourceOpt = getPropertySource(object, false);
-            if (propertySourceOpt.isPresent()) {
-                PropertySource propertySource = propertySourceOpt.get();
-                KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
-                refreshEnvironment();
-                LOG.trace("Removed PropertySource that was created from kubernetes object");
-            }
+            propertySourceOpt.ifPresent(propertySource -> updateCacheAndRefreshEnv(propertySource, true));
         }
         LOG.trace("Completed processing of deleted kubernetes object");
     }
@@ -156,16 +121,25 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         return propertySource instanceof EmptyPropertySource ? Optional.empty() : Optional.of(propertySource);
     }
 
-    /**
-     * Send a {@link RefreshEvent} when a kubernetes object change affects the {@link Environment}.
-     *
-     * @see io.micronaut.management.endpoint.refresh.RefreshEndpoint#refresh(Boolean)
-     */
-    private void refreshEnvironment() {
-        final Map<String, Object> changes = environment.refreshAndDiff();
-        LOG.trace("Changes in property sources: {}", changes.keySet());
-        if (CollectionUtils.isNotEmpty(changes)) {
-            eventPublisher.publishEvent(new RefreshEvent(changes));
+    private void updateCacheAndRefreshEnv(PropertySource propertySource, boolean remove) {
+        if (remove) {
+            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            LOG.trace("Removed property source from cache: {}", propertySource.getName());
+        } else {
+            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            LOG.trace("Added/updated property source in cache: {}", propertySource.getName());
+        }
+
+        if (serviceStarted.get()) {
+            LOG.trace("Starting environment refresh");
+            final Map<String, Object> changes = environment.refreshAndDiff();
+            LOG.trace("Completed environment refresh, changes in property sources: {}", changes.keySet());
+            if (CollectionUtils.isNotEmpty(changes)) {
+                eventPublisher.publishEvent(new RefreshEvent(changes));
+            }
+        } else {
+            LOG.warn("Skipped environment refresh, caused by changes on kubernetes property source [{}], since the service not started yet",
+                propertySource.getName());
         }
     }
 }
