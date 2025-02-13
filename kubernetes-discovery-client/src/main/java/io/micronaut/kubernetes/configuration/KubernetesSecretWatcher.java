@@ -23,13 +23,13 @@ import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.discovery.config.ConfigurationClient;
-import io.micronaut.discovery.event.ServiceReadyEvent;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
+import io.micronaut.runtime.server.event.ServerStartupEvent;
 import jakarta.inject.Inject;
 
 /**
@@ -57,7 +57,7 @@ public final class KubernetesSecretWatcher extends AbstractKubernetesConfigWatch
     }
 
     @EventListener
-    public void onApplicationEvent(ServiceReadyEvent event) {
+    public void onApplicationEvent(ServerStartupEvent event) {
         serviceStarted.set(true);
     }
 
