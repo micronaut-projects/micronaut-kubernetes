@@ -68,6 +68,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     @Override
     public void onAdd(T object) {
         if (!serviceStarted.get()) {
+            LOG.trace("Skipped processing of added kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
+                object.getMetadata().getName(),
+                object.getClass().getSimpleName(),
+                object.getMetadata().getResourceVersion());
             return;
         }
         LOG.trace("Started processing of added kubernetes object, objectName={}, objectType={}, resourceVersion={}",
@@ -89,6 +93,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     @Override
     public void onUpdate(T oldObject, T newObject) {
         if (!serviceStarted.get()) {
+            LOG.trace("Skipped processing of modified kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
+                newObject.getMetadata().getName(),
+                newObject.getClass().getSimpleName(),
+                newObject.getMetadata().getResourceVersion());
             return;
         }
         LOG.trace("Started processing of modified kubernetes object, objectName={}, objectType={}, resourceVersion={}",
@@ -110,6 +118,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     @Override
     public void onDelete(T object, boolean deletedFinalStateUnknown) {
         if (!serviceStarted.get()) {
+            LOG.trace("Skipped processing of deleted kubernetes object since service not started yet, objectName={}, objectType={}, resourceVersion={}",
+                object.getMetadata().getName(),
+                object.getClass().getSimpleName(),
+                object.getMetadata().getResourceVersion());
             return;
         }
         LOG.trace("Started processing of deleted kubernetes object, objectName={}, objectType={}, resourceVersion={}",
