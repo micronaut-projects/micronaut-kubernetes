@@ -191,13 +191,60 @@ infer automatically the namespace it&#8217;s running from by reading it from the
 provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</code>).</p>
 </div>
 <div class="paragraph">
-<p>However, the namespace can still be overridden via configuration in <code>bootstrap.yml</code>:</p>
+<p>However, the namespace can still be overridden via configuration in bootstrap configuration files:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.namespace=other-namespace</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     namespace: other-namespace</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    namespace="other-namespace"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    namespace = "other-namespace"
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      namespace = "other-namespace"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "namespace": "other-namespace"
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -709,8 +756,14 @@ spec:
 <div class="paragraph">
 <p>the manual service configuration for http port will be:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.services.my-service.port=http</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -718,6 +771,67 @@ spec:
       services:
         my-service:
           port: http</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [kubernetes.client.discovery.services]
+        [kubernetes.client.discovery.services.my-service]
+          port="http"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      services {
+        myService {
+          port = "http"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        services {
+          my-service {
+            port = "http"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "services": {
+          "my-service": {
+            "port": "http"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -747,8 +861,14 @@ spec:
 <div class="paragraph">
 <p>the manual service configuration will be:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.services.my-service.mode=endpoint</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -756,6 +876,67 @@ spec:
       services:
         my-service:
           mode: endpoint</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [kubernetes.client.discovery.services]
+        [kubernetes.client.discovery.services.my-service]
+          mode="endpoint"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      services {
+        myService {
+          mode = "endpoint"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        services {
+          my-service {
+            mode = "endpoint"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "services": {
+          "my-service": {
+            "mode": "endpoint"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -780,8 +961,14 @@ spec:
 <div class="paragraph">
 <p>the manual service configuration will be:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.services.my-service.mode=service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -789,6 +976,67 @@ spec:
       services:
         my-service:
           mode: service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [kubernetes.client.discovery.services]
+        [kubernetes.client.discovery.services.my-service]
+          mode="service"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      services {
+        myService {
+          mode = "service"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        services {
+          my-service {
+            mode = "service"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "services": {
+          "my-service": {
+            "mode": "service"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -807,7 +1055,7 @@ spec:
 <div class="ulist">
 <ul>
 <li>
-<p><code>endpoint</code> mode uses the Kubernetes <code>Endpoins</code> API for the service discovery. Note that the service load balancing is handled by Microunat application.</p>
+<p><code>endpoint</code> mode uses the Kubernetes <code>Endpoints</code> API for the service discovery. Note that the service load balancing is handled by Micronaut application.</p>
 </li>
 <li>
 <p><code>service</code> mode uses the Kubernetes <code>Service</code> API for the service discovery. The <code>service</code> mode extracts the service <code>ClusterIP</code> address from the Service status.</p>
@@ -821,13 +1069,66 @@ spec:
 <p>The discovery mode can be configured globally for all Service IDs or per service.
 Note that <code>endpoint</code> is the default global discovery mode. That can be overridden via configuration in <code>bootstrap.yml</code>:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.mode=service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     discovery:
       mode: service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      mode="service"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      mode = "service"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        mode = "service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "mode": "service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -844,7 +1145,7 @@ Note that <code>endpoint</code> is the default global discovery mode. That can b
 <div class="paragraph">
 <p>Micronaut authenticates to the Kubernetes API using the token mounted at <code>/var/run/secrets/kubernetes.io/serviceaccount/token</code>.
 Note that by default, the service account used may only have permissions over the <code>kube-system</code> namespace. The service discovery
-functionality requires some additiona read permissions. Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
+functionality requires some additional read permissions. Refer to the <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes documentation</a> for more information
 about Role-based access control (RBAC).</p>
 </div>
 <div class="paragraph">
@@ -980,7 +1281,15 @@ spec:
 <p>You can filter the services discovered by using <code>kubernetes.client.discovery.includes</code> or
 <code>kubernetes.client.discovery.excludes</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.includes[0]=my-service
+kubernetes.client.discovery.includes[1]=other-service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -990,10 +1299,67 @@ spec:
         - other-service</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      includes=[
+        "my-service",
+        "other-service"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      includes = ["my-service", "other-service"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        includes = ["my-service", "other-service"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "includes": ["my-service", "other-service"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.excludes=not-this-service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1001,11 +1367,66 @@ spec:
       excludes: not-this-service</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      excludes="not-this-service"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      excludes = "not-this-service"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        excludes = "not-this-service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "excludes": "not-this-service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>In addition to that, Kubernetes labels can be used to better match the services that should be available for service
 discovery:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.labels[0].app=my-app
+kubernetes.client.discovery.labels[1].env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1013,6 +1434,68 @@ discovery:</p>
       labels:
         - app: my-app
         - env: prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [[kubernetes.client.discovery.labels]]
+        app="my-app"
+      [[kubernetes.client.discovery.labels]]
+        env="prod"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      labels = [{
+          app = "my-app"
+        }, {
+          env = "prod"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        labels = [{
+            app = "my-app"
+          }, {
+            env = "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "labels": [{
+            "app": "my-app"
+          }, {
+            "env": "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1085,11 +1568,58 @@ instances in your application.</p>
 <p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
 following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config-client.enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   config-client:
     enabled: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config-client]
+    enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  configClient {
+    enabled = true
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config-client {
+      enabled = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config-client": {
+      "enabled": true
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1119,7 +1649,15 @@ following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.jso
 which config map names are processed by defining <code>kubernetes.client.config-maps.includes</code> or
 <code>kubernetes.client.config-maps.excludes</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.includes[0]=my-config-map
+kubernetes.client.config-maps.includes[1]=other-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1129,10 +1667,67 @@ which config map names are processed by defining <code>kubernetes.client.config-
         - other-config-map</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      includes=[
+        "my-config-map",
+        "other-config-map"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      includes = ["my-config-map", "other-config-map"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        includes = ["my-config-map", "other-config-map"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "includes": ["my-config-map", "other-config-map"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.excludes=not-this-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1140,11 +1735,66 @@ which config map names are processed by defining <code>kubernetes.client.config-
       excludes: not-this-config-map</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      excludes="not-this-config-map"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      excludes = "not-this-config-map"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        excludes = "not-this-config-map"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "excludes": "not-this-config-map"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
 sources. This can be done by defining the label and value directly:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.labels[0].app=my-app
+kubernetes.client.config-maps.labels[1].env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1154,18 +1804,136 @@ sources. This can be done by defining the label and value directly:</p>
         - env: prod</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      [[kubernetes.client.config-maps.labels]]
+        app="my-app"
+      [[kubernetes.client.config-maps.labels]]
+        env="prod"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      labels = [{
+          app = "my-app"
+        }, {
+          env = "prod"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        labels = [{
+            app = "my-app"
+          }, {
+            env = "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "labels": [{
+            "app": "my-app"
+          }, {
+            "env": "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or by including every config map that has the same Kubernetes label as the pod the Micronaut application is running in.
 This is handy if you use a package manager like <a href="https://helm.sh">Helm</a>.
 A good example would be <code>app.kubernetes.io/instance</code> which is a unique label identifying the instance of an application:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     config-maps:
       pod-labels:
         - "app.kubernetes.io/instance"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1173,7 +1941,15 @@ A good example would be <code>app.kubernetes.io/instance</code> which is a uniqu
 one of the labels, specified in <code>pod-labels</code> section is not found among the application&#8217;s pod labels. This can be useful if you want
 to prevent loading all config maps available in namespace in case of mistyping or misconfiguration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.exception-on-pod-labels-missing=true
+kubernetes.client.config-maps.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1181,6 +1957,59 @@ to prevent loading all config maps available in namespace in case of mistyping o
       exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      exception-on-pod-labels-missing=true
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      exceptionOnPodLabelsMissing = true
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        exception-on-pod-labels-missing = true
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "exception-on-pod-labels-missing": true,
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1244,13 +2073,69 @@ spec:
 can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
 the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.paths[0]=/etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     config-maps:
       paths:
         - /etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      paths=[
+        "/etc/configuration"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      paths = ["/etc/configuration"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        paths = ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "paths": ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1280,7 +2165,16 @@ the following configuration:</p>
 <p>When <code>kubernetes.client.config-maps.paths</code> is defined, the Kubernetes API will not be used to read any other config maps.
 If you still want to read the remaining config maps from the API, set the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.use-api=true
+kubernetes.client.config-maps.excludes=mounted-config
+kubernetes.client.config-maps.paths[0]=/etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1289,6 +2183,63 @@ If you still want to read the remaining config maps from the API, set the follow
       excludes: mounted-config  # Because it will be read as a mounted volume
       paths:
         - /etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      use-api=true
+      excludes="mounted-config"
+      paths=[
+        "/etc/configuration"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      useApi = true
+      excludes = "mounted-config"
+      paths = ["/etc/configuration"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        use-api = true
+        excludes = "mounted-config"
+        paths = ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "use-api": true,
+        "excludes": "mounted-config",
+        "paths": ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1377,9 +2328,16 @@ Only <code>Opaque</code> secrets will be considered.
 </table>
 </div>
 <div class="paragraph">
-<p>By default, secrets access is diabled. To enable them, set in <code>bootstrap.yml</code>:</p>
+<p>By default, secrets access is disabled. To enable them, set in <code>bootstrap.yml</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1387,11 +2345,66 @@ Only <code>Opaque</code> secrets will be considered.
       enabled: true</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>The configuration client, by default, will read all the <code>Secret</code>s for the configured namespace. You can further filter
-which config map names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
+which secret names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.includes=this-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1400,10 +2413,69 @@ which config map names are processed by defining <code>kubernetes.client.secrets
       includes: this-secret</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      includes="this-secret"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      includes = "this-secret"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        includes = "this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "includes": "this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.excludes=not-this-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1412,10 +2484,70 @@ which config map names are processed by defining <code>kubernetes.client.secrets
       excludes: not-this-secret</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      excludes="not-this-secret"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      excludes = "not-this-secret"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        excludes = "not-this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "excludes": "not-this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Similarly to <code>ConfigMap</code>s, labels can also be used to match the desired secrets:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.labels[0].app=my-app
+kubernetes.client.secrets.labels[1].env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1426,10 +2558,84 @@ which config map names are processed by defining <code>kubernetes.client.secrets
         - env: prod</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      [[kubernetes.client.secrets.labels]]
+        app="my-app"
+      [[kubernetes.client.secrets.labels]]
+        env="prod"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      labels = [{
+          app = "my-app"
+        }, {
+          env = "prod"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        labels = [{
+            app = "my-app"
+          }, {
+            env = "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "labels": [{
+            "app": "my-app"
+          }, {
+            "env": "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>This also works for pod labels:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1439,10 +2645,72 @@ which config map names are processed by defining <code>kubernetes.client.secrets
         - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>As well as <code>exception-on-pod-labels-missing</code> property:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.exception-on-pod-labels-missing=true
+kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1451,6 +2719,63 @@ which config map names are processed by defining <code>kubernetes.client.secrets
       exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      exception-on-pod-labels-missing=true
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      exceptionOnPodLabelsMissing = true
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        exception-on-pod-labels-missing = true
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "exception-on-pod-labels-missing": true,
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1518,7 +2843,15 @@ spec:
 can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
 the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1526,6 +2859,59 @@ the following configuration:</p>
       enabled: true
       paths:
         - /etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      paths=[
+        "/etc/foo"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      paths = ["/etc/foo"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        paths = ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "paths": ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1542,7 +2928,17 @@ the following configuration:</p>
 <p>When <code>kubernetes.client.secrets.paths</code> is defined, the Kubernetes API will not be used to read any other secret.
 If you still want to read the remaining secrets from the API, set the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.use-api=true
+kubernetes.client.secrets.excludes=mysecret
+kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -1552,6 +2948,67 @@ If you still want to read the remaining secrets from the API, set the following 
       excludes: mysecret  # Because it will be read as a mounted volume
       paths:
         - /etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      use-api=true
+      excludes="mysecret"
+      paths=[
+        "/etc/foo"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      useApi = true
+      excludes = "mysecret"
+      paths = ["/etc/foo"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        use-api = true
+        excludes = "mysecret"
+        paths = ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "use-api": true,
+        "excludes": "mysecret",
+        "paths": ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -1722,12 +3179,66 @@ information about how to configure it.</p>
 <div class="paragraph">
 <p>By default the KubernetesHealthIndicator is enabled. To disable it use the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">endpoints.health.kubernetes.enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">endpoints:
   health:
     kubernetes:
       enabled: false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[endpoints]
+  [endpoints.health]
+    [endpoints.health.kubernetes]
+      enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">endpoints {
+  health {
+    kubernetes {
+      enabled = false
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  endpoints {
+    health {
+      kubernetes {
+        enabled = false
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "endpoints": {
+    "health": {
+      "kubernetes": {
+        "enabled": false
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2142,8 +3653,17 @@ public class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1Conf
 <div class="paragraph">
 <p>For example:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Example of custom lock acquisition properties. Note that the value is of type Duration:</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.operator.leader-election.lock.lease-duration=60s
+kubernetes.client.operator.leader-election.lock.renew-deadline=50s
+kubernetes.client.operator.leader-election.lock.retry-period=20s</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -2153,6 +3673,75 @@ public class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1Conf
           lease-duration: 60s
           renew-deadline: 50s
           retry-period: 20s</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.operator]
+      [kubernetes.client.operator.leader-election]
+        [kubernetes.client.operator.leader-election.lock]
+          lease-duration="60s"
+          renew-deadline="50s"
+          retry-period="20s"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    operator {
+      leaderElection {
+        lock {
+          leaseDuration = "60s"
+          renewDeadline = "50s"
+          retryPeriod = "20s"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      operator {
+        leader-election {
+          lock {
+            lease-duration = "60s"
+            renew-deadline = "50s"
+            retry-period = "20s"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "operator": {
+        "leader-election": {
+          "lock": {
+            "lease-duration": "60s",
+            "renew-deadline": "50s",
+            "retry-period": "20s"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -2178,8 +3767,16 @@ public class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1Conf
 <div class="paragraph">
 <p>Note that the resource for the lock is created in the application namespace. Then the application name is used as the lock resource name. This can be changed by using Micronaut configuration properties:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
 <div class="title">Example on how to configure custom lock resource name and namespace:</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.operator.leader-election.lock.resource-name=custom-name
+kubernetes.client.operator.leader-election.lock.resource-namespace=custom-namespace</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -2188,6 +3785,71 @@ public class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1Conf
         lock:
           resource-name: custom-name
           resource-namespace: custom-namespace</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.operator]
+      [kubernetes.client.operator.leader-election]
+        [kubernetes.client.operator.leader-election.lock]
+          resource-name="custom-name"
+          resource-namespace="custom-namespace"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    operator {
+      leaderElection {
+        lock {
+          resourceName = "custom-name"
+          resourceNamespace = "custom-namespace"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      operator {
+        leader-election {
+          lock {
+            resource-name = "custom-name"
+            resource-namespace = "custom-namespace"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "operator": {
+        "leader-election": {
+          "lock": {
+            "resource-name": "custom-name",
+            "resource-namespace": "custom-namespace"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -2865,8 +4527,14 @@ spec:
 <div class="paragraph">
 <p>the manual service configuration for http port will be:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.services.my-service.port=http</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -2874,6 +4542,67 @@ spec:
       services:
         my-service:
           port: http</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [kubernetes.client.discovery.services]
+        [kubernetes.client.discovery.services.my-service]
+          port="http"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      services {
+        myService {
+          port = "http"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        services {
+          my-service {
+            port = "http"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "services": {
+          "my-service": {
+            "port": "http"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2903,8 +4632,14 @@ spec:
 <div class="paragraph">
 <p>the manual service configuration will be:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.services.my-service.mode=endpoint</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -2912,6 +4647,67 @@ spec:
       services:
         my-service:
           mode: endpoint</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [kubernetes.client.discovery.services]
+        [kubernetes.client.discovery.services.my-service]
+          mode="endpoint"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      services {
+        myService {
+          mode = "endpoint"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        services {
+          my-service {
+            mode = "endpoint"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "services": {
+          "my-service": {
+            "mode": "endpoint"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2936,8 +4732,14 @@ spec:
 <div class="paragraph">
 <p>the manual service configuration will be:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.services.my-service.mode=service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -2945,6 +4747,67 @@ spec:
       services:
         my-service:
           mode: service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [kubernetes.client.discovery.services]
+        [kubernetes.client.discovery.services.my-service]
+          mode="service"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      services {
+        myService {
+          mode = "service"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        services {
+          my-service {
+            mode = "service"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "services": {
+          "my-service": {
+            "mode": "service"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2977,13 +4840,66 @@ spec:
 <p>The discovery mode can be configured globally for all Service IDs or per service.
 Note that <code>endpoint</code> is the default global discovery mode. That can be overridden via configuration in <code>bootstrap.yml</code>:</p>
 </div>
-<div class="listingblock">
-<div class="title"><code>bootstrap.yml</code></div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.mode=service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     discovery:
       mode: service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      mode="service"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      mode = "service"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        mode = "service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "mode": "service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3136,7 +5052,15 @@ spec:
 <p>You can filter the services discovered by using <code>kubernetes.client.discovery.includes</code> or
 <code>kubernetes.client.discovery.excludes</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.includes[0]=my-service
+kubernetes.client.discovery.includes[1]=other-service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3146,10 +5070,67 @@ spec:
         - other-service</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      includes=[
+        "my-service",
+        "other-service"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      includes = ["my-service", "other-service"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        includes = ["my-service", "other-service"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "includes": ["my-service", "other-service"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.excludes=not-this-service</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3157,11 +5138,66 @@ spec:
       excludes: not-this-service</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      excludes="not-this-service"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      excludes = "not-this-service"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        excludes = "not-this-service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "excludes": "not-this-service"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>In addition to that, Kubernetes labels can be used to better match the services that should be available for service
 discovery:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.discovery.labels[0].app=my-app
+kubernetes.client.discovery.labels[1].env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3171,32 +5207,70 @@ discovery:</p>
         - env: prod</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.discovery]
+      [[kubernetes.client.discovery.labels]]
+        app="my-app"
+      [[kubernetes.client.discovery.labels]]
+        env="prod"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    discovery {
+      labels = [{
+          app = "my-app"
+        }, {
+          env = "prod"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      discovery {
+        labels = [{
+            app = "my-app"
+          }, {
+            env = "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "discovery": {
+        "labels": [{
+            "app": "my-app"
+          }, {
+            "env": "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Note that the filtering is not applied on manually configured service configurations.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_service_discovery_guides">Service discovery guides</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>See the following guides to learn more about Kubernetes service discovery using the Micronaut Framework:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://guides.micronaut.io/latest/micronaut-k8s.html">Kubernetes Service Discovery and Distributed Configuration</a></p>
-</li>
-<li>
-<p><a href="https://guides.micronaut.io/latest/micronaut-k8s-aws.html">Service Discovery and Distributed Configuration with Amazon Elastic Kubernetes Service (EKS)</a></p>
-</li>
-<li>
-<p><a href="https://guides.micronaut.io/latest/micronaut-k8s-gcp.html">Service Discovery and Distributed Configuration with Google Kubernetes Engine (GKE)</a></p>
-</li>
-<li>
-<p><a href="https://guides.micronaut.io/latest/micronaut-k8s-oci.html">Service Discovery and Distributed Configuration with Oracle Cloud Container Engine for Kubernetes (OKE)</a></p>
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -3241,11 +5315,58 @@ instances in your application.</p>
 <p>Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
 following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.json</code>, etc):</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config-client.enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
   config-client:
     enabled: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config-client]
+    enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  configClient {
+    enabled = true
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config-client {
+      enabled = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config-client": {
+      "enabled": true
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -3275,7 +5396,15 @@ following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.jso
 which config map names are processed by defining <code>kubernetes.client.config-maps.includes</code> or
 <code>kubernetes.client.config-maps.excludes</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.includes[0]=my-config-map
+kubernetes.client.config-maps.includes[1]=other-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3285,10 +5414,67 @@ which config map names are processed by defining <code>kubernetes.client.config-
         - other-config-map</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      includes=[
+        "my-config-map",
+        "other-config-map"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      includes = ["my-config-map", "other-config-map"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        includes = ["my-config-map", "other-config-map"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "includes": ["my-config-map", "other-config-map"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.excludes=not-this-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3296,11 +5482,66 @@ which config map names are processed by defining <code>kubernetes.client.config-
       excludes: not-this-config-map</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      excludes="not-this-config-map"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      excludes = "not-this-config-map"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        excludes = "not-this-config-map"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "excludes": "not-this-config-map"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
 sources. This can be done by defining the label and value directly:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.labels[0].app=my-app
+kubernetes.client.config-maps.labels[1].env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3310,12 +5551,81 @@ sources. This can be done by defining the label and value directly:</p>
         - env: prod</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      [[kubernetes.client.config-maps.labels]]
+        app="my-app"
+      [[kubernetes.client.config-maps.labels]]
+        env="prod"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      labels = [{
+          app = "my-app"
+        }, {
+          env = "prod"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        labels = [{
+            app = "my-app"
+          }, {
+            env = "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "labels": [{
+            "app": "my-app"
+          }, {
+            "env": "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or by including every config map that has the same Kubernetes label as the pod the Micronaut application is running in.
 This is handy if you use a package manager like <a href="https://helm.sh">Helm</a>.
 A good example would be <code>app.kubernetes.io/instance</code> which is a unique label identifying the instance of an application:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3324,12 +5634,69 @@ A good example would be <code>app.kubernetes.io/instance</code> which is a uniqu
         - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Additionally, you can also enable <code>exception-on-pod-labels-missing</code> property in case you want an exception to be thrown if at least
 one of the labels, specified in <code>pod-labels</code> section is not found among the application&#8217;s pod labels. This can be useful if you want
 to prevent loading all config maps available in namespace in case of mistyping or misconfiguration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.exception-on-pod-labels-missing=true
+kubernetes.client.config-maps.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3339,8 +5706,128 @@ to prevent loading all config maps available in namespace in case of mistyping o
         - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      exception-on-pod-labels-missing=true
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      exceptionOnPodLabelsMissing = true
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        exception-on-pod-labels-missing = true
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "exception-on-pod-labels-missing": true,
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Note that on the resulting config maps, you can still further filter them with includes/excludes properties.</p>
+</div>
+<div class="paragraph">
+<p>By default if an exception occurs reading config maps on startup, the exception is logged and the service is started.
+This can be overridden to terminate the service startup when the service is not able to read config maps because of any
+exception by setting the <code>terminate-startup-on-exception</code> property to <code>true</code> in your application configuration:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.terminate-startup-on-exception=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    config-maps:
+      terminate-startup-on-exception: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      terminate-startup-on-exception=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      terminateStartupOnException = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        terminate-startup-on-exception = true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "terminate-startup-on-exception": true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_reading_configmaps_from_mounted_volumes">Reading <code>ConfigMap</code>s from mounted volumes</h3>
@@ -3400,13 +5887,69 @@ spec:
 can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
 the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.paths[0]=/etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
     config-maps:
       paths:
         - /etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      paths=[
+        "/etc/configuration"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      paths = ["/etc/configuration"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        paths = ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "paths": ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -3436,7 +5979,16 @@ the following configuration:</p>
 <p>When <code>kubernetes.client.config-maps.paths</code> is defined, the Kubernetes API will not be used to read any other config maps.
 If you still want to read the remaining config maps from the API, set the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.config-maps.use-api=true
+kubernetes.client.config-maps.excludes=mounted-config
+kubernetes.client.config-maps.paths[0]=/etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3445,6 +5997,63 @@ If you still want to read the remaining config maps from the API, set the follow
       excludes: mounted-config  # Because it will be read as a mounted volume
       paths:
         - /etc/configuration</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.config-maps]
+      use-api=true
+      excludes="mounted-config"
+      paths=[
+        "/etc/configuration"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    configMaps {
+      useApi = true
+      excludes = "mounted-config"
+      paths = ["/etc/configuration"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      config-maps {
+        use-api = true
+        excludes = "mounted-config"
+        paths = ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "config-maps": {
+        "use-api": true,
+        "excludes": "mounted-config",
+        "paths": ["/etc/configuration"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -3535,7 +6144,14 @@ Only <code>Opaque</code> secrets will be considered.
 <div class="paragraph">
 <p>By default, secrets access is disabled. To enable them, set in <code>bootstrap.yml</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3543,11 +6159,66 @@ Only <code>Opaque</code> secrets will be considered.
       enabled: true</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>The configuration client, by default, will read all the <code>Secret</code>s for the configured namespace. You can further filter
 which secret names are processed by defining <code>kubernetes.client.secrets.includes</code> or <code>kubernetes.client.secrets.excludes</code>:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.includes=this-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3556,10 +6227,69 @@ which secret names are processed by defining <code>kubernetes.client.secrets.inc
       includes: this-secret</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      includes="this-secret"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      includes = "this-secret"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        includes = "this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "includes": "this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Or:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.excludes=not-this-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3568,10 +6298,70 @@ which secret names are processed by defining <code>kubernetes.client.secrets.inc
       excludes: not-this-secret</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      excludes="not-this-secret"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      excludes = "not-this-secret"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        excludes = "not-this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "excludes": "not-this-secret"
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>Similarly to <code>ConfigMap</code>s, labels can also be used to match the desired secrets:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.labels[0].app=my-app
+kubernetes.client.secrets.labels[1].env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3582,10 +6372,84 @@ which secret names are processed by defining <code>kubernetes.client.secrets.inc
         - env: prod</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      [[kubernetes.client.secrets.labels]]
+        app="my-app"
+      [[kubernetes.client.secrets.labels]]
+        env="prod"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      labels = [{
+          app = "my-app"
+        }, {
+          env = "prod"
+        }]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        labels = [{
+            app = "my-app"
+          }, {
+            env = "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "labels": [{
+            "app": "my-app"
+          }, {
+            "env": "prod"
+          }]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>This also works for pod labels:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3595,10 +6459,72 @@ which secret names are processed by defining <code>kubernetes.client.secrets.inc
         - "app.kubernetes.io/instance"</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div class="paragraph">
 <p>As well as <code>exception-on-pod-labels-missing</code> property:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.exception-on-pod-labels-missing=true
+kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3607,6 +6533,129 @@ which secret names are processed by defining <code>kubernetes.client.secrets.inc
       exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      exception-on-pod-labels-missing=true
+      pod-labels=[
+        "app.kubernetes.io/instance"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      exceptionOnPodLabelsMissing = true
+      podLabels = ["app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        exception-on-pod-labels-missing = true
+        pod-labels = ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "exception-on-pod-labels-missing": true,
+        "pod-labels": ["app.kubernetes.io/instance"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Similar to <code>ConfigMap</code>s, if you want to terminate the service startup when the service is not able to read secrets
+because of any unexpected exception, you can set <code>terminate-startup-on-exception</code> property to <code>true</code> in application configuration:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.terminate-startup-on-exception=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    secrets:
+      terminate-startup-on-exception: true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      terminate-startup-on-exception=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      terminateStartupOnException = true
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        terminate-startup-on-exception = true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "terminate-startup-on-exception": true
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -3674,7 +6723,15 @@ spec:
 can convert them into a <code>PropertySource</code> so that you can consume the values much more easily. In order to do so, define
 the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3682,6 +6739,59 @@ the following configuration:</p>
       enabled: true
       paths:
         - /etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      paths=[
+        "/etc/foo"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      paths = ["/etc/foo"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        paths = ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "paths": ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -3698,7 +6808,17 @@ the following configuration:</p>
 <p>When <code>kubernetes.client.secrets.paths</code> is defined, the Kubernetes API will not be used to read any other secret.
 If you still want to read the remaining secrets from the API, set the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.secrets.enabled=true
+kubernetes.client.secrets.use-api=true
+kubernetes.client.secrets.excludes=mysecret
+kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
   client:
@@ -3708,6 +6828,67 @@ If you still want to read the remaining secrets from the API, set the following 
       excludes: mysecret  # Because it will be read as a mounted volume
       paths:
         - /etc/foo</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.secrets]
+      enabled=true
+      use-api=true
+      excludes="mysecret"
+      paths=[
+        "/etc/foo"
+      ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    secrets {
+      enabled = true
+      useApi = true
+      excludes = "mysecret"
+      paths = ["/etc/foo"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      secrets {
+        enabled = true
+        use-api = true
+        excludes = "mysecret"
+        paths = ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "secrets": {
+        "enabled": true,
+        "use-api": true,
+        "excludes": "mysecret",
+        "paths": ["/etc/foo"]
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="paragraph">
@@ -3878,12 +7059,66 @@ information about how to configure it.</p>
 <div class="paragraph">
 <p>By default the KubernetesHealthIndicator is enabled. To disable it use the following configuration:</p>
 </div>
-<div class="listingblock">
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">endpoints.health.kubernetes.enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">endpoints:
   health:
     kubernetes:
       enabled: false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[endpoints]
+  [endpoints.health]
+    [endpoints.health.kubernetes]
+      enabled=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">endpoints {
+  health {
+    kubernetes {
+      enabled = false
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  endpoints {
+    health {
+      kubernetes {
+        enabled = false
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "endpoints": {
+    "health": {
+      "kubernetes": {
+        "enabled": false
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
