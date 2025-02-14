@@ -93,6 +93,18 @@ kubernetes:
 
 Note that on the resulting config maps, you can still further filter them with includes/excludes properties.
 
+In case if you want to terminate the service startup when the service is not able to read config maps because of any
+unexpected exception, you can enable `terminate-startup-on-exception` property:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    config-maps:
+      terminate-startup-on-exception: true
+----
+
+
 ### Reading ``ConfigMap``s from mounted volumes
 
 In the case of ``ConfigMaps``s, reading them from the Kubernetes API requires additional permissions, as stated above.
@@ -285,6 +297,17 @@ kubernetes:
       exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"
+----
+
+Similarly to ``ConfigMap``s, in case if you want to terminate the service startup when the service is not able to read secrets
+because of any unexpected exception, you can enable `terminate-startup-on-exception` property:
+
+[source,yaml]
+----
+kubernetes:
+  client:
+    secrets:
+      terminate-startup-on-exception: true
 ----
 
 ### Reading ``Secret``s from mounted volumes

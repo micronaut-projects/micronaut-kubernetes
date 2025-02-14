@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.EmptyPropertySource;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
@@ -148,13 +149,15 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
         List<String> podLabels = configMapsConfiguration.getPodLabels();
         Map<String, String> labels = configMapsConfiguration.getLabels();
         boolean exceptionOnPodLabelsMissing = configMapsConfiguration.isExceptionOnPodLabelsMissing();
+        boolean terminateStartupOnException = configMapsConfiguration.isTerminateStartupOnException();
 
         return KubernetesConfigUtils.computePodLabelSelector(client, podLabels, namespace, labels, exceptionOnPodLabelsMissing)
-            .doOnError(throwable -> LOG.error("Failed to compute pod label selector", throwable))
             .doOnNext(labelSelector -> LOG.trace("Going to list ConfigMaps from namespace [{}] with label selector [{}]", namespace, labelSelector))
             .flatMap(labelSelector -> client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null))
             .doOnError(throwable -> LOG.error("Failed to list ConfigMaps in the namespace [{}]", namespace, throwable))
-            .onErrorResume(throwable -> exceptionOnPodLabelsMissing ? Mono.error(throwable) : Mono.just(new V1ConfigMapList(new ArrayList<>())))
+            .onErrorResume(throwable -> terminateStartupOnException || (throwable instanceof ConfigurationException && exceptionOnPodLabelsMissing)
+                ? Mono.error(throwable)
+                : Mono.just(new V1ConfigMapList(new ArrayList<>())))
             .doOnNext(configMapList -> LOG.debug("Found {} config maps. Applying includes/excludes filters (if any)", configMapList.getItems().size()))
             .flux()
             .flatMap(configMapList -> Flux.merge(
@@ -211,13 +214,15 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
         List<String> podLabels = secretsConfiguration.getPodLabels();
         Map<String, String> labels = secretsConfiguration.getLabels();
         boolean exceptionOnPodLabelsMissing = secretsConfiguration.isExceptionOnPodLabelsMissing();
+        boolean terminateStartupOnException = secretsConfiguration.isTerminateStartupOnException();
 
         return KubernetesConfigUtils.computePodLabelSelector(client, podLabels, namespace, labels, exceptionOnPodLabelsMissing)
-            .doOnError(throwable -> LOG.error("Failed to compute pod label selector", throwable))
             .doOnNext(labelSelector -> LOG.trace("Going to list Secrets from namespace [{}] with label selector [{}]", namespace, labelSelector))
             .flatMap(labelSelector -> client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null))
             .doOnError(throwable -> LOG.error("Failed to list Secrets in the namespace [{}]", namespace, throwable))
-            .onErrorResume(throwable -> exceptionOnPodLabelsMissing ? Mono.error(throwable) : Mono.just(new V1SecretList(new ArrayList<>())))
+            .onErrorResume(throwable -> terminateStartupOnException || (throwable instanceof ConfigurationException && exceptionOnPodLabelsMissing)
+                ? Mono.error(throwable)
+                : Mono.just(new V1SecretList(new ArrayList<>())))
             .doOnNext(secretList -> LOG.debug("Found {} secrets. Filtering Opaque secrets and includes/excludes (if any)", secretList.getItems().size()))
             .flux()
             .flatMap(secretList -> Flux.merge(

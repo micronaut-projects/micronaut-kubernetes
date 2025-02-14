@@ -52,7 +52,7 @@ abstract sealed class AbstractKubernetesConfigLabelSupplier implements Supplier<
                 configConfiguration.getLabels(),
                 configuration.getDiscovery().isExceptionOnPodLabelsMissing())
             .block();
-        LOG.debug("Computed kubernetes configuration discovery config label selector: {}", labelSelector);
+        LOG.debug("Computed kubernetes configuration discovery config label selector: [{}]", labelSelector);
         return labelSelector;
     }
 }
