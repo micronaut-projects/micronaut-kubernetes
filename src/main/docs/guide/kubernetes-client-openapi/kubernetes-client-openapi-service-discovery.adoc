@@ -78,8 +78,7 @@ spec:
 ----
 
 the manual service configuration for http port will be:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -109,8 +108,7 @@ spec:
       targetPort: 9376
 ----
 the manual service configuration will be:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -135,8 +133,7 @@ spec:
   externalName: launch.micronaut.io
 ----
 the manual service configuration will be:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -159,8 +156,7 @@ Both discovery modes are using the `metadata.name` for the Service ID identifica
 
 The discovery mode can be configured globally for all Service IDs or per service.
 Note that `endpoint` is the default global discovery mode. That can be overridden via configuration in `bootstrap.yml`:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -232,7 +228,7 @@ include::{sourcedir}/kubernetes.yml[tag=labels]
 You can filter the services discovered by using `kubernetes.client.discovery.includes` or
 `kubernetes.client.discovery.excludes`:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -244,7 +240,7 @@ kubernetes:
 
 Or:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -255,7 +251,7 @@ kubernetes:
 In addition to that, Kubernetes labels can be used to better match the services that should be available for service
 discovery:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -267,12 +263,3 @@ kubernetes:
 
 
 Note that the filtering is not applied on manually configured service configurations.
-
-## Service discovery guides
-
-See the following guides to learn more about Kubernetes service discovery using the Micronaut Framework:
-
-- https://guides.micronaut.io/latest/micronaut-k8s.html[Kubernetes Service Discovery and Distributed Configuration]
-- https://guides.micronaut.io/latest/micronaut-k8s-aws.html[Service Discovery and Distributed Configuration with Amazon Elastic Kubernetes Service (EKS)]
-- https://guides.micronaut.io/latest/micronaut-k8s-gcp.html[Service Discovery and Distributed Configuration with Google Kubernetes Engine (GKE)]
-- https://guides.micronaut.io/latest/micronaut-k8s-oci.html[Service Discovery and Distributed Configuration with Oracle Cloud Container Engine for Kubernetes (OKE)]

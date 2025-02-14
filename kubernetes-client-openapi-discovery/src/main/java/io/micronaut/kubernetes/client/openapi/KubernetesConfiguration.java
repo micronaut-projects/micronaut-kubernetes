@@ -312,14 +312,16 @@ public class KubernetesConfiguration {
         }
 
         /**
-         * @return whether to terminate service startup if not able to load config from kubernetes
+         * @return Flag which determines whether to terminate service startup if not able to load
+         * config from kubernetes. Default value: {@link #DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION}.
          */
         public boolean isTerminateStartupOnException() {
             return terminateStartupOnException;
         }
 
         /**
-         * @param terminateStartupOnException flag which determines whether to terminate service startup if not able to load config from kubernetes
+         * @param terminateStartupOnException Flag which determines whether to terminate service startup if not able to
+         *                                    load config from kubernetes. Default value: {@link #DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION}.
          */
         public void setTerminateStartupOnException(boolean terminateStartupOnException) {
             this.terminateStartupOnException = terminateStartupOnException;

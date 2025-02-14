@@ -78,8 +78,7 @@ spec:
 ----
 
 the manual service configuration for http port will be:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -109,8 +108,7 @@ spec:
       targetPort: 9376
 ----
 the manual service configuration will be:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -135,8 +133,7 @@ spec:
   externalName: launch.micronaut.io
 ----
 the manual service configuration will be:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -152,15 +149,14 @@ Service discovery mode is a mechanism that allows to support different strategie
 
 Currently Micronaut Kubernetes implements two discovery modes:
 
-* `endpoint` mode uses the Kubernetes `Endpoins` API for the service discovery. Note that the service load balancing is handled by Microunat application.
+* `endpoint` mode uses the Kubernetes `Endpoints` API for the service discovery. Note that the service load balancing is handled by Micronaut application.
 * `service` mode uses the Kubernetes `Service` API for the service discovery. The `service` mode extracts the service `ClusterIP` address from the Service status.
 
 Both discovery modes are using the `metadata.name` for the Service ID identificator.
 
 The discovery mode can be configured globally for all Service IDs or per service.
 Note that `endpoint` is the default global discovery mode. That can be overridden via configuration in `bootstrap.yml`:
-[source, yaml]
-.`bootstrap.yml`
+[configuration]
 ----
 kubernetes:
   client:
@@ -177,7 +173,7 @@ Both discovery modes support watching for changes of their respective resources.
 
 Micronaut authenticates to the Kubernetes API using the token mounted at `/var/run/secrets/kubernetes.io/serviceaccount/token`.
 Note that by default, the service account used may only have permissions over the `kube-system` namespace. The service discovery
-functionality requires some additiona read permissions. Refer to the https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Kubernetes documentation] for more information
+functionality requires some additional read permissions. Refer to the https://kubernetes.io/docs/reference/access-authn-authz/rbac/[Kubernetes documentation] for more information
 about Role-based access control (RBAC).
 
 One of the options is to create the following `Role` and `RoleBinding` (make sure to apply them to the service account used, if not `default`):
@@ -232,7 +228,7 @@ include::{sourcedir}/kubernetes.yml[tag=labels]
 You can filter the services discovered by using `kubernetes.client.discovery.includes` or
 `kubernetes.client.discovery.excludes`:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -244,7 +240,7 @@ kubernetes:
 
 Or:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -255,7 +251,7 @@ kubernetes:
 In addition to that, Kubernetes labels can be used to better match the services that should be available for service
 discovery:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:

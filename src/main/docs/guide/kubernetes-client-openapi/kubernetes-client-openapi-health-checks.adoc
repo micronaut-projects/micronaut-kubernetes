@@ -87,7 +87,7 @@ information about how to configure it.
 
 By default the KubernetesHealthIndicator is enabled. To disable it use the following configuration:
 
-[source,yaml]
+[configuration]
 ----
 endpoints:
   health:
