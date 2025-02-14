@@ -255,9 +255,12 @@ public class KubernetesConfiguration {
      * Base class for config-maps and secrets.
      */
     public abstract static class AbstractConfigConfiguration extends AbstractKubernetesConfiguration {
+        private static final Boolean DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION = false;
+
         private Collection<String> paths;
         private boolean useApi;
         private boolean watch;
+        private boolean terminateStartupOnException = DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION;
 
         AbstractConfigConfiguration(boolean defaultWatch) {
             watch = defaultWatch;
@@ -306,6 +309,22 @@ public class KubernetesConfiguration {
          */
         public void setWatch(boolean watch) {
             this.watch = watch;
+        }
+
+        /**
+         * @return Flag which determines whether to terminate service startup if not able to load
+         * config from kubernetes. Default value: {@link #DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION}.
+         */
+        public boolean isTerminateStartupOnException() {
+            return terminateStartupOnException;
+        }
+
+        /**
+         * @param terminateStartupOnException Flag which determines whether to terminate service startup if not able to
+         *                                    load config from kubernetes. Default value: {@link #DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION}.
+         */
+        public void setTerminateStartupOnException(boolean terminateStartupOnException) {
+            this.terminateStartupOnException = terminateStartupOnException;
         }
     }
 

@@ -11,7 +11,7 @@ https://docs.micronaut.io/latest/guide/index.html#config[any other way to read c
 Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
 following in `bootstrap.yml` (or `.properties`, `.json`, etc):
 
-[source,yaml]
+[configuration]
 ----
 micronaut:
   config-client:
@@ -31,7 +31,7 @@ The configuration client by default will read all the ``ConfigMap``s for the con
 which config map names are processed by defining `kubernetes.client.config-maps.includes` or
 `kubernetes.client.config-maps.excludes`:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -43,7 +43,7 @@ kubernetes:
 
 Or:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -54,7 +54,7 @@ kubernetes:
 In addition to that, Kubernetes labels can be used to better match the config maps that should be available as property
 sources. This can be done by defining the label and value directly:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -68,7 +68,7 @@ Or by including every config map that has the same Kubernetes label as the pod t
 This is handy if you use a package manager like https://helm.sh[Helm].
 A good example would be `app.kubernetes.io/instance` which is a unique label identifying the instance of an application:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -81,7 +81,7 @@ Additionally, you can also enable `exception-on-pod-labels-missing` property in 
 one of the labels, specified in `pod-labels` section is not found among the application's pod labels. This can be useful if you want
 to prevent loading all config maps available in namespace in case of mistyping or misconfiguration:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -92,6 +92,19 @@ kubernetes:
 ----
 
 Note that on the resulting config maps, you can still further filter them with includes/excludes properties.
+
+By default if an exception occurs reading config maps on startup, the exception is logged and the service is started.
+This can be overridden to terminate the service startup when the service is not able to read config maps because of any
+exception by setting the `terminate-startup-on-exception` property to `true` in your application configuration:
+
+[configuration]
+----
+kubernetes:
+  client:
+    config-maps:
+      terminate-startup-on-exception: true
+----
+
 
 ### Reading ``ConfigMap``s from mounted volumes
 
@@ -141,7 +154,7 @@ While you could potentially use the `java.io` or `java.nio` APIs to read the con
 can convert them into a ``PropertySource`` so that you can consume the values much more easily. In order to do so, define
 the following configuration:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -161,7 +174,7 @@ Each file in the directory will become a property source file. The file format w
 When `kubernetes.client.config-maps.paths` is defined, the Kubernetes API will not be used to read any other config maps.
 If you still want to read the remaining config maps from the API, set the following configuration:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -218,7 +231,7 @@ NOTE: Only `Opaque` secrets will be considered.
 
 By default, secrets access is disabled. To enable them, set in `bootstrap.yml`:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -229,7 +242,7 @@ kubernetes:
 The configuration client, by default, will read all the ``Secret``s for the configured namespace. You can further filter
 which secret names are processed by defining `kubernetes.client.secrets.includes` or `kubernetes.client.secrets.excludes`:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -240,7 +253,7 @@ kubernetes:
 
 Or:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -251,7 +264,7 @@ kubernetes:
 
 Similarly to ``ConfigMap``s, labels can also be used to match the desired secrets:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -264,7 +277,7 @@ kubernetes:
 
 This also works for pod labels:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -276,7 +289,7 @@ kubernetes:
 
 As well as `exception-on-pod-labels-missing` property:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -285,6 +298,17 @@ kubernetes:
       exception-on-pod-labels-missing: true
       pod-labels:
         - "app.kubernetes.io/instance"
+----
+
+Similar to ``ConfigMap``s, if you want to terminate the service startup when the service is not able to read secrets
+because of any unexpected exception, you can set `terminate-startup-on-exception` property to `true` in application configuration:
+
+[configuration]
+----
+kubernetes:
+  client:
+    secrets:
+      terminate-startup-on-exception: true
 ----
 
 ### Reading ``Secret``s from mounted volumes
@@ -339,7 +363,7 @@ While you could potentially use the `java.io` or `java.nio` APIs to read the con
 can convert them into a ``PropertySource`` so that you can consume the values much more easily. In order to do so, define
 the following configuration:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:
@@ -356,7 +380,7 @@ Each file in the directory will become the property key, and the file contents, 
 When `kubernetes.client.secrets.paths` is defined, the Kubernetes API will not be used to read any other secret.
 If you still want to read the remaining secrets from the API, set the following configuration:
 
-[source,yaml]
+[configuration]
 ----
 kubernetes:
   client:

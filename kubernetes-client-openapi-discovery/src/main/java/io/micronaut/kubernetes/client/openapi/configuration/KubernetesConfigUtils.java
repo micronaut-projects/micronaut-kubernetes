@@ -76,6 +76,9 @@ final class KubernetesConfigUtils {
      * @return property source
      */
     static PropertySource kubernetesListAsPropertySource(KubernetesListObject kubernetesListObject) {
+        if (CollectionUtils.isEmpty(kubernetesListObject.getItems())) {
+            return new EmptyPropertySource();
+        }
         String objectType = kubernetesListObject.getClass().getSimpleName();
         String resVersionPropertyName = LIST_RES_VERSION_PROP_NAME_TEMPLATE.formatted(objectType.toLowerCase());
         String resVersionPropertyValue = kubernetesListObject.getMetadata().getResourceVersion();
