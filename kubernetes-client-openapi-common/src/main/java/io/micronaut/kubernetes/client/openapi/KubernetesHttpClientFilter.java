@@ -17,20 +17,22 @@ package io.micronaut.kubernetes.client.openapi;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.ProviderUtils;
+import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
-import io.micronaut.http.annotation.ClientFilter;
-import io.micronaut.http.annotation.RequestFilter;
+import io.micronaut.http.annotation.Filter;
+import io.micronaut.http.filter.ClientFilterChain;
+import io.micronaut.http.filter.HttpClientFilter;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader;
-import io.micronaut.scheduling.TaskExecutors;
-import io.micronaut.scheduling.annotation.ExecuteOn;
 import jakarta.inject.Provider;
+import org.reactivestreams.Publisher;
 
 import java.util.Collection;
 
@@ -38,10 +40,11 @@ import java.util.Collection;
  * Filter which sets the authorization request header with basic or bearer token
  * if the client certificate authentication is not enabled.
  */
-@ClientFilter(serviceId = KubernetesHttpClientFactory.CLIENT_ID)
 @Requires(beans = KubernetesClientConfiguration.class)
 @Internal
-final class KubernetesHttpClientFilter {
+@BootstrapContextCompatible
+@Filter(patterns = Filter.MATCH_ALL_PATTERN, serviceId = KubernetesHttpClientFactory.CLIENT_ID)
+final class KubernetesHttpClientFilter implements HttpClientFilter {
 
     private final Provider<KubeConfig> kubeConfigProvider;
     private final Provider<Collection<KubernetesTokenLoader>> kubernetesTokenLoaders;
@@ -56,9 +59,13 @@ final class KubernetesHttpClientFilter {
             () -> applicationContext.getBeansOfType(KubernetesTokenLoader.class));
     }
 
-    @RequestFilter
-    @ExecuteOn(TaskExecutors.BLOCKING)
-    void doFilter(MutableHttpRequest<?> request) {
+    @Override
+    public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
+        setAuthHeader(request);
+        return chain.proceed(request);
+    }
+
+    private void setAuthHeader(MutableHttpRequest<?> request) {
         KubeConfig kubeConfig = kubeConfigProvider.get();
         if (kubeConfig != null && kubeConfig.getUser() != null) {
             AuthInfo user = kubeConfig.getUser();
