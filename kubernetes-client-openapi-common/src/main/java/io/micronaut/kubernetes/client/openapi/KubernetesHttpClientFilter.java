@@ -76,14 +76,19 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
                 return chain.proceed(request.basicAuth(user.username(), user.password()));
             }
         }
-
-        Mono<String> token = Flux.fromIterable(kubernetesTokenLoaders.get())
-            .doOnNext(tokenLoader -> LOG.trace("Trying to load token, loader={}", tokenLoader.getClass().getName()))
+        Collection<KubernetesTokenLoader> loaders = kubernetesTokenLoaders.get();
+        LOG.trace("Registered token loaders: {}", loaders);
+        return Flux.fromIterable(loaders)
             .concatMap(KubernetesTokenLoader::getToken)
-            .doOnNext(tokenLoader -> LOG.trace("aaaa, loader={}", tokenLoader.getClass().getName()))
             .next()
-            .doOnNext(tokenLoader -> LOG.trace("bbb, loader={}", tokenLoader.getClass().getName()));
-
-        return token.flatMapMany(t -> chain.proceed(request.bearerAuth(t)));
+            .switchIfEmpty(Mono.just(StringUtils.EMPTY_STRING))
+            .doOnNext(token -> {
+                if (StringUtils.isEmpty(token)) {
+                    LOG.trace("Token not loaded by any token loader");
+                } else {
+                    LOG.trace("Token loaded");
+                }
+            })
+            .flatMapMany(token -> StringUtils.isEmpty(token) ? chain.proceed(request) : chain.proceed(request.bearerAuth(token)));
     }
 }

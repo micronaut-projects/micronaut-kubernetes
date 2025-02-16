@@ -22,6 +22,8 @@ import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import jakarta.inject.Singleton;
 import org.reactivestreams.Publisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 /**
@@ -31,6 +33,7 @@ import reactor.core.publisher.Mono;
 @BootstrapContextCompatible
 @Internal
 final class KubeConfigTokenLoader implements KubernetesTokenLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(KubeConfigTokenLoader.class);
 
     private static final int ORDER = 20;
 
@@ -48,6 +51,8 @@ final class KubeConfigTokenLoader implements KubernetesTokenLoader {
 
     @Override
     public Publisher<String> getToken() {
-        return StringUtils.isEmpty(token) ? Mono.empty() : Mono.just(token);
+        return StringUtils.isEmpty(token)
+            ? Mono.empty()
+            : Mono.just(token).doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
     }
 }

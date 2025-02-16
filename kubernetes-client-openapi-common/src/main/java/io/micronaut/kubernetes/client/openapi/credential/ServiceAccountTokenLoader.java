@@ -78,16 +78,16 @@ final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
     @Override
     public Publisher<String> getToken() {
         if (!shouldLoadToken()) {
-            return Mono.just(token);
+            return Mono.just(token).doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
         }
-        Mono<String> publisher = Mono.fromCallable(this::getReloadedToken);
+        Mono<String> publisher = Mono.fromCallable(this::reloadedToken);
         if (scheduler != null) {
             publisher = publisher.subscribeOn(scheduler);
         }
-        return publisher;
+        return publisher.doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
     }
 
-    private String getReloadedToken() {
+    private String reloadedToken() {
         if (shouldLoadToken()) {
             synchronized (this) {
                 if (shouldLoadToken()) {
