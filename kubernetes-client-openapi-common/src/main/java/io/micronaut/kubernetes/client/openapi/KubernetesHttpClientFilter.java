@@ -33,6 +33,10 @@ import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader;
 import jakarta.inject.Provider;
 import org.reactivestreams.Publisher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 
@@ -45,6 +49,7 @@ import java.util.Collection;
 @BootstrapContextCompatible
 @Filter(patterns = Filter.MATCH_ALL_PATTERN, serviceId = KubernetesHttpClientFactory.CLIENT_ID)
 final class KubernetesHttpClientFilter implements HttpClientFilter {
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesHttpClientFilter.class);
 
     private final Provider<KubeConfig> kubeConfigProvider;
     private final Provider<Collection<KubernetesTokenLoader>> kubernetesTokenLoaders;
@@ -61,31 +66,24 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
 
     @Override
     public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
-        setAuthHeader(request);
-        return chain.proceed(request);
-    }
-
-    private void setAuthHeader(MutableHttpRequest<?> request) {
         KubeConfig kubeConfig = kubeConfigProvider.get();
         if (kubeConfig != null && kubeConfig.getUser() != null) {
             AuthInfo user = kubeConfig.getUser();
             if (user.clientCertificateData() != null && user.clientKeyData() != null) {
-                return;
+                return chain.proceed(request);
             }
             if (StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password())) {
-                request.basicAuth(user.username(), user.password());
-                return;
+                return chain.proceed(request.basicAuth(user.username(), user.password()));
             }
         }
-        String token = null;
-        for (KubernetesTokenLoader kubernetesTokenLoader : kubernetesTokenLoaders.get()) {
-            token = kubernetesTokenLoader.getToken();
-            if (StringUtils.isNotEmpty(token)) {
-                break;
-            }
-        }
-        if (StringUtils.isNotEmpty(token)) {
-            request.bearerAuth(token);
-        }
+
+        Mono<String> token = Flux.fromIterable(kubernetesTokenLoaders.get())
+            .doOnNext(tokenLoader -> LOG.trace("Trying to load token, loader={}", tokenLoader.getClass().getName()))
+            .concatMap(KubernetesTokenLoader::getToken)
+            .doOnNext(tokenLoader -> LOG.trace("aaaa, loader={}", tokenLoader.getClass().getName()))
+            .next()
+            .doOnNext(tokenLoader -> LOG.trace("bbb, loader={}", tokenLoader.getClass().getName()));
+
+        return token.flatMapMany(t -> chain.proceed(request.bearerAuth(t)));
     }
 }

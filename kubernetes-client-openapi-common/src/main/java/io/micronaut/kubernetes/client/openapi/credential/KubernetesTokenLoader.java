@@ -15,8 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential;
 
-import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.order.Ordered;
+import org.reactivestreams.Publisher;
 
 /**
  * The loader for bearer token used in kubernetes api service authentication.
@@ -28,5 +29,5 @@ public interface KubernetesTokenLoader extends Ordered {
      *
      * @return bearer token
      */
-    @Nullable String getToken();
+    @NonNull Publisher<String> getToken();
 }

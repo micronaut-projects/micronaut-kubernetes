@@ -17,28 +17,38 @@ package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration.ServiceAccount;
+import io.micronaut.scheduling.TaskExecutors;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Loads a token from the service account token file.
  */
+@Internal
 @Singleton
 @BootstrapContextCompatible
-@Internal
+@Requires(env = Environment.KUBERNETES)
 @Requires(property = KubernetesClientConfiguration.PREFIX + ".service-account.enabled", value = StringUtils.TRUE, defaultValue = StringUtils.TRUE)
 final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceAccountTokenLoader.class);
@@ -47,20 +57,17 @@ final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
 
     private final ResourceResolver resourceResolver;
     private final ServiceAccount serviceAccount;
+    private final Scheduler scheduler;
 
     private volatile String token;
     private volatile LocalDateTime expirationTime;
 
     ServiceAccountTokenLoader(ResourceResolver resourceResolver,
-                              KubernetesClientConfiguration kubernetesClientConfiguration) {
+                              KubernetesClientConfiguration kubernetesClientConfiguration,
+                              @Named(TaskExecutors.BLOCKING) @Nullable ExecutorService executorService) {
         this.resourceResolver = resourceResolver;
         serviceAccount = kubernetesClientConfiguration.getServiceAccount();
-    }
-
-    @Override
-    public String getToken() {
-        setToken();
-        return token;
+        this.scheduler = executorService == null ? null : Schedulers.fromExecutorService(executorService);
     }
 
     @Override
@@ -68,7 +75,19 @@ final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
         return ORDER;
     }
 
-    private void setToken() {
+    @Override
+    public Publisher<String> getToken() {
+        if (!shouldLoadToken()) {
+            return Mono.just(token);
+        }
+        Mono<String> publisher = Mono.fromCallable(this::getReloadedToken);
+        if (scheduler != null) {
+            publisher = publisher.subscribeOn(scheduler);
+        }
+        return publisher;
+    }
+
+    private String getReloadedToken() {
         if (shouldLoadToken()) {
             synchronized (this) {
                 if (shouldLoadToken()) {
@@ -76,13 +95,14 @@ final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
                     Duration tokenReloadInterval = serviceAccount.getTokenReloadInterval();
                     try {
                         token = loadToken(tokenPath);
-                    } catch (IOException e) {
-                        throw new RuntimeException("Failed to load service account token from file: " + tokenPath, e);
+                        expirationTime = LocalDateTime.now().plusSeconds(tokenReloadInterval.toSeconds());
+                    } catch (Exception e) {
+                        LOG.error("Failed to load service account token from file: {}", tokenPath, e);
                     }
-                    expirationTime = LocalDateTime.now().plusSeconds(tokenReloadInterval.toSeconds());
                 }
             }
         }
+        return token;
     }
 
     private boolean shouldLoadToken() {

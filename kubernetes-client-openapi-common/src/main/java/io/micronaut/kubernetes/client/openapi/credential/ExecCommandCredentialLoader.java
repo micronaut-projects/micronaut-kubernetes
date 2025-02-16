@@ -17,15 +17,22 @@ package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.json.JsonMapper;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecConfig;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecEnvVar;
 import io.micronaut.kubernetes.client.openapi.credential.model.ExecCredential;
+import io.micronaut.scheduling.TaskExecutors;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.io.File;
 import java.io.InputStream;
@@ -37,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 
 /**
  * The credential loader which uses the exec command from the kube config to get credentials.
@@ -53,18 +61,16 @@ final class ExecCommandCredentialLoader implements KubernetesTokenLoader {
 
     private final KubeConfig kubeConfig;
     private final JsonMapper jsonMapper;
+    private final Scheduler scheduler;
 
     private volatile ExecCredential execCredential;
 
-    ExecCommandCredentialLoader(KubeConfigLoader kubeConfigLoader, JsonMapper jsonMapper) {
+    ExecCommandCredentialLoader(KubeConfigLoader kubeConfigLoader,
+                                JsonMapper jsonMapper,
+                                @Named(TaskExecutors.BLOCKING) @Nullable ExecutorService executorService) {
         kubeConfig = kubeConfigLoader.getKubeConfig();
         this.jsonMapper = jsonMapper;
-    }
-
-    @Override
-    public String getToken() {
-        setExecCredential();
-        return execCredential == null ? null : execCredential.status().token();
+        this.scheduler = executorService == null ? null : Schedulers.fromExecutorService(executorService);
     }
 
     @Override
@@ -72,10 +78,22 @@ final class ExecCommandCredentialLoader implements KubernetesTokenLoader {
         return ORDER;
     }
 
-    private void setExecCredential() {
+    @Override
+    public Publisher<String> getToken() {
         if (kubeConfig == null || !kubeConfig.isExecCommandProvided()) {
-            return;
+            return Mono.empty();
         }
+        if (!shouldLoadCredential()) {
+            return Mono.just(execCredential.status().token());
+        }
+        Mono<String> publisher = Mono.fromCallable(this::getTokenFromReloadedCredential);
+        if (scheduler != null) {
+            publisher = publisher.subscribeOn(scheduler);
+        }
+        return publisher;
+    }
+
+    private String getTokenFromReloadedCredential() {
         if (shouldLoadCredential()) {
             synchronized (this) {
                 if (shouldLoadCredential()) {
@@ -87,6 +105,7 @@ final class ExecCommandCredentialLoader implements KubernetesTokenLoader {
                 }
             }
         }
+        return execCredential == null ? null : execCredential.status().token();
     }
 
     private boolean shouldLoadCredential() {

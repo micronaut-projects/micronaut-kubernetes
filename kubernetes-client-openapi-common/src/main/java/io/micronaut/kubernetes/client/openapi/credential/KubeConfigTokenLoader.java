@@ -17,9 +17,12 @@ package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import jakarta.inject.Singleton;
+import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
 
 /**
  * Loads a token from users settings in the kube config file.
@@ -39,12 +42,12 @@ final class KubeConfigTokenLoader implements KubernetesTokenLoader {
     }
 
     @Override
-    public String getToken() {
-        return token;
+    public int getOrder() {
+        return ORDER;
     }
 
     @Override
-    public int getOrder() {
-        return ORDER;
+    public Publisher<String> getToken() {
+        return StringUtils.isEmpty(token) ? Mono.empty() : Mono.just(token);
     }
 }
