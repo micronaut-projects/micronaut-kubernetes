@@ -70,14 +70,16 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
         if (kubeConfig != null && kubeConfig.getUser() != null) {
             AuthInfo user = kubeConfig.getUser();
             if (user.clientCertificateData() != null && user.clientKeyData() != null) {
+                LOG.trace("Using client certificate authentication");
                 return chain.proceed(request);
             }
             if (StringUtils.isNotEmpty(user.username()) && StringUtils.isNotEmpty(user.password())) {
+                LOG.trace("Using username and password authentication");
                 return chain.proceed(request.basicAuth(user.username(), user.password()));
             }
         }
         Collection<KubernetesTokenLoader> loaders = kubernetesTokenLoaders.get();
-        LOG.trace("Registered token loaders: {}", loaders);
+        LOG.trace("Using token authentication, tokenLoaders={}", loaders);
         return Flux.fromIterable(loaders)
             .concatMap(KubernetesTokenLoader::getToken)
             .next()
