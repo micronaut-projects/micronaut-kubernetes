@@ -1,6 +1,8 @@
 package io.micronaut.kubernetes.client.openapi.credential
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.Environment
+import reactor.core.publisher.Mono
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Stepwise
@@ -21,7 +23,7 @@ class ServiceAccountTokenLoaderSpec extends Specification {
     ApplicationContext clientContext = ApplicationContext.run([
             'kubernetes.client.service-account.token-path': "file:" + tokenFile,
             'kubernetes.client.service-account.token-reload-interval': '1s'
-    ])
+    ], Environment.KUBERNETES)
 
     @Shared
     def tokenLoader = clientContext.getBean(ServiceAccountTokenLoader.class)
@@ -40,7 +42,7 @@ class ServiceAccountTokenLoaderSpec extends Specification {
         tokenFile.toFile().text = 'old-test-token'
 
         when:
-        def token = tokenLoader.getToken()
+        def token = Mono.from(tokenLoader.getToken()).block()
 
         then:
         token == 'old-test-token'
@@ -51,7 +53,7 @@ class ServiceAccountTokenLoaderSpec extends Specification {
         tokenFile.toFile().text = 'new-test-token'
 
         when:
-        def token = tokenLoader.getToken()
+        def token = Mono.from(tokenLoader.getToken()).block()
 
         then:
         token == 'old-test-token'
@@ -62,7 +64,7 @@ class ServiceAccountTokenLoaderSpec extends Specification {
         sleep(1000)
 
         when:
-        def token = tokenLoader.getToken()
+        def token = Mono.from(tokenLoader.getToken()).block()
 
         then:
         token == 'new-test-token'

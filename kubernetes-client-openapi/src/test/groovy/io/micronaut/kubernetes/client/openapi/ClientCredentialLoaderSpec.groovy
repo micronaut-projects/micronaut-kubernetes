@@ -12,6 +12,8 @@ import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
 import io.micronaut.runtime.server.EmbeddedServer
 import jakarta.inject.Singleton
+import org.reactivestreams.Publisher
+import reactor.core.publisher.Mono
 import spock.lang.AutoCleanup
 import spock.lang.Shared
 import spock.lang.Specification
@@ -97,8 +99,8 @@ current-context: test-context
     static class FirstCredentialLoader implements KubernetesTokenLoader {
 
         @Override
-        String getToken() {
-            return "first"
+        Publisher<String> getToken() {
+            return Mono.just("first")
         }
 
         @Override
@@ -113,8 +115,8 @@ current-context: test-context
     static class SecondCredentialLoader implements KubernetesTokenLoader {
 
         @Override
-        String getToken() {
-            return "second"
+        Publisher<String> getToken() {
+            return Mono.just("second")
         }
 
         @Override
