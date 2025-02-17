@@ -53,6 +53,6 @@ final class KubeConfigTokenLoader implements KubernetesTokenLoader {
     public Publisher<String> getToken() {
         return StringUtils.isEmpty(token)
             ? Mono.empty()
-            : Mono.just(token).doOnNext(token -> LOG.trace("Token loaded"));
+            : Mono.just(token).doOnNext(it -> LOG.trace("Token loaded"));
     }
 }
