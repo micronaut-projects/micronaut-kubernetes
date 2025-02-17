@@ -47,14 +47,14 @@ final class KubernetesServiceInstanceServiceProvider extends AbstractV1ServicePr
 
     @Override
     public Mono<V1Service> getService(String name, String namespace) {
-        LOG.trace("Using API to fetch Service [{}] from namespace [{}]", name, namespace);
+        LOG.trace("Using API to fetch [{}] Service from namespace [{}]", name, namespace);
         return client.readNamespacedService(name, namespace, null)
                 .doOnError(throwable -> LOG.error("Failed to fetch Service [{}] from namespace [{}]", name, namespace, throwable));
     }
 
     @Override
     public Flux<V1Service> listServices(String namespace) {
-        LOG.trace("Using API to fetch services from namespace [{}]", namespace);
+        LOG.trace("Using API to fetch all services from namespace [{}]", namespace);
         return client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null, null)
                 .doOnError(throwable -> LOG.error("Failed to list Services from namespace [{}]", namespace, throwable))
                 .flatMapIterable(V1ServiceList::getItems);

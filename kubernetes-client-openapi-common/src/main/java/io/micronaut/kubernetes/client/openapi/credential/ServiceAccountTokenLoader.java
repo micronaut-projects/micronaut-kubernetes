@@ -78,13 +78,13 @@ final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
     @Override
     public Publisher<String> getToken() {
         if (!shouldLoadToken()) {
-            return Mono.just(token).doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
+            return Mono.just(token).doOnNext(token -> LOG.trace("Token loaded"));
         }
         Mono<String> publisher = Mono.fromCallable(this::reloadedToken);
         if (scheduler != null) {
             publisher = publisher.subscribeOn(scheduler);
         }
-        return publisher.doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
+        return publisher.doOnNext(token -> LOG.trace("Token loaded"));
     }
 
     private String reloadedToken() {
@@ -97,7 +97,7 @@ final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
                         token = loadToken(tokenPath);
                         expirationTime = LocalDateTime.now().plusSeconds(tokenReloadInterval.toSeconds());
                     } catch (Exception e) {
-                        LOG.error("Failed to load service account token from file: {}", tokenPath, e);
+                        LOG.error("Failed to load token from file: {}", tokenPath, e);
                     }
                 }
             }

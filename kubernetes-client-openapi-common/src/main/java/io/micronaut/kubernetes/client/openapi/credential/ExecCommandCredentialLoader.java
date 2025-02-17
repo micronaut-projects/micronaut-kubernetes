@@ -85,13 +85,13 @@ final class ExecCommandCredentialLoader implements KubernetesTokenLoader {
         }
         if (!shouldLoadCredential()) {
             return Mono.just(execCredential.status().token())
-                .doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
+                .doOnNext(token -> LOG.trace("Token loaded"));
         }
         Mono<String> publisher = Mono.fromCallable(this::getTokenFromReloadedCredential);
         if (scheduler != null) {
             publisher = publisher.subscribeOn(scheduler);
         }
-        return publisher.doOnNext(token -> LOG.trace("Token loaded by {}", this.getClass().getName()));
+        return publisher.doOnNext(token -> LOG.trace("Token loaded"));
     }
 
     private String getTokenFromReloadedCredential() {

@@ -47,14 +47,14 @@ final class KubernetesServiceInstanceEndpointProvider extends AbstractV1Endpoint
 
     @Override
     public Mono<V1Endpoints> getEndpoints(String name, String namespace) {
-        LOG.trace("Using API to fetch Endpoints [{}] from namespace [{}]", name, namespace);
+        LOG.trace("Using API to fetch [{}] Endpoints from namespace [{}]", name, namespace);
         return client.readNamespacedEndpoints(name, namespace, null)
                 .doOnError(throwable -> LOG.error("Failed to list Endpoints [{}] from namespace [{}]", name, namespace, throwable));
     }
 
     @Override
     public Flux<V1Endpoints> listEndpoints(String namespace) {
-        LOG.trace("Using API to fetch endpoints from namespace [{}]", namespace);
+        LOG.trace("Using API to fetch all endpoints from namespace [{}]", namespace);
 
         return client.listNamespacedEndpoints(namespace, null, null, null, null, null, null, null, null, null, null, null)
                 .doOnError(throwable -> LOG.error("Failed to list Endpoints from namespace [{}]", namespace, throwable))

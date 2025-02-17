@@ -87,8 +87,6 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
             .doOnNext(token -> {
                 if (StringUtils.isEmpty(token)) {
                     LOG.trace("Token not loaded by any token loader");
-                } else {
-                    LOG.trace("Token loaded");
                 }
             })
             .flatMapMany(token -> StringUtils.isEmpty(token) ? chain.proceed(request) : chain.proceed(request.bearerAuth(token)));
