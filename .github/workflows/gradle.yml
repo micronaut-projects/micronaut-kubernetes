@@ -30,14 +30,16 @@ jobs:
       PREDICTIVE_TEST_SELECTION: "${{ github.event_name == 'pull_request' && 'true' || 'false' }}"
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      OSS_INDEX_USERNAME: ${{ secrets.OSS_INDEX_USERNAME }}
+      OSS_INDEX_PASSWORD: ${{ secrets.OSS_INDEX_PASSWORD }}
     steps:
-       # https://github.com/actions/virtual-environments/issues/709
+      # https://github.com/actions/virtual-environments/issues/709
       - name: "🗑 Free disk space"
         run: |
-         sudo rm -rf "/usr/local/share/boost"
-         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-         sudo apt-get clean
-         df -h
+          sudo rm -rf "/usr/local/share/boost"
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo apt-get clean
+          df -h
 
       - name: "📥 Checkout repository"
         uses: actions/checkout@v4
@@ -45,7 +47,7 @@ jobs:
           fetch-depth: 0
 
       - name: "🔧 Setup GraalVM CE"
-        uses: graalvm/setup-graalvm@v1.3.1
+        uses: graalvm/setup-graalvm@v1.2.8
         with:
           distribution: 'graalvm'
           java-version: ${{ matrix.java }}
@@ -57,6 +59,11 @@ jobs:
       - name: "❓ Optional setup step"
         run: |
           [ -f ./setup.sh ] && ./setup.sh || [ ! -f ./setup.sh ]
+
+      - name: "🚔 Sonatype Scan"
+        id: sonatypescan
+        run: |
+          ./gradlew ossIndexAudit --no-parallel --info
 
       - name: "🛠 Build with Gradle"
         id: gradle
