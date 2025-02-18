@@ -17,6 +17,7 @@ micronaut {
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
             clientId = "kubernetes"
             useReactive = false
+            generateHttpResponseWhereRequired = false
             additionalClientTypeAnnotations = [
                     "@io.micronaut.context.annotation.BootstrapContextCompatible"
             ]
