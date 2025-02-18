@@ -25,6 +25,7 @@ micronaut {
             apiNameSuffix = "ApiWatcher"
             clientId = "kubernetes"
             useReactive = true
+            generateHttpResponseWhereRequired = false
             fluxForArrays = true
             typeMapping = tasks.named("createWatcherOpenApiSpec", CreateWatcherSpec).flatMap(CreateWatcherSpec::getWatcherTypeMappingsFile).map { t->
                 return evaluate(t.getAsFile())
