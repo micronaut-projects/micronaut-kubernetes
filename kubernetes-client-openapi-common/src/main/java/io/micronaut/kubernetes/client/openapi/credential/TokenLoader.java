@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 original authors
+ * Copyright 2017-2025 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,12 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential;
 
-import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.order.Ordered;
 
 /**
- * The loader for bearer token used in kubernetes api service authentication.
+ * Interface for blocking and reactive kubernetes token loaders.
  */
-public interface KubernetesTokenLoader extends TokenLoader {
-
-    /**
-     * Gets a bearer token for request authentication.
-     *
-     * @return bearer token
-     */
-    @Nullable String getToken();
+@Internal
+public interface TokenLoader extends Ordered {
 }
