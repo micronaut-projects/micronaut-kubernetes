@@ -52,7 +52,7 @@ import java.util.concurrent.ExecutorService;
 @Singleton
 @BootstrapContextCompatible
 @Internal
-final class ExecCommandCredentialLoader implements KubernetesTokenLoader {
+final class ExecCommandCredentialLoader implements ReactiveKubernetesTokenLoader {
     private static final Logger LOG = LoggerFactory.getLogger(ExecCommandCredentialLoader.class);
 
     private static final int ORDER = 10;

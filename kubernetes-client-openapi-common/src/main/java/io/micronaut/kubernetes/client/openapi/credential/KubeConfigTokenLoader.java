@@ -32,7 +32,7 @@ import reactor.core.publisher.Mono;
 @Singleton
 @BootstrapContextCompatible
 @Internal
-final class KubeConfigTokenLoader implements KubernetesTokenLoader {
+final class KubeConfigTokenLoader implements ReactiveKubernetesTokenLoader {
     private static final Logger LOG = LoggerFactory.getLogger(KubeConfigTokenLoader.class);
 
     private static final int ORDER = 20;

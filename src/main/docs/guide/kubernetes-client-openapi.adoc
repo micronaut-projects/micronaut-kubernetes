@@ -34,7 +34,7 @@ Then you can simply use Micronaut injection to get configured apis object from p
 
 snippet::micronaut.client.PodController[project-base="examples/example-kubernetes-client-openapi-reactor", source="main"]
 
-.Configuration
+### Configuration
 
 [configuration]
 ----
@@ -77,7 +77,8 @@ The client supports the following authentication strategies:
 There are several interfaces that can be implemented to change default implementations:
 
 * link:{api}/io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html[KubeConfigLoader] - a custom implementation can be used when a kube config file needs to be loaded from a cloud service. There is also an option of extending link:{api}/io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html[AbstractKubeConfigLoader] which caches the loaded kube config data and provides a few helper methods.
-* link:{api}/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html[KubernetesTokenLoader] - a custom implementation can be used for loading a bearer token. link:{api}/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html[KubernetesHttpClientFilter] iterates through a list of implementations of this interface and creates the Authorization header using the token from the first implementation which returns it. The following implementations are currently used:
+* link:{api}/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html[KubernetesTokenLoader] - a custom blocking implementation can be used for loading a bearer token. link:{api}/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html[KubernetesHttpClientFilter] iterates through a list of blocking and reactive implementations and creates the Authorization header using the token from the first implementation which returns it
+* link:{api}/io/micronaut/kubernetes/client/openapi/credential/ReactiveKubernetesTokenLoader.html[ReactiveKubernetesTokenLoader] - a custom reactive implementation can be used for loading a bearer token. The client is using the following implementations by default:
 ** link:{api}/io/micronaut/kubernetes/client/openapi/credential/ExecCommandCredentialLoader.html[ExecCommandCredentialLoader] - implementation which executes the command from the kube config file to get the token.
 ** link:{api}/io/micronaut/kubernetes/client/openapi/credential/KubeConfigTokenLoader.html[KubeConfigTokenLoader] - implementation which uses the token from the kube config file.
 ** link:{api}/io/micronaut/kubernetes/client/openapi/credential/ServiceAccountTokenLoader.html[ServiceAccountTokenLoader] - implementation which uses the service account token.

@@ -20,6 +20,7 @@ import io.micronaut.context.ProviderUtils;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
+import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpRequest;
@@ -31,14 +32,21 @@ import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader;
+import io.micronaut.kubernetes.client.openapi.credential.ReactiveKubernetesTokenLoader;
+import io.micronaut.kubernetes.client.openapi.credential.TokenLoader;
+import io.micronaut.scheduling.TaskExecutors;
+import jakarta.inject.Named;
 import jakarta.inject.Provider;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Filter which sets the authorization request header with basic or bearer token
@@ -52,16 +60,19 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesHttpClientFilter.class);
 
     private final Provider<KubeConfig> kubeConfigProvider;
-    private final Provider<Collection<KubernetesTokenLoader>> kubernetesTokenLoaders;
+    private final Provider<Collection<TokenLoader>> tokenLoaders;
+    private final Scheduler scheduler;
 
     KubernetesHttpClientFilter(Provider<KubeConfigLoader> kubeConfigLoader,
-                               ApplicationContext applicationContext) {
+                               ApplicationContext applicationContext,
+                               @Named(TaskExecutors.BLOCKING) @Nullable ExecutorService executorService) {
         // Retrieval has to be delegated to filtering, as any of these classes might
         // depend on a client causing a circular dependency.
         this.kubeConfigProvider = ProviderUtils.memoized(
             () -> kubeConfigLoader.get().getKubeConfig());
-        this.kubernetesTokenLoaders = ProviderUtils.memoized(
-            () -> applicationContext.getBeansOfType(KubernetesTokenLoader.class));
+        this.tokenLoaders = ProviderUtils.memoized(
+            () -> applicationContext.getBeansOfType(TokenLoader.class));
+        this.scheduler = executorService == null ? null : Schedulers.fromExecutorService(executorService);
     }
 
     @Override
@@ -78,10 +89,10 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
                 return chain.proceed(request.basicAuth(user.username(), user.password()));
             }
         }
-        Collection<KubernetesTokenLoader> loaders = kubernetesTokenLoaders.get();
+        Collection<TokenLoader> loaders = tokenLoaders.get();
         LOG.trace("Using token authentication, tokenLoaders={}", loaders);
         return Flux.fromIterable(loaders)
-            .concatMap(KubernetesTokenLoader::getToken)
+            .concatMap(this::getToken)
             .next()
             .switchIfEmpty(Mono.just(StringUtils.EMPTY_STRING))
             .doOnNext(token -> {
@@ -90,5 +101,19 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
                 }
             })
             .flatMapMany(token -> StringUtils.isEmpty(token) ? chain.proceed(request) : chain.proceed(request.bearerAuth(token)));
+    }
+
+    private Publisher<String> getToken(TokenLoader tokenLoader) {
+        if (tokenLoader instanceof ReactiveKubernetesTokenLoader reactiveTokenLoader) {
+            return reactiveTokenLoader.getToken();
+        } else if (tokenLoader instanceof KubernetesTokenLoader blockingTokenLoader) {
+            Mono<String> publisher = Mono.fromCallable(blockingTokenLoader::getToken);
+            if (scheduler != null) {
+                publisher = publisher.subscribeOn(scheduler);
+            }
+            return publisher.doOnNext(token -> LOG.trace("Token loaded by {}", blockingTokenLoader.getClass().getName()));
+        }
+        LOG.error("Found unknown token loader implementation: {}", tokenLoader.getClass().getName());
+        return Mono.empty();
     }
 }
