@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.async.annotation.SingleResult;
 import org.reactivestreams.Publisher;
 
 /**
@@ -28,5 +29,6 @@ public interface ReactiveKubernetesTokenLoader extends TokenLoader {
      *
      * @return bearer token
      */
+    @SingleResult
     @NonNull Publisher<String> getToken();
 }
