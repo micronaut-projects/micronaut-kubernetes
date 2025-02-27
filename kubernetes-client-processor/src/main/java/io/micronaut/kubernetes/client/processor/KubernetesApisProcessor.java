@@ -15,27 +15,47 @@
  */
 package io.micronaut.kubernetes.client.processor;
 
-import com.squareup.javapoet.*;
-import io.micronaut.annotation.processing.AnnotationUtils;
-import io.micronaut.annotation.processing.GenericUtils;
+import com.squareup.javapoet.AnnotationSpec;
+import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeSpec;
+import io.micronaut.annotation.processing.JavaElementAnnotationMetadataFactory;
 import io.micronaut.annotation.processing.ModelUtils;
-import io.micronaut.annotation.processing.PublicMethodVisitor;
+import io.micronaut.annotation.processing.visitor.JavaClassElement;
+import io.micronaut.annotation.processing.visitor.JavaElementFactory;
 import io.micronaut.annotation.processing.visitor.JavaVisitorContext;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.convert.value.MutableConvertibleValues;
 import io.micronaut.core.naming.NameUtils;
-
-import javax.annotation.processing.*;
-
+import io.micronaut.core.util.StringUtils;
+import io.micronaut.inject.ast.ClassElement;
+import io.micronaut.inject.ast.ElementModifier;
+import io.micronaut.inject.ast.ElementQuery;
+import io.micronaut.inject.ast.MethodElement;
+import io.micronaut.inject.ast.ParameterElement;
 import io.micronaut.inject.visitor.TypeElementVisitor;
 import jakarta.inject.Singleton;
 
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.*;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
@@ -43,10 +63,12 @@ import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,14 +82,33 @@ import java.util.stream.Collectors;
 @SupportedAnnotationTypes("io.micronaut.kubernetes.client.Apis")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class KubernetesApisProcessor extends AbstractProcessor {
+    private static final String MICRONAUT_APIS_PACKAGE = "io.micronaut.kubernetes.client";
 
-    public static final String KUBERNETES_APIS_PACKAGE = "io.kubernetes.client.openapi.apis";
-    public static final String MICRONAUT_APIS_PACKAGE = "io.micronaut.kubernetes.client";
+    private static final ClassName REACTOR_CLASS_NAME = ClassName.get("reactor.core.publisher", "Mono");
+    private static final ClassName RXJAVA2_CLASS_NAME = ClassName.get("io.reactivex", "Single");
+    private static final ClassName RXJAVA3_CLASS_NAME = ClassName.get("io.reactivex.rxjava3.core", "Single");
+
+    private static final String REACTOR_METHOD_CODE = """
+        return Mono.create((sink) -> {
+          try {
+            request.executeAsync(new AsyncCallbackSink<>(sink));
+          } catch(io.kubernetes.client.openapi.ApiException e) {
+            sink.error(e);
+          }
+        });
+        """;
+
+    private static final String RXJAVA_METHOD_CODE = """
+        return Single.create((emitter) -> {
+          request.executeAsync(new ApiCallbackEmitter<>(emitter));
+        });
+        """;
 
     private Filer filer;
     private Messager messager;
     private Elements elements;
     private Types types;
+    private JavaVisitorContext javaVisitorContext;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -76,33 +117,30 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         this.messager = processingEnv.getMessager();
         this.elements = processingEnv.getElementUtils();
         this.types = processingEnv.getTypeUtils();
+        this.javaVisitorContext = new JavaVisitorContext(
+            processingEnv,
+            messager,
+            elements,
+            types,
+            new ModelUtils(elements, types) { },
+            filer,
+            MutableConvertibleValues.of(new LinkedHashMap<>()),
+            TypeElementVisitor.VisitorKind.ISOLATING,
+            new HashSet<>());
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (TypeElement annotation : annotations) {
-            final Set<? extends Element> element = roundEnv.getElementsAnnotatedWith(annotation);
-            for (Element e : element) {
-                final List<String> apisNames = resolveClientNames(e);
-                final String t = resolveClientType(e);
-                for (String clientName : apisNames) {
-                    final String packageName = NameUtils.getPackageName(clientName);
-                    final String simpleName = NameUtils.getSimpleName(clientName);
-                    switch (t) {
-                        case "RXJAVA2":
-                            writeRxJava2Clients(e, packageName, simpleName);
-                            break;
-                        case "RXJAVA3":
-                            writeRxJava3Clients(e, packageName, simpleName);
-                            break;
-                        case "REACTOR":
-                            writeReactorClients(e, packageName, simpleName);
-                            break;
-                        case "ASYNC":
-                            writeClientFactory(e, packageName, simpleName);
-                            break;
-                        default:
-                            break;
+            final Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
+            for (Element element : elements) {
+                final List<String> apisNames = resolveClientNames(element);
+                final ClientType clientType = resolveClientType(element);
+                for (String apiName : apisNames) {
+                    if (clientType == ClientType.ASYNC) {
+                        writeClientFactory(element, apiName);
+                    } else {
+                        writeReactiveClient(element, apiName, clientType);
                     }
                 }
             }
@@ -110,9 +148,11 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         return false;
     }
 
-    private void writeClientFactory(Element e, String packageName, String simpleName) {
+    private void writeClientFactory(Element e, String apiName) {
+        final String packageName = NameUtils.getPackageName(apiName);
+        final String simpleName = NameUtils.getSimpleName(apiName);
         final String factoryName = simpleName + "Factory";
-        final String factoryPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE);
+
         final TypeSpec.Builder builder = TypeSpec.classBuilder(factoryName);
         builder.addAnnotation(Factory.class);
 
@@ -129,29 +169,29 @@ public class KubernetesApisProcessor extends AbstractProcessor {
             buildMethod.addAnnotation(BootstrapContextCompatible.class);
         }
 
-        final JavaFile javaFile = JavaFile.builder(factoryPackageName, builder.build()).build();
-        try {
-            final JavaFileObject javaFileObject = filer.createSourceFile(factoryPackageName + "." + factoryName, e);
-            try (Writer writer = javaFileObject.openWriter()) {
-                javaFile.writeTo(writer);
-            }
-        } catch (IOException ioException) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Kubernetes " + simpleName + "  factory: " + ioException.getMessage(), e);
-        }
+        TypeSpec factoryTypeSpec = builder.build();
+        writeJavaFile(e, ClassName.get(MICRONAUT_APIS_PACKAGE, factoryName), factoryTypeSpec);
     }
 
-    private void writeReactorClients(Element e, String packageName, String simpleName) {
-        final String reactorClientName = simpleName + "ReactorClient";
-        final String reactorPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + ".reactor");
+    private void writeReactiveClient(Element e, String apiName, ClientType clientType) {
+        final String packageName = NameUtils.getPackageName(apiName);
+        final String simpleName = NameUtils.getSimpleName(apiName);
 
-        ClassName cn = ClassName.get(reactorPackageName, reactorClientName);
-        TypeSpec.Builder builder = TypeSpec.classBuilder(cn);
+        ClassName reactiveClientClassName;
+        if (clientType == ClientType.REACTOR) {
+            reactiveClientClassName = ClassName.get(MICRONAUT_APIS_PACKAGE + ".reactor", simpleName + "ReactorClient");
+        } else if (clientType == ClientType.RXJAVA2) {
+            reactiveClientClassName = ClassName.get(MICRONAUT_APIS_PACKAGE + ".rxjava2", simpleName + "RxClient");
+        } else {
+            reactiveClientClassName = ClassName.get(MICRONAUT_APIS_PACKAGE + ".rxjava3", simpleName + "RxClient");
+        }
 
-        ClassName clientType = ClassName.get(packageName, simpleName);
-        ClassName reactorMonoType = ClassName.get("reactor.core.publisher", "Mono");
+        TypeSpec.Builder builder = TypeSpec.classBuilder(reactiveClientClassName);
+
+        ClassName apiClassName = ClassName.get(packageName, simpleName);
         final AnnotationSpec.Builder requiresSpec =
                 AnnotationSpec.builder(Requires.class)
-                        .addMember("beans", "{$T.class}", clientType);
+                        .addMember("beans", "{$T.class}", apiClassName);
 
         builder.addAnnotation(requiresSpec.build());
         builder.addAnnotation(Singleton.class);
@@ -161,241 +201,155 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         }
 
         builder.addModifiers(Modifier.PUBLIC);
-        builder.addField(clientType, "client", Modifier.FINAL, Modifier.PRIVATE);
+        builder.addField(apiClassName, "client", Modifier.FINAL, Modifier.PRIVATE);
         builder.addMethod(MethodSpec.constructorBuilder()
-                .addParameter(clientType, "client")
+                .addParameter(apiClassName, "client")
                 .addCode("this.client = client;")
                 .build());
 
-        TypeElement typeElement = elements.getTypeElement(clientType.reflectionName());
+        TypeElement typeElement = elements.getTypeElement(apiClassName.reflectionName());
         if (typeElement != null) {
-            ModelUtils modelUtils = new ModelUtils(elements, types) {
-            };
-            GenericUtils genericUtils = new GenericUtils(elements, types, modelUtils) {
-            };
-            AnnotationUtils annotationUtils = new AnnotationUtils(processingEnv, elements, messager, types, modelUtils, genericUtils, filer) {
-            };
-            JavaVisitorContext visitorContext = new JavaVisitorContext(
-                    processingEnv,
-                    messager,
-                    elements,
-                    annotationUtils,
-                    types,
-                    modelUtils,
-                    genericUtils,
-                    filer,
-                    MutableConvertibleValues.of(new LinkedHashMap<>()),
-                    TypeElementVisitor.VisitorKind.ISOLATING);
-            typeElement.asType().accept(new PublicMethodVisitor<Object, Object>(visitorContext) {
-                @Override
-                protected void accept(DeclaredType type, Element element, Object o) {
-                    ExecutableElement ee = (ExecutableElement) element;
-                    TypeMirror returnType = ee.getReturnType();
-                    if (element.getSimpleName().toString().endsWith("Async")) {
-                        DeclaredType dt = (DeclaredType) returnType;
-                        Element e = dt.asElement();
-                        if (e.getSimpleName().toString().equals("Call")) {
-                            List<? extends VariableElement> parameters = ee.getParameters();
-                            VariableElement fieldElement = parameters.get(parameters.size() - 1);
-                            TypeMirror typeMirror = fieldElement.asType();
-                            if (typeMirror instanceof DeclaredType) {
-                                DeclaredType cdt = (DeclaredType) typeMirror;
-                                List<? extends TypeMirror> typeArguments = cdt.getTypeArguments();
-                                if (typeArguments.size() == 1) {
-                                    TypeMirror ctm = typeArguments.get(0);
-                                    if (ctm instanceof DeclaredType) {
-                                        // resolve the callback response type
-                                        TypeName responseType = ClassName.get(ctm);
+            JavaElementFactory elementFactory = javaVisitorContext.getElementFactory();
+            JavaElementAnnotationMetadataFactory elementAnnotationMetadataFactory = javaVisitorContext.getElementAnnotationMetadataFactory();
+            JavaClassElement javaClassElement = elementFactory.newSourceClassElement(typeElement, elementAnnotationMetadataFactory);
 
-                                        // resolve the method name by removing the Async suffix
-                                        String methodName = ee.getSimpleName().toString();
-                                        String finalMethodName = methodName.replace("Async", "");
+            List<MethodElement> methodList = javaClassElement.getMethods();
+            Map<String, MethodElement> methodMap = methodList.stream().collect(Collectors.toMap(MethodElement::getSimpleName, me -> me));
 
-                                        // prepare parameters for the method without tha _callback one
-                                        List<ParameterSpec> parameterSpecs = parameters.stream()
-                                                .filter(va -> !va.getSimpleName().toString().equals("_callback"))
-                                                .filter(va -> !va.getSimpleName().toString().equals("watch"))
-                                                .map(va -> ParameterSpec.builder(ClassName.get(va.asType()), va.getSimpleName().toString()).build())
-                                                .collect(Collectors.toList());
+            List<ClassElement> classList = javaClassElement.getEnclosedElements(ElementQuery.ALL_INNER_CLASSES);
+            Map<String, ClassElement> classMap = classList.stream().collect(Collectors.toMap(ClassElement::getSimpleName, ce -> ce));
 
-                                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(finalMethodName)
-                                                .addModifiers(Modifier.PUBLIC)
-                                                .addParameters(parameterSpecs)
-                                                .returns(
-                                                        ParameterizedTypeName.get(
-                                                                reactorMonoType,
-                                                                responseType
-                                                        )
-                                                );
+            for (MethodElement method : methodList) {
+                String methodSimpleName = method.getSimpleName();
+                if (methodSimpleName.endsWith("Async") && method.getReturnType().getSimpleName().equals("Call")) {
+                    String baseName = methodSimpleName.substring(0, methodSimpleName.lastIndexOf("Async"));
 
-                                        methodBuilder.addCode(CodeBlock.builder()
-                                                .addStatement("return $T.create((sink) -> {", reactorMonoType)
-                                                .addStatement("try {")
-                                                .add("    this.client." + methodName + "(")
-                                                .add(parameters.stream()
-                                                        .map(va -> {
-                                                            String name = va.getSimpleName().toString();
-                                                            if (name.equals("_callback")) {
-                                                                return "new AsyncCallbackSink<" + responseType + ">(sink)";
-                                                            } else if (name.equals("watch")) {
-                                                                return "Boolean.FALSE";
-                                                            } else {
-                                                                return name;
-                                                            }
-                                                        })
-                                                        .collect(Collectors.joining(", ")))
-                                                .addStatement(")")
-                                                .addStatement("} catch(io.kubernetes.client.openapi.ApiException e) { sink.error(e); }")
-                                                .addStatement("})")
-                                                .build());
-                                        builder.addMethod(methodBuilder.build());
-                                    }
-                                }
-                            }
+                    String requestClassName = "API" + baseName + "Request";
+                    String reactiveRequestClassName = requestClassName + "Reactive";
+
+                    ClassElement requestClass = classMap.get(simpleName + "$" + requestClassName);
+                    Optional<TypeSpec> reactiveRequestClassOpt = createRequestClass(reactiveRequestClassName, requestClass, clientType);
+                    if (reactiveRequestClassOpt.isPresent()) {
+                        MethodElement baseMethod = methodMap.get(baseName);
+
+                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(baseName)
+                            .addModifiers(Modifier.PUBLIC)
+                            .returns(ClassName.get(StringUtils.EMPTY_STRING, reactiveRequestClassName));
+
+                        List<String> paramNames = new ArrayList<>();
+                        for (ParameterElement parameter : baseMethod.getParameters()) {
+                            TypeName paramType = ClassName.get(parameter.getType().getPackageName(), parameter.getType().getSimpleName());
+                            methodBuilder.addParameter(paramType, parameter.getSimpleName());
+                            paramNames.add(parameter.getSimpleName());
                         }
+                        methodBuilder.addCode("  return new " + reactiveRequestClassName + "(client." + baseName + "(" + String.join(", ", paramNames) + "));");
+
+                        builder.addMethod(methodBuilder.build());
+                        builder.addType(reactiveRequestClassOpt.get());
                     }
                 }
-            }, null);
+            }
         }
 
-        writeJavaFile(e, reactorPackageName, cn, builder);
+        writeJavaFile(e, reactiveClientClassName, builder.build());
     }
 
-    private void writeJavaFile(Element e, String reactorPackageName, ClassName cn, TypeSpec.Builder builder) {
-        final JavaFile javaFile = JavaFile.builder(reactorPackageName, builder.build()).build();
+    /**
+     * Creates a request class, which contains reactive execute method, from given kubernetes api request class.
+     *
+     * @param name         the name of the new class
+     * @param requestClass the request class from kubernetes api
+     * @param clientType   the client type
+     * @return the reactive request class
+     */
+    private Optional<TypeSpec> createRequestClass(String name, ClassElement requestClass, ClientType clientType) {
+        String requestClassSimpleName = requestClass.getType().getSimpleName();
+        TypeName type = ClassName.get(requestClass.getType().getPackageName(), requestClassSimpleName.replace('$', '.'));
+
+        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(name);
+        classBuilder.addModifiers(Modifier.PUBLIC);
+        classBuilder.addField(type, "request", Modifier.FINAL, Modifier.PRIVATE);
+
+        classBuilder.addMethod(MethodSpec.constructorBuilder()
+            .addParameter(type, "request")
+            .addCode("this.request = request;")
+            .build());
+
+        requestClass.getFields().forEach(field -> {
+            if (!field.getModifiers().contains(ElementModifier.FINAL)) {
+                String fieldName = field.getSimpleName();
+                classBuilder.addMethod(MethodSpec.methodBuilder(fieldName)
+                    .addModifiers(Modifier.PUBLIC)
+                    .addParameter(ClassName.get(field.getType().getPackageName(), field.getType().getSimpleName()), fieldName)
+                    .returns(ClassName.get(StringUtils.EMPTY_STRING, name))
+                    .addCode("request." + fieldName + "(" + fieldName + ");\nreturn this;")
+                    .build());
+            }
+        });
+
+        Optional<ClassName> typeArgOpt = findTypeArg(requestClass);
+        if (typeArgOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        classBuilder.addMethod(createExecuteMethod(clientType, typeArgOpt.get()));
+
+        return Optional.of(classBuilder.build());
+    }
+
+    private Optional<ClassName> findTypeArg(ClassElement requestClass) {
+        Optional<MethodElement> executeAsyncMethodOpt = requestClass.getMethods()
+            .stream()
+            .filter(method -> method.getSimpleName().equals("executeAsync"))
+            .findFirst();
+
+        if (executeAsyncMethodOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        MethodElement executeAsyncMethod = executeAsyncMethodOpt.get();
+        ParameterElement[] parameters = executeAsyncMethod.getParameters();
+        if (parameters.length != 1) {
+            return Optional.empty();
+        }
+        Map<String, ClassElement> typeArguments = parameters[0].getType().getTypeArguments();
+        if (typeArguments.size() != 1) {
+            return Optional.empty();
+        }
+        ClassElement typeArgClass = typeArguments.values().stream().findFirst().get();
+        return Optional.of(ClassName.get(typeArgClass.getPackageName(), typeArgClass.getSimpleName()));
+    }
+
+    private MethodSpec createExecuteMethod(ClientType clientType, ClassName typeArg) {
+        ClassName reactiveClassName;
+        String methodCode;
+        if (clientType == ClientType.REACTOR) {
+            reactiveClassName = REACTOR_CLASS_NAME;
+            methodCode = REACTOR_METHOD_CODE;
+        } else if (clientType == ClientType.RXJAVA2) {
+            reactiveClassName = RXJAVA2_CLASS_NAME;
+            methodCode = RXJAVA_METHOD_CODE;
+        } else {
+            reactiveClassName = RXJAVA3_CLASS_NAME;
+            methodCode = RXJAVA_METHOD_CODE;
+        }
+        return MethodSpec.methodBuilder("execute")
+            .addModifiers(Modifier.PUBLIC)
+            .returns(ParameterizedTypeName.get(reactiveClassName, typeArg))
+            .addCode(methodCode)
+            .build();
+    }
+
+    private void writeJavaFile(Element e, ClassName className, TypeSpec typeSpec) {
+        final JavaFile javaFile = JavaFile.builder(className.packageName(), typeSpec).build();
         try {
-            final JavaFileObject javaFileObject = filer.createSourceFile(cn.reflectionName(), e);
+            final JavaFileObject javaFileObject = filer.createSourceFile(className.reflectionName(), e);
             try (Writer writer = javaFileObject.openWriter()) {
                 javaFile.writeTo(writer);
             }
         } catch (IOException ioException) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating Oracle SDK factories: " + ioException.getMessage(), e);
+            messager.printMessage(Diagnostic.Kind.ERROR, "Error occurred generating '" + className.reflectionName() + "': " + ioException.getMessage(), e);
         }
-    }
-
-    private void writeRxJava2Clients(Element e, String packageName, String simpleName) {
-        writeRxJavaClients(e, packageName, simpleName, ".rxjava2", "io.reactivex");
-    }
-
-    private void writeRxJava3Clients(Element e, String packageName, String simpleName) {
-        writeRxJavaClients(e, packageName, simpleName, ".rxjava3", "io.reactivex.rxjava3.core");
-    }
-
-    private void writeRxJavaClients(Element e, String packageName, String simpleName, String rxVersionSuffix, String rxJavaPackage) {
-        final String rx = simpleName + "RxClient";
-
-        final String rxPackageName = packageName.replace(KUBERNETES_APIS_PACKAGE, MICRONAUT_APIS_PACKAGE + rxVersionSuffix);
-
-        ClassName cn = ClassName.get(rxPackageName, rx);
-        TypeSpec.Builder builder = TypeSpec.classBuilder(cn);
-
-        ClassName clientType = ClassName.get(packageName, simpleName);
-        ClassName rxSingleType = ClassName.get(rxJavaPackage, "Single");
-
-
-        final AnnotationSpec.Builder requiresSpec =
-                AnnotationSpec.builder(Requires.class)
-                        .addMember("beans", "{$T.class}", clientType);
-        builder.addAnnotation(requiresSpec.build());
-        builder.addAnnotation(Singleton.class);
-        builder.addModifiers(Modifier.PUBLIC);
-        builder.addField(clientType, "client", Modifier.FINAL, Modifier.PRIVATE);
-        builder.addMethod(MethodSpec.constructorBuilder()
-                .addParameter(clientType, "client")
-                .addCode("this.client = client;")
-                .build());
-
-        TypeElement typeElement = elements.getTypeElement(clientType.reflectionName());
-        if (typeElement != null) {
-            ModelUtils modelUtils = new ModelUtils(elements, types) {
-            };
-            GenericUtils genericUtils = new GenericUtils(elements, types, modelUtils) {
-            };
-            AnnotationUtils annotationUtils = new AnnotationUtils(processingEnv, elements, messager, types, modelUtils, genericUtils, filer) {
-            };
-            JavaVisitorContext visitorContext = new JavaVisitorContext(
-                    processingEnv,
-                    messager,
-                    elements,
-                    annotationUtils,
-                    types,
-                    modelUtils,
-                    genericUtils,
-                    filer,
-                    MutableConvertibleValues.of(new LinkedHashMap<>()),
-                    TypeElementVisitor.VisitorKind.ISOLATING);
-            typeElement.asType().accept(new PublicMethodVisitor<Object, Object>(visitorContext) {
-                @Override
-                protected void accept(DeclaredType type, Element element, Object o) {
-                    ExecutableElement ee = (ExecutableElement) element;
-                    TypeMirror returnType = ee.getReturnType();
-                    if (element.getSimpleName().toString().endsWith("Async")) {
-                        DeclaredType dt = (DeclaredType) returnType;
-                        Element e = dt.asElement();
-                        if (e.getSimpleName().toString().equals("Call")) {
-                            List<? extends VariableElement> parameters = ee.getParameters();
-                            VariableElement fieldElement = parameters.get(parameters.size() - 1);
-                            TypeMirror typeMirror = fieldElement.asType();
-                            if (typeMirror instanceof DeclaredType) {
-                                DeclaredType cdt = (DeclaredType) typeMirror;
-                                List<? extends TypeMirror> typeArguments = cdt.getTypeArguments();
-                                if (typeArguments.size() == 1) {
-                                    TypeMirror ctm = typeArguments.get(0);
-                                    if (ctm instanceof DeclaredType) {
-                                        // resolve the callback response type
-                                        TypeName responseType = ClassName.get(ctm);
-
-                                        // resolve the method name by removing the Async suffix
-                                        String methodName = ee.getSimpleName().toString();
-                                        String finalMethodName = methodName.replace("Async", "");
-
-                                        // prepare parameters for the method without tha _callback one
-                                        List<ParameterSpec> parameterSpecs = parameters.stream()
-                                                .filter(va -> !va.getSimpleName().toString().equals("_callback"))
-                                                .filter(va -> !va.getSimpleName().toString().equals("watch"))
-                                                .map(va -> ParameterSpec.builder(ClassName.get(va.asType()), va.getSimpleName().toString()).build())
-                                                .collect(Collectors.toList());
-
-                                        MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(finalMethodName)
-                                                .addModifiers(Modifier.PUBLIC)
-                                                .addParameters(parameterSpecs)
-                                                .returns(
-                                                        ParameterizedTypeName.get(
-                                                                rxSingleType,
-                                                                responseType
-                                                        )
-                                                );
-
-                                        methodBuilder.addCode(CodeBlock.builder()
-                                                .addStatement("return $T.create((emitter) -> {", rxSingleType)
-                                                .add("this.client." + methodName + "(")
-                                                .add(parameters.stream()
-                                                        .map(va -> {
-                                                            String name = va.getSimpleName().toString();
-                                                            if (name.equals("_callback")) {
-                                                                return "new ApiCallbackEmitter<>(emitter)";
-                                                            } else if (name.equals("watch")) {
-                                                                return "Boolean.FALSE";
-                                                            } else {
-                                                                return name;
-                                                            }
-                                                        })
-                                                        .collect(Collectors.joining(", ")))
-                                                .addStatement(")")
-                                                .addStatement("})")
-                                                .build());
-                                        builder.addMethod(methodBuilder.build());
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }, null);
-        }
-
-        writeJavaFile(e, rxPackageName, cn, builder);
-
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -451,7 +405,7 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         return clientNames;
     }
 
-    private String resolveClientType(Element e) {
+    private ClientType resolveClientType(Element e) {
         final List<? extends AnnotationMirror> annotationMirrors = e.getAnnotationMirrors();
         for (AnnotationMirror annotationMirror : annotationMirrors) {
             TypeElement te = (TypeElement) annotationMirror.getAnnotationType().asElement();
@@ -464,12 +418,16 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                         final AnnotationValue value = entry.getValue();
                         final Object v = value.getValue();
                         if (v != null) {
-                            return v.toString();
+                            return ClientType.valueOf(v.toString());
                         }
                     }
                 }
             }
         }
-        return "ASYNC";
+        return ClientType.ASYNC;
+    }
+
+    enum ClientType {
+        ASYNC, REACTOR, RXJAVA2, RXJAVA3
     }
 }

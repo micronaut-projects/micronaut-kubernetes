@@ -6,3 +6,9 @@ dependencies {
     implementation libs.javapoet
     implementation mn.micronaut.inject.java
 }
+
+micronautBuild {
+    binaryCompatibility {
+        enabled = false
+    }
+}

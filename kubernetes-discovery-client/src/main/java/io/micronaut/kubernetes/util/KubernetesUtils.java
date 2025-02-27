@@ -310,7 +310,8 @@ public class KubernetesUtils {
         }
 
         final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
-        return client.readNamespacedPod(podName, namespace, null)
+        return client.readNamespacedPod(podName, namespace)
+                .execute()
                 .doOnError(ApiException.class, throwable ->
                         LOG.error("Failed to read the Pod [" + podName + "] the application is running in: " + throwable.getResponseBody(), throwable))
                 .map(pod -> {

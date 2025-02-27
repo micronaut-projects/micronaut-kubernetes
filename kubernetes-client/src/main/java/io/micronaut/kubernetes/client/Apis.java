@@ -45,7 +45,7 @@ import io.kubernetes.client.openapi.apis.DiscoveryV1Api;
 import io.kubernetes.client.openapi.apis.EventsApi;
 import io.kubernetes.client.openapi.apis.EventsV1Api;
 import io.kubernetes.client.openapi.apis.FlowcontrolApiserverApi;
-import io.kubernetes.client.openapi.apis.FlowcontrolApiserverV1beta2Api;
+import io.kubernetes.client.openapi.apis.FlowcontrolApiserverV1Api;
 import io.kubernetes.client.openapi.apis.InternalApiserverApi;
 import io.kubernetes.client.openapi.apis.InternalApiserverV1alpha1Api;
 import io.kubernetes.client.openapi.apis.LogsApi;
@@ -58,10 +58,12 @@ import io.kubernetes.client.openapi.apis.PolicyApi;
 import io.kubernetes.client.openapi.apis.PolicyV1Api;
 import io.kubernetes.client.openapi.apis.RbacAuthorizationApi;
 import io.kubernetes.client.openapi.apis.RbacAuthorizationV1Api;
+import io.kubernetes.client.openapi.apis.ResourceApi;
 import io.kubernetes.client.openapi.apis.SchedulingApi;
 import io.kubernetes.client.openapi.apis.SchedulingV1Api;
 import io.kubernetes.client.openapi.apis.StorageApi;
 import io.kubernetes.client.openapi.apis.StorageV1Api;
+import io.kubernetes.client.openapi.apis.StoragemigrationApi;
 import io.kubernetes.client.openapi.apis.VersionApi;
 import io.kubernetes.client.openapi.apis.WellKnownApi;
 
@@ -95,7 +97,7 @@ public @interface Apis {
             AuthorizationV1Api.class,
             AutoscalingApi.class,
             AutoscalingV1Api.class,
-            AutoscalingV2Api .class,
+            AutoscalingV2Api.class,
             BatchApi.class,
             BatchV1Api.class,
             CertificatesApi.class,
@@ -106,11 +108,11 @@ public @interface Apis {
             CoreV1Api.class,
             CustomObjectsApi.class,
             DiscoveryApi.class,
-            DiscoveryV1Api .class,
+            DiscoveryV1Api.class,
             EventsApi.class,
             EventsV1Api.class,
             FlowcontrolApiserverApi.class,
-            FlowcontrolApiserverV1beta2Api.class,
+            FlowcontrolApiserverV1Api.class,
             InternalApiserverApi.class,
             InternalApiserverV1alpha1Api.class,
             LogsApi.class,
@@ -120,15 +122,17 @@ public @interface Apis {
             NodeV1Api.class,
             OpenidApi.class,
             PolicyApi.class,
-            PolicyV1Api .class,
+            PolicyV1Api.class,
             RbacAuthorizationApi.class,
             RbacAuthorizationV1Api.class,
+            ResourceApi.class,
             SchedulingApi.class,
             SchedulingV1Api.class,
             StorageApi.class,
+            StoragemigrationApi.class,
             StorageV1Api.class,
             VersionApi.class,
-            WellKnownApi.class,
+            WellKnownApi.class
     };
 
     /**

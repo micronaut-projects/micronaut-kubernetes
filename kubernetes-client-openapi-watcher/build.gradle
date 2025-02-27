@@ -8,7 +8,7 @@ plugins {
 
 micronautBuild {
     binaryCompatibility {
-        enabledAfter('6.3.0') // adjust as needed
+        enabledAfter('7.0.0') // modify to 6.3.0 when 6.3.0 gets released
     }
 }
 
@@ -36,6 +36,10 @@ micronaut {
 }
 
 generateClientOpenApiModels.enabled = false
+
+tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
+    packageExcludes = ["io.micronaut.kubernetes.client.openapi.watcher.api"]
+}
 
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)

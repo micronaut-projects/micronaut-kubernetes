@@ -10,3 +10,7 @@ dependencies {
 
     testImplementation projects.testUtils
 }
+
+tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
+    packageExcludes = ["io.micronaut.kubernetes.client.rxjava2"]
+}
