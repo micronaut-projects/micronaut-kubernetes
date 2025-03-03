@@ -4,7 +4,7 @@ plugins {
 
 micronautBuild {
     binaryCompatibility {
-        enabledAfter('6.3.0') // adjust as needed
+        enabledAfter('7.0.0') // modify to 6.3.0 when 6.3.0 gets released
     }
 }
 

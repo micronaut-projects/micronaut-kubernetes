@@ -1,3 +1,10 @@
+## Micronaut Kubernetes 7.x
+
+Micronaut Kubernetes 7.0.0 updates the official Kubernetes Client from v19 to v22.
+
+Starting from Kubernetes Client v20 the client api was refactored to use the builder pattern when creating client requests which caused breaking changes in all micronaut modules which are using
+the official kubernetes client. To support the builder pattern, the reactive client micronaut modules (Reactor, RxJava2 and RxJava3) are recreated and will also cause breaking changes.
+
 ## Micronaut Kubernetes 4.x
 
 Micronaut Kubernetes 4.0.0 updates to Kubernetes Client v18 (major). This major upgrade of the Kubernetes Client addresses several security CVEs.

@@ -59,7 +59,8 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractV1ServiceP
             LOG.trace("Using API to fetch Service[{}] from namespace [{}]", name, namespace);
         }
 
-        return client.readNamespacedService(name, namespace, null)
+        return client.readNamespacedService(name, namespace)
+                .execute()
                 .doOnError(ApiException.class, throwable -> LOG.error("Failed to fetch Service [" + name + "] from namespace [" + namespace + "]: " + throwable.getResponseBody(), throwable));
     }
 
@@ -69,7 +70,8 @@ public class KubernetesServiceInstanceServiceProvider extends AbstractV1ServiceP
             LOG.trace("Using API to fetch services from namespace [{}]", namespace);
         }
 
-        return client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null)
+        return client.listNamespacedService(namespace)
+                .execute()
                 .doOnError(ApiException.class, throwable -> LOG.error("Failed to list Services from namespace [" + namespace + "]: " + throwable.getResponseBody(), throwable))
                 .flatMapIterable(V1ServiceList::getItems);
     }

@@ -37,13 +37,13 @@ public class PodController {
 
     @Get("/{namespace}/{name}")
     public String getPod(final @NotNull String namespace, final @NotNull String name) throws ApiException {
-        V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace, null);
+        V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace).execute();
         return v1Pod.getStatus().getPhase();
     }
 
     @Get("/{namespace}")
     public Map<String, String> index(final @NotNull String namespace) throws ApiException {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, false);
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace).execute();
         return v1PodList.getItems().stream()
                 .filter(p -> p.getStatus() != null)
                 .collect(Collectors.toMap(

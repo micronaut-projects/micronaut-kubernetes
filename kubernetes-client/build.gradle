@@ -18,3 +18,7 @@ dependencies {
     testImplementation projects.testUtils
     testRuntimeOnly mn.snakeyaml
 }
+
+tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
+    packageExcludes = ["io.micronaut.kubernetes.client"]
+}

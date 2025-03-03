@@ -135,7 +135,8 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
             final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
             final String podNamespace = configuration.getNamespace();
             if (podName != null) {
-                V1Pod pod = client.readNamespacedPod(podName, podNamespace, null)
+                V1Pod pod = client.readNamespacedPod(podName, podNamespace)
+                        .execute()
                         .doOnError(ApiException.class, throwable -> LOG.error("Failed to read Pod [" + podName + "] from namespace [" + podNamespace + "]: " + throwable.getResponseBody(), throwable))
                         .block();
                 return processPod(pod);

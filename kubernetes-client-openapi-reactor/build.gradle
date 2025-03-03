@@ -29,6 +29,10 @@ micronaut {
 
 generateClientOpenApiModels.enabled = false
 
+tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
+    packageExcludes = ["io.micronaut.kubernetes.client.openapi.reactor.api"]
+}
+
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
     implementation(mnValidation.micronaut.validation)

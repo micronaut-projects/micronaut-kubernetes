@@ -25,7 +25,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) throws ApiException {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, false);
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace).execute();
     }
 }
 ----
@@ -83,7 +83,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) {
-        Single<V1PodList> v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+        Single<V1PodList> v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace).execute();
     }
 }
 ----
@@ -115,7 +115,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) {
-        Single<V1PodList> v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+        Single<V1PodList> v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace).execute();
     }
 }
 ----
@@ -147,7 +147,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) {
-        Mono<V1PodList> v1PodList = coreV1ApiReactiveClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+        Mono<V1PodList> v1PodList = coreV1ApiReactiveClient.listNamespacedPod(namespace).execute();
     }
 }
 ----

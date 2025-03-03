@@ -111,7 +111,7 @@ public class ModelMapper {
                 });
     }
 
-    private String extractKind(String version, String name){
+    private String extractKind(String version, String name) {
         return version == null ? name : name.substring(version.length());
     }
 
