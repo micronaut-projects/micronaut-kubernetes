@@ -137,13 +137,13 @@
         <h1>Micronaut Kubernetes</h1>
         <p></p>
         <p>Integration between Micronaut and Kubernetes</p>
-        <p><strong>Version:</strong> 6.3.0-SNAPSHOT </p>
+        <p><strong>Version:</strong> 7.0.0-SNAPSHOT </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -253,7 +253,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="whatsNew"><a class="anchor" href="#whatsNew"></a>2 What's New?</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/whatsNew.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/whatsNew.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -309,7 +309,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>3 Release History</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/releaseHistory.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/releaseHistory.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -325,7 +325,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>4 Kubernetes Client</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -376,7 +376,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) throws ApiException {
-        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, false);
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace).execute();
     }
 }</code></pre>
 </div>
@@ -493,7 +493,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) {
-        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace).execute();
     }
 }</code></pre>
 </div>
@@ -542,7 +542,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) {
-        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace).execute();
     }
 }</code></pre>
 </div>
@@ -591,7 +591,7 @@ public class MyService {
     }
 
     public void myMethod(String namespace) {
-        Mono&lt;V1PodList&gt; v1PodList = coreV1ApiReactiveClient.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null);
+        Mono&lt;V1PodList&gt; v1PodList = coreV1ApiReactiveClient.listNamespacedPod(namespace).execute();
     }
 }</code></pre>
 </div>
@@ -628,7 +628,7 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 <h2 id="service-discovery"><a class="anchor" href="#service-discovery"></a>4.1 Service Discovery</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client/service-discovery.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/service-discovery.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1531,7 +1531,7 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 <h2 id="config-client"><a class="anchor" href="#config-client"></a>4.2 Configuration Client</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client/config-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/config-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3055,7 +3055,7 @@ bootstrap phase, which happens before evaluating the <code>application.yml</code
 <h2 id="health-checks"><a class="anchor" href="#health-checks"></a>4.3 Health Checks</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client/health-checks.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/health-checks.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3247,7 +3247,7 @@ information about how to configure it.</p>
 <h2 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>4.4 Kubernetes Informer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client/kubernetes-informer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/kubernetes-informer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3495,7 +3495,7 @@ public class SharedInformerCache {
 <h2 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>4.5 Kubernetes Operator</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client/kubernetes-operator.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/kubernetes-operator.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4014,7 +4014,7 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
 <h1 id="kubernetes-client-openapi"><a class="anchor" href="#kubernetes-client-openapi"></a>5 Kubernetes Client OpenAPI</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4187,10 +4187,8 @@ public class PodController {
 }</code></pre>
 </div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_configuration">Configuration</h3>
 <div class="openblock">
+<div class="title">Configuration</div>
 <div class="content">
 <div class="listingblock multi-language-sample">
 <div class="content">
@@ -4375,10 +4373,7 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
 <p><a href="../api/io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html">KubeConfigLoader</a> - a custom implementation can be used when a kube config file needs to be loaded from a cloud service. There is also an option of extending <a href="../api/io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html">AbstractKubeConfigLoader</a> which caches the loaded kube config data and provides a few helper methods.</p>
 </li>
 <li>
-<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html">KubernetesTokenLoader</a> - a custom blocking implementation can be used for loading a bearer token. <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html">KubernetesHttpClientFilter</a> iterates through a list of blocking and reactive implementations and creates the Authorization header using the token from the first implementation which returns it</p>
-</li>
-<li>
-<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/ReactiveKubernetesTokenLoader.html">ReactiveKubernetesTokenLoader</a> - a custom reactive implementation can be used for loading a bearer token. The client is using the following implementations by default:</p>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html">KubernetesTokenLoader</a> - a custom implementation can be used for loading a bearer token. <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html">KubernetesHttpClientFilter</a> iterates through a list of implementations of this interface and creates the Authorization header using the token from the first implementation which returns it. The following implementations are currently used:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -4404,7 +4399,7 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
 <h2 id="kubernetes-client-openapi-service-discovery"><a class="anchor" href="#kubernetes-client-openapi-service-discovery"></a>5.1 Service Discovery</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-service-discovery.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-service-discovery.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -5283,7 +5278,7 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 <h2 id="kubernetes-client-openapi-config-client"><a class="anchor" href="#kubernetes-client-openapi-config-client"></a>5.2 Configuration Client</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-config-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-config-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -6940,7 +6935,7 @@ bootstrap phase, which happens before evaluating the <code>application.yml</code
 <h2 id="kubernetes-client-openapi-health-checks"><a class="anchor" href="#kubernetes-client-openapi-health-checks"></a>5.3 Health Checks</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-health-checks.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-health-checks.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7132,7 +7127,7 @@ information about how to configure it.</p>
 <h2 id="kubernetes-client-openapi-watcher"><a class="anchor" href="#kubernetes-client-openapi-watcher"></a>5.4 Kubernetes Watcher</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-watcher.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-watcher.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7244,7 +7239,7 @@ public record WatchEvent&lt;T&gt;(
 <h2 id="kubernetes-client-openapi-informer"><a class="anchor" href="#kubernetes-client-openapi-informer"></a>5.5 Kubernetes Informer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-informer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-informer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7499,7 +7494,7 @@ The local cache starts out empty, and gets populated and updated.</p>
 <h1 id="logging"><a class="anchor" href="#logging"></a>6 Logging and debugging</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/logging.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/logging.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7534,12 +7529,24 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <h1 id="breaking"><a class="anchor" href="#breaking"></a>7 Breaking Changes</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/breaking.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/breaking.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
 
 
+<div class="sect1">
+<h2 id="_micronaut_kubernetes_7_x">Micronaut Kubernetes 7.x</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Micronaut Kubernetes 7.0.0 updates the official Kubernetes Client from v19 to v22.</p>
+</div>
+<div class="paragraph">
+<p>Starting from Kubernetes Client v20 the client api was refactored to use the builder pattern when creating client requests which caused breaking changes in all micronaut modules which are using
+the official kubernetes client. To support the builder pattern, the reactive client micronaut modules (Reactor, RxJava2 and RxJava3) are recreated and will also cause breaking changes.</p>
+</div>
+</div>
+</div>
 <div class="sect1">
 <h2 id="_micronaut_kubernetes_4_x">Micronaut Kubernetes 4.x</h2>
 <div class="sectionbody">
@@ -7566,7 +7573,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>8 Guides</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/kubernetesGuides.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetesGuides.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7582,7 +7589,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <h1 id="repository"><a class="anchor" href="#repository"></a>9 Repository</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/6.3.x/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
