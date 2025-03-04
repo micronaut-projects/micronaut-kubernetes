@@ -7,7 +7,7 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Header
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
-import io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader
+import io.micronaut.kubernetes.client.openapi.credential.ReactiveKubernetesTokenLoader
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
 import io.micronaut.runtime.server.EmbeddedServer
@@ -96,7 +96,7 @@ current-context: test-context
     @Singleton
     @Requires(property = 'spec.name', value = 'ClientCredentialLoaderSpec-Client')
     @BootstrapContextCompatible
-    static class FirstCredentialLoader implements KubernetesTokenLoader {
+    static class FirstCredentialLoader implements ReactiveKubernetesTokenLoader {
 
         @Override
         Publisher<String> getToken() {
@@ -112,7 +112,7 @@ current-context: test-context
     @Singleton
     @Requires(property = 'spec.name', value = 'ClientCredentialLoaderSpec-Client')
     @BootstrapContextCompatible
-    static class SecondCredentialLoader implements KubernetesTokenLoader {
+    static class SecondCredentialLoader implements ReactiveKubernetesTokenLoader {
 
         @Override
         Publisher<String> getToken() {

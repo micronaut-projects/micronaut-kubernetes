@@ -50,7 +50,7 @@ import java.util.concurrent.ExecutorService;
 @BootstrapContextCompatible
 @Requires(env = Environment.KUBERNETES)
 @Requires(property = KubernetesClientConfiguration.PREFIX + ".service-account.enabled", value = StringUtils.TRUE, defaultValue = StringUtils.TRUE)
-final class ServiceAccountTokenLoader implements KubernetesTokenLoader {
+final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceAccountTokenLoader.class);
 
     private static final int ORDER = 30;
