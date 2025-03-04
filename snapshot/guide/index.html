@@ -4187,8 +4187,10 @@ public class PodController {
 }</code></pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_configuration">Configuration</h3>
 <div class="openblock">
-<div class="title">Configuration</div>
 <div class="content">
 <div class="listingblock multi-language-sample">
 <div class="content">
@@ -4373,7 +4375,10 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
 <p><a href="../api/io/micronaut/kubernetes/client/openapi/config/KubeConfigLoader.html">KubeConfigLoader</a> - a custom implementation can be used when a kube config file needs to be loaded from a cloud service. There is also an option of extending <a href="../api/io/micronaut/kubernetes/client/openapi/config/AbstractKubeConfigLoader.html">AbstractKubeConfigLoader</a> which caches the loaded kube config data and provides a few helper methods.</p>
 </li>
 <li>
-<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html">KubernetesTokenLoader</a> - a custom implementation can be used for loading a bearer token. <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html">KubernetesHttpClientFilter</a> iterates through a list of implementations of this interface and creates the Authorization header using the token from the first implementation which returns it. The following implementations are currently used:</p>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/KubernetesTokenLoader.html">KubernetesTokenLoader</a> - a custom blocking implementation can be used for loading a bearer token. <a href="../api/io/micronaut/kubernetes/client/openapi/KubernetesHttpClientFilter.html">KubernetesHttpClientFilter</a> iterates through a list of blocking and reactive implementations and creates the Authorization header using the token from the first implementation which returns it</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/credential/ReactiveKubernetesTokenLoader.html">ReactiveKubernetesTokenLoader</a> - a custom reactive implementation can be used for loading a bearer token. The client is using the following implementations by default:</p>
 <div class="ulist">
 <ul>
 <li>

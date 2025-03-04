@@ -903,104 +903,112 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">Subject contains a reference to the object or user identities a role binding applies to.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/ResourceApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ResourceApi</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/ResourceApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">ResourceApiReactor</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="type parameter in ResourceEventHandler">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/credential/ReactiveKubernetesTokenLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.credential">ReactiveKubernetesTokenLoader</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">The loader for bearer token used in kubernetes api service authentication.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/ResourceApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ResourceApi</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/ResourceApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">ResourceApiReactor</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="type parameter in ResourceEventHandler">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Interface for event handlers.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a>&lt;<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="type parameter in ResourceEventHandlerBeanListener">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a>&lt;<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="type parameter in ResourceEventHandlerBeanListener">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">BeanCreatedEventListener for the <code>ResourceEventHandler</code> beans annotated by <a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer"><code>Informer</code></a> annotation that
  based on provided parameters in the <a href="io/micronaut/kubernetes/client/informer/Informer.html" title="annotation interface in io.micronaut.kubernetes.client.informer"><code>Informer</code></a> annotation created the <code>SharedIndexInformer</code> and registers
  <code>ResourceEventHandler</code> to the informer.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/leaderelection/ResourceLockFactory.html" title="class in io.micronaut.kubernetes.client.operator.leaderelection">ResourceLockFactory</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block">The factory that creates the official Kubernetes SDK provided
  <code>Lock</code> implementations.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="interface in io.micronaut.kubernetes.client.operator">ResourceReconciler</a>&lt;<a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="interface in io.micronaut.kubernetes.client.operator">ResourceReconciler</a>&lt;<a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="type parameter in ResourceReconciler">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">The ResourceReconciler defines an interface for reconciling the resource.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a>&lt;<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="type parameter in ResourceReconcilerCreatedListener">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a>&lt;<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="type parameter in ResourceReconcilerCreatedListener">ApiType</a> extends io.kubernetes.client.common.KubernetesObject&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
 <div class="block"><code>BeanCreatedEventListener</code> for the <a href="io/micronaut/kubernetes/client/operator/ResourceReconciler.html" title="interface in io.micronaut.kubernetes.client.operator"><code>ResourceReconciler</code></a> annotated by <a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator"><code>Operator</code></a>.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/ResourceV1alpha3Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ResourceV1alpha3Api</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/ResourceV1alpha3ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">ResourceV1alpha3ApiReactor</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/ResourceV1alpha3Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ResourceV1alpha3Api</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/ResourceV1alpha3ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">ResourceV1alpha3ApiWatcher</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/ResourceV1alpha3ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">ResourceV1alpha3ApiReactor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/SchedulingApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">SchedulingApi</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/ResourceV1alpha3ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">ResourceV1alpha3ApiWatcher</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/SchedulingApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">SchedulingApiReactor</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/SchedulingApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">SchedulingApi</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/SchedulingV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">SchedulingV1Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/SchedulingApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">SchedulingApiReactor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/SchedulingV1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">SchedulingV1ApiReactor</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/SchedulingV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">SchedulingV1Api</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/SchedulingV1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">SchedulingV1ApiWatcher</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/SchedulingV1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">SchedulingV1ApiReactor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="type parameter in SharedIndexInformer">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/SchedulingV1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">SchedulingV1ApiWatcher</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html" title="type parameter in SharedIndexInformer">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Extends shared informer with indexer.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a></div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
-<div class="block">Informer factory interface.</div>
-</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.informer">SharedIndexInformerFactory</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Informer factory interface.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="type parameter in SharedInformer">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedIndexInformerFactory</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Informer factory interface.</div>
+</div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="type parameter in SharedInformer">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Defines basic methods of an informer.</div>
 </div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageApi</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageApiReactor</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageApi</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StoragemigrationApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StoragemigrationApi</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageApiReactor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StoragemigrationApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StoragemigrationApiReactor</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StoragemigrationApi.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StoragemigrationApi</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StoragemigrationV1alpha1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StoragemigrationV1alpha1Api</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StoragemigrationApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StoragemigrationApiReactor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StoragemigrationV1alpha1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StoragemigrationV1alpha1ApiReactor</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StoragemigrationV1alpha1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StoragemigrationV1alpha1Api</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StoragemigrationV1alpha1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StoragemigrationV1alpha1ApiWatcher</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StoragemigrationV1alpha1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StoragemigrationV1alpha1ApiReactor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageV1alpha1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageV1alpha1Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StoragemigrationV1alpha1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StoragemigrationV1alpha1ApiWatcher</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageV1alpha1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageV1alpha1ApiReactor</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageV1alpha1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageV1alpha1Api</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StorageV1alpha1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StorageV1alpha1ApiWatcher</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageV1alpha1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageV1alpha1ApiReactor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageV1Api</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StorageV1alpha1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StorageV1alpha1ApiWatcher</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageV1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageV1ApiReactor</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageV1Api</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StorageV1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StorageV1ApiWatcher</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageV1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageV1ApiReactor</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageV1beta1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageV1beta1Api</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StorageV1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StorageV1ApiWatcher</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageV1beta1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageV1beta1ApiReactor</a></div>
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/api/StorageV1beta1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">StorageV1beta1Api</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StorageV1beta1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StorageV1beta1ApiWatcher</a></div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/reactor/api/StorageV1beta1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">StorageV1beta1ApiReactor</a></div>
 <div class="col-last odd-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
-<div class="col-first even-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/StorageV1TokenRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">StorageV1TokenRequest</a></div>
-<div class="col-last even-row-color all-classes-table all-classes-table-tab2">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/watcher/api/StorageV1beta1ApiWatcher.html" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">StorageV1beta1ApiWatcher</a></div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">&nbsp;</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab2"><a href="io/micronaut/kubernetes/client/openapi/model/StorageV1TokenRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">StorageV1TokenRequest</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab2">
 <div class="block">TokenRequest contains parameters of a service account token.</div>
 </div>
-<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="type parameter in Store">ApiType</a>&gt;</div>
-<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.cache">Store</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/cache/Store.html" title="type parameter in Store">ApiType</a>&gt;</div>
+<div class="col-last even-row-color all-classes-table all-classes-table-tab1">
 <div class="block">Interface for implementations which stores objects.</div>
+</div>
+<div class="col-first odd-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/credential/TokenLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.credential">TokenLoader</a></div>
+<div class="col-last odd-row-color all-classes-table all-classes-table-tab1">
+<div class="block">Interface for blocking and reactive kubernetes token loaders.</div>
 </div>
 <div class="col-first even-row-color all-classes-table all-classes-table-tab1"><a href="io/micronaut/kubernetes/client/openapi/informer/TransformFunc.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">TransformFunc</a></div>
 <div class="col-last even-row-color all-classes-table all-classes-table-tab1">
