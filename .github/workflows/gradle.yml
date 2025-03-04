@@ -33,13 +33,13 @@ jobs:
       OSS_INDEX_USERNAME: ${{ secrets.OSS_INDEX_USERNAME }}
       OSS_INDEX_PASSWORD: ${{ secrets.OSS_INDEX_PASSWORD }}
     steps:
-      # https://github.com/actions/virtual-environments/issues/709
+       # https://github.com/actions/virtual-environments/issues/709
       - name: "🗑 Free disk space"
         run: |
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-          sudo apt-get clean
-          df -h
+         sudo rm -rf "/usr/local/share/boost"
+         sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+         sudo apt-get clean
+         df -h
 
       - name: "📥 Checkout repository"
         uses: actions/checkout@v4
