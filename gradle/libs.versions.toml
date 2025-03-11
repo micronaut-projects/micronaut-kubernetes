@@ -21,7 +21,7 @@ micronaut-logging = "1.6.1"
 micronaut-reactor = "3.7.0"
 micronaut-serde = "2.14.0"
 micronaut-validation = '4.9.0'
-micronaut-openapi = '6.13.2'
+micronaut-openapi = "6.14.0"
 sonatype-scan = "3.0.0"
 
 [libraries]
