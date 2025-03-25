@@ -17,14 +17,16 @@ package io.micronaut.kubernetes.client.openapi.informer.handler;
 
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.annotation.Nullable;
 
 /**
  * Informer label selector resolver.
  */
+@Internal
 @DefaultImplementation(DefaultInformerLabelSelectorResolver.class)
-interface InformerLabelSelectorResolver {
+public interface InformerLabelSelectorResolver {
 
     /**
      * Resolves the informer's watched resources label selector.

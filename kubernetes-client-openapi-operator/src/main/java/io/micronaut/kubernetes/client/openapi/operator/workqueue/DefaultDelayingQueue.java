@@ -1,0 +1,131 @@
+package io.micronaut.kubernetes.client.openapi.operator.workqueue;
+
+import java.time.Duration;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+/**
+ * The default delaying queue implementation.
+ *
+ * <p>
+ * The code has been copied from the official client and modified:
+ * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/DefaultDelayingQueue.java">DefaultDelayingQueue</a>
+ * </p>
+ */
+public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements DelayingQueue<T> {
+
+    private static final Duration heartBeatInterval = Duration.ofSeconds(10);
+
+    private final DelayQueue<WaitForEntry<T>> delayQueue = new DelayQueue<>();
+    private final ConcurrentMap<T, WaitForEntry<T>> waitingEntryByData = new ConcurrentHashMap<>();
+    private final BlockingQueue<WaitForEntry<T>> newEntryQueue = new LinkedBlockingQueue<>(1000);
+    private final Supplier<Long> timeSource = () -> System.nanoTime() / 1000000;
+
+    public DefaultDelayingQueue(ExecutorService waitingWorker) {
+        waitingWorker.submit(this::waitingLoop);
+    }
+
+    public void addAfter(T item, Duration duration) {
+        if (super.isShutdown()) {
+            return;
+        }
+
+        // immediately add things w/o delay
+        if (duration.isZero()) {
+            super.add(item);
+            return;
+        }
+
+        newEntryQueue.offer(new WaitForEntry<>(item, timeSource.get() + duration.toMillis(), timeSource));
+    }
+
+    private void waitingLoop() {
+        try {
+            while (true) {
+                // underlying work-queue is shutting down, quit the loop.
+                if (super.isShutdown()) {
+                    return;
+                }
+
+                Duration nextReadyAt = heartBeatInterval;
+
+                // peek the head item from the delay queue
+                WaitForEntry<T> entry = delayQueue.peek();
+                if (entry != null) {
+                    // check whether the head item is ready
+                    long delay = entry.getDelay(TimeUnit.MILLISECONDS);
+                    if (delay <= 0) {
+                        // the item is ready so remove it from the delay-queue and push it into underlying work-queue
+                        delayQueue.remove(entry);
+                        waitingEntryByData.remove(entry.data);
+                        super.add(entry.data);
+                        continue;
+                    }
+                    // refresh the next ready-at time
+                    nextReadyAt = Duration.ofMillis(delay);
+                }
+
+                // wait on a new entry until the head item of delay queue is ready or
+                // heart beat interval expires if delay queue is empty
+                WaitForEntry<T> newEntry = newEntryQueue.poll(nextReadyAt.toMillis(), TimeUnit.MILLISECONDS);
+                if (newEntry != null) {
+                    if (timeSource.get() < newEntry.readyAtMillis) {
+                        // the item is not yet ready, insert it to the delay-queue
+                        delay(newEntry);
+                    } else {
+                        // the item is ready as soon as received, fire it to the work-queue directly
+                        super.add(newEntry.data);
+                    }
+                }
+            }
+        } catch (InterruptedException e) {
+            // empty block
+        }
+    }
+
+    private void delay(WaitForEntry<T> entry) {
+        WaitForEntry<T> existing = waitingEntryByData.get(entry.data);
+        if (existing == null) {
+            delayQueue.offer(entry);
+            waitingEntryByData.put(entry.data, entry);
+            return;
+        }
+        // if the new entry will be ready before the existing one, modify its position in the delay queue
+        if (entry.readyAtMillis < existing.readyAtMillis) {
+            delayQueue.remove(existing);
+            existing.readyAtMillis = entry.readyAtMillis;
+            delayQueue.add(existing);
+        }
+    }
+
+    // WaitForEntry holds the data to add and the time it should be added.
+    private static class WaitForEntry<T> implements Delayed {
+        private final T data;
+        private long readyAtMillis;
+        private final Supplier<Long> timeSource;
+
+        private WaitForEntry(T data, long readyAtMillis, Supplier<Long> timeSource) {
+            this.data = data;
+            this.readyAtMillis = readyAtMillis;
+            this.timeSource = timeSource;
+        }
+
+        @Override
+        public long getDelay(TimeUnit unit) {
+            long duration = readyAtMillis - timeSource.get();
+            return unit.convert(duration, TimeUnit.MILLISECONDS);
+        }
+
+        @Override
+        public int compareTo(Delayed other) {
+            return Long.compare(getDelay(TimeUnit.MILLISECONDS), other.getDelay(TimeUnit.MILLISECONDS));
+        }
+    }
+}

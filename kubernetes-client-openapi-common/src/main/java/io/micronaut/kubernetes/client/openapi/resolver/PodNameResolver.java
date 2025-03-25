@@ -13,28 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.informer.handler;
+package io.micronaut.kubernetes.client.openapi.resolver;
 
 import io.micronaut.context.annotation.DefaultImplementation;
-import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
 
-import java.util.Set;
+import java.util.Optional;
 
 /**
- * Informer namespace resolver.
+ * Resolves the Pod name.
  */
-@Internal
-@DefaultImplementation(DefaultInformerNamespaceResolver.class)
-public interface InformerNamespaceResolver {
+@DefaultImplementation(DefaultPodNameResolver.class)
+public interface PodNameResolver {
 
     /**
-     * Resolves the namespaces for the informer's watched resources.
+     * Resolves the name of the POD this application is running in.
      *
-     * @param annotationValue the informer annotation value
-     * @return set of namespaces
+     * @return pod name
      */
-    @NonNull
-    Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> annotationValue);
+    Optional<String> getPodName();
 }
