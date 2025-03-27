@@ -20,6 +20,9 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+/**
+ * Default implementations of operator filters.
+ */
 final class OperatorFilter {
 
     static class OnAdd implements Predicate<KubernetesObject> {

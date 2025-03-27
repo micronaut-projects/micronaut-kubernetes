@@ -21,7 +21,6 @@ import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.informer.InformerConfiguration;
-import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
@@ -29,7 +28,7 @@ import jakarta.inject.Singleton;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * Starts up and shuts down the {@link SharedIndexInformerFactory}.
+ * Starts up and shuts down the {@link LeaderElector}.
  */
 @Singleton
 @Requires(beans = KubernetesClientConfiguration.class)

@@ -42,9 +42,10 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 /**
- * {@link BeanCreatedEventListener} for the {@link ResourceReconciler} annotated by {@link Operator}.
+ * Implementation of {@link BeanCreatedEventListener} for the {@link ResourceReconciler} annotated by {@link Operator}.
+ *
  * <p>
- * The listener automatically creates the controller infrastructure based on the {@link Operator} configuration.
+ * The listener automatically creates an informer for each namespace and a controller.
  * </p>
  *
  * @param <ApiType> kubernetes api type

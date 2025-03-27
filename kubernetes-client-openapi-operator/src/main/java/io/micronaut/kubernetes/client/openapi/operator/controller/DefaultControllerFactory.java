@@ -47,6 +47,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
+/**
+ * Default controller factory implementation.
+ */
 @Singleton
 final class DefaultControllerFactory implements ControllerFactory {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultControllerFactory.class);

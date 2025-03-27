@@ -80,6 +80,6 @@ final class ControllerResourceEventHandler<ApiType extends KubernetesObject> imp
     }
 
     private void add(ApiType object) {
-        workQueue.add(new Request(object.getMetadata().getNamespace(), object.getMetadata().getName()));
+        workQueue.add(new Request(object.getMetadata().getName(), object.getMetadata().getNamespace()));
     }
 }

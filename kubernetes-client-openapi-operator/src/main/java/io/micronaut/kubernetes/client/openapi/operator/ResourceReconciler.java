@@ -30,13 +30,11 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Res
  * <p>
  * This interface is meant to be used in combination with the {@link Operator} annotation where the subject of reconciliation
  * is specified:
- *
  * <pre class="code">
- * &#064;Operator(informer = @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class)))
+ * &#064;Operator(informer = @Informer(apiType = V1ConfigMap.class)))
  * public class MyReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; {
- *
  *   &#064;Override
- *   public Result reconcile(&#064;NonNull Request request, &#064;NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
+ *   public Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
  *      Optional&lt;V1ConfigMap&gt; resource = lister.get(request);
  *      // reconcile
  *      return new Result(false);

@@ -20,7 +20,7 @@ import io.micronaut.core.annotation.Nullable;
 import java.time.Duration;
 
 /**
- * The type Result contains the result of a Reconciler invocation.
+ * Contains the result of a reconciler invocation.
  *
  * @param requeue      the info which determines whether the processing request should be returned to the queue
  * @param requeueAfter the info which determines when the processing request should be returned to the queue
