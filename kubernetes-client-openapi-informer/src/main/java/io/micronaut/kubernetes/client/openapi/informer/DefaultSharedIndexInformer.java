@@ -189,6 +189,11 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
         this.transformFunc = transformFunc;
     }
 
+    @Override
+    public void resyncListeners() {
+        deltaFifo.resync();
+    }
+
     // visible for testing
     SharedProcessor<ApiType> getProcessor() {
         return processor;

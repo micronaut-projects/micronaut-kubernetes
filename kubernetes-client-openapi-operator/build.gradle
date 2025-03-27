@@ -1,0 +1,24 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
+micronautBuild {
+    binaryCompatibility {
+        enabledAfter('7.1.0')
+    }
+}
+
+dependencies {
+    annotationProcessor(mnSerde.micronaut.serde.processor)
+
+    api(projects.micronautKubernetesClientOpenapi)
+    api(projects.micronautKubernetesClientOpenapiInformer)
+    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.http.client.core)
+    implementation("com.bucket4j:bucket4j-core:8.10.1")
+
+    compileOnly(mn.micronaut.management)
+    compileOnly(mnMicrometer.micronaut.micrometer.core)
+
+    testImplementation(libs.testcontainers.k3s)
+}

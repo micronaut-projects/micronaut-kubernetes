@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2021 original authors
+ * Copyright 2017-2025 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,8 +45,6 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Res
  * </pre>
  *
  * @author Pavol Gressa
- * @since 3.3
- * @param <ApiType> api type of the reconciler
  */
 public interface ResourceReconciler<ApiType extends KubernetesObject> {
 
@@ -63,6 +61,5 @@ public interface ResourceReconciler<ApiType extends KubernetesObject> {
      * @param lister  lister for given operator's reconciler
      * @return result
      */
-    @NonNull
-    Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<ApiType> lister);
+    @NonNull Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<ApiType> lister);
 }

@@ -1,0 +1,13 @@
+micronaut:
+  server:
+    port: 8082
+  application:
+    name: micronaut-kubernetes-client-openapi-operator
+
+kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          resource-kind: lease
+          resource-name: lease-lock

@@ -92,4 +92,9 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      * @param transformFunc the transform function
      */
     void setTransform(@NonNull TransformFunc transformFunc);
+
+    /**
+     * Resends all cached kubernetes objects to all listeners.
+     */
+    void resyncListeners();
 }

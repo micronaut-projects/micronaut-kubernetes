@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2025 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.micronaut.kubernetes.client.openapi.operator.configuration;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
@@ -16,29 +31,33 @@ import java.util.Optional;
 public interface LeaderElectionConfiguration {
     String PREFIX = OperatorConfiguration.PREFIX + ".leader-election.lock";
 
+    String DEFAULT_LEASE_DURATION = "10s";
+    String DEFAULT_RENEW_DEADLINE = "8s";
+    String DEFAULT_RETRY_PERIOD = "5s";
+
     /**
-     * The lock lease duration.
+     * The lock lease duration. Default {@value #DEFAULT_LEASE_DURATION}.
      *
      * @return lease duration
      */
-    @Bindable(defaultValue = "10s")
+    @Bindable(defaultValue = DEFAULT_LEASE_DURATION)
     Duration getLeaseDuration();
 
     /**
      * The lock renew deadline. If the leader elector fails to renew the lock within
-     * the deadline, then the controller loses the lock.
+     * the deadline, then the controller loses the lock. Default {@value #DEFAULT_RENEW_DEADLINE}.
      *
      * @return renew deadline
      */
-    @Bindable(defaultValue = "8s")
+    @Bindable(defaultValue = DEFAULT_RENEW_DEADLINE)
     Duration getRenewDeadline();
 
     /**
-     * The lock acquire retry period.
+     * The lock acquire retry period. Default {@value #DEFAULT_RETRY_PERIOD}.
      *
      * @return lock acquire retry period.
      */
-    @Bindable(defaultValue = "5s")
+    @Bindable(defaultValue = DEFAULT_RETRY_PERIOD)
     Duration getRetryPeriod();
 
     /**

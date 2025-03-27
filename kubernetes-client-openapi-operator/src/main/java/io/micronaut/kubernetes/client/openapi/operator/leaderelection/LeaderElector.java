@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2025 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection;
 
 import io.micronaut.context.event.ApplicationEventPublisher;
@@ -64,19 +79,19 @@ final class LeaderElector {
 
         List<String> errors = new ArrayList<>();
         if (leaderElectionConfiguration.getLeaseDuration().compareTo(leaderElectionConfiguration.getRenewDeadline()) <= 0) {
-            errors.add("LeaseDuration must be greater than renewDeadline.");
+            errors.add("LeaseDuration must be greater than renewDeadline");
         }
         if (leaderElectionConfiguration.getRenewDeadline().compareTo(leaderElectionConfiguration.getRetryPeriod()) <= 0) {
-            errors.add("RenewDeadline must be greater than retryPeriod.");
+            errors.add("RenewDeadline must be greater than retryPeriod");
         }
         if (leaderElectionConfiguration.getLeaseDuration().isZero() || leaderElectionConfiguration.getLeaseDuration().isNegative()) {
-            errors.add("LeaseDuration must be greater than zero.");
+            errors.add("LeaseDuration must be greater than zero");
         }
         if (leaderElectionConfiguration.getRenewDeadline().isZero() || leaderElectionConfiguration.getRenewDeadline().isNegative()) {
-            errors.add("RenewDeadline must be greater than zero.");
+            errors.add("RenewDeadline must be greater than zero");
         }
         if (leaderElectionConfiguration.getRetryPeriod().isZero() || leaderElectionConfiguration.getRetryPeriod().isNegative()) {
-            errors.add("RetryPeriod must be greater than zero.");
+            errors.add("RetryPeriod must be greater than zero");
         }
         if (errors.size() > 0) {
             throw new IllegalArgumentException(String.join(",", errors));
@@ -111,7 +126,7 @@ final class LeaderElector {
     }
 
     private boolean acquire() {
-        LOG.debug("Attempting to acquire leader lease...");
+        LOG.debug("Attempting to acquire leader lease");
         long retryPeriodMillis = leaderElectionConfiguration.getRetryPeriod().toMillis();
         AtomicBoolean acquired = new AtomicBoolean(false);
 
@@ -149,7 +164,7 @@ final class LeaderElector {
     }
 
     private void renewLoop() {
-        LOG.debug("Attempting to renew leader lease...");
+        LOG.debug("Attempting to renew leader lease");
         long retryPeriodMillis = leaderElectionConfiguration.getRetryPeriod().toMillis();
         long renewDeadlineMillis = leaderElectionConfiguration.getRenewDeadline().toMillis();
 
@@ -317,28 +332,28 @@ final class LeaderElector {
         try {
             boolean isTerminated = scheduledWorkers.awaitTermination(leaderElectionConfiguration.getRetryPeriod().getSeconds(), TimeUnit.SECONDS);
             if (!isTerminated) {
-                LOG.warn("Timed out waiting to terminate scheduledWorkers.");
+                LOG.warn("Timed out waiting to terminate scheduledWorkers");
                 scheduledWorkers.shutdownNow();
             }
         } catch (InterruptedException ex) {
-            LOG.warn("Failed to ensure scheduledWorkers termination.", ex);
+            LOG.warn("Failed to ensure scheduledWorkers termination", ex);
             scheduledWorkers.shutdownNow();
         }
 
         try {
             boolean isTerminated = leaseWorkers.awaitTermination(leaderElectionConfiguration.getRetryPeriod().getSeconds(), TimeUnit.SECONDS);
             if (!isTerminated) {
-                LOG.warn("Timed out waiting to terminate leaseWorkers.");
+                LOG.warn("Timed out waiting to terminate leaseWorkers");
                 leaseWorkers.shutdownNow();
             }
         } catch (InterruptedException ex) {
-            LOG.warn("Failed to ensure leaseWorkers termination.", ex);
+            LOG.warn("Failed to ensure leaseWorkers termination", ex);
             leaseWorkers.shutdownNow();
         }
 
         // If I am the leader, free the lock so that other candidates can take it immediately
         if (observedRecord != null && isLeader()) {
-            LOG.info("Giving up the lock....");
+            LOG.info("Giving up the lock");
             LeaderElectionRecord emptyRecord = new LeaderElectionRecord(
                 null,
                 // LeaseLock impl requires a non-zero value for leaseDuration
