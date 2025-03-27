@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/ratelimiter/ItemExponentialFailureRateLimiter.java">ItemExponentialFailureRateLimiter</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public class ItemExponentialFailureRateLimiter<T> implements RateLimiter<T> {
 

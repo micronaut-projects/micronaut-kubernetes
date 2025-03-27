@@ -39,6 +39,8 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * Implementation which uses an instance of {@link V1Lease} to store leader election record.
+ *
  * <p>
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/leaderelection/resourcelock/LeaseLock.java">LeaseLock</a>
@@ -75,7 +77,7 @@ final class LeaseLock extends AbstractLock {
     }
 
     @Override
-    public boolean create(LeaderElectionRecord record) {
+    public boolean create(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1ObjectMeta objectMeta = new V1ObjectMeta();
             objectMeta.setName(getName());
@@ -83,7 +85,7 @@ final class LeaseLock extends AbstractLock {
 
             V1Lease lease = new V1Lease();
             lease.setMetadata(objectMeta);
-            lease.setSpec(getLeaseSpecFromRecord(record));
+            lease.setSpec(getLeaseSpecFromRecord(leaderElectionRecord));
 
             V1Lease createdLease = coordinationV1Api.createNamespacedLease(getNamespace(), lease, null, null, null, null);
             leaseRefer.set(createdLease);
@@ -99,10 +101,10 @@ final class LeaseLock extends AbstractLock {
     }
 
     @Override
-    public boolean update(LeaderElectionRecord record) {
+    public boolean update(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1Lease latest = leaseRefer.get();
-            latest.setSpec(getLeaseSpecFromRecord(record));
+            latest.setSpec(getLeaseSpecFromRecord(leaderElectionRecord));
             V1Lease updatedLease = coordinationV1Api.replaceNamespacedLease(getName(), getNamespace(), latest, null, null, null, null);
             leaseRefer.set(updatedLease);
             return true;

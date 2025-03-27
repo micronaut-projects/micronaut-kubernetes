@@ -27,7 +27,7 @@ import java.util.Optional;
 /**
  * Operator lister simplifies retrieval of the resources from within the {@link SharedIndexInformer}'s cache.
  *
- * @param <ApiType> the api type of the listed resources
+ * @param <ApiType> kubernetes api type
  * @author Pavol Gressa
  */
 public final class OperatorResourceLister<ApiType extends KubernetesObject> {
@@ -49,8 +49,8 @@ public final class OperatorResourceLister<ApiType extends KubernetesObject> {
      * @return optional resource in local cache
      */
     @NonNull public Optional<ApiType> get(@NonNull Request request) {
-        String namespace = request.getNamespace();
-        String name = request.getName();
+        String namespace = request.namespace();
+        String name = request.name();
         SharedIndexInformer<ApiType> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(apiTypeClass, namespace);
         String key = StringUtils.isEmpty(namespace) ? name : namespace + "/" + name;
         return Optional.ofNullable(informer.getIndexer().getByKey(key));

@@ -33,10 +33,12 @@ import java.util.function.Supplier;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/DefaultDelayingQueue.java">DefaultDelayingQueue</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements DelayingQueue<T> {
 
-    private static final Duration heartBeatInterval = Duration.ofSeconds(10);
+    private static final Duration HEART_BEAT_INTERVAL = Duration.ofSeconds(10);
 
     private final DelayQueue<WaitForEntry<T>> delayQueue = new DelayQueue<>();
     private final ConcurrentMap<T, WaitForEntry<T>> waitingEntryByData = new ConcurrentHashMap<>();
@@ -47,6 +49,12 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
         waitingWorker.submit(this::waitingLoop);
     }
 
+    /**
+     * Adds given item to the queue after given duration expires.
+     *
+     * @param item     item to add
+     * @param duration specific duration
+     */
     public void addAfter(T item, Duration duration) {
         if (super.isShutdown()) {
             return;
@@ -69,7 +77,7 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
                     return;
                 }
 
-                Duration nextReadyAt = heartBeatInterval;
+                Duration nextReadyAt = HEART_BEAT_INTERVAL;
 
                 // peek the head item from the delay queue
                 WaitForEntry<T> entry = delayQueue.peek();
@@ -121,7 +129,7 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
     }
 
     // WaitForEntry holds the data to add and the time it should be added.
-    private static class WaitForEntry<T> implements Delayed {
+    private static final class WaitForEntry<T> implements Delayed {
         private final T data;
         private long readyAtMillis;
         private final Supplier<Long> timeSource;

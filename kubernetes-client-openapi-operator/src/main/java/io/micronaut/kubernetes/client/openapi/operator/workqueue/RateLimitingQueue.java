@@ -22,6 +22,8 @@ package io.micronaut.kubernetes.client.openapi.operator.workqueue;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/RateLimitingQueue.java">RateLimitingQueue</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public interface RateLimitingQueue<T> extends DelayingQueue<T> {
 

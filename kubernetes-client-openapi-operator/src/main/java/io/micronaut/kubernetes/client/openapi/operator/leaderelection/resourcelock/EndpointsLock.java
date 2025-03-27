@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * Implementation which uses an instance of {@link V1Endpoints} to store leader election record.
+ *
  * <p>
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/leaderelection/resourcelock/EndpointsLock.java">EndpointsLock</a>
@@ -71,12 +73,12 @@ final class EndpointsLock extends AbstractLock {
     }
 
     @Override
-    public boolean create(LeaderElectionRecord record) {
+    public boolean create(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1ObjectMeta objectMeta = new V1ObjectMeta();
             objectMeta.setName(getName());
             objectMeta.setNamespace(getNamespace());
-            addLeaderElectionRecord(objectMeta, record);
+            addLeaderElectionRecord(objectMeta, leaderElectionRecord);
 
             V1Endpoints endpoints = new V1Endpoints();
             endpoints.setMetadata(objectMeta);
@@ -95,10 +97,10 @@ final class EndpointsLock extends AbstractLock {
     }
 
     @Override
-    public boolean update(LeaderElectionRecord record) {
+    public boolean update(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1Endpoints endpoints = endpointsRefer.get();
-            addLeaderElectionRecord(endpoints.getMetadata(), record);
+            addLeaderElectionRecord(endpoints.getMetadata(), leaderElectionRecord);
             V1Endpoints updatedEndpoints = coreV1Api.replaceNamespacedEndpoints(getName(), getNamespace(), endpoints, null, null, null, null);
             endpointsRefer.set(updatedEndpoints);
             return true;

@@ -20,6 +20,15 @@ import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.Date;
 
+/**
+ * Holder for leader election data.
+ *
+ * @param holderIdentity       the holder identity
+ * @param leaseDurationSeconds the lease duration in seconds
+ * @param acquireTime          the acquire time
+ * @param renewTime            the renew time
+ * @param leaderTransitions    the count of leader transitions
+ */
 @Serdeable
 public record LeaderElectionRecord(
     @Nullable String holderIdentity,

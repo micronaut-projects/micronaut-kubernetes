@@ -27,6 +27,8 @@ import java.util.List;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/ratelimiter/MaxOfRateLimiter.java">MaxOfRateLimiter</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public class MaxOfRateLimiter<T> implements RateLimiter<T> {
     private final List<RateLimiter<T>> rateLimiters;

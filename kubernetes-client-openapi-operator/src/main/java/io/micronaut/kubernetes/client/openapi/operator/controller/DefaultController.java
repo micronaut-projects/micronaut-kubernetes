@@ -135,17 +135,17 @@ final class DefaultController implements Controller {
                 result = new Result(true);
             }
 
-            meterRegistry.counter("controller_reconcile_count_total", "name", name, "requeue", Boolean.toString(result.isRequeue())).increment();
+            meterRegistry.counter("controller_reconcile_count_total", "name", name, "requeue", Boolean.toString(result.requeue())).increment();
 
             try {
                 // checks whether do a re-queue (on failure)
-                if (result.isRequeue()) {
-                    if (result.getRequeueAfter() == null) {
+                if (result.requeue()) {
+                    if (result.requeueAfter() == null) {
                         LOG.debug("Controller {} reconciling {} failed, requeuing", name, request);
                         workQueue.addRateLimited(request);
                     } else {
-                        LOG.debug("Controller {} reconciling {} failed, requeuing after {}", name, request, result.getRequeueAfter());
-                        workQueue.addAfter(request, result.getRequeueAfter());
+                        LOG.debug("Controller {} reconciling {} failed, requeuing after {}", name, request, result.requeueAfter());
+                        workQueue.addAfter(request, result.requeueAfter());
                     }
                 } else {
                     workQueue.forget(request);

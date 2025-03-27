@@ -19,7 +19,6 @@ import io.micronaut.kubernetes.client.openapi.operator.workqueue.ratelimiter.Def
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.ratelimiter.RateLimiter;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * The default rate limiting queue implementation.
@@ -28,6 +27,8 @@ import java.util.concurrent.Executors;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/DefaultRateLimitingQueue.java">DefaultRateLimitingQueue</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public class DefaultRateLimitingQueue<T> extends DefaultDelayingQueue<T> implements RateLimitingQueue<T> {
 

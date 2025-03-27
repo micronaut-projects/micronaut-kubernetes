@@ -20,15 +20,16 @@ import io.micronaut.json.JsonMapper;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
-import io.micronaut.kubernetes.client.openapi.operator.leaderelection.Lock;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LockIdentityProvider;
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import io.micronaut.runtime.ApplicationConfiguration;
 
 import java.io.IOException;
 
-abstract class AbstractLock implements Lock {
-
+/**
+ * Common methods for lock implementations.
+ */
+abstract sealed class AbstractLock implements Lock permits ConfigMapLock, EndpointsLock, LeaseLock {
     private static final String LEADER_ANNOTATION_KEY = "control-plane.alpha.kubernetes.io/leader";
 
     private final String namespace;
@@ -67,7 +68,7 @@ abstract class AbstractLock implements Lock {
     }
 
     @Override
-    public String describe() {
+    public String toString() {
         return namespace + "/" + name;
     }
 
@@ -79,8 +80,8 @@ abstract class AbstractLock implements Lock {
         return jsonMapper.readValue(recordString, LeaderElectionRecord.class);
     }
 
-    void addLeaderElectionRecord(V1ObjectMeta objectMeta, LeaderElectionRecord record) throws IOException {
-        String recordString = jsonMapper.writeValueAsString(record);
+    void addLeaderElectionRecord(V1ObjectMeta objectMeta, LeaderElectionRecord leaderElectionRecord) throws IOException {
+        String recordString = jsonMapper.writeValueAsString(leaderElectionRecord);
         objectMeta.putAnnotationsItem(LEADER_ANNOTATION_KEY, recordString);
     }
 }

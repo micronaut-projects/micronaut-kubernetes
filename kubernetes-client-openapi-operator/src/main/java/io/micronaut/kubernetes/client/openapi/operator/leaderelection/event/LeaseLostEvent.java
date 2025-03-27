@@ -20,6 +20,8 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElec
 
 /**
  * Event fired when this service instance has lost the leader lease.
+ *
+ * @param leaderElectionRecord the leader election record
  */
 public record LeaseLostEvent(@Nullable LeaderElectionRecord leaderElectionRecord) {
 }

@@ -20,6 +20,8 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElec
 
 /**
  * Event fired when this service instance has become a leader.
+ *
+ * @param leaderElectionRecord the leader election record
  */
 public record LeaseAcquiredEvent(@NonNull LeaderElectionRecord leaderElectionRecord) {
 }

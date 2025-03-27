@@ -45,6 +45,8 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Res
  * </pre>
  *
  * @author Pavol Gressa
+ *
+ * @param <ApiType> kubernetes api type
  */
 public interface ResourceReconciler<ApiType extends KubernetesObject> {
 

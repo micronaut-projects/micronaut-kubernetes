@@ -20,6 +20,8 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElec
 
 /**
  * Event fired when a leader has changed.
+ *
+ * @param leaderElectionRecord the leader election record
  */
 public record LeaderChangedEvent(@NonNull LeaderElectionRecord leaderElectionRecord) {
 }

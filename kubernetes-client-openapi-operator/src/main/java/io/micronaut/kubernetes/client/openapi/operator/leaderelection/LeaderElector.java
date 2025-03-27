@@ -20,6 +20,7 @@ import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElect
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaderChangedEvent;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseLostEvent;
+import io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcelock.Lock;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -104,7 +105,7 @@ final class LeaderElector {
      * enters a renewal loop where it continuously renews the lease following the provided configuration.
      */
     void run() {
-        LOG.info("Start leader election with lock {}", lock.describe());
+        LOG.info("Start leader election with lock {}", lock);
         active.set(true);
         while (active.get()) {
             try {
@@ -228,7 +229,7 @@ final class LeaderElector {
         try {
             oldLeaderElectionRecord = lock.get();
         } catch (Exception e) {
-            LOG.error("Error retrieving resource lock {}", lock.describe(), e);
+            LOG.error("Error retrieving resource lock {}", lock, e);
             return false;
         }
 

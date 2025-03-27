@@ -24,6 +24,8 @@ import java.time.Duration;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/ratelimiter/RateLimiter.java">RateLimiter</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public interface RateLimiter<T> {
 
@@ -31,6 +33,7 @@ public interface RateLimiter<T> {
      * Decides how long an item should wait before adding it back to the queue.
      *
      * @param item an item that should wait
+     * @return how long an item should wait before adding it back to the queue
      */
     Duration when(T item);
 
@@ -42,8 +45,9 @@ public interface RateLimiter<T> {
     void forget(T item);
 
     /**
-     * Returns a number of failures that the item has had
+     * Returns a number of failures that the item has had.
      *
+     * @param item an item
      * @return number of failures that the item has had
      */
     int numRequeues(T item);

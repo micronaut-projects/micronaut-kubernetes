@@ -35,6 +35,8 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * Implementation which uses an instance of {@link V1ConfigMap} to store leader election record.
+ *
  * <p>
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/leaderelection/resourcelock/ConfigMapLock.java">ConfigMapLock</a>
@@ -71,12 +73,12 @@ final class ConfigMapLock extends AbstractLock {
     }
 
     @Override
-    public boolean create(LeaderElectionRecord record) {
+    public boolean create(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1ObjectMeta objectMeta = new V1ObjectMeta();
             objectMeta.setName(getName());
             objectMeta.setNamespace(getNamespace());
-            addLeaderElectionRecord(objectMeta, record);
+            addLeaderElectionRecord(objectMeta, leaderElectionRecord);
 
             V1ConfigMap configMap = new V1ConfigMap();
             configMap.setMetadata(objectMeta);
@@ -95,10 +97,10 @@ final class ConfigMapLock extends AbstractLock {
     }
 
     @Override
-    public boolean update(LeaderElectionRecord record) {
+    public boolean update(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1ConfigMap configMap = configMapRefer.get();
-            addLeaderElectionRecord(configMap.getMetadata(), record);
+            addLeaderElectionRecord(configMap.getMetadata(), leaderElectionRecord);
             V1ConfigMap updatedConfigMap = coreV1Api.replaceNamespacedConfigMap(getName(), getNamespace(), configMap, null, null, null, null);
             configMapRefer.set(updatedConfigMap);
             return true;

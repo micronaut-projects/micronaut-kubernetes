@@ -26,6 +26,8 @@ import java.util.Arrays;
  * The code has been copied from the official client and modified:
  * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/ratelimiter/DefaultControllerRateLimiter.java">DefaultControllerRateLimiter</a>
  * </p>
+ *
+ * @param <T> item type
  */
 public class DefaultControllerRateLimiter<T> implements RateLimiter<T> {
 
