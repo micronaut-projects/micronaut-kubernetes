@@ -101,7 +101,7 @@ final class DefaultController implements Controller {
 
     @Override
     public void shutdown() {
-        LOG.info("Shutting down work queue and workers");
+        LOG.info("Stopping work queue and workers for controller {}", name);
         // shutdown work-queue before the thread-pool
         workQueue.shutdown();
         workerThreadPool.shutdown();
@@ -116,14 +116,17 @@ final class DefaultController implements Controller {
             try {
                 request = workQueue.get();
             } catch (InterruptedException e) {
-                // we're reaching here mostly because of forcibly shutting down the controller.
-                LOG.error("Controller worker interrupted.. keeps working until work-queue shutdown", e);
+                LOG.error("{} controller worker interrupted", name, e);
+                Thread.currentThread().interrupt();
+                break;
             }
-            // request is expected to be null, when the work-queue is shutting-down.
+
+            // request is expected to be null when the work-queue is shutting-down.
             if (request == null) {
-                LOG.info("Controller {} worker exiting because work-queue has shutdown", name);
+                LOG.debug("Exit {} controller worker", name);
                 return;
             }
+
             LOG.debug("Controller {} start reconciling {}", name, request);
 
             Result result;

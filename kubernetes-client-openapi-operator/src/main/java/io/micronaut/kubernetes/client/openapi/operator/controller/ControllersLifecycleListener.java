@@ -43,7 +43,7 @@ final class ControllersLifecycleListener {
 
     @EventListener
     void stopControllers(LeaseLostEvent leaseLostEvent) {
-        LOG.info("Lease lost, shutting down controllers");
+        LOG.info("Lease lost, stopping controllers");
         controllerFactory.stopControllers();
     }
 }

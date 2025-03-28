@@ -120,8 +120,10 @@ final class LeaderElector {
             } catch (Throwable t) {
                 LOG.error("Leader election failure", t);
             } finally {
-                // Hook on stop leading
-                leaseLostEventPublisher.publishEvent(new LeaseLostEvent(observedRecord));
+                // if shutdown initiated, the lease lost event will be sent by the stop method
+                if (active.get()) {
+                    leaseLostEventPublisher.publishEvent(new LeaseLostEvent(observedRecord));
+                }
             }
         }
     }
@@ -336,8 +338,8 @@ final class LeaderElector {
                 LOG.warn("Timed out waiting to terminate scheduledWorkers");
                 scheduledWorkers.shutdownNow();
             }
-        } catch (InterruptedException ex) {
-            LOG.warn("Failed to ensure scheduledWorkers termination", ex);
+        } catch (InterruptedException e) {
+            LOG.warn("Failed to ensure scheduledWorkers termination", e);
             scheduledWorkers.shutdownNow();
         }
 
@@ -347,8 +349,8 @@ final class LeaderElector {
                 LOG.warn("Timed out waiting to terminate leaseWorkers");
                 leaseWorkers.shutdownNow();
             }
-        } catch (InterruptedException ex) {
-            LOG.warn("Failed to ensure leaseWorkers termination", ex);
+        } catch (InterruptedException e) {
+            LOG.warn("Failed to ensure leaseWorkers termination", e);
             leaseWorkers.shutdownNow();
         }
 
@@ -368,6 +370,7 @@ final class LeaderElector {
             if (!status) {
                 LOG.warn("Failed to give up the lock.");
             }
+            leaseLostEventPublisher.publishEvent(new LeaseLostEvent(observedRecord));
         }
         LOG.info("Closed");
     }

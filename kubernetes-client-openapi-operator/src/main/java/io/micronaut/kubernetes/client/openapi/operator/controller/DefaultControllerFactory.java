@@ -175,6 +175,7 @@ final class DefaultControllerFactory implements ControllerFactory {
             return;
         }
         starting.set(false);
+        LOG.info("Stopping controllers");
         controllers.values().forEach(controllerHolder -> {
             controllerHolder.resourceEventHandlers.values().forEach(ControllerResourceEventHandler::disable);
             controllerHolder.controller.shutdown();
