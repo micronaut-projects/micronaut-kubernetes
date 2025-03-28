@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.openapi.operator.controller;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tags;
-import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Reconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQueue;
@@ -28,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * The default implementation of a controller.
@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 final class DefaultController implements Controller {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultController.class);
 
-    private final Reconciler reconciler;
+    private final Function<Request, Result> reconciler;
     private final String name;
     private final RateLimitingQueue<Request> workQueue;
     private final MeterRegistry meterRegistry;
@@ -58,7 +58,7 @@ final class DefaultController implements Controller {
     private final ScheduledExecutorService workerThreadPool;
 
     DefaultController(String name,
-                      Reconciler reconciler,
+                      Function<Request, Result> reconciler,
                       RateLimitingQueue<Request> workQueue,
                       int workerCount,
                       ThreadFactoryUtil threadFactoryUtil,
@@ -129,7 +129,7 @@ final class DefaultController implements Controller {
             Result result;
             try {
                 // do reconciliation, invoke user customized logic
-                result = reconciler.reconcile(request);
+                result = reconciler.apply(request);
             } catch (Throwable t) {
                 LOG.error("Reconciler aborted unexpectedly", t);
                 result = new Result(true);

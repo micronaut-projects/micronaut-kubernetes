@@ -54,12 +54,13 @@ public interface ResourceReconciler<ApiType extends KubernetesObject> {
      * The {@link OperatorResourceLister} {@code lister} is used to retrieve resource from the local
      * {@link io.micronaut.kubernetes.client.openapi.informer.cache.Cache}.
      * <p>
-     * The {@code lister} returns empty optional if the resource was deleted. Always use <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/">finalizers</a>
+     * The {@code lister} returns empty optional if the resource was deleted.
+     * Always use <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/">finalizers</a>
      * to properly reconcile on resource deletion.
      *
-     * @param request request
-     * @param lister  lister for given operator's reconciler
-     * @return result
+     * @param request the reconciliation request
+     * @param lister the lister for given operator's reconciler
+     * @return the reconciliation result
      */
     @NonNull Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<ApiType> lister);
 }
