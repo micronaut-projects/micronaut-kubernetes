@@ -72,7 +72,7 @@ final class DefaultControllerFactory implements ControllerFactory {
         this.threadFactoryUtil = threadFactoryUtil;
         this.operatorConfiguration = operatorConfiguration;
         this.meterRegistry = meterRegistry;
-        executorService = Executors.newCachedThreadPool(threadFactoryUtil.getNamedThreadFactory("controller-manager-%d"));
+        executorService = Executors.newCachedThreadPool(threadFactoryUtil.getNamedThreadFactory("controller-factory-%d"));
     }
 
     @Override
@@ -109,7 +109,7 @@ final class DefaultControllerFactory implements ControllerFactory {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
         }
 
-        String controllerName = StringUtils.isEmpty(name) ? "Operator" + apiTypeClass.getSimpleName() : name;
+        String controllerName = StringUtils.isEmpty(name) ? "operator-" + apiTypeClass.getSimpleName().toLowerCase() : name;
         if (controllers.containsKey(controllerName)) {
             throw new IllegalStateException("Controller with name '" + controllerName + "' has already been created");
         }
@@ -210,6 +210,7 @@ final class DefaultControllerFactory implements ControllerFactory {
     private <ApiType extends KubernetesObject> void startController(ControllerHolder<ApiType> controllerHolder) {
         Map<InformerKey<ApiType>, ControllerResourceEventHandler<ApiType>> resourceEventHandlers = controllerHolder.resourceEventHandlers;
 
+        // wait on informers to get synced before enabling resource handlers and starting controller
         List<InformerKey<ApiType>> notSyncedInformers = getNotSyncedInformers(resourceEventHandlers);
         long waitLimit = System.currentTimeMillis() + operatorConfiguration.getReadyTimeout().toMillis();
         while (!notSyncedInformers.isEmpty() && waitLimit > System.currentTimeMillis()) {

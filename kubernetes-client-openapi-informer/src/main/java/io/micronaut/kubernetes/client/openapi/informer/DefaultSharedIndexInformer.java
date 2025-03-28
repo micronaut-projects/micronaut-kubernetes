@@ -19,6 +19,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
+import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +49,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
 
     private final Indexer<ApiType> indexer;
 
-    private final ThreadFactory threadFactory;
+    private final ThreadFactoryUtil threadFactoryUtil;
 
     private final InformerWatcher<ApiType> informerWatcher;
 
@@ -70,7 +71,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
 
     DefaultSharedIndexInformer(Class<ApiType> apiTypeClass,
                                String namespace,
-                               ThreadFactory threadFactory,
+                               ThreadFactoryUtil threadFactoryUtil,
                                InformerApiCall<ApiType> informerApiCall,
                                long resyncPeriodMillis,
                                Indexer<ApiType> indexer) {
@@ -79,14 +80,16 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
         this.informerLogger = new InformerLogger(LOG, apiTypeClass, namespace);
         this.indexer = indexer;
         deltaFifo = new DeltaFifo(indexer);
-        this.threadFactory = threadFactory;
-        processor = new SharedProcessor<>(threadFactory);
+        this.threadFactoryUtil = threadFactoryUtil;
+        processor = new SharedProcessor<>(getNamedThreadFactory("handler-exec"));
         informerWatcher = new InformerWatcher<>(apiTypeClass, informerApiCall, deltaFifo);
         resyncCheckPeriodMillis = resyncPeriodMillis > 0 && resyncPeriodMillis < MINIMUM_RESYNC_PERIOD_MILLIS
             ? MINIMUM_RESYNC_PERIOD_MILLIS
             : resyncPeriodMillis;
         defaultEventHandlerResyncPeriodMillis = resyncCheckPeriodMillis;
-        resyncExecutor = resyncCheckPeriodMillis > 0 ? Executors.newSingleThreadScheduledExecutor(threadFactory) : null;
+        resyncExecutor = resyncCheckPeriodMillis > 0
+            ? Executors.newSingleThreadScheduledExecutor(getNamedThreadFactory("handler-resync"))
+            : null;
     }
 
     @Override
@@ -97,7 +100,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
         started = true;
         processor.start();
         deltaConsumer = new DeltaConsumer<>(deltaFifo, indexer, processor, transformFunc);
-        threadFactory.newThread(deltaConsumer).start();
+        getNamedThreadFactory("delta-consumer").newThread(deltaConsumer).start();
         informerLogger.logInfo("Delta consumer thread started");
         if (resyncCheckPeriodMillis > 0) {
             informerLogger.logInfo("Resync job enabled, resyncCheckPeriodMillis={}", resyncCheckPeriodMillis);
@@ -192,6 +195,11 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
     @Override
     public void resyncListeners() {
         deltaFifo.resync();
+    }
+
+    private ThreadFactory getNamedThreadFactory(String name) {
+        String prefix = "informer-" + apiTypeClass.getSimpleName().toLowerCase() + "-";
+        return threadFactoryUtil.getNamedThreadFactory(prefix + name + "-%d");
     }
 
     // visible for testing

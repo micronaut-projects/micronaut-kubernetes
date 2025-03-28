@@ -97,22 +97,22 @@ final class ResourceReconcilerCreatedListener<ApiType extends KubernetesObject> 
         Set<String> namespaces = namespaceResolver.resolveInformerNamespaces(informerAnnotationValue);
         String labelSelector = labelSelectorResolver.resolveInformerLabels(informerAnnotationValue);
 
-        String name = operatorAnnotationValue.stringValue("name").orElseGet(() -> "Operator" + apiType.getSimpleName());
+        String name = operatorAnnotationValue.stringValue("name").orElseGet(() -> "operator-" + apiType.getSimpleName().toLowerCase());
         Predicate onAddFilterPredicate = getOnAddFilterPredicate(operatorAnnotationValue);
         BiPredicate onUpdateFilterPredicate = getOnUpdateFilterPredicate(operatorAnnotationValue);
         BiPredicate onDeleteFilterPredicate = getOnDeleteFilterPredicate(operatorAnnotationValue);
 
         if (CollectionUtils.isEmpty(namespaces)) {
-            LOG.trace("Creating {} informer for controller {}", apiType.getSimpleName(), name);
+            LOG.trace("Creating {} informer for {} controller", apiType.getSimpleName(), name);
             sharedIndexInformerFactory.sharedIndexInformerFor(apiType, null, labelSelector, false, resyncCheckPeriod);
         } else {
             namespaces.forEach(namespace -> {
-                LOG.trace("Creating {} informer in namespace {} for controller {}", apiType.getSimpleName(), namespace, name);
+                LOG.trace("Creating {} informer in {} namespace for {} controller", apiType.getSimpleName(), namespace, name);
                 sharedIndexInformerFactory.sharedIndexInformerFor(apiType, namespace, labelSelector, false, resyncCheckPeriod);
             });
         }
 
-        LOG.debug("Creating controller for {} operator", name);
+        LOG.debug("Creating {} controller", name);
         controllerFactory.createController(name, apiType, namespaces, resourceReconciler, null, onAddFilterPredicate, onUpdateFilterPredicate, onDeleteFilterPredicate);
 
         return resourceReconciler;

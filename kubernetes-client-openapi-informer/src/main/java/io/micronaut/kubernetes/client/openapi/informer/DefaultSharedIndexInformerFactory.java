@@ -21,6 +21,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
+import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.function.Function;
 
 /**
@@ -52,18 +52,18 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     private final InformerApiCallFactory informerApiCallFactory;
     private final InformerConfiguration informerConfiguration;
-    private final ThreadFactory threadFactory;
+    private final ThreadFactoryUtil threadFactoryUtil;
     private final ExecutorService informerExecutor;
     private final Map<InformerKey, SharedIndexInformer> informers = new ConcurrentHashMap<>();
     private final Map<InformerKey, SharedIndexInformer> waitForInitialSyncInformers = new ConcurrentHashMap<>();
 
     DefaultSharedIndexInformerFactory(InformerApiCallFactory informerApiCallFactory,
                                       InformerConfiguration informerConfiguration,
-                                      ThreadFactory threadFactory) {
+                                      ThreadFactoryUtil threadFactoryUtil) {
         this.informerApiCallFactory = informerApiCallFactory;
         this.informerConfiguration = informerConfiguration;
-        this.threadFactory = threadFactory;
-        this.informerExecutor = Executors.newCachedThreadPool(threadFactory);
+        this.threadFactoryUtil = threadFactoryUtil;
+        this.informerExecutor = Executors.newCachedThreadPool(threadFactoryUtil.getNamedThreadFactory("informer-factory-%d"));
     }
 
     @Override
@@ -150,7 +150,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
         DefaultSharedIndexInformer<ApiType> informer = new DefaultSharedIndexInformer<>(
             apiTypeClass,
             namespace,
-            threadFactory,
+            threadFactoryUtil,
             informerApiCall,
             resyncPeriodMillis,
             indexer);
