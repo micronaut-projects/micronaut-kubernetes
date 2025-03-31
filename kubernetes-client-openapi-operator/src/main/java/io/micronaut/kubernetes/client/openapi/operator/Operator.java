@@ -40,18 +40,38 @@ import java.util.function.Predicate;
 public @interface Operator {
 
     /**
-     * The name of the operator. The name is used to uniquely identify created controllers in the context. If not provided
+     * The name of the operator. It is used to uniquely identify the created controller. If not provided
      * the controller name is generated.
      *
      * @return operator name
      */
     String name() default "";
 
+    /**
+     * The informer which is used to watch and report resource changes.
+     *
+     * @return the informer instance
+     */
     Informer informer();
 
+    /**
+     * The class of the filter applied by informer's resource handler when a new resource is created.
+     *
+     * @return filter class
+     */
     Class<? extends Predicate<? extends KubernetesObject>> onAddFilter() default OperatorFilter.OnAdd.class;
 
+    /**
+     * The class of the filter applied by informer's resource handler when an existing resource is updated.
+     *
+     * @return filter class
+     */
     Class<? extends BiPredicate<? extends KubernetesObject, ? extends KubernetesObject>> onUpdateFilter() default OperatorFilter.OnUpdate.class;
 
+    /**
+     * The class of the filter applied by informer's resource handler when an existing resource is deleted.
+     *
+     * @return filter class
+     */
     Class<? extends BiPredicate<? extends KubernetesObject, Boolean>> onDeleteFilter() default OperatorFilter.OnDelete.class;
 }

@@ -9,8 +9,8 @@ import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.operator.Operator;
 import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
-import io.micronaut.kubernetes.client.openapi.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> {
 
     @Override
     public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<V1ConfigMap> lister) {
-        LOG.info("Reconciling {}", request);
+        LOG.info("Reconciling config map: {}", request);
         Optional<V1ConfigMap> configMapOpt = lister.get(request);
         if (configMapOpt.isPresent()) {
             V1ConfigMap configMap = configMapOpt.get();

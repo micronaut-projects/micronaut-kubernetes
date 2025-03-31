@@ -32,6 +32,7 @@ import io.micronaut.kubernetes.client.openapi.informer.handler.InformerLabelSele
 import io.micronaut.kubernetes.client.openapi.informer.handler.InformerNamespaceResolver;
 import io.micronaut.kubernetes.client.openapi.operator.configuration.OperatorConfiguration;
 import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFactory;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

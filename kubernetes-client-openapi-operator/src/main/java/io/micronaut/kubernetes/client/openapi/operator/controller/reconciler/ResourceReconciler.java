@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.operator;
+package io.micronaut.kubernetes.client.openapi.operator.controller.reconciler;
 
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
-import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+import io.micronaut.kubernetes.client.openapi.operator.Operator;
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
 
 /**
  * The ResourceReconciler defines an interface for reconciling the resource. In general a reconciler works by comparing
