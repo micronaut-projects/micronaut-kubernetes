@@ -131,7 +131,7 @@ final class DefaultControllerFactory implements ControllerFactory {
         // create a new controller
         Controller controller = new DefaultController(
             controllerName,
-            request -> resourceReconciler.reconcile(request, new OperatorResourceLister<>(sharedIndexInformerFactory, apiTypeClass)),
+            request -> resourceReconciler.reconcile(request, new OperatorResourceLister<>(sharedIndexInformerFactory, apiTypeClass, CollectionUtils.isEmpty(namespaces))),
             controllerWorkQueue,
             operatorConfiguration.getWorkerCount(),
             threadFactoryUtil,

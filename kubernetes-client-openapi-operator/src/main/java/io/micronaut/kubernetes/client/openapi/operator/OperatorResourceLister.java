@@ -34,11 +34,14 @@ public final class OperatorResourceLister<ApiType extends KubernetesObject> {
 
     private final SharedIndexInformerFactory sharedIndexInformerFactory;
     private final Class<ApiType> apiTypeClass;
+    private final boolean allNamespaces;
 
     public OperatorResourceLister(@NonNull SharedIndexInformerFactory sharedIndexInformerFactory,
-                                  @NonNull Class<ApiType> apiTypeClass) {
+                                  @NonNull Class<ApiType> apiTypeClass,
+                                  boolean allNamespaces) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
         this.apiTypeClass = apiTypeClass;
+        this.allNamespaces = allNamespaces;
     }
 
     /**
@@ -51,7 +54,9 @@ public final class OperatorResourceLister<ApiType extends KubernetesObject> {
     @NonNull public Optional<ApiType> get(@NonNull Request request) {
         String namespace = request.namespace();
         String name = request.name();
-        SharedIndexInformer<ApiType> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(apiTypeClass, namespace);
+        SharedIndexInformer<ApiType> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
+            apiTypeClass,
+            allNamespaces ? null : namespace);
         String key = StringUtils.isEmpty(namespace) ? name : namespace + "/" + name;
         return Optional.ofNullable(informer.getIndexer().getByKey(key));
     }

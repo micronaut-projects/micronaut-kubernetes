@@ -19,6 +19,7 @@ import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.util.Toggleable;
+import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 
 import java.time.Duration;
 
@@ -28,8 +29,7 @@ import java.time.Duration;
 @Internal
 @ConfigurationProperties(OperatorConfiguration.PREFIX)
 public interface OperatorConfiguration extends Toggleable {
-
-    String PREFIX = "kubernetes.client.operator";
+    String PREFIX = KubernetesClientConfiguration.PREFIX + ".operator";
 
     String DEFAULT_WORKER_COUNT = "4";
     String DEFAULT_READY_TIMEOUT = "30s";

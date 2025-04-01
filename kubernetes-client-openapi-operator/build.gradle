@@ -21,4 +21,5 @@ dependencies {
     compileOnly(mnMicrometer.micronaut.micrometer.core)
 
     testImplementation(libs.testcontainers.k3s)
+    testImplementation(mnMicrometer.micronaut.micrometer.core)
 }

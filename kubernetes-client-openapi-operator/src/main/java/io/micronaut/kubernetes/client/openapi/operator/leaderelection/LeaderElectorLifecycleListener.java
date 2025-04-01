@@ -20,7 +20,7 @@ import io.micronaut.context.event.ShutdownEvent;
 import io.micronaut.context.event.StartupEvent;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
-import io.micronaut.kubernetes.client.openapi.informer.InformerConfiguration;
+import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import io.micronaut.runtime.event.annotation.EventListener;
 import jakarta.inject.Singleton;
@@ -32,7 +32,7 @@ import java.util.concurrent.ThreadFactory;
  */
 @Singleton
 @Requires(beans = KubernetesClientConfiguration.class)
-@Requires(property = InformerConfiguration.PREFIX + ".enabled", value = StringUtils.TRUE, defaultValue = StringUtils.TRUE)
+@Requires(property = LeaderElectionConfiguration.PREFIX + ".enabled", value = StringUtils.TRUE, defaultValue = StringUtils.TRUE)
 final class LeaderElectorLifecycleListener {
 
     private final ThreadFactory threadFactory;

@@ -34,7 +34,7 @@ import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
  * &#064;Operator(informer = @Informer(apiType = V1ConfigMap.class)))
  * public class MyReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; {
  *   &#064;Override
- *   public Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
+ *   public Result reconcile(&#064;NonNull Request request, &#064;NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
  *      Optional&lt;V1ConfigMap&gt; resource = lister.get(request);
  *      // reconcile
  *      return new Result(false);

@@ -44,10 +44,9 @@ abstract sealed class AbstractLock implements Lock permits ConfigMapLock, Endpoi
                  JsonMapper jsonMapper) {
         name = leaderElectionConfiguration.getResourceName().orElseGet(() ->
             applicationConfiguration.getName().orElseThrow(() ->
-                new IllegalArgumentException("Failed to resolve leader elector resource name. " +
-                    "Configure the application name `" + ApplicationConfiguration.APPLICATION_NAME + "` or " +
-                    "provide the lock name explicitly `" +
-                    LeaderElectionConfiguration.PREFIX + "`."))
+                new IllegalArgumentException("Failed to resolve leader elector resource name. Configure the application name `" +
+                    ApplicationConfiguration.APPLICATION_NAME + "` or set the resource name explicitly using `" +
+                    LeaderElectionConfiguration.PREFIX + ".resource-name`"))
         );
         namespace = leaderElectionConfiguration.getResourceNamespace().orElseGet(namespaceResolver::resolveNamespace);
         identity = lockIdentityProvider.getIdentity();

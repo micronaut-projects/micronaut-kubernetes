@@ -19,6 +19,7 @@ import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 import io.micronaut.core.bind.annotation.Bindable;
+import io.micronaut.core.util.Toggleable;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -28,7 +29,7 @@ import java.util.Optional;
  */
 @Internal
 @ConfigurationProperties(LeaderElectionConfiguration.PREFIX)
-public interface LeaderElectionConfiguration {
+public interface LeaderElectionConfiguration extends Toggleable {
     String PREFIX = OperatorConfiguration.PREFIX + ".leader-election.lock";
 
     String DEFAULT_LEASE_DURATION = "10s";

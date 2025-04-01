@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller;
 
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseLostEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
@@ -26,6 +28,7 @@ import org.slf4j.LoggerFactory;
  * Manages lifecycle of registered controllers using leader elector implementation.
  */
 @Singleton
+@Requires(beans = KubernetesClientConfiguration.class)
 final class ControllersLifecycleListener {
     private static final Logger LOG = LoggerFactory.getLogger(ControllersLifecycleListener.class);
 
