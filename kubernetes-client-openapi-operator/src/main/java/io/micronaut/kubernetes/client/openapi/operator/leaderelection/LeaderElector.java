@@ -40,6 +40,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Runs the leader election. It publishes the following events:
+ * <ul>
+ *     <li>LeaseAcquiredEvent - when this instance has acquired the lease</li>
+ *     <li>LeaseLostEvent - when this instance has lost the lease</li>
+ *     <li>LeaderChangedEvent - when the leader has changed</li>
+ * </ul>
+ */
 @Singleton
 final class LeaderElector {
     private static final Logger LOG = LoggerFactory.getLogger(LeaderElector.class);
@@ -54,7 +62,6 @@ final class LeaderElector {
     private final ScheduledExecutorService scheduledWorkers;
     private final ExecutorService leaseWorkers;
 
-    // internal bookkeeping
     private LeaderElectionRecord observedRecord;
     private long observedTimeMilliSeconds;
 

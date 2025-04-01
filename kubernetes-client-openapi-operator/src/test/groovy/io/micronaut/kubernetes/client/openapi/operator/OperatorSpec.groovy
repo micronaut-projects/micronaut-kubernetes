@@ -69,8 +69,9 @@ class OperatorSpec extends K3sContainerSpec {
 
     def cleanup() {
         try (ApplicationContext context = ApplicationContext.run([
-                "spec.name"                                              : "KubernetesCleanupContext",
-                "kubernetes.client.kube-config-path"                     : "file:" + kubeConfigFile.toString(),
+                'spec.name'                                              : 'OperatorSpec',
+                'spec.part'                                              : 'KubernetesCleanup',
+                'kubernetes.client.kube-config-path'                     : 'file:' + kubeConfigFile.toString(),
                 'kubernetes.client.operator.enabled'                     : false,
                 'kubernetes.client.operator.leader-election.lock.enabled': false,
         ])) {
@@ -89,8 +90,9 @@ class OperatorSpec extends K3sContainerSpec {
     def 'test operator when using all namespaces'() {
         given:
         ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path'                            : "file:" + kubeConfigFile.toString(),
-                'spec.name'                                                     : 'AllNamespaces',
+                'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
+                'spec.name'                                                     : 'OperatorSpec',
+                'spec.part'                                                     : 'AllNamespaces',
                 'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
                 'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
                 'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
@@ -99,23 +101,23 @@ class OperatorSpec extends K3sContainerSpec {
         CoreV1Api api = context.getBean(CoreV1Api.class)
         SecretOperation secretOp = new SecretOperation(api)
 
-        when: "there is no processed annotation at startup"
+        when: 'there is no processed annotation at startup'
         PollingConditions conditions = new PollingConditions(timeout: 4)
 
-        then: "it is automatically added by controllers"
+        then: 'it is automatically added by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == 'processed'
         }
 
-        when: "processed annotation is removed explicitly"
+        when: 'processed annotation is removed explicitly'
         secretOp.removeProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1)
         secretOp.removeProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2)
 
-        then: "it is automatically returned back by controllers"
+        then: 'it is automatically returned back by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == 'processed'
         }
 
         cleanup:
@@ -125,8 +127,9 @@ class OperatorSpec extends K3sContainerSpec {
     def 'test operator when using all namespaces and filters in informer resource event handler'() {
         given:
         ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path'                            : "file:" + kubeConfigFile.toString(),
-                'spec.name'                                                     : 'AllNamespacesAndFilters',
+                'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
+                'spec.name'                                                     : 'OperatorSpec',
+                'spec.part'                                                     : 'AllNamespacesAndFilters',
                 'spec.filter'                                                   : 'IncludeOnlyFilter',
                 'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
                 'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
@@ -136,21 +139,21 @@ class OperatorSpec extends K3sContainerSpec {
         CoreV1Api api = context.getBean(CoreV1Api.class)
         SecretOperation secretOp = new SecretOperation(api)
 
-        when: "there is no processed annotation at startup"
+        when: 'there is no processed annotation at startup'
         PollingConditions conditions = new PollingConditions(timeout: 4)
 
-        then: "it is automatically added only to resources that satisfy the filters"
+        then: 'it is automatically added only to resources that satisfy the filters'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
             secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == null
         }
 
-        when: "processed annotation is removed explicitly"
+        when: 'processed annotation is removed explicitly'
         secretOp.removeProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1)
 
-        then: "it is automatically returned back only to resources that satisfy the filters"
+        then: 'it is automatically returned back only to resources that satisfy the filters'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
             secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == null
         }
 
@@ -161,8 +164,9 @@ class OperatorSpec extends K3sContainerSpec {
     def 'test operator when using explicitly defined namespaces'() {
         given:
         ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path'                            : "file:" + kubeConfigFile.toString(),
-                'spec.name'                                                     : 'ExplicitNamespaces',
+                'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
+                'spec.name'                                                     : 'OperatorSpec',
+                'spec.part'                                                     : 'ExplicitNamespaces',
                 'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
                 'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
                 'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
@@ -171,23 +175,23 @@ class OperatorSpec extends K3sContainerSpec {
         CoreV1Api api = context.getBean(CoreV1Api.class)
         SecretOperation secretOp = new SecretOperation(api)
 
-        when: "there is no processed annotation at startup"
+        when: 'there is no processed annotation at startup'
         PollingConditions conditions = new PollingConditions(timeout: 4)
 
-        then: "it is automatically added by controllers"
+        then: 'it is automatically added by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == 'processed'
         }
 
-        when: "processed annotation is removed explicitly"
+        when: 'processed annotation is removed explicitly'
         secretOp.removeProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1)
         secretOp.removeProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2)
 
-        then: "it is automatically returned back by controllers"
+        then: 'it is automatically returned back by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_21, NAMESPACE_NAME_2) == 'processed'
         }
 
         cleanup:
@@ -197,8 +201,9 @@ class OperatorSpec extends K3sContainerSpec {
     def 'test operator when using single namespace and label selector'() {
         given:
         ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path'                            : "file:" + kubeConfigFile.toString(),
-                'spec.name'                                                     : 'SingleNamespaceAndLabelSelector',
+                'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
+                'spec.name'                                                     : 'OperatorSpec',
+                'spec.part'                                                     : 'SingleNamespaceAndLabelSelector',
                 'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
                 'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
                 'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
@@ -207,23 +212,23 @@ class OperatorSpec extends K3sContainerSpec {
         CoreV1Api api = context.getBean(CoreV1Api.class)
         SecretOperation secretOp = new SecretOperation(api)
 
-        when: "there is no processed annotation at startup"
+        when: 'there is no processed annotation at startup'
         PollingConditions conditions = new PollingConditions(timeout: 4)
 
-        then: "it is automatically added only to resources that satisfy the label selector"
+        then: 'it is automatically added only to resources that satisfy the label selector'
         conditions.eventually {
             secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == null
-            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == 'processed'
             secretOp.getProcessedAnnotation(SECRET_NAME_13, NAMESPACE_NAME_1) == null
         }
 
-        when: "processed annotation is removed explicitly"
+        when: 'processed annotation is removed explicitly'
         secretOp.removeProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1)
 
-        then: "it is automatically returned back only to resources that satisfy the label selector"
+        then: 'it is automatically returned back only to resources that satisfy the label selector'
         conditions.eventually {
             secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == null
-            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == 'processed'
             secretOp.getProcessedAnnotation(SECRET_NAME_13, NAMESPACE_NAME_1) == null
         }
 
@@ -234,8 +239,9 @@ class OperatorSpec extends K3sContainerSpec {
     def 'test operator when informer and operator are manually created'() {
         given:
         ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path'                            : "file:" + kubeConfigFile.toString(),
-                'spec.name'                                                     : 'ManuallyCreated',
+                'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
+                'spec.name'                                                     : 'OperatorSpec',
+                'spec.part'                                                     : 'ManuallyCreated',
                 'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
                 'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
                 'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
@@ -244,23 +250,23 @@ class OperatorSpec extends K3sContainerSpec {
         CoreV1Api api = context.getBean(CoreV1Api.class)
         SecretOperation secretOp = new SecretOperation(api)
 
-        when: "there is no processed annotation at startup"
+        when: 'there is no processed annotation at startup'
         PollingConditions conditions = new PollingConditions(timeout: 4)
 
-        then: "it is automatically added by controllers"
+        then: 'it is automatically added by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == 'processed'
         }
 
-        when: "processed annotation is removed explicitly"
+        when: 'processed annotation is removed explicitly'
         secretOp.removeProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1)
         secretOp.removeProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1)
 
-        then: "it is automatically returned back by controllers"
+        then: 'it is automatically returned back by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == 'processed'
         }
 
         cleanup:
@@ -270,8 +276,9 @@ class OperatorSpec extends K3sContainerSpec {
     def 'test multiple operators'() {
         given:
         ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path'                            : "file:" + kubeConfigFile.toString(),
-                'spec.name'                                                     : 'MultipleOperators',
+                'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
+                'spec.name'                                                     : 'OperatorSpec',
+                'spec.part'                                                     : 'MultipleOperators',
                 'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
                 'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
                 'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
@@ -281,29 +288,29 @@ class OperatorSpec extends K3sContainerSpec {
         SecretOperation secretOp = new SecretOperation(api)
         ConfigMapOperation configMapOp = new ConfigMapOperation(api)
 
-        when: "there is no processed annotation at startup"
+        when: 'there is no processed annotation at startup'
         PollingConditions conditions = new PollingConditions(timeout: 4)
 
-        then: "it is automatically added by controllers"
+        then: 'it is automatically added by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == "processed"
-            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_11, NAMESPACE_NAME_1) == "processed"
-            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_12, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == 'processed'
+            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_12, NAMESPACE_NAME_1) == 'processed'
         }
 
-        when: "processed annotation is removed explicitly"
+        when: 'processed annotation is removed explicitly'
         secretOp.removeProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1)
         secretOp.removeProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1)
         configMapOp.removeProcessedAnnotation(CONFIG_MAP_NAME_11, NAMESPACE_NAME_1)
         configMapOp.removeProcessedAnnotation(CONFIG_MAP_NAME_12, NAMESPACE_NAME_1)
 
-        then: "it is automatically returned back by controllers"
+        then: 'it is automatically returned back by controllers'
         conditions.eventually {
-            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == "processed"
-            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == "processed"
-            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_11, NAMESPACE_NAME_1) == "processed"
-            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_12, NAMESPACE_NAME_1) == "processed"
+            secretOp.getProcessedAnnotation(SECRET_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            secretOp.getProcessedAnnotation(SECRET_NAME_12, NAMESPACE_NAME_1) == 'processed'
+            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_11, NAMESPACE_NAME_1) == 'processed'
+            configMapOp.getProcessedAnnotation(CONFIG_MAP_NAME_12, NAMESPACE_NAME_1) == 'processed'
         }
 
         cleanup:
@@ -331,8 +338,8 @@ class OperatorSpec extends K3sContainerSpec {
                     metadata.setAnnotations(annotations)
                 }
 
-                if (!annotations.containsKey("io.micronaut.operator")) {
-                    annotations.put("io.micronaut.operator", "processed")
+                if (!annotations.containsKey('io.micronaut.operator')) {
+                    annotations.put('io.micronaut.operator', 'processed')
                     String name = object.getMetadata().getName()
                     String namespace = object.getMetadata().getNamespace()
                     try {
@@ -342,7 +349,7 @@ class OperatorSpec extends K3sContainerSpec {
                             coreV1Api.replaceNamespacedConfigMap(name, namespace, object, null, null, null, null)
                         }
                     } catch (Exception e) {
-                        LOG.error("Failed to update resource", e)
+                        LOG.error('Failed to update resource', e)
                         return new Result(true, Duration.ofSeconds(2))
                     }
                 }
@@ -352,7 +359,8 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Operator(informer = @Informer(apiType = V1Secret.class, namespace = Informer.ALL_NAMESPACES))
-    @Requires(property = 'spec.name', value = 'AllNamespaces')
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'AllNamespaces')
     private static class AllNamespacesResourceReconciler extends BaseResourceEventHandler<V1Secret> {
         AllNamespacesResourceReconciler(CoreV1Api coreV1Api) {
             super(coreV1Api)
@@ -360,7 +368,8 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Operator(informer = @Informer(apiType = V1Secret.class, namespace = Informer.ALL_NAMESPACES), onAddFilter = OnAdd, onUpdateFilter = OnUpdate, onDeleteFilter = OnDelete)
-    @Requires(property = 'spec.name', value = 'AllNamespacesAndFilters')
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'AllNamespacesAndFilters')
     private static class AllNamespacesAndFiltersResourceReconciler extends BaseResourceEventHandler<V1Secret> {
         AllNamespacesAndFiltersResourceReconciler(CoreV1Api coreV1Api) {
             super(coreV1Api)
@@ -368,15 +377,17 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Operator(informer = @Informer(apiType = V1Secret.class, namespaces = [NAMESPACE_NAME_1, NAMESPACE_NAME_2]))
-    @Requires(property = 'spec.name', value = 'ExplicitNamespaces')
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'ExplicitNamespaces')
     private static class ExplicitNamespacesResourceReconciler extends BaseResourceEventHandler<V1Secret> {
         ExplicitNamespacesResourceReconciler(CoreV1Api coreV1Api) {
             super(coreV1Api)
         }
     }
 
-    @Operator(informer = @Informer(apiType = V1Secret.class, namespace = NAMESPACE_NAME_1, labelSelector = "label-key=label-value-1"))
-    @Requires(property = 'spec.name', value = 'SingleNamespaceAndLabelSelector')
+    @Operator(informer = @Informer(apiType = V1Secret.class, namespace = NAMESPACE_NAME_1, labelSelector = 'label-key=label-value-1'))
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'SingleNamespaceAndLabelSelector')
     private static class SingleNamespaceAndLabelSelectorResourceReconciler extends BaseResourceEventHandler<V1Secret> {
         SingleNamespaceAndLabelSelectorResourceReconciler(CoreV1Api coreV1Api) {
             super(coreV1Api)
@@ -384,7 +395,8 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Operator(informer = @Informer(apiType = V1Secret.class, namespace = NAMESPACE_NAME_1))
-    @Requires(property = 'spec.name', value = 'MultipleOperators')
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'MultipleOperators')
     private static class MultipleOperatorsSecretResourceReconciler extends BaseResourceEventHandler<V1Secret> {
         MultipleOperatorsSecretResourceReconciler(CoreV1Api coreV1Api) {
             super(coreV1Api)
@@ -392,7 +404,8 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = NAMESPACE_NAME_1))
-    @Requires(property = 'spec.name', value = 'MultipleOperators')
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'MultipleOperators')
     private static class MultipleOperatorsConfigMapResourceReconciler extends BaseResourceEventHandler<V1ConfigMap> {
         MultipleOperatorsConfigMapResourceReconciler(CoreV1Api coreV1Api) {
             super(coreV1Api)
@@ -400,7 +413,8 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Context
-    @Requires(property = 'spec.name', value = 'ManuallyCreated')
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
+    @Requires(property = 'spec.part', value = 'ManuallyCreated')
     private static class ManualSetup {
         private final SharedIndexInformerFactory informerFactory
         private final ControllerFactory controllerFactory
@@ -415,7 +429,7 @@ class OperatorSpec extends K3sContainerSpec {
         @PostConstruct
         void createController() {
             informerFactory.sharedIndexInformerFor(V1Secret.class, NAMESPACE_NAME_1)
-            controllerFactory.createController("test-name", V1Secret.class, Collections.singleton(NAMESPACE_NAME_1), new ManualResourceReconciler(coreV1Api))
+            controllerFactory.createController('test-name', V1Secret.class, Collections.singleton(NAMESPACE_NAME_1), new ManualResourceReconciler(coreV1Api))
         }
     }
 
@@ -427,14 +441,16 @@ class OperatorSpec extends K3sContainerSpec {
 
     @Context
     @Primary
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
     private static class CustomPodNameResolver implements PodNameResolver {
         @Override
         Optional<String> getPodName() {
-            return Optional.of("test-pod-name")
+            return Optional.of('test-pod-name')
         }
     }
 
     @Singleton
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
     @Requires(property = 'spec.filter', value = 'IncludeOnlyFilter')
     private static class OnAdd implements Predicate<KubernetesObject> {
         @Override
@@ -445,6 +461,7 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Singleton
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
     @Requires(property = 'spec.filter', value = 'IncludeOnlyFilter')
     private static class OnUpdate implements BiPredicate<KubernetesObject, KubernetesObject> {
         @Override
@@ -455,6 +472,7 @@ class OperatorSpec extends K3sContainerSpec {
     }
 
     @Singleton
+    @Requires(property = 'spec.name', value = 'OperatorSpec')
     @Requires(property = 'spec.filter', value = 'IncludeOnlyFilter')
     private static class OnDelete implements BiPredicate<KubernetesObject, Boolean> {
         @Override

@@ -35,6 +35,22 @@ public interface ControllerFactory {
      * Creates a controller that will process events published by {@link io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer}s
      * created for given namespaces. The informers should be created before this method is called.
      *
+     * @param apiTypeClass       the api type class
+     * @param namespaces         the set of namespaces should be empty or set to {@code null} for cluster-wide objects (e.g. V1Node) or for
+     *                           namespaced objects (e.g. V1Secret) when the controller needs to handle kubernetes objects from all namespaces
+     * @param resourceReconciler the resource reconciler implementation
+     * @param <ApiType>          the kubernetes api type
+     * @return the created controller
+     */
+    @NonNull <ApiType extends KubernetesObject> Controller createController(
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable Set<String> namespaces,
+        @NonNull ResourceReconciler<ApiType> resourceReconciler);
+
+    /**
+     * Creates a controller that will process events published by {@link io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer}s
+     * created for given namespaces. The informers should be created before this method is called.
+     *
      * @param name               the name which is used to uniquely identify the created controller. If not provided, it will be generated.
      * @param apiTypeClass       the api type class
      * @param namespaces         the set of namespaces should be empty or set to {@code null} for cluster-wide objects (e.g. V1Node) or for

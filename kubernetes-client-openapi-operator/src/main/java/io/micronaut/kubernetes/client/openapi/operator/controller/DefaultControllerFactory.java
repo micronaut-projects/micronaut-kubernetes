@@ -77,11 +77,19 @@ final class DefaultControllerFactory implements ControllerFactory {
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
+        Class<ApiType> apiTypeClass,
+        Set<String> namespaces,
+        ResourceReconciler<ApiType> resourceReconciler) {
+        return createController(null, apiTypeClass, namespaces, resourceReconciler);
+    }
+
+    @Override
+    public <ApiType extends KubernetesObject> Controller createController(
         String name,
         Class<ApiType> apiTypeClass,
         Set<String> namespaces,
         ResourceReconciler<ApiType> resourceReconciler) {
-        return createController(name, apiTypeClass, namespaces, resourceReconciler, null, null, null, null);
+        return createController(name, apiTypeClass, namespaces, resourceReconciler, null);
     }
 
     @Override
