@@ -244,12 +244,12 @@ final class DefaultControllerFactory implements ControllerFactory {
             return;
         }
 
-        // all informers are synced so enable event handlers, resend all events and start controller
+        // all informers are synced so start controller, enable event handlers and resend all events
+        controllerHolder.controller.run();
         for (InformerKey<ApiType> informerKey : resourceEventHandlers.keySet()) {
             resourceEventHandlers.get(informerKey).enable();
             getInformer(informerKey).resyncListeners();
         }
-        controllerHolder.controller.run();
     }
 
     private <ApiType extends KubernetesObject> List<InformerKey<ApiType>> getNotSyncedInformers(

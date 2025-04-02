@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
+import io.micronaut.core.annotation.NonNull;
+
 import java.time.Duration;
 
 /**
@@ -36,5 +38,5 @@ public interface DelayingQueue<T> extends WorkQueue<T> {
      * @param item     item to add
      * @param duration specific duration
      */
-    void addAfter(T item, Duration duration);
+    void addAfter(@NonNull T item, @NonNull Duration duration);
 }

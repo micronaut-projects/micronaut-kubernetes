@@ -64,4 +64,8 @@ public class BucketRateLimiter<T> implements RateLimiter<T> {
     public int numRequeues(T item) {
         return 0;
     }
+
+    @Override
+    public void reset() {
+    }
 }

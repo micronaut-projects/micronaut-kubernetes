@@ -41,6 +41,10 @@ public class DefaultControllerRateLimiter<T> implements RateLimiter<T> {
                     new BucketRateLimiter<>(100, 10, Duration.ofMinutes(1))));
     }
 
+    public DefaultControllerRateLimiter(RateLimiter<T> internalRateLimiter) {
+        this.internalRateLimiter = internalRateLimiter;
+    }
+
     @Override
     public Duration when(T item) {
         return internalRateLimiter.when(item);
@@ -54,5 +58,10 @@ public class DefaultControllerRateLimiter<T> implements RateLimiter<T> {
     @Override
     public int numRequeues(T item) {
         return internalRateLimiter.numRequeues(item);
+    }
+
+    @Override
+    public void reset() {
+        internalRateLimiter.reset();
     }
 }

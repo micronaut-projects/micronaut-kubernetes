@@ -60,4 +60,9 @@ public class ItemFastSlowRateLimiter<T> implements RateLimiter<T> {
     public int numRequeues(T item) {
         return failures.computeIfAbsent(item, k -> new AtomicInteger()).get();
     }
+
+    @Override
+    public void reset() {
+        failures.clear();
+    }
 }

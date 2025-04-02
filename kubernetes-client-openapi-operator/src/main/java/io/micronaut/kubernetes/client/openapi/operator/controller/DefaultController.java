@@ -24,9 +24,13 @@ import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 /**
@@ -57,6 +61,10 @@ final class DefaultController implements Controller {
     private final int workerCount;
     private final ScheduledExecutorService workerThreadPool;
 
+    private final List<Future<?>> workerFutures = new ArrayList<>();
+
+    private final AtomicBoolean running = new AtomicBoolean(false);
+
     DefaultController(String name,
                       Function<Request, Result> reconciler,
                       RateLimitingQueue<Request> workQueue,
@@ -80,9 +88,14 @@ final class DefaultController implements Controller {
 
     @Override
     public void run() {
+        if (running.getAndSet(true)) {
+            return;
+        }
+        workQueue.start();
+        workerFutures.clear();
         for (int i = 0; i < workerCount; i++) {
             final int workerIndex = i;
-            workerThreadPool.scheduleWithFixedDelay(
+            Future<?> workerFuture = workerThreadPool.scheduleWithFixedDelay(
                 () -> {
                     LOG.debug("Starting controller {} worker {}", name, workerIndex);
                     try {
@@ -96,15 +109,20 @@ final class DefaultController implements Controller {
                 0,
                 1,
                 TimeUnit.SECONDS);
+            workerFutures.add(workerFuture);
         }
     }
 
     @Override
     public void shutdown() {
+        if (!running.getAndSet(false)) {
+            return;
+        }
         LOG.info("Stopping work queue and workers for controller {}", name);
         // shutdown work-queue before the thread-pool
         workQueue.shutdown();
-        workerThreadPool.shutdown();
+        workerFutures.forEach(workerFuture -> workerFuture.cancel(true));
+        workerFutures.clear();
     }
 
     private void worker() {
@@ -112,11 +130,11 @@ final class DefaultController implements Controller {
         while (!workQueue.isShutdown()) {
             meterRegistry.gauge("controller_work_queue_length", Tags.of("name", name), workQueue.length());
 
-            Request request = null;
+            Request request;
             try {
                 request = workQueue.get();
             } catch (InterruptedException e) {
-                LOG.error("{} controller worker interrupted", name, e);
+                LOG.debug("{} controller worker interrupted", name, e);
                 Thread.currentThread().interrupt();
                 break;
             }

@@ -55,6 +55,15 @@ public class DefaultRateLimitingQueue<T> extends DefaultDelayingQueue<T> impleme
 
     @Override
     public void addRateLimited(T item) {
+        if (super.isShutdown()) {
+            return;
+        }
         addAfter(item, rateLimiter.when(item));
+    }
+
+    @Override
+    public void shutdown() {
+        super.shutdown();
+        rateLimiter.reset();
     }
 }

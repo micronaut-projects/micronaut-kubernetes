@@ -86,6 +86,9 @@ public class DefaultWorkQueue<T> implements WorkQueue<T> {
 
     @Override
     public synchronized void done(T item) {
+        if (shutdown) {
+            return;
+        }
         processing.remove(item);
         if (dirty.contains(item)) {
             queue.add(item);
@@ -94,9 +97,22 @@ public class DefaultWorkQueue<T> implements WorkQueue<T> {
     }
 
     @Override
+    public synchronized void start() {
+        clear();
+        shutdown = false;
+    }
+
+    @Override
     public synchronized void shutdown() {
         shutdown = true;
+        clear();
         notifyAll();
+    }
+
+    private void clear() {
+        queue.clear();
+        dirty.clear();
+        processing.clear();
     }
 
     @Override

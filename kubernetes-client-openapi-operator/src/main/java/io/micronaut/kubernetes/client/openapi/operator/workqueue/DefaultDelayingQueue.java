@@ -15,6 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.Duration;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +25,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
@@ -37,6 +41,7 @@ import java.util.function.Supplier;
  * @param <T> item type
  */
 public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements DelayingQueue<T> {
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultDelayingQueue.class);
 
     private static final Duration HEART_BEAT_INTERVAL = Duration.ofSeconds(10);
 
@@ -44,9 +49,32 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
     private final ConcurrentMap<T, WaitForEntry<T>> waitingEntryByData = new ConcurrentHashMap<>();
     private final BlockingQueue<WaitForEntry<T>> newEntryQueue = new LinkedBlockingQueue<>(1000);
     private final Supplier<Long> timeSource = () -> System.nanoTime() / 1000000;
+    private final ExecutorService waitingWorker;
+
+    private Future<?> waitingFuture;
 
     public DefaultDelayingQueue(ExecutorService waitingWorker) {
-        waitingWorker.submit(this::waitingLoop);
+        this.waitingWorker = waitingWorker;
+    }
+
+    @Override
+    public void start() {
+        clear();
+        super.start();
+        waitingFuture = waitingWorker.submit(this::waitingLoop);
+    }
+
+    @Override
+    public void shutdown() {
+        super.shutdown();
+        waitingFuture.cancel(true);
+        clear();
+    }
+
+    private void clear() {
+        delayQueue.clear();
+        waitingEntryByData.clear();
+        newEntryQueue.clear();
     }
 
     /**
@@ -55,6 +83,7 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
      * @param item     item to add
      * @param duration specific duration
      */
+    @Override
     public void addAfter(T item, Duration duration) {
         if (super.isShutdown()) {
             return;
@@ -70,7 +99,6 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
     }
 
     private void waitingLoop() {
-        try {
             while (true) {
                 // underlying work-queue is shutting down, quit the loop.
                 if (super.isShutdown()) {
@@ -97,7 +125,14 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
 
                 // wait on a new entry until the head item of delay queue is ready or
                 // heart beat interval expires if delay queue is empty
-                WaitForEntry<T> newEntry = newEntryQueue.poll(nextReadyAt.toMillis(), TimeUnit.MILLISECONDS);
+                WaitForEntry<T> newEntry = null;
+                try {
+                    newEntry = newEntryQueue.poll(nextReadyAt.toMillis(), TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                    LOG.trace("The thread has been interrupted while waiting on new entry", e);
+                    Thread.currentThread().interrupt();
+                }
+
                 if (newEntry != null) {
                     if (timeSource.get() < newEntry.readyAtMillis) {
                         // the item is not yet ready, insert it to the delay-queue
@@ -108,9 +143,6 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
                     }
                 }
             }
-        } catch (InterruptedException e) {
-            // empty block
-        }
     }
 
     private void delay(WaitForEntry<T> entry) {

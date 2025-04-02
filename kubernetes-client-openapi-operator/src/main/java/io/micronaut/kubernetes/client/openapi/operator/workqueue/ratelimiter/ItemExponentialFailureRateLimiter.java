@@ -58,4 +58,9 @@ public class ItemExponentialFailureRateLimiter<T> implements RateLimiter<T> {
     public int numRequeues(T item) {
         return (int) failures.computeIfAbsent(item, k -> new AtomicLong()).get();
     }
+
+    @Override
+    public void reset() {
+        failures.clear();
+    }
 }

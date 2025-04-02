@@ -15,6 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.core.annotation.Nullable;
+
 /**
  * The workqueue interface defines the queue behavior.
  *
@@ -32,7 +35,7 @@ public interface WorkQueue<T> {
      *
      * @param item item to add
      */
-    void add(T item);
+    void add(@NonNull T item);
 
     /**
      * Returns the current queue length, for informational purposes only.
@@ -46,7 +49,7 @@ public interface WorkQueue<T> {
      *
      * @return the item
      */
-    T get() throws InterruptedException;
+    @Nullable T get() throws InterruptedException;
 
     /**
      * Marks an item as completed. Also, it will add the same item back to the queue of items which
@@ -54,10 +57,16 @@ public interface WorkQueue<T> {
      *
      * @param item specific item
      */
-    void done(T item);
+    void done(@NonNull T item);
 
     /**
-     * Initiates a shutdown of the work queue. All added items whose processing not started will be ignored.
+     * Starts the work queue. Can be called after shutdown to enable queue usage.
+     */
+    void start();
+
+    /**
+     * Initiates a shutdown of the work queue. All added items whose processing not started
+     * will be ignored and removed from the queue.
      */
     void shutdown();
 

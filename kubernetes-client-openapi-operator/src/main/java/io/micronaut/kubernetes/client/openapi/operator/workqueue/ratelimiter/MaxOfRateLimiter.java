@@ -51,18 +51,23 @@ public class MaxOfRateLimiter<T> implements RateLimiter<T> {
 
     @Override
     public void forget(T item) {
-        rateLimiters.forEach(r -> r.forget(item));
+        rateLimiters.forEach(rateLimiter -> rateLimiter.forget(item));
     }
 
     @Override
     public int numRequeues(T item) {
         int max = 0;
-        for (RateLimiter<T> r : rateLimiters) {
-            int current = r.numRequeues(item);
+        for (RateLimiter<T> rateLimiter : rateLimiters) {
+            int current = rateLimiter.numRequeues(item);
             if (current > max) {
                 max = current;
             }
         }
         return max;
+    }
+
+    @Override
+    public void reset() {
+        rateLimiters.forEach(RateLimiter::reset);
     }
 }

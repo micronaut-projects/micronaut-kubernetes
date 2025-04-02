@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
+import io.micronaut.core.annotation.NonNull;
+
 /**
  * Defines a queue that rate limits items being added to the queue.
  *
@@ -28,26 +30,26 @@ package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 public interface RateLimitingQueue<T> extends DelayingQueue<T> {
 
     /**
-     * Adds an item to the workqueue after the rate limiter says it is ok.
+     * Adds an item to the work queue after the rate limiter says it is ok.
      *
      * @param item item to add
      */
-    void addRateLimited(T item);
+    void addRateLimited(@NonNull T item);
 
     /**
-     * forget indicates that an item is finished being retried. Doesn't matter whether its for perm
+     * Indicates that an item is finished being retried. Doesn't matter whether it is for perm
      * failing or for success, we'll stop the rate limiter from tracking it. This only clears the
      * `rateLimiter`, you still have to call `Done` on the queue.
      *
      * @param item item which is finished being retried
      */
-    void forget(T item);
+    void forget(@NonNull T item);
 
     /**
-     * numRequeues returns back how many times the item was requeued.
+     * Returns back how many times the item was requeued.
      *
      * @param item specific item
-     * @return times the item was requeued
+     * @return number of times the item was requeued
      */
-    int numRequeues(T item);
+    int numRequeues(@NonNull T item);
 }
