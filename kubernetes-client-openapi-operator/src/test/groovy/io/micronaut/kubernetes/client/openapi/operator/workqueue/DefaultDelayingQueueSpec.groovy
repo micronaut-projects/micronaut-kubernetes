@@ -11,6 +11,7 @@ class DefaultDelayingQueueSpec extends Specification {
     def 'add multiple items'() {
         given:
         DefaultDelayingQueue<String> queue = new DefaultDelayingQueue<>(Executors.newSingleThreadExecutor())
+        queue.start()
 
         when:
         queue.addAfter("item0", Duration.ZERO)
@@ -38,6 +39,7 @@ class DefaultDelayingQueueSpec extends Specification {
     def 'add already added item'() {
         given:
         DefaultDelayingQueue<String> queue = new DefaultDelayingQueue<>(Executors.newSingleThreadExecutor())
+        queue.start()
 
         when:
         queue.addAfter("item1", Duration.ofMillis(300))
