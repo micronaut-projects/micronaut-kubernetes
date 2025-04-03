@@ -1,32 +1,46 @@
+//tag::reconciler[]
 package micronaut.operator;
 
+//end::reconciler[]
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
+//tag::reconciler[]
 import io.micronaut.core.annotation.NonNull;
+//end::reconciler[]
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
+//tag::reconciler[]
 import io.micronaut.kubernetes.client.openapi.informer.handler.Informer;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+//end::reconciler[]
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
+//tag::reconciler[]
 import io.micronaut.kubernetes.client.openapi.operator.Operator;
 import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+//end::reconciler[]
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+//tag::reconciler[]
 import java.util.Optional;
+//end::reconciler[]
 
 @Requires(env = Environment.KUBERNETES)
-@Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = ConfigMapReconciler.NAMESPACE))
-class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> {
+//tag::reconciler[]
 
-    private static final Logger LOG = LoggerFactory.getLogger(ConfigMapReconciler.class);
+@Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = ConfigMapReconciler.NAMESPACE)) // <1>
+class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> { // <2>
 
     static final String NAMESPACE = "test-operator-namespace";
+
+    //end::reconciler[]
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigMapReconciler.class);
 
     private final CoreV1Api coreV1Api;
 
@@ -34,10 +48,14 @@ class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> {
         this.coreV1Api = coreV1Api;
     }
 
+    //tag::reconciler[]
     @Override
-    public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<V1ConfigMap> lister) {
+    @NonNull
+    public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<V1ConfigMap> lister) { // <3>
+        Optional<V1ConfigMap> configMapOpt = lister.get(request); // <4>
+        // .. reconcile  <5>
+        //end::reconciler[]
         LOG.info("Reconciling config map: {}", request);
-        Optional<V1ConfigMap> configMapOpt = lister.get(request);
         if (configMapOpt.isPresent()) {
             V1ConfigMap configMap = configMapOpt.get();
             V1ObjectMeta metadata = configMap.getMetadata();
@@ -60,6 +78,8 @@ class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> {
                 }
             }
         }
-        return new Result(false);
+        //tag::reconciler[]
+        return new Result(false); // <6>
     }
 }
+//end::reconciler[]

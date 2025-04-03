@@ -7,7 +7,7 @@ dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-informer[
 
 Then create a bean that implements api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] with the
 Kubernetes resource type of your choice and add the ann:kubernetes.client.openapi.informer.handler.Informer[] annotation
-trough which you provide the configuration for the api:kubernetes.client.openapi.informer.SharedIndexInformer[].
+through which you provide the configuration for the api:kubernetes.client.openapi.informer.SharedIndexInformer[].
 
 The example below illustrates the declaration of the ann:kubernetes.client.openapi.informer.handler.Informer[] with the
 api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] for handling the changes of the Kubernetes `V1Secret` resource.

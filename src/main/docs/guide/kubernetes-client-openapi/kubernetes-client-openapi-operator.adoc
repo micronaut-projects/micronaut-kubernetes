@@ -1,0 +1,163 @@
+The Micronaut Kubernetes Client OpenApi Operator implements the Kubernetes Controller feature.
+It is built on top of Micronaut Kubernetes Client OpenApi Informer and allows you to easily create a reconciler for a Kubernetes resource.
+
+First you need to add a dependency on the `micronaut-kubernetes-client-openapi-operator` module:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-operator[]
+
+Then create a bean that implements api:kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler[] with the
+Kubernetes resource type of your choice and add the ann:kubernetes.client.openapi.operator.Operator[] annotation
+through which you provide the configuration for the controllers that will be created by Micronaut for your reconciler.
+
+The example below illustrates the use of the ann:kubernetes.client.openapi.operator.Operator[] with the
+api:kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler[] that reconciles the Kubernetes `V1ConfigMap` resource.
+
+snippet::micronaut.operator.ConfigMapReconciler[project-base="examples/example-kubernetes-client-openapi-operator", tags="reconciler", source="main"]
+<1> The ann:kubernetes.client.openapi.operator.Operator[] annotation defines the resource type which is the subject of reconciliation. The definition is done by using the ann:kubernetes.client.openapi.informer.handler.Informer[] annotation. Both annotations provide other object specific configuration options.
+<2> The api:kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler[] interface declares the `reconcile` method that is main point of interaction between the Micronaut and your application logic.
+<3> The reconciliation input consists from the api:kubernetes.client.openapi.operator.controller.reconciler.Request[] that uniquely identifies the reconciliation resource and the api:kubernetes.client.openapi.operator.OperatorResourceLister[] through which the actual subject of reconciliation can be retrieved.
+<4> Retrieval of the resource for the reconciliation.
+<5> This is where the idempotent reconciliation logic should be placed. Note that the reconciliation logic is responsible for the update of the resource status.
+<6> The return value of reconciliation method is the api:kubernetes.client.openapi.operator.controller.reconciler.Result[].
+
+The ann:kubernetes.client.openapi.operator.Operator[] annotation provides several configuration options:
+
+.@Operator attributes
+[cols="1,5"]
+|===
+|Element | Description
+|`name` | The name of the operator controller thread. Defaults to the `operator-<resource-type>`.
+|`informer` | The ann:kubernetes.client.openapi.informer.handler.Informer[] annotation used for the configuration of the Operator's informer. This value is required.
+|`onAddFilter` | The `java.util.function.Predicate` decides which created resources are subject for the reconciliation.
+|`onUpdateFilter`| The `java.util.function.BiPredicate` decides which updated resources are subject for the reconciliation
+|`onDeleteFilter`| The `java.util.function.BiPredicate` decides which deleted resources are subject for the reconciliation
+|===
+
+The filter examples for the `V1ConfigMap` resource:
+
+`onAddFilter`
+
+snippet::micronaut.operator.OnAddFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main"]
+
+`onUpdateFilter`
+
+snippet::micronaut.operator.OnUpdateFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main"]
+
+`onDeleteFilter`
+
+snippet::micronaut.operator.onDeleteFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main"]
+
+IMPORTANT: Note that in case of `onDeleteFilter` the predicate receives the resource for the `test` method, but when the ResouceReconciler's `reconcile` method is executed, the `lister` will return `Optional.empty` since the resource was already deleted. To properly reconcile the resource on it's removal, use https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/[finalizers].
+
+and to set the filters in ann:kubernetes.client.openapi.operator.Operator[] annotation:
+
+[source,java]
+----
+@Operator(informer = @Informer(apiType = V1ConfigMap.class),
+        onAddFilter = OnAddFilter.class,
+        onUpdateFilter = OnUpdateFilter.class,
+        onDeleteFilter = OnDeleteFilter.class)
+----
+
+== Programmatic creation of Controller
+
+Use the bean api:kubernetes.client.openapi.operator.controller.ControllerFactory[] to create the api:kubernetes.client.openapi.operator.controller.Controller[] programmatically.
+The api:kubernetes.client.openapi.operator.controller.ControllerFactory[]'s `createController` methods require already created
+api:kubernetes.client.openapi.informer.SharedIndexInformer[] instances for the same kubernetes resources in the same namespaces as provided to `createController` methods.
+
+snippet::micronaut.operator.SecretOperator[project-base="examples/example-kubernetes-client-openapi-operator" source="main"]
+
+Note that informer and controller need to be created before the micronaut context has completed the startup process since those are started by
+api:kubernetes.client.openapi.informer.InformerFactoryLifecycleListener[] and api:kubernetes.client.openapi.operator.controller.ControllersLifecycleListener[].
+
+Controllers created programmatically or via the ann:kubernetes.client.openapi.operator.Operator[] annotation are running only on the leader instance.
+The leader instance is selected by the leader election background job.
+
+== Leader election
+
+The api:kubernetes.client.openapi.operator.leaderelection.LeaderElector[] is responsible for the leader election between application replicas.
+It runs as a background job on each application replica trying to acquire the lock. After the job has acquired the lock, it keeps renewing the lock.
+If the lock is not renewed within the specified amount of time, other replicas may try to acquire the lock and become the leader.
+
+You can adjust the leader elector configuration by using Micronaut configuration properties `kubernetes.client.operator.leader-election.lock`:
+
+.Leader election properties
+[cols="1,5"]
+|===
+|Element | Description
+|`lease-duration` | The lock lease duration. Defaults to `10s`.
+|`renew-deadline` | The lock renew deadline. If the api:kubernetes.client.openapi.operator.leaderelection.LeaderElector[] fails to renew the lock within the deadline then the controller looses the lock. Defaults to `8s`.
+|`retry-period` | The lock acquire retry period. Defaults to `5s`.
+|===
+
+.Example of custom lock acquisition properties. Note that the value is of type Duration:
+[configuration]
+----
+kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          lease-duration: 60s
+          renew-deadline: 50s
+          retry-period: 20s
+----
+
+Events emitted by api:kubernetes.client.openapi.operator.leaderelection.LeaderElector[]:
+
+* api:kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent[] - emitted when this application replica has acquired the lock
+* api:kubernetes.client.openapi.operator.leaderelection.event.LeaseLostEvent[] - emitted when this application replica has lost the lock
+* api:kubernetes.client.openapi.operator.leaderelection.event.LeaderChangedEvent[] - emitted when the leader has changed
+
+=== Lock identity
+
+The lock identity is used to uniquely identify the application that holds the lock.
+By default, the Pod name the application runs within is the source for the lock identity. This means the application must run in the Kubernetes cluster.
+
+To create a custom lock identity, create a bean that implements the api:kubernetes.client.openapi.operator.leaderelection.LockIdentityProvider[] interface.
+
+=== Lock resource types
+
+The api:kubernetes.client.openapi.operator.leaderelection.LeaderElector[] uses a native Kubernetes resource to store the lock information.
+Currently supported resources are:
+
+* `V1Lease` (default)
+* `V1ConfigMap`
+* `V1Endpoints`
+
+The selected resource can be changed by configuring the property `kubernetes.client.operator.leader-election.lock.resource-kind` to `configmaps` or `endpoints`.
+
+Note that the resource for the lock is created in the application namespace. Then the application name is used as the lock resource name. This can be changed by using Micronaut configuration properties:
+
+.Example on how to configure custom lock resource name and namespace:
+[configuration]
+----
+kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          resource-name: custom-name
+          resource-namespace: custom-namespace
+----
+
+Note that in case https://kubernetes.io/docs/reference/access-authn-authz/rbac/[the RBAC authorization] is enabled in your Kubernetes cluster,
+your application needs to have properly configured role with respect to the lock resource type.
+
+.Example of role for the `V1Lease` lock resource type:
+[source,yaml]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator-lease-role
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+---

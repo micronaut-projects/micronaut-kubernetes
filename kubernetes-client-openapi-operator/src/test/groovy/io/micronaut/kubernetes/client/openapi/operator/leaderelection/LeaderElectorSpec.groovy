@@ -37,6 +37,13 @@ import java.util.function.Predicate
 class LeaderElectorSpec extends K3sContainerSpec {
     private static final Logger LOG = LoggerFactory.getLogger(LeaderElectorSpec.class)
 
+    private static final Map COMMON_PROPS = [
+            'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
+            'kubernetes.client.operator.leader-election.lock.retry-period'  : '600ms',
+            'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
+            'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
+    ]
+
     @Override
     Logger getLogger() {
         return LOG
@@ -48,24 +55,16 @@ class LeaderElectorSpec extends K3sContainerSpec {
                 'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
                 'spec.name'                                                     : 'LeaderElectorSpec',
                 'spec.part'                                                     : 'context1',
-                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'lease',
-                'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
-                'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
-                'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
-                'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
-        ], Environment.KUBERNETES)
+                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'lease'
+        ] + COMMON_PROPS, Environment.KUBERNETES)
         ApplicationContext context1 = contextBuilder1.build()
 
         ApplicationContextBuilder contextBuilder2 = ApplicationContext.builder([
                 'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
                 'spec.name'                                                     : 'LeaderElectorSpec',
                 'spec.part'                                                     : 'context2',
-                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'lease',
-                'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
-                'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
-                'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
-                'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
-        ], Environment.KUBERNETES)
+                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'lease'
+        ] + COMMON_PROPS, Environment.KUBERNETES)
         ApplicationContext context2 = contextBuilder2.build()
 
         PollingConditions conditions = new PollingConditions(timeout: 5)
@@ -108,24 +107,16 @@ class LeaderElectorSpec extends K3sContainerSpec {
                 'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
                 'spec.name'                                                     : 'LeaderElectorSpec',
                 'spec.part'                                                     : 'context1',
-                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'configmap',
-                'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
-                'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
-                'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
-                'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
-        ], Environment.KUBERNETES)
+                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'configmap'
+        ] + COMMON_PROPS, Environment.KUBERNETES)
         ApplicationContext context1 = contextBuilder1.build()
 
         ApplicationContextBuilder contextBuilder2 = ApplicationContext.builder([
                 'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
                 'spec.name'                                                     : 'LeaderElectorSpec',
                 'spec.part'                                                     : 'context2',
-                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'configmap',
-                'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
-                'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
-                'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
-                'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
-        ], Environment.KUBERNETES)
+                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'configmap'
+        ] + COMMON_PROPS, Environment.KUBERNETES)
         ApplicationContext context2 = contextBuilder2.build()
 
         PollingConditions conditions = new PollingConditions(timeout: 5)
@@ -168,24 +159,16 @@ class LeaderElectorSpec extends K3sContainerSpec {
                 'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
                 'spec.name'                                                     : 'LeaderElectorSpec',
                 'spec.part'                                                     : 'context1',
-                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'endpoints',
-                'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
-                'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
-                'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
-                'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
-        ], Environment.KUBERNETES)
+                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'endpoints'
+        ] + COMMON_PROPS, Environment.KUBERNETES)
         ApplicationContext context1 = contextBuilder1.build()
 
         ApplicationContextBuilder contextBuilder2 = ApplicationContext.builder([
                 'kubernetes.client.kube-config-path'                            : 'file:' + kubeConfigFile.toString(),
                 'spec.name'                                                     : 'LeaderElectorSpec',
                 'spec.part'                                                     : 'context2',
-                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'endpoints',
-                'kubernetes.client.operator.leader-election.lock.resource-name' : 'test-lock',
-                'kubernetes.client.operator.leader-election.lock.retry-period'  : '2s',
-                'kubernetes.client.operator.leader-election.lock.renew-deadline': '3s',
-                'kubernetes.client.operator.leader-election.lock.lease-duration': '4s'
-        ], Environment.KUBERNETES)
+                'kubernetes.client.operator.leader-election.lock.resource-kind' : 'endpoints'
+        ] + COMMON_PROPS, Environment.KUBERNETES)
         ApplicationContext context2 = contextBuilder2.build()
 
         PollingConditions conditions = new PollingConditions(timeout: 5)
