@@ -15,7 +15,7 @@ dependencies {
     api(projects.micronautKubernetesClientOpenapiInformer)
     implementation(mnSerde.micronaut.serde.jackson)
     implementation(mn.micronaut.http.client.core)
-    implementation("com.bucket4j:bucket4j-core:8.10.1")
+    implementation(libs.bucket4j)
 
     compileOnly(mn.micronaut.management)
     compileOnly(mnMicrometer.micronaut.micrometer.core)
