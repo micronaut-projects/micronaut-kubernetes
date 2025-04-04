@@ -29,6 +29,7 @@ import java.io.IOException;
 /**
  * Common methods for lock implementations.
  */
+@SuppressWarnings("java:S2637")
 abstract sealed class AbstractLock implements Lock permits ConfigMapLock, EndpointsLock, LeaseLock {
     private static final String LEADER_ANNOTATION_KEY = "control-plane.alpha.kubernetes.io/leader";
 

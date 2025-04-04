@@ -49,7 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *     <li>LeaderChangedEvent - when the leader has changed</li>
  * </ul>
  */
-@SuppressWarnings("java:S2245")
+@SuppressWarnings({"java:S2245", "java:S1192"})
 @Singleton
 final class LeaderElector {
     private static final Logger LOG = LoggerFactory.getLogger(LeaderElector.class);

@@ -37,6 +37,7 @@ import java.util.function.Predicate;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Bean
 @DefaultScope(Context.class)
+@SuppressWarnings("java:S1452")
 public @interface Operator {
 
     /**

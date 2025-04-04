@@ -40,7 +40,7 @@ import java.util.function.Supplier;
  *
  * @param <T> item type
  */
-@SuppressWarnings("java:S899")
+@SuppressWarnings({"java:S899", "java:S3776"})
 public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements DelayingQueue<T> {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDelayingQueue.class);
 

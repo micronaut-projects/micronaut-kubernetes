@@ -58,6 +58,7 @@ public class BucketRateLimiter<T> implements RateLimiter<T> {
 
     @Override
     public void forget(T item) {
+        // items are not kept so ignore this call
     }
 
     @Override
@@ -67,5 +68,6 @@ public class BucketRateLimiter<T> implements RateLimiter<T> {
 
     @Override
     public void reset() {
+        // there is no need to reset since token will be refilled
     }
 }
