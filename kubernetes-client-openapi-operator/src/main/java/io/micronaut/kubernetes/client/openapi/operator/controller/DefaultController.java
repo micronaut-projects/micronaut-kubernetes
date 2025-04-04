@@ -100,8 +100,8 @@ final class DefaultController implements Controller {
                     LOG.debug("Starting controller {} worker {}", name, workerIndex);
                     try {
                         worker();
-                    } catch (Throwable t) {
-                        LOG.error("Unexpected loop abortion, controller {} worker {} ", name, workerIndex, t);
+                    } catch (Exception e) {
+                        LOG.error("Unexpected loop abortion, controller {} worker {} ", name, workerIndex, e);
                     } finally {
                         LOG.debug("Exiting controller {} worker {}", name, workerIndex);
                     }
@@ -151,8 +151,8 @@ final class DefaultController implements Controller {
             try {
                 // do reconciliation, invoke user customized logic
                 result = reconciler.apply(request);
-            } catch (Throwable t) {
-                LOG.error("Reconciler aborted unexpectedly", t);
+            } catch (Exception e) {
+                LOG.error("Reconciler aborted unexpectedly", e);
                 result = new Result(true);
             }
 

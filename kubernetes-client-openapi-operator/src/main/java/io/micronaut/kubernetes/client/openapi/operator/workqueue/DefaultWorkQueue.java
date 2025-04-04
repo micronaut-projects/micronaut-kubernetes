@@ -15,6 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
+import io.micronaut.core.util.CollectionUtils;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -72,10 +74,10 @@ public class DefaultWorkQueue<T> implements WorkQueue<T> {
 
     @Override
     public synchronized T get() throws InterruptedException {
-        while (queue.size() == 0 && !shutdown) {
+        while (CollectionUtils.isEmpty(queue) && !shutdown) {
             wait();
         }
-        if (queue.size() == 0) {
+        if (CollectionUtils.isEmpty(queue)) {
             // We must be shutting down
             return null;
         }

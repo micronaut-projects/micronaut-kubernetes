@@ -169,8 +169,8 @@ final class DefaultControllerFactory implements ControllerFactory {
                 LOG.trace("Starting controller {}", name);
                 try {
                     startController(controllerHolder);
-                } catch (Throwable t) {
-                    LOG.error("Failed to start controller {}", name, t);
+                } catch (Exception e) {
+                    LOG.error("Failed to start controller {}", name, e);
                 }
             });
         });
