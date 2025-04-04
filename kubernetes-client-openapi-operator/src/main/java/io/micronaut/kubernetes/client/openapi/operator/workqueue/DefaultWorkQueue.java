@@ -31,6 +31,7 @@ import java.util.Set;
  *
  * @param <T> item type
  */
+@SuppressWarnings("java:S2446")
 public class DefaultWorkQueue<T> implements WorkQueue<T> {
 
     // queue defines the order in which we will work on items. Every element of queue
@@ -98,18 +99,18 @@ public class DefaultWorkQueue<T> implements WorkQueue<T> {
 
     @Override
     public synchronized void start() {
-        clear();
+        clearWorkQueues();
         shutdown = false;
     }
 
     @Override
     public synchronized void shutdown() {
         shutdown = true;
-        clear();
+        clearWorkQueues();
         notifyAll();
     }
 
-    private void clear() {
+    private void clearWorkQueues() {
         queue.clear();
         dirty.clear();
         processing.clear();

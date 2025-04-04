@@ -62,7 +62,7 @@ public class DefaultRateLimitingQueue<T> extends DefaultDelayingQueue<T> impleme
     }
 
     @Override
-    public void shutdown() {
+    public synchronized void shutdown() {
         super.shutdown();
         rateLimiter.reset();
     }

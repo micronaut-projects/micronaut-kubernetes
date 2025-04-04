@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection;
 
 import io.micronaut.context.event.ApplicationEventPublisher;
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaderChangedEvent;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent;
@@ -48,6 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *     <li>LeaderChangedEvent - when the leader has changed</li>
  * </ul>
  */
+@SuppressWarnings("java:S2245")
 @Singleton
 final class LeaderElector {
     private static final Logger LOG = LoggerFactory.getLogger(LeaderElector.class);
@@ -101,7 +103,7 @@ final class LeaderElector {
         if (leaderElectionConfiguration.getRetryPeriod().isZero() || leaderElectionConfiguration.getRetryPeriod().isNegative()) {
             errors.add("RetryPeriod must be greater than zero");
         }
-        if (errors.size() > 0) {
+        if (CollectionUtils.isNotEmpty(errors)) {
             throw new IllegalArgumentException(String.join(",", errors));
         }
     }
@@ -112,7 +114,7 @@ final class LeaderElector {
      * enters a renewal loop where it continuously renews the lease following the provided configuration.
      */
     void run() {
-        LOG.info("Start leader election with lock {}", lock);
+        LOG.info("Starting leader election job, lock={}", lock);
         active.set(true);
         while (active.get()) {
             try {
@@ -124,8 +126,8 @@ final class LeaderElector {
                 leaseAcquiredEventPublisher.publishEventAsync(new LeaseAcquiredEvent(observedRecord));
                 renewLoop();
                 LOG.info("Failed to renew lease, lose leadership");
-            } catch (Throwable t) {
-                LOG.error("Leader election failure", t);
+            } catch (Exception e) {
+                LOG.error("Leader election failure", e);
             } finally {
                 // if shutdown initiated, the lease lost event will be sent by the stop method
                 if (active.get()) {
@@ -133,6 +135,7 @@ final class LeaderElector {
                 }
             }
         }
+        LOG.info("Stopping leader election job");
     }
 
     private boolean acquire() {
@@ -140,7 +143,7 @@ final class LeaderElector {
         long retryPeriodMillis = leaderElectionConfiguration.getRetryPeriod().toMillis();
         AtomicBoolean acquired = new AtomicBoolean(false);
 
-        ScheduledFuture scheduledFuture = scheduledWorkers.scheduleWithFixedDelay(
+        ScheduledFuture<?> scheduledFuture = scheduledWorkers.scheduleWithFixedDelay(
             () -> {
                 Future<Boolean> future = leaseWorkers.submit(this::tryAcquire);
                 try {
@@ -148,16 +151,19 @@ final class LeaderElector {
                     LOG.debug("Lease {} acquired", success ? "successfully" : "not");
                     acquired.set(success);
                 } catch (CancellationException e) {
-                    LOG.info("Processing of tryAcquire successfully canceled");
-                } catch (Throwable t) {
-                    LOG.error("Unexpected error on acquiring the lease", t);
+                    LOG.debug("Processing of tryAcquire successfully canceled");
+                } catch (InterruptedException e) {
+                    LOG.debug("The thread has been interrupted while waiting on tryAcquire result", e);
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    LOG.error("Unexpected error on acquiring the lease", e);
                     future.cancel(true); // make sure acquire work doesn't overlap
                 } finally {
                     maybeReportTransition();
                 }
             },
             0,
-            Double.valueOf(retryPeriodMillis * (JITTER_FACTOR * Math.random() + 1)).longValue(),
+            (long) (retryPeriodMillis * (JITTER_FACTOR * Math.random() + 1)),
             TimeUnit.MILLISECONDS);
 
         try {
@@ -165,7 +171,9 @@ final class LeaderElector {
                 Thread.sleep(retryPeriodMillis);
             }
         } catch (InterruptedException e) {
-            LOG.error("LeaderElection acquire loop gets interrupted", e);
+            LOG.warn("The leader elector thread has been interrupted while trying to acquire the lease", e);
+            active.set(false);
+            Thread.currentThread().interrupt();
             return false;
         } finally {
             scheduledFuture.cancel(true);
@@ -181,38 +189,53 @@ final class LeaderElector {
         try {
             boolean renewResult = true;
             while (active.get() && renewResult) {
-                final Future<Boolean> future = leaseWorkers.submit(
-                    () -> {
-                        try {
-                            // retry until success or interrupted
-                            while (!tryRenew()) {
-                                Thread.sleep(retryPeriodMillis);
-                                maybeReportTransition();
-                            }
-                            return true;
-                        } catch (InterruptedException e) {
-                            return false;
-                        }
-                    });
-
-                try {
-                    renewResult = future.get(renewDeadlineMillis, TimeUnit.MILLISECONDS);
-                } catch (ExecutionException | TimeoutException t) {
-                    LOG.debug("Failed to renew lease", t);
-                    renewResult = false;
-                } catch (Throwable t) {
-                    LOG.error("Unexpected exception when renewing lease in the background", t);
-                    renewResult = false;
-                } finally {
-                    future.cancel(true); // make the lease worker doesn't overlap
-                }
+                final Future<Boolean> future = leaseWorkers.submit(this::runRenew);
+                renewResult = getRenewResult(future, renewDeadlineMillis);
                 LOG.debug("Lease {} renewed", renewResult ? "successfully" : "not");
                 if (renewResult) {
                     Thread.sleep(retryPeriodMillis);
                 }
             }
+        } catch (InterruptedException e) {
+            LOG.warn("The leader elector thread has been interrupted while waiting retry period to expire before initiating another renew request", e);
+            active.set(false);
+            Thread.currentThread().interrupt();
         } catch (Exception e) {
             LOG.error("LeaderElection renew loop exception", e);
+        }
+    }
+
+    private boolean runRenew() {
+        long retryPeriodMillis = leaderElectionConfiguration.getRetryPeriod().toMillis();
+        try {
+            // retry until success or interrupted
+            while (!tryRenew()) {
+                Thread.sleep(retryPeriodMillis);
+                maybeReportTransition();
+            }
+            return true;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
+    private boolean getRenewResult(Future<Boolean> future, long renewDeadlineMillis) {
+        try {
+            return future.get(renewDeadlineMillis, TimeUnit.MILLISECONDS);
+        } catch (ExecutionException | TimeoutException e) {
+            LOG.debug("Failed to renew lease", e);
+            return false;
+        } catch (InterruptedException e) {
+            LOG.warn("The leader elector thread has been interrupted while waiting on renew result", e);
+            active.set(false);
+            Thread.currentThread().interrupt();
+            return false;
+        } catch (Exception e) {
+            LOG.error("Unexpected exception when renewing lease in the background", e);
+            return false;
+        } finally {
+            future.cancel(true); // make the lease worker doesn't overlap
         }
     }
 
@@ -288,7 +311,7 @@ final class LeaderElector {
     private LeaderElectionRecord createLeaderElectionRecord(Date acquireTime, Date renewTime, int leaderTransitions) {
         return new LeaderElectionRecord(
             lock.getIdentity(),
-            Long.valueOf(leaderElectionConfiguration.getLeaseDuration().getSeconds()).intValue(),
+            (int) (leaderElectionConfiguration.getLeaseDuration().getSeconds()),
             acquireTime,
             renewTime,
             leaderTransitions);
@@ -346,7 +369,8 @@ final class LeaderElector {
                 scheduledWorkers.shutdownNow();
             }
         } catch (InterruptedException e) {
-            LOG.warn("Failed to ensure scheduledWorkers termination", e);
+            LOG.debug("Failed to ensure scheduledWorkers termination", e);
+            Thread.currentThread().interrupt();
             scheduledWorkers.shutdownNow();
         }
 
@@ -357,7 +381,8 @@ final class LeaderElector {
                 leaseWorkers.shutdownNow();
             }
         } catch (InterruptedException e) {
-            LOG.warn("Failed to ensure leaseWorkers termination", e);
+            LOG.debug("Failed to ensure leaseWorkers termination", e);
+            Thread.currentThread().interrupt();
             leaseWorkers.shutdownNow();
         }
 
@@ -367,7 +392,7 @@ final class LeaderElector {
             LeaderElectionRecord emptyRecord = new LeaderElectionRecord(
                 null,
                 // LeaseLock impl requires a non-zero value for leaseDuration
-                Long.valueOf(leaderElectionConfiguration.getLeaseDuration().getSeconds()).intValue(),
+                (int) (leaderElectionConfiguration.getLeaseDuration().getSeconds()),
                 null,
                 null,
                 // maintain leaderTransitions count

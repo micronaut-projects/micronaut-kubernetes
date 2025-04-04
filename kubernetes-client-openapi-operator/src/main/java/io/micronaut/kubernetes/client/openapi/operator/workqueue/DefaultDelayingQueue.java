@@ -40,6 +40,7 @@ import java.util.function.Supplier;
  *
  * @param <T> item type
  */
+@SuppressWarnings("java:S899")
 public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements DelayingQueue<T> {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDelayingQueue.class);
 
@@ -58,20 +59,20 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
     }
 
     @Override
-    public void start() {
-        clear();
+    public synchronized void start() {
+        clearDelayingQueues();
         super.start();
         waitingFuture = waitingWorker.submit(this::waitingLoop);
     }
 
     @Override
-    public void shutdown() {
+    public synchronized void shutdown() {
         super.shutdown();
         waitingFuture.cancel(true);
-        clear();
+        clearDelayingQueues();
     }
 
-    private void clear() {
+    private void clearDelayingQueues() {
         delayQueue.clear();
         waitingEntryByData.clear();
         newEntryQueue.clear();
@@ -95,54 +96,57 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
             return;
         }
 
-        newEntryQueue.offer(new WaitForEntry<>(item, timeSource.get() + duration.toMillis(), timeSource));
+        boolean queued = newEntryQueue.offer(new WaitForEntry<>(item, timeSource.get() + duration.toMillis(), timeSource));
+        if (!queued) {
+            LOG.error("Item has not been added to the delaying queue, item={}", item);
+        }
     }
 
     private void waitingLoop() {
-            while (true) {
-                // underlying work-queue is shutting down, quit the loop.
-                if (super.isShutdown()) {
-                    return;
+        while (true) {
+            // underlying work-queue is shutting down, quit the loop.
+            if (super.isShutdown()) {
+                return;
+            }
+
+            Duration nextReadyAt = HEART_BEAT_INTERVAL;
+
+            // peek the head item from the delay queue
+            WaitForEntry<T> entry = delayQueue.peek();
+            if (entry != null) {
+                // check whether the head item is ready
+                long delay = entry.getDelay(TimeUnit.MILLISECONDS);
+                if (delay <= 0) {
+                    // the item is ready so remove it from the delay-queue and push it into underlying work-queue
+                    delayQueue.remove(entry);
+                    waitingEntryByData.remove(entry.data);
+                    super.add(entry.data);
+                    continue;
                 }
+                // refresh the next ready-at time
+                nextReadyAt = Duration.ofMillis(delay);
+            }
 
-                Duration nextReadyAt = HEART_BEAT_INTERVAL;
+            // wait on a new entry until the head item of delay queue is ready or
+            // heart beat interval expires if delay queue is empty
+            WaitForEntry<T> newEntry = null;
+            try {
+                newEntry = newEntryQueue.poll(nextReadyAt.toMillis(), TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                LOG.debug("The thread has been interrupted while waiting on new entry", e);
+                Thread.currentThread().interrupt();
+            }
 
-                // peek the head item from the delay queue
-                WaitForEntry<T> entry = delayQueue.peek();
-                if (entry != null) {
-                    // check whether the head item is ready
-                    long delay = entry.getDelay(TimeUnit.MILLISECONDS);
-                    if (delay <= 0) {
-                        // the item is ready so remove it from the delay-queue and push it into underlying work-queue
-                        delayQueue.remove(entry);
-                        waitingEntryByData.remove(entry.data);
-                        super.add(entry.data);
-                        continue;
-                    }
-                    // refresh the next ready-at time
-                    nextReadyAt = Duration.ofMillis(delay);
-                }
-
-                // wait on a new entry until the head item of delay queue is ready or
-                // heart beat interval expires if delay queue is empty
-                WaitForEntry<T> newEntry = null;
-                try {
-                    newEntry = newEntryQueue.poll(nextReadyAt.toMillis(), TimeUnit.MILLISECONDS);
-                } catch (InterruptedException e) {
-                    LOG.trace("The thread has been interrupted while waiting on new entry", e);
-                    Thread.currentThread().interrupt();
-                }
-
-                if (newEntry != null) {
-                    if (timeSource.get() < newEntry.readyAtMillis) {
-                        // the item is not yet ready, insert it to the delay-queue
-                        delay(newEntry);
-                    } else {
-                        // the item is ready as soon as received, fire it to the work-queue directly
-                        super.add(newEntry.data);
-                    }
+            if (newEntry != null) {
+                if (timeSource.get() < newEntry.readyAtMillis) {
+                    // the item is not yet ready, insert it to the delay-queue
+                    delay(newEntry);
+                } else {
+                    // the item is ready as soon as received, fire it to the work-queue directly
+                    super.add(newEntry.data);
                 }
             }
+        }
     }
 
     private void delay(WaitForEntry<T> entry) {

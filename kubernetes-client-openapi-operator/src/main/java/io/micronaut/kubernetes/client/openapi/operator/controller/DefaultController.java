@@ -134,7 +134,7 @@ final class DefaultController implements Controller {
             try {
                 request = workQueue.get();
             } catch (InterruptedException e) {
-                LOG.debug("{} controller worker interrupted", name, e);
+                LOG.debug("{} controller worker has been interrupted", name, e);
                 Thread.currentThread().interrupt();
                 break;
             }

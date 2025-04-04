@@ -73,10 +73,9 @@ abstract sealed class AbstractLock implements Lock permits ConfigMapLock, Endpoi
 
     LeaderElectionRecord getLeaderElectionRecord(V1ObjectMeta objectMeta) throws IOException {
         String recordString = objectMeta.getAnnotations() == null ? null : objectMeta.getAnnotations().get(LEADER_ANNOTATION_KEY);
-        if (StringUtils.isEmpty(recordString)) {
-            return new LeaderElectionRecord();
-        }
-        return jsonMapper.readValue(recordString, LeaderElectionRecord.class);
+        return StringUtils.isEmpty(recordString)
+            ? new LeaderElectionRecord()
+            : jsonMapper.readValue(recordString, LeaderElectionRecord.class);
     }
 
     void addLeaderElectionRecord(V1ObjectMeta objectMeta, LeaderElectionRecord leaderElectionRecord) throws IOException {
