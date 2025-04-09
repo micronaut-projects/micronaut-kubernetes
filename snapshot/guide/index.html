@@ -121,6 +121,8 @@
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-kubernetes-client-openapi-informer"><a href="#kubernetes-client-openapi-informer"><strong>5.5</strong><span>Kubernetes Informer</span></a></div>
         
+        <div class="toc-item" style="margin-left:10px" id="toc-item-kubernetes-client-openapi-operator"><a href="#kubernetes-client-openapi-operator"><strong>5.6</strong><span>Kubernetes Operator</span></a></div>
+        
         <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
         
         <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>7</strong><span>Breaking Changes</span></a></div>
@@ -137,13 +139,13 @@
         <h1>Micronaut Kubernetes</h1>
         <p></p>
         <p>Integration between Micronaut and Kubernetes</p>
-        <p><strong>Version:</strong> 7.0.0-SNAPSHOT </p>
+        <p><strong>Version:</strong> 7.1.0-SNAPSHOT </p>
     </div>
     
 <h1 id="introduction"><a class="anchor" href="#introduction"></a>1 Introduction</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/introduction.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/introduction.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -253,14 +255,24 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="whatsNew"><a class="anchor" href="#whatsNew"></a>2 What's New?</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/whatsNew.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/whatsNew.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
 
 
 <div class="sect2">
-<h3 id="_micronaut_data_6_3_0">Micronaut Data 6.3.0</h3>
+<h3 id="_micronaut_kubernetes_7_1_0">Micronaut Kubernetes 7.1.0</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Kubernetes Operator support for Micronaut Kubernetes Client OpenApi</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_micronaut_kubernetes_7_0_0">Micronaut Kubernetes 7.0.0</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -276,7 +288,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 </div>
 <div class="sect2">
-<h3 id="_micronaut_data_6_2_1">Micronaut Data 6.2.1</h3>
+<h3 id="_micronaut_kubernetes_6_2_1">Micronaut Kubernetes 6.2.1</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -286,7 +298,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 </div>
 <div class="sect2">
-<h3 id="_micronaut_data_6_2_0">Micronaut Data 6.2.0</h3>
+<h3 id="_micronaut_kubernetes_6_2_0">Micronaut Kubernetes 6.2.0</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -296,7 +308,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 </div>
 <div class="sect2">
-<h3 id="_micronaut_data_3_0_0">Micronaut Data 3.0.0</h3>
+<h3 id="_micronaut_kubernetes_3_0_0">Micronaut Kubernetes 3.0.0</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -309,7 +321,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="releaseHistory"><a class="anchor" href="#releaseHistory"></a>3 Release History</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/releaseHistory.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/releaseHistory.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -325,7 +337,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 <h1 id="kubernetes-client"><a class="anchor" href="#kubernetes-client"></a>4 Kubernetes Client</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -628,7 +640,7 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
 <h2 id="service-discovery"><a class="anchor" href="#service-discovery"></a>4.1 Service Discovery</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/service-discovery.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client/service-discovery.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -1531,7 +1543,7 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 <h2 id="config-client"><a class="anchor" href="#config-client"></a>4.2 Configuration Client</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/config-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client/config-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3055,7 +3067,7 @@ bootstrap phase, which happens before evaluating the <code>application.yml</code
 <h2 id="health-checks"><a class="anchor" href="#health-checks"></a>4.3 Health Checks</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/health-checks.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client/health-checks.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3247,7 +3259,7 @@ information about how to configure it.</p>
 <h2 id="kubernetes-informer"><a class="anchor" href="#kubernetes-informer"></a>4.4 Kubernetes Informer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/kubernetes-informer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client/kubernetes-informer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -3495,7 +3507,7 @@ public class SharedInformerCache {
 <h2 id="kubernetes-operator"><a class="anchor" href="#kubernetes-operator"></a>4.5 Kubernetes Operator</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client/kubernetes-operator.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client/kubernetes-operator.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4014,7 +4026,7 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
 <h1 id="kubernetes-client-openapi"><a class="anchor" href="#kubernetes-client-openapi"></a>5 Kubernetes Client OpenAPI</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -4404,7 +4416,7 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
 <h2 id="kubernetes-client-openapi-service-discovery"><a class="anchor" href="#kubernetes-client-openapi-service-discovery"></a>5.1 Service Discovery</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-service-discovery.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-service-discovery.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -5283,7 +5295,7 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 <h2 id="kubernetes-client-openapi-config-client"><a class="anchor" href="#kubernetes-client-openapi-config-client"></a>5.2 Configuration Client</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-config-client.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-config-client.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -6940,7 +6952,7 @@ bootstrap phase, which happens before evaluating the <code>application.yml</code
 <h2 id="kubernetes-client-openapi-health-checks"><a class="anchor" href="#kubernetes-client-openapi-health-checks"></a>5.3 Health Checks</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-health-checks.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-health-checks.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7132,7 +7144,7 @@ information about how to configure it.</p>
 <h2 id="kubernetes-client-openapi-watcher"><a class="anchor" href="#kubernetes-client-openapi-watcher"></a>5.4 Kubernetes Watcher</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-watcher.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-watcher.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7244,7 +7256,7 @@ public record WatchEvent&lt;T&gt;(
 <h2 id="kubernetes-client-openapi-informer"><a class="anchor" href="#kubernetes-client-openapi-informer"></a>5.5 Kubernetes Informer</h2>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-informer.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-informer.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7276,7 +7288,7 @@ It is built on top of Micronaut Kubernetes Client OpenApi Watcher and provides a
 <div class="paragraph">
 <p>Then create a bean that implements <a href="../api/io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html">ResourceEventHandler</a> with the
 Kubernetes resource type of your choice and add the <a href="../api/io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html">@Informer</a> annotation
-trough which you provide the configuration for the <a href="../api/io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html">SharedIndexInformer</a>.</p>
+through which you provide the configuration for the <a href="../api/io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html">SharedIndexInformer</a>.</p>
 </div>
 <div class="paragraph">
 <p>The example below illustrates the declaration of the <a href="../api/io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html">@Informer</a> with the
@@ -7286,14 +7298,12 @@ trough which you provide the configuration for the <a href="../api/io/micronaut/
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.client.secret;
 
-import io.micronaut.context.annotation.Context;
 import io.micronaut.kubernetes.client.openapi.informer.handler.Informer;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Context
 @Informer(apiType = V1Secret.class, namespace = SecretResourceEventHandler.NAMESPACE) // <b class="conum">(1)</b>
 class SecretResourceEventHandler implements ResourceEventHandler&lt;V1Secret&gt; { // <b class="conum">(2)</b>
 
@@ -7496,10 +7506,568 @@ The local cache starts out empty, and gets populated and updated.</p>
 </div>
 </div>
 
+<h2 id="kubernetes-client-openapi-operator"><a class="anchor" href="#kubernetes-client-openapi-operator"></a>5.6 Kubernetes Operator</h2>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetes-client-openapi/kubernetes-client-openapi-operator.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Micronaut Kubernetes Client OpenApi Operator implements the Kubernetes Controller feature.
+It is built on top of Micronaut Kubernetes Client OpenApi Informer and allows you to easily create a reconciler for a Kubernetes resource.</p>
+</div>
+<div class="paragraph">
+<p>First you need to add a dependency on the <code>micronaut-kubernetes-client-openapi-operator</code> module:</p>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-operator")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-openapi-operator&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div></p>
+</div>
+<div class="paragraph">
+<p>Then create a bean that implements <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/ResourceReconciler.html">ResourceReconciler</a> with the
+Kubernetes resource type of your choice and add the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> annotation
+through which you provide the configuration for the controllers that will be created by Micronaut for your reconciler.</p>
+</div>
+<div class="paragraph">
+<p>The example below illustrates the use of the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> with the
+<a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/ResourceReconciler.html">ResourceReconciler</a> that reconciles the Kubernetes <code>V1ConfigMap</code> resource.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.operator;
+
+import io.micronaut.core.annotation.NonNull;
+import io.micronaut.kubernetes.client.openapi.informer.handler.Informer;
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import io.micronaut.kubernetes.client.openapi.operator.Operator;
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+import java.util.Optional;
+
+@Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = ConfigMapReconciler.NAMESPACE)) // <b class="conum">(1)</b>
+class ConfigMapReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    static final String NAMESPACE = "test-operator-namespace";
+
+    @Override
+    @NonNull
+    public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) { // <b class="conum">(3)</b>
+        Optional&lt;V1ConfigMap&gt; configMapOpt = lister.get(request); // <b class="conum">(4)</b>
+        // .. reconcile  <b class="conum">(5)</b>
+        return new Result(false); // <b class="conum">(6)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> annotation defines the resource type which is the subject of reconciliation. The definition is done by using the <a href="../api/io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html">@Informer</a> annotation. Both annotations provide other object specific configuration options.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/ResourceReconciler.html">ResourceReconciler</a> interface declares the <code>reconcile</code> method that is main point of interaction between the Micronaut and your application logic.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The reconciliation input consists from the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/Request.html">Request</a> that uniquely identifies the reconciliation resource and the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/OperatorResourceLister.html">OperatorResourceLister</a> through which the actual subject of reconciliation can be retrieved.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Retrieval of the resource for the reconciliation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>This is where the idempotent reconciliation logic should be placed. Note that the reconciliation logic is responsible for the update of the resource status.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>The return value of reconciliation method is the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/Result.html">Result</a>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> annotation provides several configuration options:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. @Operator attributes</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Element</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the operator controller thread. Defaults to the <code>operator-&lt;resource-type&gt;</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>informer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <a href="../api/io/micronaut/kubernetes/client/openapi/informer/handler/Informer.html">@Informer</a> annotation used for the configuration of the Operator&#8217;s informer. This value is required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onAddFilter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>java.util.function.Predicate</code> decides which created resources are subject for the reconciliation.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onUpdateFilter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>java.util.function.BiPredicate</code> decides which updated resources are subject for the reconciliation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>onDeleteFilter</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>java.util.function.BiPredicate</code> decides which deleted resources are subject for the reconciliation</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The filter examples for the <code>V1ConfigMap</code> resource:</p>
+</div>
+<div class="paragraph">
+<p><code>onAddFilter</code></p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.operator;
+
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import jakarta.inject.Singleton;
+
+import java.util.function.Predicate;
+
+@Singleton
+public class OnAddFilter implements Predicate&lt;V1ConfigMap&gt; {
+    @Override
+    public boolean test(V1ConfigMap configMap) {
+        return configMap.getMetadata().getAnnotations() != null
+            &amp;&amp; configMap.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>onUpdateFilter</code></p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.operator;
+
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import jakarta.inject.Singleton;
+
+import java.util.function.BiPredicate;
+
+@Singleton
+public class OnUpdateFilter implements BiPredicate&lt;V1ConfigMap, V1ConfigMap&gt; {
+    @Override
+    public boolean test(V1ConfigMap oldConfigMap, V1ConfigMap newConfigMap) {
+        return newConfigMap.getMetadata().getAnnotations() != null
+            &amp;&amp; newConfigMap.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>onDeleteFilter</code></p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Note that in case of <code>onDeleteFilter</code> the predicate receives the resource for the <code>test</code> method, but when the ResouceReconciler&#8217;s <code>reconcile</code> method is executed, the <code>lister</code> will return <code>Optional.empty</code> since the resource was already deleted. To properly reconcile the resource on it&#8217;s removal, use <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/">finalizers</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>and to set the filters in <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> annotation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Operator(informer = @Informer(apiType = V1ConfigMap.class),
+        onAddFilter = OnAddFilter.class,
+        onUpdateFilter = OnUpdateFilter.class,
+        onDeleteFilter = OnDeleteFilter.class)</code></pre>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_programmatic_creation_of_controller">Programmatic creation of Controller</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use the bean <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/ControllerFactory.html">ControllerFactory</a> to create the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/Controller.html">Controller</a> programmatically.
+The <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/ControllerFactory.html">ControllerFactory</a>'s <code>createController</code> methods require already created
+<a href="../api/io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformer.html">SharedIndexInformer</a> instances for the same kubernetes resources in the same namespaces as provided to <code>createController</code> methods.</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.operator;
+
+import io.micronaut.context.annotation.Context;
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
+import io.micronaut.kubernetes.client.openapi.model.V1Secret;
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
+import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFactory;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collections;
+import java.util.Optional;
+
+@Context
+class SecretOperator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecretOperator.class);
+
+    static final String NAMESPACE = "test-operator-namespace";
+
+    SecretOperator(SharedIndexInformerFactory sharedIndexInformerFactory, ControllerFactory controllerFactory) {
+        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret.class, NAMESPACE);
+        controllerFactory.createController(V1Secret.class, Collections.singleton(NAMESPACE), new SecretReconciler());
+    }
+
+    private class SecretReconciler implements ResourceReconciler&lt;V1Secret&gt; {
+        @Override
+        public Result reconcile(Request request, OperatorResourceLister&lt;V1Secret&gt; lister) {
+            Optional&lt;V1Secret&gt; secretOpt = lister.get(request);
+            LOG.info("Reconciling secret: {}", request);
+            // .. reconcile
+            return new Result(false);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that informer and controller need to be created before the micronaut context has completed the startup process since those are started by
+<a href="../api/io/micronaut/kubernetes/client/openapi/informer/InformerFactoryLifecycleListener.html">InformerFactoryLifecycleListener</a> and <a href="../api/io/micronaut/kubernetes/client/openapi/operator/controller/ControllersLifecycleListener.html">ControllersLifecycleListener</a>.</p>
+</div>
+<div class="paragraph">
+<p>Controllers created programmatically or via the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> annotation are running only on the leader instance.
+The leader instance is selected by the leader election background job.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_leader_election">Leader election</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElector.html">LeaderElector</a> is responsible for the leader election between application replicas.
+It runs as a background job on each application replica trying to acquire the lock. After the job has acquired the lock, it keeps renewing the lock.
+If the lock is not renewed within the specified amount of time, other replicas may try to acquire the lock and become the leader.</p>
+</div>
+<div class="paragraph">
+<p>You can adjust the leader elector configuration by using Micronaut configuration properties <code>kubernetes.client.operator.leader-election.lock</code>:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. Leader election properties</caption>
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Element</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lease-duration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock lease duration. Defaults to <code>10s</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>renew-deadline</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock renew deadline. If the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElector.html">LeaderElector</a> fails to renew the lock within the deadline then the controller looses the lock. Defaults to <code>8s</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>retry-period</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The lock acquire retry period. Defaults to <code>5s</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="openblock">
+<div class="title">Example of custom lock acquisition properties. Note that the value is of type Duration:</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.operator.leader-election.lock.lease-duration=60s
+kubernetes.client.operator.leader-election.lock.renew-deadline=50s
+kubernetes.client.operator.leader-election.lock.retry-period=20s</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          lease-duration: 60s
+          renew-deadline: 50s
+          retry-period: 20s</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.operator]
+      [kubernetes.client.operator.leader-election]
+        [kubernetes.client.operator.leader-election.lock]
+          lease-duration="60s"
+          renew-deadline="50s"
+          retry-period="20s"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    operator {
+      leaderElection {
+        lock {
+          leaseDuration = "60s"
+          renewDeadline = "50s"
+          retryPeriod = "20s"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      operator {
+        leader-election {
+          lock {
+            lease-duration = "60s"
+            renew-deadline = "50s"
+            retry-period = "20s"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "operator": {
+        "leader-election": {
+          "lock": {
+            "lease-duration": "60s",
+            "renew-deadline": "50s",
+            "retry-period": "20s"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Events emitted by <a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElector.html">LeaderElector</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/event/LeaseAcquiredEvent.html">LeaseAcquiredEvent</a> - emitted when this application replica has acquired the lock</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/event/LeaseLostEvent.html">LeaseLostEvent</a> - emitted when this application replica has lost the lock</p>
+</li>
+<li>
+<p><a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/event/LeaderChangedEvent.html">LeaderChangedEvent</a> - emitted when the leader has changed</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_lock_identity">Lock identity</h3>
+<div class="paragraph">
+<p>The lock identity is used to uniquely identify the application that holds the lock.
+By default, the Pod name the application runs within is the source for the lock identity. This means the application must run in the Kubernetes cluster.</p>
+</div>
+<div class="paragraph">
+<p>To create a custom lock identity, create a bean that implements the <a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/LockIdentityProvider.html">LockIdentityProvider</a> interface.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_lock_resource_types">Lock resource types</h3>
+<div class="paragraph">
+<p>The <a href="../api/io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElector.html">LeaderElector</a> uses a native Kubernetes resource to store the lock information.
+Currently supported resources are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>V1Lease</code> (default)</p>
+</li>
+<li>
+<p><code>V1ConfigMap</code></p>
+</li>
+<li>
+<p><code>V1Endpoints</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The selected resource can be changed by configuring the property <code>kubernetes.client.operator.leader-election.lock.resource-kind</code> to <code>configmaps</code> or <code>endpoints</code>.</p>
+</div>
+<div class="paragraph">
+<p>Note that the resource for the lock is created in the application namespace. Then the application name is used as the lock resource name. This can be changed by using Micronaut configuration properties:</p>
+</div>
+<div class="openblock">
+<div class="title">Example on how to configure custom lock resource name and namespace:</div>
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">kubernetes.client.operator.leader-election.lock.resource-name=custom-name
+kubernetes.client.operator.leader-election.lock.resource-namespace=custom-namespace</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          resource-name: custom-name
+          resource-namespace: custom-namespace</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
+  [kubernetes.client]
+    [kubernetes.client.operator]
+      [kubernetes.client.operator.leader-election]
+        [kubernetes.client.operator.leader-election.lock]
+          resource-name="custom-name"
+          resource-namespace="custom-namespace"</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">kubernetes {
+  client {
+    operator {
+      leaderElection {
+        lock {
+          resourceName = "custom-name"
+          resourceNamespace = "custom-namespace"
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  kubernetes {
+    client {
+      operator {
+        leader-election {
+          lock {
+            resource-name = "custom-name"
+            resource-namespace = "custom-namespace"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "kubernetes": {
+    "client": {
+      "operator": {
+        "leader-election": {
+          "lock": {
+            "resource-name": "custom-name",
+            "resource-namespace": "custom-namespace"
+          }
+        }
+      }
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that in case <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">the RBAC authorization</a> is enabled in your Kubernetes cluster,
+your application needs to have properly configured role with respect to the lock resource type.</p>
+</div>
+<div class="listingblock">
+<div class="title">Example of role for the <code>V1Lease</code> lock resource type:</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: operator-lease-role
+rules:
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - create
+  - update
+---</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <h1 id="logging"><a class="anchor" href="#logging"></a>6 Logging and debugging</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/logging.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/logging.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7534,7 +8102,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <h1 id="breaking"><a class="anchor" href="#breaking"></a>7 Breaking Changes</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/breaking.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/breaking.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7578,7 +8146,7 @@ the official kubernetes client. To support the builder pattern, the reactive cli
 <h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>8 Guides</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/kubernetesGuides.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/kubernetesGuides.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>
@@ -7594,7 +8162,7 @@ the official kubernetes client. To support the builder pattern, the reactive cli
 <h1 id="repository"><a class="anchor" href="#repository"></a>9 Repository</h1>
 
 <div class='contribute-btn'>
-    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.0.x/src/main/docs/guide/repository.adoc"'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/7.1.x/src/main/docs/guide/repository.adoc"'>
         <i class='fa fa-pencil-square-o'></i> Improve this doc
     </button>
 </div>

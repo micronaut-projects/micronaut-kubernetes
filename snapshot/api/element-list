@@ -15,6 +15,15 @@ io.micronaut.kubernetes.client.openapi.informer
 io.micronaut.kubernetes.client.openapi.informer.cache
 io.micronaut.kubernetes.client.openapi.informer.handler
 io.micronaut.kubernetes.client.openapi.model
+io.micronaut.kubernetes.client.openapi.operator
+io.micronaut.kubernetes.client.openapi.operator.configuration
+io.micronaut.kubernetes.client.openapi.operator.controller
+io.micronaut.kubernetes.client.openapi.operator.controller.reconciler
+io.micronaut.kubernetes.client.openapi.operator.leaderelection
+io.micronaut.kubernetes.client.openapi.operator.leaderelection.event
+io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcelock
+io.micronaut.kubernetes.client.openapi.operator.workqueue
+io.micronaut.kubernetes.client.openapi.operator.workqueue.ratelimiter
 io.micronaut.kubernetes.client.openapi.reactor.annotation
 io.micronaut.kubernetes.client.openapi.reactor.api
 io.micronaut.kubernetes.client.openapi.resolver
