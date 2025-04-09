@@ -123,6 +123,13 @@ public abstract class CreateWatcherSpec extends DefaultTask {
         contents.values().forEach(contentValue -> {
             Map<String, Object> contentValueData = (Map<String, Object>) contentValue;
             Map<String, Object> schemaData = getMapValue(contentValueData, "schema");
+            if ("object".equals(schemaData.get("type"))) {
+                schemaData.clear();
+                schemaData.put("type", "array");
+                schemaData.put("items",  Map.of("type", "object"));
+                watcherTypeMappings.put("Object", "io.micronaut.kubernetes.client.openapi.watcher.WatchEvent<Object>");
+                return;
+            }
             String schemaRef = (String) schemaData.get("$ref");
             if (schemaRef != null && schemaRef.endsWith("List")) {
                 // modify reference from object list to array of items (for example, from V1NamespaceList to array of V1Namespace)

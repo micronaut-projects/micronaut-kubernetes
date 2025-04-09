@@ -41,6 +41,9 @@ final class ApiWatcherExecMethodProcessor extends ApiExecMethodProcessor<Kuberne
             .getTypeParameters()[0]
             .getType()
             .getName();
+        if ("java.lang.Object".equals(returnTypeName)) {
+            return Optional.empty();
+        }
         return Optional.of(returnTypeName);
     }
 }
