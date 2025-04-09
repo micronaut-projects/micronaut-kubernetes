@@ -12,8 +12,11 @@ kubernetesClientOpenApi {
 
 micronaut {
     openapi {
+        version = libs.versions.micronaut.openapi.get()
         client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
+            dateTimeFormat = "OFFSET_DATETIME"
+            additionalProperties.put("dateTimeFormat", "yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]'Z'")
         }
     }
 }

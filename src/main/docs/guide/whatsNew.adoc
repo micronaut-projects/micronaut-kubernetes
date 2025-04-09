@@ -1,13 +1,16 @@
-=== Micronaut Data 6.3.0
+=== Micronaut Kubernetes 7.1.0
+- Kubernetes Operator support for Micronaut Kubernetes Client OpenApi
+
+=== Micronaut Kubernetes 7.0.0
 - Kubernetes Watcher support for Micronaut Kubernetes Client OpenApi
 - Kubernetes Informer support for Micronaut Kubernetes Client OpenApi
 - Kubernetes Service Discovery and Configuration Client support for Micronaut Kubernetes Client OpenApi
 
-=== Micronaut Data 6.2.1
+=== Micronaut Kubernetes 6.2.1
 - Reactive support for Micronaut Kubernetes Client OpenApi
 
-=== Micronaut Data 6.2.0
+=== Micronaut Kubernetes 6.2.0
 - Implementation of in-house kubernetes client: Micronaut Kubernetes Client OpenApi
 
-=== Micronaut Data 3.0.0
+=== Micronaut Kubernetes 3.0.0
 - Official K8s JAVA SDK client with reactive support

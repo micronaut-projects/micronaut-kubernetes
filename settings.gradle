@@ -20,6 +20,7 @@ include 'kubernetes-client-openapi'
 include 'kubernetes-client-openapi-common'
 include 'kubernetes-client-openapi-discovery'
 include 'kubernetes-client-openapi-informer'
+include 'kubernetes-client-openapi-operator'
 include 'kubernetes-client-openapi-reactor'
 include 'kubernetes-client-openapi-watcher'
 include 'kubernetes-client-processor'
@@ -35,6 +36,7 @@ include 'examples:example-client'
 include 'examples:example-kubernetes-client'
 include 'examples:example-kubernetes-client-openapi-informer-java'
 include 'examples:example-kubernetes-client-openapi-java'
+include 'examples:example-kubernetes-client-openapi-operator-java'
 include 'examples:example-kubernetes-client-openapi-reactor-java'
 include 'examples:example-kubernetes-client-openapi-watcher-java'
 include 'examples:example-kubernetes-informer'
@@ -51,4 +53,5 @@ micronautBuild {
     importMicronautCatalog("micronaut-serde")
     importMicronautCatalog("micronaut-validation")
     importMicronautCatalog("micronaut-openapi")
+    importMicronautCatalog("micronaut-micrometer")
 }

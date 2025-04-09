@@ -7,6 +7,7 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
+import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil
 import spock.lang.Specification
 
 import java.util.concurrent.ThreadFactory
@@ -14,11 +15,12 @@ import java.util.concurrent.ThreadFactory
 class DefaultSharedIndexInformerSpec extends Specification {
 
     ExecutableMethod executableMethod
-    ThreadFactory threadFactory
+    ThreadFactoryUtil threadFactoryUtil
 
     def setup() {
         executableMethod = Stub(ExecutableMethod)
-        threadFactory = Stub(ThreadFactory)
+        //threadFactory = Stub(ThreadFactory)
+        threadFactoryUtil = Stub(ThreadFactoryUtil)
     }
 
     def 'test listener resync period disabled'() {
@@ -27,7 +29,7 @@ class DefaultSharedIndexInformerSpec extends Specification {
         def informerApiCall = new InformerApiCall<>(executableMethod, null, executableMethod, null, "test-namespace", null)
 
         when:
-        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactory, informerApiCall, 0, new Cache<>())
+        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactoryUtil, informerApiCall, 0, new Cache<>())
         informer.addEventHandler(createTestResourceEventHandler())
         informer.addEventHandlerWithResyncPeriod(createTestResourceEventHandler(), 2000)
         def listeners = informer.getProcessor().getListeners()
@@ -44,7 +46,7 @@ class DefaultSharedIndexInformerSpec extends Specification {
         def informerApiCall = new InformerApiCall<>(executableMethod, null, executableMethod, null, "test-namespace", null)
 
         when:
-        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactory, informerApiCall, 200, new Cache<>())
+        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactoryUtil, informerApiCall, 200, new Cache<>())
         informer.addEventHandler(createTestResourceEventHandler())
         def listeners = informer.getProcessor().getListeners()
 
@@ -59,7 +61,7 @@ class DefaultSharedIndexInformerSpec extends Specification {
         def informerApiCall = new InformerApiCall<>(executableMethod, null, executableMethod, null, "test-namespace", null)
 
         when:
-        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactory, informerApiCall, 1000, new Cache<>())
+        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactoryUtil, informerApiCall, 1000, new Cache<>())
         informer.addEventHandlerWithResyncPeriod(createTestResourceEventHandler(), 200)
         def listeners = informer.getProcessor().getListeners()
 
@@ -74,7 +76,7 @@ class DefaultSharedIndexInformerSpec extends Specification {
         def informerApiCall = new InformerApiCall<>(executableMethod, null, executableMethod, null, "test-namespace", null)
 
         when:
-        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactory, informerApiCall, 2000, new Cache<>())
+        def informer = new DefaultSharedIndexInformer(V1Secret, "test-namespace", threadFactoryUtil, informerApiCall, 2000, new Cache<>())
         informer.addEventHandlerWithResyncPeriod(createTestResourceEventHandler(), 1000)
         def listeners = informer.getProcessor().getListeners()
 

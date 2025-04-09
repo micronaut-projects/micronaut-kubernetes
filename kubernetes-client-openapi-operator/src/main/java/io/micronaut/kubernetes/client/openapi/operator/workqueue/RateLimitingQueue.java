@@ -1,0 +1,55 @@
+/*
+ * Copyright 2017-2025 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package io.micronaut.kubernetes.client.openapi.operator.workqueue;
+
+import io.micronaut.core.annotation.NonNull;
+
+/**
+ * Defines a queue that rate limits items being added to the queue.
+ *
+ * <p>
+ * The code has been copied from the official client and modified:
+ * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/extended/src/main/java/io/kubernetes/client/extended/workqueue/RateLimitingQueue.java">RateLimitingQueue</a>
+ * </p>
+ *
+ * @param <T> item type
+ */
+public interface RateLimitingQueue<T> extends DelayingQueue<T> {
+
+    /**
+     * Adds an item to the work queue after the rate limiter says it is ok.
+     *
+     * @param item item to add
+     */
+    void addRateLimited(@NonNull T item);
+
+    /**
+     * Indicates that an item is finished being retried. Doesn't matter whether it is for perm
+     * failing or for success, we'll stop the rate limiter from tracking it. This only clears the
+     * `rateLimiter`, you still have to call `Done` on the queue.
+     *
+     * @param item item which is finished being retried
+     */
+    void forget(@NonNull T item);
+
+    /**
+     * Returns back how many times the item was requeued.
+     *
+     * @param item specific item
+     * @return number of times the item was requeued
+     */
+    int numRequeues(@NonNull T item);
+}

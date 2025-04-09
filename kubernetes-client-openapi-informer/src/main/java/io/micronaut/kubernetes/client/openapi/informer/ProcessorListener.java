@@ -37,7 +37,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @param <ApiType> kubernetes api type
  */
-@SuppressWarnings("java:S2142")
 final class ProcessorListener<ApiType extends KubernetesObject> implements Runnable {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorListener.class);
@@ -60,6 +59,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     @Override
     public void run() {
+        LOG.debug("Starting processor listener");
         active.set(true);
         while (active.get()) {
             try {
@@ -79,12 +79,15 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
                     LOG.error("Unrecognized notification: {}", notification);
                 }
             } catch (InterruptedException e) {
-                LOG.error("Processor interrupted", e);
-            } catch (Throwable t) {
+                LOG.warn("Processor listener thread has been interrupted", e);
+                active.set(false);
+                Thread.currentThread().interrupt();
+            } catch (Exception e) {
                 // Catch all exceptions here so that listeners won't quit unexpectedly
-                LOG.error("Failed invoking event handler", t);
+                LOG.error("Failed invoking event handler", e);
             }
         }
+        LOG.debug("Stopping processor listener");
     }
 
     void stop() {

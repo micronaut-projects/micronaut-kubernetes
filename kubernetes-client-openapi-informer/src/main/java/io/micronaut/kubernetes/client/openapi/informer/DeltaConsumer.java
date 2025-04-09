@@ -30,7 +30,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @param <ApiType> kubernetes api type
  */
-@SuppressWarnings("java:S2142")
 final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(DeltaConsumer.class);
 
@@ -52,16 +51,20 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
 
     @Override
     public void run() {
+        LOG.debug("Starting delta consumer");
         active.set(true);
         while (active.get()) {
             try {
                 deltaQueue.pop(this::handleDeltas);
-            } catch (InterruptedException t) {
-                LOG.error("Delta consumer interrupted", t);
-            } catch (Throwable t) {
-                LOG.error("Delta consumer recovered from crashing {}", t.getMessage(), t);
+            } catch (InterruptedException e) {
+                LOG.warn("Delta consumer thread has been interrupted", e);
+                active.set(false);
+                Thread.currentThread().interrupt();
+            } catch (Exception e) {
+                LOG.error("Delta consumer recovered from crashing {}", e.getMessage(), e);
             }
         }
+        LOG.debug("Stopping delta consumer");
     }
 
     void stop() {

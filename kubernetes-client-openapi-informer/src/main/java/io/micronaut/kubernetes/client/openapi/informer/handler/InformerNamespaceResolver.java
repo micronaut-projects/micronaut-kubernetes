@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.informer.handler;
 
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.annotation.NonNull;
 
 import java.util.Set;
@@ -24,8 +25,9 @@ import java.util.Set;
 /**
  * Informer namespace resolver.
  */
+@Internal
 @DefaultImplementation(DefaultInformerNamespaceResolver.class)
-interface InformerNamespaceResolver {
+public interface InformerNamespaceResolver {
 
     /**
      * Resolves the namespaces for the informer's watched resources.
