@@ -13,7 +13,7 @@ shadow = '8.0.0'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '22.0.1'
 io-fabric8-kubernetes-client = '7.1.0'
-netty-incubator-codec-http3 = '0.0.28.Final'
+netty-incubator-codec-http3 = '0.0.29.Final'
 testcontainers-k3s = '1.20.6'
 bucket4j = '8.10.1'
 
