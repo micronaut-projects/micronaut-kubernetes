@@ -6,12 +6,6 @@ plugins {
     id 'io.micronaut.kubernetes.client.openapi'
 }
 
-micronautBuild {
-    binaryCompatibility {
-        enabledAfter('7.0.0') // modify to 6.3.0 when 6.3.0 gets released
-    }
-}
-
 kubernetesClientOpenApi {
     specVersion = libs.versions.io.kubernetes.client.java.get()
     modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
