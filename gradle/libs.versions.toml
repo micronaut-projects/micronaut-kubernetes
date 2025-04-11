@@ -23,7 +23,7 @@ micronaut-reactor = "3.7.0"
 micronaut-serde = "2.14.0"
 micronaut-validation = '4.9.0'
 micronaut-openapi = "6.15.0"
-micronaut-micrometer = "5.9.3"
+micronaut-micrometer = "5.10.1"
 
 sonatype-scan = "3.0.0"
 
