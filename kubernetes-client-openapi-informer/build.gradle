@@ -2,12 +2,6 @@ plugins {
     id 'io.micronaut.build.internal.kubernetes-module'
 }
 
-micronautBuild {
-    binaryCompatibility {
-        enabledAfter('7.0.0') // modify to 6.3.0 when 6.3.0 gets released
-    }
-}
-
 dependencies {
     api(projects.micronautKubernetesClientOpenapiReactor)
     api(projects.micronautKubernetesClientOpenapiWatcher)
