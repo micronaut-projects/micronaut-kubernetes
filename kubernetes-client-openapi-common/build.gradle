@@ -33,6 +33,7 @@ dependencies {
     annotationProcessor(mn.micronaut.inject.java)
     implementation(mnValidation.micronaut.validation)
     implementation(mnSerde.micronaut.serde.jackson)
-    implementation(mnOpenapi.micronaut.openapi)
     implementation(mn.micronaut.http.client)
+    implementation(mn.snakeyaml)
+    compileOnly(platform(mnOpenapi.micronaut.openapi.bom))
 }

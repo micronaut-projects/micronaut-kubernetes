@@ -35,10 +35,11 @@ tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
     implementation(mnValidation.micronaut.validation)
-    implementation(mnOpenapi.micronaut.openapi)
     api(projects.micronautKubernetesClientOpenapiCommon)
+    compileOnly(platform(mnOpenapi.micronaut.openapi.bom))
     testImplementation(libs.testcontainers.k3s)
     testImplementation(mn.micronaut.http.server.netty)
     testImplementation(mn.micronaut.http.client)
     testImplementation(mnReactor.micronaut.reactor)
+    testCompileOnly(mn.snakeyaml)
 }
