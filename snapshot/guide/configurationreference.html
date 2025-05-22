@@ -672,9 +672,44 @@
 </div>
 <div class="sect2">
 <h3 id="_micronaut_kubernetes_client_openapi_operator_config_properties">Micronaut Kubernetes Client Openapi Operator Config Properties</h3>
+<a id="io.micronaut.kubernetes.client.openapi.operator.configuration.OperatorConfiguration" href="#io.micronaut.kubernetes.client.openapi.operator.configuration.OperatorConfiguration">&#128279;</a>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 12. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/operator/configuration/OperatorConfiguration.html">OperatorConfiguration</a></caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.worker-count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The operator controller worker count. Default "4".</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.ready-timeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout to wait on informers to be synced. Default "30s".</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.ready-check-internal</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">How often the informer sync status should be checked until they are ready or timeout expires.
+ Default "1s".</p></td>
+</tr>
+</tbody>
+</table>
+<div style="page-break-after: always;"></div>
 <a id="io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration" href="#io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration">&#128279;</a>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/operator/configuration/LeaderElectionConfiguration.html">LeaderElectionConfiguration</a></caption>
+<caption class="title">Table 13. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/operator/configuration/LeaderElectionConfiguration.html">LeaderElectionConfiguration</a></caption>
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
@@ -713,41 +748,6 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.leader-election.lock.resource-namespace</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">java.util.Optional</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The lock resource namespace. If not provided then the application namespace is used.</p></td>
-</tr>
-</tbody>
-</table>
-<div style="page-break-after: always;"></div>
-<a id="io.micronaut.kubernetes.client.openapi.operator.configuration.OperatorConfiguration" href="#io.micronaut.kubernetes.client.openapi.operator.configuration.OperatorConfiguration">&#128279;</a>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 13. Configuration Properties for <a href="../api/io/micronaut/kubernetes/client/openapi/operator/configuration/OperatorConfiguration.html">OperatorConfiguration</a></caption>
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Property</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.worker-count</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The operator controller worker count. Default "4".</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.ready-timeout</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Timeout to wait on informers to be synced. Default "30s".</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>kubernetes.client.operator.ready-check-internal</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">java.time.Duration</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">How often the informer sync status should be checked until they are ready or timeout expires.
- Default "1s".</p></td>
 </tr>
 </tbody>
 </table>
