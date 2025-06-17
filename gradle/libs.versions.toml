@@ -25,7 +25,7 @@ micronaut-validation = '4.9.0'
 micronaut-openapi = "6.15.0"
 micronaut-micrometer = "5.10.2"
 
-sonatype-scan = "3.0.0"
+sonatype-scan = "3.1.1"
 
 [libraries]
 # Core
