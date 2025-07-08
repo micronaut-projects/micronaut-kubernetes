@@ -120,6 +120,7 @@ public class KubernetesClientConfiguration implements Toggleable {
      * Service account authentication configuration.
      */
     @ConfigurationProperties("service-account")
+    @BootstrapContextCompatible
     public static class ServiceAccount {
         private static final String SERVICE_ACCOUNT_DIR = "file:/var/run/secrets/kubernetes.io/serviceaccount/";
         private static final String CA_PATH = SERVICE_ACCOUNT_DIR + "ca.crt";
