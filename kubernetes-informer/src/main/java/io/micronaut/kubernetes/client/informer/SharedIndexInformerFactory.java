@@ -48,8 +48,8 @@ public interface SharedIndexInformerFactory {
     <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
             Class<ApiType> apiTypeClass,
             Class<ApiListType> apiListTypeClass,
-            String apiGroup,
             String resourcePlural,
+            String apiGroup,
             @Nullable String namespace,
             @Nullable String labelSelector,
             @Nullable Long resyncCheckPeriod,
