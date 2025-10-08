@@ -31,7 +31,7 @@ class OperationUtils {
     }
 
     static void deleteConfigMap(CoreV1ApiReactor api, String namespace, String name) {
-        api.deleteNamespacedConfigMap(name, namespace, null, null, null, null, null, null).block()
+        api.deleteNamespacedConfigMap(name, namespace, null, null, null, null, null, null, null).block()
     }
 
     static V1Pod createPod(CoreV1ApiReactor api, String namespace, V1Pod pod) {
@@ -47,6 +47,6 @@ class OperationUtils {
     }
 
     static void deleteSecret(CoreV1ApiReactor api, String namespace, String name) {
-        api.deleteNamespacedSecret(name, namespace, null, null, null, null, null, null).block()
+        api.deleteNamespacedSecret(name, namespace, null, null, null, null, null, null, null).block()
     }
 }
