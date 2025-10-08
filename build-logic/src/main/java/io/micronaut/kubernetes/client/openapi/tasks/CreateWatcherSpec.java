@@ -154,7 +154,7 @@ public abstract class CreateWatcherSpec extends DefaultTask {
 
     private Yaml createYaml() {
         LoaderOptions loaderOptions = new LoaderOptions();
-        loaderOptions.setCodePointLimit(10485760);
+        loaderOptions.setCodePointLimit(15728640);
         DumperOptions dumperOptions = new DumperOptions();
         dumperOptions.setPrettyFlow(true);
         dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
