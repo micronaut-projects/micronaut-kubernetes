@@ -267,7 +267,7 @@ class InformerSpec extends Specification {
     }
 
     private void deleteSecret(CoreV1ApiReactor api, String namespaceName, String secretName) {
-        api.deleteNamespacedSecret(TEST_SECRET_NAME_PREFIX + secretName, namespaceName, null, null, null, null, null, null)
+        api.deleteNamespacedSecret(TEST_SECRET_NAME_PREFIX + secretName, namespaceName, null, null, null, null, null, null, null)
                 .block()
     }
 
