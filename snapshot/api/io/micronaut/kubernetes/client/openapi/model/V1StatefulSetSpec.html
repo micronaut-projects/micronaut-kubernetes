@@ -136,8 +136,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec)" class="member-name-link">V1StatefulSetSpec</a><wbr>(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;selector,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceName,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector,io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec)" class="member-name-link">V1StatefulSetSpec</a><wbr>(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;selector,
  <a href="V1PodTemplateSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodTemplateSpec</a>&nbsp;template)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -355,20 +354,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="JSON_PROPERTY_SERVICE_NAME">
-<h3>JSON_PROPERTY_SERVICE_NAME</h3>
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_SERVICE_NAME</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="see-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1StatefulSetSpec.JSON_PROPERTY_SERVICE_NAME">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="JSON_PROPERTY_TEMPLATE">
 <h3>JSON_PROPERTY_TEMPLATE</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_TEMPLATE</span></div>
@@ -467,6 +452,20 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="JSON_PROPERTY_SERVICE_NAME">
+<h3>JSON_PROPERTY_SERVICE_NAME</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_SERVICE_NAME</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1StatefulSetSpec.JSON_PROPERTY_SERVICE_NAME">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_UPDATE_STRATEGY">
 <h3>JSON_PROPERTY_UPDATE_STRATEGY</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_UPDATE_STRATEGY</span></div>
@@ -503,10 +502,9 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec)">
+<section class="detail" id="&lt;init&gt;(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector,io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec)">
 <h3>V1StatefulSetSpec</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">V1StatefulSetSpec</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;selector,
- <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceName,
  <a href="V1PodTemplateSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodTemplateSpec</a>&nbsp;template)</span></div>
 </section>
 </li>
@@ -544,39 +542,6 @@ loadScripts(document, 'script');</script>
 <h3>selector</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1StatefulSetSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StatefulSetSpec</a></span>&nbsp;<span class="element-name">selector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;selector)</span></div>
 <div class="block">Set selector in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1StatefulSetSpec for chaining.</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="getServiceName()">
-<h3>getServiceName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getServiceName</span>()</div>
-<div class="block">serviceName is the name of the service that governs this StatefulSet. This service must exist before the StatefulSet, and is responsible for the network identity of the set. Pods get DNS/hostnames that follow the pattern: pod-specific-string.serviceName.default.svc.cluster.local where \&quot;pod-specific-string\&quot; is managed by the StatefulSet controller.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the serviceName property value</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="setServiceName(java.lang.String)">
-<h3>setServiceName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setServiceName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceName)</span></div>
-<div class="block">Set the serviceName property value</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>serviceName</code> - property value to set</dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="serviceName(java.lang.String)">
-<h3>serviceName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1StatefulSetSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StatefulSetSpec</a></span>&nbsp;<span class="element-name">serviceName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceName)</span></div>
-<div class="block">Set serviceName in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1StatefulSetSpec for chaining.</dd>
@@ -805,6 +770,39 @@ loadScripts(document, 'script');</script>
 <h3>revisionHistoryLimit</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1StatefulSetSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StatefulSetSpec</a></span>&nbsp;<span class="element-name">revisionHistoryLimit</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;revisionHistoryLimit)</span></div>
 <div class="block">Set revisionHistoryLimit in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1StatefulSetSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getServiceName()">
+<h3>getServiceName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getServiceName</span>()</div>
+<div class="block">serviceName is the name of the service that governs this StatefulSet. This service must exist before the StatefulSet, and is responsible for the network identity of the set. Pods get DNS/hostnames that follow the pattern: pod-specific-string.serviceName.default.svc.cluster.local where \&quot;pod-specific-string\&quot; is managed by the StatefulSet controller.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the serviceName property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setServiceName(java.lang.String)">
+<h3>setServiceName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setServiceName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceName)</span></div>
+<div class="block">Set the serviceName property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>serviceName</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="serviceName(java.lang.String)">
+<h3>serviceName</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1StatefulSetSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StatefulSetSpec</a></span>&nbsp;<span class="element-name">serviceName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceName)</span></div>
+<div class="block">Set serviceName in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1StatefulSetSpec for chaining.</dd>

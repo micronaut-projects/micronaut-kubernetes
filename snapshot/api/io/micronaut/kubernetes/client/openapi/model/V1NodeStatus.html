@@ -621,7 +621,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAddresses()">
 <h3>getAddresses</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeAddress</a>&gt;</span>&nbsp;<span class="element-name">getAddresses</span>()</div>
-<div class="block">List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/concepts/nodes/node/#addresses Note: This field is declared as mergeable, but the merge key is not sufficiently unique, which can cause data corruption when it is merged. Callers should instead use a full-replacement patch. See https://pr.k8s.io/79391 for an example. Consumers should assume that addresses can change during the lifetime of a Node. However, there are some exceptions where this may not be possible, such as Pods that inherit a Node&#39;s address in its own status or consumers of the downward API (status.hostIP).</div>
+<div class="block">List of addresses reachable to the node. Queried from cloud provider, if available. More info: https://kubernetes.io/docs/reference/node/node-status/#addresses Note: This field is declared as mergeable, but the merge key is not sufficiently unique, which can cause data corruption when it is merged. Callers should instead use a full-replacement patch. See https://pr.k8s.io/79391 for an example. Consumers should assume that addresses can change during the lifetime of a Node. However, there are some exceptions where this may not be possible, such as Pods that inherit a Node&#39;s address in its own status or consumers of the downward API (status.hostIP).</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the addresses property value</dd>
@@ -755,7 +755,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getConditions()">
 <h3>getConditions</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeCondition</a>&gt;</span>&nbsp;<span class="element-name">getConditions</span>()</div>
-<div class="block">Conditions is an array of current observed node conditions. More info: https://kubernetes.io/docs/concepts/nodes/node/#condition</div>
+<div class="block">Conditions is an array of current observed node conditions. More info: https://kubernetes.io/docs/reference/node/node-status/#condition</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the conditions property value</dd>

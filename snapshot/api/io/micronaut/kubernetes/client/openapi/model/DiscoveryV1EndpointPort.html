@@ -365,7 +365,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getPort()">
 <h3>getPort</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">getPort</span>()</div>
-<div class="block">port represents the port number of the endpoint. If this is not specified, ports are not restricted and must be interpreted in the context of the specific consumer.</div>
+<div class="block">port represents the port number of the endpoint. If the EndpointSlice is derived from a Kubernetes service, this must be set to the service&#39;s target port. EndpointSlices used for other purposes may have a nil port.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the port property value</dd>

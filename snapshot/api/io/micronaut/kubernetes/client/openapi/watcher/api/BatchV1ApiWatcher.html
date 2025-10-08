@@ -170,7 +170,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listCronJobForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listCronJobForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/batch/v1/cronjobs")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1CronJob.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CronJob</a>&gt;&gt;</span>&nbsp;<span class="element-name">listCronJobForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -217,7 +217,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listJobForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listJobForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/batch/v1/jobs")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Job.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Job</a>&gt;&gt;</span>&nbsp;<span class="element-name">listJobForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -264,7 +264,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedCronJob(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedCronJob</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/batch/v1/namespaces/{namespace}/cronjobs")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1CronJob.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CronJob</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedCronJob</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -314,7 +314,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedJob(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedJob</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/batch/v1/namespaces/{namespace}/jobs")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Job.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Job</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedJob</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable

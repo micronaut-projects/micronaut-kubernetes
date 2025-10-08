@@ -98,6 +98,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_PRE_STOP" class="member-name-link">JSON_PROPERTY_PRE_STOP</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_STOP_SIGNAL" class="member-name-link">JSON_PROPERTY_STOP_SIGNAL</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -134,32 +137,47 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPreStop()" class="member-name-link">getPreStop</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#postStart(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">postStart</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;postStart)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getStopSignal()" class="member-name-link">getStopSignal</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">StopSignal defines which signal will be sent to a container when it is being stopped.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#postStart(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">postStart</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;postStart)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set postStart in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#preStop(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">preStop</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;preStop)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#preStop(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">preStop</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;preStop)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set preStop in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPostStart(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">setPostStart</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;postStart)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPostStart(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">setPostStart</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;postStart)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the postStart property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPreStop(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">setPreStop</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;preStop)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPreStop(io.micronaut.kubernetes.client.openapi.model.V1LifecycleHandler)" class="member-name-link">setPreStop</a><wbr>(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;preStop)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the preStop property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStopSignal(java.lang.String)" class="member-name-link">setStopSignal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;stopSignal)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the stopSignal property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#stopSignal(java.lang.String)" class="member-name-link">stopSignal</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;stopSignal)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set stopSignal in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -200,6 +218,20 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="see-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1Lifecycle.JSON_PROPERTY_PRE_STOP">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_STOP_SIGNAL">
+<h3>JSON_PROPERTY_STOP_SIGNAL</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_STOP_SIGNAL</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1Lifecycle.JSON_PROPERTY_STOP_SIGNAL">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -285,6 +317,39 @@ loadScripts(document, 'script');</script>
 <h3>preStop</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></span>&nbsp;<span class="element-name">preStop</span><wbr><span class="parameters">(<a href="V1LifecycleHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LifecycleHandler</a>&nbsp;preStop)</span></div>
 <div class="block">Set preStop in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1Lifecycle for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getStopSignal()">
+<h3>getStopSignal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getStopSignal</span>()</div>
+<div class="block">StopSignal defines which signal will be sent to a container when it is being stopped. If not specified, the default is defined by the container runtime in use. StopSignal can only be set for Pods with a non-empty .spec.os.name</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the stopSignal property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setStopSignal(java.lang.String)">
+<h3>setStopSignal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setStopSignal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;stopSignal)</span></div>
+<div class="block">Set the stopSignal property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>stopSignal</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="stopSignal(java.lang.String)">
+<h3>stopSignal</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1Lifecycle.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Lifecycle</a></span>&nbsp;<span class="element-name">stopSignal</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;stopSignal)</span></div>
+<div class="block">Set stopSignal in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1Lifecycle for chaining.</dd>

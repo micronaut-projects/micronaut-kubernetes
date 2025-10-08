@@ -138,7 +138,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listIPAddress(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listIPAddress</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/networking.k8s.io/v1beta1/ipaddresses")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1beta1IPAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1IPAddress</a>&gt;&gt;</span>&nbsp;<span class="element-name">listIPAddress</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -185,7 +185,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listServiceCIDR(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listServiceCIDR</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/networking.k8s.io/v1beta1/servicecidrs")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1beta1ServiceCIDR.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1ServiceCIDR</a>&gt;&gt;</span>&nbsp;<span class="element-name">listServiceCIDR</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable

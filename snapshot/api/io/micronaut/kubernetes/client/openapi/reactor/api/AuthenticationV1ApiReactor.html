@@ -131,7 +131,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createSelfSubjectReview(io.micronaut.kubernetes.client.openapi.model.V1SelfSubjectReview,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>createSelfSubjectReview</h3>
 <div class="member-signature"><span class="annotations">@Post("/apis/authentication.k8s.io/v1/selfsubjectreviews")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type">reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1SelfSubjectReview.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1SelfSubjectReview</a>&gt;</span>&nbsp;<span class="element-name">createSelfSubjectReview</span><wbr><span class="parameters">(@Body @NotNull @Valid
  @NotNull @Valid <a href="../../model/V1SelfSubjectReview.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1SelfSubjectReview</a>&nbsp;body,
  @QueryValue("dryRun") @Nullable
@@ -162,7 +162,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createTokenReview(io.micronaut.kubernetes.client.openapi.model.V1TokenReview,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>createTokenReview</h3>
 <div class="member-signature"><span class="annotations">@Post("/apis/authentication.k8s.io/v1/tokenreviews")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type">reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1TokenReview.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TokenReview</a>&gt;</span>&nbsp;<span class="element-name">createTokenReview</span><wbr><span class="parameters">(@Body @NotNull @Valid
  @NotNull @Valid <a href="../../model/V1TokenReview.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1TokenReview</a>&nbsp;body,
  @QueryValue("dryRun") @Nullable
@@ -193,7 +193,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAPIResources()">
 <h3>getAPIResources</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/authentication.k8s.io/v1/")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type">reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1APIResourceList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIResourceList</a>&gt;</span>&nbsp;<span class="element-name">getAPIResources</span>()</div>
 <div class="block">get available resources</div>
 <dl class="notes">

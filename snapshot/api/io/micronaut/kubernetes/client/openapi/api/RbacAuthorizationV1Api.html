@@ -129,10 +129,11 @@ loadScripts(document, 'script');</script>
 <div class="block">create a RoleBinding</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteClusterRole</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteClusterRole</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propagationPolicy,
  @Nullable @Valid <a href="../model/V1DeleteOptions.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1DeleteOptions</a>&nbsp;body)</code></div>
@@ -140,10 +141,11 @@ loadScripts(document, 'script');</script>
 <div class="block">delete a ClusterRole</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteClusterRoleBinding</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteClusterRoleBinding</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propagationPolicy,
  @Nullable @Valid <a href="../model/V1DeleteOptions.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1DeleteOptions</a>&nbsp;body)</code></div>
@@ -151,11 +153,12 @@ loadScripts(document, 'script');</script>
 <div class="block">delete a ClusterRoleBinding</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionClusterRole</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionClusterRole</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;_continue,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;limit,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
@@ -169,11 +172,12 @@ loadScripts(document, 'script');</script>
 <div class="block">delete collection of ClusterRole</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionClusterRoleBinding</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionClusterRoleBinding</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;_continue,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;limit,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
@@ -187,12 +191,13 @@ loadScripts(document, 'script');</script>
 <div class="block">delete collection of ClusterRoleBinding</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionNamespacedRole</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionNamespacedRole</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;_continue,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;limit,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
@@ -206,12 +211,13 @@ loadScripts(document, 'script');</script>
 <div class="block">delete collection of Role</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionNamespacedRoleBinding</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteCollectionNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteCollectionNamespacedRoleBinding</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;_continue,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;limit,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
@@ -225,11 +231,12 @@ loadScripts(document, 'script');</script>
 <div class="block">delete collection of RoleBinding</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteNamespacedRole</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteNamespacedRole</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propagationPolicy,
  @Nullable @Valid <a href="../model/V1DeleteOptions.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1DeleteOptions</a>&nbsp;body)</code></div>
@@ -237,11 +244,12 @@ loadScripts(document, 'script');</script>
 <div class="block">delete a Role</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteNamespacedRoleBinding</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteNamespacedRoleBinding</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;propagationPolicy,
  @Nullable @Valid <a href="../model/V1DeleteOptions.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1DeleteOptions</a>&nbsp;body)</code></div>
@@ -477,7 +485,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createClusterRole(io.micronaut.kubernetes.client.openapi.model.V1ClusterRole,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>createClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Post("/apis/rbac.authorization.k8s.io/v1/clusterroles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRole.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRole</a></span>&nbsp;<span class="element-name">createClusterRole</span><wbr><span class="parameters">(@Body @NotNull @Valid
  @NotNull @Valid <a href="../model/V1ClusterRole.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRole</a>&nbsp;body,
  @QueryValue("pretty") @Nullable
@@ -508,7 +516,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createClusterRoleBinding(io.micronaut.kubernetes.client.openapi.model.V1ClusterRoleBinding,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>createClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Post("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleBinding</a></span>&nbsp;<span class="element-name">createClusterRoleBinding</span><wbr><span class="parameters">(@Body @NotNull @Valid
  @NotNull @Valid <a href="../model/V1ClusterRoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleBinding</a>&nbsp;body,
  @QueryValue("pretty") @Nullable
@@ -539,7 +547,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createNamespacedRole(java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1Role,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>createNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Post("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Role.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Role</a></span>&nbsp;<span class="element-name">createNamespacedRole</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Body @NotNull @Valid
@@ -573,7 +581,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createNamespacedRoleBinding(java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1RoleBinding,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>createNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Post("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1RoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleBinding</a></span>&nbsp;<span class="element-name">createNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Body @NotNull @Valid
@@ -604,10 +612,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteClusterRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @QueryValue("pretty") @Nullable
@@ -616,6 +624,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("orphanDependents") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @QueryValue("propagationPolicy") @Nullable
@@ -629,6 +639,7 @@ loadScripts(document, 'script');</script>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. Defaults to &#39;false&#39; unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). (optional)</dd>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
@@ -640,10 +651,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteClusterRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @QueryValue("pretty") @Nullable
@@ -652,6 +663,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("orphanDependents") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @QueryValue("propagationPolicy") @Nullable
@@ -665,6 +678,7 @@ loadScripts(document, 'script');</script>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. Defaults to &#39;false&#39; unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). (optional)</dd>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
@@ -676,10 +690,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteCollectionClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteCollectionClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteCollectionClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/clusterroles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteCollectionClusterRole</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("continue") @Nullable
@@ -690,6 +704,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("labelSelector") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @QueryValue("limit") @Nullable
@@ -716,6 +732,7 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldSelector</code> - A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>labelSelector</code> - A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)</dd>
 <dd><code>limit</code> - limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
@@ -732,10 +749,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteCollectionClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteCollectionClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteCollectionClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteCollectionClusterRoleBinding</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("continue") @Nullable
@@ -746,6 +763,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("labelSelector") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @QueryValue("limit") @Nullable
@@ -772,6 +791,7 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldSelector</code> - A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>labelSelector</code> - A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)</dd>
 <dd><code>limit</code> - limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
@@ -788,10 +808,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteCollectionNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteCollectionNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteCollectionNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteCollectionNamespacedRole</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -804,6 +824,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("labelSelector") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @QueryValue("limit") @Nullable
@@ -831,6 +853,7 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldSelector</code> - A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>labelSelector</code> - A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)</dd>
 <dd><code>limit</code> - limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
@@ -847,10 +870,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteCollectionNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteCollectionNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteCollectionNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteCollectionNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -863,6 +886,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;fieldSelector,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("labelSelector") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelSelector,
  @QueryValue("limit") @Nullable
@@ -890,6 +915,7 @@ loadScripts(document, 'script');</script>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>fieldSelector</code> - A selector to restrict the list of returned objects by their fields. Defaults to everything. (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>labelSelector</code> - A selector to restrict the list of returned objects by their labels. Defaults to everything. (optional)</dd>
 <dd><code>limit</code> - limit is a maximum number of responses to return for a list call. If more items exist, the server will set the &#x60;continue&#x60; field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true.  The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
@@ -906,10 +932,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteNamespacedRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -920,6 +946,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("orphanDependents") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @QueryValue("propagationPolicy") @Nullable
@@ -934,6 +962,7 @@ loadScripts(document, 'script');</script>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. Defaults to &#39;false&#39; unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). (optional)</dd>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
@@ -945,10 +974,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="deleteNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
+<section class="detail" id="deleteNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)">
 <h3>deleteNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -959,6 +988,8 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
  @QueryValue("gracePeriodSeconds") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;gracePeriodSeconds,
+ @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable
+ @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;ignoreStoreReadErrorWithClusterBreakingPotential,
  @QueryValue("orphanDependents") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;orphanDependents,
  @QueryValue("propagationPolicy") @Nullable
@@ -973,6 +1004,7 @@ loadScripts(document, 'script');</script>
 <dd><code>pretty</code> - If &#39;true&#39;, then the output is pretty printed. Defaults to &#39;false&#39; unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). (optional)</dd>
 <dd><code>dryRun</code> - When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed (optional)</dd>
 <dd><code>gracePeriodSeconds</code> - The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. (optional)</dd>
+<dd><code>ignoreStoreReadErrorWithClusterBreakingPotential</code> - if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it (optional)</dd>
 <dd><code>orphanDependents</code> - Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the \&quot;orphan\&quot; finalizer will be added to/removed from the object&#39;s finalizers list. Either this field or PropagationPolicy may be set, but not both. (optional)</dd>
 <dd><code>propagationPolicy</code> - Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: &#39;Orphan&#39; - orphan the dependents; &#39;Background&#39; - allow the garbage collector to delete the dependents in the background; &#39;Foreground&#39; - a cascading policy that deletes all dependents in the foreground. (optional)</dd>
 <dd><code>body</code> - (optional)</dd>
@@ -987,7 +1019,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAPIResources()">
 <h3>getAPIResources</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1APIResourceList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1APIResourceList</a></span>&nbsp;<span class="element-name">getAPIResources</span>()</div>
 <div class="block">get available resources</div>
 <dl class="notes">
@@ -1001,7 +1033,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listClusterRole(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/clusterroles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type"><a href="../model/V1ClusterRoleList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleList</a></span>&nbsp;<span class="element-name">listClusterRole</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -1048,7 +1080,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listClusterRoleBinding(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type"><a href="../model/V1ClusterRoleBindingList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleBindingList</a></span>&nbsp;<span class="element-name">listClusterRoleBinding</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -1095,7 +1127,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedRole(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type"><a href="../model/V1RoleList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleList</a></span>&nbsp;<span class="element-name">listNamespacedRole</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1145,7 +1177,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type"><a href="../model/V1RoleBindingList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleBindingList</a></span>&nbsp;<span class="element-name">listNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1195,7 +1227,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listRoleBindingForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listRoleBindingForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/rolebindings")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type"><a href="../model/V1RoleBindingList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleBindingList</a></span>&nbsp;<span class="element-name">listRoleBindingForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1242,7 +1274,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listRoleForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listRoleForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/roles")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type"><a href="../model/V1RoleList.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleList</a></span>&nbsp;<span class="element-name">listRoleForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1289,7 +1321,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="patchClusterRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean)">
 <h3>patchClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Patch("/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRole.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRole</a></span>&nbsp;<span class="element-name">patchClusterRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Body @NotNull
@@ -1325,7 +1357,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="patchClusterRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean)">
 <h3>patchClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Patch("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleBinding</a></span>&nbsp;<span class="element-name">patchClusterRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Body @NotNull
@@ -1361,7 +1393,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="patchNamespacedRole(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean)">
 <h3>patchNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Patch("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Role.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Role</a></span>&nbsp;<span class="element-name">patchNamespacedRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -1400,7 +1432,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="patchNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean)">
 <h3>patchNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Patch("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1RoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleBinding</a></span>&nbsp;<span class="element-name">patchNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -1439,7 +1471,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="readClusterRole(java.lang.String,java.lang.String)">
 <h3>readClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRole.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRole</a></span>&nbsp;<span class="element-name">readClusterRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @QueryValue("pretty") @Nullable
@@ -1459,7 +1491,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="readClusterRoleBinding(java.lang.String,java.lang.String)">
 <h3>readClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleBinding</a></span>&nbsp;<span class="element-name">readClusterRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @QueryValue("pretty") @Nullable
@@ -1479,7 +1511,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="readNamespacedRole(java.lang.String,java.lang.String,java.lang.String)">
 <h3>readNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Role.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Role</a></span>&nbsp;<span class="element-name">readNamespacedRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -1502,7 +1534,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="readNamespacedRoleBinding(java.lang.String,java.lang.String,java.lang.String)">
 <h3>readNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1RoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleBinding</a></span>&nbsp;<span class="element-name">readNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -1525,7 +1557,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="replaceClusterRole(java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1ClusterRole,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>replaceClusterRole</h3>
 <div class="member-signature"><span class="annotations">@Put("/apis/rbac.authorization.k8s.io/v1/clusterroles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRole.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRole</a></span>&nbsp;<span class="element-name">replaceClusterRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Body @NotNull @Valid
@@ -1558,7 +1590,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="replaceClusterRoleBinding(java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1ClusterRoleBinding,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>replaceClusterRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Put("/apis/rbac.authorization.k8s.io/v1/clusterrolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1ClusterRoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ClusterRoleBinding</a></span>&nbsp;<span class="element-name">replaceClusterRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Body @NotNull @Valid
@@ -1591,7 +1623,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="replaceNamespacedRole(java.lang.String,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1Role,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>replaceNamespacedRole</h3>
 <div class="member-signature"><span class="annotations">@Put("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/roles/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1Role.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Role</a></span>&nbsp;<span class="element-name">replaceNamespacedRole</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
@@ -1627,7 +1659,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="replaceNamespacedRoleBinding(java.lang.String,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1RoleBinding,java.lang.String,java.lang.String,java.lang.String,java.lang.String)">
 <h3>replaceNamespacedRoleBinding</h3>
 <div class="member-signature"><span class="annotations">@Put("/apis/rbac.authorization.k8s.io/v1/namespaces/{namespace}/rolebindings/{name}")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
 </span><span class="return-type"><a href="../model/V1RoleBinding.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1RoleBinding</a></span>&nbsp;<span class="element-name">replaceNamespacedRoleBinding</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull

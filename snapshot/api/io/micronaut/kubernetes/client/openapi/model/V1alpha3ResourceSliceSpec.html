@@ -108,7 +108,13 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_NODE_SELECTOR" class="member-name-link">JSON_PROPERTY_NODE_SELECTOR</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_POOL" class="member-name-link">JSON_PROPERTY_POOL</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_PER_DEVICE_NODE_SELECTION" class="member-name-link">JSON_PROPERTY_PER_DEVICE_NODE_SELECTION</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_POOL" class="member-name-link">JSON_PROPERTY_POOL</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_SHARED_COUNTERS" class="member-name-link">JSON_PROPERTY_SHARED_COUNTERS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
@@ -144,61 +150,81 @@ loadScripts(document, 'script');</script>
 <div class="block">Add an item to the devices property in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allNodes(java.lang.Boolean)" class="member-name-link">allNodes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allNodes)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addSharedCountersItem(io.micronaut.kubernetes.client.openapi.model.V1alpha3CounterSet)" class="member-name-link">addSharedCountersItem</a><wbr>(<a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&nbsp;sharedCountersItem)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set allNodes in a chainable fashion.</div>
+<div class="block">Add an item to the sharedCounters property in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#devices(java.util.List)" class="member-name-link">devices</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3Device</a>&gt;&nbsp;devices)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allNodes(java.lang.Boolean)" class="member-name-link">allNodes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allNodes)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set devices in a chainable fashion.</div>
+<div class="block">Set allNodes in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driver(java.lang.String)" class="member-name-link">driver</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;driver)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#devices(java.util.List)" class="member-name-link">devices</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3Device</a>&gt;&nbsp;devices)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set devices in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#driver(java.lang.String)" class="member-name-link">driver</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;driver)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set driver in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllNodes()" class="member-name-link">getAllNodes</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllNodes()" class="member-name-link">getAllNodes</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">AllNodes indicates that all nodes have access to the resources in the pool.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3Device</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDevices()" class="member-name-link">getDevices</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3Device</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDevices()" class="member-name-link">getDevices</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Devices lists some or all of the devices in this pool.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDriver()" class="member-name-link">getDriver</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDriver()" class="member-name-link">getDriver</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Driver identifies the DRA driver providing the capacity information.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNodeName()" class="member-name-link">getNodeName</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNodeName()" class="member-name-link">getNodeName</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">NodeName identifies the node which provides the resources in this pool.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNodeSelector()" class="member-name-link">getNodeSelector</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNodeSelector()" class="member-name-link">getNodeSelector</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPerDeviceNodeSelection()" class="member-name-link">getPerDeviceNodeSelection</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourcePool.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourcePool</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPool()" class="member-name-link">getPool</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeName(java.lang.String)" class="member-name-link">nodeName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeName)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSharedCounters()" class="member-name-link">getSharedCounters</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">SharedCounters defines a list of counter sets, each of which has a name and a list of counters available.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeName(java.lang.String)" class="member-name-link">nodeName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nodeName)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set nodeName in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeSelector(io.micronaut.kubernetes.client.openapi.model.V1NodeSelector)" class="member-name-link">nodeSelector</a><wbr>(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeSelector(io.micronaut.kubernetes.client.openapi.model.V1NodeSelector)" class="member-name-link">nodeSelector</a><wbr>(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set nodeSelector in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#perDeviceNodeSelection(java.lang.Boolean)" class="member-name-link">perDeviceNodeSelection</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;perDeviceNodeSelection)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set perDeviceNodeSelection in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pool(io.micronaut.kubernetes.client.openapi.model.V1alpha3ResourcePool)" class="member-name-link">pool</a><wbr>(<a href="V1alpha3ResourcePool.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourcePool</a>&nbsp;pool)</code></div>
@@ -231,13 +257,28 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the nodeSelector property value</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPool(io.micronaut.kubernetes.client.openapi.model.V1alpha3ResourcePool)" class="member-name-link">setPool</a><wbr>(<a href="V1alpha3ResourcePool.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourcePool</a>&nbsp;pool)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPerDeviceNodeSelection(java.lang.Boolean)" class="member-name-link">setPerDeviceNodeSelection</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;perDeviceNodeSelection)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the perDeviceNodeSelection property value</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPool(io.micronaut.kubernetes.client.openapi.model.V1alpha3ResourcePool)" class="member-name-link">setPool</a><wbr>(<a href="V1alpha3ResourcePool.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourcePool</a>&nbsp;pool)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the pool property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSharedCounters(java.util.List)" class="member-name-link">setSharedCounters</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&gt;&nbsp;sharedCounters)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the sharedCounters property value</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sharedCounters(java.util.List)" class="member-name-link">sharedCounters</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&gt;&nbsp;sharedCounters)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set sharedCounters in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -339,6 +380,34 @@ loadScripts(document, 'script');</script>
 </dl>
 </section>
 </li>
+<li>
+<section class="detail" id="JSON_PROPERTY_PER_DEVICE_NODE_SELECTION">
+<h3>JSON_PROPERTY_PER_DEVICE_NODE_SELECTION</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_PER_DEVICE_NODE_SELECTION</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1alpha3ResourceSliceSpec.JSON_PROPERTY_PER_DEVICE_NODE_SELECTION">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_SHARED_COUNTERS">
+<h3>JSON_PROPERTY_SHARED_COUNTERS</h3>
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_SHARED_COUNTERS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1alpha3ResourceSliceSpec.JSON_PROPERTY_SHARED_COUNTERS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -431,7 +500,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getAllNodes()">
 <h3>getAllNodes</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getAllNodes</span>()</div>
-<div class="block">AllNodes indicates that all nodes have access to the resources in the pool.  Exactly one of NodeName, NodeSelector and AllNodes must be set.</div>
+<div class="block">AllNodes indicates that all nodes have access to the resources in the pool.  Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the allNodes property value</dd>
@@ -508,7 +577,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getNodeName()">
 <h3>getNodeName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getNodeName</span>()</div>
-<div class="block">NodeName identifies the node which provides the resources in this pool. A field selector can be used to list only ResourceSlice objects belonging to a certain node.  This field can be used to limit access from nodes to ResourceSlices with the same node name. It also indicates to autoscalers that adding new nodes of the same type as some old node might also make new resources available.  Exactly one of NodeName, NodeSelector and AllNodes must be set. This field is immutable.</div>
+<div class="block">NodeName identifies the node which provides the resources in this pool. A field selector can be used to list only ResourceSlice objects belonging to a certain node.  This field can be used to limit access from nodes to ResourceSlices with the same node name. It also indicates to autoscalers that adding new nodes of the same type as some old node might also make new resources available.  Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set. This field is immutable.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the nodeName property value</dd>
@@ -563,6 +632,83 @@ loadScripts(document, 'script');</script>
 <h3>nodeSelector</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></span>&nbsp;<span class="element-name">nodeSelector</span><wbr><span class="parameters">(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</span></div>
 <div class="block">Set nodeSelector in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1alpha3ResourceSliceSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getPerDeviceNodeSelection()">
+<h3>getPerDeviceNodeSelection</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getPerDeviceNodeSelection</span>()</div>
+<div class="block">PerDeviceNodeSelection defines whether the access from nodes to resources in the pool is set on the ResourceSlice level or on each device. If it is set to true, every device defined the ResourceSlice must specify this individually.  Exactly one of NodeName, NodeSelector, AllNodes, and PerDeviceNodeSelection must be set.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the perDeviceNodeSelection property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setPerDeviceNodeSelection(java.lang.Boolean)">
+<h3>setPerDeviceNodeSelection</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPerDeviceNodeSelection</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;perDeviceNodeSelection)</span></div>
+<div class="block">Set the perDeviceNodeSelection property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>perDeviceNodeSelection</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="perDeviceNodeSelection(java.lang.Boolean)">
+<h3>perDeviceNodeSelection</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></span>&nbsp;<span class="element-name">perDeviceNodeSelection</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;perDeviceNodeSelection)</span></div>
+<div class="block">Set perDeviceNodeSelection in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1alpha3ResourceSliceSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getSharedCounters()">
+<h3>getSharedCounters</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&gt;</span>&nbsp;<span class="element-name">getSharedCounters</span>()</div>
+<div class="block">SharedCounters defines a list of counter sets, each of which has a name and a list of counters available.  The names of the SharedCounters must be unique in the ResourceSlice.  The maximum number of SharedCounters is 32.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the sharedCounters property value</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="setSharedCounters(java.util.List)">
+<h3>setSharedCounters</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setSharedCounters</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&gt;&nbsp;sharedCounters)</span></div>
+<div class="block">Set the sharedCounters property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>sharedCounters</code> - property value to set</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="sharedCounters(java.util.List)">
+<h3>sharedCounters</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></span>&nbsp;<span class="element-name">sharedCounters</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&gt;&nbsp;sharedCounters)</span></div>
+<div class="block">Set sharedCounters in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1alpha3ResourceSliceSpec for chaining.</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="addSharedCountersItem(io.micronaut.kubernetes.client.openapi.model.V1alpha3CounterSet)">
+<h3>addSharedCountersItem</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1alpha3ResourceSliceSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3ResourceSliceSpec</a></span>&nbsp;<span class="element-name">addSharedCountersItem</span><wbr><span class="parameters">(<a href="V1alpha3CounterSet.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3CounterSet</a>&nbsp;sharedCountersItem)</span></div>
+<div class="block">Add an item to the sharedCounters property in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1alpha3ResourceSliceSpec for chaining.</dd>

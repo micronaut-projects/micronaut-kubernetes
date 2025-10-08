@@ -199,7 +199,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listCSIDriver(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listCSIDriver</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/storage.k8s.io/v1/csidrivers")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1CSIDriver.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CSIDriver</a>&gt;&gt;</span>&nbsp;<span class="element-name">listCSIDriver</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -246,7 +246,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listCSINode(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listCSINode</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/storage.k8s.io/v1/csinodes")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1CSINode.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CSINode</a>&gt;&gt;</span>&nbsp;<span class="element-name">listCSINode</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -293,7 +293,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listCSIStorageCapacityForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listCSIStorageCapacityForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/storage.k8s.io/v1/csistoragecapacities")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1CSIStorageCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CSIStorageCapacity</a>&gt;&gt;</span>&nbsp;<span class="element-name">listCSIStorageCapacityForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -340,7 +340,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedCSIStorageCapacity(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedCSIStorageCapacity</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/storage.k8s.io/v1/namespaces/{namespace}/csistoragecapacities")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1CSIStorageCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CSIStorageCapacity</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedCSIStorageCapacity</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -390,7 +390,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listStorageClass(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listStorageClass</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/storage.k8s.io/v1/storageclasses")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1StorageClass.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StorageClass</a>&gt;&gt;</span>&nbsp;<span class="element-name">listStorageClass</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -437,7 +437,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listVolumeAttachment(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listVolumeAttachment</h3>
 <div class="member-signature"><span class="annotations">@Get("/apis/storage.k8s.io/v1/volumeattachments")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1VolumeAttachment.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1VolumeAttachment</a>&gt;&gt;</span>&nbsp;<span class="element-name">listVolumeAttachment</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable

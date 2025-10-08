@@ -540,7 +540,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listComponentStatus(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listComponentStatus</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/componentstatuses")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ComponentStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ComponentStatus</a>&gt;&gt;</span>&nbsp;<span class="element-name">listComponentStatus</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -587,7 +587,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listConfigMapForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listConfigMapForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/configmaps")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ConfigMap.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ConfigMap</a>&gt;&gt;</span>&nbsp;<span class="element-name">listConfigMapForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -634,7 +634,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listEndpointsForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listEndpointsForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/endpoints")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Endpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Endpoints</a>&gt;&gt;</span>&nbsp;<span class="element-name">listEndpointsForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -681,7 +681,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listEventForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listEventForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/events")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a>&gt;&gt;</span>&nbsp;<span class="element-name">listEventForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -728,7 +728,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listLimitRangeForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listLimitRangeForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/limitranges")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1LimitRange.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LimitRange</a>&gt;&gt;</span>&nbsp;<span class="element-name">listLimitRangeForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -775,7 +775,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespace(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespace</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Namespace.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Namespace</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespace</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -822,7 +822,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedConfigMap(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedConfigMap</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/configmaps")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ConfigMap.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ConfigMap</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedConfigMap</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -872,7 +872,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedEndpoints(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedEndpoints</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/endpoints")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Endpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Endpoints</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedEndpoints</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -922,7 +922,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedEvent(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedEvent</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/events")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedEvent</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -972,7 +972,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedLimitRange(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedLimitRange</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/limitranges")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1LimitRange.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LimitRange</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedLimitRange</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1022,7 +1022,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedPersistentVolumeClaim(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedPersistentVolumeClaim</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/persistentvolumeclaims")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1PersistentVolumeClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PersistentVolumeClaim</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedPersistentVolumeClaim</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1072,7 +1072,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedPod(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedPod</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/pods")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Pod.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Pod</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedPod</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1122,7 +1122,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedPodTemplate(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedPodTemplate</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/podtemplates")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1PodTemplate.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodTemplate</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedPodTemplate</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1172,7 +1172,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedReplicationController(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedReplicationController</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/replicationcontrollers")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ReplicationController.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ReplicationController</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedReplicationController</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1222,7 +1222,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedResourceQuota(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedResourceQuota</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/resourcequotas")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ResourceQuota.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceQuota</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedResourceQuota</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1272,7 +1272,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedSecret(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedSecret</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/secrets")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Secret.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Secret</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedSecret</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1322,7 +1322,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedService(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedService</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/services")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Service.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Service</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedService</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1372,7 +1372,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNamespacedServiceAccount(java.lang.String,java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNamespacedServiceAccount</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/namespaces/{namespace}/serviceaccounts")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ServiceAccount.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ServiceAccount</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNamespacedServiceAccount</span><wbr><span class="parameters">(@PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @QueryValue("pretty") @Nullable
@@ -1422,7 +1422,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listNode(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listNode</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/nodes")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Node.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Node</a>&gt;&gt;</span>&nbsp;<span class="element-name">listNode</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -1469,7 +1469,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listPersistentVolume(java.lang.String,java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listPersistentVolume</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/persistentvolumes")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1PersistentVolume.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PersistentVolume</a>&gt;&gt;</span>&nbsp;<span class="element-name">listPersistentVolume</span><wbr><span class="parameters">(@QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @QueryValue("allowWatchBookmarks") @Nullable
@@ -1516,7 +1516,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listPersistentVolumeClaimForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listPersistentVolumeClaimForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/persistentvolumeclaims")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1PersistentVolumeClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PersistentVolumeClaim</a>&gt;&gt;</span>&nbsp;<span class="element-name">listPersistentVolumeClaimForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1563,7 +1563,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listPodForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listPodForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/pods")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Pod.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Pod</a>&gt;&gt;</span>&nbsp;<span class="element-name">listPodForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1610,7 +1610,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listPodTemplateForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listPodTemplateForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/podtemplates")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1PodTemplate.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodTemplate</a>&gt;&gt;</span>&nbsp;<span class="element-name">listPodTemplateForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1657,7 +1657,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listReplicationControllerForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listReplicationControllerForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/replicationcontrollers")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ReplicationController.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ReplicationController</a>&gt;&gt;</span>&nbsp;<span class="element-name">listReplicationControllerForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1704,7 +1704,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listResourceQuotaForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listResourceQuotaForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/resourcequotas")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ResourceQuota.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceQuota</a>&gt;&gt;</span>&nbsp;<span class="element-name">listResourceQuotaForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1751,7 +1751,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listSecretForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listSecretForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/secrets")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Secret.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Secret</a>&gt;&gt;</span>&nbsp;<span class="element-name">listSecretForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1798,7 +1798,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listServiceAccountForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listServiceAccountForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/serviceaccounts")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1ServiceAccount.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ServiceAccount</a>&gt;&gt;</span>&nbsp;<span class="element-name">listServiceAccountForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
@@ -1845,7 +1845,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="listServiceForAllNamespaces(java.lang.Boolean,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.String,java.lang.String,java.lang.String,java.lang.Boolean,java.lang.Integer,java.lang.Boolean)">
 <h3>listServiceForAllNamespaces</h3>
 <div class="member-signature"><span class="annotations">@Get("/api/v1/services")
-@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch"})
+@Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor","application/json;stream=watch","application/vnd.kubernetes.protobuf;stream=watch","application/cbor-seq"})
 </span><span class="return-type">reactor.core.publisher.Flux&lt;<a href="../WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a>&lt;<a href="../../model/V1Service.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Service</a>&gt;&gt;</span>&nbsp;<span class="element-name">listServiceForAllNamespaces</span><wbr><span class="parameters">(@QueryValue("allowWatchBookmarks") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowWatchBookmarks,
  @QueryValue("continue") @Nullable
