@@ -1,3 +1,7 @@
+## Micronaut Kubernetes 8.x
+
+Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v24.
+
 ## Micronaut Kubernetes 7.x
 
 Micronaut Kubernetes 7.0.0 updates the official Kubernetes Client from v19 to v22.
