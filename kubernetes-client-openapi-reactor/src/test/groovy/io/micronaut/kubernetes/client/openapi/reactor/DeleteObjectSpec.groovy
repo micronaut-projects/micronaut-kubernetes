@@ -75,8 +75,8 @@ class DeleteObjectSpec extends Specification implements TestPropertyProvider {
         api.createNamespacedConfigMap('micronaut-test-namespace', configMap, null, null, null, null).block()
 
         when:
-        DeleteResponse<V1ConfigMap> configMapResponse = api.deleteNamespacedConfigMap('micronaut-test-config-map', 'micronaut-test-namespace', null, null, null, null, null, null).block()
-        DeleteResponse<V1Namespace> namespaceResponse = api.deleteNamespace('micronaut-test-namespace', null, null, null, null, null, null).block()
+        DeleteResponse<V1ConfigMap> configMapResponse = api.deleteNamespacedConfigMap('micronaut-test-config-map', 'micronaut-test-namespace', null, null, null, null, null, null, null).block()
+        DeleteResponse<V1Namespace> namespaceResponse = api.deleteNamespace('micronaut-test-namespace', null, null, null, null, null, null, null).block()
 
         then:
         configMapResponse.object() == null
