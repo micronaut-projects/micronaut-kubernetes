@@ -22,7 +22,7 @@ micronaut-logging = "1.7.0"
 micronaut-reactor = "3.8.0"
 micronaut-serde = "2.15.4"
 micronaut-validation = '4.11.0'
-micronaut-openapi = "6.16.2"
+micronaut-openapi = "6.18.1"
 micronaut-micrometer = "5.11.0"
 
 sonatype-scan = "3.1.1"
