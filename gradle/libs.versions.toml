@@ -25,8 +25,6 @@ micronaut-validation = '4.11.0'
 micronaut-openapi = "6.18.1"
 micronaut-micrometer = "5.13.0"
 
-sonatype-scan = "3.1.4"
-
 [libraries]
 # Core
 micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
@@ -54,5 +52,4 @@ micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 
 micronaut-gradle-plugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }
-sonatype-scan = { module = "org.sonatype.gradle.plugins:scan-gradle-plugin", version.ref = "sonatype-scan" }
 shadow-plugin = { module = "gradle.plugin.com.github.johnrengelman:shadow", version.ref = "shadow" }
