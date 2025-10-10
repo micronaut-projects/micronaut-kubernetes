@@ -146,7 +146,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">delete collection of ServiceCIDR</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>reactor.core.publisher.Mono&lt;<a href="../../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../../model/V1beta1IPAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1IPAddress</a>&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteIPAddress(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteIPAddress</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
@@ -158,7 +158,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">delete an IPAddress</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>reactor.core.publisher.Mono&lt;<a href="../../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../../model/V1beta1ServiceCIDR.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1ServiceCIDR</a>&gt;&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteServiceCIDR(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteServiceCIDR</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;dryRun,
@@ -485,7 +485,7 @@ loadScripts(document, 'script');</script>
 <h3>deleteIPAddress</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/networking.k8s.io/v1beta1/ipaddresses/{name}")
 @Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
-</span><span class="return-type">reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a>&gt;</span>&nbsp;<span class="element-name">deleteIPAddress</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
+</span><span class="return-type">reactor.core.publisher.Mono&lt;<a href="../../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../../model/V1beta1IPAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1IPAddress</a>&gt;&gt;</span>&nbsp;<span class="element-name">deleteIPAddress</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
@@ -524,7 +524,7 @@ loadScripts(document, 'script');</script>
 <h3>deleteServiceCIDR</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/networking.k8s.io/v1beta1/servicecidrs/{name}")
 @Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
-</span><span class="return-type">reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a>&gt;</span>&nbsp;<span class="element-name">deleteServiceCIDR</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
+</span><span class="return-type">reactor.core.publisher.Mono&lt;<a href="../../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../../model/V1beta1ServiceCIDR.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1ServiceCIDR</a>&gt;&gt;</span>&nbsp;<span class="element-name">deleteServiceCIDR</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @QueryValue("pretty") @Nullable
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,

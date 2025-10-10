@@ -120,7 +120,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">delete collection of PodDisruptionBudget</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>reactor.core.publisher.Mono&lt;<a href="../../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../../model/V1PodDisruptionBudget.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodDisruptionBudget</a>&gt;&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteNamespacedPodDisruptionBudget(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteNamespacedPodDisruptionBudget</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
@@ -344,7 +344,7 @@ loadScripts(document, 'script');</script>
 <h3>deleteNamespacedPodDisruptionBudget</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/policy/v1/namespaces/{namespace}/poddisruptionbudgets/{name}")
 @Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
-</span><span class="return-type">reactor.core.publisher.Mono&lt;@Valid <a href="../../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a>&gt;</span>&nbsp;<span class="element-name">deleteNamespacedPodDisruptionBudget</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
+</span><span class="return-type">reactor.core.publisher.Mono&lt;<a href="../../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../../model/V1PodDisruptionBudget.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodDisruptionBudget</a>&gt;&gt;</span>&nbsp;<span class="element-name">deleteNamespacedPodDisruptionBudget</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,

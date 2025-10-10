@@ -120,7 +120,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">delete collection of Event</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../model/EventsV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1Event</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#deleteNamespacedEvent(java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteNamespacedEvent</a><wbr>(@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;pretty,
@@ -314,7 +314,7 @@ loadScripts(document, 'script');</script>
 <h3>deleteNamespacedEvent</h3>
 <div class="member-signature"><span class="annotations">@Delete("/apis/events.k8s.io/v1/namespaces/{namespace}/events/{name}")
 @Consumes({"application/json","application/yaml","application/vnd.kubernetes.protobuf","application/cbor"})
-</span><span class="return-type"><a href="../model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Status</a></span>&nbsp;<span class="element-name">deleteNamespacedEvent</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
+</span><span class="return-type"><a href="../response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="../model/EventsV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">EventsV1Event</a>&gt;</span>&nbsp;<span class="element-name">deleteNamespacedEvent</span><wbr><span class="parameters">(@PathVariable("name") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  @PathVariable("namespace") @NotNull
  @NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,

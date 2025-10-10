@@ -7029,6 +7029,11 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">delete a ResourceSlice</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html" title="type parameter in DeleteResponse">T</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/response/package-summary.html">io.micronaut.kubernetes.client.openapi.response</a></dt>
+<dd>
+<div class="block">Response which is used by kubernetes client delete methods can contain <a href="io/micronaut/kubernetes/client/openapi/model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model"><code>V1Status</code></a> instance
+ or an instance of the kubernetes object which is being deleted depending on kubernetes api server configuration.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/NodeV1Api.html#deleteRuntimeClass(java.lang.String,java.lang.String,java.lang.String,java.lang.Integer,java.lang.Boolean,java.lang.Boolean,java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1DeleteOptions)" class="member-name-link">deleteRuntimeClass(String, String, String, Integer, Boolean, Boolean, String, V1DeleteOptions)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/NodeV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">NodeV1Api</a></dt>
 <dd>
 <div class="block">delete a RuntimeClass</div>
@@ -9109,6 +9114,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElectionRecord.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.operator.leaderelection.<a href="io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElectionRecord.html" title="class in io.micronaut.kubernetes.client.openapi.operator.leaderelection">LeaderElectionRecord</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -22508,6 +22521,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.client.openapi.watcher.<a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -22959,6 +22980,8 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/reactor/api/package-summary.html">io.micronaut.kubernetes.client.openapi.reactor.api</a> - package io.micronaut.kubernetes.client.openapi.reactor.api</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/resolver/package-summary.html">io.micronaut.kubernetes.client.openapi.resolver</a> - package io.micronaut.kubernetes.client.openapi.resolver</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/package-summary.html">io.micronaut.kubernetes.client.openapi.response</a> - package io.micronaut.kubernetes.client.openapi.response</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/ssl/package-summary.html">io.micronaut.kubernetes.client.openapi.ssl</a> - package io.micronaut.kubernetes.client.openapi.ssl</dt>
 <dd>&nbsp;</dd>
@@ -34500,6 +34523,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/informer/DeletedFinalStateUnknown.html#param-object"><code>object</code></a> record component.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html#object()" class="member-name-link">object()</a> - Method in interface io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#object()" class="member-name-link">object()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#param-object"><code>object</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#object()" class="member-name-link">object()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#object()" class="member-name-link">object()</a> - Method in record class io.micronaut.kubernetes.client.openapi.watcher.<a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#param-object"><code>object</code></a> record component.</div>
@@ -39661,6 +39692,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1PodResourceClaim.html#resourceClaimTemplateName(java.lang.String)" class="member-name-link">resourceClaimTemplateName(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1PodResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodResourceClaim</a></dt>
 <dd>
 <div class="block">Set resourceClaimTemplateName in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="type parameter in ResourceDeleteResponse">T</a>&gt; - Record Class in <a href="io/micronaut/kubernetes/client/openapi/response/package-summary.html">io.micronaut.kubernetes.client.openapi.response</a></dt>
+<dd>
+<div class="block">Implementation of <a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response"><code>DeleteResponse</code></a> interface which contains an instance of deleted kubernetes object.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#%3Cinit%3E(T)" class="member-name-link">ResourceDeleteResponse(T)</a> - Constructor for record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ResourceDeleteResponse</code> record class.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="type parameter in ResourceEventHandler">ApiType</a> extends <a href="io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesObject</a>&gt; - Interface in <a href="io/micronaut/kubernetes/client/openapi/informer/handler/package-summary.html">io.micronaut.kubernetes.client.openapi.informer.handler</a></dt>
 <dd>
@@ -52686,6 +52725,14 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html#param-status"><code>status</code></a> record component.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html#status()" class="member-name-link">status()</a> - Method in interface io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response">DeleteResponse</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#status()" class="member-name-link">status()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#status()" class="member-name-link">status()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#param-status"><code>status</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#status()" class="member-name-link">status()</a> - Method in record class io.micronaut.kubernetes.client.openapi.watcher.<a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#param-status"><code>status</code></a> record component.</div>
@@ -52949,6 +52996,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V2HorizontalPodAutoscalerCondition.html#status(java.lang.String)" class="member-name-link">status(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V2HorizontalPodAutoscalerCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V2HorizontalPodAutoscalerCondition</a></dt>
 <dd>
 <div class="block">Set status in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a>&lt;<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="type parameter in StatusDeleteResponse">T</a>&gt; - Record Class in <a href="io/micronaut/kubernetes/client/openapi/response/package-summary.html">io.micronaut.kubernetes.client.openapi.response</a></dt>
+<dd>
+<div class="block">Implementation of <a href="io/micronaut/kubernetes/client/openapi/response/DeleteResponse.html" title="interface in io.micronaut.kubernetes.client.openapi.response"><code>DeleteResponse</code></a> interface which contains an instance of <a href="io/micronaut/kubernetes/client/openapi/model/V1Status.html" title="class in io.micronaut.kubernetes.client.openapi.model"><code>V1Status</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#%3Cinit%3E(io.micronaut.kubernetes.client.openapi.model.V1Status)" class="member-name-link">StatusDeleteResponse(V1Status)</a> - Constructor for record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>StatusDeleteResponse</code> record class.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceSubresourceScale.html#statusReplicasPath(java.lang.String)" class="member-name-link">statusReplicasPath(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceSubresourceScale.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CustomResourceSubresourceScale</a></dt>
 <dd>
@@ -55032,6 +55087,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElectionRecord.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.operator.leaderelection.<a href="io/micronaut/kubernetes/client/openapi/operator/leaderelection/LeaderElectionRecord.html" title="class in io.micronaut.kubernetes.client.openapi.operator.leaderelection">LeaderElectionRecord</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/ResourceDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">ResourceDeleteResponse</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.response.<a href="io/micronaut/kubernetes/client/openapi/response/StatusDeleteResponse.html" title="class in io.micronaut.kubernetes.client.openapi.response">StatusDeleteResponse</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
