@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2025 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.micronaut.kubernetes.client.openapi.tasks;
 
 import org.gradle.api.DefaultTask;
@@ -7,15 +22,10 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.SafeConstructor;
-import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -46,6 +56,7 @@ import java.util.stream.Collectors;
  * </pre>
  * </p>
  */
+@SuppressWarnings("unchecked")
 public abstract class CreateWatcherSpec extends DefaultTask {
 
     @InputFile
@@ -67,7 +78,7 @@ public abstract class CreateWatcherSpec extends DefaultTask {
         Map<String, Object> watcherSpecMap = new LinkedHashMap<>();
         Map<String, String> watcherTypeMappings = new LinkedHashMap<>();
 
-        Yaml yaml = createYaml();
+        Yaml yaml = TaskUtils.createYaml();
 
         FileReader fileReader = new FileReader(getInputSpecFile().getAsFile().get());
         Map<String, Object> inputSpecMap = yaml.load(fileReader);
@@ -81,8 +92,13 @@ public abstract class CreateWatcherSpec extends DefaultTask {
             }
         });
 
-        createWatcherSpecFile(yaml, watcherSpecMap);
-        createWatcherTypeMappingsFile(watcherTypeMappings);
+        File specFile = getWatcherSpecFile().getAsFile().get();
+        TaskUtils.createSpecFile(yaml, watcherSpecMap, specFile);
+        getLogger().info("Created kubernetes client watcher openapi spec file: {}", specFile.getAbsolutePath());
+
+        File typeMappingsFile = getWatcherTypeMappingsFile().getAsFile().get();
+        TaskUtils.createTypeMappingsFile(watcherTypeMappings, typeMappingsFile);
+        getLogger().info("Created kubernetes client watcher openapi type mappings file: {}", typeMappingsFile.getAbsolutePath());
     }
 
     private Map<String, Object> processPaths(Map<String, Object> paths, Map<String, String> watcherTypeMappings) {
@@ -150,34 +166,5 @@ public abstract class CreateWatcherSpec extends DefaultTask {
 
     private Map<String, Object> getMapValue(Map<String, Object> map, String key) {
         return (Map<String, Object>) map.get(key);
-    }
-
-    private Yaml createYaml() {
-        LoaderOptions loaderOptions = new LoaderOptions();
-        loaderOptions.setCodePointLimit(15728640);
-        DumperOptions dumperOptions = new DumperOptions();
-        dumperOptions.setPrettyFlow(true);
-        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        return new Yaml(new SafeConstructor(loaderOptions), new Representer(dumperOptions));
-    }
-
-    private void createWatcherSpecFile(Yaml yaml, Map<String, Object> watcherSpecMap) throws IOException {
-        File file = getWatcherSpecFile().getAsFile().get();
-        try (FileWriter fileWriter = new FileWriter(file)) {
-            yaml.dump(watcherSpecMap, fileWriter);
-        }
-        getLogger().info("Created kubernetes client watcher openapi spec file: {}", file.getAbsolutePath());
-    }
-
-    private void createWatcherTypeMappingsFile(Map<String, String> typeMappings) throws IOException {
-        File file = getWatcherTypeMappingsFile().getAsFile().get();
-        String typeMappingsStr = typeMappings.entrySet()
-            .stream()
-            .map(entry -> "\"" + entry.getKey() + "\": \"" + entry.getValue() + "\"")
-            .collect(Collectors.joining(", "));
-        try (FileWriter fileWriter = new FileWriter(file)) {
-            fileWriter.write("[" + typeMappingsStr + "]");
-        }
-        getLogger().info("Created kubernetes client watcher openapi type mappings file: {}", file.getAbsolutePath());
     }
 }

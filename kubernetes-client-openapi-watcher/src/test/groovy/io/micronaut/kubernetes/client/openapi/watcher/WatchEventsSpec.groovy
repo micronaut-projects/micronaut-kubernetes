@@ -4,7 +4,7 @@ import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
-import io.micronaut.kubernetes.client.openapi.model.V1Status
+import io.micronaut.kubernetes.client.openapi.response.DeleteResponse
 import io.micronaut.kubernetes.client.openapi.watcher.api.CoreV1ApiWatcher
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import io.micronaut.test.support.TestPropertyProvider
@@ -77,7 +77,7 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
         Disposable disposable = flux.subscribe(event -> {events.computeIfAbsent(event.object.metadata.name, key -> []).add(event.type)})
 
         replaceSecret(namespaceName, secretName)
-        V1Status v1Status = deleteSecret(namespaceName, secretName)
+        DeleteResponse<V1Secret> deleteResponse = deleteSecret(namespaceName, secretName)
 
         PollingConditions conditions = new PollingConditions(timeout: 2)
 
@@ -88,7 +88,7 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
             events.get(secretName)?.get(1) == 'MODIFIED'
             events.get(secretName)?.get(2) == 'DELETED'
         }
-        v1Status.status == "Success"
+        deleteResponse.status().status == "Success"
 
         cleanup:
         disposable?.dispose()
@@ -126,7 +126,7 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
         api.replaceNamespacedSecret(secretName, namespaceName, secret, null, null, null, null)
     }
 
-    private V1Status deleteSecret(String namespaceName, String secretName) {
+    private DeleteResponse<V1Secret> deleteSecret(String namespaceName, String secretName) {
         api.deleteNamespacedSecret(secretName, namespaceName, null, null, null, null, null, null, null)
     }
 }

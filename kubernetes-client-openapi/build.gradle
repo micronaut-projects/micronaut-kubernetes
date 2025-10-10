@@ -1,4 +1,4 @@
-import io.micronaut.kubernetes.client.openapi.tasks.DownloadSpec
+import io.micronaut.kubernetes.client.openapi.tasks.ModifySpec
 
 plugins {
     id 'io.micronaut.build.internal.kubernetes-module'
@@ -13,12 +13,15 @@ kubernetesClientOpenApi {
 micronaut {
     openapi {
         version = libs.versions.micronaut.openapi.get()
-        client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
+        client("client", tasks.named("modifyOpenApiSpec", ModifySpec).flatMap(ModifySpec::getModifiedSpecFile)) {
             apiPackageName = "io.micronaut.kubernetes.client.openapi.api"
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
             clientId = "kubernetes"
             useReactive = false
             generateHttpResponseWhereRequired = false
+            typeMapping = tasks.named("modifyOpenApiSpec", ModifySpec).flatMap(ModifySpec::getDeleteResponseMappingsFile).map { t->
+                return evaluate(t.getAsFile())
+            }
             additionalClientTypeAnnotations = [
                     "@io.micronaut.context.annotation.BootstrapContextCompatible"
             ]

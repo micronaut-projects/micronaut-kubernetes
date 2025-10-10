@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi;
 
 import io.micronaut.kubernetes.client.openapi.tasks.CreateWatcherSpec;
 import io.micronaut.kubernetes.client.openapi.tasks.DownloadSpec;
+import io.micronaut.kubernetes.client.openapi.tasks.ModifySpec;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskProvider;
@@ -28,7 +29,9 @@ public class KubernetesClientOpenApiPlugin implements Plugin<Project> {
 
     private static final String OPENAPI_SPEC_FILE_NAME = "openapi.yaml";
     private static final String OPENAPI_WATCHER_SPEC_FILE_NAME = "openapi-watcher.yaml";
+    private static final String OPENAPI_MODIFIED_SPEC_FILE_NAME = "openapi-modified.yaml";
     private static final String OPENAPI_WATCHER_TYPE_MAPPINGS_FILE_NAME = "openapi-watcher-type-mappings.txt";
+    private static final String OPENAPI_DELETE_RESPONSE_MAPPINGS_FILE_NAME = "openapi-delete-response-mappings.txt";
 
     @Override
     public void apply(Project project) {
@@ -48,6 +51,13 @@ public class KubernetesClientOpenApiPlugin implements Plugin<Project> {
             task.getModelPackageName().set(kubernetesClientOpenApiExtension.getModelPackageName());
             task.getWatcherSpecFile().convention(project.getLayout().getBuildDirectory().file(OPENAPI_WATCHER_SPEC_FILE_NAME));
             task.getWatcherTypeMappingsFile().convention(project.getLayout().getBuildDirectory().file(OPENAPI_WATCHER_TYPE_MAPPINGS_FILE_NAME));
+        });
+        project.getTasks().register("modifyOpenApiSpec", ModifySpec.class, task -> {
+            task.setGroup("kubernetes client openapi");
+            task.setDescription("Creates a new spec from the downloaded client openapi spec");
+            task.getInputSpecFile().convention(downloadSpecTask.flatMap(DownloadSpec::getSpecFile));
+            task.getModifiedSpecFile().convention(project.getLayout().getBuildDirectory().file(OPENAPI_MODIFIED_SPEC_FILE_NAME));
+            task.getDeleteResponseMappingsFile().convention(project.getLayout().getBuildDirectory().file(OPENAPI_DELETE_RESPONSE_MAPPINGS_FILE_NAME));
         });
     }
 }
