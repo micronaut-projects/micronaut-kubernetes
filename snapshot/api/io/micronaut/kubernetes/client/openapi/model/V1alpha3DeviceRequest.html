@@ -199,7 +199,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCount()" class="member-name-link">getCount</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Count is used only when the count mode is \&quot;ExactCount\&quot;.</div>
+<div class="block">Count is used only when the count mode is \"ExactCount\".</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeviceClassName()" class="member-name-link">getDeviceClassName</a>()</code></div>
@@ -224,7 +224,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3DeviceToleration.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3DeviceToleration</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTolerations()" class="member-name-link">getTolerations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">If specified, the request&#39;s tolerations.</div>
+<div class="block">If specified, the request's tolerations.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
@@ -541,7 +541,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getCount()">
 <h3>getCount</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a></span>&nbsp;<span class="element-name">getCount</span>()</div>
-<div class="block">Count is used only when the count mode is \&quot;ExactCount\&quot;. Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.  This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.</div>
+<div class="block">Count is used only when the count mode is \"ExactCount\". Must be greater than zero. If AllocationMode is ExactCount and this field is not specified, the default is one.  This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the count property value</dd>
@@ -695,7 +695,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getTolerations()">
 <h3>getTolerations</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1alpha3DeviceToleration.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha3DeviceToleration</a>&gt;</span>&nbsp;<span class="element-name">getTolerations</span>()</div>
-<div class="block">If specified, the request&#39;s tolerations.  Tolerations for NoSchedule are required to allocate a device which has a taint with that effect. The same applies to NoExecute.  In addition, should any of the allocated devices get tainted with NoExecute after allocation and that effect is not tolerated, then all pods consuming the ResourceClaim get deleted to evict them. The scheduler will not let new pods reserve the claim while it has these tainted devices. Once all pods are evicted, the claim will get deallocated.  The maximum number of tolerations is 16.  This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.  This is an alpha field and requires enabling the DRADeviceTaints feature gate.</div>
+<div class="block">If specified, the request's tolerations.  Tolerations for NoSchedule are required to allocate a device which has a taint with that effect. The same applies to NoExecute.  In addition, should any of the allocated devices get tainted with NoExecute after allocation and that effect is not tolerated, then all pods consuming the ResourceClaim get deleted to evict them. The scheduler will not let new pods reserve the claim while it has these tainted devices. Once all pods are evicted, the claim will get deallocated.  The maximum number of tolerations is 16.  This field can only be set when deviceClassName is set and no subrequests are specified in the firstAvailable list.  This is an alpha field and requires enabling the DRADeviceTaints feature gate.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the tolerations property value</dd>

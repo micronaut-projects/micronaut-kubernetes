@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations">@Generated("io.micronaut.openapi.generator.JavaMicronautClientCodegen")
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">V1SubjectRulesReviewStatus</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">SubjectRulesReviewStatus contains the result of a rules check. This check can be incomplete depending on the set of authorizers the server is configured with and any errors experienced during evaluation. Because authorization rules are additive, if a rule appears in a list it&#39;s safe to assume the subject has that permission, even if that list is incomplete.</div>
+<div class="block">SubjectRulesReviewStatus contains the result of a rules check. This check can be incomplete depending on the set of authorizers the server is configured with and any errors experienced during evaluation. Because authorization rules are additive, if a rule appears in a list it's safe to assume the subject has that permission, even if that list is incomplete.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -313,7 +313,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getIncomplete()">
 <h3>getIncomplete</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getIncomplete</span>()</div>
-<div class="block">Incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn&#39;t support rules evaluation.</div>
+<div class="block">Incomplete is true when the rules returned by this call are incomplete. This is most commonly encountered when an authorizer, such as an external authorizer, doesn't support rules evaluation.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the incomplete property value</dd>
@@ -346,7 +346,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getNonResourceRules()">
 <h3>getNonResourceRules</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NonResourceRule.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NonResourceRule</a>&gt;</span>&nbsp;<span class="element-name">getNonResourceRules</span>()</div>
-<div class="block">NonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn&#39;t significant, may contain duplicates, and possibly be incomplete.</div>
+<div class="block">NonResourceRules is the list of actions the subject is allowed to perform on non-resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the nonResourceRules property value</dd>
@@ -390,7 +390,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getResourceRules()">
 <h3>getResourceRules</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ResourceRule.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRule</a>&gt;</span>&nbsp;<span class="element-name">getResourceRules</span>()</div>
-<div class="block">ResourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn&#39;t significant, may contain duplicates, and possibly be incomplete.</div>
+<div class="block">ResourceRules is the list of actions the subject is allowed to perform on resources. The list ordering isn't significant, may contain duplicates, and possibly be incomplete.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the resourceRules property value</dd>
@@ -434,7 +434,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEvaluationError()">
 <h3>getEvaluationError</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getEvaluationError</span>()</div>
-<div class="block">EvaluationError can appear in combination with Rules. It indicates an error occurred during rule evaluation, such as an authorizer that doesn&#39;t support rule evaluation, and that ResourceRules and/or NonResourceRules may be incomplete.</div>
+<div class="block">EvaluationError can appear in combination with Rules. It indicates an error occurred during rule evaluation, such as an authorizer that doesn't support rule evaluation, and that ResourceRules and/or NonResourceRules may be incomplete.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the evaluationError property value</dd>

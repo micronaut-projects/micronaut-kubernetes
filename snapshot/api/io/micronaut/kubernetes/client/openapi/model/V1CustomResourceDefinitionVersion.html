@@ -469,7 +469,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getName()">
 <h3>getName</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
-<div class="block">name is the version name, e.g. “v1”, “v2beta1”, etc. The custom resources are served under this version at &#x60;/apis/&lt;group&gt;/&lt;version&gt;/...&#x60; if &#x60;served&#x60; is true.</div>
+<div class="block">name is the version name, e.g. “v1”, “v2beta1”, etc. The custom resources are served under this version at `/apis/<group>/<version>/...` if `served` is true.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the name property value</dd>
@@ -535,7 +535,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getStorage()">
 <h3>getStorage</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getStorage</span>()</div>
-<div class="block">storage indicates this version should be used when persisting custom resources to storage. There must be exactly one version with storage&#x3D;true.</div>
+<div class="block">storage indicates this version should be used when persisting custom resources to storage. There must be exactly one version with storage=true.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the storage property value</dd>
@@ -645,7 +645,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getDeprecationWarning()">
 <h3>getDeprecationWarning</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getDeprecationWarning</span>()</div>
-<div class="block">deprecationWarning overrides the default warning returned to API clients. May only be set when &#x60;deprecated&#x60; is true. The default warning indicates this version is deprecated and recommends use of the newest served version of equal or greater stability, if one exists.</div>
+<div class="block">deprecationWarning overrides the default warning returned to API clients. May only be set when `deprecated` is true. The default warning indicates this version is deprecated and recommends use of the newest served version of equal or greater stability, if one exists.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the deprecationWarning property value</dd>

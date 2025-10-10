@@ -356,7 +356,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getVerbs()">
 <h3>getVerbs</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getVerbs</span>()</div>
-<div class="block">Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. &#39;*&#39; represents all verbs.</div>
+<div class="block">Verbs is a list of Verbs that apply to ALL the ResourceKinds contained in this rule. '*' represents all verbs.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the verbs property value</dd>
@@ -400,7 +400,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getApiGroups()">
 <h3>getApiGroups</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getApiGroups</span>()</div>
-<div class="block">APIGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. \&quot;\&quot; represents the core API group and \&quot;*\&quot; represents all API groups.</div>
+<div class="block">APIGroups is the name of the APIGroup that contains the resources.  If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed. \"\" represents the core API group and \"*\" represents all API groups.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the apiGroups property value</dd>
@@ -444,7 +444,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getNonResourceURLs()">
 <h3>getNonResourceURLs</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getNonResourceURLs</span>()</div>
-<div class="block">NonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding. Rules can either apply to API resources (such as \&quot;pods\&quot; or \&quot;secrets\&quot;) or non-resource URL paths (such as \&quot;/api\&quot;),  but not both.</div>
+<div class="block">NonResourceURLs is a set of partial urls that a user should have access to.  *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding. Rules can either apply to API resources (such as \"pods\" or \"secrets\") or non-resource URL paths (such as \"/api\"),  but not both.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the nonResourceURLs property value</dd>
@@ -532,7 +532,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getResources()">
 <h3>getResources</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getResources</span>()</div>
-<div class="block">Resources is a list of resources this rule applies to. &#39;*&#39; represents all resources.</div>
+<div class="block">Resources is a list of resources this rule applies to. '*' represents all resources.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the resources property value</dd>

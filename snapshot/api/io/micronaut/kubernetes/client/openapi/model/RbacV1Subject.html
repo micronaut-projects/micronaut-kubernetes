@@ -301,7 +301,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getKind()">
 <h3>getKind</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getKind</span>()</div>
-<div class="block">Kind of object being referenced. Values defined by this API group are \&quot;User\&quot;, \&quot;Group\&quot;, and \&quot;ServiceAccount\&quot;. If the Authorizer does not recognized the kind value, the Authorizer should report an error.</div>
+<div class="block">Kind of object being referenced. Values defined by this API group are \"User\", \"Group\", and \"ServiceAccount\". If the Authorizer does not recognized the kind value, the Authorizer should report an error.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the kind property value</dd>
@@ -367,7 +367,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getApiGroup()">
 <h3>getApiGroup</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getApiGroup</span>()</div>
-<div class="block">APIGroup holds the API group of the referenced subject. Defaults to \&quot;\&quot; for ServiceAccount subjects. Defaults to \&quot;rbac.authorization.k8s.io\&quot; for User and Group subjects.</div>
+<div class="block">APIGroup holds the API group of the referenced subject. Defaults to \"\" for ServiceAccount subjects. Defaults to \"rbac.authorization.k8s.io\" for User and Group subjects.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the apiGroup property value</dd>
@@ -400,7 +400,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getNamespace()">
 <h3>getNamespace</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getNamespace</span>()</div>
-<div class="block">Namespace of the referenced object.  If the object kind is non-namespace, such as \&quot;User\&quot; or \&quot;Group\&quot;, and this value is not empty the Authorizer should report an error.</div>
+<div class="block">Namespace of the referenced object.  If the object kind is non-namespace, such as \"User\" or \"Group\", and this value is not empty the Authorizer should report an error.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the namespace property value</dd>

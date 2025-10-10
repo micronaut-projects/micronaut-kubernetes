@@ -179,7 +179,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getShortNames()" class="member-name-link">getShortNames</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">shortNames are short names for the resource, exposed in API discovery documents, and used by clients to support invocations like &#x60;kubectl get &lt;shortname&gt;&#x60;.</div>
+<div class="block">shortNames are short names for the resource, exposed in API discovery documents, and used by clients to support invocations like `kubectl get <shortname>`.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSingular()" class="member-name-link">getSingular</a>()</code></div>
@@ -375,7 +375,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getKind()">
 <h3>getKind</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getKind</span>()</div>
-<div class="block">kind is the serialized kind of the resource. It is normally CamelCase and singular. Custom resource instances will use this value as the &#x60;kind&#x60; attribute in API calls.</div>
+<div class="block">kind is the serialized kind of the resource. It is normally CamelCase and singular. Custom resource instances will use this value as the `kind` attribute in API calls.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the kind property value</dd>
@@ -408,7 +408,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getPlural()">
 <h3>getPlural</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getPlural</span>()</div>
-<div class="block">plural is the plural name of the resource to serve. The custom resources are served under &#x60;/apis/&lt;group&gt;/&lt;version&gt;/.../&lt;plural&gt;&#x60;. Must match the name of the CustomResourceDefinition (in the form &#x60;&lt;names.plural&gt;.&lt;group&gt;&#x60;). Must be all lowercase.</div>
+<div class="block">plural is the plural name of the resource to serve. The custom resources are served under `/apis/<group>/<version>/.../<plural>`. Must match the name of the CustomResourceDefinition (in the form `&lt;names.plural>.<group>`). Must be all lowercase.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the plural property value</dd>
@@ -441,7 +441,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getCategories()">
 <h3>getCategories</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getCategories</span>()</div>
-<div class="block">categories is a list of grouped resources this custom resource belongs to (e.g. &#39;all&#39;). This is published in API discovery documents, and used by clients to support invocations like &#x60;kubectl get all&#x60;.</div>
+<div class="block">categories is a list of grouped resources this custom resource belongs to (e.g. 'all'). This is published in API discovery documents, and used by clients to support invocations like `kubectl get all`.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the categories property value</dd>
@@ -485,7 +485,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getListKind()">
 <h3>getListKind</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getListKind</span>()</div>
-<div class="block">listKind is the serialized kind of the list for this resource. Defaults to \&quot;&#x60;kind&#x60;List\&quot;.</div>
+<div class="block">listKind is the serialized kind of the list for this resource. Defaults to \"`kind`List\".</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the listKind property value</dd>
@@ -518,7 +518,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getShortNames()">
 <h3>getShortNames</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getShortNames</span>()</div>
-<div class="block">shortNames are short names for the resource, exposed in API discovery documents, and used by clients to support invocations like &#x60;kubectl get &lt;shortname&gt;&#x60;. It must be all lowercase.</div>
+<div class="block">shortNames are short names for the resource, exposed in API discovery documents, and used by clients to support invocations like `kubectl get <shortname>`. It must be all lowercase.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the shortNames property value</dd>
@@ -562,7 +562,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getSingular()">
 <h3>getSingular</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getSingular</span>()</div>
-<div class="block">singular is the singular name of the resource. It must be all lowercase. Defaults to lowercased &#x60;kind&#x60;.</div>
+<div class="block">singular is the singular name of the resource. It must be all lowercase. Defaults to lowercased `kind`.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the singular property value</dd>
