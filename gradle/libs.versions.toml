@@ -1,7 +1,7 @@
 [versions]
 micronaut-platform = "4.9.4"
 micronaut = "4.10.3"
-micronaut-docs = "2.0.0"
+micronaut-docs = "3.0.0"
 micronaut-test = "4.7.0"
 micronaut-gradle-plugin = "4.5.5"
 
