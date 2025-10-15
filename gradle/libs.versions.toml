@@ -19,9 +19,9 @@ bucket4j = '8.10.1'
 
 micronaut-discovery = "4.6.0"
 micronaut-reactor = "3.7.0"
-micronaut-serde = "2.15.0"
 micronaut-validation = '4.9.0'
 micronaut-logging = "1.7.1"
+micronaut-serde = "2.15.5"
 micronaut-openapi = "6.19.0"
 micronaut-micrometer = "5.13.0"
 
