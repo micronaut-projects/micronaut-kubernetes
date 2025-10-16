@@ -9,7 +9,7 @@ graal-svm = "24.2.1"
 javapoet = '1.13.0'
 rxjava2 = '2.2.21'
 rxjava3 = '3.1.10'
-shadow = '8.0.0'
+shadow = '8.3.9'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '24.0.0'
 io-fabric8-kubernetes-client = '7.4.0'
@@ -55,4 +55,4 @@ micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discov
 
 micronaut-gradle-plugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }
 sonatype-scan = { module = "org.sonatype.gradle.plugins:scan-gradle-plugin", version.ref = "sonatype-scan" }
-shadow-plugin = { module = "gradle.plugin.com.github.johnrengelman:shadow", version.ref = "shadow" }
+shadow-plugin = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
