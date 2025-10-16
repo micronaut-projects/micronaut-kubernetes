@@ -269,13 +269,13 @@ final class DefaultControllerFactory implements ControllerFactory {
         return sharedIndexInformerFactory.getExistingSharedIndexInformer(informerKey.apiTypeClass, informerKey.namespace);
     }
 
-    private record ControllerHolder<ApiType extends KubernetesObject> (
+    private record ControllerHolder<ApiType extends KubernetesObject>(
         @NonNull Controller controller,
         @NonNull Map<InformerKey<ApiType>, ControllerResourceEventHandler<ApiType>> resourceEventHandlers
     ) {
     }
 
-    private record InformerKey<ApiType extends KubernetesObject> (
+    private record InformerKey<ApiType extends KubernetesObject>(
         @NonNull Class<ApiType> apiTypeClass,
         @Nullable String namespace
     ) {

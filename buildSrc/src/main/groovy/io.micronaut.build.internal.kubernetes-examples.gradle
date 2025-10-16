@@ -1,7 +1,7 @@
 plugins {
     id "io.micronaut.build.internal.kubernetes-tests"
     id "io.micronaut.application"
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 dependencies {
@@ -18,6 +18,6 @@ graalvmNative {
 
 dockerfile {
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_21)) {
-        baseImage("eclipse-temurin:21-jre-jammy")
+        baseImage("eclipse-temurin:25-jre-jammy")
     }
 }
