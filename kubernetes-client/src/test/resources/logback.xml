@@ -18,7 +18,7 @@
      trying to capture the log lines.
     -->
 
-    <root level="DEBUG">
+    <root level="OFF">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
