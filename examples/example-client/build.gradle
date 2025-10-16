@@ -25,6 +25,7 @@ dependencies {
     runtimeOnly(mnLogging.logback.classic)
 
     testImplementation projects.testUtils
+    testRuntimeOnly(mnTest.junit.platform.suite)
 }
 
 application {
