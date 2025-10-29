@@ -88,8 +88,8 @@ class KubernetesOperations {
 
         Wait.poll(
             Duration.ofMillis(100),
-            Duration.ofMillis(500),
-            Duration.ofSeconds(20),
+            Duration.ofSeconds(3),
+            Duration.ofSeconds(60),
             () -> {
                 V1NamespaceList namespaceList = coreV1Api.listNamespace().execute()
                 Set<String> namespaces = namespaceList.items.stream().map(it -> it.metadata.name).collect(Collectors.toSet())
