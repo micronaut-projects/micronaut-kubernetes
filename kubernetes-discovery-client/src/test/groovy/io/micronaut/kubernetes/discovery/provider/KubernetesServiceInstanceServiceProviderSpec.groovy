@@ -1,14 +1,11 @@
 package io.micronaut.kubernetes.discovery.provider
 
-import io.fabric8.kubernetes.api.model.IntOrString
-import io.fabric8.kubernetes.api.model.Service
-import io.fabric8.kubernetes.api.model.ServicePortBuilder
-import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
+
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration
-import io.micronaut.kubernetes.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import reactor.core.publisher.Flux
@@ -16,6 +13,14 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Unroll
 import spock.util.concurrent.PollingConditions
+
+import static io.micronaut.kubernetes.test.KubernetesModels.getServicePortModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecClusterIPModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.test.KubernetesOperations.createService
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteService
+import static io.micronaut.kubernetes.test.KubernetesOperations.getService
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -79,17 +84,10 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
-        Service service = operations.createService("headless-service", namespace,
-                new ServiceSpecBuilder()
-                        .withClusterIP("None")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(8081)
-                                        .withTargetPort(new IntOrString(8081))
-                                        .build()
-                        )
-                        .withSelector(["app": "example-service"])
-                        .build())
+        createService(
+            "headless-service",
+            namespace,
+            getServiceSpecClusterIPModel("None", [getServicePortModel(8081, 8081)], ["app": "example-service"]))
 
         when:
         def config = createConfig("headless-service")
@@ -100,7 +98,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         }
 
         cleanup:
-        operations.deleteService(service)
+        deleteService("headless-service", namespace)
         applicationContext.close()
 
         where:
@@ -116,22 +114,13 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
-        Service service = operations.createService("multiport-service", namespace,
-                new ServiceSpecBuilder()
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withName("jvm-debug")
-                                        .withPort(5004)
-                                        .withTargetPort(new IntOrString("jvm-debug"))
-                                        .build(),
-                                new ServicePortBuilder()
-                                        .withName("http")
-                                        .withPort(8081)
-                                        .withTargetPort(new IntOrString("http"))
-                                        .build()
-                        )
-                        .withSelector(["app": "example-service"])
-                        .build())
+        createService(
+            "multiport-service",
+            namespace,
+            getServiceSpecTypeModel(
+                "ClusterIP",
+                [getServicePortModel("jvm-debug", 5004, "jvm-debug"), getServicePortModel("http", 8081, "http")],
+                ["app": "example-service"]))
 
         when: 'no port is specified'
         def config = createConfig("multiport-service")
@@ -149,11 +138,11 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
             def instances = Flux.from(provider.getInstances(config)).blockFirst()
             instances.size() == 1
             instances.first().port == 8081
-            operations.getService("multiport-service", namespace).spec.clusterIP == instances.first().host
+            getService("multiport-service", namespace).spec.clusterIP == instances.first().host
         }
 
         cleanup:
-        operations.deleteService(service)
+        deleteService("multiport-service", namespace)
         applicationContext.close()
 
         where:
@@ -180,12 +169,12 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         pollingConditions.eventually {
             def instances = Flux.from(provider.getInstances(config)).blockFirst()
             instances.size() == 1
-            operations.getService("example-service", "other-namespace-2")
+            getService("example-service", "other-namespace-2")
                     .spec.clusterIP == instances.first().host
         }
 
         cleanup:
-        operations.deleteNamespace("other-namespace-2")
+        deleteNamespace("other-namespace-2")
         applicationContext.close()
 
         where:
@@ -200,15 +189,10 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
                 Environment.KUBERNETES)
         def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
-        Service service = operations.createService("external-service-https", namespace,
-                new ServiceSpecBuilder()
-                        .withType("ExternalName")
-                        .withExternalName("launch.micronaut.io")
-                        .withPorts(new ServicePortBuilder()
-                                .withPort(443)
-                                .withTargetPort(new IntOrString(443))
-                                .build())
-                        .build())
+        createService(
+            "external-service-https",
+            namespace,
+            getServiceSpecTypeModel("ExternalName", [getServicePortModel(443, 443)], [:], "launch.micronaut.io"))
 
         when:
         def config = createConfig("external-service-https")
@@ -224,7 +208,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         }
 
         cleanup:
-        operations.deleteService(service)
+        deleteService("external-service-https", namespace)
         applicationContext.close()
 
         where:
@@ -240,11 +224,10 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
 
         def provider = applicationContext.getBean(AbstractV1ServiceProvider)
 
-        Service service = operations.createService("external-service-http", namespace,
-                new ServiceSpecBuilder()
-                        .withType("ExternalName")
-                        .withExternalName("launch.micronaut.io")
-                        .build())
+        createService(
+            "external-service-http",
+            namespace,
+            getServiceSpecTypeModel("ExternalName", [], [:], "launch.micronaut.io"))
 
         when:
         def config = createConfig("external-service-http")
@@ -260,7 +243,7 @@ class KubernetesServiceInstanceServiceProviderSpec extends KubernetesSpecificati
         }
 
         cleanup:
-        operations.deleteService(service)
+        deleteService("external-service-http", namespace)
         applicationContext.close()
 
         where:

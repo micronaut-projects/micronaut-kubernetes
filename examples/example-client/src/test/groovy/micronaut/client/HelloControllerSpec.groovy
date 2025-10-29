@@ -1,21 +1,27 @@
 package micronaut.client
 
 import io.micronaut.context.annotation.Property
+import io.micronaut.context.annotation.Requires as MicronautRequires
 import io.micronaut.context.env.Environment
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.client.annotation.Client
-import micronaut.client.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubectlPortForward
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
+import spock.lang.AutoCleanup
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
-import jakarta.inject.Inject
-
-import io.micronaut.context.annotation.Requires as MicronautRequires
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMapNotFoundSafe
+import static io.micronaut.kubernetes.test.KubernetesOperations.modifyConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.portForwardService
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "HelloControllerSpec")
@@ -28,8 +34,12 @@ class HelloControllerSpec extends KubernetesSpecification {
     @Shared
     TestClient testClient
 
+    @Shared
+    @AutoCleanup
+    KubectlPortForward kubectlPortForward
+
     def setupSpec() {
-        operations.portForwardService("example-client", namespace, 8082, 8888)
+        kubectlPortForward = portForwardService("example-client", namespace, 8082, 8888)
     }
 
     void "test index"() {
@@ -57,7 +67,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         !testClient.env().contains(configMapName)
 
         when:
-        operations.createConfigMap(configMapName, namespace, ["foo": "bar"])
+        createConfigMap(configMapName, namespace, ["foo": "bar"])
 
         then:
         conditions.eventually {
@@ -66,7 +76,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.modifyConfigMap(configMapName, namespace, ["foo": "baz"])
+        modifyConfigMap(configMapName, namespace, ["foo": "baz"])
 
         then:
         conditions.eventually {
@@ -75,7 +85,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.deleteConfigMap(configMapName, namespace)
+        deleteConfigMap(configMapName, namespace)
 
         then:
         conditions.eventually {
@@ -83,7 +93,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         }
 
         cleanup:
-        operations.deleteConfigMap(configMapName, namespace)
+        deleteConfigMapNotFoundSafe(configMapName, namespace)
     }
 
     void "test reading secrets from mounted volumes"() {

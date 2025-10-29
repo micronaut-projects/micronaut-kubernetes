@@ -16,18 +16,29 @@
 package io.micronaut.kubernetes.test
 
 import groovy.util.logging.Slf4j
-import io.fabric8.kubernetes.api.model.IntOrString
-import io.fabric8.kubernetes.api.model.ServicePortBuilder
-import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
-import io.fabric8.kubernetes.api.model.apps.Deployment
+import io.kubernetes.client.openapi.ApiException
+import io.kubernetes.client.openapi.models.V1Namespace
+import io.kubernetes.client.openapi.models.VersionInfo
 import io.micronaut.context.annotation.Value
 import io.micronaut.core.io.ResourceResolver
 import io.micronaut.core.io.scan.ClassPathResourceLoader
-import spock.lang.AutoCleanup
+import jakarta.inject.Inject
 import spock.lang.Shared
 import spock.lang.Specification
 
-import jakarta.inject.Inject
+import static io.micronaut.kubernetes.test.KubernetesModels.getServicePortModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMapFromFile
+import static io.micronaut.kubernetes.test.KubernetesOperations.createDeploymentFromFile
+import static io.micronaut.kubernetes.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.createRole
+import static io.micronaut.kubernetes.test.KubernetesOperations.createRoleBinding
+import static io.micronaut.kubernetes.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.test.KubernetesOperations.createService
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.getNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.getVersionInfo
 
 /**
  * Abstract specification encapsulating setup of test namespace.
@@ -41,16 +52,13 @@ abstract class KubernetesSpecification extends Specification {
     public static final String EXAMPLE_SERVICE_DEPLOYMENT = "k8s/example-service-deployment.yml"
 
     @Shared
-    @AutoCleanup
-    @Inject
-    KubernetesOperations operations
-
-    @Shared
     @Value('${kubernetes.client.namespace:micronaut-kubernetes}')
+    @Inject
     String namespace
 
     @Shared
     @Value('${spec.reuseNamespace:true}')
+    @Inject
     boolean reuseNamespace
 
     /**
@@ -67,8 +75,9 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def setupSpec() {
-        log.info("Using Kubernetes version: ${operations.getClient(namespace).getKubernetesVersion().major}.${operations.getClient(namespace).getKubernetesVersion().minor}")
-        if (reuseNamespace && operations.getNamespace(namespace) != null) {
+        VersionInfo versionInfo = getVersionInfo()
+        log.info("Using Kubernetes version: ${versionInfo.major}.${versionInfo.minor}")
+        if (reuseNamespace && getNamespaceOpt(namespace).isPresent()) {
             log.info("Reusing namespace ${namespace}")
         } else {
             log.info("Configuring namespace: ${namespace}")
@@ -81,138 +90,103 @@ abstract class KubernetesSpecification extends Specification {
      * @param namespace namespace name
      */
     def createNamespaceSafe(String namespace) {
-        if (operations.getNamespace(namespace) != null) {
-            operations.deleteNamespace(namespace)
+        if (getNamespaceOpt(namespace).isPresent()) {
+            deleteNamespace(namespace)
         }
-        operations.createNamespace(namespace)
+        createNamespace(namespace)
     }
 
     def cleanupSpec() {
-        if (reuseNamespace && operations.getNamespace(namespace) != null) {
+        if (reuseNamespace && getNamespaceOpt(namespace).isPresent()) {
             log.info("Skipping cleanup of namespace ${namespace}")
         } else {
             log.info("Cleaning up namespace ${namespace}")
-            operations.deleteNamespace(namespace)
+            deleteNamespace(namespace)
         }
     }
 
     def createBaseResources(String namespace) {
-        operations.createRole("service-discoverer", namespace)
-        operations.createRoleBinding("default-service-discoverer", namespace, "service-discoverer")
+        createRole("service-discoverer", namespace)
+        createRoleBinding("default-service-discoverer", namespace, "service-discoverer")
 
-        operations.createConfigMapFromFile("game-config-properties", namespace,
-                loadFileFromClasspath("k8s/game.properties"))
-        operations.createConfigMapFromFile("game-config-yml", namespace,
-                loadFileFromClasspath("k8s/game.yml"),
-                ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
-        operations.createConfigMapFromFile("game-config-json", namespace,
-                loadFileFromClasspath("k8s/game.json"))
-        operations.createConfigMapFromFile("mounted-configmap", namespace,
-                loadFileFromClasspath("k8s/mounted.yml"))
-        operations.createConfigMap("literal-config", namespace,
-                ["special.how": "very", "special.type": "charm"],
-                ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
+        createConfigMapFromFile("game-config-properties", namespace,
+            loadFileFromClasspath("k8s/game.properties"))
+        createConfigMapFromFile("game-config-yml", namespace,
+            loadFileFromClasspath("k8s/game.yml"),
+            ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
+        createConfigMapFromFile("game-config-json", namespace,
+            loadFileFromClasspath("k8s/game.json"))
+        createConfigMapFromFile("mounted-configmap", namespace,
+            loadFileFromClasspath("k8s/mounted.yml"))
+        createConfigMap("literal-config", namespace,
+            ["special.how": "very", "special.type": "charm"],
+            ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
 
-        operations.createSecret("test-secret", namespace,
-                ["username": encodeSecret("my-app"), "password": encodeSecret("39528\$vdg7Jb")])
-        operations.createSecret("another-secret", namespace,
-                ["secretProperty": encodeSecret("secretValue")],
-                ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
-        operations.createSecret("mounted-secret", namespace,
-                ["mountedVolumeKey": encodeSecret("mountedVolumeValue")])
+        createSecret("test-secret", namespace,
+            ["username": "my-app".bytes, "password": "39528\$vdg7Jb".bytes])
+        createSecret("another-secret", namespace,
+            ["secretProperty": "secretValue".bytes],
+            ["app": "game", "app.kubernetes.io/instance": "example-service-1337"])
+        createSecret("mounted-secret", namespace,
+            ["mountedVolumeKey": "mountedVolumeValue".bytes])
     }
 
     def createExampleServiceDeployment(String namespace) {
-        operations.createDeploymentFromFile(loadFileFromClasspath(EXAMPLE_SERVICE_DEPLOYMENT), "example-service", namespace)
-        operations.createService("example-service", namespace,
-                new ServiceSpecBuilder()
-                        .withType("LoadBalancer")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(8081)
-                                        .withTargetPort(new IntOrString(8081))
-                                        .build()
-                        )
-                        .withSelector(["app": "example-service"])
-                        .build(),
-                ["foo": "bar"])
-    }
-
-    Deployment loadExampleServiceDeployment(String namespace) {
-        return operations.getDeployment("example-service", namespace)
+        createDeploymentFromFile(loadFileFromClasspath(EXAMPLE_SERVICE_DEPLOYMENT), "example-service", namespace)
+        createService(
+            "example-service",
+            namespace,
+            getServiceSpecTypeModel("LoadBalancer", [getServicePortModel(8081, 8081)], ["app": "example-service"]),
+            ["foo": "bar"])
     }
 
     def createExampleClientDeployment(String namespace) {
-        operations.createDeploymentFromFile(loadFileFromClasspath("k8s/example-client-deployment.yml"), "example-client", namespace)
-        operations.createService("example-client", namespace,
-                new ServiceSpecBuilder()
-                        .withType("LoadBalancer")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(8082)
-                                        .withTargetPort(new IntOrString(8082))
-                                        .build()
-                        )
-                        .withSelector(["app": "example-client"])
-                        .build())
+        createDeploymentFromFile(loadFileFromClasspath("k8s/example-client-deployment.yml"), "example-client", namespace)
+        createService(
+            "example-client",
+            namespace,
+            getServiceSpecTypeModel("LoadBalancer", [getServicePortModel(8082, 8082)], ["app": "example-client"]))
     }
 
     def createSecureDeployment(String namespace) {
-        operations.createDeploymentFromFile(loadFileFromClasspath("k8s/secure-deployment.yml"), "secure-deployment", namespace)
-        operations.createService("secure-service-port-name", namespace,
-                new ServiceSpecBuilder()
-                        .withType("NodePort")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withName("https")
-                                        .withPort(1234)
-                                        .build()
-                        )
-                        .withSelector(["app": "example-service"])
-                        .build())
+        createDeploymentFromFile(loadFileFromClasspath("k8s/secure-deployment.yml"), "secure-deployment", namespace)
+        createService(
+            "secure-service-port-name",
+            namespace,
+            getServiceSpecTypeModel("NodePort", [getServicePortModel("https", 1234)], ["app": "example-service"]))
 
-        operations.createService("secure-service-port-number", namespace,
-                new ServiceSpecBuilder()
-                        .withType("NodePort")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(443)
-                                        .build()
-                        )
-                        .withSelector(["app": "secure-deployment"])
-                        .build())
+        createService(
+            "secure-service-port-number",
+            namespace,
+            getServiceSpecTypeModel("NodePort", [getServicePortModel(443)], ["app": "secure-deployment"]))
 
-        operations.createService("secure-service-labels", namespace,
-                new ServiceSpecBuilder()
-                        .withType("NodePort")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(1234)
-                                        .build()
-                        )
-                        .withSelector(["app": "secure-deployment"])
-                        .build(), ["secure": "true"])
+        createService(
+            "secure-service-labels",
+            namespace,
+            getServiceSpecTypeModel("NodePort", [getServicePortModel(1234)], ["app": "secure-deployment"]),
+            ["secure": "true"])
 
-        operations.createService("non-secure-service", namespace,
-                new ServiceSpecBuilder()
-                        .withType("NodePort")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(1234)
-                                        .build()
-                        )
-                        .withSelector(["app": "secure-deployment"])
-                        .build())
+        createService(
+            "non-secure-service",
+            namespace,
+            getServiceSpecTypeModel("NodePort", [getServicePortModel(1234)], ["app": "secure-deployment"]))
     }
 
-    static String encodeSecret(String secret) {
-        return Base64.encoder.encodeToString(secret.bytes)
+    static Optional<V1Namespace> getNamespaceOpt(String namespace) {
+        try {
+            return Optional.of(getNamespace(namespace))
+        } catch (ApiException e) {
+            if (e.code == 404) {
+                return Optional.empty()
+            }
+            throw e
+        }
     }
 
     protected static URL loadFileFromClasspath(String path) {
         ClassPathResourceLoader loader = new ResourceResolver().getLoader(ClassPathResourceLoader.class).get()
         Optional<URL> resource = loader.getResource("classpath:${path}")
         return resource.orElseThrow(
-                () -> new IllegalArgumentException("File ${path} not found on classpath!"))
+            () -> new IllegalArgumentException("File ${path} not found on classpath!"))
     }
 }

@@ -12,7 +12,6 @@ rxjava3 = '3.1.10'
 shadow = '8.3.9'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '24.0.0'
-io-fabric8-kubernetes-client = '7.4.0'
 netty-incubator-codec-http3 = '0.0.30.Final'
 testcontainers-k3s = '1.21.3'
 bucket4j = '8.10.1'
@@ -40,7 +39,6 @@ system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref
 
 io-kubernetes-client-java = { module = "io.kubernetes:client-java", version.ref = "io-kubernetes-client-java" }
 io-kubernetes-client-java-extended = { module = "io.kubernetes:client-java-extended", version.ref = "io-kubernetes-client-java" }
-io-fabric8-kubernetes-client = { module = "io.fabric8:kubernetes-client", version.ref = "io-fabric8-kubernetes-client" }
 netty-incubator-codec-http3 = { module = "io.netty.incubator:netty-incubator-codec-http3", version.ref = "netty-incubator-codec-http3" }
 testcontainers-k3s = { module = "org.testcontainers:k3s", version.ref = "testcontainers-k3s" }
 bucket4j = { module = "com.bucket4j:bucket4j-core", version.ref = "bucket4j" }

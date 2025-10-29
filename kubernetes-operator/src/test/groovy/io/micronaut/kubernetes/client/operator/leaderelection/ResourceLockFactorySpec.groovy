@@ -8,7 +8,6 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import spock.lang.Specification
 
-
 class ResourceLockFactorySpec extends Specification {
 
     def "it resolves lease lock by default"() {

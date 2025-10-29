@@ -1,18 +1,19 @@
 package io.micronaut.kubernetes.client.informer
 
-
-import io.fabric8.kubernetes.api.model.rbac.ClusterRole
-import io.fabric8.kubernetes.api.model.rbac.ClusterRoleBuilder
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.informer.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
+
+import static io.micronaut.kubernetes.test.KubernetesOperations.createClusterRole
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteClusterRole
+import static io.micronaut.kubernetes.test.KubernetesOperations.modifyClusterRole
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -33,7 +34,6 @@ class ClusterRoleInformerSpec extends KubernetesSpecification {
     def "cluster role informer is notified"() {
         given:
         ClusterRoleInformer resourceHandler = applicationContext.getBean(ClusterRoleInformer)
-        def clusterRoles = operations.getClient(namespace).rbac().clusterRoles()
 
         expect:
         !resourceHandler.added.isEmpty()
@@ -41,17 +41,7 @@ class ClusterRoleInformerSpec extends KubernetesSpecification {
         resourceHandler.deleted.isEmpty()
 
         when:
-        ClusterRole clusterRole = clusterRoles.create(new ClusterRoleBuilder()
-                .withNewMetadata()
-                .withName("test-role")
-                .endMetadata()
-                .addNewRule()
-                .withApiGroups("*")
-                .withResources("*")
-                .withVerbs("get")
-                .endRule()
-                .build()
-        )
+        def clusterRole = createClusterRole("test-role")
 
         then:
         new PollingConditions().within(5) {
@@ -64,7 +54,7 @@ class ClusterRoleInformerSpec extends KubernetesSpecification {
         when:
         def policyRule = clusterRole.getRules().get(0)
         policyRule.getVerbs().add("watch")
-        clusterRoles.createOrReplace(clusterRole)
+        modifyClusterRole(clusterRole)
 
         then:
         new PollingConditions().within(5) {
@@ -72,7 +62,7 @@ class ClusterRoleInformerSpec extends KubernetesSpecification {
         }
 
         when:
-        clusterRoles.delete(clusterRole)
+        deleteClusterRole("test-role")
 
         then:
         new PollingConditions().within(5) {

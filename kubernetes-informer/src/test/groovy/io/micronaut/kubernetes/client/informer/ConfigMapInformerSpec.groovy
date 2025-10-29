@@ -1,11 +1,10 @@
 package io.micronaut.kubernetes.client.informer
 
-import io.fabric8.kubernetes.api.model.ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.informer.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -13,6 +12,9 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.modifyConfigMap
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -39,7 +41,7 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         resourceHandler.deleted.isEmpty()
 
         when:
-        operations.createConfigMap("map1", namespace, ["foo": "bar"])
+        def configMap = createConfigMap("map1", namespace, ["foo": "bar"])
 
         then:
         new PollingConditions().within(5) {
@@ -48,9 +50,8 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         }
 
         when:
-        ConfigMap cm = operations.getConfigMap("map1", namespace)
-        cm.data.put("ping", "pong")
-        operations.modifyConfigMap("map1", namespace, cm.data)
+        configMap.data.put("ping", "pong")
+        modifyConfigMap(configMap)
 
         then:
         new PollingConditions().within(5) {
@@ -58,7 +59,7 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.deleteConfigMap("map1", namespace)
+        deleteConfigMap("map1", namespace)
 
         then:
         new PollingConditions().within(5) {
@@ -71,7 +72,7 @@ class ConfigMapInformerSpec extends KubernetesSpecification {
         SharedInformerCache informerCache = applicationContext.getBean(SharedInformerCache)
 
         when:
-        operations.createConfigMap("map1", namespace, ["foo": "bar"])
+        createConfigMap("map1", namespace, ["foo": "bar"])
 
         then:
         new PollingConditions().eventually {

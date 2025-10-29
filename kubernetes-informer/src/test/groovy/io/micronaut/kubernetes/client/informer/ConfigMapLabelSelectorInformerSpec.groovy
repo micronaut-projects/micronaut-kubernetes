@@ -1,10 +1,9 @@
 package io.micronaut.kubernetes.client.informer
 
-import io.fabric8.kubernetes.api.model.ConfigMap
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.informer.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -12,6 +11,8 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.modifyConfigMap
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -39,7 +40,7 @@ class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
         resourceHandler.deleted.isEmpty()
 
         when:
-        operations.createConfigMap("map1", namespace, ["foo": "bar"])
+        createConfigMap("map1", namespace, ["foo": "bar"])
 
         then:
         new PollingConditions().eventually {
@@ -47,7 +48,7 @@ class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.createConfigMap("map2", namespace, ["foo": "bar"], ["environment": "test"])
+        def configMap2 = createConfigMap("map2", namespace, ["foo": "bar"], ["environment": "test"])
 
         then:
         new PollingConditions().within(120) {
@@ -55,9 +56,8 @@ class ConfigMapLabelSelectorInformerSpec extends KubernetesSpecification {
         }
 
         when:
-        ConfigMap cm = operations.getConfigMap("map2", namespace)
-        cm.data.put("ping", "pong")
-        operations.modifyConfigMap(cm)
+        configMap2.data.put("ping", "pong")
+        modifyConfigMap(configMap2)
 
         then:
         new PollingConditions().within(5) {

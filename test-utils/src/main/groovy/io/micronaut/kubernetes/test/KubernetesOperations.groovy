@@ -15,219 +15,239 @@
  */
 package io.micronaut.kubernetes.test
 
-import groovy.util.logging.Slf4j
-import io.fabric8.kubernetes.api.model.*
-import io.fabric8.kubernetes.api.model.apps.Deployment
-import io.fabric8.kubernetes.api.model.rbac.*
-import io.fabric8.kubernetes.client.ConfigBuilder
-import io.fabric8.kubernetes.client.DefaultKubernetesClient
-import io.fabric8.kubernetes.client.KubernetesClient
-import io.fabric8.kubernetes.client.LocalPortForward
-import io.fabric8.kubernetes.client.dsl.RollableScalableResource
+import io.kubernetes.client.openapi.ApiException
+import io.kubernetes.client.openapi.apis.AppsV1Api
+import io.kubernetes.client.openapi.apis.CoreV1Api
+import io.kubernetes.client.openapi.apis.RbacAuthorizationV1Api
+import io.kubernetes.client.openapi.apis.VersionApi
+import io.kubernetes.client.openapi.models.RbacV1Subject
+import io.kubernetes.client.openapi.models.V1ClusterRole
+import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.kubernetes.client.openapi.models.V1ConfigMapList
+import io.kubernetes.client.openapi.models.V1Deployment
+import io.kubernetes.client.openapi.models.V1Endpoints
+import io.kubernetes.client.openapi.models.V1EndpointsList
+import io.kubernetes.client.openapi.models.V1Namespace
+import io.kubernetes.client.openapi.models.V1NamespaceList
+import io.kubernetes.client.openapi.models.V1Pod
+import io.kubernetes.client.openapi.models.V1PodList
+import io.kubernetes.client.openapi.models.V1PolicyRule
+import io.kubernetes.client.openapi.models.V1Role
+import io.kubernetes.client.openapi.models.V1RoleBinding
+import io.kubernetes.client.openapi.models.V1RoleRef
+import io.kubernetes.client.openapi.models.V1Secret
+import io.kubernetes.client.openapi.models.V1SecretList
+import io.kubernetes.client.openapi.models.V1Service
+import io.kubernetes.client.openapi.models.V1ServiceList
+import io.kubernetes.client.openapi.models.V1ServiceSpec
+import io.kubernetes.client.openapi.models.VersionInfo
+import io.kubernetes.client.util.Yaml
+import io.kubernetes.client.util.wait.Wait
 import io.micronaut.core.util.StringUtils
-import spock.util.concurrent.PollingConditions
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-import jakarta.inject.Singleton
-import java.util.concurrent.TimeUnit
+import java.time.Duration
 import java.util.stream.Collectors
 
+import static io.micronaut.kubernetes.test.KubernetesModels.getClusterRoleModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getConfigMapModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getEndpointsModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getPolicyRuleModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getRoleBindingModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getRoleModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getRoleRefModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getSecretModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getSubjectModel
+
 /**
- * Kubernetes operations using fabric8 client.
- *
- * @author Pavol Gressa
- * @since 2.3
+ * Kubernetes operations using the official java client.
  */
-@Slf4j
-@Singleton
-class KubernetesOperations implements Closeable {
+class KubernetesOperations {
 
-    private Map<String, KubernetesClient> kubernetesClientMap = new HashMap<>()
-    private List<LocalPortForward> portForwardList = new ArrayList<>()
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesOperations.class)
 
-    KubernetesClient getClient(String namespace = 'default') {
-        return kubernetesClientMap.computeIfAbsent(namespace, ns ->
-                new DefaultKubernetesClient(new ConfigBuilder().withNamespace(ns).build())
-        )
+    static VersionInfo getVersionInfo() {
+        return new VersionApi().getCode().execute()
     }
 
-    Namespace createNamespace(String name) {
-        getClient().namespaces().create(
-                new NamespaceBuilder()
-                        .withNewMetadata()
-                        .withName(name)
-                        .endMetadata()
-                        .build())
-        getClient().namespaces().withName(name).waitUntilCondition(
-                ns -> ns.status.phase == "Active", 60, TimeUnit.SECONDS)
+    static V1Namespace createNamespace(String name) {
+        LOG.debug("Create namespace $name")
+        return new CoreV1Api().createNamespace(KubernetesModels.getNamespaceModel(name)).execute()
     }
 
-    void updateNamespace(Namespace namespace) {
-        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}")
-        getClient().namespaces().patch(namespace)
+    static V1Namespace getNamespace(String name) {
+        return new CoreV1Api().readNamespace(name).execute()
     }
 
-    void updateNamespaceStatus(Namespace namespace) {
-        log.debug("Update namespace ${namespace.metadata.name}: ${namespace}")
-        getClient().namespaces().patchStatus(namespace)
+    static void deleteNamespace(String name) {
+        LOG.debug("Deleting namespace ${name}")
+        CoreV1Api coreV1Api = new CoreV1Api()
+        coreV1Api.deleteNamespace(name).execute()
+
+        Wait.poll(
+            Duration.ofMillis(100),
+            Duration.ofMillis(500),
+            Duration.ofSeconds(20),
+            () -> {
+                V1NamespaceList namespaceList = coreV1Api.listNamespace().execute()
+                Set<String> namespaces = namespaceList.items.stream().map(it -> it.metadata.name).collect(Collectors.toSet())
+                if (namespaces.contains(name)) {
+                    LOG.debug("Namespace ${namespaces} still exists, trying again in 500ms")
+                    return false
+                } else {
+                    LOG.debug("Namespace sucessfully deleted, returned namespaces: ${namespaces}")
+                    return true
+                }
+            })
     }
 
-    Namespace getNamespace(String name) {
-        return getClient().namespaces().withName(name).get()
+    static V1Role createRole(String name,
+                             String namespace,
+                             List<String> apiGroups = [""],
+                             List<String> verbs = ["get", "list", "watch"],
+                             List<String> resources = ["services", "endpoints", "configmaps", "secrets", "pods"]) {
+        V1PolicyRule policyRule = getPolicyRuleModel(apiGroups, verbs, resources)
+        V1Role role = getRoleModel(name, [policyRule])
+
+        LOG.debug("Creating Role ${role}")
+
+        RbacAuthorizationV1Api rbacAuthV1Api = new RbacAuthorizationV1Api()
+        return rbacAuthV1Api.createNamespacedRole(namespace, role).execute()
     }
 
-    boolean deleteNamespace(String name) {
-        log.debug("Deleting namespace ${name}")
-        getClient().namespaces().delete(getNamespace(name))
-        def waitTime = 3000
-        while (true) {
-            def namespaces = getClient().namespaces().list().items.stream()
-                    .map(it -> it.metadata.name).collect(Collectors.toList())
-            if (namespaces.contains(name)) {
-                log.info("Namespace ${namespaces} still exists, sleeping for ${waitTime / 1000} seconds...")
-                Thread.sleep(waitTime)
-            } else {
-                log.info("Namespace sucessfully deleted: ${namespaces}")
-                break
+    static V1RoleBinding createRoleBinding(String name,
+                                    String namespace,
+                                    String roleRefName,
+                                    String accountName = "default") {
+        RbacV1Subject subject = getSubjectModel("ServiceAccount", accountName, namespace)
+        V1RoleRef roleRef = getRoleRefModel(roleRefName)
+        V1RoleBinding roleBinding = getRoleBindingModel(name, roleRef, [subject])
+
+        LOG.debug("Creating Role Binding ${roleBinding}")
+
+        RbacAuthorizationV1Api rbacAuthV1Api = new RbacAuthorizationV1Api()
+        return rbacAuthV1Api.createNamespacedRoleBinding(namespace, roleBinding).execute()
+    }
+
+    static V1ConfigMap getConfigMap(String name, String namespace) {
+        return new CoreV1Api().readNamespacedConfigMap(name, namespace).execute()
+    }
+
+    static V1ConfigMap getConfigMapNotFoundSafe(String name, String namespace) {
+        try {
+            return getConfigMap(name, namespace)
+        } catch (ApiException e) {
+            if (e.code != 404) {
+                throw e
             }
+            return null
         }
-        return true
     }
 
-    Role createRole(String name,
-                    String namespace,
-                    String apiGroup = "",
-                    List<String> verbs = ["get", "list", "watch"],
-                    List<String> resources = ["services", "endpoints", "configmaps", "secrets", "pods"]) {
+    static V1ConfigMap createConfigMap(String name,
+                                String namespace,
+                                Map<String, String> data = ['foo': 'bar'],
+                                Map<String, String> labels = [:],
+                                Map<String, String> annotations = [:]) {
 
-        PolicyRule policyRule = new PolicyRuleBuilder()
-                .withApiGroups(apiGroup)
-                .withResources(resources)
-                .withVerbs(verbs)
-                .build()
-        log.debug("Creating Role ${name} ${policyRule}")
-        return getClient(namespace).rbac().roles().create(
-                new RoleBuilder()
-                        .withNewMetadata()
-                        .withName(name)
-                        .withNamespace(namespace)
-                        .endMetadata()
-                        .addToRules(policyRule)
-                        .build())
+        V1ConfigMap configMap = getConfigMapModel(name, data, labels, annotations)
+
+        LOG.debug("Creating ConfigMap ${configMap}")
+
+        CoreV1Api coreV1Api = new CoreV1Api()
+        return coreV1Api.createNamespacedConfigMap(namespace, configMap).execute()
     }
 
-    RoleBinding createRoleBinding(String name, String namespace,
-                                  String roleRefName, String accountName = "default") {
+    static V1ConfigMap createConfigMapFromFile(String name,
+                                        String namespace,
+                                        URL path,
+                                        Map<String, String> labels = [:]) {
 
-        Subject ks = new SubjectBuilder()
-                .withKind("ServiceAccount")
-                .withName(accountName)
-                .withNamespace(namespace)
-                .build()
+        Map<String, String> data = [:]
+        data.put(new File(path.toURI().toString()).name, path.text)
+        V1ConfigMap configMap = getConfigMapModel(name, data, labels)
 
-        RoleRef roleRef = new RoleRefBuilder()
-                .withName(roleRefName)
-                .withApiGroup("rbac.authorization.k8s.io")
-                .withKind("Role")
-                .build()
+        LOG.debug("Creating ConfigMap ${configMap}")
 
-        RoleBinding rb = new RoleBindingBuilder()
-                .withNewMetadata()
-                .withName(name)
-                .withNamespace(namespace)
-                .endMetadata()
-                .withRoleRef(roleRef)
-                .withSubjects(Collections.singletonList(ks))
-                .build()
-
-        return getClient(namespace).rbac().roleBindings().create(rb)
+        CoreV1Api coreV1Api = new CoreV1Api()
+        return coreV1Api.createNamespacedConfigMap(namespace, configMap).execute()
     }
 
-    ConfigMap getConfigMap(String name, String namespace) {
-        return getClient(namespace).configMaps().inNamespace(namespace).withName(name).get()
+    static void deleteConfigMap(String name, String namespace) {
+        LOG.debug("Deleting config map ${namespace}/${name}")
+        CoreV1Api coreV1Api = new CoreV1Api()
+        coreV1Api.deleteNamespacedConfigMap(name, namespace).execute()
     }
 
-
-    ConfigMap createConfigMap(String name, String namespace,
-                              Map data = [foo: 'bar'], Map<String, String> labels = [:],
-                              Map<String, String> annotations = [:]) {
-        def cm = new ConfigMapBuilder()
-                .withNewMetadata()
-                .withName(name)
-                .withNamespace(namespace)
-                .withLabels(labels)
-                .withAnnotations(annotations)
-                .endMetadata()
-                .withData(data)
-                .build()
-        log.debug("Creating ${cm}")
-        return getClient(namespace).configMaps().create(cm)
+    static void deleteConfigMapNotFoundSafe(String name, String namespace) {
+        try {
+            deleteConfigMap(name, namespace)
+        } catch (ApiException e) {
+            if (e.code != 404) {
+                throw e
+            }
+            // ignore
+        }
     }
 
-    ConfigMap createConfigMapFromFile(String name, String namespace,
-                                      URL path, Map<String, String> labels = [:]) {
-        ConfigMap cm = new ConfigMapBuilder()
-                .withNewMetadata()
-                .withName(name)
-                .withNamespace(namespace)
-                .withLabels(labels)
-                .endMetadata()
-                .addToData(new File(path.toURI().toString()).name, path.text)
-                .build()
-        log.debug("Creating ${cm}")
-        return getClient(namespace).configMaps().createOrReplace(cm)
+    static V1ConfigMap modifyConfigMap(V1ConfigMap configMap) {
+        LOG.debug("Modifying config map ${configMap}")
+        CoreV1Api coreV1Api = new CoreV1Api()
+        return coreV1Api.replaceNamespacedConfigMap(configMap.metadata.name, configMap.metadata.namespace, configMap).execute()
     }
 
-    boolean deleteConfigMap(String name, String namespace) {
-        log.debug("Deleting config map ${namespace}/${name}")
-        return getClient(namespace).configMaps()
-                .inNamespace(namespace)
-                .withName(name)
-                .delete()
+    static V1ConfigMap modifyConfigMap(String name, String namespace, Map data = [foo: 'baz']) {
+        V1ConfigMap configMap = getConfigMapModel(name, data)
+        CoreV1Api coreV1Api = new CoreV1Api()
+        return coreV1Api.replaceNamespacedConfigMap(name, namespace, configMap).execute()
     }
 
-    String modifyConfigMap(ConfigMap configMap) {
-        log.debug("Modifying config map ${configMap}")
-        return getClient(configMap.metadata.namespace).configMaps().resource(configMap).update()
+    static V1ConfigMapList listConfigMaps(String namespace) {
+        return new CoreV1Api().listNamespacedConfigMap(namespace).execute()
     }
 
-    String modifyConfigMap(String name, String namespace, Map data = [foo: 'baz']) {
-        return getClient(namespace).configMaps().inNamespace(namespace).withName(name).createOrReplace(
-                new ConfigMapBuilder().
-                        withNewMetadata()
-                        .withName(name)
-                        .withNamespace(namespace)
-                        .and()
-                        .withData(data).build()
-        )
+    static V1Secret createSecret(String name, String namespace, Map<String, byte[]> data, Map<String, String> labels = [:]) {
+        V1Secret secret = getSecretModel(name, data, labels)
+        LOG.debug("Creating ${secret}")
+        return new CoreV1Api().createNamespacedSecret(namespace, secret).execute()
     }
 
-    ConfigMapList listConfigMaps(String namespace) {
-        return getClient(namespace).configMaps().inNamespace(namespace).list()
+    static V1Secret getSecret(String name, String namespace) {
+        return new CoreV1Api().readNamespacedSecret(name, namespace).execute()
     }
 
-    Secret createSecret(String name, String namespace, Map<String, String> literals, Map<String, String> labels = [:]) {
-        Secret secret = new SecretBuilder()
-                .withNewMetadata()
-                .withName(name)
-                .withNamespace(namespace)
-                .withLabels(labels)
-                .endMetadata()
-                .withData(literals)
-                .build()
-        log.debug("Creating ${secret}")
-        return getClient(namespace).secrets().create(secret)
+    static V1SecretList listSecrets(String namespace) {
+        return new CoreV1Api().listNamespacedSecret(namespace).execute()
     }
 
-    Secret getSecret(String name, String namespace) {
-        return getClient(namespace).secrets().inNamespace(namespace).withName(name).get()
+    static void deleteSecret(String name, String namespace) {
+        new CoreV1Api().deleteNamespacedSecret(name, namespace).execute()
     }
 
-    boolean deleteSecret(String name, String namespace) {
-        return getClient(namespace).secrets().inNamespace(namespace).withName(name).delete()
+    static V1Deployment createDeployment(String namespace, V1Deployment deployment) {
+        LOG.debug("Creating ${deployment}")
+
+        new AppsV1Api().createNamespacedDeployment(namespace, deployment).execute()
+
+        LOG.debug("Waiting until deployment is ready or timeout of 120s expires")
+
+        V1Deployment createdDeployment = null
+        Wait.poll(
+                Duration.ofSeconds(3),
+                Duration.ofSeconds(180),
+                () -> {
+                    createdDeployment = getDeployment(deployment.metadata.name, namespace)
+                    return createdDeployment.getStatus().getReadyReplicas() > 0
+                })
+        return createdDeployment
     }
 
-    Deployment createDeploymentFromFile(URL pathToManifest, String name = null, String namespace = null) {
-        Deployment deployment = client.apps().deployments().load(pathToManifest).item()
+    static V1Deployment createDeploymentFromFile(URL pathToManifest, String name = null, String namespace = null) {
+        String content = pathToManifest.text
+        V1Deployment deployment = (V1Deployment) Yaml.load(content)
+
         if (StringUtils.isNotEmpty(name)) {
             deployment.metadata.name = name
         }
@@ -236,90 +256,123 @@ class KubernetesOperations implements Closeable {
             deployment.metadata.namespace = namespace
         }
 
-        log.debug("Creating ${deployment}")
-        getClient(namespace).apps().deployments().resource(deployment).create()
+        LOG.debug("Creating ${deployment}")
 
-        log.debug("Waiting 120s until ready")
-        return getClient(namespace).apps().deployments().inNamespace(deployment.getMetadata().getNamespace())
-                .withName(deployment.getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
+        new AppsV1Api().createNamespacedDeployment(deployment.metadata.namespace, deployment).execute()
+
+        LOG.debug("Waiting until deployment is ready or timeout of 120s expires")
+
+        V1Deployment createdDeployment = null
+        Wait.poll(
+            Duration.ofSeconds(3),
+            Duration.ofSeconds(180),
+            () -> {
+                createdDeployment = getDeployment(deployment.metadata.name, deployment.metadata.namespace)
+                return createdDeployment.getStatus().getReadyReplicas() > 0
+            })
+        return createdDeployment
     }
 
-    Deployment getDeployment(String name, String namespace) {
-        return getClient(namespace).apps().deployments().inNamespace(namespace).withName(name).get()
+    static V1Deployment getDeployment(String name, String namespace) {
+        return new AppsV1Api().readNamespacedDeployment(name, namespace).execute()
     }
 
-    Service createService(String name, String namespace, ServiceSpec serviceSpec,
-                          Map<String, String> labels = [:]) {
-        Service service = new ServiceBuilder()
-                .withNewMetadata()
-                .withName(name)
-                .withNamespace(namespace)
-                .withLabels(labels)
-                .and()
-                .withSpec(serviceSpec)
-                .build()
-        log.debug("Creating ${service}")
-        service = getClient(namespace).services().create(service)
+    static V1Service createService(String name, String namespace, V1ServiceSpec serviceSpec, Map<String, String> labels = [:]) {
+        V1Service service = getServiceModel(name, serviceSpec, labels)
+
+        LOG.debug("Creating ${service}")
+
+        V1Service createdService = new CoreV1Api().createNamespacedService(namespace, service).execute()
+
         // in case of headless service or ExternalName service do now wait
-        if (!(service.spec.externalName)) {
-            log.debug("Polling for Endpoints get ready ${service}")
-            new PollingConditions().within(10) {
-                assert getClient(namespace).endpoints().withName(name).get()
-            }
+        if (!(createdService.spec.externalName)) {
+            LOG.debug("Polling for Endpoints get ready ${createdService}")
+            Wait.poll(
+                Duration.ofSeconds(2),
+                Duration.ofSeconds(20),
+                () -> getEndpoints(name, namespace) != null)
         }
-        return service
+        return createdService
     }
 
-    Service getService(String name, String namespace) {
-        return getClient(namespace).services().inNamespace(namespace).withName(name).get()
+    static V1Service getService(String name, String namespace) {
+        return new CoreV1Api().readNamespacedService(name, namespace).execute()
     }
 
-    ServiceList listServices(String namespace) {
-        return getClient(namespace).services().inNamespace(namespace).list()
+    static V1ServiceList listServices(String namespace) {
+        return new CoreV1Api().listNamespacedService(namespace).execute()
     }
 
-    void deleteService(Service service) {
-        getClient(service.metadata.namespace).services().delete(service);
+    static void deleteService(String name, String namespace) {
+        new CoreV1Api().deleteNamespacedService(name, namespace).execute()
     }
 
-    SecretList listSecrets(String namespace) {
-        return getClient(namespace).secrets().inNamespace(namespace).list()
+    static V1Endpoints createEndpoints(String name, String namespace) {
+        V1Endpoints endpoints = getEndpointsModel(name)
+
+        LOG.debug("Creating Endpoints ${endpoints}")
+
+        CoreV1Api coreV1Api = new CoreV1Api()
+        return coreV1Api.createNamespacedEndpoints(namespace, endpoints).execute()
     }
 
-    Endpoints getEndpoints(String name, String namespace) {
-        return getClient(namespace).endpoints().inNamespace(namespace).withName(name).get()
+    static V1Endpoints getEndpoints(String name, String namespace) {
+        return new CoreV1Api().readNamespacedEndpoints(name, namespace).execute()
     }
 
-    EndpointsList listEndpoints(String namespace) {
-        return getClient(namespace).endpoints().inNamespace(namespace).list()
+    static V1EndpointsList listEndpoints(String namespace) {
+        return new CoreV1Api().listNamespacedEndpoints(namespace).execute()
     }
 
-    LocalPortForward portForwardService(String name, String namespace, int sourcePort, int targetPort) {
-        Service service = getService(name, namespace)
+    static void deleteEndpoints(String name, String namespace) {
+        new CoreV1Api().deleteNamespacedEndpoints(name, namespace).execute()
+    }
+
+    static V1PodList listPods(String namespace, String labelSelector = null) {
+        return new CoreV1Api().listNamespacedPod(namespace).labelSelector(labelSelector).execute()
+    }
+
+    static V1ClusterRole createClusterRole(String name,
+                                           List<String> apiGroups = ["*"],
+                                           List<String> verbs = ["get"],
+                                           List<String> resources = ["*"]) {
+        V1PolicyRule policyRule = getPolicyRuleModel(apiGroups, verbs, resources)
+        V1ClusterRole clusterRole = getClusterRoleModel(name, [policyRule])
+
+        LOG.debug("Creating Cluster Role ${clusterRole}")
+
+        return new RbacAuthorizationV1Api().createClusterRole(clusterRole).execute()
+    }
+
+    static V1ClusterRole modifyClusterRole(V1ClusterRole clusterRole) {
+        LOG.debug("Modifying cluster role ${clusterRole}")
+        return new RbacAuthorizationV1Api().replaceClusterRole(clusterRole.metadata.name, clusterRole).execute()
+    }
+
+    static void deleteClusterRole(String name) {
+        LOG.debug("Deleting cluster role ${name}")
+        new RbacAuthorizationV1Api().deleteClusterRole(name).execute()
+    }
+
+    static KubectlPortForward portForwardService(String serviceName, String namespace, int port, int localPort) {
+        LOG.debug("Forwarding service ${namespace}/${serviceName} port ${port} to ${localPort}")
+
+        V1Service service = getService(serviceName, namespace)
+
         service.spec.ports.stream()
-                .filter(s -> s.port == sourcePort)
-                .findFirst()
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Service ${namespace}/${name} doesn't contain port ${sourcePort}"))
+            .filter(s -> s.port == port)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Service ${namespace}/${name} doesn't contain port ${port}"))
 
-        LocalPortForward lpf = getClient(namespace)
-                .services()
-                .inNamespace(namespace)
-                .withName(name)
-                .portForward(sourcePort, targetPort)
-        portForwardList.add(lpf)
-
-        if (!lpf.isAlive()) {
-            throw new IllegalArgumentException("Failed to port forward service ${namespace}/${name} " +
-                    "port ${sourcePort} -> ${targetPort}")
+        List<String> labelSelectors = []
+        service.spec.selector.each { key, val ->
+            labelSelectors.add("$key=$val")
         }
-        log.debug("Forwarding service ${namespace}/${name} port ${sourcePort} to ${targetPort}")
-        return lpf
-    }
 
-    @Override
-    void close() throws IOException {
-        portForwardList.forEach(it -> it.close())
-        kubernetesClientMap.values().forEach(it -> it.close())
+        V1PodList podList = listPods(namespace, labelSelectors.join(","))
+        V1Pod pod = podList.items.stream().findFirst()
+            .orElseThrow(() -> new IllegalStateException("Could not find matching pod for service:" + service))
+
+        return new KubectlPortForward(namespace, pod.metadata.name, port, localPort)
     }
 }

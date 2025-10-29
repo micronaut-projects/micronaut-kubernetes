@@ -2,19 +2,21 @@ package micronaut.client
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
+import io.micronaut.context.annotation.Requires as MicronautRequires
 import io.micronaut.context.env.Environment
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
 import io.micronaut.kubernetes.health.KubernetesHealthIndicator
-import micronaut.client.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubectlPortForward
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
+import spock.lang.AutoCleanup
 import spock.lang.Requires
 import spock.lang.Shared
 
-import jakarta.inject.Inject
-
-import io.micronaut.context.annotation.Requires as MicronautRequires
+import static io.micronaut.kubernetes.test.KubernetesOperations.portForwardService
 
 @MicronautTest(environments = Environment.KUBERNETES)
 @Property(name = "spec.name", value = "KubernetesHealthIndicatorSpec")
@@ -26,8 +28,12 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
     @Shared
     ServiceClient client
 
+    @Shared
+    @AutoCleanup
+    KubectlPortForward kubectlPortForward
+
     def setupSpec() {
-        operations.portForwardService("example-service", namespace, 8081, 9999)
+        kubectlPortForward = portForwardService("example-service", namespace, 8081, 9999)
     }
 
     void "it works"() {
@@ -66,6 +72,4 @@ class KubernetesHealthIndicatorSpec extends KubernetesSpecification {
         Map<String, Object> health()
 
     }
-
-
 }

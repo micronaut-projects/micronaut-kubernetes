@@ -1,18 +1,15 @@
 package micronaut.informer
 
-import io.fabric8.kubernetes.api.model.ContainerBuilder
-import io.fabric8.kubernetes.api.model.ContainerPortBuilder
-import io.fabric8.kubernetes.api.model.HTTPGetActionBuilder
-import io.fabric8.kubernetes.api.model.IntOrString
-import io.fabric8.kubernetes.api.model.LabelSelectorBuilder
-import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
-import io.fabric8.kubernetes.api.model.PodSpecBuilder
-import io.fabric8.kubernetes.api.model.PodTemplateSpecBuilder
-import io.fabric8.kubernetes.api.model.ProbeBuilder
-import io.fabric8.kubernetes.api.model.ServicePortBuilder
-import io.fabric8.kubernetes.api.model.ServiceSpecBuilder
-import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder
-import io.fabric8.kubernetes.api.model.apps.DeploymentSpecBuilder
+import io.kubernetes.client.custom.IntOrString
+import io.kubernetes.client.openapi.models.V1Container
+import io.kubernetes.client.openapi.models.V1ContainerPort
+import io.kubernetes.client.openapi.models.V1Deployment
+import io.kubernetes.client.openapi.models.V1DeploymentSpec
+import io.kubernetes.client.openapi.models.V1HTTPGetAction
+import io.kubernetes.client.openapi.models.V1LabelSelector
+import io.kubernetes.client.openapi.models.V1PodSpec
+import io.kubernetes.client.openapi.models.V1PodTemplateSpec
+import io.kubernetes.client.openapi.models.V1Probe
 import io.kubernetes.client.openapi.models.V1Secret
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.annotation.Requires as MicronautRequires
@@ -20,15 +17,24 @@ import io.micronaut.context.env.Environment
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
+import io.micronaut.kubernetes.test.KubectlPortForward
 import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
+import spock.lang.AutoCleanup
 import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
-import java.util.concurrent.TimeUnit
+import static io.micronaut.kubernetes.test.KubernetesModels.getObjectMetaModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServicePortModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.test.KubernetesOperations.createDeployment
+import static io.micronaut.kubernetes.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.test.KubernetesOperations.createService
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteSecret
+import static io.micronaut.kubernetes.test.KubernetesOperations.portForwardService
 
 @MicronautTest(environments = [Environment.KUBERNETES], startApplication = false)
 @Property(name = "spec.name", value = "SecretInformerControllerSpec")
@@ -41,74 +47,62 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
     @Shared
     TestClient testClient
 
+    @Shared
+    @AutoCleanup
+    KubectlPortForward kubectlPortForward
+
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
         createBaseResources(namespace)
-        def client = operations.getClient(namespace)
-        def informerDeployment = client.apps().deployments().createOrReplace(
-                new DeploymentBuilder()
-                        .withMetadata(new ObjectMetaBuilder()
-                                .withName("example-informer")
-                                .build())
-                        .withSpec(new DeploymentSpecBuilder()
-                                .withSelector(new LabelSelectorBuilder()
-                                        .addToMatchLabels("app", "example-informer")
-                                        .build())
-                                .withReplicas(1)
-                                .withTemplate(new PodTemplateSpecBuilder()
-                                        .withMetadata(new ObjectMetaBuilder()
-                                                .withLabels(["app": "example-informer"])
-                                                .build())
-                                        .withSpec(new PodSpecBuilder()
-                                                .withContainers(new ContainerBuilder()
-                                                        .withName("informer")
-                                                        .withImage("micronaut-kubernetes-informer-example")
-                                                        .withImagePullPolicy("Never")
-                                                        .withPorts(new ContainerPortBuilder()
-                                                                .withName("http")
-                                                                .withContainerPort(8080)
-                                                                .build())
-                                                        .withLivenessProbe(new ProbeBuilder()
-                                                                .withHttpGet(new HTTPGetActionBuilder()
-                                                                        .withPath("/health/liveness")
-                                                                        .withPort(new IntOrString(8080))
-                                                                        .build())
-                                                                .withInitialDelaySeconds(1)
-                                                                .withPeriodSeconds(1)
-                                                                .withFailureThreshold(10)
-                                                                .build())
-                                                        .withReadinessProbe(new ProbeBuilder()
-                                                                .withHttpGet(new HTTPGetActionBuilder()
-                                                                        .withPath("/health/readiness")
-                                                                        .withPort(new IntOrString(8080))
-                                                                        .build())
-                                                                .withInitialDelaySeconds(1)
-                                                                .withPeriodSeconds(1)
-                                                                .withFailureThreshold(10)
-                                                                .build())
-                                                        .build())
-                                                .build())
-                                        .build())
-                                .build())
-                        .build())
 
-        client.apps().deployments().inNamespace(informerDeployment.getMetadata().getNamespace())
-                .withName(informerDeployment.getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
-
-        operations.createService("example-informer", namespace,
-                new ServiceSpecBuilder()
-                        .withType("LoadBalancer")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(8080)
-                                        .withTargetPort(new IntOrString(8080))
-                                        .build()
+        def deployment = new V1Deployment()
+                .metadata(getObjectMetaModel("example-informer"))
+                .spec(new V1DeploymentSpec()
+                        .selector(new V1LabelSelector().matchLabels(["app": "example-informer"]))
+                        .replicas(1)
+                        .template(new V1PodTemplateSpec()
+                                .metadata(getObjectMetaModel(null, ["app": "example-informer"]))
+                                .spec(new V1PodSpec()
+                                        .containers([
+                                                new V1Container()
+                                                        .name("informer")
+                                                        .image("micronaut-kubernetes-informer-example")
+                                                        .imagePullPolicy("Never")
+                                                        .ports([
+                                                                new V1ContainerPort()
+                                                                        .name("http")
+                                                                        .containerPort(8080)
+                                                        ])
+                                                        .livenessProbe(new V1Probe()
+                                                                .httpGet(new V1HTTPGetAction()
+                                                                        .path("/health/liveness")
+                                                                        .port(new IntOrString(8080)))
+                                                                .initialDelaySeconds(1)
+                                                                .periodSeconds(1)
+                                                                .failureThreshold(10)
+                                                        )
+                                                        .readinessProbe(new V1Probe()
+                                                                .httpGet(new V1HTTPGetAction()
+                                                                        .path("/health/readiness")
+                                                                        .port(new IntOrString(8080)))
+                                                                .initialDelaySeconds(1)
+                                                                .periodSeconds(1)
+                                                                .failureThreshold(10)
+                                                        )
+                                        ])
+                                )
                         )
-                        .withSelector(["app": "example-informer"])
-                        .build())
+                )
 
-        operations.portForwardService("example-informer", namespace, 8080, 8889)
+        createDeployment(namespace, deployment)
+
+        createService(
+                "example-informer",
+                namespace,
+                getServiceSpecTypeModel("LoadBalancer", [getServicePortModel(8080, 8080)], ["app": "example-informer"]))
+
+        kubectlPortForward = portForwardService("example-informer", namespace, 8080, 8889)
     }
 
     void "test all"() {
@@ -129,7 +123,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.createSecret(secretName, namespace, ["foo": encodeSecret("bar")])
+        createSecret(secretName, namespace, ["foo": "bar".bytes])
 
         then:
         conditions.eventually {
@@ -138,7 +132,7 @@ class SecretInformerControllerSpec extends KubernetesSpecification {
         }
 
         when:
-        operations.deleteSecret(secretName, namespace)
+        deleteSecret(secretName, namespace)
 
         then:
         conditions.eventually {

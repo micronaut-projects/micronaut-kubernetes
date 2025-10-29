@@ -1,17 +1,20 @@
 package io.micronaut.kubernetes.configuration
 
+
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.env.EnvironmentPropertySource
 import io.micronaut.context.env.PropertySource
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
-import io.micronaut.kubernetes.utils.KubernetesSpecification
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
 import reactor.core.publisher.Flux
 import spock.lang.Requires
 import spock.lang.Shared
 
-import jakarta.inject.Inject
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMap
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -107,7 +110,7 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
     void "it can read empty config maps"() {
         given:
         KubernetesConfigurationClient.propertySourceCache.clear()
-        operations.createConfigMap("empty-map", namespace, [:])
+        createConfigMap("empty-map", namespace, [:])
 
         when:
         Flux.from(configurationClient.getPropertySources(applicationContext.environment))
@@ -118,6 +121,6 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
         noExceptionThrown()
 
         cleanup:
-        operations.deleteConfigMap("empty-map", namespace)
+        deleteConfigMap("empty-map", namespace)
     }
 }

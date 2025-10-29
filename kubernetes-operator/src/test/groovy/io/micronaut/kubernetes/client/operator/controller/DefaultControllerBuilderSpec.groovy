@@ -1,6 +1,5 @@
 package io.micronaut.kubernetes.client.operator.controller
 
-
 import io.kubernetes.client.extended.controller.DefaultController
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
