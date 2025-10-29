@@ -304,7 +304,12 @@ class KubernetesOperations {
     }
 
     static void deleteService(String name, String namespace) {
-        new CoreV1Api().deleteNamespacedService(name, namespace).execute()
+        try {
+            new CoreV1Api().deleteNamespacedService(name, namespace).execute()
+        } catch (IllegalArgumentException ignored) {
+            // ignore since this is a known kubernetes java client issue which happens
+            // when the kubernetes api service returns V1Status instead of V1Service
+        }
     }
 
     static V1Endpoints createEndpoints(String name, String namespace) {
