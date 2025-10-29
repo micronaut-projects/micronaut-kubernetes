@@ -1,6 +1,7 @@
 plugins {
     id "io.micronaut.build.internal.module"
     id "io.micronaut.build.internal.kubernetes-base"
+    id "io.micronaut.build.internal.java-base"
 }
 
 // Fix for JavaDoc not finding generated classes
@@ -8,9 +9,4 @@ configurations {
     internalJavadocClasspathElements {
         outgoing.artifact(tasks.named("jar"))
     }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
 }
