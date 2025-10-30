@@ -1,15 +1,17 @@
 package io.micronaut.kubernetes.configuration
 
 import com.github.stefanbirkner.systemlambda.SystemLambda
-import io.fabric8.kubernetes.api.model.Pod
+import io.kubernetes.client.openapi.models.V1Pod
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
-import io.micronaut.kubernetes.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import reactor.core.publisher.Flux
 import spock.lang.Requires
+
+import static io.micronaut.kubernetes.test.KubernetesOperations.listPods
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -79,7 +81,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void "it can filter config maps by pod labels"() {
         given:
-        Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        V1Pod pod = listPods(namespace).items.find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
@@ -106,9 +108,10 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void "it can filter secrets by pod labels"() {
         given:
-        Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        V1Pod pod = listPods(namespace).items.find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        String podName = pod.metadata.name
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
-                .and("HOSTNAME", pod.metadata.name)
+                .and("HOSTNAME", podName)
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true, "kubernetes.client.secrets.pod-labels": ["app.kubernetes.io/instance"]], Environment.KUBERNETES)
         KubernetesConfigurationClient configurationClient = applicationContext.getBean(KubernetesConfigurationClient)
 
@@ -128,7 +131,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void "it can throw exception on missing config maps pod labels"() {
         given:
-        Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        V1Pod pod = listPods(namespace).items.find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.config-maps.pod-labels": ["missing.label"],
@@ -153,7 +156,7 @@ class KubernetesConfigurationClientLabelsSpec extends KubernetesSpecification {
 
     void "it can throw exception on missing secrets pod labels"() {
         given:
-        Pod pod = TestUtils.getPods(namespace).find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
+        V1Pod pod = listPods(namespace).items.find { it.metadata.labels && it.metadata.labels.containsKey("app.kubernetes.io/instance") }
         def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
                 .and("HOSTNAME", pod.metadata.name)
         ApplicationContext applicationContext = ApplicationContext.run(["kubernetes.client.secrets.enabled": true,

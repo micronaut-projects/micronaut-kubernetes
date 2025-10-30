@@ -1,17 +1,19 @@
 package io.micronaut.kubernetes.client.informer
 
-
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1ConfigMapList
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.NoSuchBeanException
-import io.micronaut.kubernetes.client.informer.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
 import spock.util.concurrent.PollingConditions
+
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMap
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -68,7 +70,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
         informer.getIndexer().list().size() <= 1  // since 1.20 there's always kube-root-ca.crt, see https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.20.md#introducing-rootcaconfigmap
 
         when:
-        operations.createConfigMap("cm-test", namespace)
+        createConfigMap("cm-test", namespace)
 
         then:
         new PollingConditions().within(5, {
@@ -78,7 +80,7 @@ class DefaultSharedIndexInformerFactorySpec extends KubernetesSpecification {
         })
 
         cleanup:
-        operations.deleteConfigMap("cm-test", namespace)
+        deleteConfigMap("cm-test", namespace)
         applicationContext.close()
     }
 

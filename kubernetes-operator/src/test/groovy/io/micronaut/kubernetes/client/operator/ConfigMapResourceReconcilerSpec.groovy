@@ -7,10 +7,14 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.core.type.Argument
-import io.micronaut.kubernetes.client.operator.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.util.concurrent.PollingConditions
+
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMapNotFoundSafe
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "ConfigMapResourceReconcilerSpec")
@@ -22,7 +26,7 @@ import spock.util.concurrent.PollingConditions
 @Property(name = "kubernetes.client.operator.leader-election.lock.resource-namespace", value = "default")
 @Property(name = "kubernetes.client.operator.leader-election.lock.resource-name", value = "test-lock")
 @Property(name = "spec.reuseNamespace", value = "false")
-class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
+class ConfigMapResourceReconcilerSpec extends KubernetesSpecification {
 
     @Inject
     ApplicationContext applicationContext
@@ -33,7 +37,7 @@ class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
-        operations.deleteConfigMap("test-lock", "default")
+        deleteConfigMapNotFoundSafe("test-lock", "default")
     }
 
     def "it receives the requests"(){
@@ -46,7 +50,7 @@ class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
         }
 
         when:
-        operations.createConfigMap("first", namespace, ["foo":"bar"])
+        createConfigMap("first", namespace, ["foo":"bar"])
 
         then:
         conditions.within(10) {
@@ -54,7 +58,7 @@ class ConfigMapResourceReconcilerSpec extends KubernetesSpecification{
         }
 
         cleanup:
-        operations.deleteConfigMap("first", namespace)
+        deleteConfigMap("first", namespace)
     }
 
     def "context contains controllers"(){

@@ -1,17 +1,35 @@
 package micronaut.operator
 
-import io.fabric8.kubernetes.api.model.*
-import io.fabric8.kubernetes.api.model.apps.DeploymentBuilder
-import io.fabric8.kubernetes.api.model.apps.DeploymentSpecBuilder
+import io.kubernetes.client.custom.IntOrString
+import io.kubernetes.client.openapi.models.V1Container
+import io.kubernetes.client.openapi.models.V1ContainerPort
+import io.kubernetes.client.openapi.models.V1Deployment
+import io.kubernetes.client.openapi.models.V1DeploymentSpec
+import io.kubernetes.client.openapi.models.V1HTTPGetAction
+import io.kubernetes.client.openapi.models.V1LabelSelector
+import io.kubernetes.client.openapi.models.V1PodSpec
+import io.kubernetes.client.openapi.models.V1PodTemplateSpec
+import io.kubernetes.client.openapi.models.V1Probe
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import micronaut.operator.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import spock.lang.Requires
 import spock.util.concurrent.PollingConditions
 
-import java.util.concurrent.TimeUnit
+import static io.micronaut.kubernetes.test.KubernetesModels.getObjectMetaModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServicePortModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.createDeployment
+import static io.micronaut.kubernetes.test.KubernetesOperations.createRole
+import static io.micronaut.kubernetes.test.KubernetesOperations.createRoleBinding
+import static io.micronaut.kubernetes.test.KubernetesOperations.createService
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteConfigMapNotFoundSafe
+import static io.micronaut.kubernetes.test.KubernetesOperations.getConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.getConfigMapNotFoundSafe
 
 @MicronautTest(startApplication = false, environments = [Environment.KUBERNETES])
 @Property(name = "spec.name", value = "ConfigMapOperatorControllerSpec")
@@ -25,83 +43,68 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
     @Override
     def setupFixture(String namespace) {
         createNamespaceSafe(namespace)
-        operations.deleteConfigMap(configMapName, namespace)
+        deleteConfigMapNotFoundSafe(configMapName, namespace)
 
-        operations.createRole("operator-reconciler-role", namespace,
-                "",
+        createRole("operator-reconciler-role",
+                namespace,
+                [""],
                 ["get", "list", "watch", "create", "update", "patch", "delete"],
                 ["configmaps"])
 
-        operations.createRole("operator-lease-role", namespace,
-                "coordination.k8s.io",
+        createRole("operator-lease-role",
+                namespace,
+                ["coordination.k8s.io"],
                 ["get", "create", "update", "delete"],
                 ["leases"]
         )
-        operations.createRoleBinding("operator-reconciler", namespace, "operator-reconciler-role")
-        operations.createRoleBinding("operator-lease-role", namespace, "operator-lease-role")
+        createRoleBinding("operator-reconciler", namespace, "operator-reconciler-role")
+        createRoleBinding("operator-lease-role", namespace, "operator-lease-role")
 
-        def client = operations.getClient(namespace)
-        def informerDeployment = client.apps().deployments().createOrReplace(
-                new DeploymentBuilder()
-                        .withMetadata(new ObjectMetaBuilder()
-                                .withName("example-operator")
-                                .build())
-                        .withSpec(new DeploymentSpecBuilder()
-                                .withSelector(new LabelSelectorBuilder()
-                                        .addToMatchLabels("app", "example-operator")
-                                        .build())
-                                .withReplicas(1)
-                                .withTemplate(new PodTemplateSpecBuilder()
-                                        .withMetadata(new ObjectMetaBuilder()
-                                                .withLabels(["app": "example-operator"])
-                                                .build())
-                                        .withSpec(new PodSpecBuilder()
-                                                .withContainers(new ContainerBuilder()
-                                                        .withName("operator")
-                                                        .withImage("micronaut-kubernetes-operator-example")
-                                                        .withImagePullPolicy("Never")
-                                                        .withPorts(new ContainerPortBuilder()
-                                                                .withName("http")
-                                                                .withContainerPort(8080)
-                                                                .build())
-                                                        .withLivenessProbe(new ProbeBuilder()
-                                                                .withHttpGet(new HTTPGetActionBuilder()
-                                                                        .withPath("/health/liveness")
-                                                                        .withPort(new IntOrString(8080))
-                                                                        .build())
-                                                                .withInitialDelaySeconds(1)
-                                                                .withPeriodSeconds(1)
-                                                                .withFailureThreshold(10)
-                                                                .build())
-                                                        .withReadinessProbe(new ProbeBuilder()
-                                                                .withHttpGet(new HTTPGetActionBuilder()
-                                                                        .withPath("/health/readiness")
-                                                                        .withPort(new IntOrString(8080))
-                                                                        .build())
-                                                                .withInitialDelaySeconds(1)
-                                                                .withPeriodSeconds(1)
-                                                                .withFailureThreshold(10)
-                                                                .build())
-                                                        .build())
-                                                .build())
-                                        .build())
-                                .build())
-                        .build())
-
-        client.apps().deployments().inNamespace(informerDeployment.getMetadata().getNamespace())
-                .withName(informerDeployment.getMetadata().getName()).waitUntilReady(250, TimeUnit.SECONDS)
-
-        operations.createService("example-operator", namespace,
-                new ServiceSpecBuilder()
-                        .withType("LoadBalancer")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(8080)
-                                        .withTargetPort(new IntOrString(8080))
-                                        .build()
+        def deployment = new V1Deployment()
+                .metadata(getObjectMetaModel("example-operator"))
+                .spec(new V1DeploymentSpec()
+                        .selector(new V1LabelSelector().matchLabels(["app": "example-operator"]))
+                        .replicas(1)
+                        .template(new V1PodTemplateSpec()
+                                .metadata(getObjectMetaModel(null, ["app": "example-operator"]))
+                                .spec(new V1PodSpec()
+                                        .containers([
+                                                new V1Container()
+                                                        .name("operator")
+                                                        .image("micronaut-kubernetes-operator-example")
+                                                        .imagePullPolicy("Never")
+                                                        .ports([
+                                                                new V1ContainerPort()
+                                                                        .name("http")
+                                                                        .containerPort(8080)
+                                                        ])
+                                                        .livenessProbe(new V1Probe()
+                                                                .httpGet(new V1HTTPGetAction()
+                                                                        .path("/health/liveness")
+                                                                        .port(new IntOrString(8080)))
+                                                                .initialDelaySeconds(1)
+                                                                .periodSeconds(1)
+                                                                .failureThreshold(10)
+                                                        )
+                                                        .readinessProbe(new V1Probe()
+                                                                .httpGet(new V1HTTPGetAction()
+                                                                        .path("/health/readiness")
+                                                                        .port(new IntOrString(8080)))
+                                                                .initialDelaySeconds(1)
+                                                                .periodSeconds(1)
+                                                                .failureThreshold(10)
+                                                        )
+                                        ])
+                                )
                         )
-                        .withSelector(["app": "example-operator"])
-                        .build())
+                )
+
+        createDeployment(namespace, deployment)
+
+        createService(
+                "example-operator",
+                namespace,
+                getServiceSpecTypeModel("LoadBalancer", [getServicePortModel(8080, 8080)], ["app": "example-operator"]))
     }
 
     void "test reconciler"() {
@@ -109,22 +112,22 @@ class ConfigMapOperatorControllerSpec extends KubernetesSpecification {
         PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
 
         expect:
-        !operations.getConfigMap(configMapName, namespace);
+        !getConfigMapNotFoundSafe(configMapName, namespace)
 
         when:
-        operations.createConfigMap(configMapName, namespace)
+        createConfigMap(configMapName, namespace)
 
         then:
         conditions.eventually {
-            operations.getConfigMap(configMapName, namespace).getMetadata().getAnnotations().containsKey("io.micronaut.operator")
+            getConfigMap(configMapName, namespace).getMetadata().getAnnotations().containsKey("io.micronaut.operator")
         }
 
         when:
-        operations.deleteConfigMap(configMapName, namespace)
+        deleteConfigMap(configMapName, namespace)
 
         then:
         conditions.eventually {
-            !operations.getConfigMap(configMapName, namespace)
+            !getConfigMapNotFoundSafe(configMapName, namespace)
         }
     }
 }

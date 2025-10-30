@@ -17,14 +17,19 @@ package io.micronaut.kubernetes.test
 
 import groovy.transform.Memoized
 import groovy.util.logging.Slf4j
-import io.micronaut.http.HttpRequest
-import io.micronaut.http.client.HttpClient
-import io.micronaut.http.client.exceptions.HttpClientResponseException
+import io.kubernetes.client.openapi.ApiClient
+import io.kubernetes.client.openapi.Configuration
+import io.kubernetes.client.util.ClientBuilder
+
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.function.Supplier
 
 @Slf4j
-class TestUtils implements KubectlCommands {
+class TestUtils {
 
     public static final String KUBEPROXY_BASE_PATH = "http://localhost:8001"
+
+    private static final AtomicBoolean API_CLIENT_FACTORY_INIT = new AtomicBoolean(false)
 
     @Memoized
     static boolean available(String url) {
@@ -34,36 +39,29 @@ class TestUtils implements KubectlCommands {
                 readTimeout = 1000
                 connect()
             }
-            log.debug("Kubernetes api available at: " + url)
+            log.debug("Kubernetes api available at: {}", url)
             true
         } catch (IOException e) {
-            log.error("Kubernetes api is not available at: " + url)
+            log.error("Kubernetes api is not available at: {}", url, e)
             false
         }
     }
 
     @Memoized
-    static boolean serviceExists(String serviceName) {
-        kubernetesApiAvailable() && getServices().contains(serviceName)
-    }
-
-    @Memoized
-    static boolean serviceExists(String serviceName, String namespaces) {
-        kubernetesApiAvailable() && getServices(namespaces).contains(serviceName)
-    }
-
-    @Memoized
-    static boolean configMapExists(String configMapName) {
-        kubernetesApiAvailable() && getConfigMaps().contains(configMapName)
-    }
-
-    @Memoized
-    static boolean secretExists(String secretName) {
-        kubernetesApiAvailable() && getSecrets().contains(secretName)
-    }
-
-    @Memoized
     static boolean kubernetesApiAvailable() {
-        available(KUBEPROXY_BASE_PATH)
+        if (available(KUBEPROXY_BASE_PATH)) {
+            if (API_CLIENT_FACTORY_INIT.compareAndSet(false, true)) {
+                Configuration.setApiClientFactory(new Supplier<ApiClient>() {
+                    @Override
+                    ApiClient get() {
+                        ClientBuilder clientBuilder = new ClientBuilder()
+                        clientBuilder.setBasePath(KUBEPROXY_BASE_PATH)
+                        return clientBuilder.build()
+                    }
+                })
+            }
+            return true
+        }
+        return false
     }
 }

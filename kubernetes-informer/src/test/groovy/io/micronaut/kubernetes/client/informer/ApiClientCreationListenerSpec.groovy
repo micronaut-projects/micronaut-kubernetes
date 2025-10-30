@@ -7,7 +7,7 @@ import io.micronaut.context.annotation.Requires
 import io.micronaut.context.env.Environment
 import io.micronaut.context.event.BeanCreatedEvent
 import io.micronaut.context.event.BeanCreatedEventListener
-import io.micronaut.kubernetes.client.informer.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -19,7 +19,7 @@ import spock.lang.Shared
 @Property(name = "kubernetes.client.namespace", value = "micronaut-api-client-creation")
 @Property(name = "spec.reuseNamespace", value = "false")
 @Property(name = "spec.name", value = "ApiClientCreationListenerSpec")
-class ApiClientCreationListenerSpec  extends KubernetesSpecification {
+class ApiClientCreationListenerSpec extends KubernetesSpecification {
 
     @Shared
     @Inject
@@ -48,9 +48,9 @@ class ApiClientCreationListenerSpec  extends KubernetesSpecification {
     static class K8sClientEventListener implements BeanCreatedEventListener<ApiClient> {
 
         @Override
-        public ApiClient onCreated(BeanCreatedEvent<ApiClient> event) {
+        ApiClient onCreated(BeanCreatedEvent<ApiClient> event) {
             eventFired = true
-            return event.getBean();
+            return event.getBean()
         }
     }
 }
