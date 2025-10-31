@@ -6,3 +6,9 @@ echo "Execute setup for: $1"
 MODULE_NAME="${1%:nativeTest}"
 
 echo "Module Name: $MODULE_NAME"
+
+EXAMPLE_SERVICE_RUNTIME=${EXAMPLE_SERVICE_RUNTIME:="java"}
+
+if [ "$MODULE_NAME" == "examples:example-client" ]; then
+  sh setup-kubernetes.sh -c "test" -t "${EXAMPLE_SERVICE_RUNTIME}" -m "$MODULE_NAME,examples:example-service"
+fi
