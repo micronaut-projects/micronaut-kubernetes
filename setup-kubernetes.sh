@@ -26,8 +26,18 @@ fi
 
 for MODULE in "${MODULES[@]}"
 do
-  ./gradlew clean "$MODULE:$TYPE_CMD" --refresh-dependencies
+  echo "$MODULE:$TYPE_CMD"
+  ./gradlew clean "$MODULE:dockerBuild" --refresh-dependencies
+  # ./gradlew clean "$MODULE:$TYPE_CMD" --refresh-dependencies
 done
+
+ALL_IMAGES=$(docker images | awk 'NR>1 {print $1}')
+
+echo "All images: $ALL_IMAGES"
+
+FILTERED_IMAGES=$(docker images | awk 'NR>1 {print $1}' | grep micronaut)
+
+echo "Filtered images: $FILTERED_IMAGES"
 
 
 #./gradlew clean $TYPE_CMD --refresh-dependencies
