@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 ######################################
 # Setup script for local developemnt   #
 ######################################
