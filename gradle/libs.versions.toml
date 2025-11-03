@@ -1,15 +1,15 @@
 [versions]
 micronaut-platform = "4.8.3"
-micronaut = "4.10.4"
-micronaut-docs = "2.0.0"
-micronaut-test = "4.9.0"
-micronaut-gradle-plugin = "4.6.0"
+micronaut = "4.10.8"
+micronaut-docs = "3.0.0"
+micronaut-test = "4.10.1"
+micronaut-gradle-plugin = "4.6.1"
 
 graal-svm = "24.2.1"
 javapoet = '1.13.0'
 rxjava2 = '2.2.21'
 rxjava3 = '3.1.10'
-shadow = '8.3.9'
+shadow = '9.2.2'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '24.0.0'
 netty-incubator-codec-http3 = '0.0.30.Final'
@@ -24,7 +24,6 @@ micronaut-validation = "4.11.0"
 micronaut-openapi = "6.19.0"
 micronaut-micrometer = "5.13.0"
 
-sonatype-scan = "3.1.1"
 
 [libraries]
 # Core
@@ -52,5 +51,4 @@ micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 
 micronaut-gradle-plugin = { module = "io.micronaut.gradle:micronaut-gradle-plugin", version.ref = "micronaut-gradle-plugin" }
-sonatype-scan = { module = "org.sonatype.gradle.plugins:scan-gradle-plugin", version.ref = "sonatype-scan" }
 shadow-plugin = { module = "com.gradleup.shadow:shadow-gradle-plugin", version.ref = "shadow" }
