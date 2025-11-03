@@ -1,11 +1,10 @@
 package io.micronaut.kubernetes.discovery.provider
 
-import io.fabric8.kubernetes.api.model.*
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration
-import io.micronaut.kubernetes.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import reactor.core.publisher.Flux
@@ -13,6 +12,16 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.lang.Unroll
 import spock.util.concurrent.PollingConditions
+
+import static io.micronaut.kubernetes.test.KubernetesModels.getServicePortModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecClusterIPModel
+import static io.micronaut.kubernetes.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.test.KubernetesOperations.createEndpoints
+import static io.micronaut.kubernetes.test.KubernetesOperations.createService
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteEndpoints
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteService
+import static io.micronaut.kubernetes.test.KubernetesOperations.getEndpoints
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -75,17 +84,10 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
                 Environment.KUBERNETES)
         def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
-        Service service = operations.createService("example-headless-service", namespace,
-                new ServiceSpecBuilder()
-                        .withClusterIP("None")
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withPort(8081)
-                                        .withTargetPort(new IntOrString(8081))
-                                        .build()
-                        )
-                        .withSelector(["app": "example-service"])
-                        .build())
+        createService(
+            "example-headless-service",
+            namespace,
+            getServiceSpecClusterIPModel("None", [getServicePortModel(8085, 8081)], ["app": "example-service"]))
 
         when:
         def config = createConfig("example-headless-service")
@@ -96,7 +98,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         }
 
         cleanup:
-        operations.deleteService(service)
+        deleteService("example-headless-service", namespace)
         applicationContext.close()
 
         where:
@@ -111,22 +113,13 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
                 Environment.KUBERNETES)
         def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
 
-        Service service = operations.createService("multiport-service", namespace,
-                new ServiceSpecBuilder()
-                        .withPorts(
-                                new ServicePortBuilder()
-                                        .withName("jvm-debug")
-                                        .withPort(5004)
-                                        .withTargetPort(new IntOrString("jvm-debug"))
-                                        .build(),
-                                new ServicePortBuilder()
-                                        .withName("http")
-                                        .withPort(8081)
-                                        .withTargetPort(new IntOrString("http"))
-                                        .build()
-                        )
-                        .withSelector(["app": "example-service"])
-                        .build())
+        createService(
+            "multiport-service",
+            namespace,
+            getServiceSpecTypeModel(
+                "ClusterIP",
+                [getServicePortModel("jvm-debug", 5004, "jvm-debug"), getServicePortModel("http", 8081, "http")],
+                ["app": "example-service"]))
 
         when: 'no port is specified'
         def config = createConfig("multiport-service")
@@ -148,7 +141,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         }
 
         cleanup:
-        operations.deleteService(service)
+        deleteService("multiport-service", namespace)
         applicationContext.close()
 
         where:
@@ -176,7 +169,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         pollingConditions.eventually {
             def instances = Flux.from(provider.getInstances(config)).blockFirst()
             instances.size() == 2
-            operations.getEndpoints("example-service", "other-namespace-3").subsets.stream()
+            getEndpoints("example-service", "other-namespace-3").subsets.stream()
                     .allMatch(e ->
                             e.addresses.stream().allMatch(address ->
                                     instances.any { it.host == address.ip }
@@ -185,7 +178,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         }
 
         cleanup:
-        operations.deleteNamespace("other-namespace-3")
+        deleteNamespace("other-namespace-3")
         applicationContext.close()
 
         where:
@@ -276,13 +269,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
                 getConfig(watchEnabled),
                 Environment.KUBERNETES)
         def provider = applicationContext.getBean(AbstractV1EndpointsProvider)
-
-        def endpointsOperations = operations.getClient(namespace).endpoints()
-        Endpoints endpoints = endpointsOperations.create(new EndpointsBuilder()
-                .withNewMetadata()
-                .withName("empty-endpoint")
-                .endMetadata()
-                .build())
+        createEndpoints("empty-endpoint", namespace)
 
         when:
         def config = createConfig("empty-endpoint", true)
@@ -293,7 +280,7 @@ class KubernetesServiceInstanceEndpointProviderSpec extends KubernetesSpecificat
         }
 
         cleanup:
-        endpointsOperations.delete(endpoints)
+        deleteEndpoints("empty-endpoint", namespace)
         applicationContext.close()
 
         where:

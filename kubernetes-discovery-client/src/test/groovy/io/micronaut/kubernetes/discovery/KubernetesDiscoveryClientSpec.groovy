@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package io.micronaut.kubernetes.discovery
 
 import io.micronaut.context.env.Environment
 import io.micronaut.discovery.ServiceInstance
-import io.micronaut.kubernetes.utils.KubernetesSpecification
+import io.micronaut.kubernetes.test.KubernetesSpecification
 import io.micronaut.kubernetes.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
+import jakarta.inject.Inject
 import reactor.core.publisher.Flux
 import spock.lang.Requires
 import spock.lang.Shared
 
-import jakarta.inject.Inject
 import java.util.stream.Collectors
 import java.util.stream.Stream
+
+import static io.micronaut.kubernetes.test.KubernetesOperations.getEndpoints
+import static io.micronaut.kubernetes.test.KubernetesOperations.listServices
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -43,7 +45,7 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
 
     void "it can get service instances"() {
         given:
-        List<String> ipAddresses = operations.getEndpoints("example-service", namespace)
+        List<String> ipAddresses = getEndpoints("example-service", namespace)
                 .getSubsets()
                 .stream()
                 .flatMap(s -> s.addresses.stream())
@@ -66,7 +68,7 @@ class KubernetesDiscoveryClientSpec extends KubernetesSpecification{
     void "it can list all services"() {
         given:
         List<String> allServices = Stream.concat(
-                operations.listServices(namespace).items.stream().map(s -> s.metadata.name),
+                listServices(namespace).items.stream().map(s -> s.metadata.name),
                 serviceConfigurations.stream().map(KubernetesServiceConfiguration::getServiceId) as Stream<? extends String>)
                 .distinct().collect(Collectors.toList())
 

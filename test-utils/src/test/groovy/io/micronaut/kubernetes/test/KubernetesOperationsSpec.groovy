@@ -2,57 +2,63 @@ package io.micronaut.kubernetes.test
 
 import org.yaml.snakeyaml.Yaml
 import spock.lang.Requires
-import spock.lang.Shared
 import spock.lang.Specification
 
 import java.nio.file.Paths
 
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.createConfigMapFromFile
+import static io.micronaut.kubernetes.test.KubernetesOperations.createDeploymentFromFile
+import static io.micronaut.kubernetes.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.createRole
+import static io.micronaut.kubernetes.test.KubernetesOperations.createRoleBinding
+import static io.micronaut.kubernetes.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.test.KubernetesOperations.deleteNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.getConfigMap
+import static io.micronaut.kubernetes.test.KubernetesOperations.getDeployment
+import static io.micronaut.kubernetes.test.KubernetesOperations.getNamespace
+import static io.micronaut.kubernetes.test.KubernetesOperations.getSecret
+
 @Requires({ TestUtils.kubernetesApiAvailable() })
 class KubernetesOperationsSpec extends Specification{
 
-    @Shared
-    KubernetesOperations operations = new KubernetesOperations()
-
     def setupSpec() {
-        operations.createNamespace("test-namespace")
-        operations.getNamespace("test-namespace")
+        createNamespace("test-namespace")
+        getNamespace("test-namespace")
     }
 
     def cleanupSpec() {
-        if (operations.getNamespace("test-namespace") != null) {
-            operations.deleteNamespace("test-namespace")
+        if (getNamespace("test-namespace") != null) {
+            deleteNamespace("test-namespace")
         }
     }
 
     def "it creates rolebinding in namespace"(){
         when:
-        def role = operations.createRole("discoverer", "test-namespace")
+        def role = createRole("discoverer", "test-namespace")
 
         then:
         role.metadata.getCreationTimestamp()
 
         when:
-        def roleBinding = operations.createRoleBinding("discoverer-role", "test-namespace","discoverer")
+        def roleBinding = createRoleBinding("discoverer-role", "test-namespace","discoverer")
 
         then:
         roleBinding.metadata.getCreationTimestamp()
     }
 
     def "it creates secret from literals"(){
-        given:
-        String password64 = Base64.encoder.encodeToString("value".bytes)
-
         when:
-        def secret = operations.createSecret("secret", "test-namespace", ['key': password64])
+        def secret = createSecret("secret", "test-namespace", ['key': "value".bytes])
 
         then:
         secret.getMetadata().getCreationTimestamp()
 
         when:
-        secret = operations.getSecret("secret", "test-namespace")
+        secret = getSecret("secret", "test-namespace")
 
         then:
-        Base64.decoder.decode(secret.getData().get("key")) == "value".bytes
+        secret.getData().get("key") == "value".bytes
     }
 
     def "it creates config map from data"(){
@@ -60,13 +66,13 @@ class KubernetesOperationsSpec extends Specification{
         def data = ["key": "value"]
 
         when:
-        def map = operations.createConfigMap("example-map", "test-namespace", data)
+        def map = createConfigMap("example-map", "test-namespace", data)
 
         then:
         map.getMetadata().getCreationTimestamp()
 
         when:
-        map = operations.getConfigMap("example-map", "test-namespace")
+        map = getConfigMap("example-map", "test-namespace")
 
         then:
         map.getData().size()
@@ -78,13 +84,13 @@ class KubernetesOperationsSpec extends Specification{
         def filePath = Paths.get("src","test","resources", "k8s", "game.yml")
 
         when:
-        def cm = operations.createConfigMapFromFile("config-map-yaml", "test-namespace", filePath.toUri().toURL())
+        def cm = createConfigMapFromFile("config-map-yaml", "test-namespace", filePath.toUri().toURL())
 
         then:
         cm.getMetadata().getCreationTimestamp()
 
         when:
-        cm = operations.getConfigMap("config-map-yaml", "test-namespace")
+        cm = getConfigMap("config-map-yaml", "test-namespace")
 
         then:
         cm.getData().containsKey("game.yml")
@@ -106,13 +112,13 @@ class KubernetesOperationsSpec extends Specification{
         def path = Paths.get("src","test","resources", "k8s", "deployment.yml")
 
         when:
-        def deployment = operations.createDeploymentFromFile(path.toUri().toURL())
+        def deployment = createDeploymentFromFile(path.toUri().toURL())
 
         then:
         deployment.metadata.creationTimestamp
 
         when:
-        deployment = operations.getDeployment(deployment.metadata.name, deployment.metadata.namespace)
+        deployment = getDeployment(deployment.metadata.name, deployment.metadata.namespace)
 
         then:
         deployment.status.availableReplicas == 1
@@ -121,22 +127,22 @@ class KubernetesOperationsSpec extends Specification{
     def "it creates deployment with overriden name and namespace from file"(){
         given:
         def path = Paths.get("src","test","resources", "k8s", "deployment.yml")
-        operations.createNamespace("other-namespace")
+        createNamespace("other-namespace")
 
         when:
-        def deployment = operations.createDeploymentFromFile(path.toUri().toURL(), "other-name", "other-namespace")
+        def deployment = createDeploymentFromFile(path.toUri().toURL(), "other-name", "other-namespace")
 
         then:
         deployment.metadata.creationTimestamp
         deployment.status.availableReplicas == 1
 
         when:
-        deployment = operations.getDeployment("other-name", "other-namespace")
+        deployment = getDeployment("other-name", "other-namespace")
 
         then:
         deployment
 
         cleanup:
-        operations.deleteNamespace("other-namespace")
+        deleteNamespace("other-namespace")
     }
 }
