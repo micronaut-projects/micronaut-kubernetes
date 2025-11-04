@@ -1,53 +1,28 @@
 #!/bin/bash
-######################################
-# Setup script for local developemnt   #
-######################################
 set -ex
 
-while getopts c:t:m: flag; do
+########################################
+# Loads docker images into kind cluster
+########################################
+
+while getopts c:i: flag; do
   case "${flag}" in
-  c) CLUSTER_OPTION="$OPTARG" ;;
-  t) TYPE_OPTION="$OPTARG" ;;
-  m) IFS=',' read -ra MODULES <<< "$OPTARG" ;;
+  c) CLUSTER_OPTION=${OPTARG} ;;
+  i) IFS=',' read -ra IMAGES <<< "$OPTARG" ;;
   *) ;;
   esac
 done
 
 CLUSTER_NAME=${CLUSTER_OPTION:-kind}
-TYPE=${TYPE_OPTION:-java}
 
-if [ "$TYPE" = "java" ]; then
-  TYPE_CMD="dockerBuild"
-elif [ "$TYPE" = "native" ]; then
-  TYPE_CMD="dockerBuildNative"
-fi
+kind get clusters
 
-#kind get clusters
-
-for MODULE in "${MODULES[@]}"
+for IMAGE in "${IMAGES[@]}"
 do
-  echo "$MODULE:$TYPE_CMD"
-  ./gradlew clean "$MODULE:dockerBuild" --refresh-dependencies
-  # ./gradlew clean "$MODULE:$TYPE_CMD" --refresh-dependencies
+  kind --name "$CLUSTER_NAME" load docker-image "$IMAGE":latest
 done
-
-ALL_IMAGES=$(docker images | awk 'NR>1 {print $1}')
-
-echo "All images: $ALL_IMAGES"
-
-FILTERED_IMAGES=$(docker images | awk 'NR>1 {print $1}' | grep micronaut)
-
-echo "Filtered images: $FILTERED_IMAGES"
-
-
-#./gradlew clean $TYPE_CMD --refresh-dependencies
-#kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-example-service:latest
-#kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-example-client:latest
-#kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-client-example:latest
-#kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-informer-example:latest
-#kind --name "$CLUSTER_NAME" load docker-image micronaut-kubernetes-operator-example:latest
 
 #
 # Run Kubernetes API proxy
-#pkill -9 kubectl || true
-#kubectl proxy &
+pkill -9 kubectl || true
+kubectl proxy &
