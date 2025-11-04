@@ -16,7 +16,7 @@ netty-incubator-codec-http3 = '0.0.30.Final'
 testcontainers-k3s = '1.21.3'
 bucket4j = '8.10.1'
 
-micronaut-discovery = "4.6.0"
+micronaut-discovery = "4.7.1"
 micronaut-logging = "1.7.1"
 micronaut-reactor = "3.9.0"
 micronaut-serde = "2.16.1"
