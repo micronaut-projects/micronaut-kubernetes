@@ -109,6 +109,6 @@ if [ "${#MODULE_ARRAY[@]}" -eq 0 ]; then
 else
   MODULES=$(IFS=, ; echo "${MODULE_ARRAY[*]}")
   IMAGES=$(IFS=, ; echo "${IMAGE_ARRAY[*]}")
-  ./setup-example-images.sh -t "${EXAMPLE_SERVICE_RUNTIME}" -m "${MODULES}"
+  ./setup-images.sh -t "${EXAMPLE_SERVICE_RUNTIME}" -m "${MODULES}"
   ./setup-kubernetes.sh -c "${KIND_CLUSTER_NAME}" -i "${IMAGES}"
 fi
