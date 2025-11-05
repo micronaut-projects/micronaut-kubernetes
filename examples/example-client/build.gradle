@@ -42,6 +42,9 @@ tasks {
     }
 }
 
+// tests send requests to a service deployed to a kubernetes cluster
+// and since gradle cannot detect changes in the deployed service,
+// the cached results are always used so we need to disable the cache
 tasks.named('test') {
     outputs.cacheIf { false }
 }

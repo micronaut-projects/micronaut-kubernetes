@@ -28,7 +28,3 @@ dependencies {
 tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
     packageExcludes = ["io.micronaut.kubernetes.client"]
 }
-
-tasks.named('test') {
-    outputs.cacheIf { false }
-}
