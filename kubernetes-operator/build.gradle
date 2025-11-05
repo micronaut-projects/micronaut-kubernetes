@@ -17,3 +17,7 @@ dependencies {
 
     testRuntimeOnly mn.snakeyaml
 }
+
+tasks.named('test') {
+    outputs.cacheIf { false }
+}

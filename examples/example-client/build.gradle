@@ -41,3 +41,7 @@ tasks {
         images = ['micronaut-kubernetes-example-client']
     }
 }
+
+tasks.named('test') {
+    outputs.cacheIf { false }
+}

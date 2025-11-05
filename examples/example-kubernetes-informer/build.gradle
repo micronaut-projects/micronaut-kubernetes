@@ -39,3 +39,7 @@ tasks {
         images = ['micronaut-kubernetes-informer-example']
     }
 }
+
+tasks.named('test') {
+    outputs.cacheIf { false }
+}

@@ -16,3 +16,7 @@ dependencies {
     testAnnotationProcessor mn.micronaut.inject.java
     testImplementation projects.testUtils
 }
+
+tasks.named('test') {
+    outputs.cacheIf { false }
+}
