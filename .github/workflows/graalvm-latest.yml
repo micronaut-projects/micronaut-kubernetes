@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - master
-      - fix-native-tests
       - '[0-9]+.[0-9]+.x'
   pull_request:
     branches:
@@ -52,7 +51,7 @@ jobs:
           export PATH=$(echo "$PATH" | tr ':' '\n' | grep -v '/usr/lib/jvm' | paste -sd:)
       - uses: actions/checkout@v5
       - name: Pre-Build Steps
-        uses: micronaut-projects/github-actions/graalvm/pre-build@graalvm-pre-build-native-test-info
+        uses: micronaut-projects/github-actions/graalvm/pre-build@master
         id: pre-build
         with:
           distribution: 'graalvm'
@@ -69,7 +68,7 @@ jobs:
         with:
           nativeTestTask: ${{ matrix.native_test_task }}
       - name: Post-Build Steps
-        uses: micronaut-projects/github-actions/graalvm/post-build@graalvm-pre-build-native-test-info
+        uses: micronaut-projects/github-actions/graalvm/post-build@master
         id: post-build
         with:
           java: ${{ matrix.java }}
