@@ -54,7 +54,7 @@ class HelloControllerSpec extends KubernetesSpecification {
 
     void "test enemies"() {
         expect:
-        testClient.enemies().equals("noGoodRottenTEMP")
+        testClient.enemies().equals("noGoodRotten")
     }
 
     void "test config"() {
