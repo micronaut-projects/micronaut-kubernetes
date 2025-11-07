@@ -5,13 +5,11 @@ import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.model.V1PodList
 import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.listPodForAllNamespaces
 
-@MicronautTest
 class KubernetesClientCertAuthSpec extends K3sContainerSpec {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesClientCertAuthSpec)
