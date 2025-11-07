@@ -79,7 +79,7 @@ class KubernetesOperations {
         api.replaceNamespacedSecret(secret.getMetadata().getName(), namespace, secret, null, null, null, null)
     }
 
-    static void deleteSecret(CoreV1Api api, String namespace, String name) {
+    static DeleteResponse<V1Secret> deleteSecret(CoreV1Api api, String namespace, String name) {
         api.deleteNamespacedSecret(name, namespace, null, null, null, null, null, null, null)
     }
 }

@@ -44,7 +44,7 @@ dependencies {
     api(projects.micronautKubernetesClientOpenapiCommon)
     api(mnReactor.micronaut.reactor)
     compileOnly(platform(mnOpenapi.micronaut.openapi.bom))
-    testImplementation(libs.testcontainers.k3s)
+    testImplementation(projects.testUtilsOpenapi)
     testImplementation(mn.micronaut.http.server.netty)
     testImplementation(projects.micronautKubernetesClientOpenapi)
 }

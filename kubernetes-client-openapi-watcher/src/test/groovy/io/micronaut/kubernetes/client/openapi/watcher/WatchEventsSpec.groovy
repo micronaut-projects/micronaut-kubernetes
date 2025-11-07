@@ -1,74 +1,49 @@
 package io.micronaut.kubernetes.client.openapi.watcher
 
+import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
-import io.micronaut.kubernetes.client.openapi.model.V1Namespace
-import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.response.DeleteResponse
 import io.micronaut.kubernetes.client.openapi.watcher.api.CoreV1ApiWatcher
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
-import jakarta.inject.Inject
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.k3s.K3sContainer
-import org.testcontainers.utility.DockerImageName
 import reactor.core.Disposable
 import reactor.core.publisher.Flux
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
-import java.nio.file.Files
-import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
 
-@MicronautTest
-class WatchEventsSpec extends Specification implements TestPropertyProvider {
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSecretModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
+
+class WatchEventsSpec extends K3sContainerSpec {
 
     private static final Logger LOG = LoggerFactory.getLogger(WatchEventsSpec)
 
-    @Shared
-    @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
-            .withLogConsumer(new Slf4jLogConsumer(LOG))
-
-    @Shared
-    Path kubeConfigDir = Files.createTempDirectory("kube-temp-")
-
-    @Shared
-    Path kubeConfigFile = kubeConfigDir.resolve("config")
-
-    @Inject
-    CoreV1ApiWatcher apiWatcher
-
-    @Inject
-    CoreV1Api api
-
     @Override
-    Map<String, String> getProperties() {
-        k3s.start()
-        kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
-        ["kubernetes.client.kube-config-path": "file:" + kubeConfigFile.toString()]
-    }
-
-    def cleanupSpec() {
-        if (kubeConfigFile != null) {
-            Files.deleteIfExists(kubeConfigFile)
-        }
-        if (kubeConfigDir) {
-            Files.deleteIfExists(kubeConfigDir)
-        }
+    Logger getLogger() {
+        return LOG
     }
 
     def 'watch namespace events'() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString()
+        ], Environment.KUBERNETES)
+        CoreV1ApiWatcher apiWatcher = context.getBean(CoreV1ApiWatcher.class)
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+
         when:
         def namespaceName = 'watch-secrets-test'
         def secretName = 'ws-test-1'
-        createNamespace(namespaceName)
-        createSecret(namespaceName, secretName)
+        createNamespace(api, getNamespaceModel(namespaceName))
+        createSecret(api, namespaceName, getSecretModel(secretName, ["test-key":"test-value".bytes]))
 
         Map<String, List<String>> events = new ConcurrentHashMap<>()
 
@@ -76,8 +51,8 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
                 null, null, null, null, null, null, true)
         Disposable disposable = flux.subscribe(event -> {events.computeIfAbsent(event.object.metadata.name, key -> []).add(event.type)})
 
-        replaceSecret(namespaceName, secretName)
-        DeleteResponse<V1Secret> deleteResponse = deleteSecret(namespaceName, secretName)
+        replaceSecret(api, namespaceName, getSecretModel(secretName, ["test-key":"new-test-value".bytes]))
+        DeleteResponse<V1Secret> deleteResponse = deleteSecret(api, namespaceName, secretName)
 
         PollingConditions conditions = new PollingConditions(timeout: 2)
 
@@ -92,41 +67,5 @@ class WatchEventsSpec extends Specification implements TestPropertyProvider {
 
         cleanup:
         disposable?.dispose()
-    }
-
-    private void createNamespace(String namespaceName) {
-        V1Namespace namespace = new V1Namespace()
-        namespace.kind('Namespace')
-        namespace.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(namespaceName)
-        namespace.metadata(objectMeta)
-        api.createNamespace(namespace, null, null, null, null)
-    }
-
-    private void createSecret(String namespaceName, String secretName) {
-        V1Secret secret = new V1Secret()
-        secret.kind('Secret')
-        secret.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(secretName)
-        secret.metadata(objectMeta)
-        secret.data(["test-key":"test-value".bytes])
-        api.createNamespacedSecret(namespaceName, secret, null, null, null, null)
-    }
-
-    private void replaceSecret(String namespaceName, String secretName) {
-        V1Secret secret = new V1Secret()
-        secret.kind('Secret')
-        secret.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(secretName)
-        secret.metadata(objectMeta)
-        secret.data(["test-key":"new-test-value".bytes])
-        api.replaceNamespacedSecret(secretName, namespaceName, secret, null, null, null, null)
-    }
-
-    private DeleteResponse<V1Secret> deleteSecret(String namespaceName, String secretName) {
-        api.deleteNamespacedSecret(secretName, namespaceName, null, null, null, null, null, null, null)
     }
 }

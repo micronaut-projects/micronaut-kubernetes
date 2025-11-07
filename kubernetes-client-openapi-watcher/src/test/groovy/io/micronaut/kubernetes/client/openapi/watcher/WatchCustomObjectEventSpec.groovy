@@ -1,5 +1,7 @@
 package io.micronaut.kubernetes.client.openapi.watcher
 
+import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.openapi.api.ApiextensionsV1Api
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.api.CustomObjectsApi
@@ -9,79 +11,49 @@ import io.micronaut.kubernetes.client.openapi.model.V1CustomResourceDefinitionSp
 import io.micronaut.kubernetes.client.openapi.model.V1CustomResourceDefinitionVersion
 import io.micronaut.kubernetes.client.openapi.model.V1CustomResourceValidation
 import io.micronaut.kubernetes.client.openapi.model.V1JSONSchemaProps
-import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.watcher.api.CustomObjectsApiWatcher
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import jakarta.inject.Inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.k3s.K3sContainer
-import org.testcontainers.utility.DockerImageName
 import reactor.core.Disposable
 import reactor.core.publisher.Flux
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
-import java.nio.file.Files
-import java.nio.file.Path
 import java.util.concurrent.ConcurrentHashMap
 
-@MicronautTest
-class WatchCustomObjectEventSpec extends Specification implements TestPropertyProvider {
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+
+class WatchCustomObjectEventSpec extends K3sContainerSpec {
 
     private static final Logger LOG = LoggerFactory.getLogger(WatchEventsSpec)
 
-    @Shared
-    @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
-            .withLogConsumer(new Slf4jLogConsumer(LOG))
-
-    @Shared
-    Path kubeConfigDir = Files.createTempDirectory("kube-temp-")
-
-    @Shared
-    Path kubeConfigFile = kubeConfigDir.resolve("config")
+    @Override
+    Logger getLogger() {
+        return LOG
+    }
 
     @Inject
     ApiextensionsV1Api apiextensionsV1Api
 
-    @Inject
-    CoreV1Api coreV1Api
-
-    @Inject
-    CustomObjectsApi customObjectsApi
-
-    @Inject
-    CustomObjectsApiWatcher apiWatcher
-
-    @Override
-    Map<String, String> getProperties() {
-        k3s.start()
-        kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
-        ["kubernetes.client.kube-config-path": "file:" + kubeConfigFile.toString()]
-    }
-
-    def cleanupSpec() {
-        if (kubeConfigFile != null) {
-            Files.deleteIfExists(kubeConfigFile)
-        }
-        if (kubeConfigDir) {
-            Files.deleteIfExists(kubeConfigDir)
-        }
-    }
-
     def 'watch custom resource events'() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString()
+        ], Environment.KUBERNETES)
+        CustomObjectsApiWatcher apiWatcher = context.getBean(CustomObjectsApiWatcher.class)
+        CustomObjectsApi customObjectsApi = context.getBean(CustomObjectsApi.class)
+        CoreV1Api coreV1Api = context.getBean(CoreV1Api.class)
+        ApiextensionsV1Api apiextensionsV1Api = context.getBean(ApiextensionsV1Api.class)
+
         when:
         def namespaceName = 'watch-custom-resource-test'
         def customObjectName = 'co-test-1'
-        createNamespace(namespaceName)
-        createCustomResourceDefinition()
-        def createdObject = createCustomObject(namespaceName, customObjectName)
+        createNamespace(coreV1Api, getNamespaceModel(namespaceName))
+        createCustomResourceDefinition(apiextensionsV1Api)
+        def createdObject = createCustomObject(customObjectsApi, namespaceName, customObjectName)
 
         Map<String, List<String>> events = new ConcurrentHashMap<>()
 
@@ -90,8 +62,8 @@ class WatchCustomObjectEventSpec extends Specification implements TestPropertyPr
             events.computeIfAbsent(event.object.metadata.name, key -> []).add(event.type)
         })
 
-        replaceCustomObject(namespaceName, customObjectName, createdObject.metadata.resourceVersion)
-        deleteCustomObject(namespaceName, customObjectName)
+        replaceCustomObject(customObjectsApi, namespaceName, customObjectName, createdObject.metadata.resourceVersion)
+        deleteCustomObject(customObjectsApi, namespaceName, customObjectName)
 
         PollingConditions conditions = new PollingConditions(timeout: 2)
 
@@ -107,17 +79,7 @@ class WatchCustomObjectEventSpec extends Specification implements TestPropertyPr
         disposable?.dispose()
     }
 
-    private void createNamespace(String namespaceName) {
-        V1Namespace namespace = new V1Namespace()
-        namespace.kind('Namespace')
-        namespace.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(namespaceName)
-        namespace.metadata(objectMeta)
-        coreV1Api.createNamespace(namespace, null, null, null, null)
-    }
-
-    private void createCustomResourceDefinition() {
+    private static void createCustomResourceDefinition(ApiextensionsV1Api apiextensionsV1Api) {
         V1JSONSchemaProps jsonSchemaProps = new V1JSONSchemaProps()
         jsonSchemaProps.setType("object")
         jsonSchemaProps.setProperties([
@@ -147,24 +109,24 @@ class WatchCustomObjectEventSpec extends Specification implements TestPropertyPr
         apiextensionsV1Api.createCustomResourceDefinition(customResourceDefinition, null, null, null, null)
     }
 
-    private V1JSONSchemaProps getProp(String type, Map<String, V1JSONSchemaProps> props = [:]) {
+    private static V1JSONSchemaProps getProp(String type, Map<String, V1JSONSchemaProps> props = [:]) {
         V1JSONSchemaProps specProp = new V1JSONSchemaProps()
         specProp.setType(type)
         specProp.setProperties(props)
         return specProp
     }
 
-    private Object createCustomObject(String namespace, String name) {
+    private static Object createCustomObject(CustomObjectsApi customObjectsApi, String namespace, String name) {
         String body = '{"apiVersion":"test.io/v1","kind":"TestCustom","metadata":{"name":"' + name + '"}, "spec":{"test-property":"value1"}}'
         return customObjectsApi.createNamespacedCustomObject("test.io", "v1", namespace, "testcustoms", body, null, null, null, null)
     }
 
-    private Object replaceCustomObject(String namespace, String name, String resourceVersion) {
+    private static Object replaceCustomObject(CustomObjectsApi customObjectsApi, String namespace, String name, String resourceVersion) {
         String body = '{"apiVersion":"test.io/v1","kind":"TestCustom","metadata":{"resourceVersion":"' + resourceVersion + '","name":"' + name + '"}, "spec":{"test-property":"value2"}}'
         return customObjectsApi.replaceNamespacedCustomObject("test.io", "v1", namespace, "testcustoms", name, body, null, null, null)
     }
 
-    private void deleteCustomObject(String namespace, String name) {
+    private static void deleteCustomObject(CustomObjectsApi customObjectsApi, String namespace, String name) {
         customObjectsApi.deleteNamespacedCustomObject("test.io", "v1", namespace, "testcustoms", name, null, null, null, null, null)
     }
 }
