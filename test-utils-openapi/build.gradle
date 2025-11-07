@@ -1,0 +1,16 @@
+plugins {
+    id 'java-library'
+    id 'groovy'
+    id 'io.micronaut.build.internal.common'
+    id 'io.micronaut.build.internal.kubernetes-tests'
+}
+
+dependencies {
+    annotationProcessor mn.micronaut.inject.groovy
+    annotationProcessor mn.micronaut.inject.java
+    api mn.micronaut.inject.groovy
+    api mn.micronaut.inject.java
+    api mnTest.micronaut.test.spock
+    api projects.micronautKubernetesClientOpenapi
+    api libs.testcontainers.k3s
+}
