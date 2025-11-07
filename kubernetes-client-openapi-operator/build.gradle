@@ -20,6 +20,6 @@ dependencies {
     compileOnly(mn.micronaut.management)
     compileOnly(mnMicrometer.micronaut.micrometer.core)
 
-    testImplementation(libs.testcontainers.k3s)
+    testImplementation(projects.testUtilsOpenapi)
     testImplementation(mnMicrometer.micronaut.micrometer.core)
 }

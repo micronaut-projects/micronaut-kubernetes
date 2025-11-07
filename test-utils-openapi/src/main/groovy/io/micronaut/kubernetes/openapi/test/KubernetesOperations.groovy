@@ -47,6 +47,10 @@ class KubernetesOperations {
         api.createNamespacedConfigMap(namespace, configMap, null, null, null, null)
     }
 
+    static V1ConfigMap getConfigMap(CoreV1Api api, String name, String namespace) {
+        api.readNamespacedConfigMap(name, namespace, null)
+    }
+
     static V1ConfigMap replaceConfigMap(CoreV1Api api, String namespace, V1ConfigMap configMap) {
         api.replaceNamespacedConfigMap(configMap.getMetadata().getName(), namespace, configMap, null, null, null, null)
     }
@@ -65,6 +69,10 @@ class KubernetesOperations {
 
     static V1Secret createSecret(CoreV1Api api, String namespace, V1Secret secret) {
         api.createNamespacedSecret(namespace, secret, null, null, null, null)
+    }
+
+    static V1Secret getSecret(CoreV1Api api, String name, String namespace) {
+        api.readNamespacedSecret(name, namespace, null)
     }
 
     static V1Secret replaceSecret(CoreV1Api api, String namespace, V1Secret secret) {

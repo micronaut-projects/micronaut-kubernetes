@@ -17,9 +17,9 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Req
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
 import io.micronaut.kubernetes.client.openapi.operator.util.ConfigMapOperation
-import io.micronaut.kubernetes.client.openapi.operator.util.NamespaceOperation
 import io.micronaut.kubernetes.client.openapi.operator.util.SecretOperation
 import io.micronaut.kubernetes.client.openapi.resolver.PodNameResolver
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import jakarta.annotation.PostConstruct
 import jakarta.inject.Singleton
 import org.slf4j.Logger
@@ -29,6 +29,9 @@ import spock.util.concurrent.PollingConditions
 import java.time.Duration
 import java.util.function.BiPredicate
 import java.util.function.Predicate
+
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
 
 class OperatorSpec extends K3sContainerSpec {
 
@@ -52,9 +55,8 @@ class OperatorSpec extends K3sContainerSpec {
     def setupKubernetes(ApplicationContext context) {
         CoreV1Api api = context.getBean(CoreV1Api.class)
 
-        NamespaceOperation namespaceOp = new NamespaceOperation(api)
-        namespaceOp.createNamespace(NAMESPACE_NAME_1)
-        namespaceOp.createNamespace(NAMESPACE_NAME_2)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_1))
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_2))
 
         SecretOperation secretOp = new SecretOperation(api)
         secretOp.createSecret(SECRET_NAME_11, NAMESPACE_NAME_1, [:])

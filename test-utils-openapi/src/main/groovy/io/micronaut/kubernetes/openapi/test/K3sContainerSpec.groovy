@@ -61,9 +61,11 @@ abstract class K3sContainerSpec extends Specification {
 
     def setupKubernetes() {
         try (ApplicationContext context = ApplicationContext.run([
-                "spec.name"                         : "KubernetesInitContext",
-                "micronaut.config-client.enabled"   : false,
-                "kubernetes.client.kube-config-path": "file:" + kubeConfigFile.toString(),
+                "spec.name"                                              : "KubernetesInitContext",
+                "kubernetes.client.kube-config-path"                     : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.operator.enabled"                     : false,
+                "kubernetes.client.operator.leader-election.lock.enabled": false,
+                "micronaut.config-client.enabled"                        : false
         ])) {
             setupKubernetes(context)
         }
