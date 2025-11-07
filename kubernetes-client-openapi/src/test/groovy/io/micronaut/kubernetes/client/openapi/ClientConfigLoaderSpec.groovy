@@ -3,14 +3,12 @@ package io.micronaut.kubernetes.client.openapi
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Replaces
 import io.micronaut.context.annotation.Requires
-import io.micronaut.context.annotation.Value
 import io.micronaut.core.io.ResourceResolver
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.Header
 import io.micronaut.http.client.HttpClient
 import io.micronaut.http.client.annotation.Client
-import io.micronaut.http.client.netty.DefaultHttpClient
 import io.micronaut.http.uri.UriBuilder
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.config.AbstractKubeConfigLoader
@@ -26,6 +24,8 @@ import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.SafeConstructor
 import spock.lang.AutoCleanup
 import spock.lang.Specification
+
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.listPodForAllNamespaces
 
 class ClientConfigLoaderSpec extends Specification {
 
@@ -43,18 +43,7 @@ class ClientConfigLoaderSpec extends Specification {
         ])
 
         when:
-        V1PodList response = clientContext.getBean(CoreV1Api.class).listPodForAllNamespaces(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null)
+        V1PodList response = listPodForAllNamespaces(clientContext.getBean(CoreV1Api.class))
 
         then:
         response.getItems() != null

@@ -20,13 +20,19 @@ import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
+import io.micronaut.kubernetes.client.openapi.model.V1PodList
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.model.V1Service
+import io.micronaut.kubernetes.client.openapi.response.DeleteResponse
 
 class KubernetesOperations {
 
     static V1Namespace createNamespace(CoreV1Api api, V1Namespace namespace) {
         api.createNamespace(namespace, null, null, null, null)
+    }
+
+    static DeleteResponse<V1Namespace> deleteNamespace(CoreV1Api api, String name) {
+        api.deleteNamespace(name, null, null, null, null, null, null, null)
     }
 
     static V1Endpoints createEndpoints(CoreV1Api api, String namespace, V1Endpoints endpoints) {
@@ -45,12 +51,16 @@ class KubernetesOperations {
         api.replaceNamespacedConfigMap(configMap.getMetadata().getName(), namespace, configMap, null, null, null, null)
     }
 
-    static void deleteConfigMap(CoreV1Api api, String namespace, String name) {
+    static DeleteResponse<V1ConfigMap> deleteConfigMap(CoreV1Api api, String namespace, String name) {
         api.deleteNamespacedConfigMap(name, namespace, null, null, null, null, null, null, null)
     }
 
     static V1Pod createPod(CoreV1Api api, String namespace, V1Pod pod) {
         api.createNamespacedPod(namespace, pod, null, null, null, null)
+    }
+
+    static V1PodList listPodForAllNamespaces(CoreV1Api api) {
+        api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null, null)
     }
 
     static V1Secret createSecret(CoreV1Api api, String namespace, V1Secret secret) {

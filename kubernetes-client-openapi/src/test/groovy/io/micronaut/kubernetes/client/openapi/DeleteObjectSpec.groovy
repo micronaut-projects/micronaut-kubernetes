@@ -1,91 +1,61 @@
 package io.micronaut.kubernetes.client.openapi
 
+import io.micronaut.context.ApplicationContext
+import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
-import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.response.DeleteResponse
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import io.micronaut.test.support.TestPropertyProvider
-import jakarta.inject.Inject
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.k3s.K3sContainer
-import org.testcontainers.utility.DockerImageName
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
 
-import java.nio.file.Files
-import java.nio.file.Path
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteNamespace
 
-@MicronautTest
-class DeleteObjectSpec extends Specification implements TestPropertyProvider {
+class DeleteObjectSpec extends K3sContainerSpec {
 
-    private static final Logger logger = LoggerFactory.getLogger(DeleteObjectSpec)
+    private static final Logger LOG = LoggerFactory.getLogger(DeleteObjectSpec)
 
-    @Shared
-    @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
-            .withLogConsumer(new Slf4jLogConsumer(logger))
-
-    @Shared
-    Path kubeConfigDir = Files.createTempDirectory("kube-temp-")
-
-    @Shared
-    Path kubeConfigFile = kubeConfigDir.resolve("config")
-
-    @Inject
-    CoreV1Api api
+    private static final String NAMESPACE_NAME = 'micronaut-test-namespace'
+    private static final String CONFIG_MAP_NAME = 'micronaut-test-config-map'
 
     @Override
-    Map<String, String> getProperties() {
-        k3s.start()
-        kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
-        ["kubernetes.client.kube-config-path": "file:" + kubeConfigFile.toString()]
+    Logger getLogger() {
+        return LOG
     }
 
-    def cleanupSpec() {
-        if (kubeConfigFile != null) {
-            Files.deleteIfExists(kubeConfigFile)
-        }
-        if (kubeConfigDir) {
-            Files.deleteIfExists(kubeConfigDir)
-        }
+    @Override
+    def setupKubernetes(ApplicationContext context) {
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME))
+        createConfigMap(api, NAMESPACE_NAME, getConfigMapModel(CONFIG_MAP_NAME, ['test.properties': 'testKey=testValue']))
     }
 
     def 'delete kubernetes objects'() {
         given:
-        V1Namespace namespace = new V1Namespace()
-        namespace.kind('Namespace')
-        namespace.apiVersion('v1')
-        V1ObjectMeta namespaceMetadata = new V1ObjectMeta()
-        namespaceMetadata.name('micronaut-test-namespace')
-        namespace.metadata(namespaceMetadata)
-        api.createNamespace(namespace, null, null, null, null)
-
-        V1ConfigMap configMap = new V1ConfigMap()
-        configMap.kind('ConfigMap')
-        configMap.apiVersion('v1')
-        configMap.data(['test.properties': 'testKey=testValue'])
-        V1ObjectMeta configMapMetadata = new V1ObjectMeta()
-        configMapMetadata.name('micronaut-test-config-map')
-        configMap.metadata(configMapMetadata)
-        api.createNamespacedConfigMap('micronaut-test-namespace', configMap, null, null, null, null)
+        ApplicationContext context = ApplicationContext.run([
+                "kubernetes.client.kube-config-path"   : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"          : NAMESPACE_NAME
+        ], Environment.KUBERNETES)
+        CoreV1Api api = context.getBean(CoreV1Api.class)
 
         when:
-        DeleteResponse<V1ConfigMap> configMapResponse = api.deleteNamespacedConfigMap('micronaut-test-config-map', 'micronaut-test-namespace', null, null, null, null, null, null, null)
-        DeleteResponse<V1Namespace> namespaceResponse = api.deleteNamespace('micronaut-test-namespace', null, null, null, null, null, null, null)
+        DeleteResponse<V1ConfigMap> configMapResponse = deleteConfigMap(api, NAMESPACE_NAME, CONFIG_MAP_NAME)
+        DeleteResponse<V1Namespace> namespaceResponse = deleteNamespace(api, NAMESPACE_NAME)
 
         then:
         configMapResponse.object() == null
         configMapResponse.status().apiVersion == 'v1'
         configMapResponse.status().details.kind == 'configmaps'
-        configMapResponse.status().details.name == 'micronaut-test-config-map'
+        configMapResponse.status().details.name == CONFIG_MAP_NAME
 
         namespaceResponse.object().apiVersion == 'v1'
-        namespaceResponse.object().metadata.name == 'micronaut-test-namespace'
+        namespaceResponse.object().metadata.name == NAMESPACE_NAME
         namespaceResponse.status() == null
     }
 }

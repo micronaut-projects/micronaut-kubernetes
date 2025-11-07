@@ -17,6 +17,8 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.listPodForAllNamespaces
+
 class KubernetesBasicAuthSpec extends Specification {
 
     static final String KUBE_CONFIG = """
@@ -68,18 +70,7 @@ current-context: test-context
         ])
 
         when:
-        V1PodList response = clientContext.getBean(CoreV1Api.class).listPodForAllNamespaces(
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null)
+        V1PodList response = listPodForAllNamespaces(clientContext.getBean(CoreV1Api.class))
 
         then:
         response.getItems() != null
