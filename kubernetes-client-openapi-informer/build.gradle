@@ -7,5 +7,5 @@ dependencies {
     api(projects.micronautKubernetesClientOpenapiWatcher)
     implementation(mn.micronaut.http.client)
 
-    testImplementation(libs.testcontainers.k3s)
+    testImplementation(projects.testUtilsOpenapi)
 }

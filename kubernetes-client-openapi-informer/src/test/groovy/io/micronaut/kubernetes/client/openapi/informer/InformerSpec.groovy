@@ -3,28 +3,25 @@ package io.micronaut.kubernetes.client.openapi.informer
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Requires
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.informer.handler.Informer
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
-import io.micronaut.kubernetes.client.openapi.model.V1Namespace
-import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.k3s.K3sContainer
-import org.testcontainers.utility.DockerImageName
-import spock.lang.AutoCleanup
-import spock.lang.Shared
-import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
-import java.nio.file.Files
-import java.nio.file.Path
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSecretModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
 
-class InformerSpec extends Specification {
+class InformerSpec extends K3sContainerSpec {
 
-    private static final Logger LOG_K3S = LoggerFactory.getLogger(InformerSpec.getName() + "K3S")
+    private static final Logger LOG = LoggerFactory.getLogger(InformerSpec.class)
 
     private static final String TEST_SECRET_NAME_PREFIX = "informer-"
 
@@ -40,47 +37,22 @@ class InformerSpec extends Specification {
     private static final SECRET_NAME_22 = 'test-22'
     private static final SECRET_NAME_23 = 'test-23'
 
-    @Shared
-    @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
-            .withLogConsumer(new Slf4jLogConsumer(LOG_K3S))
-
-    @Shared
-    Path kubeConfigDir = Files.createTempDirectory("kube-temp-")
-
-    @Shared
-    Path kubeConfigFile = kubeConfigDir.resolve("config")
-
-    def setupSpec() {
-        k3s.start()
-        kubeConfigFile.toFile().text = k3s.getKubeConfigYaml()
-        setupKubernetes()
+    @Override
+    Logger getLogger() {
+        return LOG
     }
 
-    def cleanupSpec() {
-        if (kubeConfigFile != null) {
-            Files.deleteIfExists(kubeConfigFile)
-        }
-        if (kubeConfigDir) {
-            Files.deleteIfExists(kubeConfigDir)
-        }
-    }
-
-    def setupKubernetes() {
-        try (ApplicationContext context = ApplicationContext.run([
-                'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
-                'spec.name'                         : 'SetupKubernetes'
-        ])) {
-            CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
-            createNamespace(api, NAMESPACE_NAME_1)
-            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_11, [:])
-            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_12, ['label-key': 'label-value-1'])
-            createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_13, ['label-key': 'label-value-2'])
-            createNamespace(api, NAMESPACE_NAME_2)
-            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_21, [:])
-            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_22, ['label-key': 'label-value-1'])
-            createSecret(api, NAMESPACE_NAME_2, SECRET_NAME_23, ['label-key': 'label-value-2'])
-        }
+    @Override
+    def setupKubernetes(ApplicationContext context) {
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_1))
+        createSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_11, [:])
+        createSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_12, ['label-key': 'label-value-1'])
+        createSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_13, ['label-key': 'label-value-2'])
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_2))
+        createSecretUsingPrefix(api, NAMESPACE_NAME_2, SECRET_NAME_21, [:])
+        createSecretUsingPrefix(api, NAMESPACE_NAME_2, SECRET_NAME_22, ['label-key': 'label-value-1'])
+        createSecretUsingPrefix(api, NAMESPACE_NAME_2, SECRET_NAME_23, ['label-key': 'label-value-2'])
     }
 
     def 'test secret informer'() {
@@ -89,15 +61,15 @@ class InformerSpec extends Specification {
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
                 'spec.name'                         : 'WithoutLabelSelector'
         ])
-        CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
+        CoreV1Api api = context.getBean(CoreV1Api.class)
         AllNamespacesEventHandler allNamespacesEventHandler = context.getBean(AllNamespacesEventHandler.class)
         FirstNamespaceEventHandler firstNamespaceEventHandler = context.getBean(FirstNamespaceEventHandler.class)
         SecondNamespaceEventHandler secondNamespaceEventHandler = context.getBean(SecondNamespaceEventHandler.class)
 
         when:
-        createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_14, [:])
-        replaceSecret(api, NAMESPACE_NAME_1, SECRET_NAME_14, [:])
-        deleteSecret(api, NAMESPACE_NAME_1, SECRET_NAME_14)
+        createSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_14, [:])
+        replaceSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_14, [:])
+        deleteSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_14)
         def allNamespacesEventMessages = allNamespacesEventHandler.getEventMessages()
         def firstNamespacesEventMessages = firstNamespaceEventHandler.getEventMessages()
         def secondNamespacesEventMessages = secondNamespaceEventHandler.getEventMessages()
@@ -155,17 +127,17 @@ class InformerSpec extends Specification {
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString(),
                 'spec.name'                         : 'WithLabelSelector'
         ])
-        CoreV1ApiReactor api = context.getBean(CoreV1ApiReactor.class)
+        CoreV1Api api = context.getBean(CoreV1Api.class)
         AllNamespacesLabelSelectorEventHandler allNamespacesEventHandler = context.getBean(AllNamespacesLabelSelectorEventHandler.class)
         FirstNamespaceLabelSelectorEventHandler firstNamespaceEventHandler = context.getBean(FirstNamespaceLabelSelectorEventHandler.class)
         SecondNamespaceLabelSelectorEventHandler secondNamespaceEventHandler = context.getBean(SecondNamespaceLabelSelectorEventHandler.class)
 
         when:
-        createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key': 'label-value-1'])
-        replaceSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key': 'label-value-1'])
-        deleteSecret(api, NAMESPACE_NAME_1, SECRET_NAME_15)
-        createSecret(api, NAMESPACE_NAME_1, SECRET_NAME_16, [:])
-        deleteSecret(api, NAMESPACE_NAME_1, SECRET_NAME_16)
+        createSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key': 'label-value-1'])
+        replaceSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_15, ['label-key': 'label-value-1'])
+        deleteSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_15)
+        createSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_16, [:])
+        deleteSecretUsingPrefix(api, NAMESPACE_NAME_1, SECRET_NAME_16)
         def allNamespacesEventMessages = allNamespacesEventHandler.getEventMessages()
         def firstNamespacesEventMessages = firstNamespaceEventHandler.getEventMessages()
         def secondNamespacesEventMessages = secondNamespaceEventHandler.getEventMessages()
@@ -229,46 +201,16 @@ class InformerSpec extends Specification {
         context.close()
     }
 
-    private void createNamespace(CoreV1ApiReactor api, String namespaceName) {
-        V1Namespace namespace = new V1Namespace()
-        namespace.kind('Namespace')
-        namespace.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(namespaceName)
-        namespace.metadata(objectMeta)
-        api.createNamespace(namespace, null, null, null, null)
-                .block()
+    private static void createSecretUsingPrefix(CoreV1Api api, String namespace, String secretName, Map<String, String> secretLabels) {
+        createSecret(api, namespace, getSecretModel(TEST_SECRET_NAME_PREFIX + secretName, ["test-key": "test-value".bytes], secretLabels))
     }
 
-    private void createSecret(CoreV1ApiReactor api, String namespaceName, String secretName, Map<String, String> secretLabels) {
-        V1Secret secret = new V1Secret()
-        secret.kind('Secret')
-        secret.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(TEST_SECRET_NAME_PREFIX + secretName)
-        objectMeta.labels(secretLabels)
-        secret.metadata(objectMeta)
-        secret.data(["test-key": "test-value".bytes])
-        api.createNamespacedSecret(namespaceName, secret, null, null, null, null)
-                .block()
+    private static void replaceSecretUsingPrefix(CoreV1Api api, String namespace, String secretName, Map<String, String> secretLabels) {
+        replaceSecret(api, namespace, getSecretModel(TEST_SECRET_NAME_PREFIX + secretName, ["test-key": "new-test-value".bytes], secretLabels))
     }
 
-    private void replaceSecret(CoreV1ApiReactor api, String namespaceName, String secretName, Map<String, String> secretLabels) {
-        V1Secret secret = new V1Secret()
-        secret.kind('Secret')
-        secret.apiVersion('v1')
-        V1ObjectMeta objectMeta = new V1ObjectMeta()
-        objectMeta.name(TEST_SECRET_NAME_PREFIX + secretName)
-        objectMeta.labels(secretLabels)
-        secret.metadata(objectMeta)
-        secret.data(["test-key": "new-test-value".bytes])
-        api.replaceNamespacedSecret(TEST_SECRET_NAME_PREFIX + secretName, namespaceName, secret, null, null, null, null)
-                .block()
-    }
-
-    private void deleteSecret(CoreV1ApiReactor api, String namespaceName, String secretName) {
-        api.deleteNamespacedSecret(TEST_SECRET_NAME_PREFIX + secretName, namespaceName, null, null, null, null, null, null, null)
-                .block()
+    private static void deleteSecretUsingPrefix(CoreV1Api api, String namespace, String secretName) {
+        deleteSecret(api, namespace, TEST_SECRET_NAME_PREFIX + secretName)
     }
 
     private static class BaseResourceEventHandler implements ResourceEventHandler<V1Secret> {
