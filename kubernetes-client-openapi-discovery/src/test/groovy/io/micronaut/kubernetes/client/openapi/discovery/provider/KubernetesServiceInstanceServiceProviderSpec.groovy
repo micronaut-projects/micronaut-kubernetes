@@ -2,18 +2,24 @@ package io.micronaut.kubernetes.client.openapi.discovery.provider
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.openapi.K3sContainerSpec
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
-import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
-import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.Unroll
+
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServicePortModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceSpecClusterIPModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createService
 
 class KubernetesServiceInstanceServiceProviderSpec extends K3sContainerSpec {
 
@@ -28,34 +34,35 @@ class KubernetesServiceInstanceServiceProviderSpec extends K3sContainerSpec {
     }
 
     @Override
-    def setupKubernetes(CoreV1ApiReactor api) {
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
+    def setupKubernetes(ApplicationContext context) {
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_1))
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_2))
 
         // service with two ports
-        V1ServiceSpec spec1 = ModelUtils.getServiceSpec("10.43.1.100", [ModelUtils.getServicePort(8081, "http"), ModelUtils.getServicePort(8082, "https")])
-        V1Service service1 = ModelUtils.getService("service-example-1", spec1)
-        OperationUtils.createService(api, NAMESPACE_NAME_1, service1)
+        V1ServiceSpec spec1 = getServiceSpecClusterIPModel("10.43.1.100", [getServicePortModel(8081, null, "http"), getServicePortModel(8082, null, "https")])
+        V1Service service1 = getServiceModel("service-example-1", spec1)
+        createService(api, NAMESPACE_NAME_1, service1)
 
         // service with single port
-        V1ServiceSpec spec2 = ModelUtils.getServiceSpec("10.43.1.101", [ModelUtils.getServicePort(8443, "port")])
-        V1Service service2 = ModelUtils.getService("service-example-2", spec2, ["foo": "bar"])
-        OperationUtils.createService(api, NAMESPACE_NAME_1, service2)
+        V1ServiceSpec spec2 = getServiceSpecClusterIPModel("10.43.1.101", [getServicePortModel(8443, null, "port")])
+        V1Service service2 = getServiceModel("service-example-2", spec2, ["foo": "bar"])
+        createService(api, NAMESPACE_NAME_1, service2)
 
         // service with external name
-        V1ServiceSpec spec3 = ModelUtils.getServiceSpec("test-external.com")
-        V1Service service3 = ModelUtils.getService("service-example-3", spec3)
-        OperationUtils.createService(api, NAMESPACE_NAME_1, service3)
+        V1ServiceSpec spec3 = getServiceSpecTypeModel("ExternalName", [], [:], "test-external.com")
+        V1Service service3 = getServiceModel("service-example-3", spec3)
+        createService(api, NAMESPACE_NAME_1, service3)
 
         // service with external name and secure label
-        V1ServiceSpec spec4 = ModelUtils.getServiceSpec("test-external-secure.com")
-        V1Service service4 = ModelUtils.getService("service-example-4", spec4, ["secure": "true"])
-        OperationUtils.createService(api, NAMESPACE_NAME_1, service4)
+        V1ServiceSpec spec4 = getServiceSpecTypeModel("ExternalName", [], [:], "test-external-secure.com")
+        V1Service service4 = getServiceModel("service-example-4", spec4, ["secure": "true"])
+        createService(api, NAMESPACE_NAME_1, service4)
 
         // service in another namespace
-        V1ServiceSpec spec5 = ModelUtils.getServiceSpec("10.43.1.201", [ModelUtils.getServicePort(8080, "port")])
-        V1Service service5 = ModelUtils.getService("service-example-5", spec5)
-        OperationUtils.createService(api, NAMESPACE_NAME_2, service5)
+        V1ServiceSpec spec5 = getServiceSpecClusterIPModel("10.43.1.201", [getServicePortModel(8080, null, "port")])
+        V1Service service5 = getServiceModel("service-example-5", spec5)
+        createService(api, NAMESPACE_NAME_2, service5)
     }
 
     @Unroll

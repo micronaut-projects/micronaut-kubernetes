@@ -4,19 +4,32 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
 import io.micronaut.core.io.scan.ClassPathResourceLoader
-import io.micronaut.kubernetes.client.openapi.K3sContainerSpec
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
-import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
-import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.util.concurrent.PollingConditions
 
 import java.nio.file.Path
+
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getContainerModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getPodModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getPodSpecModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSecretModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createPod
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
 
 class KubernetesConfigurationClientSpec extends K3sContainerSpec {
 
@@ -52,35 +65,36 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
     }
 
     @Override
-    def setupKubernetes(CoreV1ApiReactor api) {
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
+    def setupKubernetes(ApplicationContext context) {
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_1))
 
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getJsonConfigMap())
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getPropertiesConfigMap())
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getYmlConfigMap())
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME_1, getLiteralConfigMap())
+        createConfigMap(api, NAMESPACE_NAME_1, getJsonConfigMap())
+        createConfigMap(api, NAMESPACE_NAME_1, getPropertiesConfigMap())
+        createConfigMap(api, NAMESPACE_NAME_1, getYmlConfigMap())
+        createConfigMap(api, NAMESPACE_NAME_1, getLiteralConfigMap())
 
-        V1Secret secret1 = ModelUtils.getSecret("test-secret-1", ["username": "user".bytes, "password": "pass".bytes])
-        OperationUtils.createSecret(api, NAMESPACE_NAME_1, secret1)
-        V1Secret secret2 = ModelUtils.getSecret("test-secret-2", ["secretKey2": "secretValue2".bytes], ["podLabelKey1": "podLabelValue1"])
-        OperationUtils.createSecret(api, NAMESPACE_NAME_1, secret2)
-        V1Secret secret3 = ModelUtils.getSecret("test-secret-3", ["secretKey3": "secretValue3".bytes], ["podLabelKey2": "podLabelValue2"])
-        OperationUtils.createSecret(api, NAMESPACE_NAME_1, secret3)
+        V1Secret secret1 = getSecretModel("test-secret-1", ["username": "user".bytes, "password": "pass".bytes])
+        createSecret(api, NAMESPACE_NAME_1, secret1)
+        V1Secret secret2 = getSecretModel("test-secret-2", ["secretKey2": "secretValue2".bytes], ["podLabelKey1": "podLabelValue1"])
+        createSecret(api, NAMESPACE_NAME_1, secret2)
+        V1Secret secret3 = getSecretModel("test-secret-3", ["secretKey3": "secretValue3".bytes], ["podLabelKey2": "podLabelValue2"])
+        createSecret(api, NAMESPACE_NAME_1, secret3)
 
-        V1PodSpec podSpec1 = ModelUtils.getPodSpec([ModelUtils.getContainer("test-cont-1")])
-        V1Pod pod1 = ModelUtils.getPod(POD_NAME, podSpec1, ["podLabelKey1": "podLabelValue1", "podLabelKey2": "podLabelValue2"])
-        OperationUtils.createPod(api, NAMESPACE_NAME_1, pod1)
+        V1PodSpec podSpec1 = getPodSpecModel([getContainerModel("test-cont-1")])
+        V1Pod pod1 = getPodModel(POD_NAME, podSpec1, ["podLabelKey1": "podLabelValue1", "podLabelKey2": "podLabelValue2"])
+        createPod(api, NAMESPACE_NAME_1, pod1)
 
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_2))
 
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME_2, getLiteralConfigMap())
+        createConfigMap(api, NAMESPACE_NAME_2, getLiteralConfigMap())
 
-        V1Secret secret4 = ModelUtils.getSecret("test-secret-4", ["secretKey4": "secretValue4".bytes])
-        OperationUtils.createSecret(api, NAMESPACE_NAME_2, secret4)
+        V1Secret secret4 = getSecretModel("test-secret-4", ["secretKey4": "secretValue4".bytes])
+        createSecret(api, NAMESPACE_NAME_2, secret4)
 
-        V1PodSpec podSpec2 = ModelUtils.getPodSpec([ModelUtils.getContainer("test-cont-2")])
-        V1Pod pod2 = ModelUtils.getPod(POD_NAME, podSpec2, ["podLabelKey20": "podLabelValue20"])
-        OperationUtils.createPod(api, NAMESPACE_NAME_2, pod2)
+        V1PodSpec podSpec2 = getPodSpecModel([getContainerModel("test-cont-2")])
+        V1Pod pod2 = getPodModel(POD_NAME, podSpec2, ["podLabelKey20": "podLabelValue20"])
+        createPod(api, NAMESPACE_NAME_2, pod2)
     }
 
     void "read json, properties, yml and literal config maps"() {
@@ -152,7 +166,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         def watcher = context.getBean(KubernetesConfigMapWatcher.class)
         watcher.onApplicationEvent(null)
 
-        def api = context.getBean(CoreV1ApiReactor.class)
+        def api = context.getBean(CoreV1Api.class)
         def conditions = new PollingConditions(timeout: 2)
 
         when:
@@ -171,8 +185,8 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
 
         when: "new config map is created"
         def newConfigMapPropSourceName = createConfigMapPropSourceName("config-map-1")
-        def newConfigMap = ModelUtils.getConfigMap("config-map-1", ["test-key-1": "test-value-1", "test-key-2": "test-value-2"])
-        OperationUtils.createConfigMap(api, NAMESPACE_NAME_2, newConfigMap)
+        def newConfigMap = getConfigMapModel("config-map-1", ["test-key-1": "test-value-1", "test-key-2": "test-value-2"])
+        createConfigMap(api, NAMESPACE_NAME_2, newConfigMap)
 
         then: "new property source is created"
         conditions.eventually {
@@ -187,8 +201,8 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         }
 
         when: "existing config map is replaced"
-        def updatedConfigMap = ModelUtils.getConfigMap("config-map-1", ["test-key-1": "test-value-10", "test-key-3": "test-value-3"])
-        OperationUtils.replaceConfigMap(api, NAMESPACE_NAME_2, updatedConfigMap)
+        def updatedConfigMap = getConfigMapModel("config-map-1", ["test-key-1": "test-value-10", "test-key-3": "test-value-3"])
+        replaceConfigMap(api, NAMESPACE_NAME_2, updatedConfigMap)
 
         then: "existing property source is updated"
         conditions.eventually {
@@ -203,7 +217,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         }
 
         when: "existing config map is deleted"
-        OperationUtils.deleteConfigMap(api, NAMESPACE_NAME_2, "config-map-1")
+        deleteConfigMap(api, NAMESPACE_NAME_2, "config-map-1")
 
         then: "existing property source is deleted"
         conditions.eventually {
@@ -468,7 +482,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         def watcher = context.getBean(KubernetesSecretWatcher.class)
         watcher.onApplicationEvent(null)
 
-        def api = context.getBean(CoreV1ApiReactor.class)
+        def api = context.getBean(CoreV1Api.class)
         def conditions = new PollingConditions(timeout: 2)
 
         when:
@@ -486,8 +500,8 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
 
         when: "new secret is created"
         def newSecretPropSourceName = createSecretPropSourceName("test-secret-5")
-        V1Secret newSecret = ModelUtils.getSecret("test-secret-5", ["secretKey5": "secretValue5".bytes])
-        OperationUtils.createSecret(api, NAMESPACE_NAME_2, newSecret)
+        V1Secret newSecret = getSecretModel("test-secret-5", ["secretKey5": "secretValue5".bytes])
+        createSecret(api, NAMESPACE_NAME_2, newSecret)
 
         then: "new property source is created"
         conditions.eventually {
@@ -501,8 +515,8 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         }
 
         when: "existing secret is replaced"
-        def updatedSecret = ModelUtils.getSecret("test-secret-5", ["secretKey5": "secretValue500".bytes])
-        OperationUtils.replaceSecret(api, NAMESPACE_NAME_2, updatedSecret)
+        def updatedSecret = getSecretModel("test-secret-5", ["secretKey5": "secretValue500".bytes])
+        replaceSecret(api, NAMESPACE_NAME_2, updatedSecret)
 
         then: "existing property source is updated"
         conditions.eventually {
@@ -516,7 +530,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
         }
 
         when: "existing secret is deleted"
-        OperationUtils.deleteSecret(api, NAMESPACE_NAME_2, "test-secret-5")
+        deleteSecret(api, NAMESPACE_NAME_2, "test-secret-5")
 
         then: "existing property source is deleted"
         conditions.eventually {
@@ -736,7 +750,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
               }
             }\
         '''.stripIndent()
-        return ModelUtils.getConfigMap("game-config-json", ["game.json": jsonContent], ["podLabelKey1": "podLabelValue1"])
+        return getConfigMapModel("game-config-json", ["game.json": jsonContent], ["podLabelKey1": "podLabelValue1"])
     }
 
     V1ConfigMap getPropertiesConfigMap() {
@@ -746,7 +760,7 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
             secret.code.passphrase=zom
             secret.code.allowed=false\
         '''.stripIndent()
-        return ModelUtils.getConfigMap("game-config-properties", ["game.properties": propertiesContent], ["podLabelKey2": "podLabelValue2"])
+        return getConfigMapModel("game-config-properties", ["game.properties": propertiesContent], ["podLabelKey2": "podLabelValue2"])
     }
 
     V1ConfigMap getYmlConfigMap() {
@@ -760,11 +774,11 @@ class KubernetesConfigurationClientSpec extends K3sContainerSpec {
                 passphrase: ali
                 allowed: true\
         '''.stripIndent()
-        return ModelUtils.getConfigMap("game-config-yml", ["game.yml": ymlContent])
+        return getConfigMapModel("game-config-yml", ["game.yml": ymlContent])
     }
 
     V1ConfigMap getLiteralConfigMap() {
-        return ModelUtils.getConfigMap("literal-config", ["special.how": "very", "special.type": "charm"])
+        return getConfigMapModel("literal-config", ["special.how": "very", "special.type": "charm"])
     }
 
     static String createConfigMapPropSourceName(String objectName) {
