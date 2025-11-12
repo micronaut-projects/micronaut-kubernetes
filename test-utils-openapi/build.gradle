@@ -13,4 +13,5 @@ dependencies {
     api mnTest.micronaut.test.spock
     api projects.micronautKubernetesClientOpenapi
     api libs.testcontainers.k3s
+    api libs.awaitility
 }

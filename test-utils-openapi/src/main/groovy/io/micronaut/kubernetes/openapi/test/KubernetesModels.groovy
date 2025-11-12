@@ -23,11 +23,13 @@ import io.micronaut.kubernetes.client.openapi.model.V1Container
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
+import io.micronaut.kubernetes.client.openapi.model.V1HTTPGetAction
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1PolicyRule
+import io.micronaut.kubernetes.client.openapi.model.V1Probe
 import io.micronaut.kubernetes.client.openapi.model.V1Role
 import io.micronaut.kubernetes.client.openapi.model.V1RoleBinding
 import io.micronaut.kubernetes.client.openapi.model.V1RoleRef
@@ -74,7 +76,7 @@ class KubernetesModels {
         return new V1Secret().kind('Secret').metadata(getObjectMetaModel(name, labels)).data(data)
     }
 
-    static V1ServicePort getServicePortModel(int port, String targetPort, String name) {
+    static V1ServicePort getServicePortModel(int port, String targetPort, String name = null) {
         return new V1ServicePort(port).name(name).targetPort(targetPort)
     }
 
@@ -124,5 +126,13 @@ class KubernetesModels {
 
     static V1Pod getPodModel(String name, V1PodSpec podSpec, Map<String, String> labels = [:]) {
         return new V1Pod().kind('Pod').metadata(getObjectMetaModel(name, labels)).spec(podSpec)
+    }
+
+    static V1HTTPGetAction getHTTPGetActionModel(String port, String path) {
+        return new V1HTTPGetAction(port).path(path)
+    }
+
+    static V1Probe getProbeModel(V1HTTPGetAction httpGetAction, Integer initialDelaySeconds, Integer periodSeconds, Integer failureThreshold) {
+        return new V1Probe().httpGet(httpGetAction).initialDelaySeconds(initialDelaySeconds).periodSeconds(periodSeconds).failureThreshold(failureThreshold)
     }
 }

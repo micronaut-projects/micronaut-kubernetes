@@ -1,0 +1,13 @@
+micronaut:
+  application:
+    name: micronaut-kubernetes-example-service-openapi
+  config-client:
+    enabled: true
+kubernetes:
+  client:
+    secrets:
+      enabled: true
+      use-api: true
+    config-maps:
+      enabled: true
+      use-api: true
