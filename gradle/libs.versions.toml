@@ -19,11 +19,11 @@ awaitility = '4.3.0'
 
 micronaut-discovery = "4.6.0"
 micronaut-logging = "1.7.1"
-micronaut-reactor = "3.9.0"
+micronaut-reactor = "3.9.1"
 micronaut-serde = "2.15.5"
 micronaut-validation = "4.11.0"
-micronaut-openapi = "6.19.0"
-micronaut-micrometer = "5.13.0"
+micronaut-openapi = "6.19.3"
+micronaut-micrometer = "5.13.1"
 
 
 [libraries]
