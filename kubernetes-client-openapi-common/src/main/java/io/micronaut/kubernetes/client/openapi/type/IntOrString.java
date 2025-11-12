@@ -28,7 +28,7 @@ import java.util.Objects;
  * </p>
  */
 @Serdeable
-public class IntOrString {
+public final class IntOrString {
 
     private final boolean isInt;
     private final String strValue;
