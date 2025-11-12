@@ -1,12 +1,49 @@
 #!/bin/bash
 set -ex
 
+echo "Execute setup: $1"
+
+MODULE_NAME="${1%:nativeTest}"
+
+declare -A IMAGE_MAP
+IMAGE_MAP["examples:example-service"]="micronaut-kubernetes-example-service"
+IMAGE_MAP["examples:example-client"]="micronaut-kubernetes-example-client"
+IMAGE_MAP["examples:example-kubernetes-client"]="micronaut-kubernetes-client-example"
+IMAGE_MAP["examples:example-kubernetes-informer"]="micronaut-kubernetes-informer-example"
+IMAGE_MAP["examples:example-kubernetes-operator"]="micronaut-kubernetes-operator-example"
+
+MODULE_ARRAY=()
+IMAGE_ARRAY=()
+if [ -z "$MODULE_NAME" ]; then
+  EXAMPLE_SERVICE_RUNTIME="java"
+  for module in "${!IMAGE_MAP[@]}"; do
+    MODULE_ARRAY+=("${module}")
+    IMAGE_ARRAY+=("${IMAGE_MAP[$module]}")
+  done
+elif [ "$MODULE_NAME" == "examples:example-client" ]; then
+  EXAMPLE_SERVICE_RUNTIME="native"
+  MODULE_ARRAY+=("examples:example-service" "examples:example-client")
+  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-service"]}" "${IMAGE_MAP["examples:example-client"]}")
+elif [ "$MODULE_NAME" == "examples:example-kubernetes-informer" ]; then
+  EXAMPLE_SERVICE_RUNTIME="native"
+  MODULE_ARRAY+=("examples:example-kubernetes-informer")
+  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-kubernetes-informer"]}")
+elif [ "$MODULE_NAME" == "examples:example-kubernetes-operator" ]; then
+  EXAMPLE_SERVICE_RUNTIME="native"
+  MODULE_ARRAY+=("examples:example-kubernetes-operator")
+  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-kubernetes-operator"]}")
+fi
+
+if [ "${#MODULE_ARRAY[@]}" -eq 0 ]; then
+  echo "There are no example images which need to be built"
+  exit 0
+fi
+
 #
 # Defaults
 K8S_DEFAULT_VERSION="1.21"
 KUBECTL_DEFAULT_VERSION="v1.19.2"
 KIND_VERSION="v0.11.1"
-EXAMPLE_SERVICE_RUNTIME=${EXAMPLE_SERVICE_RUNTIME:="java"}
 
 #
 # K8s images required for KIND version
@@ -71,4 +108,8 @@ $HOME/kubectl get ns kube-system || exit 1
 $HOME/kubectl cluster-info
 $HOME/kubectl version
 
-sh setup-kubernetes.sh -c "${KIND_CLUSTER_NAME}" -t "${EXAMPLE_SERVICE_RUNTIME}"
+MODULES=$(IFS=, ; echo "${MODULE_ARRAY[*]}")
+IMAGES=$(IFS=, ; echo "${IMAGE_ARRAY[*]}")
+
+./setup-images.sh -t "${EXAMPLE_SERVICE_RUNTIME}" -m "${MODULES}"
+./setup-kubernetes.sh -c "${KIND_CLUSTER_NAME}" -i "${IMAGES}"
