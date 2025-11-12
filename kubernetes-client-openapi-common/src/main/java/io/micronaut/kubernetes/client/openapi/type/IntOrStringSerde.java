@@ -44,14 +44,12 @@ public class IntOrStringSerde implements Serde<IntOrString> {
     @Override
     public @Nullable IntOrString deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super IntOrString> type) throws IOException {
         Object value = decoder.decodeArbitrary();
-        IntOrString intOrString;
         if (value instanceof String stringValue) {
-            intOrString = new IntOrString(stringValue);
+            return new IntOrString(stringValue);
         } else if (value instanceof Integer intValue) {
-            intOrString = new IntOrString(intValue);
+            return new IntOrString(intValue);
         } else {
             throw new SerdeException("Could not deserialize " + value + " into IntOrString type.");
         }
-        return intOrString;
     }
 }
