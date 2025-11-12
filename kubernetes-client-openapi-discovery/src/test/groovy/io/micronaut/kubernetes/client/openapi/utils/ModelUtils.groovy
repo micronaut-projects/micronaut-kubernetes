@@ -14,6 +14,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServicePort
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
+import io.micronaut.kubernetes.client.openapi.type.IntOrString
 
 class ModelUtils {
 
@@ -35,7 +36,7 @@ class ModelUtils {
     static V1ServicePort getServicePort(int port, String name) {
         V1ServicePort servicePort = new V1ServicePort(port)
         servicePort.setName(name)
-        servicePort.setTargetPort(name)
+        servicePort.setTargetPort(new IntOrString(name))
         return servicePort
     }
 
