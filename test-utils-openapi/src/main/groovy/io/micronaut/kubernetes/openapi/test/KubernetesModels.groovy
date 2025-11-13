@@ -19,6 +19,7 @@ import io.micronaut.kubernetes.client.openapi.model.CoreV1EndpointPort
 import io.micronaut.kubernetes.client.openapi.model.RbacV1Subject
 import io.micronaut.kubernetes.client.openapi.model.V1ClusterRole
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMapVolumeSource
 import io.micronaut.kubernetes.client.openapi.model.V1Container
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
@@ -34,9 +35,13 @@ import io.micronaut.kubernetes.client.openapi.model.V1Role
 import io.micronaut.kubernetes.client.openapi.model.V1RoleBinding
 import io.micronaut.kubernetes.client.openapi.model.V1RoleRef
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
+import io.micronaut.kubernetes.client.openapi.model.V1SecretVolumeSource
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServicePort
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
+import io.micronaut.kubernetes.client.openapi.model.V1Volume
+import io.micronaut.kubernetes.client.openapi.model.V1VolumeMount
+import io.micronaut.kubernetes.client.openapi.type.IntOrString
 
 class KubernetesModels {
 
@@ -76,7 +81,7 @@ class KubernetesModels {
         return new V1Secret().kind('Secret').metadata(getObjectMetaModel(name, labels)).data(data)
     }
 
-    static V1ServicePort getServicePortModel(int port, String targetPort, String name = null) {
+    static V1ServicePort getServicePortModel(int port, IntOrString targetPort, String name = null) {
         return new V1ServicePort(port).name(name).targetPort(targetPort)
     }
 
@@ -128,11 +133,31 @@ class KubernetesModels {
         return new V1Pod().kind('Pod').metadata(getObjectMetaModel(name, labels)).spec(podSpec)
     }
 
-    static V1HTTPGetAction getHTTPGetActionModel(String port, String path) {
+    static V1HTTPGetAction getHTTPGetActionModel(IntOrString port, String path) {
         return new V1HTTPGetAction(port).path(path)
     }
 
     static V1Probe getProbeModel(V1HTTPGetAction httpGetAction, Integer initialDelaySeconds, Integer periodSeconds, Integer failureThreshold) {
         return new V1Probe().httpGet(httpGetAction).initialDelaySeconds(initialDelaySeconds).periodSeconds(periodSeconds).failureThreshold(failureThreshold)
+    }
+
+    static V1VolumeMount getVolumeMountModel(String mountPath, String name, boolean readOnly) {
+        return new V1VolumeMount(mountPath, name).readOnly(readOnly)
+    }
+
+    static V1SecretVolumeSource getSecretVolumeSourceModel(String secretName, Integer defaultMode = null) {
+        return new V1SecretVolumeSource().secretName(secretName).defaultMode(defaultMode)
+    }
+
+    static V1Volume getVolumeModel(String name, V1SecretVolumeSource secretVolumeSource) {
+        return new V1Volume(name).secret(secretVolumeSource)
+    }
+
+    static V1ConfigMapVolumeSource getConfigMapVolumeSourceModel(String name, Integer defaultMode = null) {
+        return new V1ConfigMapVolumeSource().name(name).defaultMode(defaultMode)
+    }
+
+    static V1Volume getVolumeModel(String name, V1ConfigMapVolumeSource configMapVolumeSource) {
+        return new V1Volume(name).configMap(configMapVolumeSource)
     }
 }

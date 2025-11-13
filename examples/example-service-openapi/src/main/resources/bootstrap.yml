@@ -8,6 +8,12 @@ kubernetes:
     secrets:
       enabled: true
       use-api: true
+      excludes: mounted-secret
+      paths:
+        - /etc/example-service/secrets
     config-maps:
       enabled: true
       use-api: true
+      excludes: mounted-configmap
+      paths:
+        - /etc/example-service/configmap

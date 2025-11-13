@@ -39,9 +39,13 @@ import io.micronaut.kubernetes.client.openapi.model.V1PolicyRule
 import io.micronaut.kubernetes.client.openapi.model.V1Role
 import io.micronaut.kubernetes.client.openapi.model.V1RoleBinding
 import io.micronaut.kubernetes.client.openapi.model.V1RoleRef
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
+import io.micronaut.kubernetes.client.openapi.model.V1Volume
+import io.micronaut.kubernetes.client.openapi.model.V1VolumeMount
 import io.micronaut.kubernetes.client.openapi.model.VersionInfo
+import io.micronaut.kubernetes.client.openapi.type.IntOrString
 import io.micronaut.test.context.TestContext
 import io.micronaut.test.context.TestExecutionListener
 import jakarta.inject.Inject
@@ -55,6 +59,7 @@ import spock.lang.Specification
 import java.time.Duration
 
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapVolumeSourceModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getHTTPGetActionModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getObjectMetaModel
@@ -63,15 +68,20 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getProbeMode
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getRoleBindingModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getRoleModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getRoleRefModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSecretModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSecretVolumeSourceModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServicePortModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceSpecTypeModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSubjectModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getVolumeModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getVolumeMountModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createConfigMap
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createDeployment
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createRole
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createRoleBinding
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createService
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteNamespaceSafe
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.getDeployment
@@ -122,10 +132,13 @@ class KubernetesSpecification extends Specification {
     def createBaseResources() {
         createRole("service-discoverer")
         createRoleBinding("default-service-discoverer", "service-discoverer")
-        createConfigMap("game-config-properties")
-        createDeployment("example-client", "micronaut-kubernetes-example-client-openapi", 8082)
+        createTestConfigMap()
+        createMountedConfigMap()
+        createTestSecret()
+        createMountedSecret()
+        createDeployment("example-client", "micronaut-kubernetes-example-client-openapi", 8082, false)
         createService("example-client", 8082)
-        createDeployment("example-service", "micronaut-kubernetes-example-service-openapi", 8081)
+        createDeployment("example-service", "micronaut-kubernetes-example-service-openapi", 8081, true)
         createService("example-service", 8081)
     }
 
@@ -149,19 +162,51 @@ class KubernetesSpecification extends Specification {
         return createRoleBinding(rbacAuthV1Api, namespace, roleBinding)
     }
 
-    def createConfigMap(String name) {
+    def createTestConfigMap() {
         def propertiesContent = '''\
             enemies=zombies
             lives=5
             enemies.cheat=true
             enemies.cheat.level=noGoodRotten\
         '''.stripIndent()
-        V1ConfigMap configMap = getConfigMapModel(name, [ "game.properties": propertiesContent])
+        V1ConfigMap configMap = getConfigMapModel("test-configmap", [ "game.properties": propertiesContent])
         LOG.debug("Creating ConfigMap: {}", configMap)
         createConfigMap(coreV1Api, namespace, configMap)
     }
 
-    def createDeployment(String name, String image, int port) {
+    def createMountedConfigMap() {
+        def content = '''\
+            mounted:
+              foo: bar\
+        '''.stripIndent()
+        V1ConfigMap configMap = getConfigMapModel("mounted-configmap", [ "mounted.yml": content])
+        LOG.debug("Creating ConfigMap: {}", configMap)
+        createConfigMap(coreV1Api, namespace, configMap)
+    }
+
+    def createTestSecret() {
+        V1Secret secret = getSecretModel("test-secret", ["secretProperty": "secretValue".bytes])
+        LOG.debug("Creating Secret: {}", secret)
+        createSecret(coreV1Api, namespace, secret)
+    }
+
+    def createMountedSecret() {
+        V1Secret secret = getSecretModel("mounted-secret", ["mountedVolumeKey": "mountedVolumeValue".bytes])
+        LOG.debug("Creating Secret: {}", secret)
+        createSecret(coreV1Api, namespace, secret)
+    }
+
+    def createDeployment(String name, String image, int port, boolean includeVolume) {
+        List<V1VolumeMount> volumeMounts = includeVolume
+                ? [getVolumeMountModel("/etc/example-service/secrets", "secrets", true),
+                   getVolumeMountModel("/etc/example-service/configmap", "configmap", true)]
+                : null
+
+        List<V1Volume> volumes = includeVolume
+                ? [getVolumeModel("secrets", getSecretVolumeSourceModel("mounted-secret", 256)),
+                   getVolumeModel("configmap", getConfigMapVolumeSourceModel("mounted-configmap"))]
+                : null
+
         def deployment = new V1Deployment()
                 .metadata(getObjectMetaModel(name))
                 .spec(new V1DeploymentSpec(
@@ -172,10 +217,11 @@ class KubernetesSpecification extends Specification {
                                         new V1Container(name)
                                                 .image(image)
                                                 .imagePullPolicy("Never")
+                                                .volumeMounts(volumeMounts)
                                                 .ports([new V1ContainerPort(port).name("http")])
-                                                .livenessProbe(getProbeModel(getHTTPGetActionModel(port.toString(), "/health/liveness"), 1, 3, 10))
-                                                .readinessProbe(getProbeModel(getHTTPGetActionModel(port.toString(), "/health/readiness"), 1, 3, 10))
-                                ]))
+                                                .livenessProbe(getProbeModel(getHTTPGetActionModel(new IntOrString(port), "/health/liveness"), 1, 3, 10))
+                                                .readinessProbe(getProbeModel(getHTTPGetActionModel(new IntOrString(port), "/health/readiness"), 1, 3, 10))
+                                ]).volumes(volumes))
                         ).replicas(1)
                 )
 
@@ -193,7 +239,7 @@ class KubernetesSpecification extends Specification {
     }
 
     def createService(String name, int port) {
-        V1ServiceSpec serviceSpec = getServiceSpecTypeModel("LoadBalancer", [getServicePortModel(port, port.toString())], ["app": name])
+        V1ServiceSpec serviceSpec = getServiceSpecTypeModel("LoadBalancer", [getServicePortModel(port, new IntOrString(port))], ["app": name])
         V1Service service = getServiceModel(name, serviceSpec)
 
         LOG.debug("Creating Service: {}", service)
