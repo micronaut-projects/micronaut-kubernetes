@@ -58,7 +58,7 @@ class HelloControllerSpec extends KubernetesSpecification {
 
     void "test config"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         String configMapName = "hello-controller-spec"
 
         expect:
