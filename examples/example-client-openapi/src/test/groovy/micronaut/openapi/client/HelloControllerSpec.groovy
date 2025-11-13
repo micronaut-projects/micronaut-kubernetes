@@ -28,7 +28,7 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteCo
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.type", value = "example-test")
 @Property(name = "spec.name", value = "HelloControllerSpec")
-@Property(name = "kubernetes.client.namespace", value = "micronaut-kubernetes-example-openapi-discovery")
+@Property(name = "kubernetes.client.namespace", value = "example-openapi-discovery")
 class HelloControllerSpec extends KubernetesSpecification {
 
     @Inject
@@ -94,22 +94,23 @@ class HelloControllerSpec extends KubernetesSpecification {
         }
     }
 
-/*    void "test reading secrets from mounted volumes"() {
+    void "test reading secrets from mounted volumes"() {
         given:
-        testClient.refresh()
+        def value = testClient.config("mounted-volume-key")
 
         expect:
-        testClient.config("mounted-volume-key") == "mountedVolumeValue"
+        value == "mountedVolumeValue"
     }
 
     void "test reading config maps from mounted volumes"() {
         given:
-        testClient.refresh()
+        def value = testClient.config("mounted.foo")
+        def env = testClient.env()
 
         expect:
-        testClient.env().contains("{\"name\":\"/etc/example-service/configmap/mounted.yml (Kubernetes ConfigMap)\"")
-        testClient.config("mounted.foo") == "bar"
-    }*/
+        env.contains("{\"name\":\"/etc/example-service/configmap/mounted.yml (Kubernetes V1ConfigMap)\"")
+        value == "bar"
+    }
 
     @Client("http://localhost:8888")
     @io.micronaut.context.annotation.Requires(property = "spec.name", value = "HelloControllerSpec")
