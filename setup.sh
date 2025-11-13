@@ -11,6 +11,8 @@ IMAGE_MAP["examples:example-client"]="micronaut-kubernetes-example-client"
 IMAGE_MAP["examples:example-kubernetes-client"]="micronaut-kubernetes-client-example"
 IMAGE_MAP["examples:example-kubernetes-informer"]="micronaut-kubernetes-informer-example"
 IMAGE_MAP["examples:example-kubernetes-operator"]="micronaut-kubernetes-operator-example"
+IMAGE_MAP["examples:example-service-openapi"]="micronaut-kubernetes-example-service-openapi"
+IMAGE_MAP["examples:example-client-openapi"]="micronaut-kubernetes-example-client-openapi"
 
 MODULE_ARRAY=()
 IMAGE_ARRAY=()
@@ -32,6 +34,10 @@ elif [ "$MODULE_NAME" == "examples:example-kubernetes-operator" ]; then
   EXAMPLE_SERVICE_RUNTIME="native"
   MODULE_ARRAY+=("examples:example-kubernetes-operator")
   IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-kubernetes-operator"]}")
+elif [ "$MODULE_NAME" == "examples:example-client-openapi" ]; then
+  EXAMPLE_SERVICE_RUNTIME="native"
+  MODULE_ARRAY+=("examples:example-service-openapi" "examples:example-client-openapi")
+  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-service-openapi"]}" "${IMAGE_MAP["examples:example-client-openapi"]}")
 fi
 
 if [ "${#MODULE_ARRAY[@]}" -eq 0 ]; then
