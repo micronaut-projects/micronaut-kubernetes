@@ -16,13 +16,11 @@ import spock.lang.Requires
 import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
-import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.portForwardService
-
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
-
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createConfigMap
-import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.portForwardService
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
