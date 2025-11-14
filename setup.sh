@@ -32,9 +32,9 @@ elif [ "$MODULE_NAME" == "examples:example-client-openapi" ]; then
   EXAMPLE_SERVICE_RUNTIME="native"
   MODULE_ARRAY+=("examples:example-service-openapi" "examples:example-client-openapi")
   IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-service-openapi"]}" "${IMAGE_MAP["examples:example-client-openapi"]}")
-elif [ "$MODULE_NAME" == "examples:example-kubernetes-informer" ||
-       "$MODULE_NAME" == "examples:example-kubernetes-operator" ||
-       "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-informer-java" ||
+elif [ "$MODULE_NAME" == "examples:example-kubernetes-informer" || \
+       "$MODULE_NAME" == "examples:example-kubernetes-operator" || \
+       "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-informer-java" || \
        "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-operator-java"]; then
   EXAMPLE_SERVICE_RUNTIME="native"
   MODULE_ARRAY+=("$MODULE_NAME")
