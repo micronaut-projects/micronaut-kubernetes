@@ -117,8 +117,8 @@ class KubernetesSpecification extends Specification {
         VersionInfo versionInfo = getVersionInfo(versionApi)
         LOG.info("Using Kubernetes version: {}.{}", versionInfo.major, versionInfo.minor)
         createNamespaceSafe()
-        createRole("service-discoverer")
-        createRoleBinding("default-service-discoverer", "service-discoverer")
+        createRole("example-openapi-role")
+        createRoleBinding("example-openapi-role-binding", "example-openapi-role")
         createResources()
     }
 
@@ -131,9 +131,9 @@ class KubernetesSpecification extends Specification {
     }
 
     def createRole(String name,
-                   List<String> apiGroups = [""],
-                   List<String> verbs = ["get", "list", "watch"],
-                   List<String> resources = ["services", "endpoints", "configmaps", "secrets", "pods"]) {
+                   List<String> apiGroups = ["", "coordination.k8s.io"],
+                   List<String> verbs = ["get", "create", "update", "list", "watch"],
+                   List<String> resources = ["services", "endpoints", "configmaps", "secrets", "pods", "leases"]) {
         V1PolicyRule policyRule = getPolicyRuleModel(apiGroups, verbs, resources)
         V1Role role = getRoleModel(name, [policyRule])
         LOG.debug("Creating Role: {}", role)

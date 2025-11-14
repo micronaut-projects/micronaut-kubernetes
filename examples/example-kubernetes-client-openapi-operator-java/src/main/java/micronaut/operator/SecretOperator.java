@@ -8,6 +8,7 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFact
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +20,10 @@ class SecretOperator {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecretOperator.class);
 
-    static final String NAMESPACE = "test-operator-namespace";
-
-    SecretOperator(SharedIndexInformerFactory sharedIndexInformerFactory, ControllerFactory controllerFactory) {
-        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret.class, NAMESPACE);
-        controllerFactory.createController(V1Secret.class, Collections.singleton(NAMESPACE), new SecretReconciler());
+    SecretOperator(SharedIndexInformerFactory sharedIndexInformerFactory, ControllerFactory controllerFactory, NamespaceResolver namespaceResolver) {
+        String namespace = namespaceResolver.resolveNamespace();
+        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret.class, namespace);
+        controllerFactory.createController(V1Secret.class, Collections.singleton(namespace), new SecretReconciler());
     }
 
     private class SecretReconciler implements ResourceReconciler<V1Secret> {

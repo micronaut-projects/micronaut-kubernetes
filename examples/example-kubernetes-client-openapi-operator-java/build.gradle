@@ -6,11 +6,7 @@ plugins {
 micronaut {
     version libs.versions.micronaut.platform.get()
     runtime("netty")
-    testRuntime("junit5")
-    processing {
-        incremental(true)
-        annotations("micronaut.operator.*")
-    }
+    testRuntime("spock2")
 }
 
 dependencies {
@@ -22,6 +18,7 @@ dependencies {
     implementation(projects.micronautKubernetesClientOpenapiOperator)
     runtimeOnly(mnLogging.logback.classic)
     runtimeOnly(mnMicrometer.micronaut.micrometer.core)
+    testImplementation(projects.testUtilsOpenapi)
 }
 
 application {
@@ -30,9 +27,16 @@ application {
 
 tasks {
     dockerBuild {
-        images = ['micronaut-kubernetes-client-openapi-operator-example']
+        images = ['micronaut-kubernetes-example-operator-openapi']
     }
     dockerBuildNative {
-        images = ['micronaut-kubernetes-client-openapi-operator-example']
+        images = ['micronaut-kubernetes-example-operator-openapi']
     }
+}
+
+// tests send requests to a service deployed to a kubernetes cluster
+// and since gradle cannot detect changes in the deployed service,
+// the cached results are always used so we need to disable the cache
+tasks.named('test') {
+    outputs.cacheIf { false }
 }

@@ -33,10 +33,8 @@ import java.util.Optional;
 @Requires(env = Environment.KUBERNETES)
 //tag::reconciler[]
 
-@Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = ConfigMapReconciler.NAMESPACE)) // <1>
+@Operator(informer = @Informer(apiType = V1ConfigMap.class)) // <1>
 class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> { // <2>
-
-    static final String NAMESPACE = "test-operator-namespace";
 
     //end::reconciler[]
 
