@@ -60,7 +60,12 @@ class HelloControllerSpec extends KubernetesSpecification {
         testClient.enemies() == "noGoodRotten"
     }
 
-    void "test config added and updated"() {
+    void "test config map"() {
+        expect:
+        testClient.config("enemies") == "zombies"
+    }
+
+    void "test config map added and updated"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         String configMapName = "hello-controller-spec"
@@ -94,6 +99,11 @@ class HelloControllerSpec extends KubernetesSpecification {
         conditions.eventually {
             !testClient.env().contains(configMapName)
         }
+    }
+
+    void "test secret"() {
+        expect:
+        testClient.config("secretProperty") == "secretValue"
     }
 
     void "test secret added and updated"() {
