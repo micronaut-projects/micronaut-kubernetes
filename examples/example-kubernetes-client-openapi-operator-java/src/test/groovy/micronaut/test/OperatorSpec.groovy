@@ -1,7 +1,6 @@
-package micronaut.operator
+package micronaut.test
 
 import io.micronaut.context.annotation.Property
-import io.micronaut.context.env.Environment
 import io.micronaut.kubernetes.openapi.test.KubernetesSpecification
 import io.micronaut.kubernetes.openapi.test.TestUtils
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -12,7 +11,7 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMap
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createConfigMap
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.getConfigMap
 
-@MicronautTest(environments = [Environment.KUBERNETES])
+@MicronautTest
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.type", value = "example-test")
 @Property(name = "spec.name", value = "OperatorSpec")

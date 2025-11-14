@@ -1,7 +1,6 @@
-package micronaut.client
+package micronaut.test
 
 import io.micronaut.context.annotation.Property
-import io.micronaut.context.env.Environment
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.client.annotation.Client
@@ -27,7 +26,7 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.portForw
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
 
-@MicronautTest(environments = [Environment.KUBERNETES])
+@MicronautTest
 @Requires({ TestUtils.kubernetesApiAvailable() })
 @Property(name = "spec.type", value = "example-test")
 @Property(name = "spec.name", value = "InformerSpec")
