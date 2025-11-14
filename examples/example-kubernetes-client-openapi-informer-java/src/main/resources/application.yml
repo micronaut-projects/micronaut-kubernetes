@@ -1,5 +1,5 @@
 micronaut:
   server:
-    port: 8082
+    port: 8084
   application:
-    name: micronaut-kubernetes-client-openapi-informer
+    name: micronaut-kubernetes-example-informer-openapi
