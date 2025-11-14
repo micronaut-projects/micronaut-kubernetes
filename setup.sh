@@ -38,7 +38,7 @@ elif [[ "$MODULE_NAME" == "examples:example-kubernetes-informer" ||
         "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-operator-java" ]]; then
   EXAMPLE_SERVICE_RUNTIME="native"
   MODULE_ARRAY+=("$MODULE_NAME")
-  IMAGE_ARRAY+=("${IMAGE_MAP["$MODULE_NAME"]}")
+  IMAGE_ARRAY+=("${IMAGE_MAP[$MODULE_NAME]}")
 fi
 
 if [ "${#MODULE_ARRAY[@]}" -eq 0 ]; then
