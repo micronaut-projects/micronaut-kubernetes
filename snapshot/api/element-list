@@ -29,7 +29,6 @@ io.micronaut.kubernetes.client.openapi.reactor.api
 io.micronaut.kubernetes.client.openapi.resolver
 io.micronaut.kubernetes.client.openapi.response
 io.micronaut.kubernetes.client.openapi.ssl
-io.micronaut.kubernetes.client.openapi.type
 io.micronaut.kubernetes.client.openapi.util
 io.micronaut.kubernetes.client.openapi.watcher
 io.micronaut.kubernetes.client.openapi.watcher.annotation
