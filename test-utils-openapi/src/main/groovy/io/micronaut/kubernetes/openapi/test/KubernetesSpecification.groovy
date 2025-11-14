@@ -117,7 +117,9 @@ class KubernetesSpecification extends Specification {
         VersionInfo versionInfo = getVersionInfo(versionApi)
         LOG.info("Using Kubernetes version: {}.{}", versionInfo.major, versionInfo.minor)
         createNamespaceSafe()
-        createBaseResources()
+        createRole("service-discoverer")
+        createRoleBinding("default-service-discoverer", "service-discoverer")
+        createResources()
     }
 
     def createNamespaceSafe() {
@@ -126,20 +128,6 @@ class KubernetesSpecification extends Specification {
         }
         LOG.debug("Creating namespace: {}", namespace)
         createNamespace(coreV1Api, getNamespaceModel(namespace))
-    }
-
-
-    def createBaseResources() {
-        createRole("service-discoverer")
-        createRoleBinding("default-service-discoverer", "service-discoverer")
-        createTestConfigMap()
-        createMountedConfigMap()
-        createTestSecret()
-        createMountedSecret()
-        createDeployment("example-client", "micronaut-kubernetes-example-client-openapi", 8082, false)
-        createService("example-client", 8082)
-        createDeployment("example-service", "micronaut-kubernetes-example-service-openapi", 8081, true)
-        createService("example-service", 8081)
     }
 
     def createRole(String name,
@@ -160,6 +148,9 @@ class KubernetesSpecification extends Specification {
         V1RoleBinding roleBinding = getRoleBindingModel(name, roleRef, [subject])
         LOG.debug("Creating RoleBinding: {}", roleBinding)
         return createRoleBinding(rbacAuthV1Api, namespace, roleBinding)
+    }
+
+    def createResources() {
     }
 
     def createTestConfigMap() {

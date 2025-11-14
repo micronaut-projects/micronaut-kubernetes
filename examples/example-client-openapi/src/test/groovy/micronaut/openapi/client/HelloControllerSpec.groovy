@@ -45,6 +45,18 @@ class HelloControllerSpec extends KubernetesSpecification {
         kubectlPortForward = portForwardService(coreV1Api, "example-client", namespace, 8082, 8888)
     }
 
+    @Override
+    def createResources() {
+        createTestConfigMap()
+        createMountedConfigMap()
+        createTestSecret()
+        createMountedSecret()
+        createDeployment("example-client", "micronaut-kubernetes-example-client-openapi", 8082, false)
+        createService("example-client", 8082)
+        createDeployment("example-service", "micronaut-kubernetes-example-service-openapi", 8081, true)
+        createService("example-service", 8081)
+    }
+
     void "test index"() {
         expect:
         testClient.index().startsWith("Hello, example-client")
