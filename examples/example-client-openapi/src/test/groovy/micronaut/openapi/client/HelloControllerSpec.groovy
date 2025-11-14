@@ -17,10 +17,14 @@ import spock.lang.Shared
 import spock.util.concurrent.PollingConditions
 
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getSecretModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.portForwardService
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
 
 @MicronautTest(environments = [Environment.KUBERNETES])
 @Requires({ TestUtils.kubernetesApiAvailable() })
@@ -56,7 +60,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         testClient.enemies() == "noGoodRotten"
     }
 
-    void "test config"() {
+    void "test config added and updated"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         String configMapName = "hello-controller-spec"
@@ -89,6 +93,42 @@ class HelloControllerSpec extends KubernetesSpecification {
         then:
         conditions.eventually {
             !testClient.env().contains(configMapName)
+        }
+    }
+
+    void "test secret added and updated"() {
+        given:
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
+        String secretName = "hello-controller-spec-secret"
+
+        expect:
+        testClient.config("secretFoo") == "NOTHING"
+        !testClient.env().contains(secretName)
+
+        when:
+        createSecret(coreV1Api, namespace, getSecretModel(secretName, ["secretFoo": "secretBar".bytes]))
+
+        then:
+        conditions.eventually {
+            testClient.config("secretFoo") == "secretBar"
+            testClient.env().contains(secretName)
+        }
+
+        when:
+        replaceSecret(coreV1Api, namespace, getSecretModel(secretName, ["secretFoo": "secretBaz".bytes]))
+
+        then:
+        conditions.eventually {
+            testClient.config("secretFoo") == "secretBaz"
+            testClient.env().contains(secretName)
+        }
+
+        when:
+        deleteSecret(coreV1Api, namespace, secretName)
+
+        then:
+        conditions.eventually {
+            !testClient.env().contains(secretName)
         }
     }
 

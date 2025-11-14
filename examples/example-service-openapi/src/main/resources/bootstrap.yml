@@ -7,12 +7,14 @@ kubernetes:
   client:
     secrets:
       enabled: true
+      watch: true
       use-api: true
       excludes: mounted-secret
       paths:
         - /etc/example-service/secrets
     config-maps:
       enabled: true
+      watch: true
       use-api: true
       excludes: mounted-configmap
       paths:
