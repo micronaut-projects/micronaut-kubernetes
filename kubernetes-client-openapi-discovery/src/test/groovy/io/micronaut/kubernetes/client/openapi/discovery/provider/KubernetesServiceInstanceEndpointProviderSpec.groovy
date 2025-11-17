@@ -2,18 +2,24 @@ package io.micronaut.kubernetes.client.openapi.discovery.provider
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.openapi.K3sContainerSpec
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
-import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
-import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import spock.lang.Unroll
+
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getEndpointAddressModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getEndpointPortModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getEndpointSubsetModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getEndpointsModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createEndpoints
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
 
 class KubernetesServiceInstanceEndpointProviderSpec extends K3sContainerSpec {
 
@@ -28,49 +34,50 @@ class KubernetesServiceInstanceEndpointProviderSpec extends K3sContainerSpec {
     }
 
     @Override
-    def setupKubernetes(CoreV1ApiReactor api) {
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_1))
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME_2))
+    def setupKubernetes(ApplicationContext context) {
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_1))
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME_2))
 
         // invalid endpoint - no subsets
-        V1Endpoints endpoints1 = ModelUtils.getEndpoints("endpoints-example-1", [])
-        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints1)
+        V1Endpoints endpoints1 = getEndpointsModel("endpoints-example-1", [])
+        createEndpoints(api, NAMESPACE_NAME_1, endpoints1)
 
         // invalid endpoint - no ports
-        V1EndpointSubset endpointSubset2 = ModelUtils.getEndpointSubset([ModelUtils.getEndpointAddress("10.244.0.5")], [])
-        V1Endpoints endpoints2 = ModelUtils.getEndpoints("endpoints-example-2", [endpointSubset2])
-        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints2)
+        V1EndpointSubset endpointSubset2 = getEndpointSubsetModel([getEndpointAddressModel("10.244.0.5")], [])
+        V1Endpoints endpoints2 = getEndpointsModel("endpoints-example-2", [endpointSubset2])
+        createEndpoints(api, NAMESPACE_NAME_1, endpoints2)
 
         // single endpoint with one address and two ports
-        V1EndpointSubset endpointSubset3 = ModelUtils.getEndpointSubset(
-                [ModelUtils.getEndpointAddress("0.0.0.1")],
-                [ModelUtils.getEndpointPort(8081, "http"), ModelUtils.getEndpointPort(8082, "https")])
-        V1Endpoints endpoints3 = ModelUtils.getEndpoints("endpoints-example-3", [endpointSubset3])
-        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints3)
+        V1EndpointSubset endpointSubset3 = getEndpointSubsetModel(
+                [getEndpointAddressModel("0.0.0.1")],
+                [getEndpointPortModel(8081, "http"), getEndpointPortModel(8082, "https")])
+        V1Endpoints endpoints3 = getEndpointsModel("endpoints-example-3", [endpointSubset3])
+        createEndpoints(api, NAMESPACE_NAME_1, endpoints3)
 
         // single endpoint subset with two addresses and one port
-        V1EndpointSubset endpointSubset4 = ModelUtils.getEndpointSubset(
-                [ModelUtils.getEndpointAddress("1.0.0.1"), ModelUtils.getEndpointAddress("1.0.0.2")],
-                [ModelUtils.getEndpointPort(8443)])
-        V1Endpoints endpoints4 = ModelUtils.getEndpoints("endpoints-example-4", [endpointSubset4], ["foo": "bar"])
-        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints4)
+        V1EndpointSubset endpointSubset4 = getEndpointSubsetModel(
+                [getEndpointAddressModel("1.0.0.1"), getEndpointAddressModel("1.0.0.2")],
+                [getEndpointPortModel(8443)])
+        V1Endpoints endpoints4 = getEndpointsModel("endpoints-example-4", [endpointSubset4], ["foo": "bar"])
+        createEndpoints(api, NAMESPACE_NAME_1, endpoints4)
 
         // multiple endpoint subsets
-        V1EndpointSubset endpointSubset51 = ModelUtils.getEndpointSubset(
-                [ModelUtils.getEndpointAddress("2.0.0.1"), ModelUtils.getEndpointAddress("2.0.0.2")],
-                [ModelUtils.getEndpointPort(8081)])
-        V1EndpointSubset endpointSubset52 = ModelUtils.getEndpointSubset(
-                [ModelUtils.getEndpointAddress("3.0.0.1")],
-                [ModelUtils.getEndpointPort(8082)])
-        V1Endpoints endpoints5 = ModelUtils.getEndpoints("endpoints-example-5", [endpointSubset51, endpointSubset52])
-        OperationUtils.createEndpoints(api, NAMESPACE_NAME_1, endpoints5)
+        V1EndpointSubset endpointSubset51 = getEndpointSubsetModel(
+                [getEndpointAddressModel("2.0.0.1"), getEndpointAddressModel("2.0.0.2")],
+                [getEndpointPortModel(8081)])
+        V1EndpointSubset endpointSubset52 = getEndpointSubsetModel(
+                [getEndpointAddressModel("3.0.0.1")],
+                [getEndpointPortModel(8082)])
+        V1Endpoints endpoints5 = getEndpointsModel("endpoints-example-5", [endpointSubset51, endpointSubset52])
+        createEndpoints(api, NAMESPACE_NAME_1, endpoints5)
 
         // endpoint in another namespace
-        V1EndpointSubset endpointSubset6 = ModelUtils.getEndpointSubset(
-                [ModelUtils.getEndpointAddress("100.0.0.1")],
-                [ModelUtils.getEndpointPort(8080, "http")])
-        V1Endpoints endpoints6 = ModelUtils.getEndpoints("endpoints-example-6", [endpointSubset6])
-        OperationUtils.createEndpoints(api, NAMESPACE_NAME_2, endpoints6)
+        V1EndpointSubset endpointSubset6 = getEndpointSubsetModel(
+                [getEndpointAddressModel("100.0.0.1")],
+                [getEndpointPortModel(8080, "http")])
+        V1Endpoints endpoints6 = getEndpointsModel("endpoints-example-6", [endpointSubset6])
+        createEndpoints(api, NAMESPACE_NAME_2, endpoints6)
     }
 
     @Unroll

@@ -5,6 +5,7 @@ import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +15,20 @@ public class ConfigMapInformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConfigMapInformer.class);
 
-    static final String NAMESPACE = "test-informer-namespace";
-
     private final SharedIndexInformerFactory sharedIndexInformerFactory;
 
-    ConfigMapInformer(SharedIndexInformerFactory sharedIndexInformerFactory) {
+    private final NamespaceResolver namespaceResolver;
+
+    ConfigMapInformer(SharedIndexInformerFactory sharedIndexInformerFactory, NamespaceResolver namespaceResolver) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
+        this.namespaceResolver = namespaceResolver;
     }
 
     @PostConstruct
     void initialize() {
+        String namespace = namespaceResolver.resolveNamespace();
         SharedIndexInformer<V1ConfigMap> sharedIndexInformer = sharedIndexInformerFactory.sharedIndexInformerFor(
-            V1ConfigMap.class, NAMESPACE);
+            V1ConfigMap.class, namespace);
         sharedIndexInformer.addEventHandler(
             new ResourceEventHandler<>() {
                 @Override

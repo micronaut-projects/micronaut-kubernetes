@@ -7,7 +7,7 @@ dependencies {
     api(libs.micronaut.discovery.client)
     compileOnly(mn.micronaut.management)
 
-    testImplementation(libs.testcontainers.k3s)
+    testImplementation(projects.testUtilsOpenapi)
 }
 
 project.tasks.withType(Test).configureEach {

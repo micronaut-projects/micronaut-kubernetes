@@ -15,6 +15,7 @@ io-kubernetes-client-java = '24.0.0'
 netty-incubator-codec-http3 = '0.0.30.Final'
 testcontainers-k3s = '1.21.3'
 bucket4j = '8.10.1'
+awaitility = '4.3.0'
 
 micronaut-discovery = "4.6.0"
 micronaut-logging = "1.7.1"
@@ -41,6 +42,7 @@ io-kubernetes-client-java-extended = { module = "io.kubernetes:client-java-exten
 netty-incubator-codec-http3 = { module = "io.netty.incubator:netty-incubator-codec-http3", version.ref = "netty-incubator-codec-http3" }
 testcontainers-k3s = { module = "org.testcontainers:k3s", version.ref = "testcontainers-k3s" }
 bucket4j = { module = "com.bucket4j:bucket4j-core", version.ref = "bucket4j" }
+awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
 
 micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
 micronaut-serde = { module = 'io.micronaut.serde:micronaut-serde-bom', version.ref = 'micronaut-serde'}

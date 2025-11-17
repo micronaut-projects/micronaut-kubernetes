@@ -2,7 +2,7 @@ micronaut:
   server:
     port: 8082
   application:
-    name: micronaut-kubernetes-client-openapi-operator
+    name: micronaut-kubernetes-example-operator-openapi
 
 kubernetes:
   client:

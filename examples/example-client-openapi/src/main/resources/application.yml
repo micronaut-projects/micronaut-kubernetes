@@ -1,0 +1,11 @@
+micronaut:
+  server:
+    port: 8082
+  application:
+    name: micronaut-kubernetes-example-client-openapi
+endpoints:
+  env:
+    sensitive: false
+    enabled: true
+  health:
+    details-visible: ANONYMOUS

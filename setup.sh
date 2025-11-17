@@ -11,6 +11,10 @@ IMAGE_MAP["examples:example-client"]="micronaut-kubernetes-example-client"
 IMAGE_MAP["examples:example-kubernetes-client"]="micronaut-kubernetes-client-example"
 IMAGE_MAP["examples:example-kubernetes-informer"]="micronaut-kubernetes-informer-example"
 IMAGE_MAP["examples:example-kubernetes-operator"]="micronaut-kubernetes-operator-example"
+IMAGE_MAP["examples:example-service-openapi"]="micronaut-kubernetes-example-service-openapi"
+IMAGE_MAP["examples:example-client-openapi"]="micronaut-kubernetes-example-client-openapi"
+IMAGE_MAP["examples:example-kubernetes-client-openapi-informer-java"]="micronaut-kubernetes-example-informer-openapi"
+IMAGE_MAP["examples:example-kubernetes-client-openapi-operator-java"]="micronaut-kubernetes-example-operator-openapi"
 
 MODULE_ARRAY=()
 IMAGE_ARRAY=()
@@ -24,14 +28,17 @@ elif [ "$MODULE_NAME" == "examples:example-client" ]; then
   EXAMPLE_SERVICE_RUNTIME="native"
   MODULE_ARRAY+=("examples:example-service" "examples:example-client")
   IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-service"]}" "${IMAGE_MAP["examples:example-client"]}")
-elif [ "$MODULE_NAME" == "examples:example-kubernetes-informer" ]; then
+elif [ "$MODULE_NAME" == "examples:example-client-openapi" ]; then
   EXAMPLE_SERVICE_RUNTIME="native"
-  MODULE_ARRAY+=("examples:example-kubernetes-informer")
-  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-kubernetes-informer"]}")
-elif [ "$MODULE_NAME" == "examples:example-kubernetes-operator" ]; then
+  MODULE_ARRAY+=("examples:example-service-openapi" "examples:example-client-openapi")
+  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-service-openapi"]}" "${IMAGE_MAP["examples:example-client-openapi"]}")
+elif [[ "$MODULE_NAME" == "examples:example-kubernetes-informer" ||
+        "$MODULE_NAME" == "examples:example-kubernetes-operator" ||
+        "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-informer-java" ||
+        "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-operator-java" ]]; then
   EXAMPLE_SERVICE_RUNTIME="native"
-  MODULE_ARRAY+=("examples:example-kubernetes-operator")
-  IMAGE_ARRAY+=("${IMAGE_MAP["examples:example-kubernetes-operator"]}")
+  MODULE_ARRAY+=("$MODULE_NAME")
+  IMAGE_ARRAY+=("${IMAGE_MAP[$MODULE_NAME]}")
 fi
 
 if [ "${#MODULE_ARRAY[@]}" -eq 0 ]; then

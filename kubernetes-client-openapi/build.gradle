@@ -40,7 +40,7 @@ dependencies {
     implementation(mnValidation.micronaut.validation)
     api(projects.micronautKubernetesClientOpenapiCommon)
     compileOnly(platform(mnOpenapi.micronaut.openapi.bom))
-    testImplementation(libs.testcontainers.k3s)
+    testImplementation(projects.testUtilsOpenapi)
     testImplementation(mn.micronaut.http.server.netty)
     testImplementation(mn.micronaut.http.client)
     testImplementation(mnReactor.micronaut.reactor)

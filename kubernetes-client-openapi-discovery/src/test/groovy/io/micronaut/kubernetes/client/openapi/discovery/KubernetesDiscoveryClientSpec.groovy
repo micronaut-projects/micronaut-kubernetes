@@ -2,16 +2,20 @@ package io.micronaut.kubernetes.client.openapi.discovery
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.client.openapi.K3sContainerSpec
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.model.V1Service
 import io.micronaut.kubernetes.client.openapi.model.V1ServiceSpec
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
-import io.micronaut.kubernetes.client.openapi.utils.ModelUtils
-import io.micronaut.kubernetes.client.openapi.utils.OperationUtils
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 import spock.lang.Unroll
+
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getNamespaceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getServiceSpecTypeModel
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createService
 
 class KubernetesDiscoveryClientSpec extends K3sContainerSpec {
 
@@ -25,11 +29,12 @@ class KubernetesDiscoveryClientSpec extends K3sContainerSpec {
     }
 
     @Override
-    def setupKubernetes(CoreV1ApiReactor api) {
-        OperationUtils.createNamespace(api, ModelUtils.getNamespace(NAMESPACE_NAME))
-        V1ServiceSpec spec = ModelUtils.getServiceSpec("test-external.com")
-        V1Service service = ModelUtils.getService("test-service", spec)
-        OperationUtils.createService(api, NAMESPACE_NAME, service)
+    def setupKubernetes(ApplicationContext context) {
+        CoreV1Api api = context.getBean(CoreV1Api.class)
+        createNamespace(api, getNamespaceModel(NAMESPACE_NAME))
+        V1ServiceSpec spec = getServiceSpecTypeModel("ExternalName", [], [:], "test-external.com")
+        V1Service service = getServiceModel("test-service", spec)
+        createService(api, NAMESPACE_NAME, service)
     }
 
     @Unroll

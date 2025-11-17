@@ -6,12 +6,10 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Informer(apiType = V1Secret.class, namespace = SecretResourceEventHandler.NAMESPACE) // <1>
+@Informer(apiType = V1Secret.class) // <1>
 class SecretResourceEventHandler implements ResourceEventHandler<V1Secret> { // <2>
 
     private static final Logger LOG = LoggerFactory.getLogger(SecretResourceEventHandler.class);
-
-    static final String NAMESPACE = "test-informer-namespace";
 
     @Override
     public void onAdd(V1Secret obj) {

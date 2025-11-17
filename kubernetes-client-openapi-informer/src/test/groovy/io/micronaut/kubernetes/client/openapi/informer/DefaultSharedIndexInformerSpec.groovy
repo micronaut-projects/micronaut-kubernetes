@@ -1,6 +1,5 @@
 package io.micronaut.kubernetes.client.openapi.informer
 
-
 import io.micronaut.core.type.Argument
 import io.micronaut.inject.ExecutableMethod
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject
@@ -10,8 +9,6 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil
 import spock.lang.Specification
 
-import java.util.concurrent.ThreadFactory
-
 class DefaultSharedIndexInformerSpec extends Specification {
 
     ExecutableMethod executableMethod
@@ -19,7 +16,6 @@ class DefaultSharedIndexInformerSpec extends Specification {
 
     def setup() {
         executableMethod = Stub(ExecutableMethod)
-        //threadFactory = Stub(ThreadFactory)
         threadFactoryUtil = Stub(ThreadFactoryUtil)
     }
 

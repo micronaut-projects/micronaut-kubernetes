@@ -11,7 +11,6 @@ import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory
 import io.micronaut.kubernetes.client.openapi.informer.handler.Informer
 import io.micronaut.kubernetes.client.openapi.model.V1Secret
-import io.micronaut.kubernetes.client.openapi.operator.K3sContainerSpec
 import io.micronaut.kubernetes.client.openapi.operator.Operator
 import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister
 import io.micronaut.kubernetes.client.openapi.operator.controller.Controller
@@ -22,6 +21,7 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Res
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaderChangedEvent
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQueue
 import io.micronaut.kubernetes.client.openapi.resolver.PodNameResolver
+import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import io.micronaut.runtime.event.annotation.EventListener
 import jakarta.inject.Singleton
 import org.slf4j.Logger

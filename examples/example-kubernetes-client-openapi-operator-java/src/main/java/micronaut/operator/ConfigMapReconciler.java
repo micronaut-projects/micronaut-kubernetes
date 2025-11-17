@@ -1,10 +1,6 @@
 //tag::reconciler[]
 package micronaut.operator;
 
-//end::reconciler[]
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
-//tag::reconciler[]
 import io.micronaut.core.annotation.NonNull;
 //end::reconciler[]
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
@@ -28,15 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 //tag::reconciler[]
 import java.util.Optional;
-//end::reconciler[]
 
-@Requires(env = Environment.KUBERNETES)
-//tag::reconciler[]
-
-@Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = ConfigMapReconciler.NAMESPACE)) // <1>
+@Operator(informer = @Informer(apiType = V1ConfigMap.class)) // <1>
 class ConfigMapReconciler implements ResourceReconciler<V1ConfigMap> { // <2>
-
-    static final String NAMESPACE = "test-operator-namespace";
 
     //end::reconciler[]
 
