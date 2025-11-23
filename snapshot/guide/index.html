@@ -7320,12 +7320,10 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Informer(apiType = V1Secret.class, namespace = SecretResourceEventHandler.NAMESPACE) // <b class="conum">(1)</b>
+@Informer(apiType = V1Secret.class) // <b class="conum">(1)</b>
 class SecretResourceEventHandler implements ResourceEventHandler&lt;V1Secret&gt; { // <b class="conum">(2)</b>
 
     private static final Logger LOG = LoggerFactory.getLogger(SecretResourceEventHandler.class);
-
-    static final String NAMESPACE = "test-informer-namespace";
 
     @Override
     public void onAdd(V1Secret obj) {
@@ -7444,6 +7442,7 @@ import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7453,18 +7452,20 @@ public class ConfigMapInformer {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConfigMapInformer.class);
 
-    static final String NAMESPACE = "test-informer-namespace";
-
     private final SharedIndexInformerFactory sharedIndexInformerFactory;
 
-    ConfigMapInformer(SharedIndexInformerFactory sharedIndexInformerFactory) {
+    private final NamespaceResolver namespaceResolver;
+
+    ConfigMapInformer(SharedIndexInformerFactory sharedIndexInformerFactory, NamespaceResolver namespaceResolver) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
+        this.namespaceResolver = namespaceResolver;
     }
 
     @PostConstruct
     void initialize() {
+        String namespace = namespaceResolver.resolveNamespace();
         SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = sharedIndexInformerFactory.sharedIndexInformerFor(
-            V1ConfigMap.class, NAMESPACE);
+            V1ConfigMap.class, namespace);
         sharedIndexInformer.addEventHandler(
             new ResourceEventHandler&lt;&gt;() {
                 @Override
@@ -7493,7 +7494,7 @@ public class ConfigMapInformer {
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">        SharedIndexInformer&lt;V1ConfigMap&gt; informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
             V1ConfigMap.class,
-            ConfigMapInformer.NAMESPACE);</code></pre>
+            namespace);</code></pre>
 </div>
 </div>
 </div>
@@ -7511,9 +7512,10 @@ The local cache starts out empty, and gets populated and updated.</p>
 <div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    List&lt;V1ConfigMap&gt; all() {
+        String namespace = namespaceResolver.resolveNamespace();
         SharedIndexInformer&lt;V1ConfigMap&gt; informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
             V1ConfigMap.class,
-            ConfigMapInformer.NAMESPACE);
+            namespace);
         Indexer&lt;V1ConfigMap&gt; indexer = informer.getIndexer();
         return indexer.list();
     }</code></pre>
@@ -7578,10 +7580,8 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Res
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
 import java.util.Optional;
 
-@Operator(informer = @Informer(apiType = V1ConfigMap.class, namespace = ConfigMapReconciler.NAMESPACE)) // <b class="conum">(1)</b>
+@Operator(informer = @Informer(apiType = V1ConfigMap.class)) // <b class="conum">(1)</b>
 class ConfigMapReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
-
-    static final String NAMESPACE = "test-operator-namespace";
 
     @Override
     @NonNull
@@ -7750,6 +7750,7 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFact
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7761,11 +7762,10 @@ class SecretOperator {
 
     private static final Logger LOG = LoggerFactory.getLogger(SecretOperator.class);
 
-    static final String NAMESPACE = "test-operator-namespace";
-
-    SecretOperator(SharedIndexInformerFactory sharedIndexInformerFactory, ControllerFactory controllerFactory) {
-        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret.class, NAMESPACE);
-        controllerFactory.createController(V1Secret.class, Collections.singleton(NAMESPACE), new SecretReconciler());
+    SecretOperator(SharedIndexInformerFactory sharedIndexInformerFactory, ControllerFactory controllerFactory, NamespaceResolver namespaceResolver) {
+        String namespace = namespaceResolver.resolveNamespace();
+        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret.class, namespace);
+        controllerFactory.createController(V1Secret.class, Collections.singleton(namespace), new SecretReconciler());
     }
 
     private class SecretReconciler implements ResourceReconciler&lt;V1Secret&gt; {
