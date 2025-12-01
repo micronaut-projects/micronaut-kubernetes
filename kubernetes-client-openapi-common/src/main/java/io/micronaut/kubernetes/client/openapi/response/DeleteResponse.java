@@ -17,7 +17,7 @@ package io.micronaut.kubernetes.client.openapi.response;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.serde.annotation.Serdeable;
 

@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.client.operator;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.extended.controller.reconciler.Result;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * The ResourceReconciler defines an interface for reconciling the resource. In general a reconciler works by comparing

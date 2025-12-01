@@ -1,7 +1,7 @@
 //tag::reconciler[]
 package micronaut.operator;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 //end::reconciler[]
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
 //tag::reconciler[]

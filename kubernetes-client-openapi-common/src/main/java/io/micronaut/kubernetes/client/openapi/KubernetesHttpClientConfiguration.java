@@ -17,7 +17,7 @@ package io.micronaut.kubernetes.client.openapi;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.http.client.DefaultHttpClientConfiguration;
 import io.micronaut.http.client.HttpClientConfiguration;
 import io.micronaut.http.ssl.ClientSslConfiguration;

@@ -21,7 +21,7 @@ import io.kubernetes.client.extended.controller.LeaderElectingController;
 import io.kubernetes.client.extended.leaderelection.LeaderElectionConfig;
 import io.kubernetes.client.extended.leaderelection.LeaderElector;
 import io.micronaut.context.event.ApplicationEventPublisher;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import io.micronaut.kubernetes.client.operator.event.LeaseAcquiredEvent;

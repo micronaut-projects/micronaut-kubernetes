@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller.reconciler;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.operator.Operator;
 import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;

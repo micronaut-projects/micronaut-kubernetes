@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.config.model;
 
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Context is a tuple of references to a cluster, a user and a namespace.

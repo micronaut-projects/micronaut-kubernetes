@@ -17,7 +17,7 @@ package io.micronaut.kubernetes.client.openapi.operator.configuration;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.util.Toggleable;
 

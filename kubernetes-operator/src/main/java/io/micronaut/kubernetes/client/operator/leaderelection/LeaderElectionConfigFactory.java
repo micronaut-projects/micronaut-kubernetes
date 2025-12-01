@@ -20,8 +20,8 @@ import io.kubernetes.client.extended.leaderelection.Lock;
 import io.kubernetes.client.openapi.models.V1OwnerReference;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration;
 import jakarta.inject.Singleton;
 

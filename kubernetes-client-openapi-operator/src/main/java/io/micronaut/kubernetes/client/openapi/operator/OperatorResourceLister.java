@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;

@@ -25,7 +25,7 @@ import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.operator.OperatorResourceLister;

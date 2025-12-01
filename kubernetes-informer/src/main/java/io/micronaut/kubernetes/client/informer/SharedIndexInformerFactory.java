@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.client.informer;
 import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.SharedIndexInformer;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 

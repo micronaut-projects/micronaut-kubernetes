@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.operator.configuration;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
 import java.util.Optional;

@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.client.operator;
 import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Set;
 import java.util.function.BiPredicate;

@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential;
 
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The loader for bearer token used in kubernetes api service authentication.

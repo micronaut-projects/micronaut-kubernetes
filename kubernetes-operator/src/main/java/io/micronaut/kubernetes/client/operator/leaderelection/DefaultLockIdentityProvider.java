@@ -16,7 +16,7 @@
 package io.micronaut.kubernetes.client.operator.leaderelection;
 
 import io.micronaut.context.exceptions.ConfigurationException;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.PodNameResolver;
 import jakarta.inject.Singleton;
 

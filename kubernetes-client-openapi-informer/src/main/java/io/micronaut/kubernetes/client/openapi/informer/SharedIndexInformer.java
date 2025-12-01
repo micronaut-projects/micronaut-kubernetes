@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 

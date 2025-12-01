@@ -22,7 +22,7 @@ import io.kubernetes.client.informer.SharedInformerFactory;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.kubernetes.client.operator.controller.ControllerBuilder;
 import io.micronaut.kubernetes.client.operator.controller.ControllerManagerBuilder;

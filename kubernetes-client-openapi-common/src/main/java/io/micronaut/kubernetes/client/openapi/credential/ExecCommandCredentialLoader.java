@@ -17,7 +17,7 @@ package io.micronaut.kubernetes.client.openapi.credential;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.json.JsonMapper;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
