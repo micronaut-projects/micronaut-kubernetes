@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential.model;
 
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.ZonedDateTime;

@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection.event;
 
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
 
 /**

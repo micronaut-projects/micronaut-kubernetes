@@ -19,7 +19,7 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.util.Strings;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory;
 import org.apache.commons.collections4.map.HashedMap;
 

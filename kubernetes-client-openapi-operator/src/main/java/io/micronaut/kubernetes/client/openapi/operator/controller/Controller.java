@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * The interface for operating a controller.

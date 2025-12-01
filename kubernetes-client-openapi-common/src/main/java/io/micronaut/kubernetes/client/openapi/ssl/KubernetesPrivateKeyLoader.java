@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.ssl;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;

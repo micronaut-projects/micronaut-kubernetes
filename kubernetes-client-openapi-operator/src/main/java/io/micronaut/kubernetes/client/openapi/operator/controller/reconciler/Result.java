@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller.reconciler;
 
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 

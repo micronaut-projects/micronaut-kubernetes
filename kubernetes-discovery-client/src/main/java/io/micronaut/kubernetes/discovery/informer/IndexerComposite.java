@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.discovery.informer;
 import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.cache.Indexer;
 import io.micronaut.core.annotation.Internal;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

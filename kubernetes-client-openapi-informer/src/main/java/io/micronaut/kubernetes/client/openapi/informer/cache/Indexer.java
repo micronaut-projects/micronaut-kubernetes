@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.cache;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.Map;

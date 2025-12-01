@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Defines a queue that rate limits items being added to the queue.

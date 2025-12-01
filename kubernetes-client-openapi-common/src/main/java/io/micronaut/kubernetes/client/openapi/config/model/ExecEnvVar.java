@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.config.model;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Environment variable used when executing an exec-based credential plugin.

@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.config;
 
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The loader for kube config file.

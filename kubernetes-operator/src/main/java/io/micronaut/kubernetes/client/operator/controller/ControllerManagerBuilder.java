@@ -18,7 +18,7 @@ package io.micronaut.kubernetes.client.operator.controller;
 import io.kubernetes.client.extended.controller.Controller;
 import io.kubernetes.client.extended.controller.ControllerManager;
 import io.micronaut.context.annotation.DefaultImplementation;
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 
 import java.util.Collection;

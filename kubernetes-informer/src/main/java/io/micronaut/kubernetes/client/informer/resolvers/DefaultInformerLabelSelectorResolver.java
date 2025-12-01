@@ -17,8 +17,8 @@ package io.micronaut.kubernetes.client.informer.resolvers;
 
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationValue;
-import io.micronaut.core.annotation.NonNull;
-import io.micronaut.core.annotation.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.informer.EmptyLabelSupplier;
 import io.micronaut.kubernetes.client.informer.Informer;

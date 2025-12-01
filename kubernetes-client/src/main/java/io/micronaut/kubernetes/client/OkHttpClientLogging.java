@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client;
 
-import io.micronaut.core.annotation.NonNull;
+import org.jspecify.annotations.NonNull;
 import okhttp3.Connection;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
