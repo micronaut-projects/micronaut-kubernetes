@@ -23,7 +23,6 @@ import io.kubernetes.client.openapi.models.V1Secret;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
-import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
@@ -39,10 +38,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.ServiceLoader;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
@@ -57,15 +54,15 @@ public class KubernetesUtils {
 
     public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceLoader.class).spliterator(), false).collect(Collectors.toList());
 
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
      *
-     * @param configMap the ConfigMap
+     * @param configMap             the ConfigMap
+     * @param propertySourceLoaders the collection of property source loaders
      * @return A PropertySource
      */
-    public static PropertySource configMapAsPropertySource(V1ConfigMap configMap) {
+    public static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
         }
@@ -90,9 +87,9 @@ public class KubernetesUtils {
             }
             String extension = getExtension(entry.getKey()).get();
             int priority = EnvironmentPropertySource.POSITION + 100;
-            PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
-                    .filter(reader -> reader.getExtensions().contains(extension))
-                    .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
+            PropertySource propertySource = propertySourceLoaders.stream()
+                    .filter(loader -> loader.getExtensions().contains(extension))
+                    .map(loader -> loader.read(entry.getKey(), entry.getValue().getBytes()))
                     .peek(map -> map.putIfAbsent(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
                     .map(map -> PropertySource.of(entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map, priority))
                     .findFirst()
@@ -107,11 +104,12 @@ public class KubernetesUtils {
     /**
      * Converts config map mounted as volume into property sources.
      *
-     * @param mountPoint the mount point
-     * @param data       the configmaps data in the mounted volume where keys are file names and values is the file content
+     * @param mountPoint            the mount point
+     * @param data                  the configmaps data in the mounted volume where keys are file names and values is the file content
+     * @param propertySourceLoaders the collection of property source loaders
      * @return list of property sources
      */
-    public static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data) {
+    public static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data, Collection<PropertySourceLoader> propertySourceLoaders) {
 
         if (LOG.isTraceEnabled()) {
             LOG.trace("Creating {} PropertySources for ConfigMap mounted at: {}", data.size(), mountPoint);
@@ -135,9 +133,9 @@ public class KubernetesUtils {
             String propertyName = mountPoint + "/" + entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 
             int priority = EnvironmentPropertySource.POSITION + 150;
-            PropertySource propertySource = PROPERTY_SOURCE_READERS.stream()
-                    .filter(reader -> reader.getExtensions().contains(fileExtension))
-                    .map(reader -> reader.read(entry.getKey(), entry.getValue().getBytes()))
+            PropertySource propertySource = propertySourceLoaders.stream()
+                    .filter(loader -> loader.getExtensions().contains(fileExtension))
+                    .map(loader -> loader.read(entry.getKey(), entry.getValue().getBytes()))
                     .map(map -> PropertySource.of(propertyName, map, priority))
                     .findFirst()
                     .orElse(PropertySource.of(Collections.emptyMap()));

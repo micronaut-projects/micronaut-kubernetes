@@ -55,6 +55,15 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         this.eventPublisher = eventPublisher;
     }
 
+    /**
+     * Gets environment.
+     *
+     * @return environment
+     */
+    Environment getEnvironment() {
+        return environment;
+    }
+
     @Override
     public void onAdd(T config) {
         if (!serviceStarted.get()) {

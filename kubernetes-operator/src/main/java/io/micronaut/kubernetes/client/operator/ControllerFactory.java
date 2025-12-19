@@ -73,7 +73,6 @@ public class ControllerFactory {
      * @param reconciler              the resource reconciler
      * @param controllerConfiguration the controller configuration
      */
-    @NonNull
     public void createControllers(@NonNull ResourceReconciler<?> reconciler, @NonNull ControllerConfiguration controllerConfiguration) {
 
         final String controllerName = controllerConfiguration.getName();

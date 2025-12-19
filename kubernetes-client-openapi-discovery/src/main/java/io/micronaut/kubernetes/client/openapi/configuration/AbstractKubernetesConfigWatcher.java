@@ -60,6 +60,15 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         this.eventPublisher = eventPublisher;
     }
 
+    /**
+     * Gets environment.
+     *
+     * @return environment
+     */
+    Environment getEnvironment() {
+        return environment;
+    }
+
     @EventListener
     void onApplicationEvent(ServerStartupEvent event) {
         serviceStarted.set(true);

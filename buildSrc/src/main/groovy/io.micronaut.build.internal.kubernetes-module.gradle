@@ -9,3 +9,9 @@ configurations {
         outgoing.artifact(tasks.named("jar"))
     }
 }
+
+micronautBuild {
+    descriptor {
+        parentModuleId = "io.micronaut.kubernetes:micronaut-kubernetes-client"
+    }
+}

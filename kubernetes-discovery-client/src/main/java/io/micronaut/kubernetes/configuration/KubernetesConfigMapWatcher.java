@@ -63,7 +63,7 @@ public final class KubernetesConfigMapWatcher extends AbstractKubernetesConfigWa
 
     @Override
     PropertySource readAsPropertySource(V1ConfigMap configMap) {
-        return KubernetesUtils.configMapAsPropertySource(configMap);
+        return KubernetesUtils.configMapAsPropertySource(configMap, getEnvironment().getPropertySourceLoaders());
     }
 
     @Override

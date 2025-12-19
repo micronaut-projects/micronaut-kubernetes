@@ -26,6 +26,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.env.PropertySourceLoader;
 import org.jspecify.annotations.NonNull;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
@@ -81,17 +82,20 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration configuration;
+    private final Environment environment;
 
     /**
      * @param client        An Core HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
+     * @param environment   The environment
      */
-    public KubernetesConfigurationClient(CoreV1ApiReactorClient client, KubernetesConfiguration configuration) {
+    public KubernetesConfigurationClient(CoreV1ApiReactorClient client, KubernetesConfiguration configuration, Environment environment) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
         this.client = client;
         this.configuration = configuration;
+        this.environment = environment;
     }
 
     /**
@@ -200,7 +204,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                                 LOG.debug("Adding config map with name {}", configMap.getMetadata().getName());
                                             }
                                         })
-                                        .map(KubernetesUtils::configMapAsPropertySource)
+                                        .map(configMap -> KubernetesUtils.configMapAsPropertySource(configMap, environment.getPropertySourceLoaders()))
                         ));
                 propertySourceFlux = propertySourceFlux.mergeWith(configMapListFlux);
             }
@@ -253,7 +257,8 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                             }
 
                             if (!configMapFiles.isEmpty()) {
-                                List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), configMapFiles);
+                                Collection<PropertySourceLoader> propertySourceLoaders = environment.getPropertySourceLoaders();
+                                List<PropertySource> mountedMapPropertySources = KubernetesUtils.configMapAsPropertySource(path.toString(), configMapFiles, propertySourceLoaders);
                                 mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
                                 propertySources.addAll(mountedMapPropertySources);
                             }
