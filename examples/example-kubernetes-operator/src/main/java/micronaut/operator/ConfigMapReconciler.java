@@ -23,11 +23,11 @@ import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.operator.Operator;
 import io.micronaut.kubernetes.client.operator.OperatorResourceLister;
 import io.micronaut.kubernetes.client.operator.ResourceReconciler;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

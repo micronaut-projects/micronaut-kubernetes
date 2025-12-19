@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential.model;
 
-import org.jspecify.annotations.Nullable;
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * ExecCredential is used by exec-based plugins to communicate credentials to HTTP transports.

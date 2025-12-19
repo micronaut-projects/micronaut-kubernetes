@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection;
 
-import org.jspecify.annotations.Nullable;
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Date;
 

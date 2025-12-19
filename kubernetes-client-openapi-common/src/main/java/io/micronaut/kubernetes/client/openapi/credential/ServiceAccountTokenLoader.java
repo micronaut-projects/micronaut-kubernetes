@@ -20,7 +20,6 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
@@ -28,6 +27,7 @@ import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfigurati
 import io.micronaut.scheduling.TaskExecutors;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

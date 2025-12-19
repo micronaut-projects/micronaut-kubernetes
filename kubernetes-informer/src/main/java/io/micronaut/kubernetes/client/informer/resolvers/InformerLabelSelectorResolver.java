@@ -17,9 +17,9 @@ package io.micronaut.kubernetes.client.informer.resolvers;
 
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
+import io.micronaut.kubernetes.client.informer.Informer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import io.micronaut.kubernetes.client.informer.Informer;
 
 /**
  * Informer label selector resolver.

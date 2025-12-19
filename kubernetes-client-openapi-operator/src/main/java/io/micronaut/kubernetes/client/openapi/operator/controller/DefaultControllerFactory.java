@@ -16,8 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.operator.controller;
 
 import io.micrometer.core.instrument.MeterRegistry;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
@@ -32,6 +30,8 @@ import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQue
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer.handler;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Interface for event handlers.

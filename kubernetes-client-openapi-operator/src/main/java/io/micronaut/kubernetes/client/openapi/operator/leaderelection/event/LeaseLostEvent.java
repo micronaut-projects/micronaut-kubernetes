@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection.event;
 
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Event fired when this service instance has lost the leader lease.

@@ -19,10 +19,10 @@ import io.kubernetes.client.extended.controller.Controller;
 import io.kubernetes.client.extended.controller.ControllerManager;
 import io.kubernetes.client.informer.SharedInformerFactory;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import jakarta.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;
 

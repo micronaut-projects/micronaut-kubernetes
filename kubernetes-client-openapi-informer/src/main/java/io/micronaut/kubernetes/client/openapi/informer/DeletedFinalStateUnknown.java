@@ -16,10 +16,10 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * DeletedFinalStateUnknown is placed into a DeltaFIFO in the case where an object was deleted

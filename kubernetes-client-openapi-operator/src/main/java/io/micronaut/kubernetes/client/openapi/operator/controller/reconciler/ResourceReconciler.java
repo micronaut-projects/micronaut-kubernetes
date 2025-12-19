@@ -15,10 +15,10 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller.reconciler;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.operator.Operator;
 import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
+import org.jspecify.annotations.NonNull;
 
 /**
  * The ResourceReconciler defines an interface for reconciling the resource. In general a reconciler works by comparing

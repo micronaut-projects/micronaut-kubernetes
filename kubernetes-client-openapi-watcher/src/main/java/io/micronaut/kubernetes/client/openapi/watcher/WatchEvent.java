@@ -15,10 +15,10 @@
  */
 package io.micronaut.kubernetes.client.openapi.watcher;
 
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Holder for deserialized kubernetes streamed event.

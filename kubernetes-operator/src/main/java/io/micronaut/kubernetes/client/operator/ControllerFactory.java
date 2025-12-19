@@ -22,7 +22,6 @@ import io.kubernetes.client.informer.SharedInformerFactory;
 import io.micronaut.context.BeanContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.kubernetes.client.operator.controller.ControllerBuilder;
 import io.micronaut.kubernetes.client.operator.controller.ControllerManagerBuilder;
@@ -31,6 +30,7 @@ import io.micronaut.scheduling.TaskExecutors;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.apache.commons.compress.utils.Sets;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.credential;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.core.async.annotation.SingleResult;
+import org.jspecify.annotations.NonNull;
 import org.reactivestreams.Publisher;
 
 /**

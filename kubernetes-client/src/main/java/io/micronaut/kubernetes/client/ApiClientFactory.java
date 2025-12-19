@@ -22,11 +22,11 @@ import io.kubernetes.client.util.KubeConfig;
 import io.kubernetes.client.util.credentials.TokenFileAuthentication;
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Factory;
-import org.jspecify.annotations.Nullable;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

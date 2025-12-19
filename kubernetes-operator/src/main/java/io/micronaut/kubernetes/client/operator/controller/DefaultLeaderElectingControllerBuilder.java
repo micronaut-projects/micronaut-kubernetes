@@ -21,12 +21,12 @@ import io.kubernetes.client.extended.controller.LeaderElectingController;
 import io.kubernetes.client.extended.leaderelection.LeaderElectionConfig;
 import io.kubernetes.client.extended.leaderelection.LeaderElector;
 import io.micronaut.context.event.ApplicationEventPublisher;
-import org.jspecify.annotations.NonNull;
-import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
+import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.operator.event.LeaseAcquiredEvent;
 import io.micronaut.kubernetes.client.operator.event.LeaseLostEvent;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

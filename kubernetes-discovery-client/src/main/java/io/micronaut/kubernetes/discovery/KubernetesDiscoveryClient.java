@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.discovery;
 
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.DiscoveryClient;
@@ -26,6 +25,7 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

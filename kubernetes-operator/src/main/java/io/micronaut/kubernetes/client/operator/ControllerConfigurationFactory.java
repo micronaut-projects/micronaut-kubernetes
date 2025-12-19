@@ -21,13 +21,13 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.annotation.Prototype;
 import io.micronaut.core.annotation.AnnotationValue;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.informer.Informer;
+import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver;
-import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
+import org.jspecify.annotations.NonNull;
 
 import javax.naming.ConfigurationException;
 import java.util.Optional;

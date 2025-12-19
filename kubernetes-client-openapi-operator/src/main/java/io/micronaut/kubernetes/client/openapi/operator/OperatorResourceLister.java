@@ -15,12 +15,12 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer;
 import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 

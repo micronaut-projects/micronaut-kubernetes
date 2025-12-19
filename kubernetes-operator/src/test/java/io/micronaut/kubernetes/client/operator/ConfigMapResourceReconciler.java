@@ -19,13 +19,14 @@ import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.extended.controller.reconciler.Result;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.informer.Informer;
 //end::reconciler[]
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.kubernetes.client.operator.event.LeaseAcquiredEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
-
+//tag::reconciler[]
+import org.jspecify.annotations.NonNull;
+//end::reconciler[]
 import java.util.ArrayList;
 import java.util.List;
 //tag::reconciler[]

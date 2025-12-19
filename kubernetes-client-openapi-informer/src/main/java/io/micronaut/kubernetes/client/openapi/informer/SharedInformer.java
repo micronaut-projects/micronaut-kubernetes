@@ -15,10 +15,10 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Defines basic methods of an informer.

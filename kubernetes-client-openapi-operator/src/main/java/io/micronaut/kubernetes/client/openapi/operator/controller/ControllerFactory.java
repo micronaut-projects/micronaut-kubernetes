@@ -15,12 +15,12 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller;
 
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQueue;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Set;
 import java.util.function.BiPredicate;
