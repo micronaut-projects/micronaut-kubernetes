@@ -17,6 +17,15 @@ dependencies {
     testImplementation mnSerde.micronaut.serde.jackson
     testImplementation projects.testUtils
     testRuntimeOnly mn.snakeyaml
+
+    constraints {
+        implementation('org.apache.commons:commons-lang3:3.18.0') {
+            because("commons-lang3 <3.18.0 is vulnerable to [CVE-2025-48924] CWE-674: Uncontrolled Recursion")
+        }
+        implementation('com.google.code.gson:gson:2.12.0') {
+            because("gson <2.12.0 is vulnerable to [CVE-2025-53864] CWE-121: Stack-based Buffer Overflow")
+        }
+    }
 }
 
 tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
