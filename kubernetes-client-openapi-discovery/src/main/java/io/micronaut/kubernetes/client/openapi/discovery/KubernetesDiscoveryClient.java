@@ -72,7 +72,7 @@ final class KubernetesDiscoveryClient implements DiscoveryClient {
         this.configuration = configuration;
         this.discoveryConfiguration = discoveryConfiguration;
         this.serviceConfigurations = serviceConfigurations.stream()
-                .collect(Collectors.toMap(KubernetesServiceConfiguration::getServiceId, Function.identity()));
+                .collect(Collectors.toConcurrentMap(KubernetesServiceConfiguration::getServiceId, Function.identity()));
         this.instanceProviders = instanceProviders.stream()
                 .collect(Collectors.toMap(KubernetesServiceInstanceProvider::getMode, Function.identity()));
     }
