@@ -1,6 +1,10 @@
 ## Micronaut Kubernetes 8.x
 
+=== The official Kubernetes Client upgrade
+
 Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v24.
+
+=== Delete object methods of Kubernetes Client OpenAPI client
 
 In Kubernetes Client OpenAPI client, delete methods have been modified to return `DeleteResponse` instead of `V1Status` or type of object that is being deleted.
 For example, `deleteNamespace` method of `CoreV1Api` class returned `V1Status`
@@ -40,6 +44,10 @@ but now returns `DeleteResponse<V1Namespace>`
 ----
 
 The same change has been applied to delete methods from Kubernetes Client OpenAPI Reactive client.
+
+=== Utility methods
+
+The `configMapAsPropertySource` methods of api:kubernetes.util.KubernetesUtils[] class require additional argument `Collection<PropertySourceLoader> propertySourceLoaders` which can be provided using `getPropertySourceLoaders` method from api:context.env.Environment[].
 
 ## Micronaut Kubernetes 7.x
 
