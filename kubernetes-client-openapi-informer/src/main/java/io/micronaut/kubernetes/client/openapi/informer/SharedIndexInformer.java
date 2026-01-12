@@ -15,9 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Extends shared informer with indexer.

@@ -17,9 +17,9 @@ package io.micronaut.kubernetes.client.operator.controller;
 
 import io.kubernetes.client.extended.controller.DefaultController;
 import io.micronaut.context.annotation.DefaultImplementation;
-import org.jspecify.annotations.NonNull;
-import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
+import io.micronaut.kubernetes.client.operator.ResourceReconciler;
+import org.jspecify.annotations.NonNull;
 
 /**
  * The {@link DefaultController} builder.

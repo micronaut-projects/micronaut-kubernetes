@@ -17,12 +17,14 @@ package io.micronaut.kubernetes.client.openapi;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.ConfigurationProperties;
-import org.jspecify.annotations.Nullable;
-import io.micronaut.http.client.DefaultHttpClientConfiguration;
+import io.micronaut.http.client.DefaultHttpClientConfiguration.DefaultConnectionPoolConfiguration;
+import io.micronaut.http.client.DefaultHttpClientConfiguration.DefaultHttp2ClientConfiguration;
+import io.micronaut.http.client.DefaultHttpClientConfiguration.DefaultWebSocketCompressionConfiguration;
 import io.micronaut.http.client.HttpClientConfiguration;
 import io.micronaut.http.ssl.ClientSslConfiguration;
 import io.micronaut.runtime.ApplicationConfiguration;
 import jakarta.inject.Inject;
+import org.jspecify.annotations.Nullable;
 
 @BootstrapContextCompatible
 @ConfigurationProperties(KubernetesHttpClientConfiguration.PREFIX)
@@ -36,19 +38,19 @@ final class KubernetesHttpClientConfiguration extends HttpClientConfiguration {
 
     private final Http2ClientConfiguration http2ClientConfiguration;
 
-    KubernetesHttpClientConfiguration(@Nullable DefaultHttpClientConfiguration.DefaultConnectionPoolConfiguration defaultConnectionPoolConfiguration,
-                                      @Nullable DefaultHttpClientConfiguration.DefaultWebSocketCompressionConfiguration defaultWebSocketCompressionConfiguration,
-                                      @Nullable DefaultHttpClientConfiguration.DefaultHttp2ClientConfiguration defaultHttp2ClientConfiguration,
+    KubernetesHttpClientConfiguration(@Nullable DefaultConnectionPoolConfiguration defaultConnectionPoolConfiguration,
+                                      @Nullable DefaultWebSocketCompressionConfiguration defaultWebSocketCompressionConfiguration,
+                                      @Nullable DefaultHttp2ClientConfiguration defaultHttp2ClientConfiguration,
                                       @Nullable ApplicationConfiguration applicationConfiguration) {
         super(applicationConfiguration);
         connectionPoolConfiguration = defaultConnectionPoolConfiguration == null
-            ? new DefaultHttpClientConfiguration.DefaultConnectionPoolConfiguration()
+            ? new DefaultConnectionPoolConfiguration()
             : defaultConnectionPoolConfiguration;
         webSocketCompressionConfiguration = defaultWebSocketCompressionConfiguration == null
-            ? new DefaultHttpClientConfiguration.DefaultWebSocketCompressionConfiguration()
+            ? new DefaultWebSocketCompressionConfiguration()
             : defaultWebSocketCompressionConfiguration;
         http2ClientConfiguration = defaultHttp2ClientConfiguration == null
-            ? new DefaultHttpClientConfiguration.DefaultHttp2ClientConfiguration()
+            ? new DefaultHttp2ClientConfiguration()
             : defaultHttp2ClientConfiguration;
     }
 

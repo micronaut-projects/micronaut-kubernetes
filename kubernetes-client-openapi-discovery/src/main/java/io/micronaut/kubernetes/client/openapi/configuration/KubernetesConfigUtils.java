@@ -19,7 +19,6 @@ import io.micronaut.context.env.EmptyPropertySource;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
-import io.micronaut.context.env.PropertySourceReader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
@@ -35,15 +34,14 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Utility methods for Kubernetes Configuration client.
@@ -60,14 +58,6 @@ final class KubernetesConfigUtils {
     private static final String PROPERTY_SOURCE_NAME_TEMPLATE = "%s (Kubernetes %s)";
     private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
     private static final String LIST_RES_VERSION_PROP_NAME_TEMPLATE = "%s.resource-version";
-
-    private static final List<PropertySourceReader> PROPERTY_SOURCE_READERS;
-    private static final Set<String> PROPERTY_SOURCE_EXTENSIONS;
-
-    static {
-        PROPERTY_SOURCE_READERS = StreamSupport.stream(ServiceLoader.load(PropertySourceLoader.class).spliterator(), false).collect(Collectors.toList());
-        PROPERTY_SOURCE_EXTENSIONS = PROPERTY_SOURCE_READERS.stream().flatMap(it -> it.getExtensions().stream()).collect(Collectors.toSet());
-    }
 
     /**
      * Creates a property source from given kubernetes list object.
@@ -126,10 +116,11 @@ final class KubernetesConfigUtils {
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
      *
-     * @param configMap the {@link V1ConfigMap} instance
+     * @param configMap             the {@link V1ConfigMap} instance
+     * @param propertySourceLoaders the collection of property source loaders
      * @return {@link PropertySource} instance
      */
-    static PropertySource configMapAsPropertySource(V1ConfigMap configMap) {
+    static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
         LOG.trace("Creating PropertySource for ConfigMap: {}", configMap.getMetadata().getName());
         Map<String, String> data = configMap.getData();
         if (CollectionUtils.isEmpty(data)) {
@@ -145,15 +136,18 @@ final class KubernetesConfigUtils {
         } else {
             LOG.trace("Considering this ConfigMap as containing values from a single file");
             String extension = extensionOpt.get();
-            Optional<PropertySourceReader> propertySourceReader = PROPERTY_SOURCE_READERS.stream()
-                .filter(reader -> reader.getExtensions().contains(extension))
+            Optional<PropertySourceLoader> propertySourceLoader = propertySourceLoaders.stream()
+                .filter(loader -> loader.getExtensions().contains(extension))
                 .findFirst();
-            if (propertySourceReader.isEmpty()) {
-                LOG.info("Could not find property source reader for extension '{}' from ConfigMap '{}'. Supported extensions: {}",
-                    extension, configMap.getMetadata().getName(), PROPERTY_SOURCE_EXTENSIONS);
+            if (propertySourceLoader.isEmpty()) {
+                Set<String> propertySourceExtensions = propertySourceLoader.stream()
+                    .flatMap(loader -> loader.getExtensions().stream())
+                    .collect(Collectors.toSet());
+                LOG.info("Could not find property source loader for extension '{}' from ConfigMap '{}'. Supported extensions: {}",
+                    extension, configMap.getMetadata().getName(), propertySourceExtensions);
                 propertySourceData = Collections.emptyMap();
             } else {
-                propertySourceData = propertySourceReader.get().read(entry.getKey(), entry.getValue().getBytes());
+                propertySourceData = propertySourceLoader.get().read(entry.getKey(), entry.getValue().getBytes());
             }
         }
 
@@ -171,11 +165,12 @@ final class KubernetesConfigUtils {
     /**
      * Converts config map mounted as volume into a {@link PropertySource}.
      *
-     * @param mountPoint the mount point
-     * @param data       the configmaps data in the mounted volume where keys are file names and values is the file content
+     * @param mountPoint            the mount point
+     * @param data                  the configmaps data in the mounted volume where keys are file names and values is the file content
+     * @param propertySourceLoaders the collection of property source loaders
      * @return list of {@link PropertySource} instances
      */
-    static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data) {
+    static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data, Collection<PropertySourceLoader> propertySourceLoaders) {
         List<PropertySource> propertySources = new ArrayList<>(data.size());
 
         data.forEach((fileName, fileContent) -> {
@@ -187,15 +182,18 @@ final class KubernetesConfigUtils {
             }
 
             String extension = extensionOpt.get();
-            Optional<PropertySourceReader> propertySourceReader = PROPERTY_SOURCE_READERS.stream()
-                .filter(reader -> reader.getExtensions().contains(extension))
+            Optional<PropertySourceLoader> propertySourceLoader = propertySourceLoaders.stream()
+                .filter(loader -> loader.getExtensions().contains(extension))
                 .findFirst();
-            if (propertySourceReader.isEmpty()) {
-                LOG.info("Could not find property source reader for extension '{}' from file '{}'. Supported extensions: {}",
-                    extension, fileName, PROPERTY_SOURCE_EXTENSIONS);
+            if (propertySourceLoader.isEmpty()) {
+                Set<String> propertySourceExtensions = propertySourceLoaders.stream()
+                    .flatMap(loader -> loader.getExtensions().stream())
+                    .collect(Collectors.toSet());
+                LOG.info("Could not find property source loader for extension '{}' from file '{}'. Supported extensions: {}",
+                    extension, fileName, propertySourceExtensions);
             } else {
                 String propertySourceName = createPropertySourceName(mountPoint + "/" + fileName, V1ConfigMap.class);
-                Map<String, Object> propertySourceData = propertySourceReader.get().read(fileName, fileContent.getBytes());
+                Map<String, Object> propertySourceData = propertySourceLoader.get().read(fileName, fileContent.getBytes());
                 propertySources.add(PropertySource.of(propertySourceName, propertySourceData, MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY));
             }
         });

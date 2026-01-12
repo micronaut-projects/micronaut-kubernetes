@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import org.jspecify.annotations.NonNull;
 
 /**
  * TransformFunc allows for transforming an object before it will be processed

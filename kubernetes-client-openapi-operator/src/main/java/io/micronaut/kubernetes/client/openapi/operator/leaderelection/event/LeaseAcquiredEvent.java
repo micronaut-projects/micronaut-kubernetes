@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection.event;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Event fired when this service instance has become a leader.

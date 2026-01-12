@@ -17,9 +17,9 @@ package io.micronaut.kubernetes.client.openapi.response;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Response which is used by kubernetes client delete methods can contain {@link V1Status} instance

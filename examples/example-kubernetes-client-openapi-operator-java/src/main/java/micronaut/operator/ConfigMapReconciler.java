@@ -1,7 +1,6 @@
 //tag::reconciler[]
 package micronaut.operator;
 
-import org.jspecify.annotations.NonNull;
 //end::reconciler[]
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api;
 //tag::reconciler[]
@@ -15,6 +14,7 @@ import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result;
+import org.jspecify.annotations.NonNull;
 //end::reconciler[]
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -15,19 +15,19 @@
  */
 package io.micronaut.kubernetes;
 
+import io.micronaut.context.annotation.BootstrapContextCompatible;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Requires;
+import io.micronaut.context.env.Environment;
+import io.micronaut.discovery.DiscoveryConfiguration;
+import io.micronaut.kubernetes.client.NamespaceResolver;
+import org.jspecify.annotations.NonNull;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import io.micronaut.context.annotation.BootstrapContextCompatible;
-import io.micronaut.context.annotation.ConfigurationProperties;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
-import org.jspecify.annotations.NonNull;
-import io.micronaut.discovery.DiscoveryConfiguration;
-import io.micronaut.kubernetes.client.NamespaceResolver;
 
 /**
  * Encapsulates constants for Kubernetes configuration.

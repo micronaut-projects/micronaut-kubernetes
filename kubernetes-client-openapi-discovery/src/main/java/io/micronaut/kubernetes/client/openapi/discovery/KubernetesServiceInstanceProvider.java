@@ -15,9 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.discovery;
 
-import org.jspecify.annotations.NonNull;
 import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.discovery.ServiceInstance;
+import org.jspecify.annotations.NonNull;
 import org.reactivestreams.Publisher;
 
 import java.util.List;

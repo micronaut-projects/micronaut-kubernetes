@@ -25,14 +25,14 @@ import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.informer.SharedIndexInformer;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.inject.qualifiers.Qualifiers;
 import io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory;
+import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import io.micronaut.kubernetes.client.operator.OperatorResourceLister;
 import io.micronaut.kubernetes.client.operator.ResourceReconciler;
-import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import io.micronaut.kubernetes.client.operator.configuration.OperatorConfigurationProperties;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

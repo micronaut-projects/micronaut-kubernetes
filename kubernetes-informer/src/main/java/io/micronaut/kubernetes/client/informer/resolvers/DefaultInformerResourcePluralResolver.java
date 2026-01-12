@@ -18,12 +18,12 @@ package io.micronaut.kubernetes.client.informer.resolvers;
 import io.kubernetes.client.Discovery;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.core.annotation.AnnotationValue;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.DiscoveryCache;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

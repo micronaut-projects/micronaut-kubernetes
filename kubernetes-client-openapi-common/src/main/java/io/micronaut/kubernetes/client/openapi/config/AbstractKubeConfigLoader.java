@@ -15,8 +15,8 @@
  */
 package io.micronaut.kubernetes.client.openapi.config;
 
-import org.jspecify.annotations.Nullable;
 import io.micronaut.core.io.ResourceResolver;
+import org.jspecify.annotations.Nullable;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;

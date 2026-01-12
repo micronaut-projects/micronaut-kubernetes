@@ -17,8 +17,8 @@ package io.micronaut.kubernetes.client.informer.resolvers;
 
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.informer.Informer;
+import org.jspecify.annotations.NonNull;
 
 /**
  * Resolves the k8s resource plural.

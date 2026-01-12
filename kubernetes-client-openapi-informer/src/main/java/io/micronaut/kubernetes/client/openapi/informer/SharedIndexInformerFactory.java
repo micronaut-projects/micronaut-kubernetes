@@ -15,9 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
+import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 
 import java.util.List;
 import java.util.Map;

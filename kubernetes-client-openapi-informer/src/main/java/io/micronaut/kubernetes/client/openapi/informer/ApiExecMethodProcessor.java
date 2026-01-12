@@ -54,7 +54,7 @@ abstract class ApiExecMethodProcessor<A extends Annotation> implements Executabl
     }
 
     @Override
-    public void process(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
+    public <B> void process(BeanDefinition<B> beanDefinition, ExecutableMethod<B, ?> method) {
         Optional<String> returnTypeNameOpt = getReturnTypeName(beanDefinition, method);
         if (returnTypeNameOpt.isPresent()) {
             String returnTypeName = returnTypeNameOpt.get();

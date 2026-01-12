@@ -16,12 +16,12 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.context.ApplicationContext;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

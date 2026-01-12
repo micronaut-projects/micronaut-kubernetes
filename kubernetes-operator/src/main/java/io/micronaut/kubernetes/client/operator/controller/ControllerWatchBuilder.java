@@ -20,8 +20,8 @@ import io.kubernetes.client.extended.controller.ControllerWatch;
 import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.extended.workqueue.WorkQueue;
 import io.micronaut.context.annotation.DefaultImplementation;
-import org.jspecify.annotations.NonNull;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
+import org.jspecify.annotations.NonNull;
 
 /**
  * The {@link ControllerWatch} builder.

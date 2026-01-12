@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.EmptyPropertySource;
 import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
+import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
@@ -68,14 +69,17 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
 
     private final CoreV1ApiReactor client;
     private final KubernetesConfiguration configuration;
+    private final Environment environment;
 
     /**
      * @param client        A Core HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
+     * @param environment   The environment
      */
-    KubernetesConfigurationClient(CoreV1ApiReactor client, KubernetesConfiguration configuration) {
+    KubernetesConfigurationClient(CoreV1ApiReactor client, KubernetesConfiguration configuration, Environment environment) {
         this.client = client;
         this.configuration = configuration;
+        this.environment = environment;
     }
 
     @Override
@@ -164,7 +168,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
                 Flux.just(KubernetesConfigUtils.kubernetesListAsPropertySource(configMapList)),
                 Flux.fromIterable(configMapList.getItems())
                     .filter(includesFilter.and(excludesFilter))
-                    .map(KubernetesConfigUtils::configMapAsPropertySource)
+                    .map(configMap -> KubernetesConfigUtils.configMapAsPropertySource(configMap, environment.getPropertySourceLoaders()))
             ))
             .filter(propertySource -> !(propertySource instanceof EmptyPropertySource))
             .doOnNext(KubernetesConfigurationClient::addPropertySourceToCache);
@@ -178,7 +182,8 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
             Map<String, String> configMapFiles = readFiles(Paths.get(path));
             LOG.debug("ConfigMaps file found on path '{}': {}", path, configMapFiles.keySet());
             if (!configMapFiles.isEmpty()) {
-                List<PropertySource> mountedMapPropertySources = KubernetesConfigUtils.configMapAsPropertySource(path, configMapFiles);
+                Collection<PropertySourceLoader> propertySourceLoaders = environment.getPropertySourceLoaders();
+                List<PropertySource> mountedMapPropertySources = KubernetesConfigUtils.configMapAsPropertySource(path, configMapFiles, propertySourceLoaders);
                 mountedMapPropertySources.forEach(KubernetesConfigurationClient::addPropertySourceToCache);
                 propertySources.addAll(mountedMapPropertySources);
             }

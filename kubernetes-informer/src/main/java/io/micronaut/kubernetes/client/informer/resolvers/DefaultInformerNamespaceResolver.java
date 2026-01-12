@@ -20,14 +20,14 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.util.Namespaces;
 import io.micronaut.context.BeanContext;
 import io.micronaut.core.annotation.AnnotationValue;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import io.micronaut.kubernetes.client.DiscoveryCache;
 import io.micronaut.kubernetes.client.NamespaceResolver;
 import io.micronaut.kubernetes.client.informer.EmptyNamespacesSupplier;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
