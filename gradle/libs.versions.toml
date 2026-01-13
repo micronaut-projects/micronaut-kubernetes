@@ -23,7 +23,7 @@ micronaut-reactor = "3.9.1"
 micronaut-serde = "3.0.0-M1"
 micronaut-validation = "4.11.0"
 micronaut-openapi = "6.19.3"
-micronaut-micrometer = "5.13.1"
+micronaut-micrometer = "5.13.2"
 
 
 [libraries]
