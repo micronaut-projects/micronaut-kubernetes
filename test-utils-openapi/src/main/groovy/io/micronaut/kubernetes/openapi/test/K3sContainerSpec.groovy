@@ -34,7 +34,7 @@ abstract class K3sContainerSpec extends Specification {
 
     @Shared
     @AutoCleanup
-    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.31.5-k3s1"))
+    K3sContainer k3s = new K3sContainer(DockerImageName.parse("rancher/k3s:v1.35.0-k3s1"))
             .withLogConsumer(new Slf4jLogConsumer(LOG_K3S))
 
     @Shared

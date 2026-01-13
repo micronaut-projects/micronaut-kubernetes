@@ -13,7 +13,7 @@ shadow = '9.2.2'
 system-lambda = '1.2.1'
 io-kubernetes-client-java = '24.0.0'
 netty-incubator-codec-http3 = '0.0.30.Final'
-testcontainers-k3s = '1.21.3'
+testcontainers-k3s = '1.21.4'
 bucket4j = '8.10.1'
 awaitility = '4.3.0'
 
