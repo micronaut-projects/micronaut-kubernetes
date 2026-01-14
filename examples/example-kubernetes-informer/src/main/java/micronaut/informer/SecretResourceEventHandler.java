@@ -18,34 +18,29 @@ package micronaut.informer;
 import io.kubernetes.client.informer.ResourceEventHandler;
 import io.kubernetes.client.openapi.models.V1Secret;
 import io.kubernetes.client.openapi.models.V1SecretList;
+import io.micronaut.context.annotation.Context;
 import io.micronaut.kubernetes.client.informer.Informer;
-import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@Singleton
+@Context
 @Informer(apiType = V1Secret.class, apiListType = V1SecretList.class)
 public class SecretResourceEventHandler implements ResourceEventHandler<V1Secret> {
 
-    private Map<String, V1Secret> v1SecretMap = new HashMap<>();
+    private static final Logger LOG = LoggerFactory.getLogger(SecretResourceEventHandler.class);
 
     @Override
     public void onAdd(V1Secret obj) {
-        v1SecretMap.put(obj.getMetadata().getName(), obj);
+        LOG.info("{} secret added!", obj.getMetadata().getName());
     }
 
     @Override
     public void onUpdate(V1Secret oldObj, V1Secret newObj) {
-        v1SecretMap.put(newObj.getMetadata().getName(), newObj);
+        LOG.info("{} secret updated!", oldObj.getMetadata().getName());
     }
 
     @Override
     public void onDelete(V1Secret obj, boolean deletedFinalStateUnknown) {
-        v1SecretMap.remove(obj.getMetadata().getName());
-    }
-
-    public Map<String, V1Secret> getV1SecretMap() {
-        return v1SecretMap;
+        LOG.info("{} secret deleted!", obj.getMetadata().getName());
     }
 }

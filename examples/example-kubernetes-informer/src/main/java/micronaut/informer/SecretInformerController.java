@@ -15,28 +15,41 @@
  */
 package micronaut.informer;
 
+import io.kubernetes.client.informer.SharedIndexInformer;
+import io.kubernetes.client.informer.cache.Indexer;
 import io.kubernetes.client.openapi.models.V1Secret;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.kubernetes.client.NamespaceResolver;
+import io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory;
 
 import java.util.Collection;
 
 @Controller
 public class SecretInformerController {
 
-    private final SecretResourceEventHandler secretResourceEventHandler;
+    private final SharedIndexInformerFactory sharedIndexInformerFactory;
 
-    public SecretInformerController(SecretResourceEventHandler secretResourceEventHandler) {
-        this.secretResourceEventHandler = secretResourceEventHandler;
+    private final NamespaceResolver namespaceResolver;
+
+    public SecretInformerController(SharedIndexInformerFactory sharedIndexInformerFactory, NamespaceResolver namespaceResolver) {
+        this.sharedIndexInformerFactory = sharedIndexInformerFactory;
+        this.namespaceResolver = namespaceResolver;
     }
 
     @Get("/all")
     public Collection<V1Secret> all() {
-        return secretResourceEventHandler.getV1SecretMap().values();
+        String namespace = namespaceResolver.resolveNamespace();
+        SharedIndexInformer<V1Secret> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, V1Secret.class);
+        Indexer<V1Secret> indexer = informer.getIndexer();
+        return indexer.list();
     }
 
     @Get("/secret/{key}")
     public V1Secret secret(String key) {
-        return secretResourceEventHandler.getV1SecretMap().get(key);
+        String namespace = namespaceResolver.resolveNamespace();
+        SharedIndexInformer<V1Secret> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, V1Secret.class);
+        Indexer<V1Secret> indexer = informer.getIndexer();
+        return indexer.getByKey(namespace + "/" + key);
     }
 }
