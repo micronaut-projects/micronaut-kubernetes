@@ -18,7 +18,9 @@ package io.micronaut.kubernetes.openapi.test
 import io.micronaut.kubernetes.client.openapi.api.AppsV1Api
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.api.RbacAuthorizationV1Api
+import io.micronaut.kubernetes.client.openapi.api.ResourceV1Api
 import io.micronaut.kubernetes.client.openapi.api.VersionApi
+import io.micronaut.kubernetes.client.openapi.model.ResourceV1ResourceClaim
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Deployment
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
@@ -153,6 +155,14 @@ class KubernetesOperations {
 
     static V1Deployment getDeployment(AppsV1Api api, String name, String namespace) {
         api.readNamespacedDeployment(name, namespace, null)
+    }
+
+    static void createResourceClaim(ResourceV1Api api, String namespace, ResourceV1ResourceClaim resourceClaim) {
+        api.createNamespacedResourceClaim(namespace, resourceClaim, null, null, null, null)
+    }
+
+    static DeleteResponse<ResourceV1ResourceClaim> deleteResourceClaim(ResourceV1Api api, String namespace, String name) {
+        api.deleteNamespacedResourceClaim(name, namespace, null, null, null, null, null, null, null)
     }
 
     static KubectlPortForward portForwardService(CoreV1Api api, String serviceName, String namespace, int port, int localPort) {

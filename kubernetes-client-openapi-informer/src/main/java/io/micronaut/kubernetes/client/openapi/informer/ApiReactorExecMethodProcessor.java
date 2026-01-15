@@ -29,6 +29,12 @@ import java.util.Optional;
 @Singleton
 final class ApiReactorExecMethodProcessor extends ApiExecMethodProcessor<KubernetesClientApiReactor> {
 
+    private final TypeNameResolver typeNameResolver;
+
+    ApiReactorExecMethodProcessor(TypeNameResolver typeNameResolver) {
+        this.typeNameResolver = typeNameResolver;
+    }
+
     @Override
     Optional<String> getReturnTypeName(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
         if (!hasParameter(method, "watch")) {
@@ -39,7 +45,7 @@ final class ApiReactorExecMethodProcessor extends ApiExecMethodProcessor<Kuberne
             .getType()
             .getName();
         return returnListTypeName.endsWith("List")
-            ? Optional.of(returnListTypeName.substring(0, returnListTypeName.indexOf("List")))
+            ? Optional.of(typeNameResolver.getItemTypeName(returnListTypeName))
             : Optional.empty();
     }
 }
