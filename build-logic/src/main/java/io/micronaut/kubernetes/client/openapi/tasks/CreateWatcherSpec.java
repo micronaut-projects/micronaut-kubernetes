@@ -72,7 +72,7 @@ public abstract class CreateWatcherSpec extends DefaultTask {
             @Override
             public Map<String, String> getMappings() {
                 Map<String, String> mappings = new HashMap<>();
-            %s
+        %s
                 return mappings;
             }
         }
@@ -229,7 +229,7 @@ public abstract class CreateWatcherSpec extends DefaultTask {
 
     private void createDefaultTypeNameMapperFile(Map<String, String> typeMappings, File file) throws IOException {
         String mappings = typeMappings.entrySet().stream()
-            .map(e -> "    mappings.put(\"" + e.getKey() + "\", \"" + e.getValue() + "\");")
+            .map(e -> "        mappings.put(\"" + e.getKey() + "\", \"" + e.getValue() + "\");")
             .collect(Collectors.joining(System.lineSeparator()));
 
         String javaClass = LIST_ITEM_TYPE_MAPPER_CLASS_TEMPLATE.formatted(mappings);

@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.reactor.annotation.KubernetesClientApiReactor;
+import io.micronaut.kubernetes.client.openapi.watcher.mapper.TypeNameResolver;
 import jakarta.inject.Singleton;
 
 import java.util.Optional;
@@ -45,7 +46,7 @@ final class ApiReactorExecMethodProcessor extends ApiExecMethodProcessor<Kuberne
             .getType()
             .getName();
         return returnListTypeName.endsWith("List")
-            ? Optional.of(typeNameResolver.getItemTypeName(returnListTypeName))
+            ? Optional.of(typeNameResolver.resolveItemTypeName(returnListTypeName))
             : Optional.empty();
     }
 }
