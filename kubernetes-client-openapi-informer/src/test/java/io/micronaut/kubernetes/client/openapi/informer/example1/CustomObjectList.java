@@ -6,6 +6,7 @@ import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.List;
 
+//tag::get[]
 @Serdeable
 public class CustomObjectList implements KubernetesListObject {
 
@@ -16,6 +17,9 @@ public class CustomObjectList implements KubernetesListObject {
     private V1ListMeta metadata;
 
     private List<CustomObject> items;
+
+    // getters/setters omitted
+    //end::get[]
 
     @Override
     public String getApiVersion() {
@@ -52,4 +56,6 @@ public class CustomObjectList implements KubernetesListObject {
     public void setItems(List<CustomObject> items) {
         this.items = items;
     }
+//tag::get[]
 }
+//end::get[]

@@ -18,6 +18,7 @@ import io.micronaut.kubernetes.client.openapi.response.DeleteResponse;
 import reactor.core.publisher.Mono;
 
 @Requires(property = "spec.name", value = "CustomObjectInformer1Spec")
+//tag::get[]
 @KubernetesClientApiReactor
 @BootstrapContextCompatible
 @Client("kubernetes")
@@ -85,3 +86,4 @@ public interface CustomObjectApiReactor {
         @QueryValue("fieldValidation") @Nullable String fieldValidation
     );
 }
+//end::get[]

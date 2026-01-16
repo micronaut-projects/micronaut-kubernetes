@@ -12,6 +12,7 @@ import io.micronaut.kubernetes.client.openapi.watcher.annotation.KubernetesClien
 import reactor.core.publisher.Flux;
 
 @Requires(property = "spec.name", value = "CustomObjectInformer1Spec")
+//tag::get[]
 @KubernetesClientApiWatcher
 @Client("kubernetes")
 public interface CustomObjectApiWatcher {
@@ -33,3 +34,4 @@ public interface CustomObjectApiWatcher {
         @QueryValue("watch") @Nullable Boolean watch
     );
 }
+//end::get[]

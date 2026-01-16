@@ -7,6 +7,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.HashMap;
 import java.util.Map;
 
+//tag::get[]
 @Singleton
 public class CustomTypeNameMapper implements TypeNameMapper {
     @NonNull
@@ -17,3 +18,4 @@ public class CustomTypeNameMapper implements TypeNameMapper {
         return mappings;
     }
 }
+//end::get[]

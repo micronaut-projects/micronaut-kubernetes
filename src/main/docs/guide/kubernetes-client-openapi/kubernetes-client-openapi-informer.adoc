@@ -64,3 +64,31 @@ The local cache starts out empty, and gets populated and updated.
 The cache is exposed by api:kubernetes.client.openapi.informer.SharedIndexInformer[] `getIndexer()` method:
 
 snippet::micronaut.client.configmap.ConfigMapController[project-base="examples/example-kubernetes-client-openapi-informer", source="main", tags="getAll"]
+
+== Informer for Kubernetes Custom Resource
+
+To create an Informer for a kubernetes custom resource you need:
+
+* class which implements api:kubernetes.client.openapi.common.KubernetesObject[] interface:
+
+snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObject[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+
+* class which implements api:kubernetes.client.openapi.common.KubernetesListObject[] interface:
+
+snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObjectList[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+
+* non-blocking operations interface for the custom resource
+
+snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObjectApiReactor[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+
+* watcher interface for the custom resource
+
+snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObjectApiWatcher[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+
+In the OpenApi Spec of the official Java client library, names of list types are usually equal to names of list item types plus `List` suffix.
+For example: `V1SecretList` = `V1Secret` + `List`, `V1ConfigMapList` = `V1ConfigMap` + `List`, etc. If that is not case for your classes which
+implement api:kubernetes.client.openapi.common.KubernetesObject[] and api:kubernetes.client.openapi.common.KubernetesListObject[] interfaces,
+you need to provide a mapping. Lets say that you have `CustomObject` and `CustomObjectCollection` classes, then you need a class
+which maps the list type name to list item type name, like in this example:
+
+snippet::io.micronaut.kubernetes.client.openapi.informer.example2.CustomTypeNameMapper[project="kubernetes-client-openapi-informer", source="test", tags="get"]

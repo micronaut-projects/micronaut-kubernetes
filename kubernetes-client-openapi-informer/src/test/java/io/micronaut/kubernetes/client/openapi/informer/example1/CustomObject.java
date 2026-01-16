@@ -4,6 +4,7 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.serde.annotation.Serdeable;
 
+//tag::get[]
 @Serdeable
 public class CustomObject implements KubernetesObject {
 
@@ -14,6 +15,9 @@ public class CustomObject implements KubernetesObject {
     private V1ObjectMeta metadata;
 
     private String value;
+
+    // getters/setters omitted
+    //end::get[]
 
     @Override
     public String getApiVersion() {
@@ -49,4 +53,6 @@ public class CustomObject implements KubernetesObject {
     public void setValue(String value) {
         this.value = value;
     }
+//tag::get[]
 }
+//end::get[]
