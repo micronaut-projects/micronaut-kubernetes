@@ -45,8 +45,6 @@ final class ApiReactorExecMethodProcessor extends ApiExecMethodProcessor<Kuberne
             .getWrappedType()
             .getType()
             .getName();
-        return returnListTypeName.endsWith("List")
-            ? Optional.of(typeNameResolver.resolveItemTypeName(returnListTypeName))
-            : Optional.empty();
+        return typeNameResolver.resolveItemTypeName(returnListTypeName);
     }
 }

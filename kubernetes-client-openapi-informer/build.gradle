@@ -7,5 +7,8 @@ dependencies {
     api(projects.micronautKubernetesClientOpenapiWatcher)
     implementation(mn.micronaut.http.client)
 
+    testAnnotationProcessor(mn.micronaut.inject.java)
+    testAnnotationProcessor(mnSerde.micronaut.serde.processor)
+    testImplementation(mnSerde.micronaut.serde.jackson)
     testImplementation(projects.testUtilsOpenapi)
 }

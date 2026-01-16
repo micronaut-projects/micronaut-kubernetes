@@ -17,12 +17,16 @@ package io.micronaut.kubernetes.client.openapi.watcher.mapper;
 
 import io.micronaut.context.annotation.BootstrapContextCompatible;
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Resolves item type name (for example {@code io.micronaut.kubernetes.client.openapi.model.V1Secret})
@@ -43,9 +47,11 @@ public final class TypeNameResolver {
 
     private final Map<String, String> mappings = new HashMap<>();
 
-    TypeNameResolver(List<TypeNameMapper> mappers) {
-        for (TypeNameMapper mapper : mappers) {
-            mappings.putAll(mapper.getMappings());
+    TypeNameResolver(@Nullable List<TypeNameMapper> mappers) {
+        if (CollectionUtils.isNotEmpty(mappers)) {
+            for (TypeNameMapper mapper : mappers) {
+                mappings.putAll(mapper.getMappings());
+            }
         }
     }
 
@@ -56,7 +62,11 @@ public final class TypeNameResolver {
      * @param listTypeName the kubernetes list type name
      * @return the kubernetes item type name
      */
-    public String resolveItemTypeName(String listTypeName) {
-        return mappings.containsKey(listTypeName) ? mappings.get(listTypeName) : listTypeName.substring(0, listTypeName.indexOf("List"));
+    public Optional<String> resolveItemTypeName(@NonNull String listTypeName) {
+        if (mappings.containsKey(listTypeName)) {
+            return Optional.of(mappings.get(listTypeName));
+        }
+        int index = listTypeName.indexOf("List");
+        return index == -1 ? Optional.empty() : Optional.of(listTypeName.substring(0, index));
     }
 }

@@ -64,11 +64,13 @@ public abstract class CreateWatcherSpec extends DefaultTask {
         package io.micronaut.kubernetes.client.openapi.watcher.mapper;
 
         import jakarta.inject.Singleton;
+        import org.jspecify.annotations.NonNull;
         import java.util.HashMap;
         import java.util.Map;
 
         @Singleton
         public class DefaultTypeNameMapper implements TypeNameMapper {
+            @NonNull
             @Override
             public Map<String, String> getMappings() {
                 Map<String, String> mappings = new HashMap<>();
