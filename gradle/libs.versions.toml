@@ -15,13 +15,12 @@ testcontainers-k3s = '1.21.4'
 bucket4j = '8.10.1'
 awaitility = '4.3.0'
 
-micronaut-discovery = "4.7.1"
-micronaut-reactor = "3.9.1"
+micronaut-discovery = "5.0.0-M1"
+micronaut-reactor = "4.0.0-M1"
 micronaut-serde = "3.0.0-M2"
-micronaut-validation = "4.12.0"
+micronaut-validation = "5.0.0-M1"
 micronaut-openapi = "6.19.3"
-micronaut-micrometer = "5.13.2"
-
+micronaut-micrometer = "6.0.1-M1"
 
 [libraries]
 # Core
