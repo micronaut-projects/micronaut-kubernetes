@@ -37,6 +37,8 @@ components:
         - group: ""
           kind: NamespaceList
           version: v1
+      x-implements:
+        - io.micronaut.kubernetes.client.openapi.common.KubernetesListObject
     v1.Namespace:
       description: Namespace provides a scope for Names. Use of multiple namespaces
         is optional.
@@ -62,3 +64,5 @@ components:
         - group: ""
           kind: Namespace
           version: v1
+      x-implements:
+        - io.micronaut.kubernetes.client.openapi.common.KubernetesObject
