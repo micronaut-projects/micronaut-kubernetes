@@ -4,14 +4,15 @@ import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
-import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.TempDir
+
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class KubernetesClientOpenApiPluginSpec extends Specification {
 
     @TempDir
-    @Shared
     File testProjectDir
 
     Project project
@@ -50,6 +51,7 @@ class KubernetesClientOpenApiPluginSpec extends Specification {
 
     def "test create watcher open api spec"() {
         given:
+        Files.createDirectories(Paths.get(project.rootDir.toString(), "build/generated/watcher/src/main/java/io/micronaut/kubernetes/client/openapi/watcher/mapper"));
         def extension = project.getExtensions().getByName("kubernetesClientOpenApi")
         extension.specUrl.set(getClass().getResource('/openapi-input-2.yaml').toString())
         extension.modelPackageName.set("io.micronaut.kubernetes.client.openapi.model")

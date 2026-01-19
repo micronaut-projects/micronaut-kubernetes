@@ -92,5 +92,21 @@ paths:
           description: OK
 components:
   schemas:
+    v1.Namespace:
+      description: "namespace desc"
+      properties:
+        apiVersion:
+          type: string
+        kind:
+          type: string
     v1.NamespaceList:
       description: NamespaceList is a list of Namespaces.
+      properties:
+        apiVersion:
+          description: "desc1"
+          type: string
+        items:
+          description: "desc2"
+          items:
+            $ref: '#/components/schemas/v1.Namespace'
+          type: array
