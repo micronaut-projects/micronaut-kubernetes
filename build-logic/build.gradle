@@ -7,10 +7,16 @@ repositories {
     gradlePluginPortal()
 }
 
+configurations {
+    groovyCompiler
+}
+
 dependencies {
+    groovyCompiler("org.apache.groovy:groovy:5.0.3")
     implementation("org.yaml:snakeyaml:2.5")
-    implementation("org.spockframework:spock-core:2.4-groovy-5.0")
-    implementation("org.spockframework:spock-junit4:2.4-groovy-5.0")
+    testImplementation platform("io.micronaut.test:micronaut-test-bom:5.0.0-M3")
+    testImplementation("org.spockframework:spock-core")
+    testRuntimeOnly("org.junit.platform:junit-platform-suite")
 }
 
 gradlePlugin {
@@ -20,6 +26,11 @@ gradlePlugin {
             implementationClass = "io.micronaut.kubernetes.client.openapi.KubernetesClientOpenApiPlugin"
         }
     }
+}
+
+tasks.withType(GroovyCompile).configureEach {
+    // Use Groovy 5 to compile Groovy sources (Spock 2.4 requires Groovy 5)
+    groovyClasspath = files(configurations.groovyCompiler)
 }
 
 test {

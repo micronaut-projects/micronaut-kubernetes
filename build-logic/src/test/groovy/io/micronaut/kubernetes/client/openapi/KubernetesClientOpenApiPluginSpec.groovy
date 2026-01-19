@@ -4,14 +4,15 @@ import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
-import org.junit.Rule
-import org.junit.rules.TemporaryFolder
+import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.TempDir
 
 class KubernetesClientOpenApiPluginSpec extends Specification {
 
-    @Rule
-    TemporaryFolder testProjectDir = new TemporaryFolder()
+    @TempDir
+    @Shared
+    File testProjectDir
 
     Project project
 
@@ -24,8 +25,8 @@ class KubernetesClientOpenApiPluginSpec extends Specification {
     Action createWatcherOpenApiSpecAction
 
     def setup() {
-        testProjectDir.newFolder("build")
-        project = ProjectBuilder.builder().withProjectDir(testProjectDir.getRoot()).build()
+        new File(testProjectDir, "build").mkdir()
+        project = ProjectBuilder.builder().withProjectDir(testProjectDir).build()
         project.getPluginManager().apply("io.micronaut.kubernetes.client.openapi")
         def tasks = project.getTasks()
         downloadOpenApiSpecTask = tasks.getByName("downloadOpenApiSpec")
