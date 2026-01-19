@@ -7525,6 +7525,193 @@ The local cache starts out empty, and gets populated and updated.</p>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_informer_for_kubernetes_custom_resource">Informer for Kubernetes Custom Resource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To create an Informer for a kubernetes custom resource you need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>class which implements <a href="../api/io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html">KubernetesObject</a> interface:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Serdeable
+public class CustomObject implements KubernetesObject {
+
+    private String apiVersion;
+
+    private String kind;
+
+    private V1ObjectMeta metadata;
+
+    private String value;
+
+    // getters/setters omitted
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>class which implements <a href="../api/io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html">KubernetesListObject</a> interface:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Serdeable
+public class CustomObjectList implements KubernetesListObject {
+
+    private String apiVersion;
+
+    private String kind;
+
+    private V1ListMeta metadata;
+
+    private List&lt;CustomObject&gt; items;
+
+    // getters/setters omitted
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>non-blocking operations interface for the custom resource</p>
+</li>
+</ul>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@KubernetesClientApiReactor
+@BootstrapContextCompatible
+@Client("kubernetes")
+public interface CustomObjectApiReactor {
+
+    @Post("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes({"application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"})
+    Mono&lt;CustomObject&gt; createNamespacedCustomObject(
+        @PathVariable("namespace") String namespace,
+        @Body CustomObject body,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("dryRun") @Nullable String dryRun,
+        @QueryValue("fieldManager") @Nullable String fieldManager,
+        @QueryValue("fieldValidation") @Nullable String fieldValidation
+    );
+
+    @Delete("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes({"application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"})
+    Mono&lt;DeleteResponse&lt;CustomObject&gt;&gt; deleteNamespacedCustomObject(
+        @PathVariable("name") String name,
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("dryRun") @Nullable String dryRun,
+        @QueryValue("gracePeriodSeconds") @Nullable Integer gracePeriodSeconds,
+        @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable Boolean ignoreStoreReadErrorWithClusterBreakingPotential,
+        @QueryValue("orphanDependents") @Nullable Boolean orphanDependents,
+        @QueryValue("propagationPolicy") @Nullable String propagationPolicy,
+        @Body @Nullable V1DeleteOptions body
+    );
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes({"application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq"})
+    Mono&lt;CustomObjectList&gt; listNamespacedCustomObject(
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("allowWatchBookmarks") @Nullable Boolean allowWatchBookmarks,
+        @QueryValue("continue") @Nullable String _continue,
+        @QueryValue("fieldSelector") @Nullable String fieldSelector,
+        @QueryValue("labelSelector") @Nullable String labelSelector,
+        @QueryValue("limit") @Nullable Integer limit,
+        @QueryValue("resourceVersion") @Nullable String resourceVersion,
+        @QueryValue("resourceVersionMatch") @Nullable String resourceVersionMatch,
+        @QueryValue("sendInitialEvents") @Nullable Boolean sendInitialEvents,
+        @QueryValue("timeoutSeconds") @Nullable Integer timeoutSeconds,
+        @QueryValue("watch") @Nullable Boolean watch
+    );
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes({"application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"})
+    Mono&lt;CustomObject&gt; readNamespacedCustomObject(
+        @PathVariable("name") String name,
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty
+    );
+
+    @Put("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes({"application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"})
+    Mono&lt;CustomObject&gt; replaceNamespacedCustomObject(
+        @PathVariable("name") String name,
+        @PathVariable("namespace") String namespace,
+        @Body CustomObject body,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("dryRun") @Nullable String dryRun,
+        @QueryValue("fieldManager") @Nullable String fieldManager,
+        @QueryValue("fieldValidation") @Nullable String fieldValidation
+    );
+}</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>watcher interface for the custom resource</p>
+</li>
+</ul>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@KubernetesClientApiWatcher
+@Client("kubernetes")
+public interface CustomObjectApiWatcher {
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes({"application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq"})
+    Flux&lt;WatchEvent&lt;CustomObject&gt;&gt; listCustomObject(
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("allowWatchBookmarks") @Nullable Boolean allowWatchBookmarks,
+        @QueryValue("continue") @Nullable String _continue,
+        @QueryValue("fieldSelector") @Nullable String fieldSelector,
+        @QueryValue("labelSelector") @Nullable String labelSelector,
+        @QueryValue("limit") @Nullable Integer limit,
+        @QueryValue("resourceVersion") @Nullable String resourceVersion,
+        @QueryValue("resourceVersionMatch") @Nullable String resourceVersionMatch,
+        @QueryValue("sendInitialEvents") @Nullable Boolean sendInitialEvents,
+        @QueryValue("timeoutSeconds") @Nullable Integer timeoutSeconds,
+        @QueryValue("watch") @Nullable Boolean watch
+    );
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the OpenApi Spec of the official Java client library, names of list types are usually equal to names of list item types plus <code>List</code> suffix.
+For example: <code>V1SecretList</code> = <code>V1Secret</code> + <code>List</code>, <code>V1ConfigMapList</code> = <code>V1ConfigMap</code> + <code>List</code>, etc. If that is not case for your classes which
+implement <a href="../api/io/micronaut/kubernetes/client/openapi/common/KubernetesObject.html">KubernetesObject</a> and <a href="../api/io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html">KubernetesListObject</a> interfaces,
+you need to provide a mapping. Lets say that you have <code>CustomObject</code> and <code>CustomObjectCollection</code> classes, then you need a class
+which maps the list type name to list item type name, like in this example:</p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Singleton
+public class CustomTypeNameMapper implements TypeNameMapper {
+    @NonNull
+    @Override
+    public Map&lt;String, String&gt; getMappings() {
+        Map&lt;String, String&gt; mappings = new HashMap&lt;&gt;();
+        mappings.put("io.micronaut.kubernetes.client.openapi.informer.example2.CustomObjectCollection", "io.micronaut.kubernetes.client.openapi.informer.example2.CustomObject");
+        return mappings;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 
 <h2 id="kubernetes-client-openapi-operator"><a class="anchor" href="#kubernetes-client-openapi-operator"></a>5.6 Kubernetes Operator</h2>
 
@@ -8133,7 +8320,7 @@ the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and thei
 <div class="sect2">
 <h3 id="_the_official_kubernetes_client_upgrade">The official Kubernetes Client upgrade</h3>
 <div class="paragraph">
-<p>Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v24.</p>
+<p>Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v25.</p>
 </div>
 </div>
 <div class="sect2">

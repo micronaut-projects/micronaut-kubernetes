@@ -62,6 +62,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#JSON_PROPERTY_CONDITIONS" tabindex="0">JSON_PROPERTY_CONDITIONS</a></li>
 <li><a href="#JSON_PROPERTY_CONTAINER_STATUSES" tabindex="0">JSON_PROPERTY_CONTAINER_STATUSES</a></li>
 <li><a href="#JSON_PROPERTY_EPHEMERAL_CONTAINER_STATUSES" tabindex="0">JSON_PROPERTY_EPHEMERAL_CONTAINER_STATUSES</a></li>
+<li><a href="#JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS" tabindex="0">JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS</a></li>
 <li><a href="#JSON_PROPERTY_HOST_I_P" tabindex="0">JSON_PROPERTY_HOST_I_P</a></li>
 <li><a href="#JSON_PROPERTY_HOST_I_PS" tabindex="0">JSON_PROPERTY_HOST_I_PS</a></li>
 <li><a href="#JSON_PROPERTY_INIT_CONTAINER_STATUSES" tabindex="0">JSON_PROPERTY_INIT_CONTAINER_STATUSES</a></li>
@@ -97,6 +98,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#setEphemeralContainerStatuses(java.util.List)" tabindex="0">setEphemeralContainerStatuses(List)</a></li>
 <li><a href="#ephemeralContainerStatuses(java.util.List)" tabindex="0">ephemeralContainerStatuses(List)</a></li>
 <li><a href="#addEphemeralContainerStatusesItem(io.micronaut.kubernetes.client.openapi.model.V1ContainerStatus)" tabindex="0">addEphemeralContainerStatusesItem(V1ContainerStatus)</a></li>
+<li><a href="#getExtendedResourceClaimStatus()" tabindex="0">getExtendedResourceClaimStatus()</a></li>
+<li><a href="#setExtendedResourceClaimStatus(io.micronaut.kubernetes.client.openapi.model.V1PodExtendedResourceClaimStatus)" tabindex="0">setExtendedResourceClaimStatus(V1PodExtendedResourceClaimStatus)</a></li>
+<li><a href="#extendedResourceClaimStatus(io.micronaut.kubernetes.client.openapi.model.V1PodExtendedResourceClaimStatus)" tabindex="0">extendedResourceClaimStatus(V1PodExtendedResourceClaimStatus)</a></li>
 <li><a href="#getHostIP()" tabindex="0">getHostIP()</a></li>
 <li><a href="#setHostIP(java.lang.String)" tabindex="0">setHostIP(String)</a></li>
 <li><a href="#hostIP(java.lang.String)" tabindex="0">hostIP(String)</a></li>
@@ -188,47 +192,50 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_EPHEMERAL_CONTAINER_STATUSES" class="member-name-link">JSON_PROPERTY_EPHEMERAL_CONTAINER_STATUSES</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_HOST_I_P" class="member-name-link">JSON_PROPERTY_HOST_I_P</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS" class="member-name-link">JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_HOST_I_PS" class="member-name-link">JSON_PROPERTY_HOST_I_PS</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_HOST_I_P" class="member-name-link">JSON_PROPERTY_HOST_I_P</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_INIT_CONTAINER_STATUSES" class="member-name-link">JSON_PROPERTY_INIT_CONTAINER_STATUSES</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_HOST_I_PS" class="member-name-link">JSON_PROPERTY_HOST_I_PS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_MESSAGE" class="member-name-link">JSON_PROPERTY_MESSAGE</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_INIT_CONTAINER_STATUSES" class="member-name-link">JSON_PROPERTY_INIT_CONTAINER_STATUSES</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_NOMINATED_NODE_NAME" class="member-name-link">JSON_PROPERTY_NOMINATED_NODE_NAME</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_MESSAGE" class="member-name-link">JSON_PROPERTY_MESSAGE</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_OBSERVED_GENERATION" class="member-name-link">JSON_PROPERTY_OBSERVED_GENERATION</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_NOMINATED_NODE_NAME" class="member-name-link">JSON_PROPERTY_NOMINATED_NODE_NAME</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_PHASE" class="member-name-link">JSON_PROPERTY_PHASE</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_OBSERVED_GENERATION" class="member-name-link">JSON_PROPERTY_OBSERVED_GENERATION</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_POD_I_P" class="member-name-link">JSON_PROPERTY_POD_I_P</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_PHASE" class="member-name-link">JSON_PROPERTY_PHASE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_POD_I_PS" class="member-name-link">JSON_PROPERTY_POD_I_PS</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_POD_I_P" class="member-name-link">JSON_PROPERTY_POD_I_P</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_QOS_CLASS" class="member-name-link">JSON_PROPERTY_QOS_CLASS</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_POD_I_PS" class="member-name-link">JSON_PROPERTY_POD_I_PS</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_REASON" class="member-name-link">JSON_PROPERTY_REASON</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_QOS_CLASS" class="member-name-link">JSON_PROPERTY_QOS_CLASS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_RESIZE" class="member-name-link">JSON_PROPERTY_RESIZE</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_REASON" class="member-name-link">JSON_PROPERTY_REASON</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_RESOURCE_CLAIM_STATUSES" class="member-name-link">JSON_PROPERTY_RESOURCE_CLAIM_STATUSES</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_RESIZE" class="member-name-link">JSON_PROPERTY_RESIZE</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_START_TIME" class="member-name-link">JSON_PROPERTY_START_TIME</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_RESOURCE_CLAIM_STATUSES" class="member-name-link">JSON_PROPERTY_RESOURCE_CLAIM_STATUSES</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_START_TIME" class="member-name-link">JSON_PROPERTY_START_TIME</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -309,21 +316,29 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1PodCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCondition</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getConditions()" class="member-name-link">getConditions</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#extendedResourceClaimStatus(io.micronaut.kubernetes.client.openapi.model.V1PodExtendedResourceClaimStatus)" class="member-name-link">extendedResourceClaimStatus</a><wbr>(<a href="V1PodExtendedResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodExtendedResourceClaimStatus</a>&nbsp;extendedResourceClaimStatus)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set extendedResourceClaimStatus in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1PodCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCondition</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getConditions()" class="member-name-link">getConditions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Current service state of pod.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getContainerStatuses()" class="member-name-link">getContainerStatuses</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getContainerStatuses()" class="member-name-link">getContainerStatuses</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Statuses of containers in this pod.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEphemeralContainerStatuses()" class="member-name-link">getEphemeralContainerStatuses</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEphemeralContainerStatuses()" class="member-name-link">getEphemeralContainerStatuses</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Statuses for any ephemeral containers that have run in this pod.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodExtendedResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodExtendedResourceClaimStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getExtendedResourceClaimStatus()" class="member-name-link">getExtendedResourceClaimStatus</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHostIP()" class="member-name-link">getHostIP</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -478,83 +493,88 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the ephemeralContainerStatuses property value</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHostIP(java.lang.String)" class="member-name-link">setHostIP</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;hostIP)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setExtendedResourceClaimStatus(io.micronaut.kubernetes.client.openapi.model.V1PodExtendedResourceClaimStatus)" class="member-name-link">setExtendedResourceClaimStatus</a><wbr>(<a href="V1PodExtendedResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodExtendedResourceClaimStatus</a>&nbsp;extendedResourceClaimStatus)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the extendedResourceClaimStatus property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHostIP(java.lang.String)" class="member-name-link">setHostIP</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;hostIP)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the hostIP property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHostIPs(java.util.List)" class="member-name-link">setHostIPs</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1HostIP.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1HostIP</a>&gt;&nbsp;hostIPs)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHostIPs(java.util.List)" class="member-name-link">setHostIPs</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1HostIP.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1HostIP</a>&gt;&nbsp;hostIPs)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the hostIPs property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInitContainerStatuses(java.util.List)" class="member-name-link">setInitContainerStatuses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&gt;&nbsp;initContainerStatuses)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setInitContainerStatuses(java.util.List)" class="member-name-link">setInitContainerStatuses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&gt;&nbsp;initContainerStatuses)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the initContainerStatuses property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMessage(java.lang.String)" class="member-name-link">setMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMessage(java.lang.String)" class="member-name-link">setMessage</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;message)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the message property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNominatedNodeName(java.lang.String)" class="member-name-link">setNominatedNodeName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nominatedNodeName)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNominatedNodeName(java.lang.String)" class="member-name-link">setNominatedNodeName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nominatedNodeName)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the nominatedNodeName property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setObservedGeneration(java.lang.Long)" class="member-name-link">setObservedGeneration</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;observedGeneration)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setObservedGeneration(java.lang.Long)" class="member-name-link">setObservedGeneration</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;observedGeneration)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the observedGeneration property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhase(java.lang.String)" class="member-name-link">setPhase</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;phase)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPhase(java.lang.String)" class="member-name-link">setPhase</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;phase)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the phase property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPodIP(java.lang.String)" class="member-name-link">setPodIP</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;podIP)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPodIP(java.lang.String)" class="member-name-link">setPodIP</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;podIP)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the podIP property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPodIPs(java.util.List)" class="member-name-link">setPodIPs</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1PodIP.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodIP</a>&gt;&nbsp;podIPs)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPodIPs(java.util.List)" class="member-name-link">setPodIPs</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1PodIP.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodIP</a>&gt;&nbsp;podIPs)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the podIPs property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setQosClass(java.lang.String)" class="member-name-link">setQosClass</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;qosClass)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setQosClass(java.lang.String)" class="member-name-link">setQosClass</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;qosClass)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the qosClass property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReason(java.lang.String)" class="member-name-link">setReason</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setReason(java.lang.String)" class="member-name-link">setReason</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;reason)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the reason property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setResize(java.lang.String)" class="member-name-link">setResize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;resize)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setResize(java.lang.String)" class="member-name-link">setResize</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;resize)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the resize property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setResourceClaimStatuses(java.util.List)" class="member-name-link">setResourceClaimStatuses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1PodResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodResourceClaimStatus</a>&gt;&nbsp;resourceClaimStatuses)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setResourceClaimStatuses(java.util.List)" class="member-name-link">setResourceClaimStatuses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1PodResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodResourceClaimStatus</a>&gt;&nbsp;resourceClaimStatuses)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the resourceClaimStatuses property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStartTime(java.time.OffsetDateTime)" class="member-name-link">setStartTime</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;startTime)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setStartTime(java.time.OffsetDateTime)" class="member-name-link">setStartTime</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;startTime)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the startTime property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startTime(java.time.OffsetDateTime)" class="member-name-link">startTime</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;startTime)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#startTime(java.time.OffsetDateTime)" class="member-name-link">startTime</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;startTime)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set startTime in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -614,6 +634,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1PodStatus.JSON_PROPERTY_EPHEMERAL_CONTAINER_STATUSES">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS">
+<h3>JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1PodStatus.JSON_PROPERTY_EXTENDED_RESOURCE_CLAIM_STATUS">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -1017,6 +1053,44 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1PodStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodStatus</a></span>&nbsp;<span class="element-name">addEphemeralContainerStatusesItem</span><wbr><span class="parameters">(<a href="V1ContainerStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerStatus</a>&nbsp;ephemeralContainerStatusesItem)</span></div>
 <div class="block">Add an item to the ephemeralContainerStatuses property in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1PodStatus for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getExtendedResourceClaimStatus()">
+<h3>getExtendedResourceClaimStatus</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1PodExtendedResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodExtendedResourceClaimStatus</a></span>&nbsp;<span class="element-name">getExtendedResourceClaimStatus</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the extendedResourceClaimStatus property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setExtendedResourceClaimStatus(io.micronaut.kubernetes.client.openapi.model.V1PodExtendedResourceClaimStatus)">
+<h3>setExtendedResourceClaimStatus</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setExtendedResourceClaimStatus</span><wbr><span class="parameters">(<a href="V1PodExtendedResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodExtendedResourceClaimStatus</a>&nbsp;extendedResourceClaimStatus)</span></div>
+<div class="block">Set the extendedResourceClaimStatus property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>extendedResourceClaimStatus</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="extendedResourceClaimStatus(io.micronaut.kubernetes.client.openapi.model.V1PodExtendedResourceClaimStatus)">
+<h3>extendedResourceClaimStatus</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1PodStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodStatus</a></span>&nbsp;<span class="element-name">extendedResourceClaimStatus</span><wbr><span class="parameters">(<a href="V1PodExtendedResourceClaimStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodExtendedResourceClaimStatus</a>&nbsp;extendedResourceClaimStatus)</span></div>
+<div class="block">Set extendedResourceClaimStatus in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1PodStatus for chaining.</dd>

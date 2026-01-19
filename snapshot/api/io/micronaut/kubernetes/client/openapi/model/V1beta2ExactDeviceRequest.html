@@ -62,6 +62,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#JSON_PROPERTY_DEVICE_CLASS_NAME" tabindex="0">JSON_PROPERTY_DEVICE_CLASS_NAME</a></li>
 <li><a href="#JSON_PROPERTY_ADMIN_ACCESS" tabindex="0">JSON_PROPERTY_ADMIN_ACCESS</a></li>
 <li><a href="#JSON_PROPERTY_ALLOCATION_MODE" tabindex="0">JSON_PROPERTY_ALLOCATION_MODE</a></li>
+<li><a href="#JSON_PROPERTY_CAPACITY" tabindex="0">JSON_PROPERTY_CAPACITY</a></li>
 <li><a href="#JSON_PROPERTY_COUNT" tabindex="0">JSON_PROPERTY_COUNT</a></li>
 <li><a href="#JSON_PROPERTY_SELECTORS" tabindex="0">JSON_PROPERTY_SELECTORS</a></li>
 <li><a href="#JSON_PROPERTY_TOLERATIONS" tabindex="0">JSON_PROPERTY_TOLERATIONS</a></li>
@@ -83,6 +84,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#getAllocationMode()" tabindex="0">getAllocationMode()</a></li>
 <li><a href="#setAllocationMode(java.lang.String)" tabindex="0">setAllocationMode(String)</a></li>
 <li><a href="#allocationMode(java.lang.String)" tabindex="0">allocationMode(String)</a></li>
+<li><a href="#getCapacity()" tabindex="0">getCapacity()</a></li>
+<li><a href="#setCapacity(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequirements)" tabindex="0">setCapacity(V1beta2CapacityRequirements)</a></li>
+<li><a href="#capacity(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequirements)" tabindex="0">capacity(V1beta2CapacityRequirements)</a></li>
 <li><a href="#getCount()" tabindex="0">getCount()</a></li>
 <li><a href="#setCount(java.lang.Long)" tabindex="0">setCount(Long)</a></li>
 <li><a href="#count(java.lang.Long)" tabindex="0">count(Long)</a></li>
@@ -136,17 +140,20 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_ALLOCATION_MODE" class="member-name-link">JSON_PROPERTY_ALLOCATION_MODE</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_COUNT" class="member-name-link">JSON_PROPERTY_COUNT</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_CAPACITY" class="member-name-link">JSON_PROPERTY_CAPACITY</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_DEVICE_CLASS_NAME" class="member-name-link">JSON_PROPERTY_DEVICE_CLASS_NAME</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_COUNT" class="member-name-link">JSON_PROPERTY_COUNT</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_SELECTORS" class="member-name-link">JSON_PROPERTY_SELECTORS</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_DEVICE_CLASS_NAME" class="member-name-link">JSON_PROPERTY_DEVICE_CLASS_NAME</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_TOLERATIONS" class="member-name-link">JSON_PROPERTY_TOLERATIONS</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_SELECTORS" class="member-name-link">JSON_PROPERTY_SELECTORS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_TOLERATIONS" class="member-name-link">JSON_PROPERTY_TOLERATIONS</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -195,28 +202,36 @@ loadScripts(document, 'script');</script>
 <div class="block">Set allocationMode in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#count(java.lang.Long)" class="member-name-link">count</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;count)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#capacity(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequirements)" class="member-name-link">capacity</a><wbr>(<a href="V1beta2CapacityRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequirements</a>&nbsp;capacity)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set count in a chainable fashion.</div>
+<div class="block">Set capacity in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deviceClassName(java.lang.String)" class="member-name-link">deviceClassName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deviceClassName)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#count(java.lang.Long)" class="member-name-link">count</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;count)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set count in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#deviceClassName(java.lang.String)" class="member-name-link">deviceClassName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deviceClassName)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set deviceClassName in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAdminAccess()" class="member-name-link">getAdminAccess</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAdminAccess()" class="member-name-link">getAdminAccess</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">AdminAccess indicates that this is a claim for administrative access to the device(s).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllocationMode()" class="member-name-link">getAllocationMode</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllocationMode()" class="member-name-link">getAllocationMode</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">AllocationMode and its related fields define how devices are allocated to satisfy this request.</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2CapacityRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequirements</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCapacity()" class="member-name-link">getCapacity</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCount()" class="member-name-link">getCount</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -256,33 +271,38 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the allocationMode property value</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCount(java.lang.Long)" class="member-name-link">setCount</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;count)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCapacity(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequirements)" class="member-name-link">setCapacity</a><wbr>(<a href="V1beta2CapacityRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequirements</a>&nbsp;capacity)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the capacity property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCount(java.lang.Long)" class="member-name-link">setCount</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&nbsp;count)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the count property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceClassName(java.lang.String)" class="member-name-link">setDeviceClassName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deviceClassName)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeviceClassName(java.lang.String)" class="member-name-link">setDeviceClassName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;deviceClassName)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the deviceClassName property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSelectors(java.util.List)" class="member-name-link">setSelectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1beta2DeviceSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceSelector</a>&gt;&nbsp;selectors)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSelectors(java.util.List)" class="member-name-link">setSelectors</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1beta2DeviceSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceSelector</a>&gt;&nbsp;selectors)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the selectors property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTolerations(java.util.List)" class="member-name-link">setTolerations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1beta2DeviceToleration.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceToleration</a>&gt;&nbsp;tolerations)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setTolerations(java.util.List)" class="member-name-link">setTolerations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1beta2DeviceToleration.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceToleration</a>&gt;&nbsp;tolerations)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the tolerations property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tolerations(java.util.List)" class="member-name-link">tolerations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1beta2DeviceToleration.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceToleration</a>&gt;&nbsp;tolerations)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#tolerations(java.util.List)" class="member-name-link">tolerations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1beta2DeviceToleration.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceToleration</a>&gt;&nbsp;tolerations)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set tolerations in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -342,6 +362,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2ExactDeviceRequest.JSON_PROPERTY_ALLOCATION_MODE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_CAPACITY">
+<h3>JSON_PROPERTY_CAPACITY</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_CAPACITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2ExactDeviceRequest.JSON_PROPERTY_CAPACITY">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -530,6 +566,44 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></span>&nbsp;<span class="element-name">allocationMode</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;allocationMode)</span></div>
 <div class="block">Set allocationMode in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2ExactDeviceRequest for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getCapacity()">
+<h3>getCapacity</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2CapacityRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequirements</a></span>&nbsp;<span class="element-name">getCapacity</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the capacity property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setCapacity(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequirements)">
+<h3>setCapacity</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setCapacity</span><wbr><span class="parameters">(<a href="V1beta2CapacityRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequirements</a>&nbsp;capacity)</span></div>
+<div class="block">Set the capacity property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>capacity</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="capacity(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequirements)">
+<h3>capacity</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2ExactDeviceRequest.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2ExactDeviceRequest</a></span>&nbsp;<span class="element-name">capacity</span><wbr><span class="parameters">(<a href="V1beta2CapacityRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequirements</a>&nbsp;capacity)</span></div>
+<div class="block">Set capacity in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1beta2ExactDeviceRequest for chaining.</dd>

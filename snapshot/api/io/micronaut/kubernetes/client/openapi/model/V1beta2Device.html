@@ -61,7 +61,11 @@ loadScripts(document, 'script');</script>
 <ol class="toc-list">
 <li><a href="#JSON_PROPERTY_NAME" tabindex="0">JSON_PROPERTY_NAME</a></li>
 <li><a href="#JSON_PROPERTY_ALL_NODES" tabindex="0">JSON_PROPERTY_ALL_NODES</a></li>
+<li><a href="#JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS" tabindex="0">JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS</a></li>
 <li><a href="#JSON_PROPERTY_ATTRIBUTES" tabindex="0">JSON_PROPERTY_ATTRIBUTES</a></li>
+<li><a href="#JSON_PROPERTY_BINDING_CONDITIONS" tabindex="0">JSON_PROPERTY_BINDING_CONDITIONS</a></li>
+<li><a href="#JSON_PROPERTY_BINDING_FAILURE_CONDITIONS" tabindex="0">JSON_PROPERTY_BINDING_FAILURE_CONDITIONS</a></li>
+<li><a href="#JSON_PROPERTY_BINDS_TO_NODE" tabindex="0">JSON_PROPERTY_BINDS_TO_NODE</a></li>
 <li><a href="#JSON_PROPERTY_CAPACITY" tabindex="0">JSON_PROPERTY_CAPACITY</a></li>
 <li><a href="#JSON_PROPERTY_CONSUMES_COUNTERS" tabindex="0">JSON_PROPERTY_CONSUMES_COUNTERS</a></li>
 <li><a href="#JSON_PROPERTY_NODE_NAME" tabindex="0">JSON_PROPERTY_NODE_NAME</a></li>
@@ -82,10 +86,24 @@ loadScripts(document, 'script');</script>
 <li><a href="#getAllNodes()" tabindex="0">getAllNodes()</a></li>
 <li><a href="#setAllNodes(java.lang.Boolean)" tabindex="0">setAllNodes(Boolean)</a></li>
 <li><a href="#allNodes(java.lang.Boolean)" tabindex="0">allNodes(Boolean)</a></li>
+<li><a href="#getAllowMultipleAllocations()" tabindex="0">getAllowMultipleAllocations()</a></li>
+<li><a href="#setAllowMultipleAllocations(java.lang.Boolean)" tabindex="0">setAllowMultipleAllocations(Boolean)</a></li>
+<li><a href="#allowMultipleAllocations(java.lang.Boolean)" tabindex="0">allowMultipleAllocations(Boolean)</a></li>
 <li><a href="#getAttributes()" tabindex="0">getAttributes()</a></li>
 <li><a href="#setAttributes(java.util.Map)" tabindex="0">setAttributes(Map)</a></li>
 <li><a href="#attributes(java.util.Map)" tabindex="0">attributes(Map)</a></li>
 <li><a href="#putAttributesItem(java.lang.String,io.micronaut.kubernetes.client.openapi.model.V1beta2DeviceAttribute)" tabindex="0">putAttributesItem(String, V1beta2DeviceAttribute)</a></li>
+<li><a href="#getBindingConditions()" tabindex="0">getBindingConditions()</a></li>
+<li><a href="#setBindingConditions(java.util.List)" tabindex="0">setBindingConditions(List)</a></li>
+<li><a href="#bindingConditions(java.util.List)" tabindex="0">bindingConditions(List)</a></li>
+<li><a href="#addBindingConditionsItem(java.lang.String)" tabindex="0">addBindingConditionsItem(String)</a></li>
+<li><a href="#getBindingFailureConditions()" tabindex="0">getBindingFailureConditions()</a></li>
+<li><a href="#setBindingFailureConditions(java.util.List)" tabindex="0">setBindingFailureConditions(List)</a></li>
+<li><a href="#bindingFailureConditions(java.util.List)" tabindex="0">bindingFailureConditions(List)</a></li>
+<li><a href="#addBindingFailureConditionsItem(java.lang.String)" tabindex="0">addBindingFailureConditionsItem(String)</a></li>
+<li><a href="#getBindsToNode()" tabindex="0">getBindsToNode()</a></li>
+<li><a href="#setBindsToNode(java.lang.Boolean)" tabindex="0">setBindsToNode(Boolean)</a></li>
+<li><a href="#bindsToNode(java.lang.Boolean)" tabindex="0">bindsToNode(Boolean)</a></li>
 <li><a href="#getCapacity()" tabindex="0">getCapacity()</a></li>
 <li><a href="#setCapacity(java.util.Map)" tabindex="0">setCapacity(Map)</a></li>
 <li><a href="#capacity(java.util.Map)" tabindex="0">capacity(Map)</a></li>
@@ -143,7 +161,19 @@ loadScripts(document, 'script');</script>
 <div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_ALL_NODES" class="member-name-link">JSON_PROPERTY_ALL_NODES</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_ATTRIBUTES" class="member-name-link">JSON_PROPERTY_ATTRIBUTES</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS" class="member-name-link">JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_ATTRIBUTES" class="member-name-link">JSON_PROPERTY_ATTRIBUTES</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_BINDING_CONDITIONS" class="member-name-link">JSON_PROPERTY_BINDING_CONDITIONS</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_BINDING_FAILURE_CONDITIONS" class="member-name-link">JSON_PROPERTY_BINDING_FAILURE_CONDITIONS</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_BINDS_TO_NODE" class="member-name-link">JSON_PROPERTY_BINDS_TO_NODE</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_CAPACITY" class="member-name-link">JSON_PROPERTY_CAPACITY</a></code></div>
@@ -191,6 +221,16 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addBindingConditionsItem(java.lang.String)" class="member-name-link">addBindingConditionsItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bindingConditionsItem)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Add an item to the bindingConditions property in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addBindingFailureConditionsItem(java.lang.String)" class="member-name-link">addBindingFailureConditionsItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bindingFailureConditionsItem)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Add an item to the bindingFailureConditions property in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addConsumesCountersItem(io.micronaut.kubernetes.client.openapi.model.V1beta2DeviceCounterConsumption)" class="member-name-link">addConsumesCountersItem</a><wbr>(<a href="V1beta2DeviceCounterConsumption.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCounterConsumption</a>&nbsp;consumesCountersItem)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an item to the consumesCounters property in a chainable fashion.</div>
@@ -206,9 +246,29 @@ loadScripts(document, 'script');</script>
 <div class="block">Set allNodes in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attributes(java.util.Map)" class="member-name-link">attributes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&gt;&nbsp;attributes)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowMultipleAllocations(java.lang.Boolean)" class="member-name-link">allowMultipleAllocations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowMultipleAllocations)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set allowMultipleAllocations in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#attributes(java.util.Map)" class="member-name-link">attributes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&gt;&nbsp;attributes)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set attributes in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindingConditions(java.util.List)" class="member-name-link">bindingConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingConditions)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set bindingConditions in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindingFailureConditions(java.util.List)" class="member-name-link">bindingFailureConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingFailureConditions)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set bindingFailureConditions in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bindsToNode(java.lang.Boolean)" class="member-name-link">bindsToNode</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;bindsToNode)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set bindsToNode in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#capacity(java.util.Map)" class="member-name-link">capacity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a>&gt;&nbsp;capacity)</code></div>
@@ -228,10 +288,30 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">AllNodes indicates that all nodes have access to the device.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAttributes()" class="member-name-link">getAttributes</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllowMultipleAllocations()" class="member-name-link">getAllowMultipleAllocations</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">AllowMultipleAllocations marks whether the device is allowed to be allocated to multiple DeviceRequests.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAttributes()" class="member-name-link">getAttributes</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Attributes defines the set of attributes for this device.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBindingConditions()" class="member-name-link">getBindingConditions</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">BindingConditions defines the conditions for proceeding with binding.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBindingFailureConditions()" class="member-name-link">getBindingFailureConditions</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">BindingFailureConditions defines the conditions for binding failure.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getBindsToNode()" class="member-name-link">getBindsToNode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">BindsToNode indicates if the usage of an allocation involving this device has to be limited to exactly the node that was chosen when allocating the claim.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCapacity()" class="member-name-link">getCapacity</a>()</code></div>
@@ -297,9 +377,29 @@ loadScripts(document, 'script');</script>
 <div class="block">Set the allNodes property value</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAttributes(java.util.Map)" class="member-name-link">setAttributes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&gt;&nbsp;attributes)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAllowMultipleAllocations(java.lang.Boolean)" class="member-name-link">setAllowMultipleAllocations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowMultipleAllocations)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the allowMultipleAllocations property value</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAttributes(java.util.Map)" class="member-name-link">setAttributes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&gt;&nbsp;attributes)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the attributes property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBindingConditions(java.util.List)" class="member-name-link">setBindingConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingConditions)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the bindingConditions property value</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBindingFailureConditions(java.util.List)" class="member-name-link">setBindingFailureConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingFailureConditions)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the bindingFailureConditions property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBindsToNode(java.lang.Boolean)" class="member-name-link">setBindsToNode</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;bindsToNode)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the bindsToNode property value</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCapacity(java.util.Map)" class="member-name-link">setCapacity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a>&gt;&nbsp;capacity)</code></div>
@@ -389,6 +489,22 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS">
+<h3>JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2Device.JSON_PROPERTY_ALLOW_MULTIPLE_ALLOCATIONS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_ATTRIBUTES">
 <h3>JSON_PROPERTY_ATTRIBUTES</h3>
 <div class="horizontal-scroll">
@@ -398,6 +514,54 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2Device.JSON_PROPERTY_ATTRIBUTES">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_BINDING_CONDITIONS">
+<h3>JSON_PROPERTY_BINDING_CONDITIONS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_BINDING_CONDITIONS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2Device.JSON_PROPERTY_BINDING_CONDITIONS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_BINDING_FAILURE_CONDITIONS">
+<h3>JSON_PROPERTY_BINDING_FAILURE_CONDITIONS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_BINDING_FAILURE_CONDITIONS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2Device.JSON_PROPERTY_BINDING_FAILURE_CONDITIONS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_BINDS_TO_NODE">
+<h3>JSON_PROPERTY_BINDS_TO_NODE</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_BINDS_TO_NODE</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2Device.JSON_PROPERTY_BINDS_TO_NODE">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -587,6 +751,45 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="getAllowMultipleAllocations()">
+<h3>getAllowMultipleAllocations</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getAllowMultipleAllocations</span>()</div>
+<div class="block">AllowMultipleAllocations marks whether the device is allowed to be allocated to multiple DeviceRequests.  If AllowMultipleAllocations is set to true, the device can be allocated more than once, and all of its capacity is consumable, regardless of whether the requestPolicy is defined or not.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the allowMultipleAllocations property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setAllowMultipleAllocations(java.lang.Boolean)">
+<h3>setAllowMultipleAllocations</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAllowMultipleAllocations</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowMultipleAllocations)</span></div>
+<div class="block">Set the allowMultipleAllocations property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>allowMultipleAllocations</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="allowMultipleAllocations(java.lang.Boolean)">
+<h3>allowMultipleAllocations</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">allowMultipleAllocations</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;allowMultipleAllocations)</span></div>
+<div class="block">Set allowMultipleAllocations in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2Device for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="getAttributes()">
 <h3>getAttributes</h3>
 <div class="horizontal-scroll">
@@ -632,6 +835,149 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">putAttributesItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
  <a href="V1beta2DeviceAttribute.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceAttribute</a>&nbsp;attributesItem)</span></div>
 <div class="block">Set the value for the key for the attributes map property in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2Device for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getBindingConditions()">
+<h3>getBindingConditions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getBindingConditions</span>()</div>
+<div class="block">BindingConditions defines the conditions for proceeding with binding. All of these conditions must be set in the per-device status conditions with a value of True to proceed with binding the pod to the node while scheduling the pod.  The maximum number of binding conditions is 4.  The conditions must be a valid condition type string.  This is an alpha field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the bindingConditions property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setBindingConditions(java.util.List)">
+<h3>setBindingConditions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBindingConditions</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingConditions)</span></div>
+<div class="block">Set the bindingConditions property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>bindingConditions</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="bindingConditions(java.util.List)">
+<h3>bindingConditions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">bindingConditions</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingConditions)</span></div>
+<div class="block">Set bindingConditions in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2Device for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="addBindingConditionsItem(java.lang.String)">
+<h3>addBindingConditionsItem</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">addBindingConditionsItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bindingConditionsItem)</span></div>
+<div class="block">Add an item to the bindingConditions property in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2Device for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getBindingFailureConditions()">
+<h3>getBindingFailureConditions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getBindingFailureConditions</span>()</div>
+<div class="block">BindingFailureConditions defines the conditions for binding failure. They may be set in the per-device status conditions. If any is set to \"True\", a binding failure occurred.  The maximum number of binding failure conditions is 4.  The conditions must be a valid condition type string.  This is an alpha field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the bindingFailureConditions property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setBindingFailureConditions(java.util.List)">
+<h3>setBindingFailureConditions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBindingFailureConditions</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingFailureConditions)</span></div>
+<div class="block">Set the bindingFailureConditions property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>bindingFailureConditions</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="bindingFailureConditions(java.util.List)">
+<h3>bindingFailureConditions</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">bindingFailureConditions</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;bindingFailureConditions)</span></div>
+<div class="block">Set bindingFailureConditions in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2Device for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="addBindingFailureConditionsItem(java.lang.String)">
+<h3>addBindingFailureConditionsItem</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">addBindingFailureConditionsItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;bindingFailureConditionsItem)</span></div>
+<div class="block">Add an item to the bindingFailureConditions property in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2Device for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getBindsToNode()">
+<h3>getBindsToNode</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">getBindsToNode</span>()</div>
+<div class="block">BindsToNode indicates if the usage of an allocation involving this device has to be limited to exactly the node that was chosen when allocating the claim. If set to true, the scheduler will set the ResourceClaim.Status.Allocation.NodeSelector to match the node where the allocation was made.  This is an alpha field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gates.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the bindsToNode property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setBindsToNode(java.lang.Boolean)">
+<h3>setBindsToNode</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setBindsToNode</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;bindsToNode)</span></div>
+<div class="block">Set the bindsToNode property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>bindsToNode</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="bindsToNode(java.lang.Boolean)">
+<h3>bindsToNode</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2Device.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2Device</a></span>&nbsp;<span class="element-name">bindsToNode</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;bindsToNode)</span></div>
+<div class="block">Set bindsToNode in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1beta2Device for chaining.</dd>

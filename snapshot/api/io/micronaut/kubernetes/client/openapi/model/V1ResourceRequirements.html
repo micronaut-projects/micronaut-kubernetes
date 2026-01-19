@@ -74,7 +74,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#getClaims()" tabindex="0">getClaims()</a></li>
 <li><a href="#setClaims(java.util.List)" tabindex="0">setClaims(List)</a></li>
 <li><a href="#claims(java.util.List)" tabindex="0">claims(List)</a></li>
-<li><a href="#addClaimsItem(io.micronaut.kubernetes.client.openapi.model.V1ResourceClaim)" tabindex="0">addClaimsItem(V1ResourceClaim)</a></li>
+<li><a href="#addClaimsItem(io.micronaut.kubernetes.client.openapi.model.CoreV1ResourceClaim)" tabindex="0">addClaimsItem(CoreV1ResourceClaim)</a></li>
 <li><a href="#getLimits()" tabindex="0">getLimits()</a></li>
 <li><a href="#setLimits(java.util.Map)" tabindex="0">setLimits(Map)</a></li>
 <li><a href="#limits(java.util.Map)" tabindex="0">limits(Map)</a></li>
@@ -155,19 +155,19 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addClaimsItem(io.micronaut.kubernetes.client.openapi.model.V1ResourceClaim)" class="member-name-link">addClaimsItem</a><wbr>(<a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&nbsp;claimsItem)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addClaimsItem(io.micronaut.kubernetes.client.openapi.model.CoreV1ResourceClaim)" class="member-name-link">addClaimsItem</a><wbr>(<a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&nbsp;claimsItem)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an item to the claims property in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#claims(java.util.List)" class="member-name-link">claims</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&gt;&nbsp;claims)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#claims(java.util.List)" class="member-name-link">claims</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&gt;&nbsp;claims)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set claims in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getClaims()" class="member-name-link">getClaims</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.</div>
@@ -208,7 +208,7 @@ loadScripts(document, 'script');</script>
 <div class="block">Set requests in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setClaims(java.util.List)" class="member-name-link">setClaims</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&gt;&nbsp;claims)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setClaims(java.util.List)" class="member-name-link">setClaims</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&gt;&nbsp;claims)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the claims property value</div>
 </div>
@@ -318,8 +318,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getClaims()">
 <h3>getClaims</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&gt;</span>&nbsp;<span class="element-name">getClaims</span>()</div>
-<div class="block">Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.  This is an alpha field and requires enabling the DynamicResourceAllocation feature gate.  This field is immutable. It can only be set for containers.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&gt;</span>&nbsp;<span class="element-name">getClaims</span>()</div>
+<div class="block">Claims lists the names of resources, defined in spec.resourceClaims, that are used by this container.  This field depends on the DynamicResourceAllocation feature gate.  This field is immutable. It can only be set for containers.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the claims property value</dd>
@@ -331,7 +331,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="setClaims(java.util.List)">
 <h3>setClaims</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setClaims</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&gt;&nbsp;claims)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setClaims</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&gt;&nbsp;claims)</span></div>
 <div class="block">Set the claims property value</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -344,7 +344,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="claims(java.util.List)">
 <h3>claims</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></span>&nbsp;<span class="element-name">claims</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&gt;&nbsp;claims)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></span>&nbsp;<span class="element-name">claims</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&gt;&nbsp;claims)</span></div>
 <div class="block">Set claims in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -354,10 +354,10 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="addClaimsItem(io.micronaut.kubernetes.client.openapi.model.V1ResourceClaim)">
+<section class="detail" id="addClaimsItem(io.micronaut.kubernetes.client.openapi.model.CoreV1ResourceClaim)">
 <h3>addClaimsItem</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></span>&nbsp;<span class="element-name">addClaimsItem</span><wbr><span class="parameters">(<a href="V1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceClaim</a>&nbsp;claimsItem)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1ResourceRequirements.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ResourceRequirements</a></span>&nbsp;<span class="element-name">addClaimsItem</span><wbr><span class="parameters">(<a href="CoreV1ResourceClaim.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1ResourceClaim</a>&nbsp;claimsItem)</span></div>
 <div class="block">Add an item to the claims property in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>

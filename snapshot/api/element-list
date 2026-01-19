@@ -34,6 +34,7 @@ io.micronaut.kubernetes.client.openapi.util
 io.micronaut.kubernetes.client.openapi.watcher
 io.micronaut.kubernetes.client.openapi.watcher.annotation
 io.micronaut.kubernetes.client.openapi.watcher.api
+io.micronaut.kubernetes.client.openapi.watcher.mapper
 io.micronaut.kubernetes.client.operator
 io.micronaut.kubernetes.client.operator.configuration
 io.micronaut.kubernetes.client.operator.controller

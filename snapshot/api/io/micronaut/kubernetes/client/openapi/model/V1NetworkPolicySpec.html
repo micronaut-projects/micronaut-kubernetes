@@ -59,22 +59,19 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#field-detail" tabindex="0">Field Details</a>
 <ol class="toc-list">
-<li><a href="#JSON_PROPERTY_POD_SELECTOR" tabindex="0">JSON_PROPERTY_POD_SELECTOR</a></li>
 <li><a href="#JSON_PROPERTY_EGRESS" tabindex="0">JSON_PROPERTY_EGRESS</a></li>
 <li><a href="#JSON_PROPERTY_INGRESS" tabindex="0">JSON_PROPERTY_INGRESS</a></li>
+<li><a href="#JSON_PROPERTY_POD_SELECTOR" tabindex="0">JSON_PROPERTY_POD_SELECTOR</a></li>
 <li><a href="#JSON_PROPERTY_POLICY_TYPES" tabindex="0">JSON_PROPERTY_POLICY_TYPES</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
 <ol class="toc-list">
-<li><a href="#%3Cinit%3E(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" tabindex="0">V1NetworkPolicySpec(V1LabelSelector)</a></li>
+<li><a href="#%3Cinit%3E()" tabindex="0">V1NetworkPolicySpec()</a></li>
 </ol>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
-<li><a href="#getPodSelector()" tabindex="0">getPodSelector()</a></li>
-<li><a href="#setPodSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" tabindex="0">setPodSelector(V1LabelSelector)</a></li>
-<li><a href="#podSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" tabindex="0">podSelector(V1LabelSelector)</a></li>
 <li><a href="#getEgress()" tabindex="0">getEgress()</a></li>
 <li><a href="#setEgress(java.util.List)" tabindex="0">setEgress(List)</a></li>
 <li><a href="#egress(java.util.List)" tabindex="0">egress(List)</a></li>
@@ -83,6 +80,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#setIngress(java.util.List)" tabindex="0">setIngress(List)</a></li>
 <li><a href="#ingress(java.util.List)" tabindex="0">ingress(List)</a></li>
 <li><a href="#addIngressItem(io.micronaut.kubernetes.client.openapi.model.V1NetworkPolicyIngressRule)" tabindex="0">addIngressItem(V1NetworkPolicyIngressRule)</a></li>
+<li><a href="#getPodSelector()" tabindex="0">getPodSelector()</a></li>
+<li><a href="#setPodSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" tabindex="0">setPodSelector(V1LabelSelector)</a></li>
+<li><a href="#podSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" tabindex="0">podSelector(V1LabelSelector)</a></li>
 <li><a href="#getPolicyTypes()" tabindex="0">getPolicyTypes()</a></li>
 <li><a href="#setPolicyTypes(java.util.List)" tabindex="0">setPolicyTypes(List)</a></li>
 <li><a href="#policyTypes(java.util.List)" tabindex="0">policyTypes(List)</a></li>
@@ -145,7 +145,7 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)" class="member-name-link">V1NetworkPolicySpec</a><wbr>(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;podSelector)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">V1NetworkPolicySpec</a>()</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -261,22 +261,6 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="JSON_PROPERTY_POD_SELECTOR">
-<h3>JSON_PROPERTY_POD_SELECTOR</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_POD_SELECTOR</span></div>
-<dl class="notes">
-<dt>See Also:</dt>
-<dd>
-<ul class="tag-list">
-<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1NetworkPolicySpec.JSON_PROPERTY_POD_SELECTOR">Constant Field Values</a></li>
-</ul>
-</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="JSON_PROPERTY_EGRESS">
 <h3>JSON_PROPERTY_EGRESS</h3>
 <div class="horizontal-scroll">
@@ -309,6 +293,22 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
+<section class="detail" id="JSON_PROPERTY_POD_SELECTOR">
+<h3>JSON_PROPERTY_POD_SELECTOR</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_POD_SELECTOR</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1NetworkPolicySpec.JSON_PROPERTY_POD_SELECTOR">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="JSON_PROPERTY_POLICY_TYPES">
 <h3>JSON_PROPERTY_POLICY_TYPES</h3>
 <div class="horizontal-scroll">
@@ -333,10 +333,10 @@ loadScripts(document, 'script');</script>
 <h2>Constructor Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="&lt;init&gt;(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
+<section class="detail" id="&lt;init&gt;()">
 <h3>V1NetworkPolicySpec</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">V1NetworkPolicySpec</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;podSelector)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">V1NetworkPolicySpec</span>()</div>
 </div>
 </section>
 </li>
@@ -348,44 +348,6 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
-<li>
-<section class="detail" id="getPodSelector()">
-<h3>getPodSelector</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></span>&nbsp;<span class="element-name">getPodSelector</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>the podSelector property value</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="setPodSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
-<h3>setPodSelector</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPodSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;podSelector)</span></div>
-<div class="block">Set the podSelector property value</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>podSelector</code> - property value to set</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="podSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
-<h3>podSelector</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1NetworkPolicySpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NetworkPolicySpec</a></span>&nbsp;<span class="element-name">podSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;podSelector)</span></div>
-<div class="block">Set podSelector in a chainable fashion.</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The same instance of V1NetworkPolicySpec for chaining.</dd>
-</dl>
-</div>
-</section>
-</li>
 <li>
 <section class="detail" id="getEgress()">
 <h3>getEgress</h3>
@@ -483,6 +445,44 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1NetworkPolicySpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NetworkPolicySpec</a></span>&nbsp;<span class="element-name">addIngressItem</span><wbr><span class="parameters">(<a href="V1NetworkPolicyIngressRule.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NetworkPolicyIngressRule</a>&nbsp;ingressItem)</span></div>
 <div class="block">Add an item to the ingress property in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1NetworkPolicySpec for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getPodSelector()">
+<h3>getPodSelector</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></span>&nbsp;<span class="element-name">getPodSelector</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the podSelector property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setPodSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
+<h3>setPodSelector</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setPodSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;podSelector)</span></div>
+<div class="block">Set the podSelector property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>podSelector</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="podSelector(io.micronaut.kubernetes.client.openapi.model.V1LabelSelector)">
+<h3>podSelector</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1NetworkPolicySpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NetworkPolicySpec</a></span>&nbsp;<span class="element-name">podSelector</span><wbr><span class="parameters">(<a href="V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a>&nbsp;podSelector)</span></div>
+<div class="block">Set podSelector in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1NetworkPolicySpec for chaining.</dd>

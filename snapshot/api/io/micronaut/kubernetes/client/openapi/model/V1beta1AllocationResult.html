@@ -59,6 +59,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#field-detail" tabindex="0">Field Details</a>
 <ol class="toc-list">
+<li><a href="#JSON_PROPERTY_ALLOCATION_TIMESTAMP" tabindex="0">JSON_PROPERTY_ALLOCATION_TIMESTAMP</a></li>
 <li><a href="#JSON_PROPERTY_DEVICES" tabindex="0">JSON_PROPERTY_DEVICES</a></li>
 <li><a href="#JSON_PROPERTY_NODE_SELECTOR" tabindex="0">JSON_PROPERTY_NODE_SELECTOR</a></li>
 </ol>
@@ -70,6 +71,9 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#getAllocationTimestamp()" tabindex="0">getAllocationTimestamp()</a></li>
+<li><a href="#setAllocationTimestamp(java.time.OffsetDateTime)" tabindex="0">setAllocationTimestamp(OffsetDateTime)</a></li>
+<li><a href="#allocationTimestamp(java.time.OffsetDateTime)" tabindex="0">allocationTimestamp(OffsetDateTime)</a></li>
 <li><a href="#getDevices()" tabindex="0">getDevices()</a></li>
 <li><a href="#setDevices(io.micronaut.kubernetes.client.openapi.model.V1beta1DeviceAllocationResult)" tabindex="0">setDevices(V1beta1DeviceAllocationResult)</a></li>
 <li><a href="#devices(io.micronaut.kubernetes.client.openapi.model.V1beta1DeviceAllocationResult)" tabindex="0">devices(V1beta1DeviceAllocationResult)</a></li>
@@ -112,11 +116,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_DEVICES" class="member-name-link">JSON_PROPERTY_DEVICES</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_ALLOCATION_TIMESTAMP" class="member-name-link">JSON_PROPERTY_ALLOCATION_TIMESTAMP</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_NODE_SELECTOR" class="member-name-link">JSON_PROPERTY_NODE_SELECTOR</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_DEVICES" class="member-name-link">JSON_PROPERTY_DEVICES</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_NODE_SELECTOR" class="member-name-link">JSON_PROPERTY_NODE_SELECTOR</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -145,13 +152,23 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta1AllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1AllocationResult</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#devices(io.micronaut.kubernetes.client.openapi.model.V1beta1DeviceAllocationResult)" class="member-name-link">devices</a><wbr>(<a href="V1beta1DeviceAllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1DeviceAllocationResult</a>&nbsp;devices)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allocationTimestamp(java.time.OffsetDateTime)" class="member-name-link">allocationTimestamp</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;allocationTimestamp)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set allocationTimestamp in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta1AllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1AllocationResult</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#devices(io.micronaut.kubernetes.client.openapi.model.V1beta1DeviceAllocationResult)" class="member-name-link">devices</a><wbr>(<a href="V1beta1DeviceAllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1DeviceAllocationResult</a>&nbsp;devices)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set devices in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAllocationTimestamp()" class="member-name-link">getAllocationTimestamp</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">AllocationTimestamp stores the time when the resources were allocated.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta1DeviceAllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1DeviceAllocationResult</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDevices()" class="member-name-link">getDevices</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -167,18 +184,23 @@ loadScripts(document, 'script');</script>
 <div class="block">Set nodeSelector in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDevices(io.micronaut.kubernetes.client.openapi.model.V1beta1DeviceAllocationResult)" class="member-name-link">setDevices</a><wbr>(<a href="V1beta1DeviceAllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1DeviceAllocationResult</a>&nbsp;devices)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAllocationTimestamp(java.time.OffsetDateTime)" class="member-name-link">setAllocationTimestamp</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;allocationTimestamp)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Set the devices property value</div>
+<div class="block">Set the allocationTimestamp property value</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNodeSelector(io.micronaut.kubernetes.client.openapi.model.V1NodeSelector)" class="member-name-link">setNodeSelector</a><wbr>(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDevices(io.micronaut.kubernetes.client.openapi.model.V1beta1DeviceAllocationResult)" class="member-name-link">setDevices</a><wbr>(<a href="V1beta1DeviceAllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1DeviceAllocationResult</a>&nbsp;devices)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the devices property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setNodeSelector(io.micronaut.kubernetes.client.openapi.model.V1NodeSelector)" class="member-name-link">setNodeSelector</a><wbr>(<a href="V1NodeSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSelector</a>&nbsp;nodeSelector)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the nodeSelector property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -196,6 +218,22 @@ loadScripts(document, 'script');</script>
 <section class="field-details" id="field-detail">
 <h2>Field Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="JSON_PROPERTY_ALLOCATION_TIMESTAMP">
+<h3>JSON_PROPERTY_ALLOCATION_TIMESTAMP</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_ALLOCATION_TIMESTAMP</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta1AllocationResult.JSON_PROPERTY_ALLOCATION_TIMESTAMP">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
 <li>
 <section class="detail" id="JSON_PROPERTY_DEVICES">
 <h3>JSON_PROPERTY_DEVICES</h3>
@@ -252,6 +290,45 @@ loadScripts(document, 'script');</script>
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="getAllocationTimestamp()">
+<h3>getAllocationTimestamp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a></span>&nbsp;<span class="element-name">getAllocationTimestamp</span>()</div>
+<div class="block">AllocationTimestamp stores the time when the resources were allocated. This field is not guaranteed to be set, in which case that time is unknown.  This is an alpha field and requires enabling the DRADeviceBindingConditions and DRAResourceClaimDeviceStatus feature gate.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the allocationTimestamp property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setAllocationTimestamp(java.time.OffsetDateTime)">
+<h3>setAllocationTimestamp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAllocationTimestamp</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;allocationTimestamp)</span></div>
+<div class="block">Set the allocationTimestamp property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>allocationTimestamp</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="allocationTimestamp(java.time.OffsetDateTime)">
+<h3>allocationTimestamp</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta1AllocationResult.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta1AllocationResult</a></span>&nbsp;<span class="element-name">allocationTimestamp</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/OffsetDateTime.html" title="class or interface in java.time" class="external-link">OffsetDateTime</a>&nbsp;allocationTimestamp)</span></div>
+<div class="block">Set allocationTimestamp in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta1AllocationResult for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
 <li>
 <section class="detail" id="getDevices()">
 <h3>getDevices</h3>

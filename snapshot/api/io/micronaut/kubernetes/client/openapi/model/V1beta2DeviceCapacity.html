@@ -60,6 +60,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#field-detail" tabindex="0">Field Details</a>
 <ol class="toc-list">
 <li><a href="#JSON_PROPERTY_VALUE" tabindex="0">JSON_PROPERTY_VALUE</a></li>
+<li><a href="#JSON_PROPERTY_REQUEST_POLICY" tabindex="0">JSON_PROPERTY_REQUEST_POLICY</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
@@ -72,6 +73,9 @@ loadScripts(document, 'script');</script>
 <li><a href="#getValue()" tabindex="0">getValue()</a></li>
 <li><a href="#setValue(java.lang.String)" tabindex="0">setValue(String)</a></li>
 <li><a href="#value(java.lang.String)" tabindex="0">value(String)</a></li>
+<li><a href="#getRequestPolicy()" tabindex="0">getRequestPolicy()</a></li>
+<li><a href="#setRequestPolicy(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequestPolicy)" tabindex="0">setRequestPolicy(V1beta2CapacityRequestPolicy)</a></li>
+<li><a href="#requestPolicy(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequestPolicy)" tabindex="0">requestPolicy(V1beta2CapacityRequestPolicy)</a></li>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
@@ -108,8 +112,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_VALUE" class="member-name-link">JSON_PROPERTY_VALUE</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_REQUEST_POLICY" class="member-name-link">JSON_PROPERTY_REQUEST_POLICY</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_VALUE" class="member-name-link">JSON_PROPERTY_VALUE</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -140,25 +147,38 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValue()" class="member-name-link">getValue</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2CapacityRequestPolicy.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequestPolicy</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRequestPolicy()" class="member-name-link">getRequestPolicy</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getValue()" class="member-name-link">getValue</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Quantity is a fixed-point representation of a number.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#requestPolicy(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequestPolicy)" class="member-name-link">requestPolicy</a><wbr>(<a href="V1beta2CapacityRequestPolicy.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequestPolicy</a>&nbsp;requestPolicy)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set requestPolicy in a chainable fashion.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setValue(java.lang.String)" class="member-name-link">setValue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRequestPolicy(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequestPolicy)" class="member-name-link">setRequestPolicy</a><wbr>(<a href="V1beta2CapacityRequestPolicy.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequestPolicy</a>&nbsp;requestPolicy)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the requestPolicy property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setValue(java.lang.String)" class="member-name-link">setValue</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the value property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value(java.lang.String)" class="member-name-link">value</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#value(java.lang.String)" class="member-name-link">value</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set value in a chainable fashion.</div>
 </div>
 </div>
@@ -188,6 +208,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2DeviceCapacity.JSON_PROPERTY_VALUE">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_REQUEST_POLICY">
+<h3>JSON_PROPERTY_REQUEST_POLICY</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_REQUEST_POLICY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1beta2DeviceCapacity.JSON_PROPERTY_REQUEST_POLICY">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -250,6 +286,44 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a></span>&nbsp;<span class="element-name">value</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;value)</span></div>
 <div class="block">Set value in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1beta2DeviceCapacity for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getRequestPolicy()">
+<h3>getRequestPolicy</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2CapacityRequestPolicy.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequestPolicy</a></span>&nbsp;<span class="element-name">getRequestPolicy</span>()</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the requestPolicy property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setRequestPolicy(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequestPolicy)">
+<h3>setRequestPolicy</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRequestPolicy</span><wbr><span class="parameters">(<a href="V1beta2CapacityRequestPolicy.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequestPolicy</a>&nbsp;requestPolicy)</span></div>
+<div class="block">Set the requestPolicy property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>requestPolicy</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="requestPolicy(io.micronaut.kubernetes.client.openapi.model.V1beta2CapacityRequestPolicy)">
+<h3>requestPolicy</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1beta2DeviceCapacity.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2DeviceCapacity</a></span>&nbsp;<span class="element-name">requestPolicy</span><wbr><span class="parameters">(<a href="V1beta2CapacityRequestPolicy.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1beta2CapacityRequestPolicy</a>&nbsp;requestPolicy)</span></div>
+<div class="block">Set requestPolicy in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1beta2DeviceCapacity for chaining.</dd>
