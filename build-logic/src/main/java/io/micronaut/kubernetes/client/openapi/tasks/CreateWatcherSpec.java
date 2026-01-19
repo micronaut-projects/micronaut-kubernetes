@@ -26,6 +26,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -59,6 +60,26 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public abstract class CreateWatcherSpec extends DefaultTask {
 
+    private static final String LIST_ITEM_TYPE_MAPPER_CLASS_TEMPLATE = """
+        package io.micronaut.kubernetes.client.openapi.watcher.mapper;
+
+        import jakarta.inject.Singleton;
+        import org.jspecify.annotations.NonNull;
+        import java.util.HashMap;
+        import java.util.Map;
+
+        @Singleton
+        public class DefaultTypeNameMapper implements TypeNameMapper {
+            @NonNull
+            @Override
+            public Map<String, String> getMappings() {
+                Map<String, String> mappings = new HashMap<>();
+        %s
+                return mappings;
+            }
+        }
+        """;
+
     @InputFile
     public abstract RegularFileProperty getInputSpecFile();
 
@@ -71,23 +92,29 @@ public abstract class CreateWatcherSpec extends DefaultTask {
     @OutputFile
     public abstract RegularFileProperty getWatcherTypeMappingsFile();
 
+    @OutputFile
+    public abstract RegularFileProperty getDefaultTypeNameMapperFile();
+
     @TaskAction
     void createWatcherSpecFile() throws IOException {
         getLogger().info("Creating kubernetes client watcher openapi spec file");
 
         Map<String, Object> watcherSpecMap = new LinkedHashMap<>();
         Map<String, String> watcherTypeMappings = new LinkedHashMap<>();
+        Map<String, String> listItemTypeMappings = new LinkedHashMap<>();
 
         Yaml yaml = TaskUtils.createYaml();
 
         FileReader fileReader = new FileReader(getInputSpecFile().getAsFile().get());
         Map<String, Object> inputSpecMap = yaml.load(fileReader);
 
+        Map<String, Object> components = (Map<String, Object>) inputSpecMap.remove("components");
+
         inputSpecMap.forEach((specKey, specValue) -> {
             if ("paths".equals(specKey)) {
-                Map<String, Object> newPaths = processPaths((Map<String, Object>) specValue, watcherTypeMappings);
+                Map<String, Object> newPaths = processPaths((Map<String, Object>) specValue, components, watcherTypeMappings, listItemTypeMappings);
                 watcherSpecMap.put(specKey, newPaths);
-            } else if (!"components".equals(specKey)) {
+            } else {
                 watcherSpecMap.put(specKey, specValue);
             }
         });
@@ -99,9 +126,16 @@ public abstract class CreateWatcherSpec extends DefaultTask {
         File typeMappingsFile = getWatcherTypeMappingsFile().getAsFile().get();
         TaskUtils.createTypeMappingsFile(watcherTypeMappings, typeMappingsFile);
         getLogger().info("Created kubernetes client watcher openapi type mappings file: {}", typeMappingsFile.getAbsolutePath());
+
+        File defaultTypeNameMapperFile = getDefaultTypeNameMapperFile().getAsFile().get();
+        createDefaultTypeNameMapperFile(listItemTypeMappings, defaultTypeNameMapperFile);
+        getLogger().info("Created kubernetes client watcher openapi type name mapper java file: {}", defaultTypeNameMapperFile.getAbsolutePath());
     }
 
-    private Map<String, Object> processPaths(Map<String, Object> paths, Map<String, String> watcherTypeMappings) {
+    private Map<String, Object> processPaths(Map<String, Object> paths,
+                                             Map<String, Object> components,
+                                             Map<String, String> watcherTypeMappings,
+                                             Map<String, String> listItemTypeMappings) {
         Map<String, Object> newPaths = new LinkedHashMap<>(paths.size());
         paths.forEach((pathKey, pathValue) -> {
             Map<String, Object> operations = (Map<String, Object>) pathValue;
@@ -117,7 +151,7 @@ public abstract class CreateWatcherSpec extends DefaultTask {
                         }
                     }
                     if (watchParamFound) {
-                        modifyResponseData(getMapValue(operationData, "responses"), watcherTypeMappings);
+                        modifyResponseData(getMapValue(operationData, "responses"), components, watcherTypeMappings, listItemTypeMappings);
                         newPaths.put(pathKey,  Map.of("get", operationData));
                     }
                 }
@@ -130,10 +164,15 @@ public abstract class CreateWatcherSpec extends DefaultTask {
      * Modifies response schemas so each reference a list of items instead of list object,
      * for example, list of V1Namespace instead V1NamespaceList.
      *
-     * @param responses           map of all responses
-     * @param watcherTypeMappings map of type mappings
+     * @param responses            map of all responses
+     * @param components           map of all components
+     * @param watcherTypeMappings  map of type mappings
+     * @param listItemTypeMappings map of list types to item types which don't follow pattern where list type name is equal to item type name plus List suffix
      */
-    private void modifyResponseData(Map<String, Object> responses, Map<String, String> watcherTypeMappings) {
+    private void modifyResponseData(Map<String, Object> responses,
+                                    Map<String, Object> components,
+                                    Map<String, String> watcherTypeMappings,
+                                    Map<String, String> listItemTypeMappings) {
         Map<String, Object> responseData = getMapValue(responses, "200");
         Map<String, Object> contents = getMapValue(responseData, "content");
         contents.values().forEach(contentValue -> {
@@ -148,23 +187,57 @@ public abstract class CreateWatcherSpec extends DefaultTask {
             }
             String schemaRef = (String) schemaData.get("$ref");
             if (schemaRef != null && schemaRef.endsWith("List")) {
-                // modify reference from object list to array of items (for example, from V1NamespaceList to array of V1Namespace)
-                String schemaItemRef = schemaRef.substring(0, schemaRef.indexOf("List"));
+                // modify reference from object which represents the list to array of list items (for example, from V1NamespaceList to array of V1Namespace)
+                String itemSchemaRef = getItemSchemaRef(schemaRef, components);
                 schemaData.clear();
                 schemaData.put("type", "array");
-                schemaData.put("items",  Map.of("$ref", schemaItemRef));
+                schemaData.put("items",  Map.of("$ref", itemSchemaRef));
+
                 // since openapi 3.0.1 doesn't support generic types, we need to map created types to our generic type
-                String schemaType = schemaItemRef.substring("#/components/schemas/".length());
-                String newSchemaType = Arrays.stream(schemaType.split("\\."))
-                    .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
-                    .collect(Collectors.joining(""));
-                String fullPath = getModelPackageName().get() + "." + newSchemaType;
-                watcherTypeMappings.put(schemaType, "io.micronaut.kubernetes.client.openapi.watcher.WatchEvent<" + fullPath + ">");
+                String itemSchemaType = itemSchemaRef.substring("#/components/schemas/".length());
+                String itemJavaType = getJavaType(itemSchemaType);
+                watcherTypeMappings.put(itemSchemaType, "io.micronaut.kubernetes.client.openapi.watcher.WatchEvent<" + itemJavaType + ">");
+
+                // if list type name is not equal to item type name plus suffix List, keep list type name to item type name mapping
+                String listSchemaType = schemaRef.substring("#/components/schemas/".length());
+                String listJavaType = getJavaType(listSchemaType);
+                if (!listJavaType.equals(itemJavaType + "List")) {
+                    listItemTypeMappings.put(listJavaType, itemJavaType);
+                }
             }
         });
     }
 
+    private String getItemSchemaRef(String listSchemaRef, Map<String, Object> components) {
+        String schemaType = listSchemaRef.substring("#/components/schemas/".length());
+        Map<String, Object> schemas = getMapValue(components, "schemas");
+        Map<String, Object> schema = getMapValue(schemas, schemaType);
+        Map<String, Object> properties = getMapValue(schema, "properties");
+        Map<String, Object> items = getMapValue(properties, "items");
+        Map<String, Object> nestedItems = getMapValue(items, "items");
+        return (String) nestedItems.get("$ref");
+    }
+
+    private String getJavaType(String schemaType) {
+        String javaType = Arrays.stream(schemaType.split("\\."))
+            .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1))
+            .collect(Collectors.joining(""));
+        return getModelPackageName().get() + "." + javaType;
+    }
+
     private Map<String, Object> getMapValue(Map<String, Object> map, String key) {
         return (Map<String, Object>) map.get(key);
+    }
+
+    private void createDefaultTypeNameMapperFile(Map<String, String> typeMappings, File file) throws IOException {
+        String mappings = typeMappings.entrySet().stream()
+            .map(e -> "        mappings.put(\"" + e.getKey() + "\", \"" + e.getValue() + "\");")
+            .collect(Collectors.joining(System.lineSeparator()));
+
+        String javaClass = LIST_ITEM_TYPE_MAPPER_CLASS_TEMPLATE.formatted(mappings);
+
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            fileWriter.write(javaClass);
+        }
     }
 }

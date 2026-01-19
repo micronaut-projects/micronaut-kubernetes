@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.openapi.test
 
 import io.micronaut.kubernetes.client.openapi.model.CoreV1EndpointPort
 import io.micronaut.kubernetes.client.openapi.model.RbacV1Subject
+import io.micronaut.kubernetes.client.openapi.model.ResourceV1ResourceClaim
 import io.micronaut.kubernetes.client.openapi.model.V1ClusterRole
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMapVolumeSource
@@ -31,6 +32,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1PolicyRule
 import io.micronaut.kubernetes.client.openapi.model.V1Probe
+import io.micronaut.kubernetes.client.openapi.model.V1ResourceClaimSpec
 import io.micronaut.kubernetes.client.openapi.model.V1Role
 import io.micronaut.kubernetes.client.openapi.model.V1RoleBinding
 import io.micronaut.kubernetes.client.openapi.model.V1RoleRef
@@ -159,5 +161,9 @@ class KubernetesModels {
 
     static V1Volume getVolumeModel(String name, V1ConfigMapVolumeSource configMapVolumeSource) {
         return new V1Volume(name).configMap(configMapVolumeSource)
+    }
+
+    static ResourceV1ResourceClaim getResourceClaimModel(String name) {
+        return new ResourceV1ResourceClaim(new V1ResourceClaimSpec()).kind('ResourceClaim').metadata(getObjectMetaModel(name));
     }
 }

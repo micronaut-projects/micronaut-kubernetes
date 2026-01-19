@@ -17,12 +17,6 @@ dependencies {
     testImplementation mnSerde.micronaut.serde.jackson
     testImplementation projects.testUtils
     testRuntimeOnly mn.snakeyaml
-
-    constraints {
-        implementation('org.apache.commons:commons-lang3:3.18.0') {
-            because 'Older versions have security vulnerabilities'
-        }
-    }
 }
 
 tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {

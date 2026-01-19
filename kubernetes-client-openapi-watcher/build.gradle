@@ -32,6 +32,14 @@ micronaut {
 
 generateClientOpenApiModels.enabled = false
 
+sourceSets {
+    main {
+        java {
+            srcDir("$buildDir/generated/watcher/src/main/java")
+        }
+    }
+}
+
 tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
     packageExcludes = ["io.micronaut.kubernetes.client.openapi.watcher.api"]
 }

@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.inject.BeanDefinition;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.reactor.annotation.KubernetesClientApiReactor;
+import io.micronaut.kubernetes.client.openapi.watcher.mapper.TypeNameResolver;
 import jakarta.inject.Singleton;
 
 import java.util.Optional;
@@ -29,6 +30,12 @@ import java.util.Optional;
 @Singleton
 final class ApiReactorExecMethodProcessor extends ApiExecMethodProcessor<KubernetesClientApiReactor> {
 
+    private final TypeNameResolver typeNameResolver;
+
+    ApiReactorExecMethodProcessor(TypeNameResolver typeNameResolver) {
+        this.typeNameResolver = typeNameResolver;
+    }
+
     @Override
     Optional<String> getReturnTypeName(BeanDefinition<?> beanDefinition, ExecutableMethod<?, ?> method) {
         if (!hasParameter(method, "watch")) {
@@ -38,8 +45,6 @@ final class ApiReactorExecMethodProcessor extends ApiExecMethodProcessor<Kuberne
             .getWrappedType()
             .getType()
             .getName();
-        return returnListTypeName.endsWith("List")
-            ? Optional.of(returnListTypeName.substring(0, returnListTypeName.indexOf("List")))
-            : Optional.empty();
+        return typeNameResolver.resolveItemTypeName(returnListTypeName);
     }
 }

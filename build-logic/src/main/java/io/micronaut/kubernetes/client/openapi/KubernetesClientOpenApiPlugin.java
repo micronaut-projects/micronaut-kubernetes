@@ -33,6 +33,10 @@ public class KubernetesClientOpenApiPlugin implements Plugin<Project> {
     private static final String OPENAPI_WATCHER_TYPE_MAPPINGS_FILE_NAME = "openapi-watcher-type-mappings.txt";
     private static final String OPENAPI_DELETE_RESPONSE_MAPPINGS_FILE_NAME = "openapi-delete-response-mappings.txt";
 
+    private static final String GENERATED_JAVA_SRC_DIR = "generated/watcher/src/main/java/";
+    private static final String GENERATED_JAVA_CLASS_PACKAGE = "io/micronaut/kubernetes/client/openapi/watcher/mapper/";
+    private static final String DEFAULT_TYPE_NAME_MAPPER_FILE_PATH = GENERATED_JAVA_SRC_DIR + GENERATED_JAVA_CLASS_PACKAGE + "DefaultTypeNameMapper.java";
+
     @Override
     public void apply(Project project) {
         KubernetesClientOpenApiExtension kubernetesClientOpenApiExtension = project.getExtensions()
@@ -51,6 +55,7 @@ public class KubernetesClientOpenApiPlugin implements Plugin<Project> {
             task.getModelPackageName().set(kubernetesClientOpenApiExtension.getModelPackageName());
             task.getWatcherSpecFile().convention(project.getLayout().getBuildDirectory().file(OPENAPI_WATCHER_SPEC_FILE_NAME));
             task.getWatcherTypeMappingsFile().convention(project.getLayout().getBuildDirectory().file(OPENAPI_WATCHER_TYPE_MAPPINGS_FILE_NAME));
+            task.getDefaultTypeNameMapperFile().convention(project.getLayout().getBuildDirectory().file(DEFAULT_TYPE_NAME_MAPPER_FILE_PATH));
         });
         project.getTasks().register("modifyOpenApiSpec", ModifySpec.class, task -> {
             task.setGroup("kubernetes client openapi");
