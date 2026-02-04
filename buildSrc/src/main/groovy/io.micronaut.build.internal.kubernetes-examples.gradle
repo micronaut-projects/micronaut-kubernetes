@@ -21,8 +21,3 @@ dockerfile {
         baseImage("eclipse-temurin:25-jre-jammy")
     }
 }
-
-dockerfileNative {
-    // TODO: remove after NativeImageDockerfile (micronaut-gradle-plugin) adds 25 to SUPPORTED_JAVA_VERSIONS
-    jdkVersion = '25'
-}
