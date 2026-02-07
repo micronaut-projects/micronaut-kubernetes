@@ -14,7 +14,7 @@ configurations {
 dependencies {
     groovyCompiler("org.apache.groovy:groovy:5.0.4")
     implementation("org.yaml:snakeyaml:2.5")
-    testImplementation platform("io.micronaut.test:micronaut-test-bom:5.0.0-M3")
+    testImplementation platform("io.micronaut.test:micronaut-test-bom:5.0.0-M4")
     testImplementation("org.spockframework:spock-core")
     testRuntimeOnly("org.junit.platform:junit-platform-suite")
 }
