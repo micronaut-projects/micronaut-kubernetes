@@ -196,7 +196,7 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
             } else if (status.getCode() == HttpURLConnection.HTTP_GONE) {
                 relistObjects = true;
                 isLastSyncResourceVersionUnavailable = true;
-                informerLogger.logError("Resource version and watch connection expired, resourceVersion={}, statusMessage={}",
+                informerLogger.logInfo("Resource version and watch connection expired, resourceVersion={}, statusMessage={}",
                     lastSyncResourceVersion,
                     status.getMessage());
             } else {
