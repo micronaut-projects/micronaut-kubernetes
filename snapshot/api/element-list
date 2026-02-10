@@ -27,11 +27,14 @@ io.micronaut.kubernetes.client.openapi.operator.workqueue.ratelimiter
 io.micronaut.kubernetes.client.openapi.reactor.annotation
 io.micronaut.kubernetes.client.openapi.reactor.api
 io.micronaut.kubernetes.client.openapi.resolver
+io.micronaut.kubernetes.client.openapi.response
 io.micronaut.kubernetes.client.openapi.ssl
+io.micronaut.kubernetes.client.openapi.type
 io.micronaut.kubernetes.client.openapi.util
 io.micronaut.kubernetes.client.openapi.watcher
 io.micronaut.kubernetes.client.openapi.watcher.annotation
 io.micronaut.kubernetes.client.openapi.watcher.api
+io.micronaut.kubernetes.client.openapi.watcher.mapper
 io.micronaut.kubernetes.client.operator
 io.micronaut.kubernetes.client.operator.configuration
 io.micronaut.kubernetes.client.operator.controller
@@ -48,4 +51,5 @@ io.micronaut.kubernetes.discovery
 io.micronaut.kubernetes.discovery.informer
 io.micronaut.kubernetes.discovery.provider
 io.micronaut.kubernetes.health
+io.micronaut.kubernetes.info
 io.micronaut.kubernetes.util
