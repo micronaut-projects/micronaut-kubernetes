@@ -26,7 +26,7 @@ runs:
         check_retries: 'true'
     - name: "📜 Upload binary compatibility check results"
       if: always()
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: binary-compatibility-reports
         path: "**/build/reports/binary-compatibility-*.html"
