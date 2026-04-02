@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.configuration;
 import io.micronaut.context.condition.Condition;
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.configuration.KubernetesLegacyImportMode.LegacyType;
 
 /**
  * Condition evaluates when the {@link AbstractKubernetesConfigWatcherCondition} is enabled.
@@ -47,8 +48,16 @@ public abstract class AbstractKubernetesConfigWatcherCondition implements Condit
             return false;
         }
 
+        KubernetesLegacyImportMode legacyImportMode = context.getBean(KubernetesLegacyImportMode.class);
+        if (!legacyImportMode.isLegacyBootstrapEnabled(getLegacyType())) {
+            context.fail("explicit config import provider [" + getLegacyType().getProvider() + "] disables legacy bootstrap " + getLegacyType().getDisplayName() + " watchers for the same type");
+            return false;
+        }
+
         return true;
     }
 
     abstract KubernetesConfiguration.AbstractConfigConfiguration getConfig(ConditionContext context);
+
+    abstract LegacyType getLegacyType();
 }

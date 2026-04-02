@@ -55,4 +55,15 @@ class KubernetesConfigMapWatcherSpec extends Specification {
         expect:
         applicationContext.containsBean(KubernetesConfigMapWatcher)
     }
+
+    void "explicit config map import disables legacy config map watcher"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run([
+                'micronaut.config.import': 'kubernetes-configmap://game-config?namespace=default'
+        ], Environment.KUBERNETES)
+
+        expect:
+        !applicationContext.containsBean(KubernetesConfigMapWatcher)
+    }
+
 }

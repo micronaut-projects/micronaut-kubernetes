@@ -34,4 +34,9 @@ final class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfig
     String getPropertyPrefix() {
         return KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX;
     }
+
+    @Override
+    KubernetesLegacyImportMode.LegacyType getLegacyType() {
+        return KubernetesLegacyImportMode.LegacyType.CONFIG_MAP;
+    }
 }

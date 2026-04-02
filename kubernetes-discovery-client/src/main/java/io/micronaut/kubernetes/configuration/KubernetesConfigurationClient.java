@@ -31,6 +31,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import io.micronaut.kubernetes.configuration.KubernetesLegacyImportMode.LegacyType;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
@@ -83,19 +84,24 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
     private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration configuration;
     private final Environment environment;
+    private final KubernetesLegacyImportMode legacyImportMode;
 
     /**
      * @param client        An Core HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
      * @param environment   The environment
      */
-    public KubernetesConfigurationClient(CoreV1ApiReactorClient client, KubernetesConfiguration configuration, Environment environment) {
+    public KubernetesConfigurationClient(CoreV1ApiReactorClient client,
+                                         KubernetesConfiguration configuration,
+                                         Environment environment,
+                                         KubernetesLegacyImportMode legacyImportMode) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
         this.client = client;
         this.configuration = configuration;
         this.environment = environment;
+        this.legacyImportMode = legacyImportMode;
     }
 
     /**
@@ -111,6 +117,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             return Flux.fromIterable(propertySources.values());
         } else {
             LOG.trace("PropertySource cache is empty");
+            boolean configMapsEnabled = configuration.getConfigMaps().isEnabled() && legacyImportMode.isLegacyBootstrapEnabled(LegacyType.CONFIG_MAP);
+            boolean secretsEnabled = configuration.getSecrets().isEnabled() && legacyImportMode.isLegacyBootstrapEnabled(LegacyType.SECRET);
+            legacyImportMode.logLegacyBootstrapDeprecationIfNeeded(configMapsEnabled || secretsEnabled);
             return Flux.from(getPropertySourcesFromConfigMaps()).mergeWith(getPropertySourcesFromSecrets());
         }
     }
@@ -162,7 +171,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
         KubernetesConfiguration.KubernetesConfigMapsConfiguration configMapsConfiguration = configuration.getConfigMaps();
 
-        if (configMapsConfiguration.isEnabled()) {
+        if (configMapsConfiguration.isEnabled() && legacyImportMode.isLegacyBootstrapEnabled(LegacyType.CONFIG_MAP)) {
             Collection<String> mountedVolumePaths = configMapsConfiguration.getPaths();
             if (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi()) {
 
@@ -286,7 +295,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private Publisher<PropertySource> getPropertySourcesFromSecrets() {
         Flux<PropertySource> propertySourceFlowable = Flux.empty();
-        if (configuration.getSecrets().isEnabled()) {
+        if (configuration.getSecrets().isEnabled() && legacyImportMode.isLegacyBootstrapEnabled(LegacyType.SECRET)) {
             Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
 
             if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {

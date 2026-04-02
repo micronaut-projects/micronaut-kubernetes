@@ -70,16 +70,21 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
     private final CoreV1ApiReactor client;
     private final KubernetesConfiguration configuration;
     private final Environment environment;
+    private final KubernetesLegacyImportMode legacyImportMode;
 
     /**
      * @param client        A Core HTTP Client to query the Kubernetes API.
      * @param configuration The configuration properties
      * @param environment   The environment
      */
-    KubernetesConfigurationClient(CoreV1ApiReactor client, KubernetesConfiguration configuration, Environment environment) {
+    KubernetesConfigurationClient(CoreV1ApiReactor client,
+                                  KubernetesConfiguration configuration,
+                                  Environment environment,
+                                  KubernetesLegacyImportMode legacyImportMode) {
         this.client = client;
         this.configuration = configuration;
         this.environment = environment;
+        this.legacyImportMode = legacyImportMode;
     }
 
     @Override
@@ -130,13 +135,15 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
         Flux<PropertySource> propertySourceFlux = Flux.empty();
         KubernetesConfiguration.KubernetesConfigMapsConfiguration configMapsConfiguration = configuration.getConfigMaps();
         if (configMapsConfiguration.isEnabled()) {
+            boolean legacyConfigMapsEnabled = legacyImportMode.isLegacyBootstrapEnabled(KubernetesLegacyImportMode.LegacyType.CONFIG_MAP);
             Collection<String> mountedVolumePaths = configMapsConfiguration.getPaths();
-            if (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi()) {
+            if (legacyConfigMapsEnabled && (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi())) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readConfigMapsFromApi());
             }
-            if (!mountedVolumePaths.isEmpty()) {
+            if (legacyConfigMapsEnabled && !mountedVolumePaths.isEmpty()) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readConfigMapsFromMountedVolumes(mountedVolumePaths));
             }
+            legacyImportMode.logLegacyBootstrapDeprecationIfNeeded(legacyConfigMapsEnabled);
         } else {
             LOG.debug("Kubernetes config maps access is disabled");
         }
@@ -195,13 +202,15 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
         Flux<PropertySource> propertySourceFlux = Flux.empty();
         KubernetesConfiguration.KubernetesSecretsConfiguration secretsConfiguration = configuration.getSecrets();
         if (secretsConfiguration.isEnabled()) {
+            boolean legacySecretsEnabled = legacyImportMode.isLegacyBootstrapEnabled(KubernetesLegacyImportMode.LegacyType.SECRET);
             Collection<String> mountedVolumePaths = secretsConfiguration.getPaths();
-            if (mountedVolumePaths.isEmpty() || secretsConfiguration.isUseApi()) {
+            if (legacySecretsEnabled && (mountedVolumePaths.isEmpty() || secretsConfiguration.isUseApi())) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readSecretsFromApi());
             }
-            if (!mountedVolumePaths.isEmpty()) {
+            if (legacySecretsEnabled && !mountedVolumePaths.isEmpty()) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readSecretsFromMountedVolumes(mountedVolumePaths));
             }
+            legacyImportMode.logLegacyBootstrapDeprecationIfNeeded(legacySecretsEnabled);
         } else {
             LOG.debug("Kubernetes secrets access is disabled");
         }

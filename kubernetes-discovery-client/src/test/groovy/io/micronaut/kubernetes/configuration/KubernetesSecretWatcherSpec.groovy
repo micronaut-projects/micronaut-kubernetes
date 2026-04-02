@@ -73,4 +73,18 @@ class KubernetesSecretWatcherSpec extends Specification {
         expect:
         applicationContext.containsBean(KubernetesSecretWatcher)
     }
+
+    void "explicit secret import disables legacy secret watcher"() {
+        given:
+        ApplicationContext applicationContext = ApplicationContext.run([
+                'kubernetes.client.secrets.watch': 'true',
+                'kubernetes.client.secrets.enabled': 'true',
+                'micronaut.config-client.enabled': 'true',
+                'micronaut.config.import': 'kubernetes-secret://db-credentials?namespace=default'
+        ], Environment.KUBERNETES)
+
+        expect:
+        !applicationContext.containsBean(KubernetesSecretWatcher)
+    }
+
 }

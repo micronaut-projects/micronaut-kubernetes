@@ -83,7 +83,9 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
                 LOG.debug("PropertySource created from Config: {}", config.getMetadata().getName());
             }
 
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            if (propertySource != null) {
+                KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            }
             refreshEnvironment();
         }
     }
@@ -108,8 +110,10 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
                 LOG.debug("PropertySource modified by ConfigMap: {}", newConfig.getMetadata().getName());
             }
 
-            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            if (propertySource != null) {
+                KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+                KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            }
             refreshEnvironment();
         }
     }
@@ -132,7 +136,9 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
                 LOG.debug("Removed PropertySource created from ConfigMap: {}", config.getMetadata().getName());
             }
 
-            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            if (propertySource != null) {
+                KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            }
             refreshEnvironment();
         }
     }

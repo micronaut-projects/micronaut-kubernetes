@@ -8,15 +8,73 @@ dependency:io.micronaut.kubernetes:micronaut-kubernetes-discovery-client[]
 Then, in any bean you can read the configuration values from the `ConfigMap` or `Secret` using `@Value` or
 https://docs.micronaut.io/latest/guide/index.html#config[any other way to read configuration values].
 
-Configuration parsing happens in the bootstrap phase. Therefore, to enable distributed configuration clients, define the
-following in `bootstrap.yml` (or `.properties`, `.json`, etc):
+Micronaut now supports explicit configuration imports for Kubernetes-backed distributed configuration. Use
+`micronaut.config.import` to opt into the exact `ConfigMap` and `Secret` sources your application should read:
 
 [configuration]
 ----
 micronaut:
-  config-client:
-    enabled: true
+  config:
+    import:
+      - kubernetes-configmap:my-config
+      - optional:kubernetes-secret:db-credentials?namespace=shared
 ----
+
+Supported import providers are:
+
+* `kubernetes-configmap:`
+* `kubernetes-secret:`
+
+Each import must declare exactly one selector:
+
+* a resource name in the URI path, for example `kubernetes-configmap:my-config`
+* or a `labels` query parameter, for example `kubernetes-configmap:?labels=app=my-app,env=prod`
+
+An optional `namespace` query parameter overrides the default Kubernetes namespace resolution:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - kubernetes-configmap:my-config?namespace=team-a
+      - kubernetes-secret:?labels=app=my-app,env=prod&namespace=shared
+----
+
+Authentication-related Kubernetes client options can also be supplied directly on the import connection string when you need the importer to create a dedicated Kubernetes client configuration:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - kubernetes-configmap:my-config?namespace=team-a&master-url=https://127.0.0.1:6443&token=my-token&ca-path=file:/etc/certs/ca.crt
+----
+
+The same auth options can be provided in map-based syntax as well:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - kubernetes-configmap:
+          provider: kubernetes-configmap
+          path: my-config
+          namespace: team-a
+          master-url: https://127.0.0.1:6443
+          token: my-token
+          ca-path: file:/etc/certs/ca.crt
+----
+
+Supported auth-related options follow the existing Kubernetes client configuration model, including `master-url`, `token`, `username`, `password`, `service-account-token`, `service-account-token-path`, `client-certificate-path`, `client-key-path`, `client-certificate-data`, `client-key-data`, `ca-path`, `ca-crt-data`, `kube-config-path`, and `insecure-skip-tls-verify`.
+
+Later `micronaut.config.import` entries take precedence over earlier ones when the same property key is present in more than one imported source.
+
+[NOTE]
+====
+The legacy bootstrap `ConfigurationClient` path remains available for compatibility, but it is deprecated. Prefer explicit `micronaut.config.import` entries for new applications and migrations.
+====
 
 ## ConfigMaps
 
@@ -92,6 +150,11 @@ kubernetes:
 ----
 
 Note that on the resulting config maps, you can still further filter them with includes/excludes properties.
+
+[NOTE]
+====
+The `includes`, `excludes`, `labels`, `pod-labels`, `exception-on-pod-labels-missing`, `paths`, and `use-api` settings documented below apply to the deprecated bootstrap configuration-client mode. They are not part of the new `kubernetes-configmap:` import URI contract.
+====
 
 ### Reading ``ConfigMap``s from mounted volumes
 
@@ -183,12 +246,13 @@ match with the above filters, they will be propagated to the `Environment` and r
 
 This means that those changes will be immediately available in your application without a restart.
 
-If you want to disable watching for ConfigMap changes, set `kubernetes.client.config-maps.watch` to `false`.
+If you want to disable watching for ConfigMap changes in the deprecated bootstrap mode, set `kubernetes.client.config-maps.watch` to `false`.
 This should be done in the `bootstrap.yml` configuration file because the configuration client is initialized during the bootstrap phase, which happens before evaluating the `application.yml` configuration file.
 
 [NOTE]
 ====
 When `kubernetes.client.config-maps.use-api` is set to `false`, watching for the changes won't be started.
+For import-based usage, only API-backed imports participate in runtime refresh.
 ====
 
 ### Examples
@@ -216,7 +280,7 @@ also read with `@Value`, `@ConfigurationProperties`, etc.
 
 NOTE: Only `Opaque` secrets will be considered.
 
-By default, secrets access is disabled. To enable them, set in `bootstrap.yml`:
+By default, secrets access is disabled in the deprecated bootstrap mode. To enable them there, set in `bootstrap.yml`:
 
 [configuration]
 ----
@@ -286,6 +350,19 @@ kubernetes:
       pod-labels:
         - "app.kubernetes.io/instance"
 ----
+
+For import-based usage, use `kubernetes-secret:` in `micronaut.config.import` instead of these bootstrap filters. Only `Opaque` secrets are imported, and optional imports should use Micronaut's `optional:` prefix:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes-secret:db-credentials
+      - kubernetes-secret:?labels=app=my-app,role=db
+----
+
+`kubernetes-secret:` imports support only `namespace` and `labels` as query options. They do not accept bootstrap-only options such as `includes`, `excludes`, `pod-labels`, `paths`, `use-api`, or `terminate-startup-on-exception`.
 
 ### Reading ``Secret``s from mounted volumes
 
@@ -379,11 +456,12 @@ changes match with the above filters, they will be propagated to the `Environmen
 
 This means that those changes will be immediately available in your application without a restart.
 
-If you want to enable watching for Secret changes, set `kubernetes.client.secrets.watch` to `true`.
+If you want to enable watching for Secret changes in the deprecated bootstrap mode, set `kubernetes.client.secrets.watch` to `true`.
 This should be done in the `bootstrap.yml` configuration file because the configuration client is initialized during the
 bootstrap phase, which happens before evaluating the `application.yml` configuration file.
 
 [NOTE]
 ====
 When `kubernetes.client.secrets.use-api` is set to `false`, watching for the changes won't be started.
+For import-based usage, Secret refresh is available only for API-backed imports, and Secret watching remains disabled by default unless explicitly enabled through the existing Kubernetes client watch configuration.
 ====

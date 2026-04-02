@@ -95,8 +95,6 @@ public class KubernetesUtils {
                     .findFirst()
                     .orElse(PropertySource.of(Collections.emptyMap()));
 
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
-
             return propertySource;
         }
     }
@@ -187,7 +185,6 @@ public class KubernetesUtils {
         }
         int priority = EnvironmentPropertySource.POSITION + 100;
         PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
-        KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
         return propertySource;
     }
 

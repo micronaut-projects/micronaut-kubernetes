@@ -1,0 +1,8 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-module'
+}
+
+dependencies {
+    api libs.micronaut.discovery.client
+    implementation mn.micronaut.runtime
+}

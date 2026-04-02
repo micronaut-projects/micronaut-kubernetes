@@ -34,4 +34,9 @@ final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWat
     String getPropertyPrefix() {
         return KubernetesConfiguration.KubernetesSecretsConfiguration.PREFIX;
     }
+
+    @Override
+    KubernetesLegacyImportMode.LegacyType getLegacyType() {
+        return KubernetesLegacyImportMode.LegacyType.SECRET;
+    }
 }
