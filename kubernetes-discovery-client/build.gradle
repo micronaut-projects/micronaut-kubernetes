@@ -10,6 +10,7 @@ dependencies {
     compileOnly libs.graal.svm
 
     api projects.micronautKubernetesClientReactor
+    api projects.micronautKubernetesDiscoveryClientCore
     api projects.micronautKubernetesInformer
     api libs.io.kubernetes.client.java.extended
     api libs.micronaut.discovery.client
