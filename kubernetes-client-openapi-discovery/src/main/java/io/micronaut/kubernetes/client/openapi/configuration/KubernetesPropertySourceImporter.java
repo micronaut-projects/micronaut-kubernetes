@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2026 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.context.ApplicationContext;
@@ -18,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * A {@link PropertySourceImporter} that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.
+ */
 public final class KubernetesPropertySourceImporter implements PropertySourceImporter<KubernetesPropertySourceImporter.ImportDeclaration> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
@@ -32,6 +50,12 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         return PROVIDER;
     }
 
+    /**
+     * Creates an import declaration from a Kubernetes config import connection string.
+     *
+     * @param connectionString The parsed import connection string
+     * @return The normalized import declaration
+     */
     @NonNull
     @Override
     public ImportDeclaration newImportDeclaration(@NonNull ConnectionString connectionString) {
@@ -47,6 +71,12 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         return new ImportDeclaration(type, namespace, name, labels, podLabels, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
+    /**
+     * Creates an import declaration from map-like configuration values.
+     *
+     * @param values The raw declaration values
+     * @return The normalized import declaration
+     */
     @NonNull
     @Override
     public ImportDeclaration newImportDeclaration(@NonNull ConvertibleValues<Object> values) {
@@ -61,6 +91,12 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         return new ImportDeclaration(type, namespace, name, labels, podLabels, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
+    /**
+     * Imports a property source by delegating to ConfigMap or Secret import support based on the declaration type.
+     *
+     * @param context The import context containing the declaration to process
+     * @return The imported property source when one can be resolved
+     */
     @NonNull
     @Override
     public Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
@@ -76,6 +112,9 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         return importSupport.importPropertySource(context);
     }
 
+    /**
+     * Closes the lazily created application context used to resolve importer support beans.
+     */
     @Override
     public void close() {
         if (applicationContext != null) {
@@ -84,6 +123,17 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
+    /**
+     * Describes a single Kubernetes config import declaration.
+     *
+     * @param type                        The Kubernetes resource type, either {@code configmap} or {@code secret}
+     * @param namespace                   The namespace to query, or {@code null} to use the configured default
+     * @param name                        The resource name to query directly
+     * @param labels                      The label selector used to match resources
+     * @param podLabels                   Pod label keys used to derive a selector from the current pod
+     * @param exceptionOnPodLabelsMissing Whether missing pod labels should raise an exception
+     * @param terminateStartupOnException Whether import failures should terminate application startup
+     */
     public record ImportDeclaration(
         @NonNull String type,
         @Nullable String namespace,

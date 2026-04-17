@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2026 original authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.context.env.PropertySource;
@@ -23,10 +38,19 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * Base support for importing Micronaut property sources from Kubernetes resources.
+ */
 sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapImportSupport, KubernetesSecretImportSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesObjectImportSupport.class);
 
+    /**
+     * Imports a property source for the supplied declaration and applies declaration-specific error handling.
+     *
+     * @param context The import context containing the declaration and environment
+     * @return The imported property source when one can be resolved
+     */
     @NonNull
     Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
         ImportDeclaration declaration = context.importDeclaration();
@@ -46,11 +70,27 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
         }
     }
 
+    /**
+     * Imports a property source for a concrete declaration.
+     *
+     * @param declaration           The import declaration describing which resources to resolve
+     * @param propertySourceLoaders The property source loaders available in the environment
+     * @return The imported property source when matching resource data is available
+     */
     @NonNull
     abstract Optional<PropertySource> importPropertySource(
         @NonNull ImportDeclaration declaration,
         @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
 
+    /**
+     * Converts Kubernetes objects into a single Micronaut property source.
+     *
+     * @param objects       The Kubernetes objects to transform
+     * @param objectType    The Kubernetes object type used when creating the property source name
+     * @param dataExtractor Extracts property values from each Kubernetes object
+     * @param <T>           The Kubernetes object type
+     * @return The resulting property source when at least one object contributes data
+     */
     @NonNull
     <T extends KubernetesObject> Optional<PropertySource> toPropertySource(
         @Nullable List<T> objects,
@@ -83,6 +123,13 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
         return Optional.of(PropertySource.of(propertySourceName, propertySourceData, KubernetesConfigUtils.API_PROPERTY_SOURCE_PRIORITY));
     }
 
+    /**
+     * Executes a Kubernetes read operation and treats HTTP 404 responses as an absent resource.
+     *
+     * @param readFn The read operation to execute
+     * @param <T>    The read result type
+     * @return The read value, or {@code null} when the resource does not exist
+     */
     @Nullable
     <T> T readIfExists(@NonNull Supplier<T> readFn) {
         try {
