@@ -1,61 +1,40 @@
 package io.micronaut.kubernetes.client.openapi.configuration;
 
-import io.micronaut.core.annotation.Internal;
-import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-@Internal
-@Singleton
-public final class KubernetesLegacyImportMode {
+final class KubernetesLegacyImportMode {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesLegacyImportMode.class);
 
-    private static final String DEPRECATION_MESSAGE = "Legacy Kubernetes bootstrap configuration loading is deprecated and will be removed in a future release. Migrate to explicit micronaut.config.import entries for the remaining active legacy types.";
+    private static final String DEPRECATION_MESSAGE = "Legacy Kubernetes bootstrap configuration loading is deprecated " +
+        "and will be removed in a future release. Please migrate to explicit micronaut.config.import entries.";
 
-    private final Set<LegacyType> explicitImports = ConcurrentHashMap.newKeySet();
-    private volatile boolean deprecationWarningLogged;
+    private static final AtomicBoolean CONFIG_MAP_IMPORT_ENABLED = new AtomicBoolean(false);
+    private static final AtomicBoolean SECRET_IMPORT_ENABLED = new AtomicBoolean(false);
+    private static final AtomicBoolean DEPRECATION_WARNING_LOGGED = new AtomicBoolean(false);
 
-    public enum LegacyType {
-        CONFIG_MAP("ConfigMap", "kubernetes-configmap"),
-        SECRET("Secret", "kubernetes-secret");
-
-        private final String displayName;
-        private final String provider;
-
-        LegacyType(String displayName, String provider) {
-            this.displayName = displayName;
-            this.provider = provider;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-
-        public String getProvider() {
-            return provider;
-        }
+    static void registerConfigMapImport() {
+        CONFIG_MAP_IMPORT_ENABLED.set(true);
     }
 
-    public void registerExplicitImport(LegacyType legacyType) {
-        explicitImports.add(legacyType);
+    static void registerSecretImport() {
+        SECRET_IMPORT_ENABLED.set(true);
     }
 
-    public boolean isLegacyBootstrapEnabled(LegacyType legacyType) {
-        return !explicitImports.contains(legacyType);
+    static boolean isConfigMapImportEnabled() {
+        return CONFIG_MAP_IMPORT_ENABLED.get();
     }
 
-    public void logLegacyBootstrapDeprecationIfNeeded(boolean legacyBootstrapActive) {
-        if (legacyBootstrapActive && !deprecationWarningLogged) {
-            synchronized (this) {
-                if (!deprecationWarningLogged) {
-                    LOG.warn(DEPRECATION_MESSAGE);
-                    deprecationWarningLogged = true;
-                }
-            }
+    static boolean isSecretImportEnabled() {
+        return SECRET_IMPORT_ENABLED.get();
+    }
+
+    static void logLegacyBootstrapDeprecationIfNeeded(boolean legacyBootstrapActive) {
+        if (legacyBootstrapActive && !DEPRECATION_WARNING_LOGGED.getAndSet(true)) {
+            LOG.warn(DEPRECATION_MESSAGE);
         }
     }
 }

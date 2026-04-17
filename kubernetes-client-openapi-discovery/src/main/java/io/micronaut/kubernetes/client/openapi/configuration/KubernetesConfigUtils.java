@@ -28,7 +28,6 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
-import io.micronaut.kubernetes.client.openapi.util.KubernetesUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -37,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,7 +51,7 @@ final class KubernetesConfigUtils {
     static final int API_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 100;
     static final int MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 150;
 
-    private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigUtils.class);
 
     private static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
 
@@ -114,25 +114,23 @@ final class KubernetesConfigUtils {
     }
 
     /**
-     * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
+     * Converts a {@link V1ConfigMap} into a {@link Map}.
      *
      * @param configMap             the {@link V1ConfigMap} instance
      * @param propertySourceLoaders the collection of property source loaders
-     * @return {@link PropertySource} instance
+     * @return {@link Map} instance
      */
-    static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
-        LOG.trace("Creating PropertySource for ConfigMap: {}", configMap.getMetadata().getName());
+    static Map<String, Object> configMapAsMap(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
         Map<String, String> data = configMap.getData();
         if (CollectionUtils.isEmpty(data)) {
-            return new EmptyPropertySource();
+            return Collections.emptyMap();
         }
 
-        Map<String, Object> propertySourceData;
         Map.Entry<String, String> entry = data.entrySet().iterator().next();
         Optional<String> extensionOpt = getExtension(entry.getKey());
         if (data.size() > 1 || extensionOpt.isEmpty()) {
             LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
-            propertySourceData = new HashMap<>(data);
+            return new HashMap<>(data);
         } else {
             LOG.trace("Considering this ConfigMap as containing values from a single file");
             String extension = extensionOpt.get();
@@ -145,21 +143,31 @@ final class KubernetesConfigUtils {
                     .collect(Collectors.toSet());
                 LOG.info("Could not find property source loader for extension '{}' from ConfigMap '{}'. Supported extensions: {}",
                     extension, configMap.getMetadata().getName(), propertySourceExtensions);
-                propertySourceData = Collections.emptyMap();
+                return Collections.emptyMap();
             } else {
-                propertySourceData = propertySourceLoader.get().read(entry.getKey(), entry.getValue().getBytes());
+                return propertySourceLoader.get().read(entry.getKey(), entry.getValue().getBytes());
             }
         }
+    }
 
-        if (propertySourceData.isEmpty()) {
+    /**
+     * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
+     *
+     * @param configMap             the {@link V1ConfigMap} instance
+     * @param propertySourceLoaders the collection of property source loaders
+     * @return {@link PropertySource} instance
+     */
+    static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
+        LOG.trace("Creating PropertySource for ConfigMap: {}", configMap.getMetadata().getName());
+        Map<String, Object> propertySourceData = configMapAsMap(configMap, propertySourceLoaders);
+        if (CollectionUtils.isEmpty(propertySourceData)) {
             return new EmptyPropertySource();
-        } else {
-            String propertySourceName = createPropertySourceName(configMap);
-            String resVersionPropertyName = createResVersionPropertyName(configMap);
-            String resVersionPropertyValue = configMap.getMetadata().getResourceVersion();
-            propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
-            return PropertySource.of(propertySourceName, propertySourceData, API_PROPERTY_SOURCE_PRIORITY);
         }
+        String propertySourceName = createPropertySourceName(configMap);
+        String resVersionPropertyName = createResVersionPropertyName(configMap);
+        String resVersionPropertyValue = configMap.getMetadata().getResourceVersion();
+        propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+        return PropertySource.of(propertySourceName, propertySourceData, API_PROPERTY_SOURCE_PRIORITY);
     }
 
     /**
@@ -202,6 +210,19 @@ final class KubernetesConfigUtils {
     }
 
     /**
+     * Converts a {@link V1Secret} into a {@link Map}.
+     *
+     * @param secret the {@link V1Secret} instance
+     * @return {@link Map} instance
+     */
+    static Map<String, Object> secretAsMap(V1Secret secret) {
+        Map<String, byte[]> data = secret.getData();
+        return data == null
+            ? Collections.emptyMap()
+            : data.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
+    }
+
+    /**
      * Converts a {@link V1Secret} into a {@link PropertySource}.
      *
      * @param secret the {@link V1Secret} instance
@@ -209,13 +230,10 @@ final class KubernetesConfigUtils {
      */
     static PropertySource secretAsPropertySource(V1Secret secret) {
         LOG.trace("Creating PropertySource for Secret: {}", secret.getMetadata().getName());
-        Map<String, byte[]> data = secret.getData();
-        if (data == null) {
+        Map<String, Object> propertySourceData =  secretAsMap(secret);
+        if (CollectionUtils.isEmpty(propertySourceData)) {
             return new EmptyPropertySource();
         }
-        Map<String, Object> propertySourceData = data.entrySet()
-            .stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
         String resVersionPropertyName = createResVersionPropertyName(secret);
         String resVersionPropertyValue = secret.getMetadata().getResourceVersion();
         propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
@@ -262,10 +280,39 @@ final class KubernetesConfigUtils {
                     }
                 }
                 LOG.debug("Computed pod label selectors {}", result);
-                result.putAll(labels);
+                if (labels != null) {
+                    result.putAll(labels);
+                }
                 return computeLabelSelector(result);
             })
             .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
+    }
+
+    static Map<String, String> parseLabels(String labelsValue, String provider) {
+        if (StringUtils.isEmpty(labelsValue)) {
+            return null;
+        }
+        Map<String, String> labels = new LinkedHashMap<>();
+        for (String token : labelsValue.split(",")) {
+            String entry = token.trim();
+            if (entry.isEmpty()) {
+                continue;
+            }
+            int equalsIndex = entry.indexOf('=');
+            if (equalsIndex <= 0 || equalsIndex == entry.length() - 1) {
+                throw new ConfigurationException("Config import provider [" + provider + "] requires labels in the form key=value");
+            }
+            String key = entry.substring(0, equalsIndex).trim();
+            String value = entry.substring(equalsIndex + 1).trim();
+            if (key.isEmpty() || value.isEmpty()) {
+                throw new ConfigurationException("Config import provider [" + provider + "] requires labels in the form key=value");
+            }
+            labels.put(key, value);
+        }
+        if (labels.isEmpty()) {
+            throw new ConfigurationException("Config import provider [" + provider + "] requires a non-blank 'labels'");
+        }
+        return labels;
     }
 
     /**
@@ -274,7 +321,7 @@ final class KubernetesConfigUtils {
      * @param labels the map of labels
      * @return the label selector filter
      */
-    private static String computeLabelSelector(Map<String, String> labels) {
+    static String computeLabelSelector(Map<String, String> labels) {
         if (CollectionUtils.isEmpty(labels)) {
             return StringUtils.EMPTY_STRING;
         }

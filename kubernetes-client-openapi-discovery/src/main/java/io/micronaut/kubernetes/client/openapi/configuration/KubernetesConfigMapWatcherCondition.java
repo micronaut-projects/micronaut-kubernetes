@@ -36,7 +36,7 @@ final class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfig
     }
 
     @Override
-    KubernetesLegacyImportMode.LegacyType getLegacyType() {
-        return KubernetesLegacyImportMode.LegacyType.CONFIG_MAP;
+    boolean isExplicitImportEnabled() {
+        return KubernetesLegacyImportMode.isConfigMapImportEnabled();
     }
 }

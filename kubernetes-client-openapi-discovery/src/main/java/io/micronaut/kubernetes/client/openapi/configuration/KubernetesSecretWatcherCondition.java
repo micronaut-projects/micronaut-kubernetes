@@ -36,7 +36,7 @@ final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWat
     }
 
     @Override
-    KubernetesLegacyImportMode.LegacyType getLegacyType() {
-        return KubernetesLegacyImportMode.LegacyType.SECRET;
+    boolean isExplicitImportEnabled() {
+        return KubernetesLegacyImportMode.isSecretImportEnabled();
     }
 }

@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     api(projects.micronautKubernetesClientOpenapiInformer)
-    api(projects.micronautKubernetesDiscoveryClientCore)
     api(libs.micronaut.discovery.client)
     compileOnly(mn.micronaut.management)
 
