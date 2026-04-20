@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.configuration;
+package io.micronaut.kubernetes.configuration;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.PropertySource;
@@ -23,6 +23,7 @@ import io.micronaut.core.convert.value.ConvertibleValues;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.ConnectionString;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.kubernetes.util.KubernetesUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -63,7 +64,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         Map<String, String> options = connectionString.getOptions();
         String namespace = options.get("namespace");
         String name = options.get("name");
-        Map<String, String> labels = KubernetesConfigUtils.parseLabels(options.get("labels"), PROVIDER);
+        Map<String, String> labels = KubernetesUtils.parseLabels(options.get("labels"), PROVIDER);
         List<String> podLabels = parseList(options.get("podLabels"));
         validateSelectors(name, labels, podLabels);
         boolean exceptionOnPodLabelsMissing = Boolean.parseBoolean(options.get("exceptionOnPodLabelsMissing"));
@@ -83,7 +84,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         String type = getType(values.get("type", String.class).orElse(null));
         String namespace = values.get("namespace", String.class).orElse(null);
         String name = values.get("name", String.class).orElse(null);
-        Map<String, String> labels = KubernetesConfigUtils.parseLabels(values.get("labels", String.class).orElse(null), PROVIDER);
+        Map<String, String> labels = KubernetesUtils.parseLabels(values.get("labels", String.class).orElse(null), PROVIDER);
         List<String> podLabels = parseList(values.get("podLabels", String.class).orElse(null));
         validateSelectors(name, labels, podLabels);
         boolean exceptionOnPodLabelsMissing = values.get("exceptionOnPodLabelsMissing", Boolean.class).orElse(false);

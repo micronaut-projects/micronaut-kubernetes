@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.configuration;
 import io.micronaut.context.condition.Condition;
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.configuration.KubernetesLegacyImportMode.LegacyType;
 
 /**
  * Condition evaluates when the {@link AbstractKubernetesConfigWatcherCondition} is enabled.
@@ -30,27 +29,26 @@ public abstract class AbstractKubernetesConfigWatcherCondition implements Condit
 
     @Override
     public boolean matches(ConditionContext context) {
-        final KubernetesConfiguration.AbstractConfigConfiguration configMapsConfiguration =
-            getConfig(context);
+        KubernetesConfiguration.AbstractConfigConfiguration configConfiguration = getConfig(context);
+        String propertyPrefix = getPropertyPrefix();
 
-        if (!configMapsConfiguration.isEnabled()) {
-            context.fail("configuration client for the ConfigMaps is disabled");
+        if (isExplicitImportEnabled()) {
+            context.fail("explicit config import disables legacy watcher for '" + propertyPrefix + "'");
             return false;
         }
 
-        if (!configMapsConfiguration.isWatch()) {
-            context.fail("watch for the ConfigMap changes is disabled");
+        if (!configConfiguration.isEnabled()) {
+            context.fail("configuration client is disabled for '" + propertyPrefix + "'");
             return false;
         }
 
-        if (!configMapsConfiguration.getPaths().isEmpty() && !configMapsConfiguration.isUseApi()) {
-            context.fail("config maps paths configuration for mounted volumes is specified and use api is disabled");
+        if (!configConfiguration.isWatch()) {
+            context.fail("watching functionality is disabled for '" + propertyPrefix + "'");
             return false;
         }
 
-        KubernetesLegacyImportMode legacyImportMode = context.getBean(KubernetesLegacyImportMode.class);
-        if (!legacyImportMode.isLegacyBootstrapEnabled(getLegacyType())) {
-            context.fail("explicit config import provider [" + getLegacyType().getProvider() + "] disables legacy bootstrap " + getLegacyType().getDisplayName() + " watchers for the same type");
+        if (!configConfiguration.getPaths().isEmpty() && !configConfiguration.isUseApi()) {
+            context.fail("mounted volume paths are specified and use api is disabled for '" + propertyPrefix + "'");
             return false;
         }
 
@@ -59,5 +57,7 @@ public abstract class AbstractKubernetesConfigWatcherCondition implements Condit
 
     abstract KubernetesConfiguration.AbstractConfigConfiguration getConfig(ConditionContext context);
 
-    abstract LegacyType getLegacyType();
+    abstract String getPropertyPrefix();
+
+    abstract boolean isExplicitImportEnabled();
 }

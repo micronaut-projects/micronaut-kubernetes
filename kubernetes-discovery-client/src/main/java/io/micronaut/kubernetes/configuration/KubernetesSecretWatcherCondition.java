@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.configuration;
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.KubernetesConfiguration;
-import io.micronaut.kubernetes.configuration.KubernetesLegacyImportMode.LegacyType;
 
 /**
  * Condition evaluates when the {@link KubernetesSecretWatcherCondition} is enabled.
@@ -34,7 +33,12 @@ public class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWa
     }
 
     @Override
-    LegacyType getLegacyType() {
-        return LegacyType.SECRET;
+    String getPropertyPrefix() {
+        return KubernetesConfiguration.KubernetesSecretsConfiguration.PREFIX;
+    }
+
+    @Override
+    boolean isExplicitImportEnabled() {
+        return KubernetesLegacyImportMode.isSecretImportEnabled();
     }
 }

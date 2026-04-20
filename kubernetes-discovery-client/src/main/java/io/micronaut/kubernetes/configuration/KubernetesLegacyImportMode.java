@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 original authors
+ * Copyright 2017-2026 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,62 +15,61 @@
  */
 package io.micronaut.kubernetes.configuration;
 
-import io.micronaut.core.annotation.Internal;
-import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-@Internal
-@Singleton
-public final class KubernetesLegacyImportMode {
+/**
+ * Tracks use of legacy Kubernetes bootstrap imports and emits a deprecation warning when needed.
+ */
+final class KubernetesLegacyImportMode {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesLegacyImportMode.class);
 
-    private static final String DEPRECATION_MESSAGE = "Legacy Kubernetes bootstrap configuration loading is deprecated and will be removed in a future release. Migrate to explicit micronaut.config.import entries for the remaining active legacy types.";
+    private static final String DEPRECATION_MESSAGE = "Legacy Kubernetes bootstrap configuration loading is deprecated " +
+        "and will be removed in a future release. Please migrate to explicit micronaut.config.import entries.";
 
-    private final Set<LegacyType> explicitImports = ConcurrentHashMap.newKeySet();
-    private volatile boolean deprecationWarningLogged;
+    private static final AtomicBoolean CONFIG_MAP_IMPORT_ENABLED = new AtomicBoolean(false);
+    private static final AtomicBoolean SECRET_IMPORT_ENABLED = new AtomicBoolean(false);
+    private static final AtomicBoolean DEPRECATION_WARNING_LOGGED = new AtomicBoolean(false);
 
-    public enum LegacyType {
-        CONFIG_MAP("ConfigMap", "kubernetes-configmap"),
-        SECRET("Secret", "kubernetes-secret");
-
-        private final String displayName;
-        private final String provider;
-
-        LegacyType(String displayName, String provider) {
-            this.displayName = displayName;
-            this.provider = provider;
-        }
-
-        public String getDisplayName() {
-            return displayName;
-        }
-
-        public String getProvider() {
-            return provider;
-        }
+    /**
+     * Marks ConfigMap import support as active for the current application run.
+     */
+    static void registerConfigMapImport() {
+        CONFIG_MAP_IMPORT_ENABLED.set(true);
     }
 
-    public void registerExplicitImport(LegacyType legacyType) {
-        explicitImports.add(legacyType);
+    /**
+     * Marks Secret import support as active for the current application run.
+     */
+    static void registerSecretImport() {
+        SECRET_IMPORT_ENABLED.set(true);
     }
 
-    public boolean isLegacyBootstrapEnabled(LegacyType legacyType) {
-        return !explicitImports.contains(legacyType);
+    /**
+     * @return Whether ConfigMap import support is active for the current application run
+     */
+    static boolean isConfigMapImportEnabled() {
+        return CONFIG_MAP_IMPORT_ENABLED.get();
     }
 
-    public void logLegacyBootstrapDeprecationIfNeeded(boolean legacyBootstrapActive) {
-        if (legacyBootstrapActive && !deprecationWarningLogged) {
-            synchronized (this) {
-                if (!deprecationWarningLogged) {
-                    LOG.warn(DEPRECATION_MESSAGE);
-                    deprecationWarningLogged = true;
-                }
-            }
+    /**
+     * @return Whether Secret import support is active for the current application run
+     */
+    static boolean isSecretImportEnabled() {
+        return SECRET_IMPORT_ENABLED.get();
+    }
+
+    /**
+     * Logs the legacy bootstrap deprecation warning once when legacy bootstrap mode is active.
+     *
+     * @param legacyBootstrapActive Whether legacy bootstrap configuration loading is active
+     */
+    static void logLegacyBootstrapDeprecationIfNeeded(boolean legacyBootstrapActive) {
+        if (legacyBootstrapActive && !DEPRECATION_WARNING_LOGGED.getAndSet(true)) {
+            LOG.warn(DEPRECATION_MESSAGE);
         }
     }
 }

@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.configuration;
+package io.micronaut.kubernetes.configuration;
 
+import io.kubernetes.client.openapi.models.V1Secret;
+import io.kubernetes.client.openapi.models.V1SecretList;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.openapi.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
-import io.micronaut.kubernetes.client.openapi.model.V1Secret;
-import io.micronaut.kubernetes.client.openapi.model.V1SecretList;
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
+import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import io.micronaut.kubernetes.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
+import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
 
@@ -39,10 +40,10 @@ import java.util.Optional;
 @Requires(beans = KubernetesConfiguration.class)
 final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport {
 
-    private final CoreV1ApiReactor client;
+    private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration configuration;
 
-    KubernetesSecretImportSupport(CoreV1ApiReactor client,
+    KubernetesSecretImportSupport(CoreV1ApiReactorClient client,
                                   KubernetesConfiguration configuration) {
         this.client = client;
         this.configuration = configuration;
@@ -64,13 +65,13 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
 
         List<V1Secret> secrets;
         if (StringUtils.isNotEmpty(name)) {
-            V1Secret secret = readIfExists(() -> client.readNamespacedSecret(name, namespace, null).block());
+            V1Secret secret = readIfExists(() -> client.readNamespacedSecret(name, namespace).execute().block());
             secrets = secret == null ? Collections.emptyList() : List.of(secret);
         } else {
-            String labelSelector = KubernetesConfigUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
-            V1SecretList secretList = client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
+            String labelSelector = KubernetesUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+            V1SecretList secretList = client.listNamespacedSecret(namespace).labelSelector(labelSelector).execute().block();
             secrets = secretList == null ? Collections.emptyList() : secretList.getItems();
         }
-        return toPropertySource(secrets, V1Secret.class, KubernetesConfigUtils::secretAsMap);
+        return toPropertySource(secrets, V1Secret.class, KubernetesUtils::secretAsMap);
     }
 }

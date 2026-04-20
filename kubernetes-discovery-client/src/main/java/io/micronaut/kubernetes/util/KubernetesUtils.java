@@ -16,16 +16,17 @@
 package io.micronaut.kubernetes.util;
 
 import io.kubernetes.client.common.KubernetesObject;
-import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ObjectMeta;
 import io.kubernetes.client.openapi.models.V1Secret;
+import io.micronaut.context.env.EmptyPropertySource;
 import io.micronaut.context.env.EnvironmentPropertySource;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
-import io.micronaut.kubernetes.configuration.KubernetesConfigurationClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -34,14 +35,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
 import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_ENV_VARIABLE;
 
 /**
@@ -52,140 +54,177 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
  */
 public class KubernetesUtils {
 
-    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
+    public static final int API_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 100;
+    static final int MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 150;
+
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
+
+    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
+
+    private static final String PROPERTY_SOURCE_NAME_TEMPLATE = "%s (Kubernetes %s)";
+    private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
+
+    /**
+     * Creates a property name for property which contains resource version of given kubernetes object.
+     *
+     * @param kubernetesObject the kubernetes object
+     * @return property name
+     */
+    public static String createResVersionPropertyName(KubernetesObject kubernetesObject) {
+        String objectType = kubernetesObject.getClass().getSimpleName();
+        String objectName = kubernetesObject.getMetadata().getName();
+        return OBJECT_RES_VERSION_PROP_NAME_TEMPLATE.formatted(objectType.toLowerCase(), objectName);
+    }
+
+    /**
+     * Creates a property source name from given kubernetes object.
+     *
+     * @param kubernetesObject the kubernetes object
+     * @return property source name
+     */
+    static String createPropertySourceName(KubernetesObject kubernetesObject) {
+        String objectName = kubernetesObject.getMetadata().getName();
+        String objectType = kubernetesObject.getClass().getSimpleName();
+        return PROPERTY_SOURCE_NAME_TEMPLATE.formatted(objectName, objectType);
+    }
+
+    /**
+     * Creates a property source name from given file path.
+     *
+     * @param filePath the file path
+     * @param type the kubernetes type
+     * @return property source name
+     */
+    public static String createPropertySourceName(String filePath, Class<? extends KubernetesObject> type) {
+        return PROPERTY_SOURCE_NAME_TEMPLATE.formatted(filePath, type.getSimpleName());
+    }
+
+    /**
+     * Converts a {@link V1ConfigMap} into a {@link Map}.
+     *
+     * @param configMap             the {@link V1ConfigMap} instance
+     * @param propertySourceLoaders the collection of property source loaders
+     * @return {@link Map} instance
+     */
+    public static Map<String, Object> configMapAsMap(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
+        Map<String, String> data = configMap.getData();
+        if (CollectionUtils.isEmpty(data)) {
+            return Collections.emptyMap();
+        }
+
+        Map.Entry<String, String> entry = data.entrySet().iterator().next();
+        Optional<String> extensionOpt = getExtension(entry.getKey());
+        if (data.size() > 1 || extensionOpt.isEmpty()) {
+            LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
+            return new HashMap<>(data);
+        } else {
+            LOG.trace("Considering this ConfigMap as containing values from a single file");
+            String extension = extensionOpt.get();
+            Optional<PropertySourceLoader> propertySourceLoader = propertySourceLoaders.stream()
+                .filter(loader -> loader.getExtensions().contains(extension))
+                .findFirst();
+            if (propertySourceLoader.isEmpty()) {
+                Set<String> propertySourceExtensions = propertySourceLoader.stream()
+                    .flatMap(loader -> loader.getExtensions().stream())
+                    .collect(Collectors.toSet());
+                LOG.info("Could not find property source loader for extension '{}' from ConfigMap '{}'. Supported extensions: {}",
+                    extension, configMap.getMetadata().getName(), propertySourceExtensions);
+                return Collections.emptyMap();
+            } else {
+                return propertySourceLoader.get().read(entry.getKey(), entry.getValue().getBytes());
+            }
+        }
+    }
 
     /**
      * Converts a {@link V1ConfigMap} into a {@link PropertySource}.
      *
-     * @param configMap             the ConfigMap
+     * @param configMap             the {@link V1ConfigMap} instance
      * @param propertySourceLoaders the collection of property source loaders
-     * @return A PropertySource
+     * @return {@link PropertySource} instance
      */
     public static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Processing PropertySources for ConfigMap: {}", configMap);
+        LOG.trace("Creating PropertySource for ConfigMap: {}", configMap.getMetadata().getName());
+        Map<String, Object> propertySourceData = configMapAsMap(configMap, propertySourceLoaders);
+        if (CollectionUtils.isEmpty(propertySourceData)) {
+            return new EmptyPropertySource();
         }
-        String name = getPropertySourceName(configMap);
-        Map<String, String> data = configMap.getData();
-
-        if (data == null || data.isEmpty()) {
-            return PropertySource.of(Collections.emptyMap());
-        }
-
-        Map.Entry<String, String> entry = data.entrySet().iterator().next();
-        if (data.size() > 1 || !getExtension(entry.getKey()).isPresent()) {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Considering this ConfigMap as containing multiple literal key/values");
-            }
-            data.putIfAbsent(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion());
-            Map<String, Object> propertySourceData = new HashMap<>(data);
-            return PropertySource.of(name, propertySourceData);
-        } else {
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("Considering this ConfigMap as containing values from a single file");
-            }
-            String extension = getExtension(entry.getKey()).get();
-            int priority = EnvironmentPropertySource.POSITION + 100;
-            PropertySource propertySource = propertySourceLoaders.stream()
-                    .filter(loader -> loader.getExtensions().contains(extension))
-                    .map(loader -> loader.read(entry.getKey(), entry.getValue().getBytes()))
-                    .peek(map -> map.putIfAbsent(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION, configMap.getMetadata().getResourceVersion()))
-                    .map(map -> PropertySource.of(entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX, map, priority))
-                    .findFirst()
-                    .orElse(PropertySource.of(Collections.emptyMap()));
-
-            return propertySource;
-        }
+        String propertySourceName = createPropertySourceName(configMap);
+        String resVersionPropertyName = createResVersionPropertyName(configMap);
+        String resVersionPropertyValue = configMap.getMetadata().getResourceVersion();
+        propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+        return PropertySource.of(propertySourceName, propertySourceData, API_PROPERTY_SOURCE_PRIORITY);
     }
 
     /**
-     * Converts config map mounted as volume into property sources.
+     * Converts config map mounted as volume into a {@link PropertySource}.
      *
      * @param mountPoint            the mount point
      * @param data                  the configmaps data in the mounted volume where keys are file names and values is the file content
      * @param propertySourceLoaders the collection of property source loaders
-     * @return list of property sources
+     * @return list of {@link PropertySource} instances
      */
     public static List<PropertySource> configMapAsPropertySource(String mountPoint, Map<String, String> data, Collection<PropertySourceLoader> propertySourceLoaders) {
-
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Creating {} PropertySources for ConfigMap mounted at: {}", data.size(), mountPoint);
-        }
-        if (data == null || data.isEmpty()) {
-            return Collections.singletonList(PropertySource.of(Collections.emptyMap()));
-        }
-
         List<PropertySource> propertySources = new ArrayList<>(data.size());
 
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            Optional<String> extension = getExtension(entry.getKey());
-            if (!extension.isPresent()) {
-                if (LOG.isInfoEnabled()) {
-                    LOG.info("Failed to deduce the extension for file: {}", entry.getKey());
-                }
-                continue;
+        data.forEach((fileName, fileContent) -> {
+            LOG.trace("Creating PropertySource for ConfigMap from file: {}", fileName);
+            Optional<String> extensionOpt = getExtension(fileName);
+            if (extensionOpt.isEmpty()) {
+                LOG.info("Failed to deduce the extension for file: {}", fileName);
+                return;
             }
 
-            String fileExtension = extension.get();
-            String propertyName = mountPoint + "/" + entry.getKey() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
-
-            int priority = EnvironmentPropertySource.POSITION + 150;
-            PropertySource propertySource = propertySourceLoaders.stream()
-                    .filter(loader -> loader.getExtensions().contains(fileExtension))
-                    .map(loader -> loader.read(entry.getKey(), entry.getValue().getBytes()))
-                    .map(map -> PropertySource.of(propertyName, map, priority))
-                    .findFirst()
-                    .orElse(PropertySource.of(Collections.emptyMap()));
-            propertySources.add(propertySource);
-        }
+            String extension = extensionOpt.get();
+            Optional<PropertySourceLoader> propertySourceLoader = propertySourceLoaders.stream()
+                .filter(loader -> loader.getExtensions().contains(extension))
+                .findFirst();
+            if (propertySourceLoader.isEmpty()) {
+                Set<String> propertySourceExtensions = propertySourceLoaders.stream()
+                    .flatMap(loader -> loader.getExtensions().stream())
+                    .collect(Collectors.toSet());
+                LOG.info("Could not find property source loader for extension '{}' from file '{}'. Supported extensions: {}",
+                    extension, fileName, propertySourceExtensions);
+            } else {
+                String propertySourceName = createPropertySourceName(mountPoint + "/" + fileName, V1ConfigMap.class);
+                Map<String, Object> propertySourceData = propertySourceLoader.get().read(fileName, fileContent.getBytes());
+                propertySources.add(PropertySource.of(propertySourceName, propertySourceData, MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY));
+            }
+        });
 
         return propertySources;
-
     }
 
     /**
-     * Determines the value of a Kubernetes labelSelector filter based on the passed labels.
+     * Converts a {@link V1Secret} into a {@link Map}.
      *
-     * @param labels the labels
-     * @return the value of the labelSelector filter
+     * @param secret the {@link V1Secret} instance
+     * @return {@link Map} instance
      */
-    public static String computeLabelSelector(Map<String, String> labels) {
-        String labelSelector = "";
-        if (!labels.isEmpty()) {
-            labelSelector = labels.entrySet()
-                    .stream()
-                    .map(entry -> entry.getKey() + "=" + entry.getValue())
-                    .collect(Collectors.joining(","));
-
-            if (LOG.isTraceEnabled()) {
-                LOG.trace("labelSelector: {}", labelSelector);
-            }
-        }
-        return labelSelector;
+    public static Map<String, Object> secretAsMap(V1Secret secret) {
+        Map<String, byte[]> data = secret.getData();
+        return data == null
+            ? Collections.emptyMap()
+            : data.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
     }
 
     /**
-     * @param secret The {@link V1Secret} to transform
-     * @return The converted {@link PropertySource}.
+     * Converts a {@link V1Secret} into a {@link PropertySource}.
+     *
+     * @param secret the {@link V1Secret} instance
+     * @return {@link PropertySource} instance
      */
     public static PropertySource secretAsPropertySource(V1Secret secret) {
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Processing PropertySources for Secret: {}", secret);
+        LOG.trace("Creating PropertySource for Secret: {}", secret.getMetadata().getName());
+        Map<String, Object> propertySourceData =  secretAsMap(secret);
+        if (CollectionUtils.isEmpty(propertySourceData)) {
+            return new EmptyPropertySource();
         }
-        String name = secret.getMetadata().getName() + KubernetesConfigurationClient.KUBERNETES_SECRET_NAME_SUFFIX;
-        Map<String, byte[]> data = secret.getData();
-        Map<String, Object> propertySourceData = null;
-        if (data != null) {
-            propertySourceData = data.entrySet()
-                    .stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, v -> new String(v.getValue())));
-        } else {
-            propertySourceData = Collections.emptyMap();
-        }
-        int priority = EnvironmentPropertySource.POSITION + 100;
-        PropertySource propertySource = PropertySource.of(name, propertySourceData, priority);
-        return propertySource;
+        String resVersionPropertyName = createResVersionPropertyName(secret);
+        String resVersionPropertyValue = secret.getMetadata().getResourceVersion();
+        propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+        String propertySourceName = createPropertySourceName(secret);
+        return PropertySource.of(propertySourceName, propertySourceData, API_PROPERTY_SOURCE_PRIORITY);
     }
 
     /**
@@ -285,67 +324,101 @@ public class KubernetesUtils {
     }
 
     /**
-     * @param client       the {@link CoreV1ApiReactorClient}
-     * @param podLabelKeys the list of labels inside a pod
-     * @param namespace    in the configuration
-     * @param labels       the labels
-     * @param exceptionOnPodLabelsMissing     should and exception be thrown if configured pod label is not found
-     * @return the filtered labels of the current pod
+     * Creates a label selector filter from pod and passed labels.
+     *
+     * @param client                      the client
+     * @param podLabelKeys                the list of label keys inside a pod
+     * @param namespace                   the namespace
+     * @param labels                      the additional labels
+     * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
+     * @return the label selector filter
      */
     public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, List<String> podLabelKeys,
                                                        String namespace, Map<String, String> labels,
                                                        boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
-        if (host == null) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Not running on k8s");
-            }
+        if (StringUtils.isEmpty(host) || CollectionUtils.isEmpty(podLabelKeys)) {
             return Mono.just(computeLabelSelector(labels));
         }
 
         final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
         return client.readNamespacedPod(podName, namespace)
-                .execute()
-                .doOnError(ApiException.class, throwable ->
-                        LOG.error("Failed to read the Pod [" + podName + "] the application is running in: " + throwable.getResponseBody(), throwable))
-                .map(pod -> {
-                    Map<String, String> result = new HashMap<>();
-                    Map<String, String> podLabels = Objects.requireNonNull(pod.getMetadata()).getLabels();
-                    for (String key : podLabelKeys) {
-                        String value = podLabels.get(key);
-                        if (value != null) {
-                            result.put(key, value);
-                            if (LOG.isTraceEnabled()) {
-                                LOG.trace("Including pod label: {}={}", key, value);
-                            }
-                        } else {
-                            if (LOG.isWarnEnabled()) {
-                                LOG.warn("Pod metadata does not contain label: {}", key);
-                            }
-                            if (exceptionOnPodLabelsMissing) {
-                                throw new ConfigurationException("Pod metadata does not contain label: " + key +
-                                                                    " and the exception-on-pod-labels-missing property is set");
-                            }
+            .execute()
+            .doOnError(throwable -> LOG.error("Failed to read the Pod [{}] the application is running in", podName, throwable))
+            .map(pod -> {
+                Map<String, String> result = new HashMap<>();
+                Map<String, String> podLabels = Objects.requireNonNull(pod.getMetadata()).getLabels();
+                for (String key : podLabelKeys) {
+                    String value = podLabels.get(key);
+                    if (value != null) {
+                        result.put(key, value);
+                        LOG.trace("Including pod label: {}={}", key, value);
+                    } else {
+                        LOG.warn("Pod metadata does not contain label: {}", key);
+                        if (exceptionOnPodLabelsMissing) {
+                            throw new ConfigurationException("Pod metadata does not contain label [" +
+                                key + "] and the exception-on-pod-labels-missing property is set");
                         }
                     }
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Computed pod label selectors {}", result);
-                    }
+                }
+                LOG.debug("Computed pod label selectors {}", result);
+                if (labels != null) {
                     result.putAll(labels);
-                    return computeLabelSelector(result);
-                })
-                .doOnError(throwable -> LOG.error("Failed to compute the label selector [" + podLabelKeys + "] from the Pod [" + podName + "]: " + throwable.getMessage(), throwable));
+                }
+                return computeLabelSelector(result);
+            })
+            .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
     }
 
-    private static String getPropertySourceName(V1ConfigMap configMap) {
-        return configMap.getMetadata().getName() + KUBERNETES_CONFIG_MAP_NAME_SUFFIX;
+    public static Map<String, String> parseLabels(String labelsValue, String provider) {
+        if (StringUtils.isEmpty(labelsValue)) {
+            return null;
+        }
+        Map<String, String> labels = new LinkedHashMap<>();
+        for (String token : labelsValue.split(",")) {
+            String entry = token.trim();
+            if (entry.isEmpty()) {
+                continue;
+            }
+            int equalsIndex = entry.indexOf('=');
+            if (equalsIndex <= 0 || equalsIndex == entry.length() - 1) {
+                throw new ConfigurationException("Config import provider [" + provider + "] requires labels in the form key=value");
+            }
+            String key = entry.substring(0, equalsIndex).trim();
+            String value = entry.substring(equalsIndex + 1).trim();
+            if (key.isEmpty() || value.isEmpty()) {
+                throw new ConfigurationException("Config import provider [" + provider + "] requires labels in the form key=value");
+            }
+            labels.put(key, value);
+        }
+        if (labels.isEmpty()) {
+            throw new ConfigurationException("Config import provider [" + provider + "] requires a non-blank 'labels'");
+        }
+        return labels;
+    }
+
+    /**
+     * Creates a label selector filter based on the passed labels.
+     *
+     * @param labels the map of labels
+     * @return the label selector filter
+     */
+    public static String computeLabelSelector(Map<String, String> labels) {
+        if (CollectionUtils.isEmpty(labels)) {
+            return StringUtils.EMPTY_STRING;
+        }
+        String labelSelector = labels.entrySet()
+            .stream()
+            .map(entry -> entry.getKey() + "=" + entry.getValue())
+            .collect(Collectors.joining(","));
+        LOG.trace("labelSelector: {}", labelSelector);
+        return labelSelector;
     }
 
     private static Optional<String> getExtension(String filename) {
         return Optional.of(filename)
-                .filter(f -> f.contains("."))
-                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+            .filter(f -> f.contains("."))
+            .map(f -> f.substring(filename.lastIndexOf(".") + 1));
     }
-
 }

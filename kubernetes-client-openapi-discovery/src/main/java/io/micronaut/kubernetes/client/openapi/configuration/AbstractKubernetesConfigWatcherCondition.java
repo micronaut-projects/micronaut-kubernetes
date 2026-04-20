@@ -31,6 +31,7 @@ abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condit
     public boolean matches(ConditionContext context) {
         KubernetesConfiguration.AbstractConfigConfiguration configConfiguration = getConfig(context);
         String propertyPrefix = getPropertyPrefix();
+
         if (isExplicitImportEnabled()) {
             context.fail("explicit config import disables legacy watcher for '" + propertyPrefix + "'");
             return false;

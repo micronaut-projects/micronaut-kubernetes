@@ -313,7 +313,7 @@ public class KubernetesConfiguration {
     @BootstrapContextCompatible
     public static class KubernetesSecretsConfiguration extends AbstractConfigConfiguration {
 
-        static final String PREFIX = "secrets";
+        public static final String PREFIX = "secrets";
 
         static final boolean DEFAULT_ENABLED = false;
         static final boolean DEFAULT_WATCH = false;

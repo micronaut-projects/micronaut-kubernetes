@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.configuration;
+package io.micronaut.kubernetes.configuration;
 
+import io.kubernetes.client.openapi.models.V1ConfigMap;
+import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.core.util.StringUtils;
-import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.openapi.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
-import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
-import io.micronaut.kubernetes.client.openapi.model.V1ConfigMapList;
-import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
+import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import io.micronaut.kubernetes.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
+import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
 
@@ -39,10 +40,10 @@ import java.util.Optional;
 @Requires(beans = KubernetesConfiguration.class)
 final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSupport {
 
-    private final CoreV1ApiReactor client;
+    private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration configuration;
 
-    KubernetesConfigMapImportSupport(CoreV1ApiReactor client,
+    KubernetesConfigMapImportSupport(CoreV1ApiReactorClient client,
                                      KubernetesConfiguration configuration) {
         this.client = client;
         this.configuration = configuration;
@@ -64,13 +65,13 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
 
         List<V1ConfigMap> configMaps;
         if (StringUtils.isNotEmpty(name)) {
-            V1ConfigMap configMap = readIfExists(() -> client.readNamespacedConfigMap(name, namespace, null).block());
+            V1ConfigMap configMap = readIfExists(() -> client.readNamespacedConfigMap(name, namespace).execute().block());
             configMaps = configMap == null ? Collections.emptyList() : List.of(configMap);
         } else {
-            String labelSelector = KubernetesConfigUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
-            V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
+            String labelSelector = KubernetesUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+            V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace).labelSelector(labelSelector).execute().block();
             configMaps = configMapList == null ? Collections.emptyList() : configMapList.getItems();
         }
-        return toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
+        return toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesUtils.configMapAsMap(item, propertySourceLoaders));
     }
 }
