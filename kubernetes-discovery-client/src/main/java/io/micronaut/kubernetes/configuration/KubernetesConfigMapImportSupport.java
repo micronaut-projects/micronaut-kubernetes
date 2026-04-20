@@ -20,6 +20,7 @@ import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
@@ -27,9 +28,10 @@ import io.micronaut.kubernetes.configuration.KubernetesPropertySourceImporter.Im
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,8 @@ import java.util.Optional;
 @Singleton
 @Requires(beans = KubernetesConfiguration.class)
 final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSupport {
+
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapImportSupport.class);
 
     private final CoreV1ApiReactorClient client;
     private final KubernetesConfiguration configuration;
@@ -66,11 +70,23 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
         List<V1ConfigMap> configMaps;
         if (StringUtils.isNotEmpty(name)) {
             V1ConfigMap configMap = readIfExists(() -> client.readNamespacedConfigMap(name, namespace).execute().block());
-            configMaps = configMap == null ? Collections.emptyList() : List.of(configMap);
+            if (configMap == null) {
+                LOG.debug("ConfigMap with name '{}' not found, declaration={}", name, declaration);
+                return Optional.empty();
+            }
+            configMaps = List.of(configMap);
         } else {
             String labelSelector = KubernetesUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+            if (StringUtils.isEmpty(labelSelector)) {
+                LOG.debug("No label selector found for declaration {}", declaration);
+                return Optional.empty();
+            }
             V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace).labelSelector(labelSelector).execute().block();
-            configMaps = configMapList == null ? Collections.emptyList() : configMapList.getItems();
+            if (configMapList == null || CollectionUtils.isEmpty(configMapList.getItems())) {
+                LOG.debug("ConfigMap not found for declaration={}", declaration);
+                return Optional.empty();
+            }
+            configMaps = configMapList.getItems();
         }
         return toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesUtils.configMapAsMap(item, propertySourceLoaders));
     }

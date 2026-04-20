@@ -29,9 +29,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * A {@link PropertySourceImporter} that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.
@@ -41,6 +43,17 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
 
     private static final String PROVIDER = "kubernetes";
+    private static final Set<String> SUPPORTED_OPTIONS = Set.of(
+        "provider",
+        "type",
+        "namespace",
+        "name",
+        "labels",
+        "podLabels",
+        "exceptionOnPodLabelsMissing",
+        "terminateStartupOnException",
+        "optional"
+    );
 
     private ApplicationContext applicationContext;
 
@@ -61,6 +74,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     public ImportDeclaration newImportDeclaration(@NonNull ConnectionString connectionString) {
         String type = getType(connectionString.getPath());
         Map<String, String> options = connectionString.getOptions();
+        validateSupportedOptions(options.keySet());
         String namespace = options.get("namespace");
         String name = options.get("name");
         Map<String, String> labels = KubernetesConfigUtils.parseLabels(options.get("labels"), PROVIDER);
@@ -80,6 +94,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     @NonNull
     @Override
     public ImportDeclaration newImportDeclaration(@NonNull ConvertibleValues<Object> values) {
+        validateSupportedOptions(values.asMap().keySet());
         String type = getType(values.get("type", String.class).orElse(null));
         String namespace = values.get("namespace", String.class).orElse(null);
         String name = values.get("name", String.class).orElse(null);
@@ -194,6 +209,16 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
             .filter(t -> !t.isEmpty())
             .toList();
         return items.isEmpty() ? null : items;
+    }
+
+    private void validateSupportedOptions(Set<String> optionNames) {
+        Set<String> unsupportedOptions = new LinkedHashSet<>(optionNames);
+        unsupportedOptions.removeAll(SUPPORTED_OPTIONS);
+        if (!unsupportedOptions.isEmpty()) {
+            throw new ConfigurationException(
+                "Config import provider [" + PROVIDER + "] does not support options: " + unsupportedOptions
+            );
+        }
     }
 
     private ApplicationContext getApplicationContext() {

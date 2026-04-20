@@ -16,19 +16,20 @@
 package io.micronaut.kubernetes.configuration;
 
 import io.kubernetes.client.common.KubernetesObject;
+import io.kubernetes.client.openapi.ApiException;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceImporter.ImportContext;
 import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.kubernetes.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.Exceptions;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -54,7 +55,7 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
      */
     @NonNull
     Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
-        KubernetesPropertySourceImporter.ImportDeclaration declaration = context.importDeclaration();
+        ImportDeclaration declaration = context.importDeclaration();
         LOG.debug("Started property source import for declaration: {}", declaration);
         try {
             Optional<PropertySource> propertySource = importPropertySource(declaration, context.environment().getPropertySourceLoaders());
@@ -135,9 +136,12 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
     <T> T readIfExists(@NonNull Supplier<T> readFn) {
         try {
             return readFn.get();
-        } catch (HttpClientResponseException e) {
-            if (e.getStatus() == HttpStatus.NOT_FOUND) {
-                return null;
+        } catch (Throwable e) {
+            Throwable root = Exceptions.unwrap(e);
+            if (root instanceof ApiException apiException) {
+                if (apiException.getCode() == HttpStatus.NOT_FOUND.getCode()) {
+                    return null;
+                }
             }
             throw e;
         }

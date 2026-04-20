@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.configuration;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
+import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
@@ -26,9 +27,10 @@ import io.micronaut.kubernetes.client.openapi.model.V1SecretList;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,8 @@ import java.util.Optional;
 @Singleton
 @Requires(beans = KubernetesConfiguration.class)
 final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport {
+
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesSecretImportSupport.class);
 
     private final CoreV1ApiReactor client;
     private final KubernetesConfiguration configuration;
@@ -65,11 +69,23 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
         List<V1Secret> secrets;
         if (StringUtils.isNotEmpty(name)) {
             V1Secret secret = readIfExists(() -> client.readNamespacedSecret(name, namespace, null).block());
-            secrets = secret == null ? Collections.emptyList() : List.of(secret);
+            if (secret == null) {
+                LOG.debug("Secret with name '{}' not found, declaration={}", name, declaration);
+                return Optional.empty();
+            }
+            secrets = List.of(secret);
         } else {
             String labelSelector = KubernetesConfigUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+            if (StringUtils.isEmpty(labelSelector)) {
+                LOG.debug("No label selector found for declaration {}", declaration);
+                return Optional.empty();
+            }
             V1SecretList secretList = client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
-            secrets = secretList == null ? Collections.emptyList() : secretList.getItems();
+            if (secretList == null || CollectionUtils.isEmpty(secretList.getItems())) {
+                LOG.debug("Secret not found for declaration={}", declaration);
+                return Optional.empty();
+            }
+            secrets = secretList.getItems();
         }
         return toPropertySource(secrets, V1Secret.class, KubernetesConfigUtils::secretAsMap);
     }
