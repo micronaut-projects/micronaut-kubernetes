@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.configuration;
+package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.PropertySource;
@@ -21,9 +21,10 @@ import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
-import io.micronaut.kubernetes.client.openapi.configuration.KubernetesPropertySourceImporter.ImportDeclaration;
-import io.micronaut.kubernetes.client.openapi.model.V1Secret;
-import io.micronaut.kubernetes.client.openapi.model.V1SecretList;
+import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
+import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter.ImportDeclaration;
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMapList;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
@@ -35,29 +36,29 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Imports Micronaut property sources from Kubernetes Secrets resolved from an import declaration.
+ * Imports Micronaut property sources from Kubernetes ConfigMaps resolved from an import declaration.
  */
 @Singleton
 @Requires(beans = KubernetesConfiguration.class)
-final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport {
+final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSupport {
 
-    private static final Logger LOG = LoggerFactory.getLogger(KubernetesSecretImportSupport.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigMapImportSupport.class);
 
     private final CoreV1ApiReactor client;
     private final KubernetesConfiguration configuration;
 
-    KubernetesSecretImportSupport(CoreV1ApiReactor client,
-                                  KubernetesConfiguration configuration) {
+    KubernetesConfigMapImportSupport(CoreV1ApiReactor client,
+                                     KubernetesConfiguration configuration) {
         this.client = client;
         this.configuration = configuration;
     }
 
     /**
-     * Resolves Secrets by explicit name or label selector and converts their contents into a property source.
+     * Resolves ConfigMaps by explicit name or label selector and converts their contents into a property source.
      *
-     * @param declaration           The import declaration describing which Secret resources to resolve
+     * @param declaration           The import declaration describing which ConfigMap resources to resolve
      * @param propertySourceLoaders The property source loaders used to expand supported embedded formats
-     * @return The imported property source when matching Secret data is available
+     * @return The imported property source when matching ConfigMap data is available
      */
     @NonNull
     @Override
@@ -66,27 +67,27 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
         String namespace = declaration.namespace() == null ? configuration.getNamespace() : declaration.namespace();
         String name = declaration.name();
 
-        List<V1Secret> secrets;
+        List<V1ConfigMap> configMaps;
         if (StringUtils.isNotEmpty(name)) {
-            V1Secret secret = readIfExists(() -> client.readNamespacedSecret(name, namespace, null).block());
-            if (secret == null) {
-                LOG.debug("Secret with name '{}' not found, declaration={}", name, declaration);
+            V1ConfigMap configMap = readIfExists(() -> client.readNamespacedConfigMap(name, namespace, null).block());
+            if (configMap == null) {
+                LOG.debug("ConfigMap with name '{}' not found, declaration={}", name, declaration);
                 return Optional.empty();
             }
-            secrets = List.of(secret);
+            configMaps = List.of(configMap);
         } else {
             String labelSelector = KubernetesConfigUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
             if (StringUtils.isEmpty(labelSelector)) {
                 LOG.debug("No label selector found for declaration {}", declaration);
                 return Optional.empty();
             }
-            V1SecretList secretList = client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
-            if (secretList == null || CollectionUtils.isEmpty(secretList.getItems())) {
-                LOG.debug("Secret not found for declaration={}", declaration);
+            V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
+            if (configMapList == null || CollectionUtils.isEmpty(configMapList.getItems())) {
+                LOG.debug("ConfigMap not found for declaration={}", declaration);
                 return Optional.empty();
             }
-            secrets = secretList.getItems();
+            configMaps = configMapList.getItems();
         }
-        return toPropertySource(secrets, V1Secret.class, KubernetesConfigUtils::secretAsMap);
+        return toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
     }
 }

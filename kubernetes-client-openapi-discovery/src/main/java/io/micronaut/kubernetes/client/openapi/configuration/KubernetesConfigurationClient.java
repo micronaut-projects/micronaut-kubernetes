@@ -26,6 +26,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesLegacyImportMode;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMapList;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.model.V1SecretList;

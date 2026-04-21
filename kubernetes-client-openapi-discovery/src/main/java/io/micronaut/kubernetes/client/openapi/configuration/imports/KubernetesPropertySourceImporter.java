@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.client.openapi.configuration;
+package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.env.PropertySource;
@@ -23,6 +23,7 @@ import io.micronaut.core.convert.value.ConvertibleValues;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.ConnectionString;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;

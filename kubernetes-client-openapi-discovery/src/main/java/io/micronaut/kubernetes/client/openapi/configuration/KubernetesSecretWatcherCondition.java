@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesLegacyImportMode;
 
 /**
  * Condition evaluates when the {@link KubernetesSecretWatcherCondition} is enabled.
