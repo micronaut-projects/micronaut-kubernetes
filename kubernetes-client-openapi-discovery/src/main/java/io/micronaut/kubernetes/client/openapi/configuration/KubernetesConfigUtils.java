@@ -254,12 +254,29 @@ public final class KubernetesConfigUtils {
      * @return the label selector filter
      */
     public static Mono<String> computePodLabelSelector(CoreV1ApiReactor client, List<String> podLabelKeys,
-                                                String namespace, Map<String, String> labels,
-                                                boolean exceptionOnPodLabelsMissing) {
+                                                 String namespace, Map<String, String> labels,
+                                                 boolean exceptionOnPodLabelsMissing) {
+        return computePodLabels(client, podLabelKeys, namespace, labels, exceptionOnPodLabelsMissing)
+            .map(KubernetesConfigUtils::computeLabelSelector);
+    }
+
+    /**
+     * Creates a label map from pod and passed labels.
+     *
+     * @param client                      the client
+     * @param podLabelKeys                the list of label keys inside a pod
+     * @param namespace                   the namespace
+     * @param labels                      the additional labels
+     * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
+     * @return the computed labels
+     */
+    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactor client, List<String> podLabelKeys,
+                                                             String namespace, Map<String, String> labels,
+                                                             boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (StringUtils.isEmpty(host) || CollectionUtils.isEmpty(podLabelKeys)) {
-            return Mono.just(computeLabelSelector(labels));
+            return Mono.just(labels == null ? Collections.emptyMap() : labels);
         }
 
         String podName = System.getenv(KubernetesConfiguration.HOSTNAME_ENV_VARIABLE);
@@ -285,7 +302,7 @@ public final class KubernetesConfigUtils {
                 if (labels != null) {
                     result.putAll(labels);
                 }
-                return computeLabelSelector(result);
+                return result;
             })
             .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
     }
@@ -323,7 +340,7 @@ public final class KubernetesConfigUtils {
      * @param labels the map of labels
      * @return the label selector filter
      */
-    static String computeLabelSelector(Map<String, String> labels) {
+    public static String computeLabelSelector(Map<String, String> labels) {
         if (CollectionUtils.isEmpty(labels)) {
             return StringUtils.EMPTY_STRING;
         }

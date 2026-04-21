@@ -20,6 +20,7 @@ import io.micronaut.context.env.PropertySourceImporter.ImportContext;
 import io.micronaut.context.env.PropertySourceLoader;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
+import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
@@ -57,7 +58,20 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
         ImportDeclaration declaration = context.importDeclaration();
         LOG.debug("Started property source import for declaration: {}", declaration);
         try {
-            Optional<PropertySource> propertySource = importPropertySource(declaration, context.environment().getPropertySourceLoaders());
+            PropertySource cachedPropertySource = PropertySourceCache.get(declaration);
+            if (cachedPropertySource != null) {
+                LOG.debug("Found cached property source for declaration: {}", declaration);
+                return Optional.of(cachedPropertySource);
+            }
+
+            Collection<PropertySourceLoader> propertySourceLoaders = context.environment().getPropertySourceLoaders();
+
+            Optional<PropertySource> propertySource = StringUtils.isNotEmpty(declaration.name())
+                ? importPropertySourceByNameSelector(declaration, propertySourceLoaders)
+                : importPropertySourceByLabelsSelector(declaration, propertySourceLoaders);
+
+            propertySource.ifPresent(source -> PropertySourceCache.add(declaration, source));
+
             LOG.debug("Completed property source import for declaration: {}", declaration);
             return propertySource;
         } catch (RuntimeException e) {
@@ -71,15 +85,13 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
         }
     }
 
-    /**
-     * Imports a property source for a concrete declaration.
-     *
-     * @param declaration           The import declaration describing which resources to resolve
-     * @param propertySourceLoaders The property source loaders available in the environment
-     * @return The imported property source when matching resource data is available
-     */
     @NonNull
-    abstract Optional<PropertySource> importPropertySource(
+    abstract Optional<PropertySource> importPropertySourceByNameSelector(
+        @NonNull ImportDeclaration declaration,
+        @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
+
+    @NonNull
+    abstract Optional<PropertySource> importPropertySourceByLabelsSelector(
         @NonNull ImportDeclaration declaration,
         @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
 

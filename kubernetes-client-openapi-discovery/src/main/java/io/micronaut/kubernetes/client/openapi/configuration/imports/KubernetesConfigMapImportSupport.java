@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -53,50 +54,49 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
         this.configuration = configuration;
     }
 
-    /**
-     * Returns a cached property source for the declaration when available, otherwise resolves ConfigMaps by
-     * explicit name or label selector, converts their contents into a property source, and caches the result.
-     *
-     * @param declaration           The import declaration describing which ConfigMap resources to resolve
-     * @param propertySourceLoaders The property source loaders used to expand supported embedded formats
-     * @return The cached or newly imported property source when matching ConfigMap data is available
-     */
     @NonNull
     @Override
-    Optional<PropertySource> importPropertySource(@NonNull ImportDeclaration declaration,
-                                                  @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
-        PropertySource cachedPropertySource = PropertySourceCache.get(declaration);
-        if (cachedPropertySource != null) {
-            LOG.debug("Found cached property source for declaration: {}", declaration);
-            return Optional.of(cachedPropertySource);
-        }
-
+    Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
+                                                                @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
         String namespace = declaration.namespace() == null ? configuration.getNamespace() : declaration.namespace();
         String name = declaration.name();
 
-        List<V1ConfigMap> configMaps;
-        if (StringUtils.isNotEmpty(name)) {
-            V1ConfigMap configMap = readIfExists(() -> client.readNamespacedConfigMap(name, namespace, null).block());
-            if (configMap == null) {
-                LOG.debug("ConfigMap with name '{}' not found, declaration={}", name, declaration);
-                return Optional.empty();
-            }
-            configMaps = List.of(configMap);
-        } else {
-            String labelSelector = KubernetesConfigUtils.computePodLabelSelector(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
-            if (StringUtils.isEmpty(labelSelector)) {
-                LOG.debug("No label selector found for declaration {}", declaration);
-                return Optional.empty();
-            }
-            V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
-            if (configMapList == null || CollectionUtils.isEmpty(configMapList.getItems())) {
-                LOG.debug("ConfigMap not found for declaration={}", declaration);
-                return Optional.empty();
-            }
-            configMaps = configMapList.getItems();
+        if (declaration.watch()) {
+            WatchIndex.add(new SelectorKey.NameKey(name), declaration);
         }
-        Optional<PropertySource> propertySource = toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
-        propertySource.ifPresent(source -> PropertySourceCache.add(declaration, source));
-        return propertySource;
+
+        V1ConfigMap configMap = readIfExists(() -> client.readNamespacedConfigMap(name, namespace, null).block());
+        if (configMap == null) {
+            LOG.debug("ConfigMap with name '{}' not found, declaration={}", name, declaration);
+            return Optional.empty();
+        }
+
+        return toPropertySource(List.of(configMap), V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
+    }
+
+    @NonNull
+    @Override
+    Optional<PropertySource> importPropertySourceByLabelsSelector(@NonNull ImportDeclaration declaration,
+                                                                  @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
+        String namespace = declaration.namespace() == null ? configuration.getNamespace() : declaration.namespace();
+        Map<String, String> labels = KubernetesConfigUtils.computePodLabels(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+
+        if (declaration.watch()) {
+            WatchIndex.add(new SelectorKey.LabelsKey(labels), declaration);
+        }
+
+        String labelSelector = KubernetesConfigUtils.computeLabelSelector(labels);
+        if (StringUtils.isEmpty(labelSelector)) {
+            LOG.debug("No label selector found for declaration {}", declaration);
+            return Optional.empty();
+        }
+
+        V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
+        if (configMapList == null || CollectionUtils.isEmpty(configMapList.getItems())) {
+            LOG.debug("ConfigMap not found for declaration={}", declaration);
+            return Optional.empty();
+        }
+
+        return toPropertySource(configMapList.getItems(), V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
     }
 }

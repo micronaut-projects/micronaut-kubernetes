@@ -44,6 +44,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
 
     private static final String PROVIDER = "kubernetes";
+
     private static final Set<String> SUPPORTED_OPTIONS = Set.of(
         "provider",
         "type",
@@ -51,10 +52,13 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         "name",
         "labels",
         "podLabels",
+        "watch",
         "exceptionOnPodLabelsMissing",
         "terminateStartupOnException",
         "optional"
     );
+
+    static final String KUBERNETES_IMPORTER_CONTEXT_PROP = "kubernetesImporterContext";
 
     private ApplicationContext applicationContext;
 
@@ -156,6 +160,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param name                        The resource name to query directly
      * @param labels                      The label selector used to match resources
      * @param podLabels                   Pod label keys used to derive a selector from the current pod
+     * @param watch                       Whether property source should be recreated when kubernetes resource gets modified
      * @param exceptionOnPodLabelsMissing Whether missing pod labels should raise an exception
      * @param terminateStartupOnException Whether import failures should terminate application startup
      */
@@ -232,6 +237,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
                 .deduceCloudEnvironment(false)
                 .configImport(false)
                 .eagerBeansEnabled(false)
+                .properties(Map.of(KUBERNETES_IMPORTER_CONTEXT_PROP, true))
                 .start();
         }
         return applicationContext;

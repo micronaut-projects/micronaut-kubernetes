@@ -27,7 +27,7 @@ import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactor.class)
-//@Requires(condition = KubernetesSecretWatcherCondition.class)
+@Requires(condition = KubernetesSecretWatcherCondition.class)
 @Informer(apiType = V1Secret.class)
 final class KubernetesSecretWatcher extends AbstractKubernetesConfigWatcher<V1Secret> {
 

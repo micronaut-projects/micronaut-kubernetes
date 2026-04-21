@@ -19,16 +19,36 @@ import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPr
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 final class WatchIndex {
 
     private static final Map<SelectorKey, ImportDeclaration> INDEX = new ConcurrentHashMap<>();
 
+    private static final AtomicBoolean CONFIG_MAP_WATCHER_ENABLED = new AtomicBoolean(false);
+
+    private static final AtomicBoolean SECRET_WATCHER_ENABLED = new AtomicBoolean(false);
+
     static void add(SelectorKey selectorKey, ImportDeclaration importDeclaration) {
+        if (importDeclaration.type().equals("config-map")) {
+            CONFIG_MAP_WATCHER_ENABLED.set(true);
+        } else if (importDeclaration.type().equals("secret")) {
+            SECRET_WATCHER_ENABLED.set(true);
+        } else {
+            throw new IllegalStateException("Unknown import type: " + importDeclaration.type());
+        }
         INDEX.put(selectorKey, importDeclaration);
     }
 
     static Map<SelectorKey, ImportDeclaration> getIndex() {
         return INDEX;
+    }
+
+    static boolean isConfigMapWatcherEnabled() {
+        return CONFIG_MAP_WATCHER_ENABLED.get();
+    }
+
+    static boolean isSecretWatcherEnabled() {
+        return SECRET_WATCHER_ENABLED.get();
     }
 }
