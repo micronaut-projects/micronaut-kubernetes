@@ -24,13 +24,17 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.util.StringUtils;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.bind.DefaultRequestBinderRegistry;
 import io.micronaut.http.body.MessageBodyHandlerRegistry;
 import io.micronaut.http.client.LoadBalancer;
 import io.micronaut.http.client.filter.ClientFilterResolutionContext;
 import io.micronaut.http.client.filter.DefaultHttpClientFilterResolver;
 import io.micronaut.http.client.netty.DefaultHttpClient;
+import io.micronaut.http.client.netty.DefaultHttpClientBuilder;
 import io.micronaut.http.client.netty.NettyClientCustomizer;
+import io.micronaut.http.codec.MediaTypeCodec;
+import io.micronaut.http.codec.MediaTypeCodecRegistry;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
@@ -45,13 +49,16 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -129,7 +136,22 @@ final class KubernetesHttpClientFactory {
             defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), null)),
             new DefaultThreadFactory(MultithreadEventLoopGroup.class),
             new KubernetesClientSslBuilder(resourceResolver, kubeConfig, kubernetesPrivateKeyLoader, kubernetesClientConfiguration),
-            null,
+            new MediaTypeCodecRegistry() {
+                @Override
+                public Optional<MediaTypeCodec> findCodec(@Nullable MediaType mediaType) {
+                    return Optional.empty();
+                }
+
+                @Override
+                public Optional<MediaTypeCodec> findCodec(@Nullable MediaType mediaType, Class<?> type) {
+                    return Optional.empty();
+                }
+
+                @Override
+                public Collection<MediaTypeCodec> getCodecs() {
+                    return List.of();
+                }
+            },
             messageBodyHandlerRegistry,
             WebSocketBeanRegistry.EMPTY,
             new DefaultRequestBinderRegistry(ConversionService.SHARED),
