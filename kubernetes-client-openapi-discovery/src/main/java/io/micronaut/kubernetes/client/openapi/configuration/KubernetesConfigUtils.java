@@ -159,7 +159,7 @@ public final class KubernetesConfigUtils {
      * @param propertySourceLoaders the collection of property source loaders
      * @return {@link PropertySource} instance
      */
-    static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
+    public static PropertySource configMapAsPropertySource(V1ConfigMap configMap, Collection<PropertySourceLoader> propertySourceLoaders) {
         LOG.trace("Creating PropertySource for ConfigMap: {}", configMap.getMetadata().getName());
         Map<String, Object> propertySourceData = configMapAsMap(configMap, propertySourceLoaders);
         if (CollectionUtils.isEmpty(propertySourceData)) {
@@ -230,7 +230,7 @@ public final class KubernetesConfigUtils {
      * @param secret the {@link V1Secret} instance
      * @return {@link PropertySource} instance
      */
-    static PropertySource secretAsPropertySource(V1Secret secret) {
+    public static PropertySource secretAsPropertySource(V1Secret secret) {
         LOG.trace("Creating PropertySource for Secret: {}", secret.getMetadata().getName());
         Map<String, Object> propertySourceData =  secretAsMap(secret);
         if (CollectionUtils.isEmpty(propertySourceData)) {

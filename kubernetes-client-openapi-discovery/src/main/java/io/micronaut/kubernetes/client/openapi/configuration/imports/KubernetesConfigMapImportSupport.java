@@ -54,16 +54,23 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
     }
 
     /**
-     * Resolves ConfigMaps by explicit name or label selector and converts their contents into a property source.
+     * Returns a cached property source for the declaration when available, otherwise resolves ConfigMaps by
+     * explicit name or label selector, converts their contents into a property source, and caches the result.
      *
      * @param declaration           The import declaration describing which ConfigMap resources to resolve
      * @param propertySourceLoaders The property source loaders used to expand supported embedded formats
-     * @return The imported property source when matching ConfigMap data is available
+     * @return The cached or newly imported property source when matching ConfigMap data is available
      */
     @NonNull
     @Override
     Optional<PropertySource> importPropertySource(@NonNull ImportDeclaration declaration,
                                                   @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
+        PropertySource cachedPropertySource = PropertySourceCache.get(declaration);
+        if (cachedPropertySource != null) {
+            LOG.debug("Found cached property source for declaration: {}", declaration);
+            return Optional.of(cachedPropertySource);
+        }
+
         String namespace = declaration.namespace() == null ? configuration.getNamespace() : declaration.namespace();
         String name = declaration.name();
 
@@ -88,6 +95,8 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
             }
             configMaps = configMapList.getItems();
         }
-        return toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
+        Optional<PropertySource> propertySource = toPropertySource(configMaps, V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
+        propertySource.ifPresent(source -> PropertySourceCache.add(declaration, source));
+        return propertySource;
     }
 }

@@ -81,9 +81,10 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         Map<String, String> labels = KubernetesConfigUtils.parseLabels(options.get("labels"), PROVIDER);
         List<String> podLabels = parseList(options.get("podLabels"));
         validateSelectors(name, labels, podLabels);
+        boolean watch = Boolean.parseBoolean(options.get("watch"));
         boolean exceptionOnPodLabelsMissing = Boolean.parseBoolean(options.get("exceptionOnPodLabelsMissing"));
         boolean terminateStartupOnException = Boolean.parseBoolean(options.get("terminateStartupOnException"));
-        return new ImportDeclaration(type, namespace, name, labels, podLabels, exceptionOnPodLabelsMissing, terminateStartupOnException);
+        return new ImportDeclaration(type, namespace, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
     /**
@@ -102,9 +103,10 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         Map<String, String> labels = KubernetesConfigUtils.parseLabels(values.get("labels", String.class).orElse(null), PROVIDER);
         List<String> podLabels = parseList(values.get("podLabels", String.class).orElse(null));
         validateSelectors(name, labels, podLabels);
+        boolean watch = values.get("watch", Boolean.class).orElse(false);
         boolean exceptionOnPodLabelsMissing = values.get("exceptionOnPodLabelsMissing", Boolean.class).orElse(false);
         boolean terminateStartupOnException = values.get("terminateStartupOnException", Boolean.class).orElse(false);
-        return new ImportDeclaration(type, namespace, name, labels, podLabels, exceptionOnPodLabelsMissing, terminateStartupOnException);
+        return new ImportDeclaration(type, namespace, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
     /**
@@ -163,6 +165,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         @Nullable String name,
         @Nullable Map<String, String> labels,
         @Nullable List<String> podLabels,
+        boolean watch,
         boolean exceptionOnPodLabelsMissing,
         boolean terminateStartupOnException) {
     }
