@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
 import io.micronaut.context.ApplicationContext;
+import io.micronaut.context.ApplicationContextBuilder;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceImporter;
 import io.micronaut.context.exceptions.ConfigurationException;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +127,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
             KubernetesLegacyImportMode.registerSecretImport();
         }
 
-        ApplicationContext applicationContext = getApplicationContext();
+        ApplicationContext applicationContext = getApplicationContext(context);
 
         KubernetesObjectImportSupport importSupport = "config-map".equals(declaration.type())
             ? applicationContext.findBean(KubernetesConfigMapImportSupport.class).orElse(null)
@@ -203,17 +205,25 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
-    private ApplicationContext getApplicationContext() {
+    private ApplicationContext getApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
         if (applicationContext == null) {
-            applicationContext = ApplicationContext.builder()
-                .eventsEnabled(false)
+            ApplicationContextBuilder builder = ApplicationContext.builder();
+            builder.eventsEnabled(false)
                 .eagerBeansEnabled(false)
                 .deducePackage(false)
                 .bootstrapEnvironment(false)
                 .deduceCloudEnvironment(false)
                 .configImport(false)
-                .properties(Map.of(KUBERNETES_IMPORTER_CONTEXT_PROP, true))
-                .start();
+                .properties(Map.of(KUBERNETES_IMPORTER_CONTEXT_PROP, true));
+
+            Collection<PropertySource> propertySources = importContext.environment().getPropertySources();
+            if (CollectionUtils.isNotEmpty(propertySources)) {
+                propertySources.stream()
+                    .filter(ps -> ps.getName().equals("context"))
+                    .findFirst()
+                    .ifPresent(builder::propertySources);
+            }
+            applicationContext = builder.start();
         }
         return applicationContext;
     }

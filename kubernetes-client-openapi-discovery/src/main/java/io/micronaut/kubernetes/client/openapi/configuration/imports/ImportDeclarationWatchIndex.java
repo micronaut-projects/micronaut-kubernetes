@@ -101,6 +101,13 @@ final class ImportDeclarationWatchIndex {
         return SECRET_WATCHER_ENABLED.get();
     }
 
+    static void reset() {
+        CONFIG_MAP_INDEX.clear();
+        SECRET_INDEX.clear();
+        CONFIG_MAP_WATCHER_ENABLED.set(false);
+        SECRET_WATCHER_ENABLED.set(false);
+    }
+
     sealed interface SelectorKey permits SelectorKey.NameKey, SelectorKey.LabelsKey {
 
         record NameKey(@NonNull String name) implements SelectorKey {

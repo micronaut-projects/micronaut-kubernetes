@@ -35,4 +35,8 @@ final class PropertySourceCache {
     static void remove(ImportDeclaration importDeclaration) {
         PROPERTY_SOURCES.remove(importDeclaration);
     }
+
+    static Map<ImportDeclaration, PropertySource> get() {
+        return PROPERTY_SOURCES;
+    }
 }
