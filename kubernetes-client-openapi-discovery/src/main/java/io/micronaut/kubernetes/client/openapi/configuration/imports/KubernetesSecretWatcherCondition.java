@@ -19,6 +19,6 @@ final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWat
 
     @Override
     boolean isWatchEnabled() {
-        return WatchIndex.isSecretWatcherEnabled();
+        return ImportDeclarationWatchIndex.isSecretWatcherEnabled();
     }
 }

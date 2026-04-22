@@ -21,7 +21,6 @@ import io.micronaut.context.event.ApplicationEventPublisher;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
-import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter.ImportDeclaration;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
@@ -30,7 +29,6 @@ import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -72,8 +70,8 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         if (checkResourceVersionChanged(object)) {
             LOG.trace("Resource version of added kubernetes object has not been changed");
         } else {
-            boolean updated = updateCacheAndIndex(object);
-            if (updated) {
+            boolean removed = removeFromDeclarationCache(object);
+            if (removed) {
                 refreshEnv(object.getMetadata().getName());
             } else {
                 LOG.trace("Added kubernetes object not used in configuration import or not watchable");
@@ -91,9 +89,9 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         if (checkResourceVersionChanged(newObject)) {
             LOG.trace("Resource version of modified kubernetes object has not been changed");
         } else {
-            boolean updatedOld = updateCacheAndIndex(oldObject);
-            boolean updatedNew = updateCacheAndIndex(newObject);
-            if (updatedOld || updatedNew) {
+            boolean removedOld = removeFromDeclarationCache(oldObject);
+            boolean removedNew = removeFromDeclarationCache(newObject);
+            if (removedOld || removedNew) {
                 refreshEnv(oldObject.getMetadata().getName());
             } else {
                 LOG.trace("Modified kubernetes object not used in configuration import or not watchable");
@@ -109,8 +107,8 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
             object.getClass().getSimpleName(),
             object.getMetadata().getResourceVersion(),
             deletedFinalStateUnknown);
-        boolean updated = updateCacheAndIndex(object);
-        if (updated) {
+        boolean removed = removeFromDeclarationCache(object);
+        if (removed) {
             refreshEnv(object.getMetadata().getName());
         } else {
             LOG.trace("Deleted kubernetes object not used in configuration import or not watchable");
@@ -118,34 +116,13 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         LOG.trace("Completed processing of deleted kubernetes object");
     }
 
+    abstract boolean removeFromDeclarationCache(T object);
+
     private boolean checkResourceVersionChanged(T object) {
         String resourceVersion = object.getMetadata().getResourceVersion();
         String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
         Optional<String> resVersionPropertyValue = environment.getProperty(resVersionPropertyName, String.class);
         return resVersionPropertyValue.isPresent() && resVersionPropertyValue.get().equals(resourceVersion);
-    }
-
-    private boolean updateCacheAndIndex(T object) {
-        String objectName = object.getMetadata().getName();
-        Map<String, String> objectLabels = object.getMetadata().getLabels();
-
-        boolean updated = false;
-
-        Iterator<Map.Entry<SelectorKey, ImportDeclaration>> it = WatchIndex.getIndex().entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<SelectorKey, ImportDeclaration> entry = it.next();
-            boolean matchByName = entry.getKey() instanceof SelectorKey.NameKey(String name)
-                && objectName.equals(name);
-            boolean matchByLabels = entry.getKey() instanceof SelectorKey.LabelsKey(Map<String, String> labels)
-                && CollectionUtils.isNotEmpty(objectLabels)
-                && objectLabels.entrySet().containsAll(labels.entrySet());
-            if (matchByName || matchByLabels) {
-                it.remove();
-                PropertySourceCache.remove(entry.getValue());
-                updated = true;
-            }
-        }
-        return updated;
     }
 
     private void refreshEnv(String objectName) {

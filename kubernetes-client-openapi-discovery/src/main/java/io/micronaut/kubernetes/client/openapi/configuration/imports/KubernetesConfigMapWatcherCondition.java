@@ -19,6 +19,6 @@ final class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfig
 
     @Override
     boolean isWatchEnabled() {
-        return WatchIndex.isConfigMapWatcherEnabled();
+        return ImportDeclarationWatchIndex.isConfigMapWatcherEnabled();
     }
 }

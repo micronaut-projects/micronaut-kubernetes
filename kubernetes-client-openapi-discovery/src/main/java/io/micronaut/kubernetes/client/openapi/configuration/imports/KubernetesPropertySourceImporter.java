@@ -25,7 +25,6 @@ import io.micronaut.core.util.ConnectionString;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +38,7 @@ import java.util.Set;
 /**
  * A {@link PropertySourceImporter} that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.
  */
-public final class KubernetesPropertySourceImporter implements PropertySourceImporter<KubernetesPropertySourceImporter.ImportDeclaration> {
+public final class KubernetesPropertySourceImporter implements PropertySourceImporter<ImportDeclaration> {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
 
@@ -48,7 +47,6 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     private static final Set<String> SUPPORTED_OPTIONS = Set.of(
         "provider",
         "type",
-        "namespace",
         "name",
         "labels",
         "podLabels",
@@ -80,15 +78,14 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         String type = getType(connectionString.getPath());
         Map<String, String> options = connectionString.getOptions();
         validateSupportedOptions(options.keySet());
-        String namespace = options.get("namespace");
         String name = options.get("name");
         Map<String, String> labels = KubernetesConfigUtils.parseLabels(options.get("labels"), PROVIDER);
         List<String> podLabels = parseList(options.get("podLabels"));
         validateSelectors(name, labels, podLabels);
-        boolean watch = Boolean.parseBoolean(options.get("watch"));
+        boolean watch = Boolean.parseBoolean(options.getOrDefault("watch", "true"));
         boolean exceptionOnPodLabelsMissing = Boolean.parseBoolean(options.get("exceptionOnPodLabelsMissing"));
         boolean terminateStartupOnException = Boolean.parseBoolean(options.get("terminateStartupOnException"));
-        return new ImportDeclaration(type, namespace, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
+        return new ImportDeclaration(type, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
     /**
@@ -102,15 +99,14 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     public ImportDeclaration newImportDeclaration(@NonNull ConvertibleValues<Object> values) {
         validateSupportedOptions(values.asMap().keySet());
         String type = getType(values.get("type", String.class).orElse(null));
-        String namespace = values.get("namespace", String.class).orElse(null);
         String name = values.get("name", String.class).orElse(null);
         Map<String, String> labels = KubernetesConfigUtils.parseLabels(values.get("labels", String.class).orElse(null), PROVIDER);
         List<String> podLabels = parseList(values.get("podLabels", String.class).orElse(null));
         validateSelectors(name, labels, podLabels);
-        boolean watch = values.get("watch", Boolean.class).orElse(false);
+        boolean watch = values.get("watch", Boolean.class).orElse(true);
         boolean exceptionOnPodLabelsMissing = values.get("exceptionOnPodLabelsMissing", Boolean.class).orElse(false);
         boolean terminateStartupOnException = values.get("terminateStartupOnException", Boolean.class).orElse(false);
-        return new ImportDeclaration(type, namespace, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
+        return new ImportDeclaration(type, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
     /**
@@ -150,29 +146,6 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
             applicationContext.close();
             applicationContext = null;
         }
-    }
-
-    /**
-     * Describes a single Kubernetes config import declaration.
-     *
-     * @param type                        The Kubernetes resource type, either {@code config-map} or {@code secret}
-     * @param namespace                   The namespace to query, or {@code null} to use the configured default
-     * @param name                        The resource name to query directly
-     * @param labels                      The label selector used to match resources
-     * @param podLabels                   Pod label keys used to derive a selector from the current pod
-     * @param watch                       Whether property source should be recreated when kubernetes resource gets modified
-     * @param exceptionOnPodLabelsMissing Whether missing pod labels should raise an exception
-     * @param terminateStartupOnException Whether import failures should terminate application startup
-     */
-    public record ImportDeclaration(
-        @NonNull String type,
-        @Nullable String namespace,
-        @Nullable String name,
-        @Nullable Map<String, String> labels,
-        @Nullable List<String> podLabels,
-        boolean watch,
-        boolean exceptionOnPodLabelsMissing,
-        boolean terminateStartupOnException) {
     }
 
     private String getType(String type) {
@@ -233,10 +206,12 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     private ApplicationContext getApplicationContext() {
         if (applicationContext == null) {
             applicationContext = ApplicationContext.builder()
+                .eventsEnabled(false)
+                .eagerBeansEnabled(false)
+                .deducePackage(false)
                 .bootstrapEnvironment(false)
                 .deduceCloudEnvironment(false)
                 .configImport(false)
-                .eagerBeansEnabled(false)
                 .properties(Map.of(KUBERNETES_IMPORTER_CONTEXT_PROP, true))
                 .start();
         }

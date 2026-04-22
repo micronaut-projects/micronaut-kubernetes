@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
 import io.micronaut.context.env.PropertySource;
-import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter.ImportDeclaration;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

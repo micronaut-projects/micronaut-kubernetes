@@ -24,6 +24,8 @@ import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 
+import java.util.List;
+
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactor.class)
@@ -34,5 +36,14 @@ final class KubernetesConfigMapWatcher extends AbstractKubernetesConfigWatcher<V
     KubernetesConfigMapWatcher(Environment environment,
                                ApplicationEventPublisher<RefreshEvent> eventPublisher) {
         super(environment, eventPublisher);
+    }
+
+    @Override
+    boolean removeFromDeclarationCache(V1ConfigMap object) {
+        List<ImportDeclaration> removedDeclarations = ImportDeclarationWatchIndex.removeConfigMapDeclarations(
+            object.getMetadata().getName(),
+            object.getMetadata().getLabels());
+        removedDeclarations.forEach(PropertySourceCache::remove);
+        return !removedDeclarations.isEmpty();
     }
 }

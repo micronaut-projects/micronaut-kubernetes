@@ -25,7 +25,6 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
-import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter.ImportDeclaration;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
@@ -118,13 +117,13 @@ sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapI
         Map<String, Object> propertySourceData = new HashMap<>();
 
         objects.forEach(object -> {
+            resourceNames.add(object.getMetadata().getName());
+            String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
+            String resVersionPropertyValue = object.getMetadata().getResourceVersion();
+            propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
             Map<String, Object> data = dataExtractor.apply(object);
             if (CollectionUtils.isNotEmpty(data)) {
-                resourceNames.add(object.getMetadata().getName());
                 propertySourceData.putAll(data);
-                String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
-                String resVersionPropertyValue = object.getMetadata().getResourceVersion();
-                propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
             }
         });
 

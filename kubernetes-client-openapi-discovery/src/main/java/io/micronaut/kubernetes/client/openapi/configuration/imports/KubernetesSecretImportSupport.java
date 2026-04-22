@@ -22,7 +22,6 @@ import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
-import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter.ImportDeclaration;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.model.V1SecretList;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
@@ -58,11 +57,11 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
     @Override
     Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
                                                                 @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
-        String namespace = declaration.namespace() == null ? configuration.getNamespace() : declaration.namespace();
+        String namespace = configuration.getNamespace();
         String name = declaration.name();
 
         if (declaration.watch()) {
-            WatchIndex.add(new SelectorKey.NameKey(name), declaration);
+            ImportDeclarationWatchIndex.addSecretNameDeclaration(name, declaration);
         }
 
         V1Secret secret = readIfExists(() -> client.readNamespacedSecret(name, namespace, null).block());
@@ -77,11 +76,11 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
     @Override
     Optional<PropertySource> importPropertySourceByLabelsSelector(@NonNull ImportDeclaration declaration,
                                                                   @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
-        String namespace = declaration.namespace() == null ? configuration.getNamespace() : declaration.namespace();
+        String namespace = configuration.getNamespace();
         Map<String, String> labels = KubernetesConfigUtils.computePodLabels(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
 
         if (declaration.watch()) {
-            WatchIndex.add(new SelectorKey.LabelsKey(labels), declaration);
+            ImportDeclarationWatchIndex.addSecretLabelsDeclaration(labels, declaration);
         }
 
         String labelSelector = KubernetesConfigUtils.computeLabelSelector(labels);
