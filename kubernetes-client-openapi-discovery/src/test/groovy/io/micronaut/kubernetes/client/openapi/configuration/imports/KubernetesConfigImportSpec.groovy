@@ -2,11 +2,7 @@ package io.micronaut.kubernetes.client.openapi.configuration.imports
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
-import io.micronaut.context.env.PropertySource
-import io.micronaut.context.exceptions.ConfigurationException
-import io.micronaut.core.io.scan.ClassPathResourceLoader
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
-import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigurationClient
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
@@ -14,9 +10,6 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import spock.util.concurrent.PollingConditions
-
-import java.nio.file.Path
 
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getContainerModel
@@ -28,10 +21,6 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createCo
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createPod
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
-import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
-import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
-import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
-import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
 
 class KubernetesConfigImportSpec extends K3sContainerSpec {
 
@@ -40,17 +29,15 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
     private static final NAMESPACE_NAME_1 = "micronaut-service-configuration-1"
     private static final NAMESPACE_NAME_2 = "micronaut-service-configuration-2"
 
-    private static final GAME_CONFIG_JSON_NAME = "game-config-json"
-    private static final GAME_CONFIG_PROPERTIES_NAME = "game-config-properties"
-    private static final GAME_CONFIG_YML_NAME = "game-config-yml"
-    private static final LITERAL_CONFIG_NAME = "literal-config"
+    private static final JSON_CONFIG_MAP_NAME = "order-config-json"
+    private static final PROP_CONFIG_MAP_NAME = "order-config-properties"
+    private static final YAML_CONFIG_MAP_NAME = "order-config-yml"
+    private static final LITERAL_CONFIG_MAP_NAME = "order-config-literal"
 
-    private static final TEST_SECRET_1_PS_NAME = createSecretPropSourceName("test-secret-1")
-    private static final TEST_SECRET_2_PS_NAME = createSecretPropSourceName("test-secret-2")
-    private static final TEST_SECRET_3_PS_NAME = createSecretPropSourceName("test-secret-3")
-    private static final TEST_SECRET_4_PS_NAME = createSecretPropSourceName("test-secret-4")
-    private static final SECRET_LIST_PS_NAME = "Kubernetes V1SecretList"
-    private static final SECRET_LIST_PS_KEY = "v1secretlist.resource-version"
+    private static final SECRET_NAME_1 = "test-secret-1"
+    private static final SECRET_NAME_2 = "test-secret-2"
+    private static final SECRET_NAME_3 = "test-secret-3"
+    private static final SECRET_NAME_4 = "test-secret-4"
 
     // pod name should be equal to value that is passed as env variable to tests in build.gradle file
     private static final POD_NAME = "test-pod"
@@ -75,11 +62,11 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         createConfigMap(api, NAMESPACE_NAME_1, getYmlConfigMap())
         createConfigMap(api, NAMESPACE_NAME_1, getLiteralConfigMap())
 
-        V1Secret secret1 = getSecretModel("test-secret-1", ["username": "user".bytes, "password": "pass".bytes])
+        V1Secret secret1 = getSecretModel(SECRET_NAME_1, ["username": "user".bytes, "password": "pass".bytes])
         createSecret(api, NAMESPACE_NAME_1, secret1)
-        V1Secret secret2 = getSecretModel("test-secret-2", ["secretKey2": "secretValue2".bytes], ["podLabelKey1": "podLabelValue1"])
+        V1Secret secret2 = getSecretModel(SECRET_NAME_2, ["secretKey2": "secretValue2".bytes], ["podLabelKey1": "podLabelValue1"])
         createSecret(api, NAMESPACE_NAME_1, secret2)
-        V1Secret secret3 = getSecretModel("test-secret-3", ["secretKey3": "secretValue3".bytes], ["podLabelKey2": "podLabelValue2"])
+        V1Secret secret3 = getSecretModel(SECRET_NAME_3, ["secretKey3": "secretValue3".bytes], ["podLabelKey2": "podLabelValue2"])
         createSecret(api, NAMESPACE_NAME_1, secret3)
 
         V1PodSpec podSpec1 = getPodSpecModel([getContainerModel("test-cont-1")])
@@ -90,7 +77,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
 
         createConfigMap(api, NAMESPACE_NAME_2, getLiteralConfigMap())
 
-        V1Secret secret4 = getSecretModel("test-secret-4", ["secretKey4": "secretValue4".bytes])
+        V1Secret secret4 = getSecretModel(SECRET_NAME_4, ["secretKey4": "secretValue4".bytes])
         createSecret(api, NAMESPACE_NAME_2, secret4)
 
         V1PodSpec podSpec2 = getPodSpecModel([getContainerModel("test-cont-2")])
@@ -104,121 +91,92 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
                 "micronaut.config-client.enabled"    : false,
                 "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
-                "micronaut.config.import[0]"         : "kubernetes://config-map?name=game-config-json&watch=false",
-                "micronaut.config.import[1]"         : "kubernetes://config-map?name=game-config-properties&watch=false",
-                "micronaut.config.import[2]"         : "kubernetes://config-map?name=game-config-yml&watch=false",
-                "micronaut.config.import[3]"         : "kubernetes://config-map?name=literal-config&watch=false"
+                "micronaut.config.import[0]"         : "kubernetes://config-map?name=order-config-json&watch=false",
+                "micronaut.config.import[1]"         : "kubernetes://config-map?name=order-config-properties&watch=false",
+                "micronaut.config.import[2]"         : "kubernetes://config-map?name=order-config-yml&watch=false",
+                "micronaut.config.import[3]"         : "kubernetes://config-map?name=order-config-literal&watch=false"
         ], Environment.KUBERNETES)
 
-        when:
-        def propertySources = PropertySourceCache.get()
+        expect:
+        getProperty(context, "json-order-id", String.class) == "order-id-1"
+        getProperty(context, "json-customer.customer-id", String.class) == "customer-id-1"
+        getProperty(context, "json-customer.customer-name", String.class) == "customer-name-1"
+        getProperty(context, "json-items[0].sku", String.class) == "sku-1"
+        getProperty(context, "json-items[0].name", String.class) == "sku-name-1"
+        getProperty(context, "json-items[0].quantity", Integer.class) == 11
 
-        then:
-        propertySources.size() == 4
+        getProperty(context, "prop-order-id", String.class) == "order-id-2"
+        getProperty(context, "prop-customer.customer-id", String.class) == "customer-id-2"
+        getProperty(context, "prop-customer.customer-name", String.class) == "customer-name-2"
+        getProperty(context, "prop-items[0].sku", String.class) == "sku-2"
+        getProperty(context, "prop-items[0].name", String.class) == "sku-name-2"
+        getProperty(context, "prop-items[0].quantity", String.class) == "22"
 
-        PropertySource propertySourceJson = findByName(propertySources, GAME_CONFIG_JSON_NAME)
-        propertySourceJson != null
-        propertySourceJson.size() == 5
-        propertySourceJson.get("enemies") == "monsters"
-        propertySourceJson.get("lives") == 1
-        propertySourceJson.get("secret.code.passphrase") == "mon"
-        propertySourceJson.get("secret.code.allowed") == true
-        propertySourceJson.contains(createResVersionConfigMapPropName(GAME_CONFIG_JSON_NAME))
+        getProperty(context, "yml-order-id", String.class) == "order-id-3"
+        getProperty(context, "yml-customer.customer-id", String.class) == "customer-id-3"
+        getProperty(context, "yml-customer.customer-name", String.class) == "customer-name-3"
+        getProperty(context, "yml-items[0].sku", String.class) == "sku-3"
+        getProperty(context, "yml-items[0].name", String.class) == "sku-name-3"
+        getProperty(context, "yml-items[0].quantity", Integer.class) == 33
 
-        PropertySource propertySourceProp = findByName(propertySources, GAME_CONFIG_PROPERTIES_NAME)
-        propertySourceProp != null
-        propertySourceProp.size() == 5
-        propertySourceProp.get("enemies") == "zombies"
-        propertySourceProp.get("lives") == "2"
-        propertySourceProp.get("secret.code.passphrase") == "zom"
-        propertySourceProp.get("secret.code.allowed") == "false"
-        propertySourceProp.contains(createResVersionConfigMapPropName(GAME_CONFIG_PROPERTIES_NAME))
-
-        PropertySource propertySourceYml = findByName(propertySources, GAME_CONFIG_YML_NAME)
-        propertySourceYml != null
-        propertySourceYml.size() == 5
-        propertySourceYml.get("enemies") == "aliens"
-        propertySourceYml.get("lives") == 3
-        propertySourceYml.get("secret.code.passphrase") == "ali"
-        propertySourceYml.get("secret.code.allowed") == true
-        propertySourceYml.contains(createResVersionConfigMapPropName(GAME_CONFIG_YML_NAME))
-
-        PropertySource propertySourceLiteral = findByName(propertySources, LITERAL_CONFIG_NAME)
-        propertySourceLiteral != null
-        propertySourceLiteral.size() == 3
-        propertySourceLiteral.get("special.how") == "very"
-        propertySourceLiteral.get("special.type") == "charm"
-        propertySourceLiteral.contains(createResVersionConfigMapPropName(LITERAL_CONFIG_NAME))
+        getProperty(context, "literal.order-id", String.class) == "order-id-4"
+        getProperty(context, "literal.customer-id", String.class) == "customer-id-4"
 
         cleanup:
         context.close()
     }
 
-    PropertySource findByName(Map<ImportDeclaration, PropertySource> propertySources, String name) {
-        return (PropertySource) propertySources.entrySet().stream()
-                .filter(e -> e.getKey().name() != null && e.getKey().name().equals(name))    // or startsWith("pre")
-                .map(Map.Entry::getValue)
-                .findFirst()
-                .orElse(null)
+    def <T> T getProperty(ApplicationContext context, String name, Class<T> type) {
+        return context.get(name, type).orElse(null)
     }
 
     V1ConfigMap getJsonConfigMap() {
         def jsonContent = '''\
             {
-              "enemies": "monsters",
-              "lives": 1,
-              "secret": {
-                "code": {
-                  "passphrase": "mon",
-                  "allowed": true
+              "jsonOrderId": "order-id-1",
+              "jsonCustomer": {
+                "customerId": "customer-id-1",
+                "customerName": "customer-name-1"
+              },
+              "jsonItems": [
+                {
+                  "sku": "sku-1",
+                  "name": "sku-name-1",
+                  "quantity": 11
                 }
-              }
+              ]
             }\
         '''.stripIndent()
-        return getConfigMapModel(GAME_CONFIG_JSON_NAME, ["game.json": jsonContent], ["podLabelKey1": "podLabelValue1"])
+        return getConfigMapModel(JSON_CONFIG_MAP_NAME, ["order.json": jsonContent], ["podLabelKey1": "podLabelValue1"])
     }
 
     V1ConfigMap getPropertiesConfigMap() {
         def propertiesContent = '''\
-            enemies=zombies
-            lives=2
-            secret.code.passphrase=zom
-            secret.code.allowed=false\
+            propOrderId=order-id-2
+            propCustomer.customerId=customer-id-2
+            propCustomer.customerName=customer-name-2
+            propItems[0].sku=sku-2
+            propItems[0].name=sku-name-2
+            propItems[0].quantity=22\
         '''.stripIndent()
-        return getConfigMapModel(GAME_CONFIG_PROPERTIES_NAME, ["game.properties": propertiesContent], ["podLabelKey2": "podLabelValue2"])
+        return getConfigMapModel(PROP_CONFIG_MAP_NAME, ["order.properties": propertiesContent], ["podLabelKey2": "podLabelValue2"])
     }
 
     V1ConfigMap getYmlConfigMap() {
         def ymlContent = '''\
-            ---
-            enemies: aliens
-            lives: 3
-            ---
-            secret:
-              code:
-                passphrase: ali
-                allowed: true\
+            ymlOrderId: "order-id-3"
+            ymlCustomer:
+              customerId: customer-id-3
+              customerName: customer-name-3
+            ymlItems:
+              - sku: sku-3
+                name: sku-name-3
+                quantity: 33\
         '''.stripIndent()
-        return getConfigMapModel(GAME_CONFIG_YML_NAME, ["game.yml": ymlContent])
+        return getConfigMapModel(YAML_CONFIG_MAP_NAME, ["order.yml": ymlContent])
     }
 
     V1ConfigMap getLiteralConfigMap() {
-        return getConfigMapModel(LITERAL_CONFIG_NAME, ["special.how": "very", "special.type": "charm"])
-    }
-
-    static String createConfigMapPropSourceName(String objectName) {
-        return objectName + " (Kubernetes V1ConfigMap)"
-    }
-
-    static String createSecretPropSourceName(String objectName) {
-        return objectName + " (Kubernetes V1Secret)"
-    }
-
-    String createResVersionConfigMapPropName(String objectName) {
-        return V1ConfigMap.class.getSimpleName().toLowerCase() + "." + objectName + ".resource-version"
-    }
-
-    String createResVersionSecretPropName(String objectName) {
-        return V1Secret.class.getSimpleName().toLowerCase() + "." + objectName + ".resource-version"
+        return getConfigMapModel(LITERAL_CONFIG_MAP_NAME, ["literal.orderId": "order-id-4", "literal.customerId": "customer-id-4"])
     }
 }
