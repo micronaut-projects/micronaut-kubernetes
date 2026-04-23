@@ -26,6 +26,7 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSe
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceSecret
 
 class KubernetesConfigImportSpec extends K3sContainerSpec {
 
@@ -441,6 +442,73 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
             getStringProperty(context, "test-key-1") == null
             getStringProperty(context, "test-key-2") == "test-value-2"
             getStringProperty(context, "test-key-3") == null
+        }
+
+        cleanup:
+        context.close()
+    }
+
+    void "read secrets by labels when watcher enabled"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "optional:kubernetes://secret?labels=test-label-key=test-label-value&watch=true"
+        ], Environment.KUBERNETES)
+        def api = context.getBean(CoreV1Api.class)
+        def conditions = new PollingConditions(timeout: 2)
+
+        expect:
+        getStringProperty(context, "test-secret-key-1") == null
+        getStringProperty(context, "test-secret-key-2") == null
+        getStringProperty(context, "test-secret-key-3") == null
+
+        when:
+        V1Secret secret1 = getSecretModel("secret-temp-1", ["test-secret-key-1": "test-secret-value-1".bytes], ["test-label-key": "test-label-value"])
+        createSecret(api, NAMESPACE_NAME_1, secret1)
+        V1Secret secret2 = getSecretModel("secret-temp-2", ["test-secret-key-2": "test-secret-value-2".bytes])
+        createSecret(api, NAMESPACE_NAME_1, secret2)
+        V1Secret secret3 = getSecretModel("secret-temp-3", ["test-secret-key-3": "test-secret-value-3".bytes], ["test-label-key": "test-label-value"])
+        createSecret(api, NAMESPACE_NAME_1, secret3)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-secret-key-1") == "test-secret-value-1"
+            getStringProperty(context, "test-secret-key-2") == null
+            getStringProperty(context, "test-secret-key-3") == "test-secret-value-3"
+        }
+
+        when:
+        secret1 = getSecretModel("secret-temp-1", ["test-secret-key-1": "test-secret-value-1".bytes])
+        replaceSecret(api, NAMESPACE_NAME_1, secret1)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-secret-key-1") == null
+            getStringProperty(context, "test-secret-key-2") == null
+            getStringProperty(context, "test-secret-key-3") == "test-secret-value-3"
+        }
+
+        when:
+        deleteSecret(api, NAMESPACE_NAME_1, "secret-temp-3")
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-secret-key-1") == null
+            getStringProperty(context, "test-secret-key-2") == null
+            getStringProperty(context, "test-secret-key-3") == null
+        }
+
+        when:
+        secret2 = getSecretModel("secret-temp-2", ["test-secret-key-2": "test-secret-value-2".bytes], ["test-label-key": "test-label-value"])
+        replaceSecret(api, NAMESPACE_NAME_1, secret2)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-secret-key-1") == null
+            getStringProperty(context, "test-secret-key-2") == "test-secret-value-2"
+            getStringProperty(context, "test-secret-key-3") == null
         }
 
         cleanup:
