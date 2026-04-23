@@ -2,6 +2,7 @@ package io.micronaut.kubernetes.client.openapi.configuration.imports
 
 import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
+import io.micronaut.context.exceptions.ConfigurationException
 import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
@@ -23,6 +24,8 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNa
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createPod
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.replaceConfigMap
 
 class KubernetesConfigImportSpec extends K3sContainerSpec {
 
@@ -64,11 +67,11 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         createConfigMap(api, NAMESPACE_NAME_1, getYmlConfigMap())
         createConfigMap(api, NAMESPACE_NAME_1, getLiteralConfigMap())
 
-        V1Secret secret1 = getSecretModel(SECRET_NAME_1, ["secretKey11": "secretValue11".bytes, "secretKey12": "secretValue12".bytes])
+        V1Secret secret1 = getSecretModel(SECRET_NAME_1, ["secretKey11": "secretValue11".bytes, "secretKey12": "secretValue12".bytes], ["podLabelKey1": "podLabelValue1"])
         createSecret(api, NAMESPACE_NAME_1, secret1)
-        V1Secret secret2 = getSecretModel(SECRET_NAME_2, ["secretKey2": "secretValue2".bytes], ["podLabelKey1": "podLabelValue1"])
+        V1Secret secret2 = getSecretModel(SECRET_NAME_2, ["secretKey2": "secretValue2".bytes], ["podLabelKey2": "podLabelValue2"])
         createSecret(api, NAMESPACE_NAME_1, secret2)
-        V1Secret secret3 = getSecretModel(SECRET_NAME_3, ["secretKey3": "secretValue3".bytes], ["podLabelKey2": "podLabelValue2"])
+        V1Secret secret3 = getSecretModel(SECRET_NAME_3, ["secretKey3": "secretValue3".bytes], ["podLabelKey1": "podLabelValue1"])
         createSecret(api, NAMESPACE_NAME_1, secret3)
 
         V1PodSpec podSpec1 = getPodSpecModel([getContainerModel("test-cont-1")])
@@ -149,13 +152,165 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         context.close()
     }
 
+    void "read config maps by labels"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://config-map?labels=podLabelKey1=podLabelValue1&watch=false"
+        ], Environment.KUBERNETES)
+
+        expect:
+        getStringProperty(context, "json-order-id") == "order-id-1"
+        getStringProperty(context, "json-customer.customer-id") == "customer-id-1"
+        getStringProperty(context, "json-customer.customer-name") == "customer-name-1"
+        getStringProperty(context, "json-items[0].sku") == "sku-1"
+        getStringProperty(context, "json-items[0].name") == "sku-name-1"
+        getIntProperty(context, "json-items[0].quantity",) == 11
+
+        getStringProperty(context, "prop-order-id") == null
+        getStringProperty(context, "prop-customer.customer-id") == null
+        getStringProperty(context, "prop-customer.customer-name") == null
+        getStringProperty(context, "prop-items[0].sku") == null
+        getStringProperty(context, "prop-items[0].name") == null
+        getIntProperty(context, "prop-items[0].quantity") == null
+
+        getStringProperty(context, "yml-order-id") == "order-id-3"
+        getStringProperty(context, "yml-customer.customer-id") == "customer-id-3"
+        getStringProperty(context, "yml-customer.customer-name") == "customer-name-3"
+        getStringProperty(context, "yml-items[0].sku") == "sku-3"
+        getStringProperty(context, "yml-items[0].name") == "sku-name-3"
+        getIntProperty(context, "yml-items[0].quantity") == 33
+
+        getStringProperty(context, "literal.order-id") == null
+        getStringProperty(context, "literal.customer-id") == null
+
+        cleanup:
+        context.close()
+    }
+
+    void "read secrets by labels"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://secret?labels=podLabelKey1=podLabelValue1&watch=false"
+        ], Environment.KUBERNETES)
+
+        expect:
+        getStringProperty(context, "secretKey11") == "secretValue11"
+        getStringProperty(context, "secretKey12") == "secretValue12"
+        getStringProperty(context, "secretKey2") == null
+        getStringProperty(context, "secretKey3") == "secretValue3"
+
+        cleanup:
+        context.close()
+    }
+
+    void "read config maps by pod labels"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://config-map?podLabels=podLabelKey1&watch=false"
+        ], Environment.KUBERNETES)
+
+        expect:
+        getStringProperty(context, "json-order-id") == "order-id-1"
+        getStringProperty(context, "json-customer.customer-id") == "customer-id-1"
+        getStringProperty(context, "json-customer.customer-name") == "customer-name-1"
+        getStringProperty(context, "json-items[0].sku") == "sku-1"
+        getStringProperty(context, "json-items[0].name") == "sku-name-1"
+        getIntProperty(context, "json-items[0].quantity",) == 11
+
+        getStringProperty(context, "prop-order-id") == null
+        getStringProperty(context, "prop-customer.customer-id") == null
+        getStringProperty(context, "prop-customer.customer-name") == null
+        getStringProperty(context, "prop-items[0].sku") == null
+        getStringProperty(context, "prop-items[0].name") == null
+        getIntProperty(context, "prop-items[0].quantity") == null
+
+        getStringProperty(context, "yml-order-id") == "order-id-3"
+        getStringProperty(context, "yml-customer.customer-id") == "customer-id-3"
+        getStringProperty(context, "yml-customer.customer-name") == "customer-name-3"
+        getStringProperty(context, "yml-items[0].sku") == "sku-3"
+        getStringProperty(context, "yml-items[0].name") == "sku-name-3"
+        getIntProperty(context, "yml-items[0].quantity") == 33
+
+        getStringProperty(context, "literal.order-id") == null
+        getStringProperty(context, "literal.customer-id") == null
+
+        cleanup:
+        context.close()
+    }
+
+    void "read secrets by pod labels"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://secret?podLabels=podLabelKey1&watch=false"
+        ], Environment.KUBERNETES)
+
+        expect:
+        getStringProperty(context, "secretKey11") == "secretValue11"
+        getStringProperty(context, "secretKey12") == "secretValue12"
+        getStringProperty(context, "secretKey2") == null
+        getStringProperty(context, "secretKey3") == "secretValue3"
+
+        cleanup:
+        context.close()
+    }
+
+    void "fail to read config maps when pod label is missing"() {
+        given:
+        def properties = [
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://config-map?podLabels=aaa&watch=false&exceptionOnPodLabelsMissing=true"
+        ]
+
+        when:
+        ApplicationContext.run(properties, Environment.KUBERNETES)
+
+        then:
+        System.getenv("KUBERNETES_SERVICE_HOST") == "localhost"
+        System.getenv("HOSTNAME") == POD_NAME
+        def e = thrown(ConfigurationException)
+        e.message.startsWith("Pod metadata does not contain label")
+    }
+
+    void "fail to read secrets when pod label is missing"() {
+        given:
+        def properties = [
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://secret?podLabels=aaa&watch=false&exceptionOnPodLabelsMissing=true"
+        ]
+
+        when:
+        ApplicationContext.run(properties, Environment.KUBERNETES)
+
+        then:
+        System.getenv("KUBERNETES_SERVICE_HOST") == "localhost"
+        System.getenv("HOSTNAME") == POD_NAME
+        def e = thrown(ConfigurationException)
+        e.message.startsWith("Pod metadata does not contain label")
+    }
+
     void "read config maps by name when watcher enabled"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
                 "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
-                "micronaut.config.import[0]"         : "optional:kubernetes://config-map?name=cm-temp-1&watch=true"
+                "micronaut.config.import[0]"         : "optional:kubernetes://config-map?name=configmap-temp-1&watch=true"
         ], Environment.KUBERNETES)
         def api = context.getBean(CoreV1Api.class)
         def conditions = new PollingConditions(timeout: 2)
@@ -165,7 +320,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "test-key-2") == null
 
         when:
-        V1ConfigMap configMap = getConfigMapModel("cm-temp-1", ["test-key-1": "test-value-1", "test-key-2": "test-value-2"])
+        V1ConfigMap configMap = getConfigMapModel("configmap-temp-1", ["test-key-1": "test-value-1", "test-key-2": "test-value-2"])
         createConfigMap(api, NAMESPACE_NAME_1, configMap)
 
         then:
@@ -175,12 +330,117 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         when:
-        deleteConfigMap(api, NAMESPACE_NAME_1, "cm-temp-1")
+        deleteConfigMap(api, NAMESPACE_NAME_1, "configmap-temp-1")
 
         then:
         conditions.eventually {
             getStringProperty(context, "test-key-1") == null
             getStringProperty(context, "test-key-2") == null
+        }
+
+        cleanup:
+        context.close()
+    }
+
+    void "read secrets by name when watcher enabled"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "optional:kubernetes://secret?name=secret-temp-1&watch=true"
+        ], Environment.KUBERNETES)
+        def api = context.getBean(CoreV1Api.class)
+        def conditions = new PollingConditions(timeout: 2)
+
+        expect:
+        getStringProperty(context, "test-secret-key-1") == null
+        getStringProperty(context, "test-secret-key-2") == null
+
+        when:
+        V1Secret secret = getSecretModel("secret-temp-1", ["test-secret-key-1": "test-secret-value-1".bytes, "test-secret-key-2": "test-secret-value-2".bytes])
+        createSecret(api, NAMESPACE_NAME_1, secret)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-secret-key-1") == "test-secret-value-1"
+            getStringProperty(context, "test-secret-key-2") == "test-secret-value-2"
+        }
+
+        when:
+        deleteSecret(api, NAMESPACE_NAME_1, "secret-temp-1")
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-secret-key-1") == null
+            getStringProperty(context, "test-secret-key-2") == null
+        }
+
+        cleanup:
+        context.close()
+    }
+
+    void "read config maps by labels when watcher enabled"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "optional:kubernetes://config-map?labels=test-label-key=test-label-value&watch=true"
+        ], Environment.KUBERNETES)
+        def api = context.getBean(CoreV1Api.class)
+        def conditions = new PollingConditions(timeout: 2)
+
+        expect:
+        getStringProperty(context, "test-key-1") == null
+        getStringProperty(context, "test-key-2") == null
+        getStringProperty(context, "test-key-3") == null
+
+        when:
+        V1ConfigMap configMap1 = getConfigMapModel("configmap-temp-1", ["test-key-1": "test-value-1"], ["test-label-key": "test-label-value"])
+        createConfigMap(api, NAMESPACE_NAME_1, configMap1)
+        V1ConfigMap configMap2 = getConfigMapModel("configmap-temp-2", ["test-key-2": "test-value-2"])
+        createConfigMap(api, NAMESPACE_NAME_1, configMap2)
+        V1ConfigMap configMap3 = getConfigMapModel("configmap-temp-3", ["test-key-3": "test-value-3"], ["test-label-key": "test-label-value"])
+        createConfigMap(api, NAMESPACE_NAME_1, configMap3)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-key-1") == "test-value-1"
+            getStringProperty(context, "test-key-2") == null
+            getStringProperty(context, "test-key-3") == "test-value-3"
+        }
+
+        when:
+        configMap1 = getConfigMapModel("configmap-temp-1", ["test-key-1": "test-value-1"])
+        replaceConfigMap(api, NAMESPACE_NAME_1, configMap1)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-key-1") == null
+            getStringProperty(context, "test-key-2") == null
+            getStringProperty(context, "test-key-3") == "test-value-3"
+        }
+
+        when:
+        deleteConfigMap(api, NAMESPACE_NAME_1, "configmap-temp-3")
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-key-1") == null
+            getStringProperty(context, "test-key-2") == null
+            getStringProperty(context, "test-key-3") == null
+        }
+
+        when:
+        configMap2 = getConfigMapModel("configmap-temp-2", ["test-key-2": "test-value-2"], ["test-label-key": "test-label-value"])
+        replaceConfigMap(api, NAMESPACE_NAME_1, configMap2)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-key-1") == null
+            getStringProperty(context, "test-key-2") == "test-value-2"
+            getStringProperty(context, "test-key-3") == null
         }
 
         cleanup:
@@ -238,7 +498,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
                 name: sku-name-3
                 quantity: 33\
         '''.stripIndent()
-        return getConfigMapModel(YAML_CONFIG_MAP_NAME, ["order.yml": ymlContent])
+        return getConfigMapModel(YAML_CONFIG_MAP_NAME, ["order.yml": ymlContent], ["podLabelKey1": "podLabelValue1"])
     }
 
     V1ConfigMap getLiteralConfigMap() {
