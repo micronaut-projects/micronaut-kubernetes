@@ -38,7 +38,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -336,10 +335,27 @@ public class KubernetesUtils {
     public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, List<String> podLabelKeys,
                                                        String namespace, Map<String, String> labels,
                                                        boolean exceptionOnPodLabelsMissing) {
+        return computePodLabels(client, podLabelKeys, namespace, labels, exceptionOnPodLabelsMissing)
+            .map(KubernetesUtils::computeLabelSelector);
+    }
+
+    /**
+     * Creates a label map from pod and passed labels.
+     *
+     * @param client                      the client
+     * @param podLabelKeys                the list of label keys inside a pod
+     * @param namespace                   the namespace
+     * @param labels                      the additional labels
+     * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
+     * @return the computed labels
+     */
+    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactorClient client, List<String> podLabelKeys,
+                                                             String namespace, Map<String, String> labels,
+                                                             boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
         if (StringUtils.isEmpty(host) || CollectionUtils.isEmpty(podLabelKeys)) {
-            return Mono.just(computeLabelSelector(labels));
+            return Mono.just(labels == null ? Collections.emptyMap() : labels);
         }
 
         final String podName = System.getenv(HOSTNAME_ENV_VARIABLE);
@@ -348,7 +364,7 @@ public class KubernetesUtils {
             .doOnError(throwable -> LOG.error("Failed to read the Pod [{}] the application is running in", podName, throwable))
             .map(pod -> {
                 Map<String, String> result = new HashMap<>();
-                Map<String, String> podLabels = Objects.requireNonNull(pod.getMetadata()).getLabels();
+                Map<String, String> podLabels = pod.getMetadata().getLabels();
                 for (String key : podLabelKeys) {
                     String value = podLabels.get(key);
                     if (value != null) {
@@ -366,7 +382,7 @@ public class KubernetesUtils {
                 if (labels != null) {
                     result.putAll(labels);
                 }
-                return computeLabelSelector(result);
+                return result;
             })
             .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
     }

@@ -38,7 +38,9 @@ import jakarta.inject.Inject;
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactorClient.class)

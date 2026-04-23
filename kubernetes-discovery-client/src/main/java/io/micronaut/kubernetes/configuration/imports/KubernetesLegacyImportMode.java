@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.micronaut.kubernetes.configuration;
+package io.micronaut.kubernetes.configuration.imports;
 
+import io.micronaut.core.annotation.Internal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Tracks use of legacy Kubernetes bootstrap imports and emits a deprecation warning when needed.
  */
-final class KubernetesLegacyImportMode {
+@Internal
+public final class KubernetesLegacyImportMode {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesLegacyImportMode.class);
 
@@ -51,14 +53,14 @@ final class KubernetesLegacyImportMode {
     /**
      * @return Whether ConfigMap import support is active for the current application run
      */
-    static boolean isConfigMapImportEnabled() {
+    public static boolean isConfigMapImportEnabled() {
         return CONFIG_MAP_IMPORT_ENABLED.get();
     }
 
     /**
      * @return Whether Secret import support is active for the current application run
      */
-    static boolean isSecretImportEnabled() {
+    public static boolean isSecretImportEnabled() {
         return SECRET_IMPORT_ENABLED.get();
     }
 
@@ -67,7 +69,7 @@ final class KubernetesLegacyImportMode {
      *
      * @param legacyBootstrapActive Whether legacy bootstrap configuration loading is active
      */
-    static void logLegacyBootstrapDeprecationIfNeeded(boolean legacyBootstrapActive) {
+    public static void logLegacyBootstrapDeprecationIfNeeded(boolean legacyBootstrapActive) {
         if (legacyBootstrapActive && !DEPRECATION_WARNING_LOGGED.getAndSet(true)) {
             LOG.warn(DEPRECATION_MESSAGE);
         }

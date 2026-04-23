@@ -24,7 +24,9 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
  *
  * @author Pavol Gressa
  * @since 3.1
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 public abstract class AbstractKubernetesConfigWatcherCondition implements Condition {
 
     @Override

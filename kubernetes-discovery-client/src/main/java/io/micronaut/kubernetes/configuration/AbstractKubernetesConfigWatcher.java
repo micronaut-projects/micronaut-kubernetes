@@ -39,7 +39,9 @@ import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject> implements ResourceEventHandler<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigWatcher.class);

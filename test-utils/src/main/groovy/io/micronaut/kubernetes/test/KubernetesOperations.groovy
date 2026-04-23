@@ -146,6 +146,10 @@ class KubernetesOperations {
         }
     }
 
+    static V1ConfigMap replaceConfigMap(String namespace, V1ConfigMap configMap) {
+        return new CoreV1Api().replaceNamespacedConfigMap(configMap.getMetadata().getName(), namespace, configMap).execute()
+    }
+
     static V1ConfigMap createConfigMap(String name,
                                 String namespace,
                                 Map<String, String> data = ['foo': 'bar'],
@@ -153,9 +157,11 @@ class KubernetesOperations {
                                 Map<String, String> annotations = [:]) {
 
         V1ConfigMap configMap = getConfigMapModel(name, data, labels, annotations)
+        return createConfigMap(namespace, configMap)
+    }
 
+    static V1ConfigMap createConfigMap(String namespace, V1ConfigMap configMap) {
         LOG.debug("Creating ConfigMap ${configMap}")
-
         CoreV1Api coreV1Api = new CoreV1Api()
         return coreV1Api.createNamespacedConfigMap(namespace, configMap).execute()
     }
@@ -200,8 +206,7 @@ class KubernetesOperations {
 
     static V1ConfigMap modifyConfigMap(String name, String namespace, Map data = [foo: 'baz']) {
         V1ConfigMap configMap = getConfigMapModel(name, data)
-        CoreV1Api coreV1Api = new CoreV1Api()
-        return coreV1Api.replaceNamespacedConfigMap(name, namespace, configMap).execute()
+        return new CoreV1Api().replaceNamespacedConfigMap(name, namespace, configMap).execute()
     }
 
     static V1ConfigMapList listConfigMaps(String namespace) {
@@ -210,6 +215,10 @@ class KubernetesOperations {
 
     static V1Secret createSecret(String name, String namespace, Map<String, byte[]> data, Map<String, String> labels = [:]) {
         V1Secret secret = getSecretModel(name, data, labels)
+        return createSecret(namespace, secret)
+    }
+
+    static V1Secret createSecret(String namespace, V1Secret secret) {
         LOG.debug("Creating ${secret}")
         return new CoreV1Api().createNamespacedSecret(namespace, secret).execute()
     }
@@ -220,6 +229,10 @@ class KubernetesOperations {
 
     static V1SecretList listSecrets(String namespace) {
         return new CoreV1Api().listNamespacedSecret(namespace).execute()
+    }
+
+    static V1Secret replaceSecret(String namespace, V1Secret secret) {
+        return new CoreV1Api().replaceNamespacedSecret(secret.getMetadata().getName(), namespace, secret).execute()
     }
 
     static void deleteSecret(String name, String namespace) {
@@ -331,6 +344,10 @@ class KubernetesOperations {
 
     static void deleteEndpoints(String name, String namespace) {
         new CoreV1Api().deleteNamespacedEndpoints(name, namespace).execute()
+    }
+
+    static V1Pod createPod(String namespace, V1Pod pod) {
+        return new CoreV1Api().createNamespacedPod(namespace, pod).execute()
     }
 
     static V1PodList listPods(String namespace, String labelSelector = null) {
