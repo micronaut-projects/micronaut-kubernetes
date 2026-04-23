@@ -10,6 +10,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret
 import io.micronaut.kubernetes.openapi.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import spock.util.concurrent.PollingConditions
 
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getConfigMapModel
 import static io.micronaut.kubernetes.openapi.test.KubernetesModels.getContainerModel
@@ -21,6 +22,7 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createCo
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createNamespace
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createPod
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.createSecret
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteConfigMap
 
 class KubernetesConfigImportSpec extends K3sContainerSpec {
 
@@ -62,7 +64,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         createConfigMap(api, NAMESPACE_NAME_1, getYmlConfigMap())
         createConfigMap(api, NAMESPACE_NAME_1, getLiteralConfigMap())
 
-        V1Secret secret1 = getSecretModel(SECRET_NAME_1, ["username": "user".bytes, "password": "pass".bytes])
+        V1Secret secret1 = getSecretModel(SECRET_NAME_1, ["secretKey11": "secretValue11".bytes, "secretKey12": "secretValue12".bytes])
         createSecret(api, NAMESPACE_NAME_1, secret1)
         V1Secret secret2 = getSecretModel(SECRET_NAME_2, ["secretKey2": "secretValue2".bytes], ["podLabelKey1": "podLabelValue1"])
         createSecret(api, NAMESPACE_NAME_1, secret2)
@@ -98,36 +100,99 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         ], Environment.KUBERNETES)
 
         expect:
-        getProperty(context, "json-order-id", String.class) == "order-id-1"
-        getProperty(context, "json-customer.customer-id", String.class) == "customer-id-1"
-        getProperty(context, "json-customer.customer-name", String.class) == "customer-name-1"
-        getProperty(context, "json-items[0].sku", String.class) == "sku-1"
-        getProperty(context, "json-items[0].name", String.class) == "sku-name-1"
-        getProperty(context, "json-items[0].quantity", Integer.class) == 11
+        getStringProperty(context, "json-order-id") == "order-id-1"
+        getStringProperty(context, "json-customer.customer-id") == "customer-id-1"
+        getStringProperty(context, "json-customer.customer-name") == "customer-name-1"
+        getStringProperty(context, "json-items[0].sku") == "sku-1"
+        getStringProperty(context, "json-items[0].name") == "sku-name-1"
+        getIntProperty(context, "json-items[0].quantity",) == 11
 
-        getProperty(context, "prop-order-id", String.class) == "order-id-2"
-        getProperty(context, "prop-customer.customer-id", String.class) == "customer-id-2"
-        getProperty(context, "prop-customer.customer-name", String.class) == "customer-name-2"
-        getProperty(context, "prop-items[0].sku", String.class) == "sku-2"
-        getProperty(context, "prop-items[0].name", String.class) == "sku-name-2"
-        getProperty(context, "prop-items[0].quantity", String.class) == "22"
+        getStringProperty(context, "prop-order-id") == "order-id-2"
+        getStringProperty(context, "prop-customer.customer-id") == "customer-id-2"
+        getStringProperty(context, "prop-customer.customer-name") == "customer-name-2"
+        getStringProperty(context, "prop-items[0].sku") == "sku-2"
+        getStringProperty(context, "prop-items[0].name") == "sku-name-2"
+        getIntProperty(context, "prop-items[0].quantity") == 22
 
-        getProperty(context, "yml-order-id", String.class) == "order-id-3"
-        getProperty(context, "yml-customer.customer-id", String.class) == "customer-id-3"
-        getProperty(context, "yml-customer.customer-name", String.class) == "customer-name-3"
-        getProperty(context, "yml-items[0].sku", String.class) == "sku-3"
-        getProperty(context, "yml-items[0].name", String.class) == "sku-name-3"
-        getProperty(context, "yml-items[0].quantity", Integer.class) == 33
+        getStringProperty(context, "yml-order-id") == "order-id-3"
+        getStringProperty(context, "yml-customer.customer-id") == "customer-id-3"
+        getStringProperty(context, "yml-customer.customer-name") == "customer-name-3"
+        getStringProperty(context, "yml-items[0].sku") == "sku-3"
+        getStringProperty(context, "yml-items[0].name") == "sku-name-3"
+        getIntProperty(context, "yml-items[0].quantity") == 33
 
-        getProperty(context, "literal.order-id", String.class) == "order-id-4"
-        getProperty(context, "literal.customer-id", String.class) == "customer-id-4"
+        getStringProperty(context, "literal.order-id") == "order-id-4"
+        getStringProperty(context, "literal.customer-id") == "customer-id-4"
 
         cleanup:
         context.close()
     }
 
-    def <T> T getProperty(ApplicationContext context, String name, Class<T> type) {
-        return context.get(name, type).orElse(null)
+    void "read secrets by name"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "kubernetes://secret?name=test-secret-1&watch=false",
+                "micronaut.config.import[1]"         : "kubernetes://secret?name=test-secret-2&watch=false",
+                "micronaut.config.import[2]"         : "kubernetes://secret?name=test-secret-3&watch=false"
+        ], Environment.KUBERNETES)
+
+        expect:
+        getStringProperty(context, "secretKey11") == "secretValue11"
+        getStringProperty(context, "secretKey12") == "secretValue12"
+        getStringProperty(context, "secretKey2") == "secretValue2"
+        getStringProperty(context, "secretKey3") == "secretValue3"
+
+        cleanup:
+        context.close()
+    }
+
+    void "read config maps by name when watcher enabled"() {
+        given:
+        ApplicationContext context = ApplicationContext.run([
+                "micronaut.config-client.enabled"    : false,
+                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                "micronaut.config.import[0]"         : "optional:kubernetes://config-map?name=cm-temp-1&watch=true"
+        ], Environment.KUBERNETES)
+        def api = context.getBean(CoreV1Api.class)
+        def conditions = new PollingConditions(timeout: 2)
+
+        expect:
+        getStringProperty(context, "test-key-1") == null
+        getStringProperty(context, "test-key-2") == null
+
+        when:
+        V1ConfigMap configMap = getConfigMapModel("cm-temp-1", ["test-key-1": "test-value-1", "test-key-2": "test-value-2"])
+        createConfigMap(api, NAMESPACE_NAME_1, configMap)
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-key-1") == "test-value-1"
+            getStringProperty(context, "test-key-2") == "test-value-2"
+        }
+
+        when:
+        deleteConfigMap(api, NAMESPACE_NAME_1, "cm-temp-1")
+
+        then:
+        conditions.eventually {
+            getStringProperty(context, "test-key-1") == null
+            getStringProperty(context, "test-key-2") == null
+        }
+
+        cleanup:
+        context.close()
+    }
+
+    String getStringProperty(ApplicationContext context, String name) {
+        return context.get(name, String.class).orElse(null)
+    }
+
+    Integer getIntProperty(ApplicationContext context, String name) {
+        return context.get(name, Integer.class).orElse(null)
     }
 
     V1ConfigMap getJsonConfigMap() {
