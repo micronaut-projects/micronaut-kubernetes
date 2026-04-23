@@ -53,6 +53,13 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
         this.configuration = configuration;
     }
 
+    /**
+     * Imports a ConfigMap selected by exact resource name.
+     *
+     * @param declaration           The import declaration
+     * @param propertySourceLoaders The property source loaders used to decode structured content
+     * @return The imported property source if the ConfigMap exists
+     */
     @NonNull
     @Override
     Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
@@ -73,6 +80,13 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
         return toPropertySource(List.of(configMap), V1ConfigMap.class, item -> KubernetesConfigUtils.configMapAsMap(item, propertySourceLoaders));
     }
 
+    /**
+     * Imports ConfigMaps selected by labels or by labels derived from the running pod.
+     *
+     * @param declaration           The import declaration
+     * @param propertySourceLoaders The property source loaders used to decode structured content
+     * @return The imported property source if any matching ConfigMaps exist
+     */
     @NonNull
     @Override
     Optional<PropertySource> importPropertySourceByLabelsSelector(@NonNull ImportDeclaration declaration,

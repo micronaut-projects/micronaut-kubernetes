@@ -21,9 +21,18 @@ import io.micronaut.core.convert.ConversionContext;
 
 import java.util.Optional;
 
+/**
+ * Base condition that enables/disables Kubernetes config watchers.
+ */
 abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condition
     permits KubernetesConfigMapWatcherCondition, KubernetesSecretWatcherCondition {
 
+    /**
+     * Matches when watcher activation is allowed and the corresponding watch index is enabled.
+     *
+     * @param context The condition context
+     * @return Whether the watcher bean should be loaded
+     */
     @Override
     public boolean matches(ConditionContext context) {
         Optional<Boolean> isImporterContext = context.getProperty(KubernetesPropertySourceImporter.KUBERNETES_IMPORTER_CONTEXT_PROP, ConversionContext.BOOLEAN);
@@ -33,5 +42,8 @@ abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condit
         return isWatchEnabled();
     }
 
+    /**
+     * @return Whether the concrete watcher type has any registered watched imports
+     */
     abstract boolean isWatchEnabled();
 }

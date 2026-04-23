@@ -56,6 +56,11 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         this.eventPublisher = eventPublisher;
     }
 
+    /**
+     * Marks the watcher as ready to publish refresh events after the application has started.
+     *
+     * @param event The startup event
+     */
     @EventListener
     void onApplicationEvent(ServerStartupEvent event) {
         serviceStarted.set(true);
@@ -116,6 +121,12 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         LOG.trace("Completed processing of deleted kubernetes object");
     }
 
+    /**
+     * Removes cached import declarations and property sources associated with the supplied object.
+     *
+     * @param object The changed Kubernetes object
+     * @return Whether any watched declarations were removed
+     */
     abstract boolean removeFromDeclarationCache(T object);
 
     private boolean checkResourceVersionChanged(T object) {

@@ -26,6 +26,9 @@ import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 
 import java.util.List;
 
+/**
+ * Watches Secret informer events and invalidates cached Secret-backed imports.
+ */
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactor.class)
@@ -34,10 +37,16 @@ import java.util.List;
 final class KubernetesSecretWatcher extends AbstractKubernetesConfigWatcher<V1Secret> {
 
     KubernetesSecretWatcher(Environment environment,
-                            ApplicationEventPublisher<RefreshEvent> eventPublisher) {
+                             ApplicationEventPublisher<RefreshEvent> eventPublisher) {
         super(environment, eventPublisher);
     }
 
+    /**
+     * Removes watched declarations and cached property sources affected by the changed Secret.
+     *
+     * @param object The changed Secret
+     * @return Whether any declarations were removed
+     */
     @Override
     boolean removeFromDeclarationCache(V1Secret object) {
         List<ImportDeclaration> removedDeclarations = ImportDeclarationWatchIndex.removeSecretDeclarations(

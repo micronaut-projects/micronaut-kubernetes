@@ -15,8 +15,14 @@
  */
 package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
+/**
+ * Enables the ConfigMap watcher when watched ConfigMap imports have been registered.
+ */
 final class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
 
+    /**
+     * @return Whether ConfigMap watch support is currently needed
+     */
     @Override
     boolean isWatchEnabled() {
         return ImportDeclarationWatchIndex.isConfigMapWatcherEnabled();

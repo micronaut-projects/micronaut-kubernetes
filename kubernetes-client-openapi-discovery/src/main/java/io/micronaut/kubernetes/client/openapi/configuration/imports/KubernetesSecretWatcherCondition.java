@@ -15,8 +15,14 @@
  */
 package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
+/**
+ * Enables the Secret watcher when watched Secret imports have been registered.
+ */
 final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
 
+    /**
+     * @return Whether Secret watch support is currently needed
+     */
     @Override
     boolean isWatchEnabled() {
         return ImportDeclarationWatchIndex.isSecretWatcherEnabled();

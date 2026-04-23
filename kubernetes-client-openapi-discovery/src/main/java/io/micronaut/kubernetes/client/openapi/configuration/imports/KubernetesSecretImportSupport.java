@@ -53,6 +53,13 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
         this.configuration = configuration;
     }
 
+    /**
+     * Imports a Secret selected by exact resource name.
+     *
+     * @param declaration           The import declaration
+     * @param propertySourceLoaders Unused for raw Secret values but part of the common support contract
+     * @return The imported property source if the Secret exists
+     */
     @NonNull
     @Override
     Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
@@ -72,6 +79,13 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
         return toPropertySource(List.of(secret), V1Secret.class, KubernetesConfigUtils::secretAsMap);
     }
 
+    /**
+     * Imports Secrets selected by labels or by labels derived from the running pod.
+     *
+     * @param declaration           The import declaration
+     * @param propertySourceLoaders Unused for raw Secret values but part of the common support contract
+     * @return The imported property source if any matching Secrets exist
+     */
     @NonNull
     @Override
     Optional<PropertySource> importPropertySourceByLabelsSelector(@NonNull ImportDeclaration declaration,

@@ -31,6 +31,8 @@ import java.util.Map;
  * @param watch                       Whether property source should be recreated when kubernetes resource gets modified
  * @param exceptionOnPodLabelsMissing Whether missing pod labels should raise an exception
  * @param terminateStartupOnException Whether import failures should terminate application startup
+ *
+ * @since 8.0.0
  */
 public record ImportDeclaration(
     @NonNull String type,
