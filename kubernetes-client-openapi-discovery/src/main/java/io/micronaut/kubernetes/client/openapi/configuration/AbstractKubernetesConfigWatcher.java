@@ -39,7 +39,9 @@ import java.util.function.Predicate;
  *
  * @param <T> the type of Kubernetes object to watch
  * @author Álvaro Sánchez-Mariscal
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject>
     implements ResourceEventHandler<T> permits KubernetesConfigMapWatcher, KubernetesSecretWatcher {
 

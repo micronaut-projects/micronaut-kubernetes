@@ -37,7 +37,9 @@ import java.util.function.Predicate;
  * the {@link Environment} by adding or removing {@link PropertySource}s.
  *
  * @author Álvaro Sánchez-Mariscal
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Context
 @Requires(env = Environment.KUBERNETES)
 @Requires(beans = CoreV1ApiReactor.class)

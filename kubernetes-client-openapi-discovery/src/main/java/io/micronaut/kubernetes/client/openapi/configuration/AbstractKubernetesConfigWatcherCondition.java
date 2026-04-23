@@ -23,7 +23,9 @@ import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
  * Condition evaluates when the {@link AbstractKubernetesConfigWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condition
     permits KubernetesConfigMapWatcherCondition, KubernetesSecretWatcherCondition  {
 

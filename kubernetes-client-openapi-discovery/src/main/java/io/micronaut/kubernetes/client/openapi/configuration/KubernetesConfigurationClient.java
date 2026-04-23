@@ -57,7 +57,9 @@ import java.util.function.Predicate;
  * read from Kubernetes ConfigMaps and Secrets.
  *
  * @author Álvaro Sánchez-Mariscal
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 @Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)

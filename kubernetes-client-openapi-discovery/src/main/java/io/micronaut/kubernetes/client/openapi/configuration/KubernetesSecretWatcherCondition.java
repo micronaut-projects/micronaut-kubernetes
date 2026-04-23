@@ -23,7 +23,9 @@ import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesLe
  * Condition evaluates when the {@link KubernetesSecretWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
 
     @Override
