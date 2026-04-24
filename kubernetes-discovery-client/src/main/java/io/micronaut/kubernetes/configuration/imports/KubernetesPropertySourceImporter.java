@@ -207,8 +207,10 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
 
     private ApplicationContext getApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
         if (applicationContext == null) {
+            LOG.debug("Creating ApplicationContext for config import");
             ApplicationContextBuilder builder = ApplicationContext.builder();
-            builder.eventsEnabled(false)
+            builder.environments(importContext.environment().getActiveNames().toArray(String[]::new))
+                .eventsEnabled(false)
                 .eagerBeansEnabled(false)
                 .deducePackage(false)
                 .bootstrapEnvironment(false)
@@ -224,6 +226,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
                     .ifPresent(builder::propertySources);
             }
             applicationContext = builder.start();
+            LOG.debug("Created ApplicationContext for config import");
         }
         return applicationContext;
     }

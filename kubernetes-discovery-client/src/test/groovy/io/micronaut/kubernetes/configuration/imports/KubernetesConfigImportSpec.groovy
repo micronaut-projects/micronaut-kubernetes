@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.configuration.imports
 
+import io.kubernetes.client.openapi.Configuration
 import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.models.V1ConfigMap
 import io.kubernetes.client.openapi.models.V1Pod
@@ -9,7 +10,6 @@ import io.micronaut.context.ApplicationContext
 import io.micronaut.context.env.Environment
 import io.micronaut.context.exceptions.ConfigurationException
 import io.micronaut.kubernetes.test.K3sContainerSpec
-import io.micronaut.kubernetes.test.KubernetesModels
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.util.concurrent.PollingConditions
@@ -48,9 +48,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
     // pod name should be equal to value that is passed as env variable to tests in build.gradle file
     private static final POD_NAME = "test-pod"
 
-    void setup() {
+    void cleanup() {
         PropertySourceCache.get().clear()
         ImportDeclarationWatchIndex.reset()
+    }
+
+    def cleanupSpec() {
+        // remove cached client
+        Configuration.setDefaultApiClient(null)
     }
 
     @Override
@@ -60,9 +65,12 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
 
     @Override
     def setupKubernetes(ApplicationContext context) {
-        def client = context.getBean(CoreV1Api.class)
+        // remove cached client
+        Configuration.setDefaultApiClient(null)
+        // set new client
+        context.getBean(CoreV1Api.class)
 
-        client.createNamespace(KubernetesModels.getNamespaceModel(NAMESPACE_NAME_1)).execute()
+        createNamespace(NAMESPACE_NAME_1)
 
         createConfigMap(NAMESPACE_NAME_1, getJsonConfigMap())
         createConfigMap(NAMESPACE_NAME_1, getPropertiesConfigMap())
@@ -96,7 +104,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://config-map?name=order-config-json&watch=false",
                 "micronaut.config.import[1]"         : "kubernetes://config-map?name=order-config-properties&watch=false",
@@ -130,14 +138,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "literal.customer-id") == "customer-id-4"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by name"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://secret?name=test-secret-1&watch=false",
                 "micronaut.config.import[1]"         : "kubernetes://secret?name=test-secret-2&watch=false",
@@ -151,14 +159,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "secretKey3") == "secretValue3"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read config maps by labels"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://config-map?labels=podLabelKey1=podLabelValue1&watch=false"
         ], Environment.KUBERNETES)
@@ -189,14 +197,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "literal.customer-id") == null
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by labels"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://secret?labels=podLabelKey1=podLabelValue1&watch=false"
         ], Environment.KUBERNETES)
@@ -208,14 +216,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "secretKey3") == "secretValue3"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read config maps by pod labels"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://config-map?podLabels=podLabelKey1&watch=false"
         ], Environment.KUBERNETES)
@@ -246,14 +254,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "literal.customer-id") == null
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by pod labels"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://secret?podLabels=podLabelKey1&watch=false"
         ], Environment.KUBERNETES)
@@ -265,14 +273,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "secretKey3") == "secretValue3"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "fail to read config maps when pod label is missing"() {
         given:
         def properties = [
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://config-map?podLabels=aaa&watch=false&exceptionOnPodLabelsMissing=true"
         ]
@@ -291,7 +299,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         given:
         def properties = [
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "kubernetes://secret?podLabels=aaa&watch=false&exceptionOnPodLabelsMissing=true"
         ]
@@ -310,7 +318,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "optional:kubernetes://config-map?name=configmap-temp-1&watch=true"
         ], Environment.KUBERNETES)
@@ -331,7 +339,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         when:
-        deleteConfigMap(NAMESPACE_NAME_1, "configmap-temp-1")
+        deleteConfigMap("configmap-temp-1", NAMESPACE_NAME_1)
 
         then:
         conditions.eventually {
@@ -340,14 +348,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by name when watcher enabled"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "optional:kubernetes://secret?name=secret-temp-1&watch=true"
         ], Environment.KUBERNETES)
@@ -368,7 +376,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         when:
-        deleteSecret(NAMESPACE_NAME_1, "secret-temp-1")
+        deleteSecret("secret-temp-1", NAMESPACE_NAME_1)
 
         then:
         conditions.eventually {
@@ -377,14 +385,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read config maps by labels when watcher enabled"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "optional:kubernetes://config-map?labels=test-label-key=test-label-value&watch=true"
         ], Environment.KUBERNETES)
@@ -422,7 +430,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         when:
-        deleteConfigMap(NAMESPACE_NAME_1, "configmap-temp-3")
+        deleteConfigMap("configmap-temp-3", NAMESPACE_NAME_1)
 
         then:
         conditions.eventually {
@@ -443,14 +451,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by labels when watcher enabled"() {
         given:
         ApplicationContext context = ApplicationContext.run([
                 "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : "file:" + kubeConfigFile.toString(),
+                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
                 "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
                 "micronaut.config.import[0]"         : "optional:kubernetes://secret?labels=test-label-key=test-label-value&watch=true"
         ], Environment.KUBERNETES)
@@ -488,7 +496,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         when:
-        deleteSecret(NAMESPACE_NAME_1, "secret-temp-3")
+        deleteSecret("secret-temp-3", NAMESPACE_NAME_1)
 
         then:
         conditions.eventually {
@@ -509,7 +517,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     String getStringProperty(ApplicationContext context, String name) {

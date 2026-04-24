@@ -129,7 +129,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "literal.customer-id") == "customer-id-4"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by name"() {
@@ -150,7 +150,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "secretKey3") == "secretValue3"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read config maps by labels"() {
@@ -188,7 +188,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "literal.customer-id") == null
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by labels"() {
@@ -207,7 +207,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "secretKey3") == "secretValue3"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read config maps by pod labels"() {
@@ -245,7 +245,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "literal.customer-id") == null
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by pod labels"() {
@@ -264,7 +264,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         getStringProperty(context, "secretKey3") == "secretValue3"
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "fail to read config maps when pod label is missing"() {
@@ -340,7 +340,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by name when watcher enabled"() {
@@ -378,7 +378,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read config maps by labels when watcher enabled"() {
@@ -445,7 +445,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     void "read secrets by labels when watcher enabled"() {
@@ -512,7 +512,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         }
 
         cleanup:
-        context.close()
+        context?.close()
     }
 
     String getStringProperty(ApplicationContext context, String name) {
