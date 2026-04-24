@@ -43,7 +43,7 @@ import java.util.function.Supplier;
 /**
  * Base support for importing Micronaut property sources from Kubernetes resources.
  */
-sealed abstract class KubernetesObjectImportSupport permits KubernetesConfigMapImportSupport, KubernetesSecretImportSupport {
+abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapImportSupport, KubernetesSecretImportSupport {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesObjectImportSupport.class);
 

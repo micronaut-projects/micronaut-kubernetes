@@ -36,11 +36,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * A {@link PropertySourceImporter} that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.
  */
 public final class KubernetesPropertySourceImporter implements PropertySourceImporter<ImportDeclaration> {
+
+    public static final String KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY = "kubernetes-config-import-property";
+    public static final String KUBERNETES_CONFIG_IMPORT_CONTEXT_ENV = "kubernetes-config-import";
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
 
@@ -57,8 +61,6 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         "terminateStartupOnException",
         "optional"
     );
-
-    static final String KUBERNETES_IMPORTER_CONTEXT_PROP = "kubernetesImporterContext";
 
     private ApplicationContext applicationContext;
 
@@ -209,14 +211,18 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         if (applicationContext == null) {
             LOG.debug("Creating ApplicationContext for config import");
             ApplicationContextBuilder builder = ApplicationContext.builder();
-            builder.environments(importContext.environment().getActiveNames().toArray(String[]::new))
+            builder.environments(
+                Stream.concat(
+                        importContext.environment().getActiveNames().stream(),
+                        Stream.of(KUBERNETES_CONFIG_IMPORT_CONTEXT_ENV))
+                    .toArray(String[]::new))
                 .eventsEnabled(false)
                 .eagerBeansEnabled(false)
                 .deducePackage(false)
                 .bootstrapEnvironment(false)
                 .deduceCloudEnvironment(false)
                 .configImport(false)
-                .properties(Map.of(KUBERNETES_IMPORTER_CONTEXT_PROP, true));
+                .properties(Map.of(KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY, true));
 
             Collection<PropertySource> propertySources = importContext.environment().getPropertySources();
             if (CollectionUtils.isNotEmpty(propertySources)) {

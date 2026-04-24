@@ -74,4 +74,12 @@ public final class KubernetesLegacyImportMode {
             LOG.warn(DEPRECATION_MESSAGE);
         }
     }
+
+    /**
+     * Clears all.
+     */
+    static void reset() {
+        CONFIG_MAP_IMPORT_ENABLED.set(false);
+        SECRET_IMPORT_ENABLED.set(false);
+    }
 }

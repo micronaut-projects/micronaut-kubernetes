@@ -51,6 +51,7 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
     void cleanup() {
         PropertySourceCache.get().clear()
         ImportDeclarationWatchIndex.reset()
+        KubernetesLegacyImportMode.reset()
     }
 
     def cleanupSpec() {

@@ -48,9 +48,10 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
     // pod name should be equal to value that is passed as env variable to tests in build.gradle file
     private static final POD_NAME = "test-pod"
 
-    void setup() {
+    void cleanup() {
         PropertySourceCache.get().clear()
         ImportDeclarationWatchIndex.reset()
+        KubernetesLegacyImportMode.reset()
     }
 
     @Override

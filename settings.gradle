@@ -2,20 +2,12 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenCentral()
-        mavenLocal()
     }
     includeBuild "build-logic"
 }
 
 plugins {
     id 'io.micronaut.build.shared.settings' version '8.0.0-M17'
-}
-
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
 }
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
