@@ -109,7 +109,7 @@ class HelloControllerSpec extends KubernetesSpecification {
         testClient.refresh()
 
         expect:
-        testClient.env().contains("{\"name\":\"/etc/example-service/configmap/mounted.yml (Kubernetes ConfigMap)\"")
+        testClient.env().contains("{\"name\":\"/etc/example-service/configmap/mounted.yml (Kubernetes V1ConfigMap)\"")
         testClient.config("mounted.foo") == "bar"
     }
 

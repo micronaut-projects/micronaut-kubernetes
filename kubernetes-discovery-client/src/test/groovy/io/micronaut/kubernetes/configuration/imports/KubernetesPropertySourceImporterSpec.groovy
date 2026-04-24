@@ -125,6 +125,6 @@ class KubernetesPropertySourceImporterSpec extends Specification {
                 .readLines()
 
         expect:
-        lines.contains('io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter')
+        lines.contains('io.micronaut.kubernetes.configuration.imports.KubernetesPropertySourceImporter')
     }
 }

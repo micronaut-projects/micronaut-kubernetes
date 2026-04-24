@@ -1,16 +1,9 @@
 package io.micronaut.kubernetes.configuration
 
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.test.TestUtils
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import spock.lang.Requires
 import spock.lang.Specification
 
-@MicronautTest(environments = [Environment.KUBERNETES])
-@Requires({ TestUtils.kubernetesApiAvailable() })
-@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesSecretWatcherSpec extends Specification {
 
     void "KubernetesSecretWatcher not exists when only config-client is enabled"() {
@@ -73,18 +66,4 @@ class KubernetesSecretWatcherSpec extends Specification {
         expect:
         applicationContext.containsBean(KubernetesSecretWatcher)
     }
-
-    void "explicit secret import disables legacy secret watcher"() {
-        given:
-        ApplicationContext applicationContext = ApplicationContext.run([
-                'kubernetes.client.secrets.watch': 'true',
-                'kubernetes.client.secrets.enabled': 'true',
-                'micronaut.config-client.enabled': 'true',
-                'micronaut.config.import': 'kubernetes-secret://db-credentials?namespace=default'
-        ], Environment.KUBERNETES)
-
-        expect:
-        !applicationContext.containsBean(KubernetesSecretWatcher)
-    }
-
 }

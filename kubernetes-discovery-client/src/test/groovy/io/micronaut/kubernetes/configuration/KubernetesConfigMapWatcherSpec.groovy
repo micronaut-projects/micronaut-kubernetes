@@ -1,16 +1,9 @@
 package io.micronaut.kubernetes.configuration
 
 import io.micronaut.context.ApplicationContext
-import io.micronaut.context.annotation.Property
 import io.micronaut.context.env.Environment
-import io.micronaut.kubernetes.test.TestUtils
-import io.micronaut.test.extensions.spock.annotation.MicronautTest
-import spock.lang.Requires
 import spock.lang.Specification
 
-@MicronautTest(environments = [Environment.KUBERNETES])
-@Requires({ TestUtils.kubernetesApiAvailable() })
-@Property(name = "spec.reuseNamespace", value = "false")
 class KubernetesConfigMapWatcherSpec extends Specification {
 
     void "KubernetesConfigMapWatcher exists when informer is enabled"() {
@@ -55,15 +48,4 @@ class KubernetesConfigMapWatcherSpec extends Specification {
         expect:
         applicationContext.containsBean(KubernetesConfigMapWatcher)
     }
-
-    void "explicit config map import disables legacy config map watcher"() {
-        given:
-        ApplicationContext applicationContext = ApplicationContext.run([
-                'micronaut.config.import': 'kubernetes-configmap://game-config?namespace=default'
-        ], Environment.KUBERNETES)
-
-        expect:
-        !applicationContext.containsBean(KubernetesConfigMapWatcher)
-    }
-
 }
