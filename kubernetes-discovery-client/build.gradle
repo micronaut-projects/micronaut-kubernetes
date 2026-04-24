@@ -27,6 +27,4 @@ dependencies {
 tasks.withType(Test).configureEach {
     // for system lambda
     jvmArgs("--add-opens=java.base/java.util=ALL-UNNAMED")
-    environment.put("KUBERNETES_SERVICE_HOST", "localhost")
-    environment.put("HOSTNAME", "test-pod")
 }

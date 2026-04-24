@@ -32,9 +32,9 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
         propertySources.find { it.name.startsWith 'literal-config'}
 
         and:
-        !propertySources.find { it.name.startsWith 'game.json'}
-        !propertySources.find { it.name.startsWith 'game.properties'}
-        !propertySources.find { it.name.startsWith 'game.yml'}
+        !propertySources.find { it.name.startsWith 'game-config-json'}
+        !propertySources.find { it.name.startsWith 'game-config-properties'}
+        !propertySources.find { it.name.startsWith 'game-config-yml'}
 
         cleanup:
         applicationContext.close()
@@ -56,9 +56,9 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
         !propertySources.find { it.name.startsWith 'literal-config'}
 
         and:
-        propertySources.find { it.name.startsWith 'game.json'}
-        propertySources.find { it.name.startsWith 'game.properties'}
-        propertySources.find { it.name.startsWith 'game.yml'}
+        propertySources.find { it.name.startsWith 'game-config-json'}
+        propertySources.find { it.name.startsWith 'game-config-properties'}
+        propertySources.find { it.name.startsWith 'game-config-yml'}
 
         cleanup:
         applicationContext.close()
@@ -76,12 +76,12 @@ class KubernetesConfigurationClientFilterSpec extends KubernetesSpecification {
 
         then:
         propertySources
-        propertySources.find { it.name.startsWith 'game.yml'}
+        propertySources.find { it.name.startsWith 'game-config-yml'}
 
         and:
         !propertySources.find { it.name.startsWith 'literal-config'}
-        !propertySources.find { it.name.startsWith 'game.json'}
-        !propertySources.find { it.name.startsWith 'game.properties'}
+        !propertySources.find { it.name.startsWith 'game-config-json'}
+        !propertySources.find { it.name.startsWith 'game-config-properties'}
 
         cleanup:
         applicationContext.close()

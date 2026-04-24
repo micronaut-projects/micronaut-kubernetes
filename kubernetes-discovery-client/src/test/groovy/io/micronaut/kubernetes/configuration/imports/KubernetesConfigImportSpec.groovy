@@ -1,5 +1,6 @@
 package io.micronaut.kubernetes.configuration.imports
 
+import com.github.stefanbirkner.systemlambda.SystemLambda
 import io.kubernetes.client.openapi.Configuration
 import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.models.V1ConfigMap
@@ -13,6 +14,8 @@ import io.micronaut.kubernetes.test.K3sContainerSpec
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.util.concurrent.PollingConditions
+
+import java.util.concurrent.Callable
 
 import static io.micronaut.kubernetes.test.KubernetesModels.getConfigMapModel
 import static io.micronaut.kubernetes.test.KubernetesModels.getContainerModel
@@ -222,12 +225,19 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
 
     void "read config maps by pod labels"() {
         given:
-        ApplicationContext context = ApplicationContext.run([
-                "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
-                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
-                "micronaut.config.import[0]"         : "kubernetes://config-map?podLabels=podLabelKey1&watch=false"
-        ], Environment.KUBERNETES)
+        def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
+                .and("HOSTNAME", "test-pod")
+        ApplicationContext context = envs.execute(new Callable<ApplicationContext>() {
+            @Override
+            ApplicationContext call() throws Exception {
+                return ApplicationContext.run([
+                        "micronaut.config-client.enabled"    : false,
+                        "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
+                        "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                        "micronaut.config.import[0]"         : "kubernetes://config-map?podLabels=podLabelKey1&watch=false"
+                ], Environment.KUBERNETES)
+            }
+        })
 
         expect:
         getStringProperty(context, "json-order-id") == "order-id-1"
@@ -260,12 +270,19 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
 
     void "read secrets by pod labels"() {
         given:
-        ApplicationContext context = ApplicationContext.run([
-                "micronaut.config-client.enabled"    : false,
-                "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
-                "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
-                "micronaut.config.import[0]"         : "kubernetes://secret?podLabels=podLabelKey1&watch=false"
-        ], Environment.KUBERNETES)
+        def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
+                .and("HOSTNAME", "test-pod")
+        ApplicationContext context = envs.execute(new Callable<ApplicationContext>() {
+            @Override
+            ApplicationContext call() throws Exception {
+                return ApplicationContext.run([
+                        "micronaut.config-client.enabled"    : false,
+                        "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
+                        "kubernetes.client.namespace"        : NAMESPACE_NAME_1,
+                        "micronaut.config.import[0]"         : "kubernetes://secret?podLabels=podLabelKey1&watch=false"
+                ], Environment.KUBERNETES)
+            }
+        })
 
         expect:
         getStringProperty(context, "secretKey11") == "secretValue11"
@@ -279,6 +296,8 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
 
     void "fail to read config maps when pod label is missing"() {
         given:
+        def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
+                .and("HOSTNAME", "test-pod")
         def properties = [
                 "micronaut.config-client.enabled"    : false,
                 "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
@@ -287,17 +306,22 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         ]
 
         when:
-        ApplicationContext.run(properties, Environment.KUBERNETES)
+        envs.execute(new Callable<ApplicationContext>() {
+            @Override
+            ApplicationContext call() throws Exception {
+                return ApplicationContext.run(properties, Environment.KUBERNETES)
+            }
+        })
 
         then:
-        System.getenv("KUBERNETES_SERVICE_HOST") == "localhost"
-        System.getenv("HOSTNAME") == POD_NAME
         def e = thrown(ConfigurationException)
         e.message.startsWith("Pod metadata does not contain label")
     }
 
     void "fail to read secrets when pod label is missing"() {
         given:
+        def envs = SystemLambda.withEnvironmentVariable("KUBERNETES_SERVICE_HOST", "localhost")
+                .and("HOSTNAME", "test-pod")
         def properties = [
                 "micronaut.config-client.enabled"    : false,
                 "kubernetes.client.kube-config-path" : kubeConfigFile.toString(),
@@ -306,11 +330,14 @@ class KubernetesConfigImportSpec extends K3sContainerSpec {
         ]
 
         when:
-        ApplicationContext.run(properties, Environment.KUBERNETES)
+        envs.execute(new Callable<ApplicationContext>() {
+            @Override
+            ApplicationContext call() throws Exception {
+                return ApplicationContext.run(properties, Environment.KUBERNETES)
+            }
+        })
 
         then:
-        System.getenv("KUBERNETES_SERVICE_HOST") == "localhost"
-        System.getenv("HOSTNAME") == POD_NAME
         def e = thrown(ConfigurationException)
         e.message.startsWith("Pod metadata does not contain label")
     }

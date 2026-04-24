@@ -73,9 +73,7 @@ import static java.util.Collections.singletonMap;
 public class KubernetesConfigurationClient implements ConfigurationClient {
 
     public static final String CONFIG_MAP_LIST_RESOURCE_VERSION = "configMapListResourceVersion";
-    public static final String CONFIG_MAP_RESOURCE_VERSION = "configMapResourceVersion";
     public static final String KUBERNETES_CONFIG_MAP_LIST_NAME = "Kubernetes ConfigMapList";
-    public static final String KUBERNETES_CONFIG_MAP_NAME_SUFFIX = " (Kubernetes ConfigMap)";
     public static final String KUBERNETES_SECRET_NAME_SUFFIX = " (Kubernetes Secret)";
     public static final String OPAQUE_SECRET_TYPE = "Opaque";
 
