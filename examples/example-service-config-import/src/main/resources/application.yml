@@ -1,0 +1,26 @@
+micronaut:
+  application:
+    name: micronaut-service
+  server:
+    port: 8083
+    thread-selection: io
+    executors:
+      io:
+        n-threads: 75
+        type: fixed
+  config-client:
+    enabled: false
+  config:
+    import:
+      - kubernetes://config-map?name=game-config-properties&watch=true
+      - kubernetes://secret?name=test-secret&watch=true
+      - optional:kubernetes://config-map?labels=cm-label-key=cm-label-value&watch=true
+      - optional:kubernetes://secret?labels=sec-label-key=sec-label-value&watch=true
+endpoints:
+  env:
+    sensitive: false
+    enabled: true
+  refresh:
+    sensitive: false
+  health:
+    details-visible: ANONYMOUS

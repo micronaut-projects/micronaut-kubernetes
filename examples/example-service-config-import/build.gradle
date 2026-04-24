@@ -1,0 +1,48 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-examples'
+    id("groovy")
+}
+
+micronaut {
+    version libs.versions.micronaut.platform.get()
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("micronaut.service.*")
+    }
+}
+
+dependencies {
+    annotationProcessor(mnValidation.micronaut.validation.processor)
+    implementation(mnValidation.micronaut.validation)
+    implementation(mn.micronaut.http.client)
+    implementation(mn.micronaut.jackson.databind)
+    implementation(mn.micronaut.management)
+    implementation projects.micronautKubernetesDiscoveryClient
+
+    runtimeOnly(mnLogging.logback.classic)
+
+    testImplementation projects.testUtils
+}
+
+application {
+    mainClass.set("micronaut.service.Application")
+}
+
+tasks {
+    dockerBuild {
+        images = ['micronaut-kubernetes-example-service-config-import']
+    }
+
+    dockerBuildNative {
+        images = ['micronaut-kubernetes-example-service-config-import']
+    }
+}
+
+// tests send requests to a service deployed to a kubernetes cluster
+// and since gradle cannot detect changes in the deployed service,
+// the cached results are always used so we need to disable the cache
+tasks.named('test') {
+    outputs.cacheIf { false }
+}

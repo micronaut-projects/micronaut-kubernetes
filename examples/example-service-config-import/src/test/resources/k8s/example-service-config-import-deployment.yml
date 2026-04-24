@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service-config-import
+spec:
+  selector:
+    matchLabels:
+      app: example-service-config-import
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: example-service-config-import
+        app.kubernetes.io/instance: example-service-config-import-1337
+    spec:
+      containers:
+        - name: example-service-config-import
+          image: micronaut-kubernetes-example-service-config-import
+          imagePullPolicy: "Never"
+          volumeMounts:
+            - name: secrets
+              mountPath: /etc/example-service-config-import/secrets
+              readOnly: true
+            - name: configmap
+              mountPath: /etc/example-service-config-import/configmap
+              readOnly: true
+          ports:
+            - name: http
+              containerPort: 8083
+            - name: "jvm-debug"
+              containerPort: 5006
+          livenessProbe:
+            httpGet:
+              port: 8083
+              path: /health/liveness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              port: 8083
+              path: /health/readiness
+            initialDelaySeconds: 2
+            periodSeconds: 3
+            failureThreshold: 10
+      volumes:
+        - name: secrets
+          secret:
+            secretName: mounted-secret
+            defaultMode: 256
+        - name: configmap
+          configMap:
+            name: mounted-configmap
