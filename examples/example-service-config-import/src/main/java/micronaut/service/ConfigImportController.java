@@ -17,12 +17,12 @@ public class ConfigImportController {
     ApplicationContext context;
 
     @ReflectiveAccess
-    @Value("${lives:0}")
-    private Integer lives;
+    @Value("${test-count:0}")
+    private Integer count;
 
-    @Get("/var/lives")
-    public Integer lives() {
-        return lives;
+    @Get("/var/count")
+    public Integer count() {
+        return count;
     }
 
     @Get("/context/{key}")

@@ -90,6 +90,14 @@ class ConfigImportSpec extends KubernetesSpecification {
             testClient.config("cm-key-5") == "cm-value-5"
         }
 
+        when: "content of config map is changed"
+        replaceConfigMap(namespace, getConfigMapModel("cm-5", ["cm-key-5": "cm-value-5555"]))
+
+        then: "value is changed in micronaut properties"
+        conditions.eventually {
+            testClient.config("cm-key-5") == "cm-value-5555"
+        }
+
         when: "config map is deleted"
         deleteConfigMap("cm-5", namespace)
 
@@ -117,6 +125,14 @@ class ConfigImportSpec extends KubernetesSpecification {
         then: "values from the secret are loaded into micronaut properties"
         conditions.eventually {
             testClient.config("sec-key-5") == "sec-value-5"
+        }
+
+        when: "content of secret is changed"
+        replaceSecret(namespace, getSecretModel("sec-5", ["sec-key-5": "sec-value-5555".bytes]))
+
+        then: "value is changed in micronaut properties"
+        conditions.eventually {
+            testClient.config("sec-key-5") == "sec-value-5555"
         }
 
         when: "secret is deleted"
@@ -308,8 +324,8 @@ class ConfigImportSpec extends KubernetesSpecification {
     @Client("http://localhost:8887")
     @io.micronaut.context.annotation.Requires(property = "spec.name", value = "ConfigImportSpec")
     static interface TestClient {
-        @Get(uri = "/config/var/lives", processes = MediaType.TEXT_PLAIN)
-        String lives()
+        @Get(uri = "/config/var/count", processes = MediaType.TEXT_PLAIN)
+        String count()
 
         @Get(uri = "/config/context/{key}", processes = MediaType.TEXT_PLAIN)
         String config(String key)
