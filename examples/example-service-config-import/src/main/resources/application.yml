@@ -13,6 +13,7 @@ micronaut:
   config:
     import:
       - optional:kubernetes://config-map?name=cm-5&watch=true
+      - optional:kubernetes://config-map?name=cm-6&watch=true
       - optional:kubernetes://secret?name=sec-5&watch=true
       - optional:kubernetes://config-map?labels=watchable=true&watch=true
       - optional:kubernetes://config-map?labels=watchable=false&watch=false

@@ -321,11 +321,48 @@ class ConfigImportSpec extends KubernetesSpecification {
         context?.close()
     }
 
+    void "test refreshable when config map changed"() {
+        given:
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        ApplicationContext context = createContext()
+        TestClient testClient = context.getBean(TestClient.class)
+
+        expect:
+        testClient.count() == 0
+
+        when:
+        createConfigMap(namespace, getConfigMapModel("cm-6", ["test-count": "10"]))
+
+        then:
+        conditions.eventually {
+            testClient.count() == 10
+        }
+
+        when:
+        replaceConfigMap(namespace, getConfigMapModel("cm-6", ["test-count": "20"]))
+
+        then:
+        conditions.eventually {
+            testClient.count() == 20
+        }
+
+        when:
+        deleteConfigMap("cm-6", namespace)
+
+        then:
+        conditions.eventually {
+            testClient.count() == 0
+        }
+
+        cleanup:
+        context?.close()
+    }
+
     @Client("http://localhost:8887")
     @io.micronaut.context.annotation.Requires(property = "spec.name", value = "ConfigImportSpec")
     static interface TestClient {
         @Get(uri = "/config/var/count", processes = MediaType.TEXT_PLAIN)
-        String count()
+        Integer count()
 
         @Get(uri = "/config/context/{key}", processes = MediaType.TEXT_PLAIN)
         String config(String key)
