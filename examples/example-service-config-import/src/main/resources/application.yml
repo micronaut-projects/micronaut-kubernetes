@@ -12,10 +12,12 @@ micronaut:
     enabled: false
   config:
     import:
-      - kubernetes://config-map?name=game-config-properties&watch=true
-      - kubernetes://secret?name=test-secret&watch=true
-      - optional:kubernetes://config-map?labels=cm-label-key=cm-label-value&watch=true
-      - optional:kubernetes://secret?labels=sec-label-key=sec-label-value&watch=true
+      - optional:kubernetes://config-map?name=cm-5&watch=true
+      - optional:kubernetes://secret?name=sec-5&watch=true
+      - optional:kubernetes://config-map?labels=watchable=true&watch=true
+      - optional:kubernetes://config-map?labels=watchable=false&watch=false
+      - optional:kubernetes://secret?labels=watchable=true&watch=true
+      - optional:kubernetes://secret?labels=watchable=false&watch=false
 endpoints:
   env:
     sensitive: false

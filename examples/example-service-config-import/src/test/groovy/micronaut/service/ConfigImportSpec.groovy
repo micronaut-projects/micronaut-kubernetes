@@ -73,31 +73,65 @@ class ConfigImportSpec extends KubernetesSpecification {
                 .start()
     }
 
-    void "read property from config map"() {
+    void "test watchable when config map imported by name"() {
         given:
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
-        testClient.config("enemies.cheat.level") == "noGoodRotten"
+        testClient.config("cm-key-5") == "NOTHING"
+
+        when: "new config map is created"
+        createConfigMap(namespace, getConfigMapModel("cm-5", ["cm-key-5": "cm-value-5"]))
+
+        then: "values from the config map are loaded into micronaut properties"
+        conditions.eventually {
+            testClient.config("cm-key-5") == "cm-value-5"
+        }
+
+        when: "config map is deleted"
+        deleteConfigMap("cm-5", namespace)
+
+        then: "values from that config map are removed from micronaut properties"
+        conditions.eventually {
+            testClient.config("cm-key-5") == "NOTHING"
+        }
 
         cleanup:
         context?.close()
     }
 
-    void "read property from secret"() {
+    void "test watchable when secreted imported by name"() {
         given:
+        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
-        testClient.config("username") == "my-app"
+        testClient.config("sec-key-5") == "NOTHING"
+
+        when: "new secret is created"
+        createSecret(namespace, getSecretModel("sec-5", ["sec-key-5": "sec-value-5".bytes]))
+
+        then: "values from the secret are loaded into micronaut properties"
+        conditions.eventually {
+            testClient.config("sec-key-5") == "sec-value-5"
+        }
+
+        when: "secret is deleted"
+        deleteSecret("sec-5", namespace)
+
+        then: "values from that secret are removed from micronaut properties"
+        conditions.eventually {
+            testClient.config("sec-key-5") == "NOTHING"
+        }
 
         cleanup:
         context?.close()
     }
 
-    void "read properties from watchable config maps"() {
+    void "test watchable when config maps imported by labels"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
         ApplicationContext context = createContext()
@@ -107,65 +141,84 @@ class ConfigImportSpec extends KubernetesSpecification {
         testClient.config("cm-key-1") == "NOTHING"
         testClient.config("cm-key-2") == "NOTHING"
         testClient.config("cm-key-3") == "NOTHING"
+        testClient.config("cm-key-4") == "NOTHING"
 
-        when:
-        createConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1"], ["cm-label-key": "cm-label-value"]))
-        createConfigMap(namespace, getConfigMapModel("cm-2", ["cm-key-2": "cm-value-2"], ["cm-label-key": "cm-label-value"]))
-        createConfigMap(namespace, getConfigMapModel("cm-3", ["cm-key-3": "cm-value-3"], ["cm-label-key": "cm-label-value"]))
+        when: "new config maps are created"
+        createConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1"], ["watchable": "true"]))
+        createConfigMap(namespace, getConfigMapModel("cm-2", ["cm-key-2": "cm-value-2"], ["watchable": "true"]))
+        createConfigMap(namespace, getConfigMapModel("cm-3", ["cm-key-3": "cm-value-3"], ["watchable": "true"]))
+        createConfigMap(namespace, getConfigMapModel("cm-4", ["cm-key-4": "cm-value-4"], ["watchable": "false"]))
 
-        then:
+        then: "values from those config maps are loaded into micronaut properties"
         conditions.eventually {
             testClient.config("cm-key-1") == "cm-value-1"
             testClient.config("cm-key-2") == "cm-value-2"
             testClient.config("cm-key-3") == "cm-value-3"
+            testClient.config("cm-key-4") == "cm-value-4"
         }
 
-        when:
+        when: "config map label is removed"
         replaceConfigMap(namespace, getConfigMapModel("cm-3", ["cm-key-3": "cm-value-3"]))
 
-        then:
+        then: "values from that config map are removed from micronaut properties"
         conditions.eventually {
             testClient.config("cm-key-1") == "cm-value-1"
             testClient.config("cm-key-2") == "cm-value-2"
             testClient.config("cm-key-3") == "NOTHING"
+            testClient.config("cm-key-4") == "cm-value-4"
         }
 
-        when:
+        when: "config map is deleted"
         deleteConfigMap("cm-2", namespace)
 
-        then:
+        then: "values from that config map are removed from micronaut properties"
         conditions.eventually {
             testClient.config("cm-key-1") == "cm-value-1"
             testClient.config("cm-key-2") == "NOTHING"
             testClient.config("cm-key-3") == "NOTHING"
+            testClient.config("cm-key-4") == "cm-value-4"
         }
 
-        when:
-        replaceConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1111"], ["cm-label-key": "cm-label-value"]))
+        when: "content of watched config map is changed"
+        replaceConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1111"], ["watchable": "true"]))
 
-        then:
+        then: "values are changed in micronaut properties"
         conditions.eventually {
             testClient.config("cm-key-1") == "cm-value-1111"
             testClient.config("cm-key-2") == "NOTHING"
             testClient.config("cm-key-3") == "NOTHING"
+            testClient.config("cm-key-4") == "cm-value-4"
         }
 
-        when:
+        when: "content of unwatched config map is changed"
+        replaceConfigMap(namespace, getConfigMapModel("cm-4", ["cm-key-4": "cm-value-4444"], ["watchable": "false"]))
+
+        then: "values are not changed in micronaut properties"
+        conditions.eventually {
+            testClient.config("cm-key-1") == "cm-value-1111"
+            testClient.config("cm-key-2") == "NOTHING"
+            testClient.config("cm-key-3") == "NOTHING"
+            testClient.config("cm-key-4") == "cm-value-4"
+        }
+
+        when: "config maps are deleted"
         deleteConfigMap("cm-1", namespace)
         deleteConfigMap("cm-3", namespace)
+        deleteConfigMap("cm-4", namespace)
 
-        then:
+        then: "values from those config maps are removed from micronaut properties"
         conditions.eventually {
             testClient.config("cm-key-1") == "NOTHING"
             testClient.config("cm-key-2") == "NOTHING"
             testClient.config("cm-key-3") == "NOTHING"
+            testClient.config("cm-key-4") == "NOTHING"
         }
 
         cleanup:
         context?.close()
     }
 
-    void "read properties from watchable secrets"() {
+    void "test watchable when secrets imported by labels"() {
         given:
         PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
         ApplicationContext context = createContext()
@@ -175,58 +228,77 @@ class ConfigImportSpec extends KubernetesSpecification {
         testClient.config("sec-key-1") == "NOTHING"
         testClient.config("sec-key-2") == "NOTHING"
         testClient.config("sec-key-3") == "NOTHING"
+        testClient.config("sec-key-4") == "NOTHING"
 
-        when:
-        createSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1".bytes], ["sec-label-key": "sec-label-value"]))
-        createSecret(namespace, getSecretModel("sec-2", ["sec-key-2": "sec-value-2".bytes], ["sec-label-key": "sec-label-value"]))
-        createSecret(namespace, getSecretModel("sec-3", ["sec-key-3": "sec-value-3".bytes], ["sec-label-key": "sec-label-value"]))
+        when: "new secrets are created\""
+        createSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1".bytes], ["watchable": "true"]))
+        createSecret(namespace, getSecretModel("sec-2", ["sec-key-2": "sec-value-2".bytes], ["watchable": "true"]))
+        createSecret(namespace, getSecretModel("sec-3", ["sec-key-3": "sec-value-3".bytes], ["watchable": "true"]))
+        createSecret(namespace, getSecretModel("sec-4", ["sec-key-4": "sec-value-4".bytes], ["watchable": "false"]))
 
-        then:
+        then: "values from those secrets are loaded into micronaut properties"
         conditions.eventually {
             testClient.config("sec-key-1") == "sec-value-1"
             testClient.config("sec-key-2") == "sec-value-2"
             testClient.config("sec-key-3") == "sec-value-3"
+            testClient.config("sec-key-4") == "sec-value-4"
         }
 
-        when:
+        when: "secret label is removed"
         replaceSecret(namespace, getSecretModel("sec-3", ["sec-key-3": "sec-value-3".bytes]))
 
-        then:
+        then: "values from that secret are removed from micronaut properties"
         conditions.eventually {
             testClient.config("sec-key-1") == "sec-value-1"
             testClient.config("sec-key-2") == "sec-value-2"
             testClient.config("sec-key-3") == "NOTHING"
+            testClient.config("sec-key-4") == "sec-value-4"
         }
 
-        when:
+        when: "secret is deleted"
         deleteSecret("sec-2", namespace)
 
-        then:
+        then: "values from that secret are removed from micronaut properties"
         conditions.eventually {
             testClient.config("sec-key-1") == "sec-value-1"
             testClient.config("sec-key-2") == "NOTHING"
             testClient.config("sec-key-3") == "NOTHING"
+            testClient.config("sec-key-4") == "sec-value-4"
         }
 
-        when:
-        replaceSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1111".bytes], ["sec-label-key": "sec-label-value"]))
+        when: "content of watched secret is changed"
+        replaceSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1111".bytes], ["watchable": "true"]))
 
-        then:
+        then: "values are changed in micronaut properties"
         conditions.eventually {
             testClient.config("sec-key-1") == "sec-value-1111"
             testClient.config("sec-key-2") == "NOTHING"
             testClient.config("sec-key-3") == "NOTHING"
+            testClient.config("sec-key-4") == "sec-value-4"
         }
 
-        when:
+        when: "content of unwatched config secret is changed"
+        replaceSecret(namespace, getSecretModel("sec-4", ["sec-key-4": "sec-value-4444".bytes], ["watchable": "false"]))
+
+        then: "values are not changed in micronaut properties"
+        conditions.eventually {
+            testClient.config("sec-key-1") == "sec-value-1111"
+            testClient.config("sec-key-2") == "NOTHING"
+            testClient.config("sec-key-3") == "NOTHING"
+            testClient.config("sec-key-4") == "sec-value-4"
+        }
+
+        when: "secrets are deleted"
         deleteSecret("sec-1", namespace)
         deleteSecret("sec-3", namespace)
+        deleteSecret("sec-4", namespace)
 
-        then:
+        then: "values from those secrets are removed from micronaut properties"
         conditions.eventually {
             testClient.config("sec-key-1") == "NOTHING"
             testClient.config("sec-key-2") == "NOTHING"
             testClient.config("sec-key-3") == "NOTHING"
+            testClient.config("sec-key-4") == "NOTHING"
         }
 
         cleanup:
