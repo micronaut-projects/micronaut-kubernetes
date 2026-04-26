@@ -8,134 +8,77 @@ class ImportDeclarationWatchIndexSpec extends Specification {
         ImportDeclarationWatchIndex.reset()
     }
 
-    void "add config map name declaration enables watcher and removes matching declaration"() {
+    void "increments refresh count for watched config map by name"() {
         given:
-        def declaration = new ImportDeclaration('config-map', 'app-config', null, null, true, false, false)
+        def declaration = new ImportDeclaration('config-map', 'orders', null, null, true, false, false)
+        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('orders', declaration)
 
-        when:
-        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('app-config', declaration)
-
-        then:
+        expect:
         ImportDeclarationWatchIndex.isConfigMapWatcherEnabled()
 
         when:
-        def removed = ImportDeclarationWatchIndex.removeConfigMapDeclarations('app-config', [:])
+        def watched = ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched('orders', [:])
 
         then:
-        removed == [declaration]
-        ImportDeclarationWatchIndex.removeConfigMapDeclarations('app-config', [:]).isEmpty()
+        watched
+        ImportDeclarationWatchIndex.getRefreshCount(declaration).get() == 1
     }
 
-    void "add config map labels declaration enables watcher and removes matching declaration"() {
+    void "increments refresh count for watched config map by labels"() {
         given:
-        def declaration = new ImportDeclaration('config-map', null, [app: 'demo'], null, true, false, false)
+        def declaration = new ImportDeclaration('config-map', null, [app: 'demo', env: 'test'], null, true, false, false)
+        ImportDeclarationWatchIndex.addConfigMapLabelsDeclaration([app: 'demo', env: 'test'], declaration)
 
         when:
-        ImportDeclarationWatchIndex.addConfigMapLabelsDeclaration([app: 'demo'], declaration)
+        def watched = ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched('orders', [app: 'demo', env: 'test', tier: 'backend'])
 
         then:
-        ImportDeclarationWatchIndex.isConfigMapWatcherEnabled()
-
-        when:
-        def removed = ImportDeclarationWatchIndex.removeConfigMapDeclarations('other-name', [app: 'demo', env: 'test'])
-
-        then:
-        removed == [declaration]
-        ImportDeclarationWatchIndex.removeConfigMapDeclarations('other-name', [app: 'demo', env: 'test']).isEmpty()
+        watched
+        ImportDeclarationWatchIndex.getRefreshCount(declaration).get() == 1
     }
 
-    void "remove config map declarations returns name and label matches"() {
-        given:
-        def nameDeclaration = new ImportDeclaration('config-map', 'app-config', null, null, true, false, false)
-        def labelsDeclaration = new ImportDeclaration('config-map', null, [app: 'demo'], null, true, false, false)
-        def otherDeclaration = new ImportDeclaration('config-map', 'other-config', null, null, true, false, false)
-        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('app-config', nameDeclaration)
-        ImportDeclarationWatchIndex.addConfigMapLabelsDeclaration([app: 'demo'], labelsDeclaration)
-        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('other-config', otherDeclaration)
-
-        when:
-        def removed = ImportDeclarationWatchIndex.removeConfigMapDeclarations('app-config', [app: 'demo', env: 'test'])
-
-        then:
-        removed.containsAll([nameDeclaration, labelsDeclaration])
-        removed.size() == 2
-        ImportDeclarationWatchIndex.removeConfigMapDeclarations('other-config', [:]) == [otherDeclaration]
-    }
-
-    void "add secret name declaration enables watcher and removes matching declaration"() {
-        given:
-        def declaration = new ImportDeclaration('secret', 'db-credentials', null, null, true, false, false)
-
-        when:
-        ImportDeclarationWatchIndex.addSecretNameDeclaration('db-credentials', declaration)
-
-        then:
-        ImportDeclarationWatchIndex.isSecretWatcherEnabled()
-
-        when:
-        def removed = ImportDeclarationWatchIndex.removeSecretDeclarations('db-credentials', [:])
-
-        then:
-        removed == [declaration]
-        ImportDeclarationWatchIndex.removeSecretDeclarations('db-credentials', [:]).isEmpty()
-    }
-
-    void "add secret labels declaration enables watcher and removes matching declaration"() {
-        given:
-        def declaration = new ImportDeclaration('secret', null, [app: 'demo'], null, true, false, false)
-
-        when:
-        ImportDeclarationWatchIndex.addSecretLabelsDeclaration([app: 'demo'], declaration)
-
-        then:
-        ImportDeclarationWatchIndex.isSecretWatcherEnabled()
-
-        when:
-        def removed = ImportDeclarationWatchIndex.removeSecretDeclarations('other-name', [app: 'demo', env: 'test'])
-
-        then:
-        removed == [declaration]
-        ImportDeclarationWatchIndex.removeSecretDeclarations('other-name', [app: 'demo', env: 'test']).isEmpty()
-    }
-
-    void "remove secret declarations returns name and label matches"() {
+    void "increments refresh count for watched secret by name and labels"() {
         given:
         def nameDeclaration = new ImportDeclaration('secret', 'db-credentials', null, null, true, false, false)
         def labelsDeclaration = new ImportDeclaration('secret', null, [app: 'demo'], null, true, false, false)
-        def otherDeclaration = new ImportDeclaration('secret', 'other-secret', null, null, true, false, false)
         ImportDeclarationWatchIndex.addSecretNameDeclaration('db-credentials', nameDeclaration)
         ImportDeclarationWatchIndex.addSecretLabelsDeclaration([app: 'demo'], labelsDeclaration)
-        ImportDeclarationWatchIndex.addSecretNameDeclaration('other-secret', otherDeclaration)
-
-        when:
-        def removed = ImportDeclarationWatchIndex.removeSecretDeclarations('db-credentials', [app: 'demo', env: 'test'])
-
-        then:
-        removed.containsAll([nameDeclaration, labelsDeclaration])
-        removed.size() == 2
-        ImportDeclarationWatchIndex.removeSecretDeclarations('other-secret', [:]) == [otherDeclaration]
-    }
-
-    void "remove methods ignore non matching objects and empty labels"() {
-        given:
-        def configMapDeclaration = new ImportDeclaration('config-map', null, [app: 'demo'], null, true, false, false)
-        def secretDeclaration = new ImportDeclaration('secret', null, [app: 'demo'], null, true, false, false)
-        ImportDeclarationWatchIndex.addConfigMapLabelsDeclaration([app: 'demo'], configMapDeclaration)
-        ImportDeclarationWatchIndex.addSecretLabelsDeclaration([app: 'demo'], secretDeclaration)
 
         expect:
-        ImportDeclarationWatchIndex.removeConfigMapDeclarations('other-name', [:]).isEmpty()
-        ImportDeclarationWatchIndex.removeSecretDeclarations('other-name', [:]).isEmpty()
-        ImportDeclarationWatchIndex.removeConfigMapDeclarations('other-name', [env: 'test']).isEmpty()
-        ImportDeclarationWatchIndex.removeSecretDeclarations('other-name', [env: 'test']).isEmpty()
+        ImportDeclarationWatchIndex.isSecretWatcherEnabled()
+
+        when:
+        def matchedByName = ImportDeclarationWatchIndex.updateRefreshCountIfSecretWatched('db-credentials', [:])
+        def matchedByLabels = ImportDeclarationWatchIndex.updateRefreshCountIfSecretWatched('other-secret', [app: 'demo', env: 'test'])
+
+        then:
+        matchedByName
+        matchedByLabels
+        ImportDeclarationWatchIndex.getRefreshCount(nameDeclaration).get() == 1
+        ImportDeclarationWatchIndex.getRefreshCount(labelsDeclaration).get() == 1
     }
 
-    void "reset clears indexes and disables watchers"() {
+    void "does not increment refresh count when resource is not watched"() {
         given:
-        def configMapDeclaration = new ImportDeclaration('config-map', 'app-config', null, null, true, false, false)
-        def secretDeclaration = new ImportDeclaration('secret', 'db-credentials', null, null, true, false, false)
-        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('app-config', configMapDeclaration)
-        ImportDeclarationWatchIndex.addSecretNameDeclaration('db-credentials', secretDeclaration)
+        def declaration = new ImportDeclaration('config-map', 'orders', null, null, true, false, false)
+        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('orders', declaration)
+
+        when:
+        def watched = ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched('inventory', [app: 'demo'])
+
+        then:
+        !watched
+        ImportDeclarationWatchIndex.getRefreshCount(declaration).get() == 0
+    }
+
+    void "reset clears indexes counts and watcher flags"() {
+        given:
+        def configMapDeclaration = new ImportDeclaration('config-map', 'orders', null, null, true, false, false)
+        def secretDeclaration = new ImportDeclaration('secret', null, [app: 'demo'], null, true, false, false)
+        ImportDeclarationWatchIndex.addConfigMapNameDeclaration('orders', configMapDeclaration)
+        ImportDeclarationWatchIndex.addSecretLabelsDeclaration([app: 'demo'], secretDeclaration)
+        ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched('orders', [:])
+        ImportDeclarationWatchIndex.updateRefreshCountIfSecretWatched('other-secret', [app: 'demo'])
 
         when:
         ImportDeclarationWatchIndex.reset()
@@ -143,7 +86,9 @@ class ImportDeclarationWatchIndexSpec extends Specification {
         then:
         !ImportDeclarationWatchIndex.isConfigMapWatcherEnabled()
         !ImportDeclarationWatchIndex.isSecretWatcherEnabled()
-        ImportDeclarationWatchIndex.removeConfigMapDeclarations('app-config', [:]).isEmpty()
-        ImportDeclarationWatchIndex.removeSecretDeclarations('db-credentials', [:]).isEmpty()
+        ImportDeclarationWatchIndex.getRefreshCount(configMapDeclaration) == null
+        ImportDeclarationWatchIndex.getRefreshCount(secretDeclaration) == null
+        !ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched('orders', [:])
+        !ImportDeclarationWatchIndex.updateRefreshCountIfSecretWatched('other-secret', [app: 'demo'])
     }
 }

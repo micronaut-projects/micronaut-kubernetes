@@ -118,6 +118,13 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         LOG.trace("Completed processing of deleted kubernetes object");
     }
 
+    /**
+     * Updates the refresh tracking state when the given kubernetes object is part of the watched
+     * configuration imports.
+     *
+     * @param object The kubernetes object to evaluate
+     * @return {@code true} if the object is watched and should trigger an environment refresh
+     */
     abstract boolean updateRefreshCountIfWatched(T object);
 
     private boolean checkResourceVersionChanged(T object) {

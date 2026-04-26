@@ -94,11 +94,25 @@ final class ImportDeclarationWatchIndex {
         return REFRESH_COUNT.get(importDeclaration);
     }
 
+    /**
+     * Increments the refresh count when the given ConfigMap matches a watched import declaration.
+     *
+     * @param objectName The ConfigMap name
+     * @param objectLabels The ConfigMap labels
+     * @return {@code true} if the ConfigMap is watched and the refresh count was updated
+     */
     static boolean updateRefreshCountIfConfigMapWatched(@NonNull String objectName,
                                                         @NonNull Map<String, String> objectLabels) {
         return updateRefreshCountIfWatched(CONFIG_MAP_INDEX, objectName, objectLabels);
     }
 
+    /**
+     * Increments the refresh count when the given Secret matches a watched import declaration.
+     *
+     * @param objectName The Secret name
+     * @param objectLabels The Secret labels
+     * @return {@code true} if the Secret is watched and the refresh count was updated
+     */
     static boolean updateRefreshCountIfSecretWatched(@NonNull String objectName,
                                                      @NonNull Map<String, String> objectLabels) {
         return updateRefreshCountIfWatched(SECRET_INDEX, objectName, objectLabels);
