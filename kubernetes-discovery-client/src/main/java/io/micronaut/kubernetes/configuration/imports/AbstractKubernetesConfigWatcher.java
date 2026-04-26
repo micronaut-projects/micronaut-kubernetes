@@ -43,6 +43,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     implements ResourceEventHandler<T> permits KubernetesConfigMapWatcher, KubernetesSecretWatcher {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigWatcher.class);
+    private static final Object REFRESH_ENV_LOCK = new Object();
 
     // this flag controls when to start reflecting the changes to the discovery client
     final AtomicBoolean serviceStarted = new AtomicBoolean(false);
@@ -59,10 +60,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     /**
      * Marks the watcher as ready to publish refresh events after the application has started.
      *
-     * @param event The startup event
+     * @param ignoredEvent The startup event
      */
     @EventListener
-    void onApplicationEvent(ServerStartupEvent event) {
+    void onApplicationEvent(ServerStartupEvent ignoredEvent) {
         serviceStarted.set(true);
     }
 
@@ -75,8 +76,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         if (checkResourceVersionChanged(object)) {
             LOG.trace("Resource version of added kubernetes object has not been changed");
         } else {
-            boolean removed = removeFromDeclarationCache(object);
-            if (removed) {
+            if (updateRefreshCountIfWatched(object)) {
                 refreshEnv(object.getMetadata().getName());
             } else {
                 LOG.trace("Added kubernetes object not used in configuration import or not watchable");
@@ -94,9 +94,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         if (checkResourceVersionChanged(newObject)) {
             LOG.trace("Resource version of modified kubernetes object has not been changed");
         } else {
-            boolean removedOld = removeFromDeclarationCache(oldObject);
-            boolean removedNew = removeFromDeclarationCache(newObject);
-            if (removedOld || removedNew) {
+            if (updateRefreshCountIfWatched(oldObject) || updateRefreshCountIfWatched(newObject)) {
                 refreshEnv(oldObject.getMetadata().getName());
             } else {
                 LOG.trace("Modified kubernetes object not used in configuration import or not watchable");
@@ -112,8 +110,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
             object.getClass().getSimpleName(),
             object.getMetadata().getResourceVersion(),
             deletedFinalStateUnknown);
-        boolean removed = removeFromDeclarationCache(object);
-        if (removed) {
+        if (updateRefreshCountIfWatched(object)) {
             refreshEnv(object.getMetadata().getName());
         } else {
             LOG.trace("Deleted kubernetes object not used in configuration import or not watchable");
@@ -121,13 +118,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
         LOG.trace("Completed processing of deleted kubernetes object");
     }
 
-    /**
-     * Removes cached import declarations and property sources associated with the supplied object.
-     *
-     * @param object The changed Kubernetes object
-     * @return Whether any watched declarations were removed
-     */
-    abstract boolean removeFromDeclarationCache(T object);
+    abstract boolean updateRefreshCountIfWatched(T object);
 
     private boolean checkResourceVersionChanged(T object) {
         String resourceVersion = object.getMetadata().getResourceVersion();
@@ -137,16 +128,18 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     private void refreshEnv(String objectName) {
-        if (serviceStarted.get()) {
-            LOG.trace("Starting environment refresh");
-            final Map<String, Object> changes = environment.refreshAndDiff();
-            LOG.trace("Completed environment refresh, changes in property sources: {}", changes.keySet());
-            if (CollectionUtils.isNotEmpty(changes)) {
-                eventPublisher.publishEvent(new RefreshEvent(changes));
+        synchronized (REFRESH_ENV_LOCK) {
+            if (serviceStarted.get()) {
+                LOG.trace("Starting environment refresh");
+                final Map<String, Object> changes = environment.refreshAndDiff();
+                LOG.trace("Completed environment refresh, changes in property sources: {}", changes.keySet());
+                if (CollectionUtils.isNotEmpty(changes)) {
+                    eventPublisher.publishEvent(new RefreshEvent(changes));
+                }
+            } else {
+                LOG.warn("Skipped environment refresh, caused by changes on watched kubernetes object [{}], since the service not started yet",
+                    objectName);
             }
-        } else {
-            LOG.warn("Skipped environment refresh, caused by changes on watched kubernetes object [{}], since the service not started yet",
-                objectName);
         }
     }
 }

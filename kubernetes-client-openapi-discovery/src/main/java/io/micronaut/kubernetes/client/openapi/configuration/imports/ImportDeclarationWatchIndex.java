@@ -18,13 +18,12 @@ package io.micronaut.kubernetes.client.openapi.configuration.imports;
 import io.micronaut.core.util.CollectionUtils;
 import org.jspecify.annotations.NonNull;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Tracks watched import declarations by selector so watcher events can invalidate matching imports.
@@ -33,6 +32,8 @@ final class ImportDeclarationWatchIndex {
 
     private static final Map<SelectorKey, ImportDeclaration> CONFIG_MAP_INDEX = new ConcurrentHashMap<>();
     private static final Map<SelectorKey, ImportDeclaration> SECRET_INDEX = new ConcurrentHashMap<>();
+
+    private static final Map<ImportDeclaration, AtomicInteger> REFRESH_COUNT = new ConcurrentHashMap<>();
 
     private static final AtomicBoolean CONFIG_MAP_WATCHER_ENABLED = new AtomicBoolean(false);
     private static final AtomicBoolean SECRET_WATCHER_ENABLED = new AtomicBoolean(false);
@@ -45,8 +46,9 @@ final class ImportDeclarationWatchIndex {
      */
     static void addConfigMapNameDeclaration(@NonNull String name,
                                             @NonNull ImportDeclaration importDeclaration) {
-        CONFIG_MAP_INDEX.put(new SelectorKey.NameKey(name), importDeclaration);
-        CONFIG_MAP_WATCHER_ENABLED.set(true);
+        CONFIG_MAP_INDEX.putIfAbsent(new SelectorKey.NameKey(name), importDeclaration);
+        REFRESH_COUNT.putIfAbsent(importDeclaration, new AtomicInteger());
+        CONFIG_MAP_WATCHER_ENABLED.compareAndSet(false, true);
     }
 
     /**
@@ -58,7 +60,8 @@ final class ImportDeclarationWatchIndex {
     static void addConfigMapLabelsDeclaration(@NonNull Map<String, String> labels,
                                               @NonNull ImportDeclaration importDeclaration) {
         CONFIG_MAP_INDEX.put(new SelectorKey.LabelsKey(labels), importDeclaration);
-        CONFIG_MAP_WATCHER_ENABLED.set(true);
+        REFRESH_COUNT.putIfAbsent(importDeclaration, new AtomicInteger());
+        CONFIG_MAP_WATCHER_ENABLED.compareAndSet(false, true);
     }
 
     /**
@@ -70,7 +73,8 @@ final class ImportDeclarationWatchIndex {
     static void addSecretNameDeclaration(@NonNull String name,
                                          @NonNull ImportDeclaration importDeclaration) {
         SECRET_INDEX.put(new SelectorKey.NameKey(name), importDeclaration);
-        SECRET_WATCHER_ENABLED.set(true);
+        REFRESH_COUNT.putIfAbsent(importDeclaration, new AtomicInteger());
+        SECRET_WATCHER_ENABLED.compareAndSet(false, true);
     }
 
     /**
@@ -82,56 +86,40 @@ final class ImportDeclarationWatchIndex {
     static void addSecretLabelsDeclaration(@NonNull Map<String, String> labels,
                                            @NonNull ImportDeclaration importDeclaration) {
         SECRET_INDEX.put(new SelectorKey.LabelsKey(labels), importDeclaration);
-        SECRET_WATCHER_ENABLED.set(true);
+        REFRESH_COUNT.putIfAbsent(importDeclaration, new AtomicInteger());
+        SECRET_WATCHER_ENABLED.compareAndSet(false, true);
     }
 
-    /**
-     * Removes watched ConfigMap declarations matching the changed object.
-     *
-     * @param objectName   The changed ConfigMap name
-     * @param objectLabels The changed ConfigMap labels
-     * @return The removed declarations
-     */
-    @NonNull
-    static List<ImportDeclaration> removeConfigMapDeclarations(@NonNull String objectName,
-                                                               @NonNull Map<String, String> objectLabels) {
-        return removeImportDeclarations(CONFIG_MAP_INDEX, objectName, objectLabels);
+    static AtomicInteger getRefreshCount(ImportDeclaration importDeclaration) {
+        return REFRESH_COUNT.get(importDeclaration);
     }
 
-    /**
-     * Removes watched Secret declarations matching the changed object.
-     *
-     * @param objectName   The changed Secret name
-     * @param objectLabels The changed Secret labels
-     * @return The removed declarations
-     */
-    @NonNull
-    static List<ImportDeclaration> removeSecretDeclarations(@NonNull String objectName,
-                                                            @NonNull Map<String, String> objectLabels) {
-        return removeImportDeclarations(SECRET_INDEX, objectName, objectLabels);
+    static boolean updateRefreshCountIfConfigMapWatched(@NonNull String objectName,
+                                                        @NonNull Map<String, String> objectLabels) {
+        return updateRefreshCountIfWatched(CONFIG_MAP_INDEX, objectName, objectLabels);
     }
 
-    @NonNull
-    private static List<ImportDeclaration> removeImportDeclarations(@NonNull Map<SelectorKey, ImportDeclaration> index,
-                                                                    @NonNull String objectName,
-                                                                    @NonNull Map<String, String> objectLabels) {
-        List<ImportDeclaration> removed = new ArrayList<>();
-            index.entrySet().removeIf(e -> {
-            if (e.getKey() instanceof SelectorKey.NameKey(String name)
-                && Objects.equals(objectName, name)) {
-                removed.add(e.getValue());
-                return true;
-            }
+    static boolean updateRefreshCountIfSecretWatched(@NonNull String objectName,
+                                                     @NonNull Map<String, String> objectLabels) {
+        return updateRefreshCountIfWatched(SECRET_INDEX, objectName, objectLabels);
+    }
 
-            if (e.getKey() instanceof SelectorKey.LabelsKey(Map<String, String> labels)
+    private static boolean updateRefreshCountIfWatched(@NonNull Map<SelectorKey, ImportDeclaration> index,
+                                                       @NonNull String objectName,
+                                                       @NonNull Map<String, String> objectLabels) {
+        return index.entrySet().stream().anyMatch(entry -> {
+            SelectorKey key = entry.getKey();
+            boolean matchesName = key instanceof SelectorKey.NameKey(String name)
+                && Objects.equals(objectName, name);
+            boolean matchesLabels = key instanceof SelectorKey.LabelsKey(Map<String, String> labels)
                 && CollectionUtils.isNotEmpty(objectLabels)
-                && objectLabels.entrySet().containsAll(labels.entrySet())) {
-                removed.add(e.getValue());
+                && objectLabels.entrySet().containsAll(labels.entrySet());
+            if (matchesName || matchesLabels) {
+                REFRESH_COUNT.get(entry.getValue()).incrementAndGet();
                 return true;
             }
             return false;
         });
-        return removed;
     }
 
     /**
@@ -154,6 +142,7 @@ final class ImportDeclarationWatchIndex {
     static void reset() {
         CONFIG_MAP_INDEX.clear();
         SECRET_INDEX.clear();
+        REFRESH_COUNT.clear();
         CONFIG_MAP_WATCHER_ENABLED.set(false);
         SECRET_WATCHER_ENABLED.set(false);
     }

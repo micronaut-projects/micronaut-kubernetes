@@ -25,8 +25,6 @@ import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 
-import java.util.List;
-
 /**
  * Watches ConfigMap informer events and invalidates cached ConfigMap-backed imports.
  */
@@ -42,18 +40,10 @@ final class KubernetesConfigMapWatcher extends AbstractKubernetesConfigWatcher<V
         super(environment, eventPublisher);
     }
 
-    /**
-     * Removes watched declarations and cached property sources affected by the changed ConfigMap.
-     *
-     * @param object The changed ConfigMap
-     * @return Whether any declarations were removed
-     */
     @Override
-    boolean removeFromDeclarationCache(V1ConfigMap object) {
-        List<ImportDeclaration> removedDeclarations = ImportDeclarationWatchIndex.removeConfigMapDeclarations(
+    boolean updateRefreshCountIfWatched(V1ConfigMap object) {
+        return ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched(
             object.getMetadata().getName(),
             object.getMetadata().getLabels());
-        removedDeclarations.forEach(PropertySourceCache::remove);
-        return !removedDeclarations.isEmpty();
     }
 }

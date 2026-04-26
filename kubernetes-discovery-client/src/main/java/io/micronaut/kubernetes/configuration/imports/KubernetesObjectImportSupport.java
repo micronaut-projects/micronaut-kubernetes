@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -60,8 +61,18 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
         try {
             PropertySource cachedPropertySource = PropertySourceCache.get(declaration);
             if (cachedPropertySource != null) {
-                LOG.debug("Found cached property source for declaration: {}", declaration);
-                return Optional.of(cachedPropertySource);
+                if (declaration.watch()) {
+                    LOG.debug("Found cached property source created from watched declaration={}. Checking whether it requires refresh", declaration);
+                    AtomicInteger refreshCount = ImportDeclarationWatchIndex.getRefreshCount(declaration);
+                    if (refreshCount.getAndSet(0) == 0) {
+                        return Optional.of(cachedPropertySource);
+                    }
+                    LOG.debug("Refresh required for cached property source created from watched declaration={}", declaration);
+                    PropertySourceCache.remove(declaration);
+                } else {
+                    LOG.debug("Found cached property source created from unwatched declaration={}", declaration);
+                    return Optional.of(cachedPropertySource);
+                }
             }
 
             Collection<PropertySourceLoader> propertySourceLoaders = context.environment().getPropertySourceLoaders();
