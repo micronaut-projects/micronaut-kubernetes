@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.configuration.imports;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceLoader;
+import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
@@ -64,8 +65,12 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
     @Override
     Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
                                                                 @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
-        String namespace = configuration.getNamespace();
         String name = declaration.name();
+        if (StringUtils.isEmpty(name)) {
+            throw new ConfigurationException("ConfigMap import by name expects 'name' to be present in declaration: " + declaration);
+        }
+
+        String namespace = configuration.getNamespace();
 
         if (declaration.watch()) {
             ImportDeclarationWatchIndex.addConfigMapNameDeclaration(name, declaration);

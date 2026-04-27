@@ -49,17 +49,29 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
 
     private static final String PROVIDER = "kubernetes";
+    private static final String CONFIG_MAP_TYPE = "config-map";
+    private static final String SECRET_TYPE = "secret";
+
+    private static final String PROVIDER_OPTION = "provider";
+    private static final String TYPE_OPTION = "type";
+    private static final String NAME_OPTION = "name";
+    private static final String LABELS_OPTION = "labels";
+    private static final String POD_LABELS_OPTION = "podLabels";
+    private static final String WATCH_OPTION = "watch";
+    private static final String EXCEPTION_ON_POD_LABELS_MISSING_OPTION = "exceptionOnPodLabelsMissing";
+    private static final String TERMINATE_STARTUP_ON_EXCEPTION_OPTION = "terminateStartupOnException";
+    private static final String OPTIONAL_OPTION = "optional";
 
     private static final Set<String> SUPPORTED_OPTIONS = Set.of(
-        "provider",
-        "type",
-        "name",
-        "labels",
-        "podLabels",
-        "watch",
-        "exceptionOnPodLabelsMissing",
-        "terminateStartupOnException",
-        "optional"
+        PROVIDER_OPTION,
+        TYPE_OPTION,
+        NAME_OPTION,
+        LABELS_OPTION,
+        POD_LABELS_OPTION,
+        WATCH_OPTION,
+        EXCEPTION_ON_POD_LABELS_MISSING_OPTION,
+        TERMINATE_STARTUP_ON_EXCEPTION_OPTION,
+        OPTIONAL_OPTION
     );
 
     private ApplicationContext applicationContext;
@@ -82,13 +94,13 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         String type = getType(connectionString.getPath());
         Map<String, String> options = connectionString.getOptions();
         validateSupportedOptions(options.keySet());
-        String name = options.get("name");
-        Map<String, String> labels = KubernetesConfigUtils.parseLabels(options.get("labels"), PROVIDER);
-        List<String> podLabels = parseList(options.get("podLabels"));
+        String name = options.get(NAME_OPTION);
+        Map<String, String> labels = KubernetesConfigUtils.parseLabels(options.get(LABELS_OPTION), PROVIDER);
+        List<String> podLabels = parseList(options.get(POD_LABELS_OPTION));
         validateSelectors(name, labels, podLabels);
-        boolean watch = Boolean.parseBoolean(options.getOrDefault("watch", "true"));
-        boolean exceptionOnPodLabelsMissing = Boolean.parseBoolean(options.get("exceptionOnPodLabelsMissing"));
-        boolean terminateStartupOnException = Boolean.parseBoolean(options.get("terminateStartupOnException"));
+        boolean watch = Boolean.parseBoolean(options.getOrDefault(WATCH_OPTION, "true"));
+        boolean exceptionOnPodLabelsMissing = Boolean.parseBoolean(options.get(EXCEPTION_ON_POD_LABELS_MISSING_OPTION));
+        boolean terminateStartupOnException = Boolean.parseBoolean(options.get(TERMINATE_STARTUP_ON_EXCEPTION_OPTION));
         return new ImportDeclaration(type, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
@@ -102,14 +114,14 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     @Override
     public ImportDeclaration newImportDeclaration(@NonNull ConvertibleValues<Object> values) {
         validateSupportedOptions(values.asMap().keySet());
-        String type = getType(values.get("type", String.class).orElse(null));
-        String name = values.get("name", String.class).orElse(null);
-        Map<String, String> labels = KubernetesConfigUtils.parseLabels(values.get("labels", String.class).orElse(null), PROVIDER);
-        List<String> podLabels = parseList(values.get("podLabels", String.class).orElse(null));
+        String type = getType(values.get(TYPE_OPTION, String.class).orElse(null));
+        String name = values.get(NAME_OPTION, String.class).orElse(null);
+        Map<String, String> labels = KubernetesConfigUtils.parseLabels(values.get(LABELS_OPTION, String.class).orElse(null), PROVIDER);
+        List<String> podLabels = parseList(values.get(POD_LABELS_OPTION, String.class).orElse(null));
         validateSelectors(name, labels, podLabels);
-        boolean watch = values.get("watch", Boolean.class).orElse(true);
-        boolean exceptionOnPodLabelsMissing = values.get("exceptionOnPodLabelsMissing", Boolean.class).orElse(false);
-        boolean terminateStartupOnException = values.get("terminateStartupOnException", Boolean.class).orElse(false);
+        boolean watch = values.get(WATCH_OPTION, Boolean.class).orElse(true);
+        boolean exceptionOnPodLabelsMissing = values.get(EXCEPTION_ON_POD_LABELS_MISSING_OPTION, Boolean.class).orElse(false);
+        boolean terminateStartupOnException = values.get(TERMINATE_STARTUP_ON_EXCEPTION_OPTION, Boolean.class).orElse(false);
         return new ImportDeclaration(type, name, labels, podLabels, watch, exceptionOnPodLabelsMissing, terminateStartupOnException);
     }
 
@@ -123,7 +135,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     @Override
     public Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
         ImportDeclaration declaration = context.importDeclaration();
-        if ("config-map".equals(declaration.type())) {
+        if (CONFIG_MAP_TYPE.equals(declaration.type())) {
             KubernetesLegacyImportMode.registerConfigMapImport();
         } else {
             KubernetesLegacyImportMode.registerSecretImport();
@@ -131,7 +143,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
 
         ApplicationContext applicationContext = getApplicationContext(context);
 
-        KubernetesObjectImportSupport importSupport = "config-map".equals(declaration.type())
+        KubernetesObjectImportSupport importSupport = CONFIG_MAP_TYPE.equals(declaration.type())
             ? applicationContext.findBean(KubernetesConfigMapImportSupport.class).orElse(null)
             : applicationContext.findBean(KubernetesSecretImportSupport.class).orElse(null);
         if (importSupport == null) {
@@ -156,7 +168,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         if (StringUtils.isEmpty(type)) {
             throw new ConfigurationException("Config import provider [" + PROVIDER + "] requires 'config-map' or 'secret' type");
         }
-        if (!"config-map".equalsIgnoreCase(type) && !"secret".equalsIgnoreCase(type)) {
+        if (!CONFIG_MAP_TYPE.equalsIgnoreCase(type) && !SECRET_TYPE.equalsIgnoreCase(type)) {
             throw new ConfigurationException("Config import provider [" + PROVIDER + "] requires 'config-map' or 'secret' type, but type set to: '" + type + "'");
         }
         return type.toLowerCase();

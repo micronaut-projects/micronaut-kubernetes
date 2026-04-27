@@ -27,8 +27,10 @@ import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import io.micronaut.kubernetes.client.openapi.model.V1Pod;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -270,6 +272,7 @@ public final class KubernetesConfigUtils {
      * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
      * @return the computed labels
      */
+    @NonNull
     public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactor client, List<String> podLabelKeys,
                                                              String namespace, Map<String, String> labels,
                                                              boolean exceptionOnPodLabelsMissing) {
@@ -283,28 +286,36 @@ public final class KubernetesConfigUtils {
         return client.readNamespacedPod(podName, namespace, null)
             .doOnError(throwable -> LOG.error("Failed to read the Pod [{}] the application is running in", podName, throwable))
             .map(pod -> {
-                Map<String, String> result = new HashMap<>();
-                Map<String, String> podLabels = pod.getMetadata().getLabels();
-                for (String key : podLabelKeys) {
-                    String value = podLabels.get(key);
-                    if (value != null) {
-                        result.put(key, value);
-                        LOG.trace("Including pod label: {}={}", key, value);
-                    } else {
-                        LOG.warn("Pod metadata does not contain label: {}", key);
-                        if (exceptionOnPodLabelsMissing) {
-                            throw new ConfigurationException("Pod metadata does not contain label [" +
-                                key + "] and the exception-on-pod-labels-missing property is set");
-                        }
-                    }
-                }
-                LOG.debug("Computed pod label selectors {}", result);
+                Map<String, String> result = computeLabelsFromPod(pod, podLabelKeys, exceptionOnPodLabelsMissing);
                 if (labels != null) {
                     result.putAll(labels);
                 }
                 return result;
             })
             .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
+    }
+
+    @NonNull
+    private static Map<String, String> computeLabelsFromPod(V1Pod pod,
+                                                            List<String> podLabelKeys,
+                                                            boolean exceptionOnPodLabelsMissing) {
+        Map<String, String> result = new HashMap<>();
+        Map<String, String> podLabels = pod.getMetadata().getLabels();
+        for (String key : podLabelKeys) {
+            String value = podLabels.get(key);
+            if (value != null) {
+                result.put(key, value);
+                LOG.trace("Including pod label: {}={}", key, value);
+            } else {
+                LOG.warn("Pod metadata does not contain label: {}", key);
+                if (exceptionOnPodLabelsMissing) {
+                    throw new ConfigurationException("Pod metadata does not contain label [" +
+                        key + "] and the exception-on-pod-labels-missing property is set");
+                }
+            }
+        }
+        LOG.debug("Computed pod label selectors {}", result);
+        return result;
     }
 
     public static Map<String, String> parseLabels(String labelsValue, String provider) {
