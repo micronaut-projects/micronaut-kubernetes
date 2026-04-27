@@ -358,6 +358,15 @@ class ConfigImportSpec extends KubernetesSpecification {
         context?.close()
     }
 
+    void "test properties loaded from secret and config map found in mounted volumes"() {
+        given:
+        ApplicationContext context = createContext()
+        TestClient testClient = context.getBean(TestClient.class)
+
+        expect:
+        testClient.config("mounted.foo") == "bar"
+    }
+
     @Client("http://localhost:8887")
     @io.micronaut.context.annotation.Requires(property = "spec.name", value = "ConfigImportSpec")
     static interface TestClient {
