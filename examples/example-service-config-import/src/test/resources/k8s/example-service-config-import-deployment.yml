@@ -48,9 +48,6 @@ spec:
           secret:
             secretName: mounted-secret-prop
             defaultMode: 256
-            items:
-              - key: mounted-secret.properties
-                path: mounted-secret.properties
         - name: configmap
           configMap:
             name: mounted-configmap

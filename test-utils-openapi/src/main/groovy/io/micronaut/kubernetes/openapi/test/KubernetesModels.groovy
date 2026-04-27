@@ -26,7 +26,6 @@ import io.micronaut.kubernetes.client.openapi.model.V1EndpointAddress
 import io.micronaut.kubernetes.client.openapi.model.V1EndpointSubset
 import io.micronaut.kubernetes.client.openapi.model.V1Endpoints
 import io.micronaut.kubernetes.client.openapi.model.V1HTTPGetAction
-import io.micronaut.kubernetes.client.openapi.model.V1KeyToPath
 import io.micronaut.kubernetes.client.openapi.model.V1Namespace
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
@@ -150,10 +149,6 @@ class KubernetesModels {
 
     static V1SecretVolumeSource getSecretVolumeSourceModel(String secretName, Integer defaultMode = null) {
         return new V1SecretVolumeSource().secretName(secretName).defaultMode(defaultMode)
-    }
-
-    static V1SecretVolumeSource getSecretVolumeSourceModel(String secretName, Integer defaultMode, V1KeyToPath itemsItem) {
-        return new V1SecretVolumeSource().secretName(secretName).defaultMode(defaultMode).addItemsItem(itemsItem);
     }
 
     static V1Volume getVolumeModel(String name, V1SecretVolumeSource secretVolumeSource) {

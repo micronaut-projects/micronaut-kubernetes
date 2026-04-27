@@ -55,7 +55,7 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
     def createResources() {
         createMountedConfigMap()
         createMountedSecretProp()
-        createDeployment("example-service-openapi-config-import", "micronaut-kubernetes-example-service-openapi-config-import", 8083)
+        createDeployment("example-service-openapi-config-import", "micronaut-kubernetes-example-service-openapi-config-import", 8083, true)
         createService("example-service-openapi-config-import", 8083)
     }
 

@@ -32,7 +32,6 @@ import io.micronaut.kubernetes.client.openapi.model.V1Container
 import io.micronaut.kubernetes.client.openapi.model.V1ContainerPort
 import io.micronaut.kubernetes.client.openapi.model.V1Deployment
 import io.micronaut.kubernetes.client.openapi.model.V1DeploymentSpec
-import io.micronaut.kubernetes.client.openapi.model.V1KeyToPath
 import io.micronaut.kubernetes.client.openapi.model.V1LabelSelector
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec
@@ -193,23 +192,9 @@ class KubernetesSpecification extends Specification {
     }
 
     def createMountedSecretProp() {
-        V1Secret secret = getSecretModel("mounted-secret-prop", ["mounted-secret.properties": "mounted-secret-key=mounted-secret-value".bytes])
+        V1Secret secret = getSecretModel("mounted-secret", ["mounted-secret.properties": "mounted-secret-key=mounted-secret-value".bytes])
         LOG.debug("Creating Secret: {}", secret)
         createSecret(coreV1Api, namespace, secret)
-    }
-
-    def createDeployment(String name, String image, int port) {
-        List<V1VolumeMount> volumeMounts = [
-                getVolumeMountModel("/etc/example-service/secrets", "secrets", true),
-                getVolumeMountModel("/etc/example-service/configmap", "configmap", true)
-        ]
-
-        List<V1Volume> volumes = [
-                getVolumeModel("secrets", getSecretVolumeSourceModel("mounted-secret-prop", 256, new V1KeyToPath("mounted-secret.properties", "mounted-secret.properties"))),
-                getVolumeModel("configmap", getConfigMapVolumeSourceModel("mounted-configmap"))
-        ]
-
-        createDeployment(name, image, port, volumeMounts, volumes)
     }
 
     def createDeployment(String name, String image, int port, boolean includeVolume) {
@@ -223,10 +208,6 @@ class KubernetesSpecification extends Specification {
                    getVolumeModel("configmap", getConfigMapVolumeSourceModel("mounted-configmap"))]
                 : null
 
-        createDeployment(name, image, port, volumeMounts, volumes)
-    }
-
-    def createDeployment(String name, String image, int port, List<V1VolumeMount> volumeMounts, List<V1Volume> volumes) {
         def deployment = new V1Deployment()
                 .metadata(getObjectMetaModel(name))
                 .spec(new V1DeploymentSpec(
@@ -242,7 +223,7 @@ class KubernetesSpecification extends Specification {
                                                 .livenessProbe(getProbeModel(getHTTPGetActionModel(new IntOrString(port), "/health/liveness"), 1, 3, 10))
                                                 .readinessProbe(getProbeModel(getHTTPGetActionModel(new IntOrString(port), "/health/readiness"), 1, 3, 10))
                                 ]).volumes(volumes))
-                        ).replicas(1)
+                ).replicas(1)
                 )
 
         createDeployment(appsV1Api, namespace, deployment)

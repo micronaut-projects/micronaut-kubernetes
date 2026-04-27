@@ -311,12 +311,13 @@ Given the following secret:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: mysecret
+  name: mounted-secret
 type: Opaque
 data:
-  username: YWRtaW4=
-  password: MWYyZDFlMmU2N2Rm
+  application.properties: Zm9vPWJhcg==
 ----
+
+where decoded secret content is `foo=bar`
 
 It can be mounted as a volume in a pod or deployment definition:
 
@@ -337,15 +338,19 @@ spec:
   volumes:
   - name: foo
     secret:
-      secretName: mysecret
+      secretName: mounted-secret
 ----
 
-This makes Kubernetes create 2 files:
+This makes Kubernetes create `/etc/foo/application.properties` file.
 
-* `/etc/foo/username`
-* `/etc/foo/password`
+The file content is the decoded configuration text from the original base64-encoded values.
 
-Their content is the decoded strings from the original base64-encoded values.
+When secrets are imported through `file:` config import entries, the mounted file name must use one of the supported
+configuration file extensions, such as `.properties`, `.json`, `.yml`, or `.yaml`. The secret value must then contain
+content that matches that file format so Micronaut can parse it correctly.
+
+For example, a mounted secret file named `/etc/foo/application.yml` should contain YAML content, while
+`/etc/foo/application.properties` should contain Java properties content.
 
 To import those mounted files, use standard Micronaut file imports:
 
@@ -354,11 +359,8 @@ To import those mounted files, use standard Micronaut file imports:
 micronaut:
   config:
     import:
-      - optional:file:///etc/foo/username
-      - optional:file:///etc/foo/password
+      - optional:file:///etc/foo/application.properties
 ----
-
-Each imported file contributes configuration values according to the imported file content.
 
 [NOTE]
 ====
