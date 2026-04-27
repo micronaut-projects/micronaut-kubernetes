@@ -9,6 +9,7 @@ declare -A IMAGE_MAP
 IMAGE_MAP["examples:example-service"]="micronaut-kubernetes-example-service"
 IMAGE_MAP["examples:example-client"]="micronaut-kubernetes-example-client"
 IMAGE_MAP["examples:example-service-config-import"]="micronaut-kubernetes-example-service-config-import"
+IMAGE_MAP["examples:example-service-openapi-config-import"]="micronaut-kubernetes-example-service-openapi-config-import"
 IMAGE_MAP["examples:example-kubernetes-client"]="micronaut-kubernetes-client-example"
 IMAGE_MAP["examples:example-kubernetes-informer"]="micronaut-kubernetes-informer-example"
 IMAGE_MAP["examples:example-kubernetes-operator"]="micronaut-kubernetes-operator-example"
@@ -36,6 +37,7 @@ elif [ "$MODULE_NAME" == "examples:example-client-openapi" ]; then
 elif [[ "$MODULE_NAME" == "examples:example-kubernetes-informer" ||
         "$MODULE_NAME" == "examples:example-kubernetes-operator" ||
         "$MODULE_NAME" == "examples:example-service-config-import" ||
+        "$MODULE_NAME" == "examples:example-service-openapi-config-import" ||
         "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-informer-java" ||
         "$MODULE_NAME" == "examples:example-kubernetes-client-openapi-operator-java" ]]; then
   EXAMPLE_SERVICE_RUNTIME="native"
