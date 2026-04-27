@@ -46,8 +46,11 @@ spec:
       volumes:
         - name: secrets
           secret:
-            secretName: mounted-secret
+            secretName: mounted-secret-prop
             defaultMode: 256
+            items:
+              - key: mounted-secret.properties
+                path: mounted-secret.properties
         - name: configmap
           configMap:
             name: mounted-configmap

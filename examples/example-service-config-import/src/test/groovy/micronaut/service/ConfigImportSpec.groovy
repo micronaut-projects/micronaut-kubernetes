@@ -43,6 +43,7 @@ class ConfigImportSpec extends KubernetesSpecification {
         namespace = "micronaut-example-config-import"
         createNamespaceSafe(namespace)
         createBaseResources(namespace)
+        createSecret("mounted-secret-prop", namespace, ["mounted-secret.properties": "mounted-secret-key=mounted-secret-value".bytes])
         createExampleServiceConfigImportDeployment(namespace)
     }
 
@@ -358,13 +359,14 @@ class ConfigImportSpec extends KubernetesSpecification {
         context?.close()
     }
 
-    void "test properties loaded from secret and config map found in mounted volumes"() {
+    void "test properties loaded from config map and secret found in mounted volumes"() {
         given:
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
         testClient.config("mounted.foo") == "bar"
+        testClient.config("mounted-secret-key") == "mounted-secret-value"
     }
 
     @Client("http://localhost:8887")

@@ -20,6 +20,7 @@ micronaut:
       - optional:kubernetes://secret?labels=watchable=true&watch=true
       - optional:kubernetes://secret?labels=watchable=false&watch=false
       - optional:file:///etc/example-service-config-import/configmap/mounted.yml
+      - optional:file:///etc/example-service-config-import/secrets/mounted-secret.properties
 endpoints:
   env:
     sensitive: false

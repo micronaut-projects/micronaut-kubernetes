@@ -54,8 +54,8 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
     @Override
     def createResources() {
         createMountedConfigMap()
-        createMountedSecret()
-        createDeployment("example-service-openapi-config-import", "micronaut-kubernetes-example-service-openapi-config-import", 8083, true)
+        createMountedSecretProp()
+        createDeployment("example-service-openapi-config-import", "micronaut-kubernetes-example-service-openapi-config-import", 8083)
         createService("example-service-openapi-config-import", 8083)
     }
 
@@ -336,12 +336,13 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
         }
     }
 
-    void "test properties loaded from secret and config map found in mounted volumes"() {
+    void "test properties loaded from config map and secret found in mounted volumes"() {
         given:
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
         testClient.config("mounted.foo") == "bar"
+        testClient.config("mounted-secret-key") == "mounted-secret-value"
     }
 
     @Client("http://localhost:8887")

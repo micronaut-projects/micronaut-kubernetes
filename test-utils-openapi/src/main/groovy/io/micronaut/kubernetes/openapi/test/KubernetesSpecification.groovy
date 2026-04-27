@@ -32,6 +32,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1Container
 import io.micronaut.kubernetes.client.openapi.model.V1ContainerPort
 import io.micronaut.kubernetes.client.openapi.model.V1Deployment
 import io.micronaut.kubernetes.client.openapi.model.V1DeploymentSpec
+import io.micronaut.kubernetes.client.openapi.model.V1KeyToPath
 import io.micronaut.kubernetes.client.openapi.model.V1LabelSelector
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec
@@ -191,6 +192,26 @@ class KubernetesSpecification extends Specification {
         createSecret(coreV1Api, namespace, secret)
     }
 
+    def createMountedSecretProp() {
+        V1Secret secret = getSecretModel("mounted-secret-prop", ["mounted-secret.properties": "mounted-secret-key=mounted-secret-value".bytes])
+        LOG.debug("Creating Secret: {}", secret)
+        createSecret(coreV1Api, namespace, secret)
+    }
+
+    def createDeployment(String name, String image, int port) {
+        List<V1VolumeMount> volumeMounts = [
+                getVolumeMountModel("/etc/example-service/secrets", "secrets", true),
+                getVolumeMountModel("/etc/example-service/configmap", "configmap", true)
+        ]
+
+        List<V1Volume> volumes = [
+                getVolumeModel("secrets", getSecretVolumeSourceModel("mounted-secret-prop", 256, new V1KeyToPath("mounted-secret.properties", "mounted-secret.properties"))),
+                getVolumeModel("configmap", getConfigMapVolumeSourceModel("mounted-configmap"))
+        ]
+
+        createDeployment(name, image, port, volumeMounts, volumes)
+    }
+
     def createDeployment(String name, String image, int port, boolean includeVolume) {
         List<V1VolumeMount> volumeMounts = includeVolume
                 ? [getVolumeMountModel("/etc/example-service/secrets", "secrets", true),
@@ -202,6 +223,10 @@ class KubernetesSpecification extends Specification {
                    getVolumeModel("configmap", getConfigMapVolumeSourceModel("mounted-configmap"))]
                 : null
 
+        createDeployment(name, image, port, volumeMounts, volumes)
+    }
+
+    def createDeployment(String name, String image, int port, List<V1VolumeMount> volumeMounts, List<V1Volume> volumes) {
         def deployment = new V1Deployment()
                 .metadata(getObjectMetaModel(name))
                 .spec(new V1DeploymentSpec(
