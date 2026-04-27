@@ -85,6 +85,18 @@ micronaut:
       - optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&exceptionOnPodLabelsMissing=true
 ----
 
+By default if an exception occurs reading config maps on startup, the exception is logged and the service is started.
+This can be overridden to terminate the service startup when the service is not able to read config maps because of any
+exception by setting the `terminateStartupOnException` query parameter to `true` in the import URI:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&terminateStartupOnException=true
+----
+
 ### Reading ``ConfigMap`` resources from mounted volumes
 
 In the case of ``ConfigMap`` resources, reading them from the Kubernetes API requires additional permissions.
@@ -253,6 +265,17 @@ micronaut:
   config:
     import:
       - optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&exceptionOnPodLabelsMissing=true
+----
+
+Similar to ``ConfigMap`` resources, if you want to terminate the service startup when the service is not able to read
+secrets because of any unexpected exception, you can set `terminateStartupOnException` to `true` in the import URI:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&terminateStartupOnException=true
 ----
 
 ### Reading ``Secret`` resources from mounted volumes
