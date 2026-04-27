@@ -23,10 +23,11 @@ Unlike the deprecated configuration client, configuration import is configured i
 
 When Kubernetes configuration import is used, Micronaut creates a separate `ApplicationContext` that is used only to
 resolve properties from Kubernetes `ConfigMap` and `Secret` resources. This internal context is started specifically for
-config import processing and is separate from your main application context.
+config import processing, uses the same environments that are active for the main application context, and additionally
+adds the `kubernetes-config-import` environment.
 
-That config import context adds the `kubernetes-config-import` environment. If you have beans that should not be loaded
-when that context is created, you can exclude them with `@Requires(notEnv = "kubernetes-config-import")`.
+If you have beans that should not be loaded when that context is created, you can exclude them with
+`@Requires(notEnv = "kubernetes-config-import")`.
 
 For example:
 
