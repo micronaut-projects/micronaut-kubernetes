@@ -154,7 +154,9 @@ If the same property key is defined in multiple imports, normal Micronaut proper
 
 ### Watching for changes in ConfigMaps
 
-You can enable watching for ConfigMap changes per import by setting `watch=true` in the import URI:
+Watching for ConfigMap changes is enabled by default for Kubernetes configuration imports.
+
+The following import explicitly enables it:
 
 [configuration]
 ----
@@ -169,7 +171,15 @@ the Micronaut `Environment` and refresh it.
 
 This means those changes become available in your application without a restart.
 
-If you do not want watching for ConfigMap changes, omit `watch=true` or set `watch=false`.
+To disable watching for ConfigMap changes, set `watch=false` in the import URI.
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&watch=false
+----
 
 ### Examples
 
@@ -314,12 +324,14 @@ Mounted secret files and Kubernetes API imports can be combined by listing both 
 
 ### Watching for changes in Secrets
 
+Watching for Secret changes is enabled by default for Kubernetes configuration imports.
+
 If watch is enabled, this configuration module will watch for matching ``Secret`` resources added, modified, or deleted,
 and the changes will be propagated to the `Environment` and refresh it.
 
 This means those changes become available in your application without a restart.
 
-To enable watching for secret changes, set `watch=true` in the import URI:
+The following import explicitly enables it:
 
 [configuration]
 ----
@@ -329,4 +341,12 @@ micronaut:
       - optional:kubernetes://secret?name=my-secret&watch=true
 ----
 
-If you do not want watching for Secret changes, omit `watch=true` or set `watch=false`.
+To disable watching for Secret changes, set `watch=false` in the import URI.
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&watch=false
+----

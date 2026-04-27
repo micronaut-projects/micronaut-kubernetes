@@ -1,0 +1,352 @@
+The Configuration import feature reads Kubernetes ``ConfigMap`` and ``Secret`` resources and makes them available as
+``PropertySource`` instances in your application.
+
+To get started, you need to declare the following dependency:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery[]
+
+Then configure `micronaut.config.import` entries that point to the Kubernetes resources you want to load.
+Once imported, you can read the configuration values using `@Value` or
+https://docs.micronaut.io/latest/guide/index.html#config[any other way to read configuration values].
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map
+      - optional:kubernetes://secret?name=my-secret
+----
+
+Unlike the deprecated configuration client, configuration import is configured in `application.yml`
+(or `.properties`, `.json`, etc) through `micronaut.config.import`.
+
+## ConfigMaps
+
+Supported formats for ``ConfigMap`` resources are:
+
+* Java `.properties`
+* YAML
+* JSON
+* Literal values
+
+To import a specific ``ConfigMap`` by name, add an entry such as:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map
+----
+
+You can import multiple config maps by repeating the entry:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map
+      - optional:kubernetes://config-map?name=other-config-map
+----
+
+In addition to selecting a single config map by name, Kubernetes labels can be used to match multiple config maps:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?labels=app=my-app,env=prod
+----
+
+Config maps can also be selected by matching labels from the pod the Micronaut application is running in.
+This is handy if you use a package manager like https://helm.sh[Helm].
+A good example would be `app.kubernetes.io/instance`, which is a unique label identifying the instance of an application:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance
+----
+
+Additionally, you can enable `exceptionOnPodLabelsMissing` if you want an exception to be thrown when at least one of
+the labels specified in `podLabels` is not found among the application's pod labels. This can be useful if you want to
+prevent a mistyped or misconfigured label selector from matching all config maps in the namespace:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&exceptionOnPodLabelsMissing=true
+----
+
+### Reading ``ConfigMap`` resources from mounted volumes
+
+In the case of ``ConfigMap`` resources, reading them from the Kubernetes API requires additional permissions.
+Therefore, you may want to read them from mounted volumes in the pod.
+
+Given the following ConfigMap:
+
+[source, yaml]
+----
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mounted-config
+data:
+  mounted.yml: |-
+    foo: bar
+----
+
+It can be mounted as a volume in a pod or deployment definition:
+
+[source, yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: micronautapp
+    volumeMounts:
+    - name: configuration
+      mountPath: /etc/configuration
+      readOnly: true
+  volumes:
+  - name: configuration
+    configMap:
+      name: mounted-config
+----
+
+This makes Kubernetes create one file per data entry:
+
+* `/etc/configuration/mounted.yml`
+
+To import that mounted file, use a standard Micronaut file import:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:file:///etc/configuration/mounted.yml
+----
+
+The file format is deduced from the file suffix. Supported formats for mounted ``ConfigMap`` files are:
+
+* Java `.properties`
+* YAML
+* JSON
+
+[NOTE]
+====
+Mounted volume imports and Kubernetes API imports are configured independently with configuration import.
+If you want both, list both the `file:` and `kubernetes:` entries in `micronaut.config.import`.
+If the same property key is defined in multiple imports, normal Micronaut property source precedence rules apply.
+====
+
+### Watching for changes in ConfigMaps
+
+Watching for ConfigMap changes is enabled by default for Kubernetes configuration imports.
+
+The following import explicitly enables it:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&watch=true
+----
+
+When watch is enabled, matching ``ConfigMap`` resources added, modified, or deleted in Kubernetes will be propagated to
+the Micronaut `Environment` and refresh it.
+
+This means those changes become available in your application without a restart.
+
+To disable watching for ConfigMap changes, set `watch=false` in the import URI.
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&watch=false
+----
+
+### Examples
+
+You can create a Kubernetes `ConfigMap` from an existing file with the following command:
+
+`kubectl create configmap my-config --from-file=my-config.properties`
+
+Or:
+
+`kubectl create configmap my-config --from-file=my-config.yml`
+
+Or:
+
+`kubectl create configmap my-config --from-file=my-config.json`
+
+You can also create a `ConfigMap` from literal values:
+
+`kubectl create configmap my-config --from-literal=special.how=very --from-literal=special.type=charm`
+
+## Secrets
+
+Secrets imported from the Kubernetes API are base64-decoded and made available as `PropertySource` instances, so that
+they can also be read with `@Value`, `@ConfigurationProperties`, etc.
+
+To import a specific secret by name, add an entry such as:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret
+----
+
+The same way as for ``ConfigMap`` resources, you can import multiple secrets by repeating the entry:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=this-secret
+      - optional:kubernetes://secret?name=other-secret
+----
+
+Similarly to ``ConfigMap`` resources, labels can also be used to match the desired secrets:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?labels=app=my-app,env=prod
+----
+
+This also works for pod labels:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?podLabels=app.kubernetes.io/instance
+----
+
+As well as `exceptionOnPodLabelsMissing`:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&exceptionOnPodLabelsMissing=true
+----
+
+### Reading ``Secret`` resources from mounted volumes
+
+In the case of ``Secret`` resources, reading them from the Kubernetes API requires additional permissions.
+Therefore, you may want to read them from mounted volumes in the pod.
+
+Given the following secret:
+
+[source, yaml]
+----
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm
+----
+
+It can be mounted as a volume in a pod or deployment definition:
+
+[source, yaml]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    secret:
+      secretName: mysecret
+----
+
+This makes Kubernetes create 2 files:
+
+* `/etc/foo/username`
+* `/etc/foo/password`
+
+Their content is the decoded strings from the original base64-encoded values.
+
+To import those mounted files, use standard Micronaut file imports:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:file:///etc/foo/username
+      - optional:file:///etc/foo/password
+----
+
+Each imported file contributes configuration values according to the imported file content.
+
+[NOTE]
+====
+Mounted secret files and Kubernetes API imports can be combined by listing both `file:` and `kubernetes:` entries in
+`micronaut.config.import`.
+====
+
+### Watching for changes in Secrets
+
+Watching for Secret changes is enabled by default for Kubernetes configuration imports.
+
+If watch is enabled, this configuration module will watch for matching ``Secret`` resources added, modified, or deleted,
+and the changes will be propagated to the `Environment` and refresh it.
+
+This means those changes become available in your application without a restart.
+
+The following import explicitly enables it:
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&watch=true
+----
+
+To disable watching for Secret changes, set `watch=false` in the import URI.
+
+[configuration]
+----
+micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&watch=false
+----
