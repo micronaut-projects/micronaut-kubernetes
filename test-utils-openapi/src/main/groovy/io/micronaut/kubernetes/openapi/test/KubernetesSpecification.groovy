@@ -114,12 +114,16 @@ class KubernetesSpecification extends Specification {
     AppsV1Api appsV1Api
 
     def setupSpec() {
+        setupPrepare()
         VersionInfo versionInfo = getVersionInfo(versionApi)
         LOG.info("Using Kubernetes version: {}.{}", versionInfo.major, versionInfo.minor)
         createNamespaceSafe()
         createRole("example-openapi-role")
         createRoleBinding("example-openapi-role-binding", "example-openapi-role")
         createResources()
+    }
+
+    def setupPrepare() {
     }
 
     def createNamespaceSafe() {
