@@ -74,7 +74,7 @@ import java.util.stream.Collectors;
 
 /**
  * An annotation processor that generates the Kubernetes APIs factories. Based on {@code io.micronaut.kubernetes.client.Apis}
- * annotation field {@code kind} either {@code Async}, {@code RxJava2} or {@code Reactor} client factories are generated.
+ * annotation field {@code kind} either {@code Async}, {@code RxJava3} or {@code Reactor} client factories are generated.
  *
  * @author Pavol Gressa
  * @since 2.2
@@ -85,7 +85,6 @@ public class KubernetesApisProcessor extends AbstractProcessor {
     private static final String MICRONAUT_APIS_PACKAGE = "io.micronaut.kubernetes.client";
 
     private static final ClassName REACTOR_CLASS_NAME = ClassName.get("reactor.core.publisher", "Mono");
-    private static final ClassName RXJAVA2_CLASS_NAME = ClassName.get("io.reactivex", "Single");
     private static final ClassName RXJAVA3_CLASS_NAME = ClassName.get("io.reactivex.rxjava3.core", "Single");
 
     private static final String REACTOR_METHOD_CODE = """
@@ -180,8 +179,6 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         ClassName reactiveClientClassName;
         if (clientType == ClientType.REACTOR) {
             reactiveClientClassName = ClassName.get(MICRONAUT_APIS_PACKAGE + ".reactor", simpleName + "ReactorClient");
-        } else if (clientType == ClientType.RXJAVA2) {
-            reactiveClientClassName = ClassName.get(MICRONAUT_APIS_PACKAGE + ".rxjava2", simpleName + "RxClient");
         } else {
             reactiveClientClassName = ClassName.get(MICRONAUT_APIS_PACKAGE + ".rxjava3", simpleName + "RxClient");
         }
@@ -326,9 +323,6 @@ public class KubernetesApisProcessor extends AbstractProcessor {
         if (clientType == ClientType.REACTOR) {
             reactiveClassName = REACTOR_CLASS_NAME;
             methodCode = REACTOR_METHOD_CODE;
-        } else if (clientType == ClientType.RXJAVA2) {
-            reactiveClassName = RXJAVA2_CLASS_NAME;
-            methodCode = RXJAVA_METHOD_CODE;
         } else {
             reactiveClassName = RXJAVA3_CLASS_NAME;
             methodCode = RXJAVA_METHOD_CODE;
@@ -428,6 +422,6 @@ public class KubernetesApisProcessor extends AbstractProcessor {
     }
 
     enum ClientType {
-        ASYNC, REACTOR, RXJAVA2, RXJAVA3
+        ASYNC, REACTOR, RXJAVA3
     }
 }

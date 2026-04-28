@@ -4,6 +4,10 @@
 
 Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v25.
 
+=== RxJava2 support removal
+
+Micronaut 5 doesn't support RxJava2 so `micronaut-kubernetes-client-rxjava3` module has been removed.
+
 === Delete object methods of Kubernetes Client OpenAPI client
 
 In Kubernetes Client OpenAPI client, delete methods have been modified to return `DeleteResponse` instead of `V1Status` or type of object that is being deleted.
