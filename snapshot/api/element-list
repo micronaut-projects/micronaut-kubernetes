@@ -44,7 +44,6 @@ io.micronaut.kubernetes.client.operator.leaderelection
 io.micronaut.kubernetes.client.operator.queue
 io.micronaut.kubernetes.client.processor
 io.micronaut.kubernetes.client.reactor
-io.micronaut.kubernetes.client.rxjava2
 io.micronaut.kubernetes.client.rxjava3
 io.micronaut.kubernetes.configuration
 io.micronaut.kubernetes.discovery
