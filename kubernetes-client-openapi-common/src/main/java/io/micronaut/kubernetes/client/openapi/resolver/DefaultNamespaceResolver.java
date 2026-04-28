@@ -43,9 +43,9 @@ import java.util.Optional;
 @Requires(beans = KubernetesClientConfiguration.class)
 final class DefaultNamespaceResolver implements NamespaceResolver {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultNamespaceResolver.class);
-
     public static final String DEFAULT_NAMESPACE = "default";
+
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultNamespaceResolver.class);
 
     private final String namespace;
 
