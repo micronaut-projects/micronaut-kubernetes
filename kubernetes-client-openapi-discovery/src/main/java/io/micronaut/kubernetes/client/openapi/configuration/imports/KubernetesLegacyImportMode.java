@@ -36,6 +36,8 @@ public final class KubernetesLegacyImportMode {
     private static final AtomicBoolean SECRET_IMPORT_ENABLED = new AtomicBoolean(false);
     private static final AtomicBoolean DEPRECATION_WARNING_LOGGED = new AtomicBoolean(false);
 
+    private KubernetesLegacyImportMode() { }
+
     /**
      * Marks ConfigMap import support as active for the current application run.
      */

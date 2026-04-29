@@ -162,7 +162,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
             KubernetesLegacyImportMode.registerSecretImport();
         }
 
-        ApplicationContext applicationContext = getApplicationContext(context);
+        setApplicationContext(context);
 
         KubernetesObjectImportSupport importSupport = CONFIG_MAP_TYPE.equals(declaration.type())
             ? applicationContext.findBean(KubernetesConfigMapImportSupport.class).orElse(null)
@@ -240,7 +240,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
-    private ApplicationContext getApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
+    private void setApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
         if (applicationContext == null) {
             LOG.debug("Creating ApplicationContext for config import");
             Environment environment = importContext.environment();
@@ -266,6 +266,5 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
             applicationContext = builder.start();
             LOG.debug("Created ApplicationContext for config import");
         }
-        return applicationContext;
     }
 }

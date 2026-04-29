@@ -160,10 +160,8 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
             return readFn.get();
         } catch (Throwable e) {
             Throwable root = Exceptions.unwrap(e);
-            if (root instanceof ApiException apiException) {
-                if (apiException.getCode() == HttpStatus.NOT_FOUND.getCode()) {
-                    return null;
-                }
+            if (root instanceof ApiException apiException && apiException.getCode() == HttpStatus.NOT_FOUND.getCode()) {
+                return null;
             }
             throw e;
         }

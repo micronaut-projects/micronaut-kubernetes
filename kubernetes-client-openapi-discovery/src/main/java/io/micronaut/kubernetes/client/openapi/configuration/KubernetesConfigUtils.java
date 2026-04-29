@@ -63,6 +63,8 @@ public final class KubernetesConfigUtils {
     private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
     private static final String LIST_RES_VERSION_PROP_NAME_TEMPLATE = "%s.resource-version";
 
+    private KubernetesConfigUtils() { }
+
     /**
      * Creates a property source from given kubernetes list object.
      *

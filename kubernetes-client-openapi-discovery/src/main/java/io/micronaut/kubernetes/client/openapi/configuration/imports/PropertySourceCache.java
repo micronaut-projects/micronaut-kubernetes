@@ -27,6 +27,8 @@ final class PropertySourceCache {
 
     private static final Map<ImportDeclaration, PropertySource> PROPERTY_SOURCES = new ConcurrentHashMap<>();
 
+    private PropertySourceCache() { }
+
     /**
      * Stores a resolved property source for the given declaration.
      *
