@@ -68,7 +68,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesConfigurationClient.class);
 
-    private static final Map<String, PropertySource> propertySources = new ConcurrentHashMap<>();
+    private static final Map<String, PropertySource> PROPERTY_SOURCES = new ConcurrentHashMap<>();
 
     private final CoreV1ApiReactor client;
     private final KubernetesConfiguration configuration;
@@ -89,9 +89,9 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
 
     @Override
     public Publisher<PropertySource> getPropertySources(Environment environment) {
-        if (!propertySources.isEmpty()) {
+        if (!PROPERTY_SOURCES.isEmpty()) {
             LOG.trace("Returning cached PropertySources");
-            return Flux.fromIterable(propertySources.values());
+            return Flux.fromIterable(PROPERTY_SOURCES.values());
         } else {
             LOG.trace("PropertySource cache is empty");
             return Flux.from(getPropertySourcesFromConfigMaps()).mergeWith(getPropertySourcesFromSecrets());
@@ -111,7 +111,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
     static void addPropertySourceToCache(PropertySource propertySource) {
         String propertySourceName = propertySource.getName();
         LOG.trace("Adding property source {} to cache", propertySourceName);
-        propertySources.put(propertySourceName, propertySource);
+        PROPERTY_SOURCES.put(propertySourceName, propertySource);
     }
 
     /**
@@ -121,14 +121,14 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
      */
     static void removePropertySourceFromCache(String name) {
         LOG.trace("Removing property source {} from cache", name);
-        propertySources.remove(name);
+        PROPERTY_SOURCES.remove(name);
     }
 
     /**
      * @return the property source cache.
      */
     static Map<String, PropertySource> getPropertySourceCache() {
-        return propertySources;
+        return PROPERTY_SOURCES;
     }
 
     private Flux<PropertySource> getPropertySourcesFromConfigMaps() {

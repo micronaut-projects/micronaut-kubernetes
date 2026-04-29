@@ -3,4 +3,7 @@ plugins {
 }
 
 micronautBom {
+    suppressions {
+        acceptedLibraryRegressions.add('micronaut-kubernetes-client-rxjava2')
+    }
 }
