@@ -27,6 +27,7 @@ import io.micronaut.core.util.ConnectionString;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -219,6 +220,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
+    @Nullable
     private List<String> parseList(String listOption) {
         if (StringUtils.isEmpty(listOption)) {
             return null;

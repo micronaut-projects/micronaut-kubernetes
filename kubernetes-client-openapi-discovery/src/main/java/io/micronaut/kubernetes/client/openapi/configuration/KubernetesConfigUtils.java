@@ -31,6 +31,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1Pod;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -320,6 +321,7 @@ public final class KubernetesConfigUtils {
         return result;
     }
 
+    @Nullable
     public static Map<String, String> parseLabels(String labelsValue, String provider) {
         if (StringUtils.isEmpty(labelsValue)) {
             return null;

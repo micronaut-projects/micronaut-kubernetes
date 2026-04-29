@@ -29,6 +29,7 @@ import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -55,12 +56,11 @@ import static io.micronaut.kubernetes.health.KubernetesHealthIndicator.HOSTNAME_
  */
 public class KubernetesUtils {
 
+    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
     public static final int API_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 100;
     static final int MOUNTED_FILE_PROPERTY_SOURCE_PRIORITY = EnvironmentPropertySource.POSITION + 150;
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesUtils.class);
-
-    public static final String ENV_KUBERNETES_SERVICE_HOST = "KUBERNETES_SERVICE_HOST";
 
     private static final String PROPERTY_SOURCE_NAME_TEMPLATE = "%s (Kubernetes %s)";
     private static final String OBJECT_RES_VERSION_PROP_NAME_TEMPLATE = "%s.%s.resource-version";
@@ -398,6 +398,7 @@ public class KubernetesUtils {
         return result;
     }
 
+    @Nullable
     public static Map<String, String> parseLabels(String labelsValue, String provider) {
         if (StringUtils.isEmpty(labelsValue)) {
             return null;

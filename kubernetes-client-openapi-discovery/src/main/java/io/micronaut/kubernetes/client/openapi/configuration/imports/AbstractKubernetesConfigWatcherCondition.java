@@ -36,7 +36,7 @@ abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condit
     @Override
     public boolean matches(ConditionContext context) {
         Optional<Boolean> isImporterContext = context.getProperty(KubernetesPropertySourceImporter.KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY, ConversionContext.BOOLEAN);
-        if (isImporterContext.isPresent() && isImporterContext.get()) {
+        if (isImporterContext.filter(Boolean::booleanValue).isPresent()) {
             return false;
         }
         return isWatchEnabled();
