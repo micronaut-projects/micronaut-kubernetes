@@ -3,11 +3,11 @@ The Configuration import feature reads Kubernetes ``ConfigMap`` and ``Secret`` r
 
 To get started, declare one of the following dependencies:
 
-If you want to use the official Kubernetes client, use:
+* If you want to use the official Kubernetes client:
 
 dependency:io.micronaut.kubernetes:micronaut-kubernetes-discovery-client[]
 
-If you want to use the OpenAPI Kubernetes client, use:
+* If you want to use the OpenAPI Kubernetes client:
 
 dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery[]
 
@@ -29,24 +29,18 @@ Unlike the deprecated configuration client, configuration import is configured i
 
 When Kubernetes configuration import is used, Micronaut creates a separate `ApplicationContext` that is used only to
 resolve properties from Kubernetes `ConfigMap` and `Secret` resources. This internal context is started specifically for
-config import processing, uses the same environments that are active for the main application context, and additionally
-adds the `kubernetes-config-import` environment.
+config import processing, uses the same environments that are active for the main application context but loads limited
+set of beans that are required just for config import processing.
 
-If you have beans that should not be loaded when that context is created, you can exclude them with
-`@Requires(notEnv = "kubernetes-config-import")`.
+[WARNING]
+====
+If you have a custom implementation of one of the following interfaces, those won't be loaded when processing config imports:
 
-For example:
-
-[source,java]
-----
-@Singleton
-@Requires(notEnv = "kubernetes-config-import")
-class MyBean {
-}
-----
-
-This is useful for beans that should exist only in the main application context and not in the internal context created
-to load Kubernetes configuration.
+* io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader
+* io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader
+* io.micronaut.kubernetes.client.openapi.credential.ReactiveKubernetesTokenLoader
+* io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader
+====
 
 ## ConfigMaps
 

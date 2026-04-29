@@ -1,5 +1,6 @@
 === Micronaut Kubernetes 8.0.0
 - The Kubernetes Configuration Client support has been deprecated and replaced by Configuration Import
+- RxJava2 support has been removed
 
 === Micronaut Kubernetes 7.1.0
 - Kubernetes Operator support for Micronaut Kubernetes Client OpenApi
