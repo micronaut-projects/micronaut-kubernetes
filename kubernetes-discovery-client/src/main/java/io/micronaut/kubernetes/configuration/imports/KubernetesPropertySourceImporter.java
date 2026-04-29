@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.configuration.imports;
 
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.ApplicationContextBuilder;
+import io.micronaut.context.env.Environment;
 import io.micronaut.context.env.PropertySource;
 import io.micronaut.context.env.PropertySourceImporter;
 import io.micronaut.context.exceptions.ConfigurationException;
@@ -36,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * A {@link PropertySourceImporter} that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.
@@ -44,7 +44,6 @@ import java.util.stream.Stream;
 public final class KubernetesPropertySourceImporter implements PropertySourceImporter<ImportDeclaration> {
 
     public static final String KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY = "kubernetes-config-import-property";
-    public static final String KUBERNETES_CONFIG_IMPORT_CONTEXT_ENV = "kubernetes-config-import";
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesPropertySourceImporter.class);
 
@@ -72,6 +71,28 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         EXCEPTION_ON_POD_LABELS_MISSING_OPTION,
         TERMINATE_STARTUP_ON_EXCEPTION_OPTION,
         OPTIONAL_OPTION
+    );
+
+    private static final List<String> CONTEXT_PACKAGES = List.of(
+        "io.kubernetes.client",
+        "io.micronaut.aop",
+        "io.micronaut.buffer",
+        "io.micronaut.context",
+        "io.micronaut.core",
+        "io.micronaut.http",
+        "io.micronaut.jackson",
+        "io.micronaut.json",
+        "io.micronaut.kubernetes",
+        "io.micronaut.logging",
+        "io.micronaut.reactor",
+        "io.micronaut.retry",
+        "io.micronaut.runtime",
+        "io.micronaut.scheduling",
+        "io.micronaut.validation",
+        "io.netty",
+        "jakarta.inject",
+        "java.util.concurrent",
+        "tools.jackson"
     );
 
     private ApplicationContext applicationContext;
@@ -222,12 +243,11 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     private ApplicationContext getApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
         if (applicationContext == null) {
             LOG.debug("Creating ApplicationContext for config import");
+            Environment environment = importContext.environment();
             ApplicationContextBuilder builder = ApplicationContext.builder();
-            builder.environments(
-                Stream.concat(
-                        importContext.environment().getActiveNames().stream(),
-                        Stream.of(KUBERNETES_CONFIG_IMPORT_CONTEXT_ENV))
-                    .toArray(String[]::new))
+            builder.beansPredicate(beanDefinition -> CONTEXT_PACKAGES.stream().anyMatch(beanDefinition.getBeanType().getName()::startsWith))
+                .environments(environment.getActiveNames().toArray(String[]::new))
+                .classLoader(environment.getClassLoader())
                 .eventsEnabled(false)
                 .eagerBeansEnabled(false)
                 .deducePackage(false)
@@ -236,7 +256,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
                 .configImport(false)
                 .properties(Map.of(KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY, true));
 
-            Collection<PropertySource> propertySources = importContext.environment().getPropertySources();
+            Collection<PropertySource> propertySources = environment.getPropertySources();
             if (CollectionUtils.isNotEmpty(propertySources)) {
                 propertySources.stream()
                     .filter(ps -> ps.getName().equals("context"))
