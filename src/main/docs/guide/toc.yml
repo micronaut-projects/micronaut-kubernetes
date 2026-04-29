@@ -4,24 +4,19 @@ releaseHistory: Release History
 kubernetes-client:
   title: Kubernetes Client
   service-discovery: Service Discovery
-  configuration:
-    title: Configuration
-    config-import: Configuration Import
-    config-client: Configuration Client (Deprecated)
+  config-client: Configuration Client
   health-checks: Health Checks
   kubernetes-informer: Kubernetes Informer
   kubernetes-operator: Kubernetes Operator
 kubernetes-client-openapi:
   title: Kubernetes Client OpenAPI
   kubernetes-client-openapi-service-discovery: Service Discovery
-  kubernetes-client-openapi-configuration:
-    title: Configuration
-    kubernetes-client-openapi-config-import: Configuration Import
-    kubernetes-client-openapi-config-client: Configuration Client (Deprecated)
+  kubernetes-client-openapi-config-client: Configuration Client
   kubernetes-client-openapi-health-checks: Health Checks
   kubernetes-client-openapi-watcher: Kubernetes Watcher
   kubernetes-client-openapi-informer: Kubernetes Informer
   kubernetes-client-openapi-operator: Kubernetes Operator
+config-import: Configuration Import
 logging: Logging and debugging
 breaking: Breaking Changes
 kubernetesGuides: Guides

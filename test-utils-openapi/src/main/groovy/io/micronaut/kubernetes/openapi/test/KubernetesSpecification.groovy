@@ -223,7 +223,7 @@ class KubernetesSpecification extends Specification {
                                                 .livenessProbe(getProbeModel(getHTTPGetActionModel(new IntOrString(port), "/health/liveness"), 1, 3, 10))
                                                 .readinessProbe(getProbeModel(getHTTPGetActionModel(new IntOrString(port), "/health/readiness"), 1, 3, 10))
                                 ]).volumes(volumes))
-                ).replicas(1)
+                        ).replicas(1)
                 )
 
         createDeployment(appsV1Api, namespace, deployment)

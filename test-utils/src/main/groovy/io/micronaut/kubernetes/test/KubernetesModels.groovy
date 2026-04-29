@@ -113,7 +113,7 @@ class KubernetesModels {
     }
 
     static V1PodSpec getPodSpecModel(List<V1Container> containers) {
-        return new V1PodSpec().containers(containers).overhead(null).runtimeClassName(null);
+        return new V1PodSpec().containers(containers).overhead(null).runtimeClassName(null)
     }
 
     static V1Pod getPodModel(String name, V1PodSpec podSpec, Map<String, String> labels = [:]) {

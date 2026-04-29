@@ -1,9 +1,15 @@
 The Configuration import feature reads Kubernetes ``ConfigMap`` and ``Secret`` resources and makes them available as
 ``PropertySource`` instances in your application.
 
-To get started, you need to declare the following dependency:
+To get started, declare one of the following dependencies:
+
+If you want to use the official Kubernetes client, use:
 
 dependency:io.micronaut.kubernetes:micronaut-kubernetes-discovery-client[]
+
+If you want to use the OpenAPI Kubernetes client, use:
+
+dependency:io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery[]
 
 Then configure `micronaut.config.import` entries that point to the Kubernetes resources you want to load.
 Once imported, you can read the configuration values using `@Value` or
