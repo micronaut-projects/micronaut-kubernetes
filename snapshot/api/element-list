@@ -8,6 +8,8 @@ io.micronaut.kubernetes.client.openapi.api
 io.micronaut.kubernetes.client.openapi.common
 io.micronaut.kubernetes.client.openapi.config
 io.micronaut.kubernetes.client.openapi.config.model
+io.micronaut.kubernetes.client.openapi.configuration
+io.micronaut.kubernetes.client.openapi.configuration.imports
 io.micronaut.kubernetes.client.openapi.credential
 io.micronaut.kubernetes.client.openapi.credential.model
 io.micronaut.kubernetes.client.openapi.discovery
@@ -46,6 +48,7 @@ io.micronaut.kubernetes.client.processor
 io.micronaut.kubernetes.client.reactor
 io.micronaut.kubernetes.client.rxjava3
 io.micronaut.kubernetes.configuration
+io.micronaut.kubernetes.configuration.imports
 io.micronaut.kubernetes.discovery
 io.micronaut.kubernetes.discovery.informer
 io.micronaut.kubernetes.discovery.provider

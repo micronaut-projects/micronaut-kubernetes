@@ -78,15 +78,20 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher&lt;T&gt;</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Watches for ConfigMap/Secret changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
-<code>PropertySource</code>s.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>AbstractKubernetesConfigWatcherCondition</code></a> is enabled.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html#%3Cinit%3E()" class="member-name-link">AbstractKubernetesConfigWatcherCondition()</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/AbstractKubernetesServiceInstanceProvider.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider</a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
 <div class="block">Abstract implementation of kubernetes service instance provider.</div>
@@ -1455,6 +1460,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#addPropertySourceToCache(io.micronaut.context.env.PropertySource)" class="member-name-link">addPropertySourceToCache(PropertySource)</a> - Static method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">Adds the given <code>PropertySource</code> to the cache.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/workqueue/RateLimitingQueue.html#addRateLimited(T)" class="member-name-link">addRateLimited(T)</a> - Method in interface io.micronaut.kubernetes.client.openapi.operator.workqueue.<a href="io/micronaut/kubernetes/client/openapi/operator/workqueue/RateLimitingQueue.html" title="interface in io.micronaut.kubernetes.client.openapi.operator.workqueue">RateLimitingQueue</a></dt>
@@ -2317,6 +2323,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Set anyOf in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#API_PROPERTY_SOURCE_PRIORITY" class="member-name-link">API_PROPERTY_SOURCE_PRIORITY</a> - Static variable in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#API_PROPERTY_SOURCE_PRIORITY" class="member-name-link">API_PROPERTY_SOURCE_PRIORITY</a> - Static variable in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/rxjava3/ApiCallbackEmitter.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.rxjava3">ApiCallbackEmitter&lt;T&gt;</a> - Class in <a href="io/micronaut/kubernetes/client/rxjava3/package-summary.html">io.micronaut.kubernetes.client.rxjava3</a></dt>
 <dd>
 <div class="block">Bridges the <code>ApiCallback</code> interface to an RxJava3 <code>SingleEmitter</code>.</div>
@@ -3947,6 +3957,14 @@ detected by <code>ClientBuilder.standard()</code>.</div>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/credential/model/ExecCredentialStatus.html#param-clientKeyData"><code>clientKeyData</code></a> record component.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#close()" class="member-name-link">close()</a> - Method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Closes the lazily created application context used to resolve importer support beans.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#close()" class="member-name-link">close()</a> - Method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Closes the lazily created application context used to resolve importer support beans.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#close()" class="member-name-link">close()</a> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/model/Context.html#cluster()" class="member-name-link">cluster()</a> - Method in record class io.micronaut.kubernetes.client.openapi.config.model.<a href="io/micronaut/kubernetes/client/openapi/config/model/Context.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">Context</a></dt>
@@ -4045,12 +4063,30 @@ detected by <code>ClientBuilder.standard()</code>.</div>
 <dd>
 <div class="block">Creates composite of predicates.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#computeLabelSelector(java.util.Map)" class="member-name-link">computeLabelSelector(Map)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Creates a label selector filter based on the passed labels.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#computeLabelSelector(java.util.Map)" class="member-name-link">computeLabelSelector(Map)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>
-<div class="block">Determines the value of a Kubernetes labelSelector filter based on the passed labels.</div>
+<div class="block">Creates a label selector filter based on the passed labels.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#computePodLabels(io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabels(CoreV1ApiReactor, List, String, Map, boolean)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Creates a label map from pod and passed labels.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#computePodLabels(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabels(CoreV1ApiReactorClient, List, String, Map, boolean)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>
+<div class="block">Creates a label map from pod and passed labels.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#computePodLabelSelector(io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabelSelector(CoreV1ApiReactor, List, String, Map, boolean)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Creates a label selector filter from pod and passed labels.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#computePodLabelSelector(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabelSelector(CoreV1ApiReactorClient, List, String, Map, boolean)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Creates a label selector filter from pod and passed labels.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CronJobSpec.html#concurrencyPolicy(java.lang.String)" class="member-name-link">concurrencyPolicy(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CronJobSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CronJobSpec</a></dt>
 <dd>
 <div class="block">Set concurrencyPolicy in a chainable fashion.</div>
@@ -4216,9 +4252,9 @@ detected by <code>ClientBuilder.standard()</code>.</div>
 <div class="block">Set config in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#CONFIG_MAP_LIST_RESOURCE_VERSION" class="member-name-link">CONFIG_MAP_LIST_RESOURCE_VERSION</a> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#CONFIG_MAP_RESOURCE_VERSION" class="member-name-link">CONFIG_MAP_RESOURCE_VERSION</a> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1NodeConfigSource.html#configMap(io.micronaut.kubernetes.client.openapi.model.V1ConfigMapNodeConfigSource)" class="member-name-link">configMap(V1ConfigMapNodeConfigSource)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1NodeConfigSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeConfigSource</a></dt>
 <dd>
 <div class="block">Set configMap in a chainable fashion.</div>
@@ -4231,13 +4267,25 @@ detected by <code>ClientBuilder.standard()</code>.</div>
 <dd>
 <div class="block">Set configMap in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#configMapAsMap(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)" class="member-name-link">configMapAsMap(V1ConfigMap, Collection)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>
+<div class="block">Converts a <code>V1ConfigMap</code> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#configMapAsMap(io.micronaut.kubernetes.client.openapi.model.V1ConfigMap,java.util.Collection)" class="member-name-link">configMapAsMap(V1ConfigMap, Collection)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Converts a <a href="io/micronaut/kubernetes/client/openapi/model/V1ConfigMap.html" title="class in io.micronaut.kubernetes.client.openapi.model"><code>V1ConfigMap</code></a> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#configMapAsPropertySource(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)" class="member-name-link">configMapAsPropertySource(V1ConfigMap, Collection)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>
 <div class="block">Converts a <code>V1ConfigMap</code> into a <code>PropertySource</code>.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#configMapAsPropertySource(io.micronaut.kubernetes.client.openapi.model.V1ConfigMap,java.util.Collection)" class="member-name-link">configMapAsPropertySource(V1ConfigMap, Collection)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Converts a <a href="io/micronaut/kubernetes/client/openapi/model/V1ConfigMap.html" title="class in io.micronaut.kubernetes.client.openapi.model"><code>V1ConfigMap</code></a> into a <code>PropertySource</code>.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#configMapAsPropertySource(java.lang.String,java.util.Map,java.util.Collection)" class="member-name-link">configMapAsPropertySource(String, Map, Collection)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
 <dd>
-<div class="block">Converts config map mounted as volume into property sources.</div>
+<div class="block">Converts config map mounted as volume into a <code>PropertySource</code>.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1EnvVarSource.html#configMapKeyRef(io.micronaut.kubernetes.client.openapi.model.V1ConfigMapKeySelector)" class="member-name-link">configMapKeyRef(V1ConfigMapKeySelector)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1EnvVarSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1EnvVarSource</a></dt>
 <dd>
@@ -4256,9 +4304,13 @@ detected by <code>ClientBuilder.standard()</code>.</div>
 <div class="block">Set configSource in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html#configuration" class="member-name-link">configuration</a> - Variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html#configuration" class="member-name-link">configuration</a> - Variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/CoreV1Api.html#connectDeleteNamespacedPodProxy(java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">connectDeleteNamespacedPodProxy(String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/CoreV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">CoreV1Api</a></dt>
 <dd>
 <div class="block">connect DELETE requests to proxy of Pod</div>
@@ -5570,6 +5622,18 @@ created for given namespaces.</div>
 <dd>
 <div class="block">create a PriorityLevelConfiguration</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#createPropertySourceName(io.micronaut.kubernetes.client.openapi.common.KubernetesObject)" class="member-name-link">createPropertySourceName(KubernetesObject)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Creates a property source name from given kubernetes object.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#createPropertySourceName(java.lang.String,java.lang.Class)" class="member-name-link">createPropertySourceName(String, Class)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>
+<div class="block">Creates a property source name from given file path.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#createPropertySourceName(java.lang.String,java.lang.Class)" class="member-name-link">createPropertySourceName(String, Class)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Creates a property source name from given file path.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/ResourceV1beta1Api.html#createResourceSlice(io.micronaut.kubernetes.client.openapi.model.V1beta1ResourceSlice,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">createResourceSlice(V1beta1ResourceSlice, String, String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/ResourceV1beta1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">ResourceV1beta1Api</a></dt>
 <dd>
 <div class="block">create a ResourceSlice</div>
@@ -5593,6 +5657,14 @@ created for given namespaces.</div>
 <dt><a href="io/micronaut/kubernetes/client/openapi/reactor/api/ResourceV1ApiReactor.html#createResourceSlice(io.micronaut.kubernetes.client.openapi.model.V1ResourceSlice,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">createResourceSlice(V1ResourceSlice, String, String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.reactor.api.<a href="io/micronaut/kubernetes/client/openapi/reactor/api/ResourceV1ApiReactor.html" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">ResourceV1ApiReactor</a></dt>
 <dd>
 <div class="block">create a ResourceSlice</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#createResVersionPropertyName(io.kubernetes.client.common.KubernetesObject)" class="member-name-link">createResVersionPropertyName(KubernetesObject)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>
+<div class="block">Creates a property name for property which contains resource version of given kubernetes object.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#createResVersionPropertyName(io.micronaut.kubernetes.client.openapi.common.KubernetesObject)" class="member-name-link">createResVersionPropertyName(KubernetesObject)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Creates a property name for property which contains resource version of given kubernetes object.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/NodeV1Api.html#createRuntimeClass(io.micronaut.kubernetes.client.openapi.model.V1RuntimeClass,java.lang.String,java.lang.String,java.lang.String,java.lang.String)" class="member-name-link">createRuntimeClass(V1RuntimeClass, String, String, String, String)</a> - Method in interface io.micronaut.kubernetes.client.openapi.api.<a href="io/micronaut/kubernetes/client/openapi/api/NodeV1Api.html" title="interface in io.micronaut.kubernetes.client.openapi.api">NodeV1Api</a></dt>
 <dd>
@@ -8001,6 +8073,10 @@ or an instance of the kubernetes object which is being deleted depending on kube
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.client.openapi.credential.model.<a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredential</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
@@ -9485,6 +9561,10 @@ or an instance of the kubernetes object which is being deleted depending on kube
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ComponentCondition.html#error(java.lang.String)" class="member-name-link">error(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ComponentCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ComponentCondition</a></dt>
 <dd>
 <div class="block">Set error in a chainable fashion.</div>
@@ -9568,6 +9648,14 @@ or an instance of the kubernetes object which is being deleted depending on kube
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1IPBlock.html#except(java.util.List)" class="member-name-link">except(List)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1IPBlock.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1IPBlock</a></dt>
 <dd>
 <div class="block">Set except in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#exceptionOnPodLabelsMissing()" class="member-name-link">exceptionOnPodLabelsMissing()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-exceptionOnPodLabelsMissing"><code>exceptionOnPodLabelsMissing</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#exceptionOnPodLabelsMissing()" class="member-name-link">exceptionOnPodLabelsMissing()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-exceptionOnPodLabelsMissing"><code>exceptionOnPodLabelsMissing</code></a> record component.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1MatchResources.html#excludeResourceRules(java.util.List)" class="member-name-link">excludeResourceRules(List)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1alpha1MatchResources.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1alpha1MatchResources</a></dt>
 <dd>
@@ -10172,9 +10260,13 @@ or an instance of the kubernetes object which is being deleted depending on kube
 <div class="block">Gets an item for processing.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html#get()" class="member-name-link">get()</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html#get()" class="member-name-link">get()</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html#get(io.kubernetes.client.extended.controller.reconciler.Request)" class="member-name-link">get(Request)</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.operator">OperatorResourceLister</a></dt>
 <dd>
 <div class="block">Get the kubernetes resource from the <code>SharedIndexInformer</code>'s <code>Cache</code>
@@ -12916,6 +13008,7 @@ for the given <code>Request</code>.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#getDescription()" class="member-name-link">getDescription()</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">A description that describes this object.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html#getDescription()" class="member-name-link">getDescription()</a> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a></dt>
@@ -18470,6 +18563,7 @@ for the given <code>Request</code>.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#getPropertySources(io.micronaut.context.env.Environment)" class="member-name-link">getPropertySources(Environment)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
 <dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">Retrieves all of the <code>PropertySource</code> registrations for the given environment.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ScaleIOPersistentVolumeSource.html#getProtectionDomain()" class="member-name-link">getProtectionDomain()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ScaleIOPersistentVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ScaleIOPersistentVolumeSource</a></dt>
@@ -18508,6 +18602,10 @@ for the given <code>Request</code>.</div>
 <dd>
 <div class="block">The IP protocol for this port.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#getProvider()" class="member-name-link">getProvider()</a> - Method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#getProvider()" class="member-name-link">getProvider()</a> - Method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1NodeSpec.html#getProviderID()" class="member-name-link">getProviderID()</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1NodeSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSpec</a></dt>
 <dd>
 <div class="block">ID of the node assigned by the cloud provider in the format: <ProviderName>://<ProviderSpecificNodeID></div>
@@ -21991,6 +22089,10 @@ for the given <code>Request</code>.</div>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.client.openapi.credential.model.<a href="io/micronaut/kubernetes/client/openapi/credential/model/ExecCredential.html" title="class in io.micronaut.kubernetes.client.openapi.credential.model">ExecCredential</a></dt>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
@@ -23475,6 +23577,10 @@ for the given <code>Request</code>.</div>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html#hasSynced()" class="member-name-link">hasSynced()</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.<a href="io/micronaut/kubernetes/client/openapi/informer/SharedInformer.html" title="interface in io.micronaut.kubernetes.client.openapi.informer">SharedInformer</a></dt>
 <dd>
 <div class="block">Returns true if the shared informer's store has been synced after informer started.</div>
@@ -23687,6 +23793,30 @@ for the given <code>Request</code>.</div>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1Secret.html#immutable(java.lang.Boolean)" class="member-name-link">immutable(Boolean)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1Secret.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Secret</a></dt>
 <dd>
 <div class="block">Set immutable in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a> - Record Class in <a href="io/micronaut/kubernetes/client/openapi/configuration/imports/package-summary.html">io.micronaut.kubernetes.client.openapi.configuration.imports</a></dt>
+<dd>
+<div class="block">Describes a single Kubernetes config import declaration.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a> - Record Class in <a href="io/micronaut/kubernetes/configuration/imports/package-summary.html">io.micronaut.kubernetes.configuration.imports</a></dt>
+<dd>
+<div class="block">Describes a single Kubernetes config import declaration.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.Map,java.util.List,boolean,boolean,boolean)" class="member-name-link">ImportDeclaration(String, String, Map, List, boolean, boolean, boolean)</a> - Constructor for record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ImportDeclaration</code> record class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#%3Cinit%3E(java.lang.String,java.lang.String,java.util.Map,java.util.List,boolean,boolean,boolean)" class="member-name-link">ImportDeclaration(String, String, Map, List, boolean, boolean, boolean)</a> - Constructor for record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ImportDeclaration</code> record class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#importPropertySource(io.micronaut.context.env.PropertySourceImporter.ImportContext)" class="member-name-link">importPropertySource(PropertySourceImporter.ImportContext)</a> - Method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Imports a property source by delegating to ConfigMap or Secret import support based on the declaration type.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#importPropertySource(io.micronaut.context.env.PropertySourceImporter.ImportContext)" class="member-name-link">importPropertySource(PropertySourceImporter.ImportContext)</a> - Method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Imports a property source by delegating to ConfigMap or Secret import support based on the declaration type.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1SubjectRulesReviewStatus.html#incomplete(java.lang.Boolean)" class="member-name-link">incomplete(Boolean)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1SubjectRulesReviewStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1SubjectRulesReviewStatus</a></dt>
 <dd>
@@ -23903,6 +24033,10 @@ access to the <code>Store</code> resources.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/model/package-summary.html">io.micronaut.kubernetes.client.openapi.config.model</a> - package io.micronaut.kubernetes.client.openapi.config.model</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/package-summary.html">io.micronaut.kubernetes.client.openapi.configuration</a> - package io.micronaut.kubernetes.client.openapi.configuration</dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/package-summary.html">io.micronaut.kubernetes.client.openapi.configuration.imports</a> - package io.micronaut.kubernetes.client.openapi.configuration.imports</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/package-summary.html">io.micronaut.kubernetes.client.openapi.credential</a> - package io.micronaut.kubernetes.client.openapi.credential</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/credential/model/package-summary.html">io.micronaut.kubernetes.client.openapi.credential.model</a> - package io.micronaut.kubernetes.client.openapi.credential.model</dt>
@@ -23979,6 +24113,8 @@ access to the <code>Store</code> resources.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a> - package io.micronaut.kubernetes.configuration</dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/package-summary.html">io.micronaut.kubernetes.configuration.imports</a> - package io.micronaut.kubernetes.configuration.imports</dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a> - package io.micronaut.kubernetes.discovery</dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/informer/package-summary.html">io.micronaut.kubernetes.discovery.informer</a> - package io.micronaut.kubernetes.discovery.informer</dt>
@@ -24051,6 +24187,10 @@ access to the <code>Store</code> resources.</div>
 <dd>
 <div class="block">Set iqn in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html#isConfigMapImportEnabled()" class="member-name-link">isConfigMapImportEnabled()</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesLegacyImportMode</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html#isConfigMapImportEnabled()" class="member-name-link">isConfigMapImportEnabled()</a> - Static method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesLegacyImportMode</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1PersistentVolumeSpec.html#iscsi(io.micronaut.kubernetes.client.openapi.model.V1ISCSIPersistentVolumeSource)" class="member-name-link">iscsi(V1ISCSIPersistentVolumeSource)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1PersistentVolumeSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PersistentVolumeSpec</a></dt>
 <dd>
 <div class="block">Set iscsi in a chainable fashion.</div>
@@ -24115,6 +24255,10 @@ access to the <code>Store</code> resources.</div>
 <dd>
 <div class="block">Attempts to guess whether this port should be connected to using SSL.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html#isSecretImportEnabled()" class="member-name-link">isSecretImportEnabled()</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesLegacyImportMode</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html#isSecretImportEnabled()" class="member-name-link">isSecretImportEnabled()</a> - Static method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesLegacyImportMode</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/workqueue/DefaultWorkQueue.html#isShutdown()" class="member-name-link">isShutdown()</a> - Method in class io.micronaut.kubernetes.client.openapi.operator.workqueue.<a href="io/micronaut/kubernetes/client/openapi/operator/workqueue/DefaultWorkQueue.html" title="class in io.micronaut.kubernetes.client.openapi.operator.workqueue">DefaultWorkQueue</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/workqueue/WorkQueue.html#isShutdown()" class="member-name-link">isShutdown()</a> - Method in interface io.micronaut.kubernetes.client.openapi.operator.workqueue.<a href="io/micronaut/kubernetes/client/openapi/operator/workqueue/WorkQueue.html" title="interface in io.micronaut.kubernetes.client.openapi.operator.workqueue">WorkQueue</a></dt>
@@ -31440,12 +31584,18 @@ after that.</div>
 <dd>
 <div class="block">Set kubeProxyVersion in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY" class="member-name-link">KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY</a> - Static variable in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY" class="member-name-link">KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY</a> - Static variable in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_CONFIG_MAP_LIST_NAME" class="member-name-link">KUBERNETES_CONFIG_MAP_LIST_NAME</a> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_CONFIG_MAP_NAME_SUFFIX" class="member-name-link">KUBERNETES_CONFIG_MAP_NAME_SUFFIX</a> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_SECRET_NAME_SUFFIX" class="member-name-link">KUBERNETES_SECRET_NAME_SUFFIX</a> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/processor/KubernetesApisProcessor.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.processor">KubernetesApisProcessor</a> - Class in <a href="io/micronaut/kubernetes/client/processor/package-summary.html">io.micronaut.kubernetes.client.processor</a></dt>
 <dd>
 <div class="block">An annotation processor that generates the Kubernetes APIs factories.</div>
@@ -31484,27 +31634,38 @@ after that.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Based on configuration dynamically evaluates the label selector for config maps.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html#%3Cinit%3E(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration)" class="member-name-link">KubernetesConfigMapLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#%3Cinit%3E()" class="member-name-link">KubernetesConfigMapsConfiguration()</a> - Constructor for class io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#%3Cinit%3E()" class="member-name-link">KubernetesConfigMapsConfiguration()</a> - Constructor for class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Watches for ConfigMap changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
-<code>PropertySource</code>s.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.micronaut.kubernetes.KubernetesConfiguration,io.micronaut.context.event.ApplicationEventPublisher)" class="member-name-link">KubernetesConfigMapWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcherCondition</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>KubernetesConfigMapWatcherCondition</code></a> is enabled.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html#%3Cinit%3E()" class="member-name-link">KubernetesConfigMapWatcherCondition()</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcherCondition</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration</a> - Class in <a href="io/micronaut/kubernetes/client/openapi/package-summary.html">io.micronaut.kubernetes.client.openapi</a></dt>
 <dd>
 <div class="block">Encapsulates constants for Kubernetes configuration.</div>
@@ -31555,10 +31716,18 @@ after that.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">A <code>ConfigurationClient</code> implementation that provides <code>PropertySource</code>s read from Kubernetes ConfigMap's.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#%3Cinit%3E(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration,io.micronaut.context.env.Environment)" class="member-name-link">KubernetesConfigurationClient(CoreV1ApiReactorClient, KubernetesConfiguration, Environment)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a> - Class in <a href="io/micronaut/kubernetes/client/openapi/configuration/package-summary.html">io.micronaut.kubernetes.client.openapi.configuration</a></dt>
+<dd>
+<div class="block">Utility methods for Kubernetes Configuration client.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesDiscoveryClient.html" class="type-name-link" title="class in io.micronaut.kubernetes.discovery">KubernetesDiscoveryClient</a> - Class in <a href="io/micronaut/kubernetes/discovery/package-summary.html">io.micronaut.kubernetes.discovery</a></dt>
 <dd>
 <div class="block">A <code>DiscoveryClient</code> implementation for Kubernetes using the API.</div>
@@ -31579,6 +31748,14 @@ after that.</div>
 <dd>
 <div class="block">Constructor.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesLegacyImportMode</a> - Class in <a href="io/micronaut/kubernetes/client/openapi/configuration/imports/package-summary.html">io.micronaut.kubernetes.client.openapi.configuration.imports</a></dt>
+<dd>
+<div class="block">Tracks use of legacy Kubernetes bootstrap imports and emits a deprecation warning when needed.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesLegacyImportMode</a> - Class in <a href="io/micronaut/kubernetes/configuration/imports/package-summary.html">io.micronaut.kubernetes.configuration.imports</a></dt>
+<dd>
+<div class="block">Tracks use of legacy Kubernetes bootstrap imports and emits a deprecation warning when needed.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/common/KubernetesListObject.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.common">KubernetesListObject</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/common/package-summary.html">io.micronaut.kubernetes.client.openapi.common</a></dt>
 <dd>
 <div class="block">Common accessors for kubernetes list objects.</div>
@@ -31591,29 +31768,52 @@ after that.</div>
 <dd>
 <div class="block">Interface for kubernetes private key loaders.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a> - Class in <a href="io/micronaut/kubernetes/client/openapi/configuration/imports/package-summary.html">io.micronaut.kubernetes.client.openapi.configuration.imports</a></dt>
+<dd>
+<div class="block">A <code>PropertySourceImporter</code> that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a> - Class in <a href="io/micronaut/kubernetes/configuration/imports/package-summary.html">io.micronaut.kubernetes.configuration.imports</a></dt>
+<dd>
+<div class="block">A <code>PropertySourceImporter</code> that resolves Micronaut configuration from Kubernetes ConfigMaps and Secrets.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#%3Cinit%3E()" class="member-name-link">KubernetesPropertySourceImporter()</a> - Constructor for class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#%3Cinit%3E()" class="member-name-link">KubernetesPropertySourceImporter()</a> - Constructor for class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Based on configuration dynamically evaluates the label selector for config maps.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html#%3Cinit%3E(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,io.micronaut.kubernetes.KubernetesConfiguration)" class="member-name-link">KubernetesSecretLabelSupplier(CoreV1ApiReactorClient, KubernetesConfiguration)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretLabelSupplier.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretLabelSupplier</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesSecretsConfiguration.html#%3Cinit%3E()" class="member-name-link">KubernetesSecretsConfiguration()</a> - Constructor for class io.micronaut.kubernetes.client.openapi.<a href="io/micronaut/kubernetes/client/openapi/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#%3Cinit%3E()" class="member-name-link">KubernetesSecretsConfiguration()</a> - Constructor for class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Watches for Secret changes and makes the appropriate changes to the <code>Environment</code> by adding or removing
-<code>PropertySource</code>s.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html#%3Cinit%3E(io.micronaut.context.env.Environment,io.micronaut.kubernetes.KubernetesConfiguration,io.micronaut.context.event.ApplicationEventPublisher)" class="member-name-link">KubernetesSecretWatcher(Environment, KubernetesConfiguration, ApplicationEventPublisher)</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" class="type-name-link" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcherCondition</a> - Class in <a href="io/micronaut/kubernetes/configuration/package-summary.html">io.micronaut.kubernetes.configuration</a></dt>
 <dd>
-<div class="block">Condition evaluates when the <a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration"><code>KubernetesSecretWatcherCondition</code></a> is enabled.</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated, for removal: This API element is subject to removal in a future version.</span>
+<div class="deprecation-comment">Replaced with config import implementation</div>
+</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html#%3Cinit%3E()" class="member-name-link">KubernetesSecretWatcherCondition()</a> - Constructor for class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcherCondition</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/discovery/KubernetesServiceConfiguration.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.discovery">KubernetesServiceConfiguration</a> - Class in <a href="io/micronaut/kubernetes/client/openapi/discovery/package-summary.html">io.micronaut.kubernetes.client.openapi.discovery</a></dt>
 <dd>
 <div class="block">Discovery configuration for Kubernetes service.</div>
@@ -31703,6 +31903,14 @@ after that.</div>
 </dl>
 <h2 class="title" id="I:L">L</h2>
 <dl class="index">
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#labels()" class="member-name-link">labels()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-labels"><code>labels</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#labels()" class="member-name-link">labels()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-labels"><code>labels</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ObjectMeta.html#labels(java.util.Map)" class="member-name-link">labels(Map)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ObjectMeta.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ObjectMeta</a></dt>
 <dd>
 <div class="block">Set labels in a chainable fashion.</div>
@@ -33694,6 +33902,14 @@ election process.</div>
 <dd>
 <div class="block">logFileListHandler</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html#logLegacyBootstrapDeprecationIfNeeded(boolean)" class="member-name-link">logLegacyBootstrapDeprecationIfNeeded(boolean)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesLegacyImportMode.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesLegacyImportMode</a></dt>
+<dd>
+<div class="block">Logs the legacy bootstrap deprecation warning once when legacy bootstrap mode is active.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html#logLegacyBootstrapDeprecationIfNeeded(boolean)" class="member-name-link">logLegacyBootstrapDeprecationIfNeeded(boolean)</a> - Static method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesLegacyImportMode.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesLegacyImportMode</a></dt>
+<dd>
+<div class="block">Logs the legacy bootstrap deprecation warning once when legacy bootstrap mode is active.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/api/LogsApi.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.api">LogsApi</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/api/package-summary.html">io.micronaut.kubernetes.client.openapi.api</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/reactor/api/LogsApiReactor.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.reactor.api">LogsApiReactor</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/reactor/api/package-summary.html">io.micronaut.kubernetes.client.openapi.reactor.api</a></dt>
@@ -33782,7 +33998,9 @@ election process.</div>
 <div class="block">Set matchConstraints in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html#matches(io.micronaut.context.condition.ConditionContext)" class="member-name-link">matches(ConditionContext)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcherCondition.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcherCondition</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1LabelSelector.html#matchExpressions(java.util.List)" class="member-name-link">matchExpressions(List)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1LabelSelector.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1LabelSelector</a></dt>
 <dd>
 <div class="block">Set matchExpressions in a chainable fashion.</div>
@@ -35054,6 +35272,10 @@ election process.</div>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/config/model/ExecEnvVar.html#param-name"><code>name</code></a> record component.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#name()" class="member-name-link">name()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-name"><code>name</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/Request.html#name()" class="member-name-link">name()</a> - Method in record class io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.<a href="io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Request</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/operator/controller/reconciler/Request.html#param-name"><code>name</code></a> record component.</div>
@@ -35065,6 +35287,10 @@ election process.</div>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#name()" class="member-name-link">name()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
 <dd>
 <div class="block">The name of the operator.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#name()" class="member-name-link">name()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-name"><code>name</code></a> record component.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html#name(java.lang.String)" class="member-name-link">name(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/AdmissionregistrationV1ServiceReference.html" title="class in io.micronaut.kubernetes.client.openapi.model">AdmissionregistrationV1ServiceReference</a></dt>
 <dd>
@@ -35660,6 +35886,22 @@ election process.</div>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/api/NetworkingV1beta1ApiWatcher.html" class="type-name-link" title="interface in io.micronaut.kubernetes.client.openapi.watcher.api">NetworkingV1beta1ApiWatcher</a> - Interface in <a href="io/micronaut/kubernetes/client/openapi/watcher/api/package-summary.html">io.micronaut.kubernetes.client.openapi.watcher.api</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#newImportDeclaration(io.micronaut.core.convert.value.ConvertibleValues)" class="member-name-link">newImportDeclaration(ConvertibleValues)</a> - Method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Creates an import declaration from map-like configuration values.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#newImportDeclaration(io.micronaut.core.convert.value.ConvertibleValues)" class="member-name-link">newImportDeclaration(ConvertibleValues)</a> - Method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Creates an import declaration from map-like configuration values.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#newImportDeclaration(io.micronaut.core.util.ConnectionString)" class="member-name-link">newImportDeclaration(ConnectionString)</a> - Method in class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Creates an import declaration from a Kubernetes config import connection string.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#newImportDeclaration(io.micronaut.core.util.ConnectionString)" class="member-name-link">newImportDeclaration(ConnectionString)</a> - Method in class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></dt>
+<dd>
+<div class="block">Creates an import declaration from a Kubernetes config import connection string.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1PersistentVolumeSpec.html#nfs(io.micronaut.kubernetes.client.openapi.model.V1NFSVolumeSource)" class="member-name-link">nfs(V1NFSVolumeSource)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1PersistentVolumeSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PersistentVolumeSpec</a></dt>
 <dd>
 <div class="block">Set nfs in a chainable fashion.</div>
@@ -36044,7 +36286,9 @@ election process.</div>
 <dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html#onAdd(ApiType)" class="member-name-link">onAdd(ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onAdd(T)" class="member-name-link">onAdd(T)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/Operator.html#onAddFilter()" class="member-name-link">onAddFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.operator.<a href="io/micronaut/kubernetes/client/openapi/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.operator">Operator</a></dt>
 <dd>
 <div class="block">The class of the filter applied by informer's resource handler when a new resource is created.</div>
@@ -36052,9 +36296,13 @@ election process.</div>
 <dt><a href="io/micronaut/kubernetes/client/operator/Operator.html#onAddFilter()" class="member-name-link">onAddFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html#onApplicationEvent(io.micronaut.runtime.server.event.ServerStartupEvent)" class="member-name-link">onApplicationEvent(ServerStartupEvent)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigMapWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigMapWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html#onApplicationEvent(io.micronaut.runtime.server.event.ServerStartupEvent)" class="member-name-link">onApplicationEvent(ServerStartupEvent)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesSecretWatcher.html" title="class in io.micronaut.kubernetes.configuration">KubernetesSecretWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html#onCreated(io.micronaut.context.event.BeanCreatedEvent)" class="member-name-link">onCreated(BeanCreatedEvent)</a> - Method in class io.micronaut.kubernetes.client.informer.<a href="io/micronaut/kubernetes/client/informer/ResourceEventHandlerBeanListener.html" title="class in io.micronaut.kubernetes.client.informer">ResourceEventHandlerBeanListener</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html#onCreated(io.micronaut.context.event.BeanCreatedEvent)" class="member-name-link">onCreated(BeanCreatedEvent)</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ResourceReconcilerCreatedListener.html" title="class in io.micronaut.kubernetes.client.operator">ResourceReconcilerCreatedListener</a></dt>
@@ -36062,7 +36310,9 @@ election process.</div>
 <dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html#onDelete(ApiType,boolean)" class="member-name-link">onDelete(ApiType, boolean)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onDelete(T,boolean)" class="member-name-link">onDelete(T, boolean)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/Operator.html#onDeleteFilter()" class="member-name-link">onDeleteFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.operator.<a href="io/micronaut/kubernetes/client/openapi/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.operator">Operator</a></dt>
 <dd>
 <div class="block">The class of the filter applied by informer's resource handler when an existing resource is deleted.</div>
@@ -36096,7 +36346,9 @@ election process.</div>
 <dt><a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html#onUpdate(ApiType,ApiType)" class="member-name-link">onUpdate(ApiType, ApiType)</a> - Method in interface io.micronaut.kubernetes.client.openapi.informer.handler.<a href="io/micronaut/kubernetes/client/openapi/informer/handler/ResourceEventHandler.html" title="interface in io.micronaut.kubernetes.client.openapi.informer.handler">ResourceEventHandler</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html#onUpdate(T,T)" class="member-name-link">onUpdate(T, T)</a> - Method in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/AbstractKubernetesConfigWatcher.html" title="class in io.micronaut.kubernetes.configuration">AbstractKubernetesConfigWatcher</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/operator/Operator.html#onUpdateFilter()" class="member-name-link">onUpdateFilter()</a> - Element in annotation interface io.micronaut.kubernetes.client.openapi.operator.<a href="io/micronaut/kubernetes/client/openapi/operator/Operator.html" title="annotation interface in io.micronaut.kubernetes.client.openapi.operator">Operator</a></dt>
 <dd>
 <div class="block">The class of the filter applied by informer's resource handler when an existing resource is updated.</div>
@@ -36144,7 +36396,9 @@ election process.</div>
 <div class="block">Set opaque in a chainable fashion.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#OPAQUE_SECRET_TYPE" class="member-name-link">OPAQUE_SECRET_TYPE</a> - Static variable in class io.micronaut.kubernetes.configuration.<a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html" title="class in io.micronaut.kubernetes.configuration">KubernetesConfigurationClient</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
+&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceValidation.html#openAPIV3Schema(io.micronaut.kubernetes.client.openapi.model.V1JSONSchemaProps)" class="member-name-link">openAPIV3Schema(V1JSONSchemaProps)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CustomResourceValidation.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CustomResourceValidation</a></dt>
 <dd>
 <div class="block">Set openAPIV3Schema in a chainable fashion.</div>
@@ -36417,6 +36671,10 @@ election process.</div>
 <dd>
 <div class="block">Set parentRef in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#parseLabels(java.lang.String,java.lang.String)" class="member-name-link">parseLabels(String, String)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#parseLabels(java.lang.String,java.lang.String)" class="member-name-link">parseLabels(String, String)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1AWSElasticBlockStoreVolumeSource.html#partition(java.lang.Integer)" class="member-name-link">partition(Integer)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1AWSElasticBlockStoreVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AWSElasticBlockStoreVolumeSource</a></dt>
 <dd>
 <div class="block">Set partition in a chainable fashion.</div>
@@ -37689,6 +37947,14 @@ election process.</div>
 <dd>
 <div class="block">Set podIPs in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#podLabels()" class="member-name-link">podLabels()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-podLabels"><code>podLabels</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#podLabels()" class="member-name-link">podLabels()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-podLabels"><code>podLabels</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1StatefulSetSpec.html#podManagementPolicy(java.lang.String)" class="member-name-link">podManagementPolicy(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1StatefulSetSpec.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1StatefulSetSpec</a></dt>
 <dd>
 <div class="block">Set podManagementPolicy in a chainable fashion.</div>
@@ -37992,6 +38258,8 @@ election process.</div>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesConfigMapsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesConfigMapsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesDiscoveryConfiguration</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#PREFIX" class="member-name-link">PREFIX</a> - Static variable in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
 <dd>&nbsp;</dd>
@@ -41795,8 +42063,22 @@ based on provided parameters in the <a href="io/micronaut/kubernetes/client/info
 <dd>
 <div class="block">Set secret in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#secretAsMap(io.kubernetes.client.openapi.models.V1Secret)" class="member-name-link">secretAsMap(V1Secret)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
+<dd>
+<div class="block">Converts a <code>V1Secret</code> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#secretAsMap(io.micronaut.kubernetes.client.openapi.model.V1Secret)" class="member-name-link">secretAsMap(V1Secret)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Converts a <a href="io/micronaut/kubernetes/client/openapi/model/V1Secret.html" title="class in io.micronaut.kubernetes.client.openapi.model"><code>V1Secret</code></a> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#secretAsPropertySource(io.kubernetes.client.openapi.models.V1Secret)" class="member-name-link">secretAsPropertySource(V1Secret)</a> - Static method in class io.micronaut.kubernetes.util.<a href="io/micronaut/kubernetes/util/KubernetesUtils.html" title="class in io.micronaut.kubernetes.util">KubernetesUtils</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Converts a <code>V1Secret</code> into a <code>PropertySource</code>.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#secretAsPropertySource(io.micronaut.kubernetes.client.openapi.model.V1Secret)" class="member-name-link">secretAsPropertySource(V1Secret)</a> - Static method in class io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></dt>
+<dd>
+<div class="block">Converts a <a href="io/micronaut/kubernetes/client/openapi/model/V1Secret.html" title="class in io.micronaut.kubernetes.client.openapi.model"><code>V1Secret</code></a> into a <code>PropertySource</code>.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1CephFSPersistentVolumeSource.html#secretFile(java.lang.String)" class="member-name-link">secretFile(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1CephFSPersistentVolumeSource.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1CephFSPersistentVolumeSource</a></dt>
 <dd>
 <div class="block">Set secretFile in a chainable fashion.</div>
@@ -55636,6 +55918,14 @@ among the application's pod labels.</div>
 <dd>
 <div class="block">Set terminated in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#terminateStartupOnException()" class="member-name-link">terminateStartupOnException()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-terminateStartupOnException"><code>terminateStartupOnException</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#terminateStartupOnException()" class="member-name-link">terminateStartupOnException()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-terminateStartupOnException"><code>terminateStartupOnException</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1EndpointConditions.html#terminating(java.lang.Boolean)" class="member-name-link">terminating(Boolean)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1EndpointConditions.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1EndpointConditions</a></dt>
 <dd>
 <div class="block">Set terminating in a chainable fashion.</div>
@@ -55867,6 +56157,10 @@ among the application's pod labels.</div>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/config/model/ExecEnvVar.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.config.model.<a href="io/micronaut/kubernetes/client/openapi/config/model/ExecEnvVar.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecEnvVar</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
@@ -57360,6 +57654,10 @@ among the application's pod labels.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html#toString()" class="member-name-link">toString()</a> - Method in class io.micronaut.kubernetes.client.operator.<a href="io/micronaut/kubernetes/client/operator/ControllerConfigurationImpl.html" title="class in io.micronaut.kubernetes.client.operator">ControllerConfigurationImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#toString()" class="member-name-link">toString()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html#toString()" class="member-name-link">toString()</a> - Method in class io.micronaut.kubernetes.discovery.<a href="io/micronaut/kubernetes/discovery/KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="io/micronaut/kubernetes/KubernetesConfiguration.html#toString()" class="member-name-link">toString()</a> - Method in class io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration</a></dt>
@@ -57397,9 +57695,17 @@ and put into the cache and before the corresponding handlers will be called on i
 <dd>
 <div class="block">Set tty in a chainable fashion.</div>
 </dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#type()" class="member-name-link">type()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-type"><code>type</code></a> record component.</div>
+</dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#type()" class="member-name-link">type()</a> - Method in record class io.micronaut.kubernetes.client.openapi.watcher.<a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent</a></dt>
 <dd>
 <div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html#param-type"><code>type</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#type()" class="member-name-link">type()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-type"><code>type</code></a> record component.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html#type(java.lang.String)" class="member-name-link">type(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/CoreV1Event.html" title="class in io.micronaut.kubernetes.client.openapi.model">CoreV1Event</a></dt>
 <dd>
@@ -62405,6 +62711,14 @@ informer's in-memory storage) or predefined timeout (<a href="io/micronaut/kuber
 <dt><a href="io/micronaut/kubernetes/client/openapi/model/V1ExpressionWarning.html#warning(java.lang.String)" class="member-name-link">warning(String)</a> - Method in class io.micronaut.kubernetes.client.openapi.model.<a href="io/micronaut/kubernetes/client/openapi/model/V1ExpressionWarning.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ExpressionWarning</a></dt>
 <dd>
 <div class="block">Set warning in a chainable fashion.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#watch()" class="member-name-link">watch()</a> - Method in record class io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/client/openapi/configuration/imports/ImportDeclaration.html#param-watch"><code>watch</code></a> record component.</div>
+</dd>
+<dt><a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#watch()" class="member-name-link">watch()</a> - Method in record class io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html" title="class in io.micronaut.kubernetes.configuration.imports">ImportDeclaration</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./io/micronaut/kubernetes/configuration/imports/ImportDeclaration.html#param-watch"><code>watch</code></a> record component.</div>
 </dd>
 <dt><a href="io/micronaut/kubernetes/client/openapi/watcher/WatchEvent.html" class="type-name-link" title="class in io.micronaut.kubernetes.client.openapi.watcher">WatchEvent&lt;T&gt;</a> - Record Class in <a href="io/micronaut/kubernetes/client/openapi/watcher/package-summary.html">io.micronaut.kubernetes.client.openapi.watcher</a></dt>
 <dd>

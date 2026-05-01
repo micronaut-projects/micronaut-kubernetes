@@ -56,13 +56,15 @@
                                 
                                 <div class="toc-item" style="margin-left:0"><a href="#kubernetes-client-openapi"><strong>5</strong><span>Kubernetes Client OpenAPI</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#config-import"><strong>6</strong><span>Configuration Import</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>7</strong><span>Breaking Changes</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#logging"><strong>7</strong><span>Logging and debugging</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#kubernetesGuides"><strong>8</strong><span>Guides</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#breaking"><strong>8</strong><span>Breaking Changes</span></a></div>
                                 
-                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>9</strong><span>Repository</span></a></div>
+                                <div class="toc-item" style="margin-left:0"><a href="#kubernetesGuides"><strong>9</strong><span>Guides</span></a></div>
+                                
+                                <div class="toc-item" style="margin-left:0"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
                                 
                             </div>
                         </div>
@@ -125,13 +127,15 @@
         
         <div class="toc-item" style="margin-left:10px" id="toc-item-kubernetes-client-openapi-operator"><a href="#kubernetes-client-openapi-operator"><strong>5.6</strong><span>Kubernetes Operator</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>6</strong><span>Logging and debugging</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-config-import"><a href="#config-import"><strong>6</strong><span>Configuration Import</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>7</strong><span>Breaking Changes</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-logging"><a href="#logging"><strong>7</strong><span>Logging and debugging</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetesGuides"><a href="#kubernetesGuides"><strong>8</strong><span>Guides</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-breaking"><a href="#breaking"><strong>8</strong><span>Breaking Changes</span></a></div>
         
-        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>9</strong><span>Repository</span></a></div>
+        <div class="toc-item" style="margin-left:0px" id="toc-item-kubernetesGuides"><a href="#kubernetesGuides"><strong>9</strong><span>Guides</span></a></div>
+        
+        <div class="toc-item" style="margin-left:0px" id="toc-item-repository"><a href="#repository"><strong>10</strong><span>Repository</span></a></div>
         
         </div>
     </div>
@@ -263,6 +267,19 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 
 
+<div class="sect2">
+<h3 id="_micronaut_kubernetes_8_0_0">Micronaut Kubernetes 8.0.0</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>The Kubernetes Configuration Client support has been deprecated and replaced by Configuration Import</p>
+</li>
+<li>
+<p>RxJava2 support has been removed</p>
+</li>
+</ul>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_micronaut_kubernetes_7_1_0">Micronaut Kubernetes 7.1.0</h3>
 <div class="ulist">
@@ -1506,6 +1523,33 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 </div>
 
 
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Kubernetes configuration client support is deprecated and has been replaced by <a href="../config-import.html">Configuration Import</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you are adding new configuration loading from Kubernetes <code>ConfigMap</code> or <code>Secret</code> resources, use the
+configuration import approach.</p>
+</div>
+<div class="paragraph">
+<p>The deprecated configuration client documentation remains available for existing applications, but both the
+documentation and implementation will be removed in a future release, and new applications should use configuration
+import.</p>
+</div>
+<div class="paragraph">
+<p>Configuration import uses <code>micronaut.config.import</code> entries in <code>application.yml</code> to load Kubernetes resources, while
+the deprecated configuration client relied on bootstrap configuration and <code>micronaut.config-client.enabled=true</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The Configuration client will read Kubernetes' <code>ConfigMap</code>s and <code>Secret</code>s instances and make them available as <code>PropertySource</code>s
 instances in your application.</p>
@@ -5265,6 +5309,33 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 </div>
 
 
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Kubernetes configuration client support is deprecated and has been replaced by <a href="../config-import.html">Configuration Import</a>.</p>
+</div>
+<div class="paragraph">
+<p>If you are adding new configuration loading from Kubernetes <code>ConfigMap</code> or <code>Secret</code> resources, use the
+configuration import approach.</p>
+</div>
+<div class="paragraph">
+<p>The deprecated configuration client documentation remains available for existing applications, but both the
+documentation and implementation will be removed in a future release, and new applications should use configuration
+import.</p>
+</div>
+<div class="paragraph">
+<p>Configuration import uses <code>micronaut.config.import</code> entries in <code>application.yml</code> to load Kubernetes resources, while
+the deprecated configuration client relied on bootstrap configuration and <code>micronaut.config-client.enabled=true</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>The Configuration client will read Kubernetes' <code>ConfigMap</code>s and <code>Secret</code>s instances and make them available as <code>PropertySource</code>s
 instances in your application.</p>
@@ -8220,7 +8291,1519 @@ rules:
 </div>
 </div>
 
-<h1 id="logging"><a class="anchor" href="#logging"></a>6 Logging and debugging</h1>
+<h1 id="config-import"><a class="anchor" href="#config-import"></a>6 Configuration Import</h1>
+
+<div class='contribute-btn'>
+    <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/8.0.x/src/main/docs/guide/config-import.adoc"'>
+        <i class='fa fa-pencil-square-o'></i> Improve this doc
+    </button>
+</div>
+
+
+<div class="paragraph">
+<p>The Configuration import feature reads Kubernetes <code>ConfigMap</code> and <code>Secret</code> resources and makes them available as
+<code>PropertySource</code> instances in your application.</p>
+</div>
+<div class="paragraph">
+<p>To get started, declare one of the following dependencies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you want to use the official Kubernetes client:</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you want to use the OpenAPI Kubernetes client:</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>        <div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="gradle">implementation(<span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery")</span></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="maven">&lt;dependency&gt;
+    &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
+    &lt;artifactId&gt;micronaut-kubernetes-client-openapi-discovery&lt;/artifactId&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</p>
+</div>
+<div class="paragraph">
+<p>Then configure <code>micronaut.config.import</code> entries that point to the Kubernetes resources you want to load.
+Once imported, you can read the configuration values using <code>@Value</code> or
+<a href="https://docs.micronaut.io/latest/guide/index.html#config">any other way to read configuration values</a>.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?name=my-config-map
+micronaut.config.import[1]=optional:kubernetes://secret?name=my-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map
+      - optional:kubernetes://secret?name=my-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?name=my-config-map",
+      "optional:kubernetes://secret?name=my-secret"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://secret?name=my-secret"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://secret?name=my-secret"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://secret?name=my-secret"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Unlike the deprecated configuration client, configuration import is configured in <code>application.yml</code>
+(or <code>.properties</code>, <code>.json</code>, etc) through <code>micronaut.config.import</code>.</p>
+</div>
+<div class="paragraph">
+<p>When Kubernetes configuration import is used, Micronaut creates a separate <code>ApplicationContext</code> that is used only to
+resolve properties from Kubernetes <code>ConfigMap</code> and <code>Secret</code> resources. This internal context is started specifically for
+config import processing, uses the same environments that are active for the main application context but loads limited
+set of beans that are required just for config import processing.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you have a custom implementation of one of the following interfaces, those won&#8217;t be loaded when processing config imports:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader</p>
+</li>
+<li>
+<p>io.micronaut.kubernetes.client.openapi.credential.KubernetesTokenLoader</p>
+</li>
+<li>
+<p>io.micronaut.kubernetes.client.openapi.credential.ReactiveKubernetesTokenLoader</p>
+</li>
+<li>
+<p>io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader</p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="sect1">
+<h2 id="_configmaps">ConfigMaps</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Supported formats for <code>ConfigMap</code> resources are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java <code>.properties</code></p>
+</li>
+<li>
+<p>YAML</p>
+</li>
+<li>
+<p>JSON</p>
+</li>
+<li>
+<p>Literal values</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To import a specific <code>ConfigMap</code> by name, add an entry such as:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?name=my-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?name=my-config-map"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?name=my-config-map"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?name=my-config-map"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?name=my-config-map"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>You can import multiple config maps by repeating the entry:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?name=my-config-map
+micronaut.config.import[1]=optional:kubernetes://config-map?name=other-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map
+      - optional:kubernetes://config-map?name=other-config-map</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?name=my-config-map",
+      "optional:kubernetes://config-map?name=other-config-map"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://config-map?name=other-config-map"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://config-map?name=other-config-map"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://config-map?name=other-config-map"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>In addition to selecting a single config map by name, Kubernetes labels can be used to match multiple config maps:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?labels=app=my-app,env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?labels=app=my-app,env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?labels=app=my-app,env=prod"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?labels=app=my-app,env=prod"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?labels=app=my-app,env=prod"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?labels=app=my-app,env=prod"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Config maps can also be selected by matching labels from the pod the Micronaut application is running in.
+This is handy if you use a package manager like <a href="https://helm.sh">Helm</a>.
+A good example would be <code>app.kubernetes.io/instance</code>, which is a unique label identifying the instance of an application:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Additionally, you can enable <code>exceptionOnPodLabelsMissing</code> if you want an exception to be thrown when at least one of
+the labels specified in <code>podLabels</code> is not found among the application&#8217;s pod labels. This can be useful if you want to
+prevent a mistyped or misconfigured label selector from matching all config maps in the namespace:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>By default if an exception occurs reading config maps on startup, the exception is logged and the service is started.
+This can be overridden to terminate the service startup when the service is not able to read config maps because of any
+exception by setting the <code>terminateStartupOnException</code> query parameter to <code>true</code> in the import URI:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reading_configmap_resources_from_mounted_volumes">Reading <code>ConfigMap</code> resources from mounted volumes</h3>
+<div class="paragraph">
+<p>In the case of <code>ConfigMap</code> resources, reading them from the Kubernetes API requires additional permissions.
+Therefore, you may want to read them from mounted volumes in the pod.</p>
+</div>
+<div class="paragraph">
+<p>Given the following ConfigMap:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mounted-config
+data:
+  mounted.yml: |-
+    foo: bar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It can be mounted as a volume in a pod or deployment definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: micronautapp
+    volumeMounts:
+    - name: configuration
+      mountPath: /etc/configuration
+      readOnly: true
+  volumes:
+  - name: configuration
+    configMap:
+      name: mounted-config</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This makes Kubernetes create one file per data entry:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/etc/configuration/mounted.yml</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To import that mounted file, use a standard Micronaut file import:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:file:///etc/configuration/mounted.yml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:file:///etc/configuration/mounted.yml</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:file:///etc/configuration/mounted.yml"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:file:///etc/configuration/mounted.yml"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:file:///etc/configuration/mounted.yml"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:file:///etc/configuration/mounted.yml"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The file format is deduced from the file suffix. Supported formats for mounted <code>ConfigMap</code> files are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java <code>.properties</code></p>
+</li>
+<li>
+<p>YAML</p>
+</li>
+<li>
+<p>JSON</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Mounted volume imports and Kubernetes API imports are configured independently with configuration import.
+If you want both, list both the <code>file:</code> and <code>kubernetes:</code> entries in <code>micronaut.config.import</code>.
+If the same property key is defined in multiple imports, normal Micronaut property source precedence rules apply.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_watching_for_changes_in_configmaps">Watching for changes in ConfigMaps</h3>
+<div class="paragraph">
+<p>Watching for ConfigMap changes is enabled by default for Kubernetes configuration imports.</p>
+</div>
+<div class="paragraph">
+<p>The following import explicitly enables it:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?name=my-config-map&amp;watch=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&amp;watch=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?name=my-config-map&amp;watch=true"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?name=my-config-map&amp;watch=true"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?name=my-config-map&amp;watch=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?name=my-config-map&amp;watch=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>When watch is enabled, matching <code>ConfigMap</code> resources added, modified, or deleted in Kubernetes will be propagated to
+the Micronaut <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means those changes become available in your application without a restart.</p>
+</div>
+<div class="paragraph">
+<p>To disable watching for ConfigMap changes, set <code>watch=false</code> in the import URI.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://config-map?name=my-config-map&amp;watch=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://config-map?name=my-config-map&amp;watch=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://config-map?name=my-config-map&amp;watch=false"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://config-map?name=my-config-map&amp;watch=false"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://config-map?name=my-config-map&amp;watch=false"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://config-map?name=my-config-map&amp;watch=false"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_examples">Examples</h3>
+<div class="paragraph">
+<p>You can create a Kubernetes <code>ConfigMap</code> from an existing file with the following command:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.properties</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.yml</code></p>
+</div>
+<div class="paragraph">
+<p>Or:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-file=my-config.json</code></p>
+</div>
+<div class="paragraph">
+<p>You can also create a <code>ConfigMap</code> from literal values:</p>
+</div>
+<div class="paragraph">
+<p><code>kubectl create configmap my-config --from-literal=special.how=very --from-literal=special.type=charm</code></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_secrets">Secrets</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Secrets imported from the Kubernetes API are base64-decoded and made available as <code>PropertySource</code> instances, so that
+they can also be read with <code>@Value</code>, <code>@ConfigurationProperties</code>, etc.</p>
+</div>
+<div class="paragraph">
+<p>To import a specific secret by name, add an entry such as:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?name=my-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?name=my-secret"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?name=my-secret"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?name=my-secret"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?name=my-secret"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The same way as for <code>ConfigMap</code> resources, you can import multiple secrets by repeating the entry:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?name=this-secret
+micronaut.config.import[1]=optional:kubernetes://secret?name=other-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=this-secret
+      - optional:kubernetes://secret?name=other-secret</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?name=this-secret",
+      "optional:kubernetes://secret?name=other-secret"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?name=this-secret", "optional:kubernetes://secret?name=other-secret"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?name=this-secret", "optional:kubernetes://secret?name=other-secret"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?name=this-secret", "optional:kubernetes://secret?name=other-secret"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Similarly to <code>ConfigMap</code> resources, labels can also be used to match the desired secrets:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?labels=app=my-app,env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?labels=app=my-app,env=prod</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?labels=app=my-app,env=prod"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?labels=app=my-app,env=prod"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?labels=app=my-app,env=prod"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?labels=app=my-app,env=prod"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This also works for pod labels:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?podLabels=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?podLabels=app.kubernetes.io/instance</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?podLabels=app.kubernetes.io/instance"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>As well as <code>exceptionOnPodLabelsMissing</code>:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Similar to <code>ConfigMap</code> resources, if you want to terminate the service startup when the service is not able to read
+secrets because of any unexpected exception, you can set <code>terminateStartupOnException</code> to <code>true</code> in the import URI:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reading_secret_resources_from_mounted_volumes">Reading <code>Secret</code> resources from mounted volumes</h3>
+<div class="paragraph">
+<p>In the case of <code>Secret</code> resources, reading them from the Kubernetes API requires additional permissions.
+Therefore, you may want to read them from mounted volumes in the pod.</p>
+</div>
+<div class="paragraph">
+<p>Given the following secret:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Secret
+metadata:
+  name: mounted-secret
+type: Opaque
+data:
+  application.properties: Zm9vPWJhcg==</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where decoded secret content is <code>foo=bar</code></p>
+</div>
+<div class="paragraph">
+<p>It can be mounted as a volume in a pod or deployment definition:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: redis
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    secret:
+      secretName: mounted-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This makes Kubernetes create <code>/etc/foo/application.properties</code> file.</p>
+</div>
+<div class="paragraph">
+<p>The file content is the decoded configuration text from the original base64-encoded values.</p>
+</div>
+<div class="paragraph">
+<p>When secrets are imported through <code>file:</code> config import entries, the mounted file name must use one of the supported
+configuration file extensions, such as <code>.properties</code>, <code>.json</code>, <code>.yml</code>, or <code>.yaml</code>. The secret value must then contain
+content that matches that file format so Micronaut can parse it correctly.</p>
+</div>
+<div class="paragraph">
+<p>For example, a mounted secret file named <code>/etc/foo/application.yml</code> should contain YAML content, while
+<code>/etc/foo/application.properties</code> should contain Java properties content.</p>
+</div>
+<div class="paragraph">
+<p>To import those mounted files, use standard Micronaut file imports:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:file:///etc/foo/application.properties</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:file:///etc/foo/application.properties</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:file:///etc/foo/application.properties"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:file:///etc/foo/application.properties"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:file:///etc/foo/application.properties"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:file:///etc/foo/application.properties"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Mounted secret files and Kubernetes API imports can be combined by listing both <code>file:</code> and <code>kubernetes:</code> entries in
+<code>micronaut.config.import</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_watching_for_changes_in_secrets">Watching for changes in Secrets</h3>
+<div class="paragraph">
+<p>Watching for Secret changes is enabled by default for Kubernetes configuration imports.</p>
+</div>
+<div class="paragraph">
+<p>If watch is enabled, this configuration module will watch for matching <code>Secret</code> resources added, modified, or deleted,
+and the changes will be propagated to the <code>Environment</code> and refresh it.</p>
+</div>
+<div class="paragraph">
+<p>This means those changes become available in your application without a restart.</p>
+</div>
+<div class="paragraph">
+<p>The following import explicitly enables it:</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?name=my-secret&amp;watch=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&amp;watch=true</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?name=my-secret&amp;watch=true"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?name=my-secret&amp;watch=true"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?name=my-secret&amp;watch=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?name=my-secret&amp;watch=true"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To disable watching for Secret changes, set <code>watch=false</code> in the import URI.</p>
+</div>
+<div class="openblock">
+<div class="content">
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-properties hljs" data-lang="properties">micronaut.config.import[0]=optional:kubernetes://secret?name=my-secret&amp;watch=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">micronaut:
+  config:
+    import:
+      - optional:kubernetes://secret?name=my-secret&amp;watch=false</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
+  [micronaut.config]
+    import=[
+      "optional:kubernetes://secret?name=my-secret&amp;watch=false"
+    ]</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy-config hljs" data-lang="groovy-config">micronaut {
+  config {
+    'import' = ["optional:kubernetes://secret?name=my-secret&amp;watch=false"]
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-hocon hljs" data-lang="hocon">{
+  micronaut {
+    config {
+      import = ["optional:kubernetes://secret?name=my-secret&amp;watch=false"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json-config hljs" data-lang="json-config">{
+  "micronaut": {
+    "config": {
+      "import": ["optional:kubernetes://secret?name=my-secret&amp;watch=false"]
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<h1 id="logging"><a class="anchor" href="#logging"></a>7 Logging and debugging</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/8.0.x/src/main/docs/guide/logging.adoc"'>
@@ -8255,7 +9838,7 @@ to <code>DEBUG</code>:</p>
 the resolved <code>PropertySource</code>s from <code>ConfigMap</code>s, and their corresponding properties.</p>
 </div>
 
-<h1 id="breaking"><a class="anchor" href="#breaking"></a>7 Breaking Changes</h1>
+<h1 id="breaking"><a class="anchor" href="#breaking"></a>8 Breaking Changes</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/8.0.x/src/main/docs/guide/breaking.adoc"'>
@@ -8367,7 +9950,7 @@ the official kubernetes client. To support the builder pattern, the reactive cli
 </div>
 </div>
 
-<h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>8 Guides</h1>
+<h1 id="kubernetesGuides"><a class="anchor" href="#kubernetesGuides"></a>9 Guides</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/8.0.x/src/main/docs/guide/kubernetesGuides.adoc"'>
@@ -8383,7 +9966,7 @@ the official kubernetes client. To support the builder pattern, the reactive cli
 <p><a href="https://guides.micronaut.io/latest/tag-kubernetes.html" class="bare">https://guides.micronaut.io/latest/tag-kubernetes.html</a></p>
 </div>
 
-<h1 id="repository"><a class="anchor" href="#repository"></a>9 Repository</h1>
+<h1 id="repository"><a class="anchor" href="#repository"></a>10 Repository</h1>
 
 <div class='contribute-btn'>
     <button type='button' class='btn btn-default' onclick='window.location.href="https://github.com/micronaut-projects/micronaut-kubernetes/edit/8.0.x/src/main/docs/guide/repository.adoc"'>

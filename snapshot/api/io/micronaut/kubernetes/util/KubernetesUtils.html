@@ -60,6 +60,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#field-detail" tabindex="0">Field Details</a>
 <ol class="toc-list">
 <li><a href="#ENV_KUBERNETES_SERVICE_HOST" tabindex="0">ENV_KUBERNETES_SERVICE_HOST</a></li>
+<li><a href="#API_PROPERTY_SOURCE_PRIORITY" tabindex="0">API_PROPERTY_SOURCE_PRIORITY</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
@@ -69,15 +70,21 @@ loadScripts(document, 'script');</script>
 </li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#createResVersionPropertyName(io.kubernetes.client.common.KubernetesObject)" tabindex="0">createResVersionPropertyName(KubernetesObject)</a></li>
+<li><a href="#createPropertySourceName(java.lang.String,java.lang.Class)" tabindex="0">createPropertySourceName(String, Class)</a></li>
+<li><a href="#configMapAsMap(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)" tabindex="0">configMapAsMap(V1ConfigMap, Collection)</a></li>
 <li><a href="#configMapAsPropertySource(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)" tabindex="0">configMapAsPropertySource(V1ConfigMap, Collection)</a></li>
 <li><a href="#configMapAsPropertySource(java.lang.String,java.util.Map,java.util.Collection)" tabindex="0">configMapAsPropertySource(String, Map, Collection)</a></li>
-<li><a href="#computeLabelSelector(java.util.Map)" tabindex="0">computeLabelSelector(Map)</a></li>
+<li><a href="#secretAsMap(io.kubernetes.client.openapi.models.V1Secret)" tabindex="0">secretAsMap(V1Secret)</a></li>
 <li><a href="#secretAsPropertySource(io.kubernetes.client.openapi.models.V1Secret)" tabindex="0">secretAsPropertySource(V1Secret)</a></li>
 <li><a href="#getIncludesFilter(java.util.Collection)" tabindex="0">getIncludesFilter(Collection)</a></li>
 <li><a href="#getExcludesFilter(java.util.Collection)" tabindex="0">getExcludesFilter(Collection)</a></li>
 <li><a href="#getLabelsFilter(java.util.Map)" tabindex="0">getLabelsFilter(Map)</a></li>
 <li><a href="#objectNameOrNull(io.kubernetes.client.common.KubernetesObject)" tabindex="0">objectNameOrNull(KubernetesObject)</a></li>
 <li><a href="#computePodLabelSelector(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" tabindex="0">computePodLabelSelector(CoreV1ApiReactorClient, List, String, Map, boolean)</a></li>
+<li><a href="#computePodLabels(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" tabindex="0">computePodLabels(CoreV1ApiReactorClient, List, String, Map, boolean)</a></li>
+<li><a href="#parseLabels(java.lang.String,java.lang.String)" tabindex="0">parseLabels(String, String)</a></li>
+<li><a href="#computeLabelSelector(java.util.Map)" tabindex="0">computeLabelSelector(Map)</a></li>
 </ol>
 </li>
 </ol>
@@ -115,9 +122,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#ENV_KUBERNETES_SERVICE_HOST" class="member-name-link">ENV_KUBERNETES_SERVICE_HOST</a></code></div>
+<div class="col-first even-row-color"><code>static final int</code></div>
+<div class="col-second even-row-color"><code><a href="#API_PROPERTY_SOURCE_PRIORITY" class="member-name-link">API_PROPERTY_SOURCE_PRIORITY</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#ENV_KUBERNETES_SERVICE_HOST" class="member-name-link">ENV_KUBERNETES_SERVICE_HOST</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -148,15 +158,32 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#computeLabelSelector(java.util.Map)" class="member-name-link">computeLabelSelector</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Determines the value of a Kubernetes labelSelector filter based on the passed labels.</div>
+<div class="block">Creates a label selector filter based on the passed labels.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static reactor.core.publisher.Mono<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#computePodLabelSelector(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabelSelector</a><wbr>(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient&nbsp;client,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @NonNull reactor.core.publisher.Mono<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#computePodLabels(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabels</a><wbr>(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient&nbsp;client,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;podLabelKeys,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels,
  boolean&nbsp;exceptionOnPodLabelsMissing)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a label map from pod and passed labels.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static reactor.core.publisher.Mono<wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#computePodLabelSelector(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)" class="member-name-link">computePodLabelSelector</a><wbr>(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient&nbsp;client,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;podLabelKeys,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels,
+ boolean&nbsp;exceptionOnPodLabelsMissing)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a label selector filter from pod and passed labels.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#configMapAsMap(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)" class="member-name-link">configMapAsMap</a><wbr>(io.kubernetes.client.openapi.models.V1ConfigMap&nbsp;configMap,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;io.micronaut.context.env.PropertySourceLoader&gt;&nbsp;propertySourceLoaders)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts a <code>V1ConfigMap</code> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static io.micronaut.context.env.PropertySource</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#configMapAsPropertySource(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)" class="member-name-link">configMapAsPropertySource</a><wbr>(io.kubernetes.client.openapi.models.V1ConfigMap&nbsp;configMap,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;io.micronaut.context.env.PropertySourceLoader&gt;&nbsp;propertySourceLoaders)</code></div>
@@ -168,7 +195,18 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;data,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;io.micronaut.context.env.PropertySourceLoader&gt;&nbsp;propertySourceLoaders)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Converts config map mounted as volume into property sources.</div>
+<div class="block">Converts config map mounted as volume into a <code>PropertySource</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createPropertySourceName(java.lang.String,java.lang.Class)" class="member-name-link">createPropertySourceName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filePath,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends io.kubernetes.client.common.KubernetesObject&gt;&nbsp;type)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a property source name from given file path.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#createResVersionPropertyName(io.kubernetes.client.common.KubernetesObject)" class="member-name-link">createResVersionPropertyName</a><wbr>(io.kubernetes.client.common.KubernetesObject&nbsp;kubernetesObject)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Creates a property name for property which contains resource version of given kubernetes object.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a><wbr>&lt;io.kubernetes.client.common.KubernetesObject&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getExcludesFilter(java.util.Collection)" class="member-name-link">getExcludesFilter</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;excludes)</code></div>
@@ -182,9 +220,20 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#objectNameOrNull(io.kubernetes.client.common.KubernetesObject)" class="member-name-link">objectNameOrNull</a><wbr>(io.kubernetes.client.common.KubernetesObject&nbsp;kubernetesObject)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#parseLabels(java.lang.String,java.lang.String)" class="member-name-link">parseLabels</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelsValue,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;provider)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#secretAsMap(io.kubernetes.client.openapi.models.V1Secret)" class="member-name-link">secretAsMap</a><wbr>(io.kubernetes.client.openapi.models.V1Secret&nbsp;secret)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts a <code>V1Secret</code> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static io.micronaut.context.env.PropertySource</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#secretAsPropertySource(io.kubernetes.client.openapi.models.V1Secret)" class="member-name-link">secretAsPropertySource</a><wbr>(io.kubernetes.client.openapi.models.V1Secret&nbsp;secret)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Converts a <code>V1Secret</code> into a <code>PropertySource</code>.</div>
+</div>
 </div>
 </div>
 </div>
@@ -218,6 +267,22 @@ loadScripts(document, 'script');</script>
 </div>
 </section>
 </li>
+<li>
+<section class="detail" id="API_PROPERTY_SOURCE_PRIORITY">
+<h3>API_PROPERTY_SOURCE_PRIORITY</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">API_PROPERTY_SOURCE_PRIORITY</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../constant-values.html#io.micronaut.kubernetes.util.KubernetesUtils.API_PROPERTY_SOURCE_PRIORITY">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
 </ul>
 </section>
 </li>
@@ -243,6 +308,55 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="createResVersionPropertyName(io.kubernetes.client.common.KubernetesObject)">
+<h3>createResVersionPropertyName</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">createResVersionPropertyName</span><wbr><span class="parameters">(io.kubernetes.client.common.KubernetesObject&nbsp;kubernetesObject)</span></div>
+<div class="block">Creates a property name for property which contains resource version of given kubernetes object.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>kubernetesObject</code> - the kubernetes object</dd>
+<dt>Returns:</dt>
+<dd>property name</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="createPropertySourceName(java.lang.String,java.lang.Class)">
+<h3>createPropertySourceName</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">createPropertySourceName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;filePath,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends io.kubernetes.client.common.KubernetesObject&gt;&nbsp;type)</span></div>
+<div class="block">Creates a property source name from given file path.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>filePath</code> - the file path</dd>
+<dd><code>type</code> - the kubernetes type</dd>
+<dt>Returns:</dt>
+<dd>property source name</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="configMapAsMap(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)">
+<h3>configMapAsMap</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">configMapAsMap</span><wbr><span class="parameters">(io.kubernetes.client.openapi.models.V1ConfigMap&nbsp;configMap,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;io.micronaut.context.env.PropertySourceLoader&gt;&nbsp;propertySourceLoaders)</span></div>
+<div class="block">Converts a <code>V1ConfigMap</code> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>configMap</code> - the <code>V1ConfigMap</code> instance</dd>
+<dd><code>propertySourceLoaders</code> - the collection of property source loaders</dd>
+<dt>Returns:</dt>
+<dd><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a> instance</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="configMapAsPropertySource(io.kubernetes.client.openapi.models.V1ConfigMap,java.util.Collection)">
 <h3>configMapAsPropertySource</h3>
 <div class="horizontal-scroll">
@@ -251,10 +365,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Converts a <code>V1ConfigMap</code> into a <code>PropertySource</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>configMap</code> - the ConfigMap</dd>
+<dd><code>configMap</code> - the <code>V1ConfigMap</code> instance</dd>
 <dd><code>propertySourceLoaders</code> - the collection of property source loaders</dd>
 <dt>Returns:</dt>
-<dd>A PropertySource</dd>
+<dd><code>PropertySource</code> instance</dd>
 </dl>
 </div>
 </section>
@@ -266,29 +380,29 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;io.micronaut.context.env.PropertySource&gt;</span>&nbsp;<span class="element-name">configMapAsPropertySource</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;mountPoint,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;data,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;io.micronaut.context.env.PropertySourceLoader&gt;&nbsp;propertySourceLoaders)</span></div>
-<div class="block">Converts config map mounted as volume into property sources.</div>
+<div class="block">Converts config map mounted as volume into a <code>PropertySource</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>mountPoint</code> - the mount point</dd>
 <dd><code>data</code> - the configmaps data in the mounted volume where keys are file names and values is the file content</dd>
 <dd><code>propertySourceLoaders</code> - the collection of property source loaders</dd>
 <dt>Returns:</dt>
-<dd>list of property sources</dd>
+<dd>list of <code>PropertySource</code> instances</dd>
 </dl>
 </div>
 </section>
 </li>
 <li>
-<section class="detail" id="computeLabelSelector(java.util.Map)">
-<h3>computeLabelSelector</h3>
+<section class="detail" id="secretAsMap(io.kubernetes.client.openapi.models.V1Secret)">
+<h3>secretAsMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">computeLabelSelector</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels)</span></div>
-<div class="block">Determines the value of a Kubernetes labelSelector filter based on the passed labels.</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">secretAsMap</span><wbr><span class="parameters">(io.kubernetes.client.openapi.models.V1Secret&nbsp;secret)</span></div>
+<div class="block">Converts a <code>V1Secret</code> into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>labels</code> - the labels</dd>
+<dd><code>secret</code> - the <code>V1Secret</code> instance</dd>
 <dt>Returns:</dt>
-<dd>the value of the labelSelector filter</dd>
+<dd><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a> instance</dd>
 </dl>
 </div>
 </section>
@@ -298,11 +412,12 @@ loadScripts(document, 'script');</script>
 <h3>secretAsPropertySource</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">io.micronaut.context.env.PropertySource</span>&nbsp;<span class="element-name">secretAsPropertySource</span><wbr><span class="parameters">(io.kubernetes.client.openapi.models.V1Secret&nbsp;secret)</span></div>
+<div class="block">Converts a <code>V1Secret</code> into a <code>PropertySource</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>secret</code> - The <code>V1Secret</code> to transform</dd>
+<dd><code>secret</code> - the <code>V1Secret</code> instance</dd>
 <dt>Returns:</dt>
-<dd>The converted <code>PropertySource</code>.</dd>
+<dd><code>PropertySource</code> instance</dd>
 </dl>
 </div>
 </section>
@@ -366,15 +481,63 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels,
  boolean&nbsp;exceptionOnPodLabelsMissing)</span></div>
+<div class="block">Creates a label selector filter from pod and passed labels.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>client</code> - the <code>CoreV1ApiReactorClient</code></dd>
-<dd><code>podLabelKeys</code> - the list of labels inside a pod</dd>
-<dd><code>namespace</code> - in the configuration</dd>
-<dd><code>labels</code> - the labels</dd>
-<dd><code>exceptionOnPodLabelsMissing</code> - should and exception be thrown if configured pod label is not found</dd>
+<dd><code>client</code> - the client</dd>
+<dd><code>podLabelKeys</code> - the list of label keys inside a pod</dd>
+<dd><code>namespace</code> - the namespace</dd>
+<dd><code>labels</code> - the additional labels</dd>
+<dd><code>exceptionOnPodLabelsMissing</code> - should an exception be thrown if configured pod label key is not found in pod labels</dd>
 <dt>Returns:</dt>
-<dd>the filtered labels of the current pod</dd>
+<dd>the label selector filter</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="computePodLabels(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient,java.util.List,java.lang.String,java.util.Map,boolean)">
+<h3>computePodLabels</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">@NonNull reactor.core.publisher.Mono&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&gt;</span>&nbsp;<span class="element-name">computePodLabels</span><wbr><span class="parameters">(io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient&nbsp;client,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;podLabelKeys,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;namespace,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels,
+ boolean&nbsp;exceptionOnPodLabelsMissing)</span></div>
+<div class="block">Creates a label map from pod and passed labels.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>client</code> - the client</dd>
+<dd><code>podLabelKeys</code> - the list of label keys inside a pod</dd>
+<dd><code>namespace</code> - the namespace</dd>
+<dd><code>labels</code> - the additional labels</dd>
+<dd><code>exceptionOnPodLabelsMissing</code> - should an exception be thrown if configured pod label key is not found in pod labels</dd>
+<dt>Returns:</dt>
+<dd>the computed labels</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="parseLabels(java.lang.String,java.lang.String)">
+<h3>parseLabels</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">parseLabels</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;labelsValue,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;provider)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="computeLabelSelector(java.util.Map)">
+<h3>computeLabelSelector</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">computeLabelSelector</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;labels)</span></div>
+<div class="block">Creates a label selector filter based on the passed labels.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>labels</code> - the map of labels</dd>
+<dt>Returns:</dt>
+<dd>the label selector filter</dd>
 </dl>
 </div>
 </section>

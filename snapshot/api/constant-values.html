@@ -99,6 +99,17 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color"><code>"kubernetes.client.discovery"</code></div>
 </div>
 </li>
+<li>
+<div class="caption"><span>io.micronaut.kubernetes.<a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html" title="class in io.micronaut.kubernetes">KubernetesConfiguration.KubernetesSecretsConfiguration</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.KubernetesConfiguration.KubernetesSecretsConfiguration.PREFIX">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/KubernetesConfiguration.KubernetesSecretsConfiguration.html#PREFIX">PREFIX</a></code></div>
+<div class="col-last even-row-color"><code>"secrets"</code></div>
+</div>
+</li>
 </ul>
 <ul class="block-list">
 <li>
@@ -241,6 +252,32 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code id="io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration.PREFIX">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/client/openapi/config/KubernetesClientConfiguration.html#PREFIX">PREFIX</a></code></div>
 <div class="col-last even-row-color"><code>"kubernetes.client"</code></div>
+</div>
+</li>
+</ul>
+<ul class="block-list">
+<li>
+<div class="caption"><span>io.micronaut.kubernetes.client.openapi.configuration.<a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html" title="class in io.micronaut.kubernetes.client.openapi.configuration">KubernetesConfigUtils</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils.API_PROPERTY_SOURCE_PRIORITY">public&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/client/openapi/configuration/KubernetesConfigUtils.html#API_PROPERTY_SOURCE_PRIORITY">API_PROPERTY_SOURCE_PRIORITY</a></code></div>
+<div class="col-last even-row-color"><code>-100</code></div>
+</div>
+</li>
+</ul>
+<ul class="block-list">
+<li>
+<div class="caption"><span>io.micronaut.kubernetes.client.openapi.configuration.imports.<a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.client.openapi.configuration.imports">KubernetesPropertySourceImporter</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesPropertySourceImporter.KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/client/openapi/configuration/imports/KubernetesPropertySourceImporter.html#KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY">KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY</a></code></div>
+<div class="col-last even-row-color"><code>"kubernetes-config-import-property"</code></div>
 </div>
 </li>
 </ul>
@@ -15076,21 +15113,28 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.CONFIG_MAP_LIST_RESOURCE_VERSION">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#CONFIG_MAP_LIST_RESOURCE_VERSION">CONFIG_MAP_LIST_RESOURCE_VERSION</a></code></div>
 <div class="col-last even-row-color"><code>"configMapListResourceVersion"</code></div>
-<div class="col-first odd-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#CONFIG_MAP_RESOURCE_VERSION">CONFIG_MAP_RESOURCE_VERSION</a></code></div>
-<div class="col-last odd-row-color"><code>"configMapResourceVersion"</code></div>
-<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_LIST_NAME">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_CONFIG_MAP_LIST_NAME">KUBERNETES_CONFIG_MAP_LIST_NAME</a></code></div>
-<div class="col-last even-row-color"><code>"Kubernetes ConfigMapList"</code></div>
-<div class="col-first odd-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_NAME_SUFFIX">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_CONFIG_MAP_NAME_SUFFIX">KUBERNETES_CONFIG_MAP_NAME_SUFFIX</a></code></div>
-<div class="col-last odd-row-color"><code>" (Kubernetes ConfigMap)"</code></div>
+<div class="col-first odd-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_CONFIG_MAP_LIST_NAME">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_CONFIG_MAP_LIST_NAME">KUBERNETES_CONFIG_MAP_LIST_NAME</a></code></div>
+<div class="col-last odd-row-color"><code>"Kubernetes ConfigMapList"</code></div>
 <div class="col-first even-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.KUBERNETES_SECRET_NAME_SUFFIX">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#KUBERNETES_SECRET_NAME_SUFFIX">KUBERNETES_SECRET_NAME_SUFFIX</a></code></div>
 <div class="col-last even-row-color"><code>" (Kubernetes Secret)"</code></div>
 <div class="col-first odd-row-color"><code id="io.micronaut.kubernetes.configuration.KubernetesConfigurationClient.OPAQUE_SECRET_TYPE">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="io/micronaut/kubernetes/configuration/KubernetesConfigurationClient.html#OPAQUE_SECRET_TYPE">OPAQUE_SECRET_TYPE</a></code></div>
 <div class="col-last odd-row-color"><code>"Opaque"</code></div>
+</div>
+</li>
+</ul>
+<ul class="block-list">
+<li>
+<div class="caption"><span>io.micronaut.kubernetes.configuration.imports.<a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html" title="class in io.micronaut.kubernetes.configuration.imports">KubernetesPropertySourceImporter</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.configuration.imports.KubernetesPropertySourceImporter.KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/configuration/imports/KubernetesPropertySourceImporter.html#KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY">KUBERNETES_CONFIG_IMPORT_CONTEXT_PROPERTY</a></code></div>
+<div class="col-last even-row-color"><code>"kubernetes-config-import-property"</code></div>
 </div>
 </li>
 </ul>
@@ -15207,9 +15251,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Constant Field</div>
 <div class="table-header col-last">Value</div>
-<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.util.KubernetesUtils.ENV_KUBERNETES_SERVICE_HOST">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#ENV_KUBERNETES_SERVICE_HOST">ENV_KUBERNETES_SERVICE_HOST</a></code></div>
-<div class="col-last even-row-color"><code>"KUBERNETES_SERVICE_HOST"</code></div>
+<div class="col-first even-row-color"><code id="io.micronaut.kubernetes.util.KubernetesUtils.API_PROPERTY_SOURCE_PRIORITY">public&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#API_PROPERTY_SOURCE_PRIORITY">API_PROPERTY_SOURCE_PRIORITY</a></code></div>
+<div class="col-last even-row-color"><code>-100</code></div>
+<div class="col-first odd-row-color"><code id="io.micronaut.kubernetes.util.KubernetesUtils.ENV_KUBERNETES_SERVICE_HOST">public&nbsp;static&nbsp;final&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="io/micronaut/kubernetes/util/KubernetesUtils.html#ENV_KUBERNETES_SERVICE_HOST">ENV_KUBERNETES_SERVICE_HOST</a></code></div>
+<div class="col-last odd-row-color"><code>"KUBERNETES_SERVICE_HOST"</code></div>
 </div>
 </li>
 </ul>
