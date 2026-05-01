@@ -17,12 +17,15 @@ package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesLegacyImportMode;
 
 /**
  * Condition evaluates when the {@link KubernetesSecretWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
 
     @Override
@@ -33,5 +36,10 @@ final class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWat
     @Override
     String getPropertyPrefix() {
         return KubernetesConfiguration.KubernetesSecretsConfiguration.PREFIX;
+    }
+
+    @Override
+    boolean isExplicitImportEnabled() {
+        return KubernetesLegacyImportMode.isSecretImportEnabled();
     }
 }

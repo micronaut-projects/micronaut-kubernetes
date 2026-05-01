@@ -26,6 +26,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesLegacyImportMode;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMapList;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.model.V1SecretList;
@@ -56,7 +57,9 @@ import java.util.function.Predicate;
  * read from Kubernetes ConfigMaps and Secrets.
  *
  * @author Álvaro Sánchez-Mariscal
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 @Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
@@ -76,7 +79,9 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
      * @param configuration The configuration properties
      * @param environment   The environment
      */
-    KubernetesConfigurationClient(CoreV1ApiReactor client, KubernetesConfiguration configuration, Environment environment) {
+    KubernetesConfigurationClient(CoreV1ApiReactor client,
+                                  KubernetesConfiguration configuration,
+                                  Environment environment) {
         this.client = client;
         this.configuration = configuration;
         this.environment = environment;
@@ -130,13 +135,15 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
         Flux<PropertySource> propertySourceFlux = Flux.empty();
         KubernetesConfiguration.KubernetesConfigMapsConfiguration configMapsConfiguration = configuration.getConfigMaps();
         if (configMapsConfiguration.isEnabled()) {
+            boolean legacyConfigMapsEnabled = !KubernetesLegacyImportMode.isConfigMapImportEnabled();
             Collection<String> mountedVolumePaths = configMapsConfiguration.getPaths();
-            if (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi()) {
+            if (legacyConfigMapsEnabled && (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi())) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readConfigMapsFromApi());
             }
-            if (!mountedVolumePaths.isEmpty()) {
+            if (legacyConfigMapsEnabled && !mountedVolumePaths.isEmpty()) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readConfigMapsFromMountedVolumes(mountedVolumePaths));
             }
+            KubernetesLegacyImportMode.logLegacyBootstrapDeprecationIfNeeded(legacyConfigMapsEnabled);
         } else {
             LOG.debug("Kubernetes config maps access is disabled");
         }
@@ -195,13 +202,15 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
         Flux<PropertySource> propertySourceFlux = Flux.empty();
         KubernetesConfiguration.KubernetesSecretsConfiguration secretsConfiguration = configuration.getSecrets();
         if (secretsConfiguration.isEnabled()) {
+            boolean legacySecretsEnabled = !KubernetesLegacyImportMode.isSecretImportEnabled();
             Collection<String> mountedVolumePaths = secretsConfiguration.getPaths();
-            if (mountedVolumePaths.isEmpty() || secretsConfiguration.isUseApi()) {
+            if (legacySecretsEnabled && (mountedVolumePaths.isEmpty() || secretsConfiguration.isUseApi())) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readSecretsFromApi());
             }
-            if (!mountedVolumePaths.isEmpty()) {
+            if (legacySecretsEnabled && !mountedVolumePaths.isEmpty()) {
                 propertySourceFlux = propertySourceFlux.mergeWith(readSecretsFromMountedVolumes(mountedVolumePaths));
             }
+            KubernetesLegacyImportMode.logLegacyBootstrapDeprecationIfNeeded(legacySecretsEnabled);
         } else {
             LOG.debug("Kubernetes secrets access is disabled");
         }

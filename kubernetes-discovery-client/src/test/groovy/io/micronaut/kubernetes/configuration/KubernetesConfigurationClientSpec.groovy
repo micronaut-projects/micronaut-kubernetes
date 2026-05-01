@@ -40,45 +40,45 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
     void "it can read config maps from properties"() {
         when:
         PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
-                .filter(it -> it.name.startsWith 'game.properties')
+                .filter(it -> it.name.startsWith 'game-config-properties')
                 .blockFirst()
 
         then:
-        propertySource.name == 'game.properties (Kubernetes ConfigMap)'
+        propertySource.name == 'game-config-properties (Kubernetes V1ConfigMap)'
         propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('enemies') == 'zombies'
         propertySource.get('lives') == '5'
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
-        propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
+        propertySource.get('v1configmap.game-config-properties.resource-version')
     }
 
     void "it can read config maps from yml"() {
         when:
         PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
-                .filter(it -> it.name.startsWith 'game.yml')
+                .filter(it -> it.name.startsWith 'game-config-yml')
                 .blockFirst()
 
         then:
-        propertySource.name == 'game.yml (Kubernetes ConfigMap)'
+        propertySource.name == 'game-config-yml (Kubernetes V1ConfigMap)'
         propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('enemies') == 'aliens'
         propertySource.get('lives') == 3
         propertySource.get('enemies.cheat.level') == 'noGoodRotten'
-        propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
+        propertySource.get('v1configmap.game-config-yml.resource-version')
     }
 
     void "it can read config maps from json"() {
         when:
         PropertySource propertySource = Flux.from(configurationClient.getPropertySources(applicationContext.environment))
-                .filter(it -> it.name.startsWith 'game.json')
+                .filter(it -> it.name.startsWith 'game-config-json')
                 .blockFirst()
 
         then:
-        propertySource.name == 'game.json (Kubernetes ConfigMap)'
+        propertySource.name == 'game-config-json (Kubernetes V1ConfigMap)'
         propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('enemies') == 'monsters'
         propertySource.get('lives') == 7
-        propertySource.get(KubernetesConfigurationClient.CONFIG_MAP_RESOURCE_VERSION)
+        propertySource.get('v1configmap.game-config-json.resource-version')
     }
 
     void "it can read config maps from literals"() {
@@ -91,7 +91,7 @@ class KubernetesConfigurationClientSpec extends KubernetesSpecification {
                 .blockFirst()
 
         then:
-        propertySource.name == 'literal-config (Kubernetes ConfigMap)'
+        propertySource.name == 'literal-config (Kubernetes V1ConfigMap)'
         propertySource.order > EnvironmentPropertySource.POSITION
         propertySource.get('special.how') == 'very'
         propertySource.get('special.type') == 'charm'

@@ -23,7 +23,9 @@ import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
  * Condition evaluates when the {@link AbstractKubernetesConfigWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condition
     permits KubernetesConfigMapWatcherCondition, KubernetesSecretWatcherCondition  {
 
@@ -31,6 +33,11 @@ abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condit
     public boolean matches(ConditionContext context) {
         KubernetesConfiguration.AbstractConfigConfiguration configConfiguration = getConfig(context);
         String propertyPrefix = getPropertyPrefix();
+
+        if (isExplicitImportEnabled()) {
+            context.fail("explicit config import disables legacy watcher for '" + propertyPrefix + "'");
+            return false;
+        }
 
         if (!configConfiguration.isEnabled()) {
             context.fail("configuration client is disabled for '" + propertyPrefix + "'");
@@ -53,4 +60,6 @@ abstract sealed class AbstractKubernetesConfigWatcherCondition implements Condit
     abstract KubernetesConfiguration.AbstractConfigConfiguration getConfig(ConditionContext context);
 
     abstract String getPropertyPrefix();
+
+    abstract boolean isExplicitImportEnabled();
 }

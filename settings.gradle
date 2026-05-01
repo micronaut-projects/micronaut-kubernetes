@@ -43,7 +43,9 @@ include 'examples:example-kubernetes-client-openapi-watcher-java'
 include 'examples:example-kubernetes-informer'
 include 'examples:example-kubernetes-operator'
 include 'examples:example-service'
+include 'examples:example-service-config-import'
 include 'examples:example-service-openapi'
+include 'examples:example-service-openapi-config-import'
 
 micronautBuild {
     useStandardizedProjectNames = true

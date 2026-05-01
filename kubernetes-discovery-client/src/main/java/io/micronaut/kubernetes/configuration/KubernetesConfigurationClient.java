@@ -31,6 +31,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.config.ConfigurationClient;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
+import io.micronaut.kubernetes.configuration.imports.KubernetesLegacyImportMode;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
@@ -62,7 +63,9 @@ import static java.util.Collections.singletonMap;
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 @Requires(property = ConfigurationClient.ENABLED, value = StringUtils.TRUE, defaultValue = StringUtils.FALSE)
@@ -70,9 +73,7 @@ import static java.util.Collections.singletonMap;
 public class KubernetesConfigurationClient implements ConfigurationClient {
 
     public static final String CONFIG_MAP_LIST_RESOURCE_VERSION = "configMapListResourceVersion";
-    public static final String CONFIG_MAP_RESOURCE_VERSION = "configMapResourceVersion";
     public static final String KUBERNETES_CONFIG_MAP_LIST_NAME = "Kubernetes ConfigMapList";
-    public static final String KUBERNETES_CONFIG_MAP_NAME_SUFFIX = " (Kubernetes ConfigMap)";
     public static final String KUBERNETES_SECRET_NAME_SUFFIX = " (Kubernetes Secret)";
     public static final String OPAQUE_SECRET_TYPE = "Opaque";
 
@@ -89,7 +90,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @param configuration The configuration properties
      * @param environment   The environment
      */
-    public KubernetesConfigurationClient(CoreV1ApiReactorClient client, KubernetesConfiguration configuration, Environment environment) {
+    public KubernetesConfigurationClient(CoreV1ApiReactorClient client,
+                                         KubernetesConfiguration configuration,
+                                         Environment environment) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Initializing {}", getClass().getName());
         }
@@ -111,6 +114,9 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
             return Flux.fromIterable(propertySources.values());
         } else {
             LOG.trace("PropertySource cache is empty");
+            boolean configMapsEnabled = configuration.getConfigMaps().isEnabled() && !KubernetesLegacyImportMode.isConfigMapImportEnabled();
+            boolean secretsEnabled = configuration.getSecrets().isEnabled() && !KubernetesLegacyImportMode.isSecretImportEnabled();
+            KubernetesLegacyImportMode.logLegacyBootstrapDeprecationIfNeeded(configMapsEnabled || secretsEnabled);
             return Flux.from(getPropertySourcesFromConfigMaps()).mergeWith(getPropertySourcesFromSecrets());
         }
     }
@@ -162,7 +168,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
         KubernetesConfiguration.KubernetesConfigMapsConfiguration configMapsConfiguration = configuration.getConfigMaps();
 
-        if (configMapsConfiguration.isEnabled()) {
+        if (configMapsConfiguration.isEnabled() && !KubernetesLegacyImportMode.isConfigMapImportEnabled()) {
             Collection<String> mountedVolumePaths = configMapsConfiguration.getPaths();
             if (mountedVolumePaths.isEmpty() || configMapsConfiguration.isUseApi()) {
 
@@ -286,7 +292,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
 
     private Publisher<PropertySource> getPropertySourcesFromSecrets() {
         Flux<PropertySource> propertySourceFlowable = Flux.empty();
-        if (configuration.getSecrets().isEnabled()) {
+        if (configuration.getSecrets().isEnabled() && !KubernetesLegacyImportMode.isSecretImportEnabled()) {
             Collection<String> mountedVolumePaths = configuration.getSecrets().getPaths();
 
             if (mountedVolumePaths.isEmpty() || configuration.getSecrets().isUseApi()) {
@@ -347,7 +353,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
                                         propertySourceContents.put(key, value);
                                     }
                                 }
-                                String propertySourceName = path.toString() + KUBERNETES_SECRET_NAME_SUFFIX;
+                                String propertySourceName = path + KUBERNETES_SECRET_NAME_SUFFIX;
                                 int priority = EnvironmentPropertySource.POSITION + 150;
                                 PropertySource propertySource = PropertySource.of(propertySourceName, propertySourceContents, priority);
                                 addPropertySourceToCache(propertySource);

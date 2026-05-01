@@ -39,7 +39,9 @@ import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
  *
  * @author Álvaro Sánchez-Mariscal
  * @since 1.0.0
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject> implements ResourceEventHandler<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigWatcher.class);
@@ -83,7 +85,9 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
                 LOG.debug("PropertySource created from Config: {}", config.getMetadata().getName());
             }
 
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            if (propertySource != null) {
+                KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            }
             refreshEnvironment();
         }
     }
@@ -108,8 +112,10 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
                 LOG.debug("PropertySource modified by ConfigMap: {}", newConfig.getMetadata().getName());
             }
 
-            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
-            KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            if (propertySource != null) {
+                KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+                KubernetesConfigurationClient.addPropertySourceToCache(propertySource);
+            }
             refreshEnvironment();
         }
     }
@@ -132,7 +138,9 @@ public abstract class AbstractKubernetesConfigWatcher<T extends KubernetesObject
                 LOG.debug("Removed PropertySource created from ConfigMap: {}", config.getMetadata().getName());
             }
 
-            KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            if (propertySource != null) {
+                KubernetesConfigurationClient.removePropertySourceFromCache(propertySource.getName());
+            }
             refreshEnvironment();
         }
     }

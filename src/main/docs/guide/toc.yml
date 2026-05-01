@@ -16,6 +16,7 @@ kubernetes-client-openapi:
   kubernetes-client-openapi-watcher: Kubernetes Watcher
   kubernetes-client-openapi-informer: Kubernetes Informer
   kubernetes-client-openapi-operator: Kubernetes Operator
+config-import: Configuration Import
 logging: Logging and debugging
 breaking: Breaking Changes
 kubernetesGuides: Guides

@@ -17,12 +17,15 @@ package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
+import io.micronaut.kubernetes.client.openapi.configuration.imports.KubernetesLegacyImportMode;
 
 /**
  * Condition evaluates when the {@link KubernetesConfigMapWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 final class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
 
     @Override
@@ -33,5 +36,10 @@ final class KubernetesConfigMapWatcherCondition extends AbstractKubernetesConfig
     @Override
     String getPropertyPrefix() {
         return KubernetesConfiguration.KubernetesConfigMapsConfiguration.PREFIX;
+    }
+
+    @Override
+    boolean isExplicitImportEnabled() {
+        return KubernetesLegacyImportMode.isConfigMapImportEnabled();
     }
 }

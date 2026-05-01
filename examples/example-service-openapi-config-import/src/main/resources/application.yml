@@ -1,0 +1,22 @@
+micronaut:
+  server:
+    port: 8083
+  application:
+    name: micronaut-kubernetes-example-service-openapi-config-import
+  config:
+    import:
+      - optional:kubernetes://config-map?name=cm-5&watch=true
+      - optional:kubernetes://config-map?name=cm-6&watch=true
+      - optional:kubernetes://secret?name=sec-5&watch=true
+      - optional:kubernetes://config-map?labels=watchable=true&watch=true
+      - optional:kubernetes://config-map?labels=watchable=false&watch=false
+      - optional:kubernetes://secret?labels=watchable=true&watch=true
+      - optional:kubernetes://secret?labels=watchable=false&watch=false
+      - optional:file:///etc/example-service/configmap/mounted.yml
+      - optional:file:///etc/example-service/secrets/mounted-secret.properties
+endpoints:
+  env:
+    sensitive: false
+    enabled: true
+  health:
+    details-visible: ANONYMOUS

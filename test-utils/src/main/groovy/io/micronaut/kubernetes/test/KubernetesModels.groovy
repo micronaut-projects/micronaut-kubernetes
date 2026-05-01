@@ -19,9 +19,12 @@ import io.kubernetes.client.custom.IntOrString
 import io.kubernetes.client.openapi.models.RbacV1Subject
 import io.kubernetes.client.openapi.models.V1ClusterRole
 import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.kubernetes.client.openapi.models.V1Container
 import io.kubernetes.client.openapi.models.V1Endpoints
 import io.kubernetes.client.openapi.models.V1Namespace
 import io.kubernetes.client.openapi.models.V1ObjectMeta
+import io.kubernetes.client.openapi.models.V1Pod
+import io.kubernetes.client.openapi.models.V1PodSpec
 import io.kubernetes.client.openapi.models.V1PolicyRule
 import io.kubernetes.client.openapi.models.V1Role
 import io.kubernetes.client.openapi.models.V1RoleBinding
@@ -103,5 +106,17 @@ class KubernetesModels {
 
     static V1ClusterRole getClusterRoleModel(String name, List<V1PolicyRule> rules) {
         return new V1ClusterRole().kind('ClusterRole').metadata(getObjectMetaModel(name)).rules(rules)
+    }
+
+    static V1Container getContainerModel(String name) {
+        return new V1Container().name(name).image("test-image")
+    }
+
+    static V1PodSpec getPodSpecModel(List<V1Container> containers) {
+        return new V1PodSpec().containers(containers).overhead(null).runtimeClassName(null)
+    }
+
+    static V1Pod getPodModel(String name, V1PodSpec podSpec, Map<String, String> labels = [:]) {
+        return new V1Pod().kind('Pod').metadata(getObjectMetaModel(name, labels)).spec(podSpec)
     }
 }

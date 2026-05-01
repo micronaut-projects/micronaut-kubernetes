@@ -1,3 +1,18 @@
+[IMPORTANT]
+====
+The Kubernetes configuration client support is deprecated and has been replaced by xref:../config-import.adoc[Configuration Import].
+
+If you are adding new configuration loading from Kubernetes `ConfigMap` or `Secret` resources, use the
+configuration import approach.
+
+The deprecated configuration client documentation remains available for existing applications, but both the
+documentation and implementation will be removed in a future release, and new applications should use configuration
+import.
+
+Configuration import uses `micronaut.config.import` entries in `application.yml` to load Kubernetes resources, while
+the deprecated configuration client relied on bootstrap configuration and `micronaut.config-client.enabled=true`.
+====
+
 The Configuration client will read Kubernetes' ``ConfigMap``s and ``Secret``s instances and make them available as ``PropertySource``s
 instances in your application.
 

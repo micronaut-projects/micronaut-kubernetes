@@ -23,7 +23,10 @@ import jakarta.inject.Singleton;
 
 /**
  * Based on configuration dynamically evaluates the label selector for secrets.
+ *
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Singleton
 @Requires(env = Environment.KUBERNETES)
 final class KubernetesSecretLabelSupplier extends AbstractKubernetesConfigLabelSupplier {

@@ -29,7 +29,9 @@ import io.micronaut.kubernetes.util.KubernetesUtils;
  * Based on configuration dynamically evaluates the label selector.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 abstract class AbstractKubernetesConfigLabelSupplier implements Supplier<String> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractKubernetesConfigLabelSupplier.class);
 

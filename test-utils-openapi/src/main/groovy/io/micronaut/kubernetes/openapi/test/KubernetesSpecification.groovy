@@ -114,12 +114,16 @@ class KubernetesSpecification extends Specification {
     AppsV1Api appsV1Api
 
     def setupSpec() {
+        setupPrepare()
         VersionInfo versionInfo = getVersionInfo(versionApi)
         LOG.info("Using Kubernetes version: {}.{}", versionInfo.major, versionInfo.minor)
         createNamespaceSafe()
         createRole("example-openapi-role")
         createRoleBinding("example-openapi-role-binding", "example-openapi-role")
         createResources()
+    }
+
+    def setupPrepare() {
     }
 
     def createNamespaceSafe() {
@@ -183,6 +187,12 @@ class KubernetesSpecification extends Specification {
 
     def createMountedSecret() {
         V1Secret secret = getSecretModel("mounted-secret", ["mountedVolumeKey": "mountedVolumeValue".bytes])
+        LOG.debug("Creating Secret: {}", secret)
+        createSecret(coreV1Api, namespace, secret)
+    }
+
+    def createMountedSecretProp() {
+        V1Secret secret = getSecretModel("mounted-secret", ["mounted-secret.properties": "mounted-secret-key=mounted-secret-value".bytes])
         LOG.debug("Creating Secret: {}", secret)
         createSecret(coreV1Api, namespace, secret)
     }

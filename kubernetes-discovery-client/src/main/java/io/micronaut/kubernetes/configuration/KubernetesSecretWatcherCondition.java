@@ -18,17 +18,30 @@ package io.micronaut.kubernetes.configuration;
 import io.micronaut.context.condition.ConditionContext;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.KubernetesConfiguration;
+import io.micronaut.kubernetes.configuration.imports.KubernetesLegacyImportMode;
 
 /**
  * Condition evaluates when the {@link KubernetesSecretWatcherCondition} is enabled.
  *
  * @author Pavol Gressa
  * @since 3.1
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 @Internal
 public class KubernetesSecretWatcherCondition extends AbstractKubernetesConfigWatcherCondition {
     @Override
     KubernetesConfiguration.AbstractConfigConfiguration getConfig(ConditionContext context) {
         return context.getBean(KubernetesConfiguration.KubernetesSecretsConfiguration.class);
+    }
+
+    @Override
+    String getPropertyPrefix() {
+        return KubernetesConfiguration.KubernetesSecretsConfiguration.PREFIX;
+    }
+
+    @Override
+    boolean isExplicitImportEnabled() {
+        return KubernetesLegacyImportMode.isSecretImportEnabled();
     }
 }

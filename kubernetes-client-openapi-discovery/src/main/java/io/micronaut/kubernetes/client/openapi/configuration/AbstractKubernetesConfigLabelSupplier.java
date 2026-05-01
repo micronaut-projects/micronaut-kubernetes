@@ -26,7 +26,9 @@ import java.util.function.Supplier;
  * Based on configuration dynamically evaluates the label selector.
  *
  * @author Pavol Gressa
+ * @deprecated Replaced with config import implementation
  */
+@Deprecated(forRemoval = true, since = "8.0.0")
 abstract sealed class AbstractKubernetesConfigLabelSupplier implements Supplier<String>
     permits KubernetesConfigMapLabelSupplier, KubernetesSecretLabelSupplier {
 

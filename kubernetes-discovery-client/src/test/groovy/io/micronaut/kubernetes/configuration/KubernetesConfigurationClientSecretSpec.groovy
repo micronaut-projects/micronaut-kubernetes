@@ -31,7 +31,7 @@ class KubernetesConfigurationClientSecretSpec extends KubernetesSpecification {
                 .blockFirst()
 
         then:
-        propertySource.name == 'test-secret (Kubernetes Secret)'
+        propertySource.name == 'test-secret (Kubernetes V1Secret)'
         propertySource.get('username') == 'my-app'
         propertySource.get('password') == '39528$vdg7Jb'
 
