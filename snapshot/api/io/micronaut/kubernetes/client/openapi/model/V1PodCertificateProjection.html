@@ -65,6 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#JSON_PROPERTY_CREDENTIAL_BUNDLE_PATH" tabindex="0">JSON_PROPERTY_CREDENTIAL_BUNDLE_PATH</a></li>
 <li><a href="#JSON_PROPERTY_KEY_PATH" tabindex="0">JSON_PROPERTY_KEY_PATH</a></li>
 <li><a href="#JSON_PROPERTY_MAX_EXPIRATION_SECONDS" tabindex="0">JSON_PROPERTY_MAX_EXPIRATION_SECONDS</a></li>
+<li><a href="#JSON_PROPERTY_USER_ANNOTATIONS" tabindex="0">JSON_PROPERTY_USER_ANNOTATIONS</a></li>
 </ol>
 </li>
 <li><a href="#constructor-detail" tabindex="0">Constructor Details</a>
@@ -92,6 +93,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#getMaxExpirationSeconds()" tabindex="0">getMaxExpirationSeconds()</a></li>
 <li><a href="#setMaxExpirationSeconds(java.lang.Integer)" tabindex="0">setMaxExpirationSeconds(Integer)</a></li>
 <li><a href="#maxExpirationSeconds(java.lang.Integer)" tabindex="0">maxExpirationSeconds(Integer)</a></li>
+<li><a href="#getUserAnnotations()" tabindex="0">getUserAnnotations()</a></li>
+<li><a href="#setUserAnnotations(java.util.Map)" tabindex="0">setUserAnnotations(Map)</a></li>
+<li><a href="#userAnnotations(java.util.Map)" tabindex="0">userAnnotations(Map)</a></li>
+<li><a href="#putUserAnnotationsItem(java.lang.String,java.lang.String)" tabindex="0">putUserAnnotationsItem(String, String)</a></li>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
@@ -145,6 +150,9 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_SIGNER_NAME" class="member-name-link">JSON_PROPERTY_SIGNER_NAME</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_USER_ANNOTATIONS" class="member-name-link">JSON_PROPERTY_USER_ANNOTATIONS</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -216,23 +224,34 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Kubelet's generated CSRs will be addressed to this signer.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyPath(java.lang.String)" class="member-name-link">keyPath</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;keyPath)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getUserAnnotations()" class="member-name-link">getUserAnnotations</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">userAnnotations allow pod authors to pass additional information to the signer implementation.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyPath(java.lang.String)" class="member-name-link">keyPath</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;keyPath)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set keyPath in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyType(java.lang.String)" class="member-name-link">keyType</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;keyType)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#keyType(java.lang.String)" class="member-name-link">keyType</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;keyType)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set keyType in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxExpirationSeconds(java.lang.Integer)" class="member-name-link">maxExpirationSeconds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxExpirationSeconds)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#maxExpirationSeconds(java.lang.Integer)" class="member-name-link">maxExpirationSeconds</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxExpirationSeconds)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set maxExpirationSeconds in a chainable fashion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putUserAnnotationsItem(java.lang.String,java.lang.String)" class="member-name-link">putUserAnnotationsItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userAnnotationsItem)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the value for the key for the userAnnotations map property in a chainable fashion.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCertificateChainPath(java.lang.String)" class="member-name-link">setCertificateChainPath</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;certificateChainPath)</code></div>
@@ -264,14 +283,24 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the signerName property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#signerName(java.lang.String)" class="member-name-link">signerName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;signerName)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setUserAnnotations(java.util.Map)" class="member-name-link">setUserAnnotations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;userAnnotations)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the userAnnotations property value</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#signerName(java.lang.String)" class="member-name-link">signerName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;signerName)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set signerName in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#userAnnotations(java.util.Map)" class="member-name-link">userAnnotations</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;userAnnotations)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set userAnnotations in a chainable fashion.</div>
+</div>
 </div>
 </div>
 </div>
@@ -379,6 +408,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1PodCertificateProjection.JSON_PROPERTY_MAX_EXPIRATION_SECONDS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_USER_ANNOTATIONS">
+<h3>JSON_PROPERTY_USER_ANNOTATIONS</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_USER_ANNOTATIONS</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1PodCertificateProjection.JSON_PROPERTY_USER_ANNOTATIONS">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -637,6 +682,59 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></span>&nbsp;<span class="element-name">maxExpirationSeconds</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a>&nbsp;maxExpirationSeconds)</span></div>
 <div class="block">Set maxExpirationSeconds in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1PodCertificateProjection for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getUserAnnotations()">
+<h3>getUserAnnotations</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getUserAnnotations</span>()</div>
+<div class="block">userAnnotations allow pod authors to pass additional information to the signer implementation.  Kubernetes does not restrict or validate this metadata in any way.  These values are copied verbatim into the `spec.unverifiedUserAnnotations` field of the PodCertificateRequest objects that Kubelet creates.  Entries are subject to the same validation as object metadata annotations, with the addition that all keys must be domain-prefixed. No restrictions are placed on values, except an overall size limitation on the entire field.  Signers should document the keys and values they support. Signers should deny requests that contain keys they do not recognize.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the userAnnotations property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setUserAnnotations(java.util.Map)">
+<h3>setUserAnnotations</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setUserAnnotations</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;userAnnotations)</span></div>
+<div class="block">Set the userAnnotations property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>userAnnotations</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="userAnnotations(java.util.Map)">
+<h3>userAnnotations</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></span>&nbsp;<span class="element-name">userAnnotations</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;userAnnotations)</span></div>
+<div class="block">Set userAnnotations in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1PodCertificateProjection for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="putUserAnnotationsItem(java.lang.String,java.lang.String)">
+<h3>putUserAnnotationsItem</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1PodCertificateProjection.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1PodCertificateProjection</a></span>&nbsp;<span class="element-name">putUserAnnotationsItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;userAnnotationsItem)</span></div>
+<div class="block">Set the value for the key for the userAnnotations map property in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1PodCertificateProjection for chaining.</dd>

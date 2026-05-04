@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations">@Generated("io.micronaut.openapi.generator.JavaMicronautClientCodegen")
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">V1CounterSet</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">CounterSet defines a named set of counters that are available to be used by devices defined in the ResourceSlice.  The counters are not allocatable by themselves, but can be referenced by devices. When a device is allocated, the portion of counters it uses will no longer be available for use by other devices.</div>
+<div class="block">CounterSet defines a named set of counters that are available to be used by devices defined in the ResourcePool.  The counters are not allocatable by themselves, but can be referenced by devices. When a device is allocated, the portion of counters it uses will no longer be available for use by other devices.</div>
 </div>
 </section>
 <section class="summary">
@@ -270,7 +270,7 @@ loadScripts(document, 'script');</script>
 <h3>getCounters</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @Valid <a href="V1Counter.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1Counter</a>&gt;</span>&nbsp;<span class="element-name">getCounters</span>()</div>
-<div class="block">Counters defines the set of counters for this CounterSet The name of each counter must be unique in that set and must be a DNS label.  The maximum number of counters in all sets is 32.</div>
+<div class="block">Counters defines the set of counters for this CounterSet The name of each counter must be unique in that set and must be a DNS label.  The maximum number of counters is 32.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the counters property value</dd>

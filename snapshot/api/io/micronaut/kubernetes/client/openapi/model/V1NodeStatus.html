@@ -65,6 +65,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#JSON_PROPERTY_CONDITIONS" tabindex="0">JSON_PROPERTY_CONDITIONS</a></li>
 <li><a href="#JSON_PROPERTY_CONFIG" tabindex="0">JSON_PROPERTY_CONFIG</a></li>
 <li><a href="#JSON_PROPERTY_DAEMON_ENDPOINTS" tabindex="0">JSON_PROPERTY_DAEMON_ENDPOINTS</a></li>
+<li><a href="#JSON_PROPERTY_DECLARED_FEATURES" tabindex="0">JSON_PROPERTY_DECLARED_FEATURES</a></li>
 <li><a href="#JSON_PROPERTY_FEATURES" tabindex="0">JSON_PROPERTY_FEATURES</a></li>
 <li><a href="#JSON_PROPERTY_IMAGES" tabindex="0">JSON_PROPERTY_IMAGES</a></li>
 <li><a href="#JSON_PROPERTY_NODE_INFO" tabindex="0">JSON_PROPERTY_NODE_INFO</a></li>
@@ -103,6 +104,10 @@ loadScripts(document, 'script');</script>
 <li><a href="#getDaemonEndpoints()" tabindex="0">getDaemonEndpoints()</a></li>
 <li><a href="#setDaemonEndpoints(io.micronaut.kubernetes.client.openapi.model.V1NodeDaemonEndpoints)" tabindex="0">setDaemonEndpoints(V1NodeDaemonEndpoints)</a></li>
 <li><a href="#daemonEndpoints(io.micronaut.kubernetes.client.openapi.model.V1NodeDaemonEndpoints)" tabindex="0">daemonEndpoints(V1NodeDaemonEndpoints)</a></li>
+<li><a href="#getDeclaredFeatures()" tabindex="0">getDeclaredFeatures()</a></li>
+<li><a href="#setDeclaredFeatures(java.util.List)" tabindex="0">setDeclaredFeatures(List)</a></li>
+<li><a href="#declaredFeatures(java.util.List)" tabindex="0">declaredFeatures(List)</a></li>
+<li><a href="#addDeclaredFeaturesItem(java.lang.String)" tabindex="0">addDeclaredFeaturesItem(String)</a></li>
 <li><a href="#getFeatures()" tabindex="0">getFeatures()</a></li>
 <li><a href="#setFeatures(io.micronaut.kubernetes.client.openapi.model.V1NodeFeatures)" tabindex="0">setFeatures(V1NodeFeatures)</a></li>
 <li><a href="#features(io.micronaut.kubernetes.client.openapi.model.V1NodeFeatures)" tabindex="0">features(V1NodeFeatures)</a></li>
@@ -182,26 +187,29 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_DAEMON_ENDPOINTS" class="member-name-link">JSON_PROPERTY_DAEMON_ENDPOINTS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_FEATURES" class="member-name-link">JSON_PROPERTY_FEATURES</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_DECLARED_FEATURES" class="member-name-link">JSON_PROPERTY_DECLARED_FEATURES</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_IMAGES" class="member-name-link">JSON_PROPERTY_IMAGES</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_FEATURES" class="member-name-link">JSON_PROPERTY_FEATURES</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_NODE_INFO" class="member-name-link">JSON_PROPERTY_NODE_INFO</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_IMAGES" class="member-name-link">JSON_PROPERTY_IMAGES</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_PHASE" class="member-name-link">JSON_PROPERTY_PHASE</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_NODE_INFO" class="member-name-link">JSON_PROPERTY_NODE_INFO</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_RUNTIME_HANDLERS" class="member-name-link">JSON_PROPERTY_RUNTIME_HANDLERS</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_PHASE" class="member-name-link">JSON_PROPERTY_PHASE</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 <div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_VOLUMES_ATTACHED" class="member-name-link">JSON_PROPERTY_VOLUMES_ATTACHED</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_RUNTIME_HANDLERS" class="member-name-link">JSON_PROPERTY_RUNTIME_HANDLERS</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_VOLUMES_IN_USE" class="member-name-link">JSON_PROPERTY_VOLUMES_IN_USE</a></code></div>
+<div class="col-second even-row-color"><code><a href="#JSON_PROPERTY_VOLUMES_ATTACHED" class="member-name-link">JSON_PROPERTY_VOLUMES_ATTACHED</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#JSON_PROPERTY_VOLUMES_IN_USE" class="member-name-link">JSON_PROPERTY_VOLUMES_IN_USE</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 </section>
 </li>
@@ -240,54 +248,64 @@ loadScripts(document, 'script');</script>
 <div class="block">Add an item to the conditions property in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addImagesItem(io.micronaut.kubernetes.client.openapi.model.V1ContainerImage)" class="member-name-link">addImagesItem</a><wbr>(<a href="V1ContainerImage.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerImage</a>&nbsp;imagesItem)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addDeclaredFeaturesItem(java.lang.String)" class="member-name-link">addDeclaredFeaturesItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;declaredFeaturesItem)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Add an item to the declaredFeatures property in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addImagesItem(io.micronaut.kubernetes.client.openapi.model.V1ContainerImage)" class="member-name-link">addImagesItem</a><wbr>(<a href="V1ContainerImage.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerImage</a>&nbsp;imagesItem)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an item to the images property in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addresses(java.util.List)" class="member-name-link">addresses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeAddress</a>&gt;&nbsp;addresses)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addresses(java.util.List)" class="member-name-link">addresses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeAddress</a>&gt;&nbsp;addresses)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set addresses in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addRuntimeHandlersItem(io.micronaut.kubernetes.client.openapi.model.V1NodeRuntimeHandler)" class="member-name-link">addRuntimeHandlersItem</a><wbr>(<a href="V1NodeRuntimeHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeRuntimeHandler</a>&nbsp;runtimeHandlersItem)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addRuntimeHandlersItem(io.micronaut.kubernetes.client.openapi.model.V1NodeRuntimeHandler)" class="member-name-link">addRuntimeHandlersItem</a><wbr>(<a href="V1NodeRuntimeHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeRuntimeHandler</a>&nbsp;runtimeHandlersItem)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an item to the runtimeHandlers property in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addVolumesAttachedItem(io.micronaut.kubernetes.client.openapi.model.V1AttachedVolume)" class="member-name-link">addVolumesAttachedItem</a><wbr>(<a href="V1AttachedVolume.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AttachedVolume</a>&nbsp;volumesAttachedItem)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addVolumesAttachedItem(io.micronaut.kubernetes.client.openapi.model.V1AttachedVolume)" class="member-name-link">addVolumesAttachedItem</a><wbr>(<a href="V1AttachedVolume.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AttachedVolume</a>&nbsp;volumesAttachedItem)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an item to the volumesAttached property in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addVolumesInUseItem(java.lang.String)" class="member-name-link">addVolumesInUseItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;volumesInUseItem)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addVolumesInUseItem(java.lang.String)" class="member-name-link">addVolumesInUseItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;volumesInUseItem)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an item to the volumesInUse property in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allocatable(java.util.Map)" class="member-name-link">allocatable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;allocatable)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allocatable(java.util.Map)" class="member-name-link">allocatable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;allocatable)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set allocatable in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#capacity(java.util.Map)" class="member-name-link">capacity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;capacity)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#capacity(java.util.Map)" class="member-name-link">capacity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;capacity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set capacity in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#conditions(java.util.List)" class="member-name-link">conditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeCondition</a>&gt;&nbsp;conditions)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#conditions(java.util.List)" class="member-name-link">conditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeCondition</a>&gt;&nbsp;conditions)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set conditions in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#config(io.micronaut.kubernetes.client.openapi.model.V1NodeConfigStatus)" class="member-name-link">config</a><wbr>(<a href="V1NodeConfigStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeConfigStatus</a>&nbsp;config)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#config(io.micronaut.kubernetes.client.openapi.model.V1NodeConfigStatus)" class="member-name-link">config</a><wbr>(<a href="V1NodeConfigStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeConfigStatus</a>&nbsp;config)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set config in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#daemonEndpoints(io.micronaut.kubernetes.client.openapi.model.V1NodeDaemonEndpoints)" class="member-name-link">daemonEndpoints</a><wbr>(<a href="V1NodeDaemonEndpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeDaemonEndpoints</a>&nbsp;daemonEndpoints)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#daemonEndpoints(io.micronaut.kubernetes.client.openapi.model.V1NodeDaemonEndpoints)" class="member-name-link">daemonEndpoints</a><wbr>(<a href="V1NodeDaemonEndpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeDaemonEndpoints</a>&nbsp;daemonEndpoints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set daemonEndpoints in a chainable fashion.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#declaredFeatures(java.util.List)" class="member-name-link">declaredFeatures</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;declaredFeatures)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set declaredFeatures in a chainable fashion.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</code></div>
@@ -323,101 +341,111 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeDaemonEndpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeDaemonEndpoints</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDaemonEndpoints()" class="member-name-link">getDaemonEndpoints</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeFeatures.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeFeatures</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFeatures()" class="member-name-link">getFeatures</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ContainerImage.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerImage</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getImages()" class="member-name-link">getImages</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getDeclaredFeatures()" class="member-name-link">getDeclaredFeatures</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">DeclaredFeatures represents the features related to feature gates that are declared by the node.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeFeatures.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeFeatures</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getFeatures()" class="member-name-link">getFeatures</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1ContainerImage.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerImage</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getImages()" class="member-name-link">getImages</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">List of container images on this node</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeSystemInfo.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSystemInfo</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNodeInfo()" class="member-name-link">getNodeInfo</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhase()" class="member-name-link">getPhase</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeSystemInfo.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSystemInfo</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getNodeInfo()" class="member-name-link">getNodeInfo</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPhase()" class="member-name-link">getPhase</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">NodePhase is the recently observed lifecycle phase of the node.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1NodeRuntimeHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeRuntimeHandler</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRuntimeHandlers()" class="member-name-link">getRuntimeHandlers</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1NodeRuntimeHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeRuntimeHandler</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRuntimeHandlers()" class="member-name-link">getRuntimeHandlers</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">The available runtime handlers.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1AttachedVolume.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AttachedVolume</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVolumesAttached()" class="member-name-link">getVolumesAttached</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@Valid <a href="V1AttachedVolume.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1AttachedVolume</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVolumesAttached()" class="member-name-link">getVolumesAttached</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">List of volumes that are attached to the node.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVolumesInUse()" class="member-name-link">getVolumesInUse</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getVolumesInUse()" class="member-name-link">getVolumesInUse</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">List of attachable volumes in use (mounted) by the node.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#images(java.util.List)" class="member-name-link">images</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ContainerImage.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerImage</a>&gt;&nbsp;images)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#images(java.util.List)" class="member-name-link">images</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1ContainerImage.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1ContainerImage</a>&gt;&nbsp;images)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set images in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeInfo(io.micronaut.kubernetes.client.openapi.model.V1NodeSystemInfo)" class="member-name-link">nodeInfo</a><wbr>(<a href="V1NodeSystemInfo.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSystemInfo</a>&nbsp;nodeInfo)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeInfo(io.micronaut.kubernetes.client.openapi.model.V1NodeSystemInfo)" class="member-name-link">nodeInfo</a><wbr>(<a href="V1NodeSystemInfo.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeSystemInfo</a>&nbsp;nodeInfo)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set nodeInfo in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#phase(java.lang.String)" class="member-name-link">phase</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;phase)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#phase(java.lang.String)" class="member-name-link">phase</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;phase)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set phase in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putAllocatableItem(java.lang.String,java.lang.String)" class="member-name-link">putAllocatableItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putAllocatableItem(java.lang.String,java.lang.String)" class="member-name-link">putAllocatableItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;allocatableItem)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the value for the key for the allocatable map property in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putCapacityItem(java.lang.String,java.lang.String)" class="member-name-link">putCapacityItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#putCapacityItem(java.lang.String,java.lang.String)" class="member-name-link">putCapacityItem</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;key,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;capacityItem)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the value for the key for the capacity map property in a chainable fashion.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeHandlers(java.util.List)" class="member-name-link">runtimeHandlers</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeRuntimeHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeRuntimeHandler</a>&gt;&nbsp;runtimeHandlers)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#runtimeHandlers(java.util.List)" class="member-name-link">runtimeHandlers</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeRuntimeHandler.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeRuntimeHandler</a>&gt;&nbsp;runtimeHandlers)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set runtimeHandlers in a chainable fashion.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAddresses(java.util.List)" class="member-name-link">setAddresses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeAddress</a>&gt;&nbsp;addresses)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAddresses(java.util.List)" class="member-name-link">setAddresses</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeAddress.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeAddress</a>&gt;&nbsp;addresses)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the addresses property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAllocatable(java.util.Map)" class="member-name-link">setAllocatable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;allocatable)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAllocatable(java.util.Map)" class="member-name-link">setAllocatable</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;allocatable)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the allocatable property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCapacity(java.util.Map)" class="member-name-link">setCapacity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;capacity)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCapacity(java.util.Map)" class="member-name-link">setCapacity</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>, @NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;capacity)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the capacity property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConditions(java.util.List)" class="member-name-link">setConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeCondition</a>&gt;&nbsp;conditions)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConditions(java.util.List)" class="member-name-link">setConditions</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@Valid <a href="V1NodeCondition.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeCondition</a>&gt;&nbsp;conditions)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the conditions property value</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConfig(io.micronaut.kubernetes.client.openapi.model.V1NodeConfigStatus)" class="member-name-link">setConfig</a><wbr>(<a href="V1NodeConfigStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeConfigStatus</a>&nbsp;config)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setConfig(io.micronaut.kubernetes.client.openapi.model.V1NodeConfigStatus)" class="member-name-link">setConfig</a><wbr>(<a href="V1NodeConfigStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeConfigStatus</a>&nbsp;config)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the config property value</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDaemonEndpoints(io.micronaut.kubernetes.client.openapi.model.V1NodeDaemonEndpoints)" class="member-name-link">setDaemonEndpoints</a><wbr>(<a href="V1NodeDaemonEndpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeDaemonEndpoints</a>&nbsp;daemonEndpoints)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDaemonEndpoints(io.micronaut.kubernetes.client.openapi.model.V1NodeDaemonEndpoints)" class="member-name-link">setDaemonEndpoints</a><wbr>(<a href="V1NodeDaemonEndpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeDaemonEndpoints</a>&nbsp;daemonEndpoints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Set the daemonEndpoints property value</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDeclaredFeatures(java.util.List)" class="member-name-link">setDeclaredFeatures</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;declaredFeatures)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Set the declaredFeatures property value</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFeatures(io.micronaut.kubernetes.client.openapi.model.V1NodeFeatures)" class="member-name-link">setFeatures</a><wbr>(<a href="V1NodeFeatures.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeFeatures</a>&nbsp;features)</code></div>
@@ -574,6 +602,22 @@ loadScripts(document, 'script');</script>
 <dd>
 <ul class="tag-list">
 <li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1NodeStatus.JSON_PROPERTY_DAEMON_ENDPOINTS">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="JSON_PROPERTY_DECLARED_FEATURES">
+<h3>JSON_PROPERTY_DECLARED_FEATURES</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">JSON_PROPERTY_DECLARED_FEATURES</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="tag-list">
+<li><a href="../../../../../../constant-values.html#io.micronaut.kubernetes.client.openapi.model.V1NodeStatus.JSON_PROPERTY_DECLARED_FEATURES">Constant Field Values</a></li>
 </ul>
 </dd>
 </dl>
@@ -995,6 +1039,58 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></span>&nbsp;<span class="element-name">daemonEndpoints</span><wbr><span class="parameters">(<a href="V1NodeDaemonEndpoints.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeDaemonEndpoints</a>&nbsp;daemonEndpoints)</span></div>
 <div class="block">Set daemonEndpoints in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1NodeStatus for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getDeclaredFeatures()">
+<h3>getDeclaredFeatures</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">getDeclaredFeatures</span>()</div>
+<div class="block">DeclaredFeatures represents the features related to feature gates that are declared by the node.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the declaredFeatures property value</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setDeclaredFeatures(java.util.List)">
+<h3>setDeclaredFeatures</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setDeclaredFeatures</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;declaredFeatures)</span></div>
+<div class="block">Set the declaredFeatures property value</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>declaredFeatures</code> - property value to set</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="declaredFeatures(java.util.List)">
+<h3>declaredFeatures</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></span>&nbsp;<span class="element-name">declaredFeatures</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;@NotNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;declaredFeatures)</span></div>
+<div class="block">Set declaredFeatures in a chainable fashion.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>The same instance of V1NodeStatus for chaining.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="addDeclaredFeaturesItem(java.lang.String)">
+<h3>addDeclaredFeaturesItem</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="V1NodeStatus.html" title="class in io.micronaut.kubernetes.client.openapi.model">V1NodeStatus</a></span>&nbsp;<span class="element-name">addDeclaredFeaturesItem</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;declaredFeaturesItem)</span></div>
+<div class="block">Add an item to the declaredFeatures property in a chainable fashion.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>The same instance of V1NodeStatus for chaining.</dd>

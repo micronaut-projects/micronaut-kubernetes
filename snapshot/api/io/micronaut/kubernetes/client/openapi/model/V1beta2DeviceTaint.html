@@ -339,7 +339,7 @@ loadScripts(document, 'script');</script>
 <h3>getEffect</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getEffect</span>()</div>
-<div class="block">The effect of the taint on claims that do not tolerate the taint and through such claims on the pods using them. Valid effects are NoSchedule and NoExecute. PreferNoSchedule as used for nodes is not valid here.</div>
+<div class="block">The effect of the taint on claims that do not tolerate the taint and through such claims on the pods using them.  Valid effects are None, NoSchedule and NoExecute. PreferNoSchedule as used for nodes is not valid here. More effects may get added in the future. Consumers must treat unknown effects like None.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the effect property value</dd>
