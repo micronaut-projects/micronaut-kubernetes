@@ -5,8 +5,9 @@
 # and edit them there. Note that it will be sync'ed to all the Micronaut repos
 name: GraalVM Dev CI
 on:
-  schedule:
-    - cron: "0 1 * * 1-5" # Mon-Fri at 1am UTC
+  push:
+    branches:
+      - test-graalvm-dev-fix
 jobs:
   build_matrix:
     if: github.repository != 'micronaut-projects/micronaut-project-template'
@@ -22,6 +23,8 @@ jobs:
       - name: Build Matrix
         uses: micronaut-projects/github-actions/graalvm/build-matrix@300bf6db7c062dcba77c90bb90e475df31b2acab # master
         id: build-matrix
+        with:
+          java-version: '25'
   build:
     needs: build_matrix
     if: github.repository != 'micronaut-projects/micronaut-project-template'
