@@ -2,7 +2,7 @@
 
 === The official Kubernetes Client upgrade
 
-Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v25.
+Micronaut Kubernetes 8.0.0 updates the official Kubernetes Client from v22 to v26.
 
 === RxJava2 support removal
 
