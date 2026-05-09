@@ -1,7 +1,7 @@
 [versions]
 micronaut-platform = "5.0.0-M3"
 micronaut = "5.0.0-RC2"
-micronaut-gradle-plugin = "4.6.2"
+micronaut-gradle-plugin = "5.0.0-M1"
 
 graal-svm = "25.0.3"
 javapoet = '1.13.0'
@@ -18,8 +18,8 @@ micronaut-discovery = "5.0.0-RC1"
 micronaut-reactor = "4.0.0-RC1"
 micronaut-serde = "3.0.0-RC2"
 micronaut-validation = "5.0.0-RC2"
-micronaut-openapi = "6.20.0"
-micronaut-micrometer = "6.0.1-M1"
+micronaut-openapi = "7.0.0-M2"
+micronaut-micrometer = "6.0.0-RC1"
 
 [libraries]
 # Core
