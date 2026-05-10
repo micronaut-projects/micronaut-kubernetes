@@ -18,7 +18,7 @@ micronaut-discovery = "5.0.0-RC1"
 micronaut-reactor = "4.0.0-RC1"
 micronaut-serde = "3.0.0-RC2"
 micronaut-validation = "5.0.0-RC2"
-micronaut-openapi = "7.0.0-M2"
+micronaut-openapi = "7.0.0-RC1"
 micronaut-micrometer = "6.0.0-RC1"
 
 [libraries]
