@@ -16,7 +16,7 @@ micronaut {
         client("client", tasks.named("downloadOpenApiSpec", DownloadSpec).flatMap(DownloadSpec::getSpecFile)) {
             modelPackageName = "io.micronaut.kubernetes.client.openapi.model"
             dateTimeFormat = "OFFSET_DATETIME"
-            additionalProperties.put("dateTimeFormat", "yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]'Z'")
+            additionalProperties.put("dateTimeFormat", "yyyy-MM-dd'T'HH:mm:ss[.SSSSSS]XXX")
             typeMapping.put("int-or-string", "io.micronaut.kubernetes.client.openapi.type.IntOrString")
         }
     }
