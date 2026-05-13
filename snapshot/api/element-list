@@ -53,4 +53,5 @@ io.micronaut.kubernetes.discovery
 io.micronaut.kubernetes.discovery.informer
 io.micronaut.kubernetes.discovery.provider
 io.micronaut.kubernetes.health
+io.micronaut.kubernetes.info
 io.micronaut.kubernetes.util
