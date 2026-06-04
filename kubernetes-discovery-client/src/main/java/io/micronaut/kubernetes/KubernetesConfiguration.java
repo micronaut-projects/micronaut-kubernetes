@@ -332,6 +332,7 @@ public class KubernetesConfiguration {
         /**
          * @param enabled enabled flag.
          */
+        @Override
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
         }
