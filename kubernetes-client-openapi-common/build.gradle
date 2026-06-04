@@ -28,6 +28,11 @@ tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
     packageExcludes = ["io.micronaut.kubernetes.client.openapi.model"]
 }
 
+tasks.withType(JavaCompile).configureEach {
+    options.errorprone.excludedPaths.set(".*/build/generated/.*")
+    options.errorprone.option("NullAway:ExcludedClassAnnotations", "jakarta.annotation.Generated")
+}
+
 dependencies {
     annotationProcessor(mnValidation.micronaut.validation.processor)
     annotationProcessor(mnSerde.micronaut.serde.processor)
