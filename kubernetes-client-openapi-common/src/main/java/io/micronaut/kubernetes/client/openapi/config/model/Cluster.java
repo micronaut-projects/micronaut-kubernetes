@@ -15,7 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.config.model;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Arrays;
@@ -29,10 +28,14 @@ import java.util.Objects;
  * @param insecureSkipTlsVerify skips the validity check for the server's certificate which makes your HTTPS connections insecure
  */
 public record Cluster(
-    @NonNull String server,
+    String server,
     byte @Nullable [] certificateAuthorityData,
     @Nullable Boolean insecureSkipTlsVerify
 ) {
+    public Cluster {
+        Objects.requireNonNull(server, "server");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

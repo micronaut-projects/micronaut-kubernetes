@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.credential.model;
 
 import io.micronaut.serde.annotation.Serdeable;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.time.ZonedDateTime;
@@ -33,11 +32,15 @@ import java.util.Objects;
  */
 @Serdeable.Deserializable
 public record ExecCredentialStatus(
-    @NonNull String token,
-    @Nullable byte[] clientCertificateData,
-    @Nullable byte[] clientKeyData,
+    String token,
+    byte @Nullable [] clientCertificateData,
+    byte @Nullable [] clientKeyData,
     @Nullable ZonedDateTime expirationTimestamp
 ) {
+    public ExecCredentialStatus {
+        Objects.requireNonNull(token, "token");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

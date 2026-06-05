@@ -21,6 +21,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubeConfigLoader;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +38,11 @@ final class KubeConfigTokenLoader implements ReactiveKubernetesTokenLoader {
 
     private static final int ORDER = 20;
 
-    private final String token;
+    private final @Nullable String token;
 
     KubeConfigTokenLoader(KubeConfigLoader kubeConfigLoader) {
         KubeConfig kubeConfig = kubeConfigLoader.getKubeConfig();
-        token = kubeConfig == null || kubeConfig.getUser() == null ? null : kubeConfig.getUser().token();
+        token = kubeConfig == null ? null : kubeConfig.getUser().token();
     }
 
     @Override
@@ -53,6 +54,6 @@ final class KubeConfigTokenLoader implements ReactiveKubernetesTokenLoader {
     public Publisher<String> getToken() {
         return StringUtils.isEmpty(token)
             ? Mono.empty()
-            : Mono.just(token).doOnNext(it -> LOG.trace("Token loaded"));
+            : Mono.just(token).doOnNext(ignored -> LOG.trace("Token loaded"));
     }
 }

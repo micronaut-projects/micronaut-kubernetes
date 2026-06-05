@@ -15,10 +15,10 @@
  */
 package io.micronaut.kubernetes.client.openapi.config.model;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ExecConfig specifies a command to provide client credentials.
@@ -29,9 +29,13 @@ import java.util.List;
  * @param env the additional environment variables to expose to the process
  */
 public record ExecConfig(
-    @NonNull String apiVersion,
-    @NonNull String command,
+    String apiVersion,
+    String command,
     @Nullable List<String> args,
     @Nullable List<ExecEnvVar> env
 ) {
+    public ExecConfig {
+        Objects.requireNonNull(apiVersion, "apiVersion");
+        Objects.requireNonNull(command, "command");
+    }
 }
