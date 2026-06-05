@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.watcher.mapper;
 
 import io.micronaut.core.order.Ordered;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 
@@ -40,6 +39,5 @@ public interface TypeNameMapper extends Ordered {
      *
      * @return list type names to item type names mapping
      */
-    @NonNull
     Map<String, String> getMappings();
 }
