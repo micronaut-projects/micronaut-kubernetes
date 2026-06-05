@@ -71,7 +71,10 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
                 } else if (notification instanceof DeleteNotification<?> deleteNotification) {
                     Object deletedObject = deleteNotification.object;
                     if (deletedObject instanceof DeletedFinalStateUnknown<?> deletedObjectUnknown) {
-                        handler.onDelete((ApiType) deletedObjectUnknown.object(), true);
+                        ApiType object = (ApiType) deletedObjectUnknown.object();
+                        if (object != null) {
+                            handler.onDelete(object, true);
+                        }
                     } else {
                         handler.onDelete((ApiType) deletedObject, false);
                     }

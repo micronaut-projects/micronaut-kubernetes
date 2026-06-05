@@ -42,6 +42,7 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
     private static final Logger LOG = LoggerFactory.getLogger(DefaultInformerNamespaceResolver.class);
 
     private final BeanContext beanContext;
+    @Nullable
     private final NamespaceResolver namespaceResolver;
 
     DefaultInformerNamespaceResolver(@NonNull BeanContext beanContext,

@@ -21,6 +21,7 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.DeletedFinalStateUnknown;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,16 +63,16 @@ public final class Cache<ApiType extends KubernetesObject> implements Indexer<Ap
         this(Cache::getDefaultKeyFunc);
     }
 
-    public Cache(Function<ApiType, String> keyFunction) {
+    public Cache(@Nullable Function<ApiType, String> keyFunction) {
         this(keyFunction, Collections.singletonMap(DEFAULT_INDEX_NAME, Cache::getDefaultIndexFunc));
     }
 
-    public Cache(Map<String, Function<ApiType, List<String>>> indexFunctions) {
+    public Cache(@Nullable Map<String, Function<ApiType, List<String>>> indexFunctions) {
         this(Cache::getDefaultKeyFunc, indexFunctions);
     }
 
-    public Cache(Function<ApiType, String> keyFunction,
-                 Map<String, Function<ApiType, List<String>>> indexFunctions) {
+    public Cache(@Nullable Function<ApiType, String> keyFunction,
+                 @Nullable Map<String, Function<ApiType, List<String>>> indexFunctions) {
         this.keyFunction = keyFunction == null ? Cache::getDefaultKeyFunc : keyFunction;
         if (indexFunctions == null) {
             indexers.put(DEFAULT_INDEX_NAME, Cache::getDefaultIndexFunc);
@@ -137,6 +138,7 @@ public final class Cache<ApiType extends KubernetesObject> implements Indexer<Ap
     }
 
     @Override
+    @Nullable
     public synchronized ApiType getByKey(String key) {
         return items.get(key);
     }
@@ -173,7 +175,7 @@ public final class Cache<ApiType extends KubernetesObject> implements Indexer<Ap
         return Collections.unmodifiableMap(indexers);
     }
 
-    private void updateIndices(ApiType oldObject, ApiType newObject, String objectKey) {
+    private void updateIndices(@Nullable ApiType oldObject, ApiType newObject, String objectKey) {
         // if we got an old object, we need to remove it before we can add it again
         if (oldObject != null) {
             deleteFromIndices(oldObject, objectKey);
@@ -213,6 +215,9 @@ public final class Cache<ApiType extends KubernetesObject> implements Indexer<Ap
             return deletedObject.key();
         }
         V1ObjectMeta metadata = object.getMetadata();
+        if (metadata == null) {
+            throw new IllegalArgumentException("Object metadata is required to create a cache key");
+        }
         return StringUtils.isEmpty(metadata.getNamespace())
             ? metadata.getName()
             : metadata.getNamespace() + "/" + metadata.getName();
@@ -220,6 +225,9 @@ public final class Cache<ApiType extends KubernetesObject> implements Indexer<Ap
 
     private static List<String> getDefaultIndexFunc(KubernetesObject obj) {
         V1ObjectMeta metadata = obj.getMetadata();
+        if (metadata == null) {
+            throw new IllegalArgumentException("Object metadata is required to create a cache index");
+        }
         String indexKey = StringUtils.isEmpty(metadata.getNamespace())
             ? DEFAULT_GLOBAL_INDEX_KEY
             : metadata.getNamespace();

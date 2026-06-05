@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.common;
 
 import io.micronaut.core.annotation.Internal;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Equivalence to TypeMeta from kubernetes/client-go.
@@ -39,9 +40,9 @@ public interface KubernetesType {
      * convert recognized schemas to the latest internal value, and may reject unrecognized values.
      * More info: <a href="https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources">Resources</a>
      *
-     * @return the api version
+     * @return the api version, or null if it is not available
      */
-    String getApiVersion();
+    @Nullable String getApiVersion();
 
     /**
      * Gets kind.
@@ -50,7 +51,7 @@ public interface KubernetesType {
      * infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase.
      * More info: <a href="https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds">Types (Kinds)</a>
      *
-     * @return the kind
+     * @return the kind, or null if it is not available
      */
-    String getKind();
+    @Nullable String getKind();
 }

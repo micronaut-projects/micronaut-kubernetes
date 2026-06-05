@@ -36,17 +36,20 @@ public record DeletedFinalStateUnknown<ApiType extends KubernetesObject>(
     @Nullable ApiType object
 ) implements KubernetesObject {
     @Override
+    @Nullable
     public V1ObjectMeta getMetadata() {
-        return object.getMetadata();
+        return object == null ? null : object.getMetadata();
     }
 
     @Override
+    @Nullable
     public String getApiVersion() {
-        return object.getApiVersion();
+        return object == null ? null : object.getApiVersion();
     }
 
     @Override
+    @Nullable
     public String getKind() {
-        return object.getKind();
+        return object == null ? null : object.getKind();
     }
 }

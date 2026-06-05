@@ -27,6 +27,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Handles execution of {@code list} and {@code watch} api calls for given api type.
@@ -43,6 +44,7 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
     private final Object watchBean;
     private final ParamHolder watchParamHolder;
 
+    @Nullable
     private final String namespace;
 
     InformerApiCall(@NonNull ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod,
@@ -70,15 +72,16 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
 
     Mono<KubernetesListObject> list(String resourceVersion) {
         listParamHolder.setValue("resourceVersion", resourceVersion);
-        return listExecMethod.invoke(listBean, listParamHolder.values);
+        return Objects.requireNonNull(listExecMethod.invoke(listBean, listParamHolder.values), "List API call returned null");
     }
 
     Flux<WatchEvent<ApiType>> watch(String resourceVersion, int timeoutSeconds) {
         watchParamHolder.setValue("resourceVersion", resourceVersion);
         watchParamHolder.setValue("timeoutSeconds", timeoutSeconds);
-        return watchExecMethod.invoke(watchBean, watchParamHolder.values);
+        return Objects.requireNonNull(watchExecMethod.invoke(watchBean, watchParamHolder.values), "Watch API call returned null");
     }
 
+    @Nullable
     String getNamespace() {
         return namespace;
     }
@@ -94,7 +97,7 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
             }
         }
 
-        private void setValue(String paramName, Object paramValue) {
+        private void setValue(String paramName, @Nullable Object paramValue) {
             Integer position = positions.get(paramName);
             if (position != null) {
                 values[position] = paramValue;

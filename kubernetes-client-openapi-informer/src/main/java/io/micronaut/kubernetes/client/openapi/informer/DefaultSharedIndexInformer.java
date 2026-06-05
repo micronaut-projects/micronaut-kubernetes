@@ -20,6 +20,7 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
 
     private final Class<ApiType> apiTypeClass;
 
+    @Nullable
     private final String namespace;
 
     private final InformerLogger informerLogger;
@@ -59,18 +61,21 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
     // default resync period for event handlers
     private final long defaultEventHandlerResyncPeriodMillis;
 
+    @Nullable
     private final ScheduledExecutorService resyncExecutor;
 
     private final SharedProcessor<ApiType> processor;
 
+    @Nullable
     private DeltaConsumer<ApiType> deltaConsumer;
 
+    @Nullable
     private TransformFunc transformFunc;
 
     private volatile boolean started = false;
 
     DefaultSharedIndexInformer(Class<ApiType> apiTypeClass,
-                               String namespace,
+                               @Nullable String namespace,
                                ThreadFactoryUtil threadFactoryUtil,
                                InformerApiCall<ApiType> informerApiCall,
                                long resyncPeriodMillis,
@@ -105,7 +110,9 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
         if (resyncCheckPeriodMillis > 0) {
             informerLogger.logInfo("Resync job enabled, resyncCheckPeriodMillis={}", resyncCheckPeriodMillis);
             ResyncRunnable resyncRunnable = new ResyncRunnable(deltaFifo, processor::shouldResync, apiTypeClass, namespace);
-            resyncExecutor.scheduleAtFixedRate(resyncRunnable, resyncCheckPeriodMillis, resyncCheckPeriodMillis, TimeUnit.MILLISECONDS);
+            if (resyncExecutor != null) {
+                resyncExecutor.scheduleAtFixedRate(resyncRunnable, resyncCheckPeriodMillis, resyncCheckPeriodMillis, TimeUnit.MILLISECONDS);
+            }
         } else {
             informerLogger.logInfo("Resync job disabled");
         }
@@ -118,10 +125,12 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
             return;
         }
         informerWatcher.stop();
-        if (resyncCheckPeriodMillis > 0) {
+        if (resyncExecutor != null) {
             resyncExecutor.shutdownNow();
         }
-        deltaConsumer.stop();
+        if (deltaConsumer != null) {
+            deltaConsumer.stop();
+        }
         processor.stop();
     }
 

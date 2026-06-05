@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +38,13 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
     private final DeltaFifo deltaQueue;
     private final Indexer<ApiType> indexer;
     private final SharedProcessor<ApiType> processor;
+    @Nullable
     private final TransformFunc transformFunc;
 
     DeltaConsumer(DeltaFifo deltaQueue,
                   Indexer<ApiType> indexer,
                   SharedProcessor<ApiType> processor,
-                  TransformFunc transformFunc) {
+                  @Nullable TransformFunc transformFunc) {
         this.deltaQueue = deltaQueue;
         this.indexer = indexer;
         this.processor = processor;

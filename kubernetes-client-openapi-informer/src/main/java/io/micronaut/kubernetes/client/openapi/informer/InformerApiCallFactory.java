@@ -85,12 +85,21 @@ final class InformerApiCallFactory {
             throw new IllegalArgumentException(apiTypeClassName + " is not supported");
         }
         Class<?> listBeanType = apiReactorExecMethodProcessor.getBeanTypes().get(apiTypeClassName);
+        if (listBeanType == null) {
+            throw new IllegalArgumentException(apiTypeClassName + " list bean is not supported");
+        }
         Object listBean = applicationContext.getBean(listBeanType);
 
         ExecutableMethod watchExecMethod = useNamespace
             ? apiWatcherExecMethodProcessor.getNamespaceExecMethods().get(apiTypeClassName)
             : apiWatcherExecMethodProcessor.getGlobalExecMethods().get(apiTypeClassName);
+        if (watchExecMethod == null) {
+            throw new IllegalArgumentException(apiTypeClassName + " watch is not supported");
+        }
         Class<?> watchBeanType = apiWatcherExecMethodProcessor.getBeanTypes().get(apiTypeClassName);
+        if (watchBeanType == null) {
+            throw new IllegalArgumentException(apiTypeClassName + " watch bean is not supported");
+        }
         Object watchBean = applicationContext.getBean(watchBeanType);
 
         return new InformerApiCall<ApiType>(listExecMethod, listBean, watchExecMethod, watchBean, namespace, labelSelector);

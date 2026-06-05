@@ -68,33 +68,33 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        Class<ApiType> apiTypeClass,
-        String namespace) {
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace) {
         return sharedIndexInformerFor(apiTypeClass, namespace, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector) {
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace,
+        @Nullable String labelSelector) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, DEFAULT_WAIT_FOR_INITIAL_SYNC);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector,
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace,
+        @Nullable String labelSelector,
         boolean waitForInitialSync) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, DEFAULT_RESYNC_PERIOD);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector,
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace,
+        @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, resyncPeriodMillis, null, null);
@@ -102,9 +102,9 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
-        Class<ApiType> apiTypeClass,
-        List<String> namespaces,
-        String labelSelector,
+        @NonNull Class<ApiType> apiTypeClass,
+        @NonNull List<String> namespaces,
+        @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis) {
 
@@ -125,13 +125,13 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector,
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace,
+        @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis,
-        Function<ApiType, String> cacheKeyFunction,
-        Map<String, Function<ApiType, List<String>>> cacheIndexFunctions) {
+        @Nullable Function<ApiType, String> cacheKeyFunction,
+        @Nullable Map<String, Function<ApiType, List<String>>> cacheIndexFunctions) {
 
         if (apiTypeClass == null) {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
@@ -162,9 +162,10 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     }
 
     @Override
+    @Nullable
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
-        Class<ApiType> apiTypeClass,
-        String namespace) {
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable String namespace) {
 
         if (apiTypeClass == null) {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
