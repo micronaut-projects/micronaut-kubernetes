@@ -56,10 +56,23 @@ public final class KubeConfig {
     private final Map<String, Cluster> clusters = new HashMap<>();
     private final Map<String, AuthInfo> users = new HashMap<>();
 
+    /**
+     * Creates a kube config from the supplied config map.
+     *
+     * @param configMap the kube config map
+     * @throws IllegalArgumentException if required kube config fields are missing
+     */
     public KubeConfig(Map<String, Object> configMap) {
         this(null, configMap);
     }
 
+    /**
+     * Creates a kube config from the supplied config map and source path.
+     *
+     * @param kubeConfigPath the kube config path
+     * @param configMap the kube config map
+     * @throws IllegalArgumentException if required kube config fields are missing
+     */
     public KubeConfig(@Nullable String kubeConfigPath, Map<String, Object> configMap) {
         kubeConfigParentPath = kubeConfigPath == null ? null : kubeConfigPath.startsWith("file:")
             ? Path.of(kubeConfigPath.substring(5)).getParent()

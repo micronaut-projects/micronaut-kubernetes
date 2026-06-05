@@ -48,6 +48,14 @@ public final class KubernetesClientSslBuilder extends NettyClientSslBuilder {
     private final KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
     private final KubernetesClientConfiguration kubernetesClientConfiguration;
 
+    /**
+     * Creates a Kubernetes client SSL builder.
+     *
+     * @param resourceResolver the resource resolver
+     * @param kubeConfig the kube config
+     * @param kubernetesPrivateKeyLoader the Kubernetes private key loader
+     * @param kubernetesClientConfiguration the Kubernetes client configuration
+     */
     public KubernetesClientSslBuilder(ResourceResolver resourceResolver,
                                       @Nullable KubeConfig kubeConfig,
                                       KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,

@@ -35,22 +35,43 @@ public final class IntOrString {
     private final @Nullable String strValue;
     private final @Nullable Integer intValue;
 
+    /**
+     * Creates a string-backed value.
+     *
+     * @param value the string value
+     */
     public IntOrString(final String value) {
         this.isInt = false;
         this.strValue = value;
         this.intValue = null;
     }
 
+    /**
+     * Creates an integer-backed value.
+     *
+     * @param value the integer value
+     */
     public IntOrString(final int value) {
         this.isInt = true;
         this.intValue = value;
         this.strValue = null;
     }
 
+    /**
+     * Whether this value wraps an integer.
+     *
+     * @return true if this value wraps an integer
+     */
     public boolean isInteger() {
         return isInt;
     }
 
+    /**
+     * Gets the string value.
+     *
+     * @return the string value
+     * @throws IllegalStateException if this value wraps an integer
+     */
     public String getStrValue() {
         if (isInt) {
             throw new IllegalStateException("Not a string");
@@ -58,6 +79,12 @@ public final class IntOrString {
         return Objects.requireNonNull(strValue);
     }
 
+    /**
+     * Gets the integer value.
+     *
+     * @return the integer value
+     * @throws IllegalStateException if this value wraps a string
+     */
     public Integer getIntValue() {
         if (!isInt) {
             throw new IllegalStateException("Not an integer");

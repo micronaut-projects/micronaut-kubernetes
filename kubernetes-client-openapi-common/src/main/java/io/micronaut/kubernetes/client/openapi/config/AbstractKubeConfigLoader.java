@@ -36,6 +36,11 @@ public abstract class AbstractKubeConfigLoader implements KubeConfigLoader {
 
     private boolean triedLoading = false;
 
+    /**
+     * Creates a new kube config loader.
+     *
+     * @param resourceResolver the resource resolver
+     */
     protected AbstractKubeConfigLoader(ResourceResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
@@ -49,6 +54,11 @@ public abstract class AbstractKubeConfigLoader implements KubeConfigLoader {
         return kubeConfig;
     }
 
+    /**
+     * Loads the kube config.
+     *
+     * @return the kube config, or null if no kube config is available
+     */
     protected abstract @Nullable KubeConfig loadKubeConfig();
 
     /**
