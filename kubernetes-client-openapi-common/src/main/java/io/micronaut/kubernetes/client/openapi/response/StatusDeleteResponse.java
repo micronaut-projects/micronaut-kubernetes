@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.response;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of {@link DeleteResponse} interface which contains an instance of {@link V1Status}.
@@ -31,7 +32,7 @@ public record StatusDeleteResponse<T>(
     V1Status status
 ) implements DeleteResponse<T> {
     @Override
-    public T object() {
+    public @Nullable T object() {
         return null;
     }
 }

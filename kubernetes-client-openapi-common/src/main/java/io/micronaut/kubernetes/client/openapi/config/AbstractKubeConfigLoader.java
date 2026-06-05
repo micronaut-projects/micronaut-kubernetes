@@ -32,7 +32,7 @@ public abstract class AbstractKubeConfigLoader implements KubeConfigLoader {
 
     private final ResourceResolver resourceResolver;
 
-    private KubeConfig kubeConfig;
+    private @Nullable KubeConfig kubeConfig;
 
     private boolean triedLoading = false;
 
@@ -41,7 +41,7 @@ public abstract class AbstractKubeConfigLoader implements KubeConfigLoader {
     }
 
     @Override
-    public KubeConfig getKubeConfig() {
+    public @Nullable KubeConfig getKubeConfig() {
         if (kubeConfig == null && !triedLoading) {
             kubeConfig = loadKubeConfig();
             triedLoading = true;

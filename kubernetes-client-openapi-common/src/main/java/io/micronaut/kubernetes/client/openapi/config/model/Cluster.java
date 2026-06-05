@@ -32,8 +32,14 @@ public record Cluster(
     byte @Nullable [] certificateAuthorityData,
     @Nullable Boolean insecureSkipTlsVerify
 ) {
-    public Cluster {
-        Objects.requireNonNull(server, "server");
+    public Cluster(
+        String server,
+        byte @Nullable [] certificateAuthorityData,
+        @Nullable Boolean insecureSkipTlsVerify
+    ) {
+        this.server = Objects.requireNonNull(server, "server");
+        this.certificateAuthorityData = certificateAuthorityData;
+        this.insecureSkipTlsVerify = insecureSkipTlsVerify;
     }
 
     @Override

@@ -21,6 +21,7 @@ import io.micronaut.core.io.ResourceResolver;
 import io.micronaut.core.io.file.FileSystemResourceLoader;
 import io.micronaut.core.util.StringUtils;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public final class DefaultKubeConfigLoader extends AbstractKubeConfigLoader {
     }
 
     @Override
-    protected KubeConfig loadKubeConfig() {
+    protected @Nullable KubeConfig loadKubeConfig() {
         String kubeConfigPath = kubernetesClientConfiguration.getKubeConfigPath();
         if (StringUtils.isEmpty(kubeConfigPath)) {
             String homeDir = findHomeDir();
@@ -63,7 +64,7 @@ public final class DefaultKubeConfigLoader extends AbstractKubeConfigLoader {
         return loadKubeConfigFromFile(kubeConfigPath);
     }
 
-    private String findHomeDir() {
+    private @Nullable String findHomeDir() {
         if (System.getProperty("os.name").toLowerCase().startsWith("windows")) {
             String userProfile = System.getenv("USERPROFILE");
             if (StringUtils.isNotEmpty(userProfile)) {

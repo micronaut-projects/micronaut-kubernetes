@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/**
+ * Credential model types for the Kubernetes OpenAPI client.
+ */
 @NullMarked
 package io.micronaut.kubernetes.client.openapi.credential.model;
 

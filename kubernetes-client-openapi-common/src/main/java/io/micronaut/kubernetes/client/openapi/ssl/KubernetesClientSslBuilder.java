@@ -24,6 +24,7 @@ import io.micronaut.kubernetes.client.openapi.config.KubeConfig;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.config.model.AuthInfo;
 import io.micronaut.kubernetes.client.openapi.config.model.Cluster;
+import org.jspecify.annotations.Nullable;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -43,12 +44,12 @@ public final class KubernetesClientSslBuilder extends NettyClientSslBuilder {
     private static final String X509_CERTIFICATE_TYPE = "X509";
 
     private final ResourceResolver resourceResolver;
-    private final KubeConfig kubeConfig;
+    private final @Nullable KubeConfig kubeConfig;
     private final KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader;
     private final KubernetesClientConfiguration kubernetesClientConfiguration;
 
     public KubernetesClientSslBuilder(ResourceResolver resourceResolver,
-                                      KubeConfig kubeConfig,
+                                      @Nullable KubeConfig kubeConfig,
                                       KubernetesPrivateKeyLoader kubernetesPrivateKeyLoader,
                                       KubernetesClientConfiguration kubernetesClientConfiguration) {
         super(resourceResolver);
@@ -60,7 +61,7 @@ public final class KubernetesClientSslBuilder extends NettyClientSslBuilder {
 
     @Override
     protected Optional<KeyStore> getKeyStore(SslConfiguration ssl) throws Exception {
-        if (kubeConfig == null || kubeConfig.getUser() == null) {
+        if (kubeConfig == null) {
             return Optional.empty();
         }
         AuthInfo user = kubeConfig.getUser();

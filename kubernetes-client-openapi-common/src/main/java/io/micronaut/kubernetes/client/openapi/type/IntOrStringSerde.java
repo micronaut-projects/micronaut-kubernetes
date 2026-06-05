@@ -22,7 +22,6 @@ import io.micronaut.serde.Serde;
 import io.micronaut.serde.exceptions.SerdeException;
 import jakarta.inject.Singleton;
 import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -42,7 +41,7 @@ public class IntOrStringSerde implements Serde<IntOrString> {
     }
 
     @Override
-    public @Nullable IntOrString deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super IntOrString> type) throws IOException {
+    public IntOrString deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super IntOrString> type) throws IOException {
         Object value = decoder.decodeArbitrary();
         if (value instanceof String stringValue) {
             return new IntOrString(stringValue);

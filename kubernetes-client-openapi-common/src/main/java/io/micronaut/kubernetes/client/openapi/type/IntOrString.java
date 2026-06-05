@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.type;
 
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -31,8 +32,8 @@ import java.util.Objects;
 public final class IntOrString {
 
     private final boolean isInt;
-    private final String strValue;
-    private final Integer intValue;
+    private final @Nullable String strValue;
+    private final @Nullable Integer intValue;
 
     public IntOrString(final String value) {
         this.isInt = false;
@@ -54,19 +55,19 @@ public final class IntOrString {
         if (isInt) {
             throw new IllegalStateException("Not a string");
         }
-        return strValue;
+        return Objects.requireNonNull(strValue);
     }
 
     public Integer getIntValue() {
         if (!isInt) {
             throw new IllegalStateException("Not an integer");
         }
-        return intValue;
+        return Objects.requireNonNull(intValue);
     }
 
     @Override
     public String toString() {
-        return (isInt ? String.valueOf(intValue) : strValue);
+        return isInt ? String.valueOf(getIntValue()) : getStrValue();
     }
 
     @Override
