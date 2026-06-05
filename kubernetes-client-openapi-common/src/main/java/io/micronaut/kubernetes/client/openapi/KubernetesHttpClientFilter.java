@@ -59,9 +59,9 @@ import java.util.concurrent.ExecutorService;
 final class KubernetesHttpClientFilter implements HttpClientFilter {
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesHttpClientFilter.class);
 
-    private final Provider<KubeConfig> kubeConfigProvider;
+    private final Provider<@Nullable KubeConfig> kubeConfigProvider;
     private final Provider<Collection<TokenLoader>> tokenLoaders;
-    private final Scheduler scheduler;
+    private final @Nullable Scheduler scheduler;
 
     KubernetesHttpClientFilter(Provider<KubeConfigLoader> kubeConfigLoader,
                                ApplicationContext applicationContext,
@@ -78,7 +78,7 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
     @Override
     public Publisher<? extends HttpResponse<?>> doFilter(MutableHttpRequest<?> request, ClientFilterChain chain) {
         KubeConfig kubeConfig = kubeConfigProvider.get();
-        if (kubeConfig != null && kubeConfig.getUser() != null) {
+        if (kubeConfig != null) {
             AuthInfo user = kubeConfig.getUser();
             if (user.clientCertificateData() != null && user.clientKeyData() != null) {
                 LOG.trace("Using client certificate authentication");
@@ -111,7 +111,7 @@ final class KubernetesHttpClientFilter implements HttpClientFilter {
             if (scheduler != null) {
                 publisher = publisher.subscribeOn(scheduler);
             }
-            return publisher.doOnNext(token -> LOG.trace("Token loaded by {}", blockingTokenLoader.getClass().getName()));
+            return publisher.doOnNext(ignored -> LOG.trace("Token loaded by {}", blockingTokenLoader.getClass().getName()));
         }
         LOG.error("Found unknown token loader implementation: {}", tokenLoader.getClass().getName());
         return Mono.empty();
