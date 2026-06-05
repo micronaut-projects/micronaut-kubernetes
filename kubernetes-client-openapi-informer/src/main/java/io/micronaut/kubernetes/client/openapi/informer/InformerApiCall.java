@@ -20,7 +20,6 @@ import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.watcher.WatchEvent;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -47,10 +46,10 @@ final class InformerApiCall<ApiType extends KubernetesObject> {
     @Nullable
     private final String namespace;
 
-    InformerApiCall(@NonNull ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod,
-                    @NonNull Object listBean,
-                    @NonNull ExecutableMethod<Object, Flux<WatchEvent<ApiType>>> watchExecMethod,
-                    @NonNull Object watchBean,
+    InformerApiCall(ExecutableMethod<Object, Mono<KubernetesListObject>> listExecMethod,
+                    Object listBean,
+                    ExecutableMethod<Object, Flux<WatchEvent<ApiType>>> watchExecMethod,
+                    Object watchBean,
                     @Nullable String namespace,
                     @Nullable String labelSelector) {
         this.listExecMethod = listExecMethod;

@@ -21,7 +21,6 @@ import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,14 +67,14 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace) {
         return sharedIndexInformerFor(apiTypeClass, namespace, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, DEFAULT_WAIT_FOR_INITIAL_SYNC);
@@ -83,7 +82,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         boolean waitForInitialSync) {
@@ -92,7 +91,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         boolean waitForInitialSync,
@@ -102,8 +101,8 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
-        @NonNull Class<ApiType> apiTypeClass,
-        @NonNull List<String> namespaces,
+        Class<ApiType> apiTypeClass,
+        List<String> namespaces,
         @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis) {
@@ -125,7 +124,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         boolean waitForInitialSync,
@@ -164,7 +163,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     @Override
     @Nullable
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace) {
 
         if (apiTypeClass == null) {
@@ -229,7 +228,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     }
 
     record InformerKey<ApiType extends KubernetesObject>(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace
     ) {
     }

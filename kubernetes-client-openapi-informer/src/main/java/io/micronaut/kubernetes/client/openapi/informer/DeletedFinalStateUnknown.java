@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -32,7 +31,7 @@ import org.jspecify.annotations.Nullable;
  */
 @Internal
 public record DeletedFinalStateUnknown<ApiType extends KubernetesObject>(
-    @NonNull String key,
+    String key,
     @Nullable ApiType object
 ) implements KubernetesObject {
     @Override

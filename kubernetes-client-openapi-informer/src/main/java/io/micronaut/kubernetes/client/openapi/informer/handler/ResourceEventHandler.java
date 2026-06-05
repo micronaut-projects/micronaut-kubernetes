@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.informer.handler;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Interface for event handlers.
@@ -30,9 +29,9 @@ import org.jspecify.annotations.NonNull;
  */
 public interface ResourceEventHandler<ApiType extends KubernetesObject> {
 
-    void onAdd(@NonNull ApiType obj);
+    void onAdd(ApiType obj);
 
-    void onUpdate(@NonNull ApiType oldObj, @NonNull ApiType newObj);
+    void onUpdate(ApiType oldObj, ApiType newObj);
 
-    void onDelete(@NonNull ApiType obj, boolean deletedFinalStateUnknown);
+    void onDelete(ApiType obj, boolean deletedFinalStateUnknown);
 }

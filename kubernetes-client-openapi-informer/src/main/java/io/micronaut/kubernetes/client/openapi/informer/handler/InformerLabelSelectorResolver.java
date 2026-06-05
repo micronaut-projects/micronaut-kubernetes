@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.openapi.informer.handler;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -33,7 +32,7 @@ public interface InformerLabelSelectorResolver {
      *
      * @param annotationValue the informer annotation value
      * @return resource label selector or null
-     */
+    */
     @Nullable
-    String resolveInformerLabels(@NonNull AnnotationValue<Informer> annotationValue);
+    String resolveInformerLabels(AnnotationValue<Informer> annotationValue);
 }

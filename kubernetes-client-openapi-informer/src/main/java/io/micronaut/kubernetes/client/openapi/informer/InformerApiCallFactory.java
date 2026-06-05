@@ -20,7 +20,6 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +57,9 @@ final class InformerApiCallFactory {
      *                     api calls should be restricted to given namespace
      * @param <ApiType>    kubernetes api type
      * @return an instance of {@link InformerApiCall}
-     */
+    */
     <ApiType extends KubernetesObject> InformerApiCall<ApiType> createInformerApiCall(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector) {
 

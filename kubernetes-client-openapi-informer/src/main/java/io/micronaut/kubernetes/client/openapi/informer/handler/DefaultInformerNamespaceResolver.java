@@ -20,7 +20,6 @@ import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,15 +44,14 @@ final class DefaultInformerNamespaceResolver implements InformerNamespaceResolve
     @Nullable
     private final NamespaceResolver namespaceResolver;
 
-    DefaultInformerNamespaceResolver(@NonNull BeanContext beanContext,
+    DefaultInformerNamespaceResolver(BeanContext beanContext,
                                      @Nullable NamespaceResolver namespaceResolver) {
         this.beanContext = beanContext;
         this.namespaceResolver = namespaceResolver;
     }
 
     @Override
-    @NonNull
-    public Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> annotationValue) {
+    public Set<String> resolveInformerNamespaces(AnnotationValue<Informer> annotationValue) {
         Set<String> namespaces = new HashSet<>();
 
         Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)

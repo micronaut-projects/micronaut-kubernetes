@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -37,7 +36,7 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      *
      * @param handler the handler
      */
-    void addEventHandler(@NonNull ResourceEventHandler<ApiType> handler);
+    void addEventHandler(ResourceEventHandler<ApiType> handler);
 
     /**
      * Adds an event handler to the shared informer using the specified resync period.
@@ -47,7 +46,7 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      * @param handler the event handler
      * @param resyncPeriod the specific resync period
      */
-    void addEventHandlerWithResyncPeriod(@NonNull ResourceEventHandler<ApiType> handler, long resyncPeriod);
+    void addEventHandlerWithResyncPeriod(ResourceEventHandler<ApiType> handler, long resyncPeriod);
 
     /**
      * Starts the shared informer, which won't be stopped until the stop method is called.
@@ -91,7 +90,7 @@ public interface SharedInformer<ApiType extends KubernetesObject> {
      *
      * @param transformFunc the transform function
      */
-    void setTransform(@NonNull TransformFunc transformFunc);
+    void setTransform(TransformFunc transformFunc);
 
     /**
      * Resends all cached kubernetes objects to all listeners.

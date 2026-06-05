@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.List;
@@ -37,8 +36,8 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>    kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
-    @NonNull <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace);
 
     /**
@@ -51,8 +50,8 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>     kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
-    @NonNull <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector);
 
@@ -69,8 +68,8 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>          kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
-    @NonNull <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         boolean waitForInitialSync);
@@ -89,8 +88,8 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>          kubernetes api type
      * @return instance of {@link SharedIndexInformer}
      */
-    @NonNull <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         boolean waitForInitialSync,
@@ -112,8 +111,8 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>           api type
      * @return instance of {@link SharedIndexInformer}
      */
-    @NonNull <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
-        @NonNull Class<ApiType> apiTypeClass,
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector,
         boolean waitForInitialSync,
@@ -134,9 +133,9 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>          kubernetes api type
      * @return list of {@link SharedIndexInformer} instances. The order of informers in the returned list matches the order of namespaces in the input namespace list.
      */
-    @NonNull <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
-        @NonNull Class<ApiType> apiTypeClass,
-        @NonNull List<String> namespaces,
+    <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
+        Class<ApiType> apiTypeClass,
+        List<String> namespaces,
         @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis);
@@ -150,7 +149,7 @@ public interface SharedIndexInformerFactory {
      * @return instance of {@link SharedIndexInformer}
      */
     @Nullable <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace);
 
     /**
