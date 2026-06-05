@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
@@ -61,7 +61,7 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
     private final @Nullable Scheduler scheduler;
 
     private volatile @Nullable String token;
-    private volatile @Nullable LocalDateTime expirationTime;
+    private volatile @Nullable Instant expirationTime;
 
     ServiceAccountTokenLoader(ResourceResolver resourceResolver,
                               KubernetesClientConfiguration kubernetesClientConfiguration,
@@ -96,7 +96,7 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
                     Duration tokenReloadInterval = serviceAccount.getTokenReloadInterval();
                     try {
                         token = loadToken(tokenPath);
-                        expirationTime = LocalDateTime.now().plusSeconds(tokenReloadInterval.toSeconds());
+                        expirationTime = Instant.now().plus(tokenReloadInterval);
                     } catch (Exception e) {
                         LOG.error("Failed to load token from file: {}", tokenPath, e);
                     }
@@ -110,7 +110,7 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
         if (token == null || expirationTime == null) {
             return true;
         }
-        LocalDateTime now = LocalDateTime.now();
+        Instant now = Instant.now();
         LOG.debug("Check whether token reloading needed, now={}, expiration={}", now, expirationTime);
         return expirationTime.isBefore(now);
     }
