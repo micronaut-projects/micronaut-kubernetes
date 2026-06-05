@@ -48,7 +48,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,7 +159,7 @@ final class KubernetesHttpClientFactory {
             NioDatagramChannel::new,
             new NettyClientCustomizer() {
                 @Override
-                public @NonNull NettyClientCustomizer specializeForChannel(@NonNull Channel channel, @NonNull ChannelRole role) {
+                public NettyClientCustomizer specializeForChannel(Channel channel, ChannelRole role) {
                     return NettyClientCustomizer.super.specializeForChannel(channel, role);
                 }
             },

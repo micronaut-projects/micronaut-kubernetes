@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.ssl;
 
-import org.jspecify.annotations.NonNull;
-
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -36,5 +34,5 @@ public interface KubernetesPrivateKeyLoader {
      * @throws NoSuchAlgorithmException if the private key algorithm is not available
      * @throws InvalidKeySpecException if the private key data is invalid
      */
-    @NonNull PrivateKey loadPrivateKey(byte[] clientKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException;
+    PrivateKey loadPrivateKey(byte[] clientKey) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException;
 }
