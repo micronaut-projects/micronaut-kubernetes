@@ -99,10 +99,10 @@ public final class IntOrString {
 
     @Override
     public boolean equals(Object o) {
-        return this == o || (o instanceof IntOrString && equals((IntOrString) o));
+        return this == o || (o instanceof IntOrString intOrString && hasSameValue(intOrString));
     }
 
-    private boolean equals(IntOrString o) {
+    private boolean hasSameValue(IntOrString o) {
         if (isInt != o.isInt) {
             return false;
         }
