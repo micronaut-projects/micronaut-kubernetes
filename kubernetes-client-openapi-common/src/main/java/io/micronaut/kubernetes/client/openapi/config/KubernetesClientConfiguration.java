@@ -21,6 +21,7 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.core.util.Toggleable;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 
@@ -35,11 +36,11 @@ public class KubernetesClientConfiguration implements Toggleable {
 
     public static final String PREFIX = "kubernetes.client";
 
-    private String kubeConfigPath;
+    private @Nullable String kubeConfigPath;
 
     private boolean enabled = true;
 
-    private String namespace;
+    private @Nullable String namespace;
 
     private ServiceAccount serviceAccount = new ServiceAccount();
 
@@ -48,7 +49,7 @@ public class KubernetesClientConfiguration implements Toggleable {
      *
      * @return kube config path
      */
-    public String getKubeConfigPath() {
+    public @Nullable String getKubeConfigPath() {
         return kubeConfigPath;
     }
 
@@ -57,7 +58,7 @@ public class KubernetesClientConfiguration implements Toggleable {
      *
      * @param kubeConfigPath kube config path
      */
-    void setKubeConfigPath(String kubeConfigPath) {
+    void setKubeConfigPath(@Nullable String kubeConfigPath) {
         this.kubeConfigPath = kubeConfigPath;
     }
 
@@ -85,7 +86,7 @@ public class KubernetesClientConfiguration implements Toggleable {
      *
      * @return kubernetes client namespace
      */
-    public String getNamespace() {
+    public @Nullable String getNamespace() {
         return namespace;
     }
 
@@ -94,7 +95,7 @@ public class KubernetesClientConfiguration implements Toggleable {
      *
      * @param namespace the kubernetes client namespace
      */
-    public void setNamespace(String namespace) {
+    public void setNamespace(@Nullable String namespace) {
         this.namespace = namespace;
     }
 

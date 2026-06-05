@@ -37,6 +37,7 @@ import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -57,10 +58,10 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
 
     private final ResourceResolver resourceResolver;
     private final ServiceAccount serviceAccount;
-    private final Scheduler scheduler;
+    private final @Nullable Scheduler scheduler;
 
-    private volatile String token;
-    private volatile LocalDateTime expirationTime;
+    private volatile @Nullable String token;
+    private volatile @Nullable LocalDateTime expirationTime;
 
     ServiceAccountTokenLoader(ResourceResolver resourceResolver,
                               KubernetesClientConfiguration kubernetesClientConfiguration,
@@ -78,16 +79,16 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
     @Override
     public Publisher<String> getToken() {
         if (!shouldLoadToken()) {
-            return Mono.just(token).doOnNext(it -> LOG.trace("Token loaded"));
+            return Mono.just(token).doOnNext(ignored -> LOG.trace("Cached token loaded"));
         }
         Mono<String> publisher = Mono.fromCallable(this::reloadedToken);
         if (scheduler != null) {
             publisher = publisher.subscribeOn(scheduler);
         }
-        return publisher.doOnNext(it -> LOG.trace("Token loaded"));
+        return publisher.doOnNext(ignored -> LOG.trace("Token loaded"));
     }
 
-    private String reloadedToken() {
+    private @Nullable String reloadedToken() {
         if (shouldLoadToken()) {
             synchronized (this) {
                 if (shouldLoadToken()) {
@@ -121,6 +122,6 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
             throw new ConfigurationException("Token file not found: " + tokenPath);
         }
         InputStream inputStream = inputStreamOpt.get();
-        return new String(inputStream.readAllBytes());
+        return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
     }
 }

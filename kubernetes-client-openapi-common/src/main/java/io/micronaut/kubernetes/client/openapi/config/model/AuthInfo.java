@@ -31,8 +31,8 @@ import java.util.Objects;
  * @param exec the custom exec-based authentication plugin for the kubernetes cluster
  */
 public record AuthInfo(
-    @Nullable byte[] clientCertificateData,
-    @Nullable byte[] clientKeyData,
+    byte @Nullable [] clientCertificateData,
+    byte @Nullable [] clientKeyData,
     @Nullable String token,
     @Nullable String username,
     @Nullable String password,

@@ -30,7 +30,7 @@ import java.util.Objects;
  */
 public record Cluster(
     @NonNull String server,
-    @Nullable byte[] certificateAuthorityData,
+    byte @Nullable [] certificateAuthorityData,
     @Nullable Boolean insecureSkipTlsVerify
 ) {
     @Override
