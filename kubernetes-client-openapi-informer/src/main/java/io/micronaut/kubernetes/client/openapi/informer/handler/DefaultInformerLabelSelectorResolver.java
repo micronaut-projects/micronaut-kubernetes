@@ -20,7 +20,6 @@ import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,14 +38,14 @@ final class DefaultInformerLabelSelectorResolver implements InformerLabelSelecto
 
     private final BeanContext beanContext;
 
-    DefaultInformerLabelSelectorResolver(@NonNull BeanContext beanContext) {
+    DefaultInformerLabelSelectorResolver(BeanContext beanContext) {
         this.beanContext = beanContext;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @Nullable
-    public String resolveInformerLabels(@NonNull AnnotationValue<Informer> annotationValue) {
+    public String resolveInformerLabels(AnnotationValue<Informer> annotationValue) {
         String labelSelector = null;
 
         Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
@@ -64,9 +63,11 @@ final class DefaultInformerLabelSelectorResolver implements InformerLabelSelecto
             if (!Objects.equals(selectorSupplierClass, EmptyLabelSupplier.class)) {
                 LOG.trace("Found [{}] label selector supplier in @Informer's 'labelSelectorSupplier' value", selectorSupplierClass.getName());
                 Supplier<String> supplierBean = beanContext.getBean(selectorSupplierClass);
-                String labelSelectorSupplierLabels = supplierBean.get();
-                LOG.trace("Found [{}] label selector using label selector supplier", labelSelectorSupplierLabels);
-                labelSelector = labelSelector == null ? labelSelectorSupplierLabels : labelSelector + "," + labelSelectorSupplierLabels;
+                String suppliedLabelSelector = supplierBean.get();
+                LOG.trace("Found [{}] label selector using label selector supplier", suppliedLabelSelector);
+                if (StringUtils.isNotEmpty(suppliedLabelSelector)) {
+                    labelSelector = labelSelector == null ? suppliedLabelSelector : labelSelector + "," + suppliedLabelSelector;
+                }
             }
         }
         LOG.debug("Resolved [{}] label selector for apiType={}", labelSelector, apiType);

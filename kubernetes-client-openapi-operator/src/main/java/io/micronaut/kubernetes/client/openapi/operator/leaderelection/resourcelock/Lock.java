@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcel
 
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -36,6 +37,7 @@ public sealed interface Lock permits AbstractLock {
      *
      * @return the leader election record
      */
+    @Nullable
     LeaderElectionRecord get() throws IOException;
 
     /**

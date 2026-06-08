@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,12 +68,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
                 } else if (notification instanceof AddNotification<?> addNotification) {
                     handler.onAdd((ApiType) addNotification.object);
                 } else if (notification instanceof DeleteNotification<?> deleteNotification) {
-                    Object deletedObject = deleteNotification.object;
-                    if (deletedObject instanceof DeletedFinalStateUnknown<?> deletedObjectUnknown) {
-                        handler.onDelete((ApiType) deletedObjectUnknown.object(), true);
-                    } else {
-                        handler.onDelete((ApiType) deletedObject, false);
-                    }
+                    onDelete(deleteNotification.object);
                 } else {
                     LOG.error("Unrecognized notification: {}", notification);
                 }
@@ -88,6 +82,17 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
             }
         }
         LOG.debug("Stopping processor listener");
+    }
+
+    private void onDelete(Object deletedObject) {
+        if (deletedObject instanceof DeletedFinalStateUnknown<?> deletedObjectUnknown) {
+            ApiType object = (ApiType) deletedObjectUnknown.object();
+            if (object != null) {
+                handler.onDelete(object, true);
+            }
+        } else {
+            handler.onDelete((ApiType) deletedObject, false);
+        }
     }
 
     void stop() {
@@ -118,18 +123,18 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
     }
 
     record UpdateNotification<ApiType extends KubernetesObject>(
-        @NonNull ApiType oldObject,
-        @NonNull ApiType newObject
+        ApiType oldObject,
+        ApiType newObject
     ) implements Notification {
     }
 
     record AddNotification<ApiType extends KubernetesObject>(
-        @NonNull ApiType object
+        ApiType object
     ) implements Notification {
     }
 
     record DeleteNotification<ApiType extends KubernetesObject>(
-        @NonNull ApiType object
+        ApiType object
     ) implements Notification {
     }
 }

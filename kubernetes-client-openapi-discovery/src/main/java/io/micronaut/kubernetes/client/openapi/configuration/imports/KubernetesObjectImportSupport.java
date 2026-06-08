@@ -25,7 +25,6 @@ import io.micronaut.http.HttpStatus;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +52,7 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
      * @param context The import context containing the declaration and environment
      * @return The imported property source when one can be resolved
      */
-    @NonNull
-    Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
+    Optional<PropertySource> importPropertySource(ImportContext<ImportDeclaration> context) {
         ImportDeclaration declaration = context.importDeclaration();
         LOG.debug("Started property source import for declaration: {}", declaration);
         try {
@@ -63,7 +61,7 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
                 if (declaration.watch()) {
                     LOG.debug("Found cached property source created from watched declaration={}. Checking whether it requires refresh", declaration);
                     AtomicInteger refreshCount = ImportDeclarationWatchIndex.getRefreshCount(declaration);
-                    if (refreshCount.getAndSet(0) == 0) {
+                    if (refreshCount != null && refreshCount.getAndSet(0) == 0) {
                         return Optional.of(cachedPropertySource);
                     }
                     LOG.debug("Refresh required for cached property source created from watched declaration={}", declaration);
@@ -95,15 +93,13 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
         }
     }
 
-    @NonNull
     abstract Optional<PropertySource> importPropertySourceByNameSelector(
-        @NonNull ImportDeclaration declaration,
-        @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
+        ImportDeclaration declaration,
+        Collection<PropertySourceLoader> propertySourceLoaders);
 
-    @NonNull
     abstract Optional<PropertySource> importPropertySourceByLabelsSelector(
-        @NonNull ImportDeclaration declaration,
-        @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
+        ImportDeclaration declaration,
+        Collection<PropertySourceLoader> propertySourceLoaders);
 
     /**
      * Converts Kubernetes objects into a single Micronaut property source.
@@ -114,11 +110,10 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
      * @param <T>           The Kubernetes object type
      * @return The resulting property source when at least one object contributes data
      */
-    @NonNull
     <T extends KubernetesObject> Optional<PropertySource> toPropertySource(
         @Nullable List<T> objects,
-        @NonNull Class<T> objectType,
-        @NonNull Function<? super T, Map<String, Object>> dataExtractor) {
+        Class<T> objectType,
+        Function<? super T, Map<String, Object>> dataExtractor) {
 
         if (CollectionUtils.isEmpty(objects)) {
             return Optional.empty();
@@ -128,13 +123,17 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
         Map<String, Object> propertySourceData = new HashMap<>();
 
         objects.forEach(object -> {
-            resourceNames.add(object.getMetadata().getName());
-            String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
-            String resVersionPropertyValue = object.getMetadata().getResourceVersion();
-            propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
-            Map<String, Object> data = dataExtractor.apply(object);
-            if (CollectionUtils.isNotEmpty(data)) {
-                propertySourceData.putAll(data);
+            if (object.getMetadata() == null) {
+                LOG.warn("Skipped importing of kubernetes object since there is no metadata: {}", object);
+            } else {
+                resourceNames.add(object.getMetadata().getName());
+                String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
+                String resVersionPropertyValue = object.getMetadata().getResourceVersion();
+                propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+                Map<String, Object> data = dataExtractor.apply(object);
+                if (CollectionUtils.isNotEmpty(data)) {
+                    propertySourceData.putAll(data);
+                }
             }
         });
 
@@ -154,7 +153,7 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
      * @return The read value, or {@code null} when the resource does not exist
      */
     @Nullable
-    <T> T readIfExists(@NonNull Supplier<T> readFn) {
+    <T> T readIfExists(Supplier<T> readFn) {
         try {
             return readFn.get();
         } catch (HttpClientResponseException e) {

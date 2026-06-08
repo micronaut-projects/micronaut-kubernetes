@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ final class ResyncRunnable implements Runnable {
     ResyncRunnable(DeltaFifo deltaFifo,
                    Supplier<Boolean> shouldResyncFunc,
                    Class<? extends KubernetesObject> apiTypeClass,
-                   String namespace) {
+                   @Nullable String namespace) {
         this.deltaFifo = deltaFifo;
         this.shouldResyncFunc = shouldResyncFunc;
         this.informerLogger = new InformerLogger(LOG, apiTypeClass, namespace);

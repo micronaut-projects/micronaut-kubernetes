@@ -30,7 +30,6 @@ import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
 import io.micronaut.kubernetes.client.openapi.model.V1Pod;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,6 +91,9 @@ public final class KubernetesConfigUtils {
      * @return property name
      */
     public static String createResVersionPropertyName(KubernetesObject kubernetesObject) {
+        if (kubernetesObject.getMetadata() == null) {
+            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject.getClass().getSimpleName());
+        }
         String objectType = kubernetesObject.getClass().getSimpleName();
         String objectName = kubernetesObject.getMetadata().getName();
         return OBJECT_RES_VERSION_PROP_NAME_TEMPLATE.formatted(objectType.toLowerCase(), objectName);
@@ -104,6 +106,9 @@ public final class KubernetesConfigUtils {
      * @return property source name
      */
     public static String createPropertySourceName(KubernetesObject kubernetesObject) {
+        if (kubernetesObject.getMetadata() == null) {
+            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject.getClass().getSimpleName());
+        }
         String objectName = kubernetesObject.getMetadata().getName();
         String objectType = kubernetesObject.getClass().getSimpleName();
         return PROPERTY_SOURCE_NAME_TEMPLATE.formatted(objectName, objectType);
@@ -258,9 +263,11 @@ public final class KubernetesConfigUtils {
      * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
      * @return the label selector filter
      */
-    public static Mono<String> computePodLabelSelector(CoreV1ApiReactor client, List<String> podLabelKeys,
-                                                 String namespace, Map<String, String> labels,
-                                                 boolean exceptionOnPodLabelsMissing) {
+    public static Mono<String> computePodLabelSelector(CoreV1ApiReactor client,
+                                                       @Nullable List<String> podLabelKeys,
+                                                       String namespace,
+                                                       @Nullable Map<String, String> labels,
+                                                       boolean exceptionOnPodLabelsMissing) {
         return computePodLabels(client, podLabelKeys, namespace, labels, exceptionOnPodLabelsMissing)
             .map(KubernetesConfigUtils::computeLabelSelector);
     }
@@ -275,9 +282,10 @@ public final class KubernetesConfigUtils {
      * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
      * @return the computed labels
      */
-    @NonNull
-    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactor client, List<String> podLabelKeys,
-                                                             String namespace, Map<String, String> labels,
+    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactor client,
+                                                             @Nullable List<String> podLabelKeys,
+                                                             String namespace,
+                                                             @Nullable Map<String, String> labels,
                                                              boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
@@ -298,7 +306,6 @@ public final class KubernetesConfigUtils {
             .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
     }
 
-    @NonNull
     private static Map<String, String> computeLabelsFromPod(V1Pod pod,
                                                             List<String> podLabelKeys,
                                                             boolean exceptionOnPodLabelsMissing) {
@@ -322,7 +329,7 @@ public final class KubernetesConfigUtils {
     }
 
     @Nullable
-    public static Map<String, String> parseLabels(String labelsValue, String provider) {
+    public static Map<String, String> parseLabels(@Nullable String labelsValue, String provider) {
         if (StringUtils.isEmpty(labelsValue)) {
             return null;
         }
@@ -355,7 +362,7 @@ public final class KubernetesConfigUtils {
      * @param labels the map of labels
      * @return the label selector filter
      */
-    public static String computeLabelSelector(Map<String, String> labels) {
+    public static String computeLabelSelector(@Nullable Map<String, String> labels) {
         if (CollectionUtils.isEmpty(labels)) {
             return StringUtils.EMPTY_STRING;
         }

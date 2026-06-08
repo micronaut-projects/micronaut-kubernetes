@@ -28,6 +28,7 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LockIdenti
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import io.micronaut.runtime.ApplicationConfiguration;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +64,7 @@ final class ConfigMapLock extends AbstractLock {
     }
 
     @Override
+    @Nullable
     public LeaderElectionRecord get() throws IOException {
         V1ConfigMap configMap = coreV1Api.readNamespacedConfigMap(getName(), getNamespace(), null);
         if (configMap == null) {
@@ -100,6 +102,9 @@ final class ConfigMapLock extends AbstractLock {
     public boolean update(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1ConfigMap configMap = configMapRefer.get();
+            if (configMap == null) {
+                return false;
+            }
             addLeaderElectionRecord(configMap.getMetadata(), leaderElectionRecord);
             V1ConfigMap updatedConfigMap = coreV1Api.replaceNamespacedConfigMap(getName(), getNamespace(), configMap, null, null, null, null);
             configMapRefer.set(updatedConfigMap);

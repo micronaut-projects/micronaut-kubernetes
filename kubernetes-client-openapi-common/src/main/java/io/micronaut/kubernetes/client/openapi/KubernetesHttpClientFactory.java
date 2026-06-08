@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.Factory;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.exceptions.ConfigurationException;
+import io.micronaut.core.annotation.AnnotationMetadata;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.convert.ConversionService;
 import io.micronaut.core.io.ResourceResolver;
@@ -47,7 +48,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -132,7 +132,7 @@ final class KubernetesHttpClientFactory {
             kubernetesHttpClientConfiguration,
             null,
             defaultHttpClientFilterResolver,
-            defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), null)),
+            defaultHttpClientFilterResolver.resolveFilterEntries(new ClientFilterResolutionContext(Collections.singletonList(CLIENT_ID), AnnotationMetadata.EMPTY_METADATA)),
             new DefaultThreadFactory(MultithreadEventLoopGroup.class),
             new KubernetesClientSslBuilder(resourceResolver, kubeConfig, kubernetesPrivateKeyLoader, kubernetesClientConfiguration),
             new MediaTypeCodecRegistry() {
@@ -159,7 +159,7 @@ final class KubernetesHttpClientFactory {
             NioDatagramChannel::new,
             new NettyClientCustomizer() {
                 @Override
-                public @NonNull NettyClientCustomizer specializeForChannel(@NonNull Channel channel, @NonNull ChannelRole role) {
+                public NettyClientCustomizer specializeForChannel(Channel channel, ChannelRole role) {
                     return NettyClientCustomizer.super.specializeForChannel(channel, role);
                 }
             },

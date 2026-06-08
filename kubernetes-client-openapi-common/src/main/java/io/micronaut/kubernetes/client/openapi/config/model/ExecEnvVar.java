@@ -15,7 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.config.model;
 
-import org.jspecify.annotations.NonNull;
+import java.util.Objects;
 
 /**
  * Environment variable used when executing an exec-based credential plugin.
@@ -24,7 +24,11 @@ import org.jspecify.annotations.NonNull;
  * @param value the value of environment variable
  */
 public record ExecEnvVar(
-    @NonNull String name,
-    @NonNull String value
+    String name,
+    String value
 ) {
+    public ExecEnvVar {
+        Objects.requireNonNull(name, "name");
+        Objects.requireNonNull(value, "value");
+    }
 }

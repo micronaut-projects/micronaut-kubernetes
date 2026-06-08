@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.core.util.StringUtils;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 
 /**
@@ -25,10 +26,11 @@ final class InformerLogger {
 
     private final Logger logger;
     private final Class apiTypeClass;
+    @Nullable
     private final String namespace;
     private final String messagePrefix;
 
-    InformerLogger(Logger logger, Class apiTypeClass, String namespace) {
+    InformerLogger(Logger logger, Class apiTypeClass, @Nullable String namespace) {
         this.logger = logger;
         this.apiTypeClass = apiTypeClass;
         this.namespace = namespace;

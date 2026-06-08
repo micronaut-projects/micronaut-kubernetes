@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.openapi.watcher;
 
 import io.micronaut.kubernetes.client.openapi.model.V1Status;
 import io.micronaut.serde.annotation.Serdeable;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -31,7 +30,7 @@ import org.jspecify.annotations.Nullable;
 // tag::class[]
 @Serdeable
 public record WatchEvent<T>(
-    @NonNull String type,
+    String type,
     @Nullable T object,
     @Nullable V1Status status
 ) {

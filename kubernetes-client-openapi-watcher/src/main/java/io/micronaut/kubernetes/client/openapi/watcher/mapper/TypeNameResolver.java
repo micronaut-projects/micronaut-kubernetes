@@ -20,7 +20,6 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.HashMap;
@@ -62,7 +61,7 @@ public final class TypeNameResolver {
      * @param listTypeName the kubernetes list type name
      * @return the kubernetes item type name
      */
-    public Optional<String> resolveItemTypeName(@NonNull String listTypeName) {
+    public Optional<String> resolveItemTypeName(String listTypeName) {
         if (mappings.containsKey(listTypeName)) {
             return Optional.of(mappings.get(listTypeName));
         }

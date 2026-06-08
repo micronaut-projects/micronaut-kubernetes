@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue.ratelimiter;
 
-import org.jspecify.annotations.NonNull;
-
 import java.time.Duration;
 
 /**
@@ -37,14 +35,14 @@ public interface RateLimiter<T> {
      * @param item an item that should wait
      * @return how long an item should wait before adding it back to the queue
      */
-    @NonNull Duration when(@NonNull T item);
+    Duration when(T item);
 
     /**
      * Indicates that an item is finished being retried (failed or succeeded).
      *
      * @param item an item to remove from internal tracking
      */
-    void forget(@NonNull T item);
+    void forget(T item);
 
     /**
      * Returns a number of failures that the item has had.
@@ -52,7 +50,7 @@ public interface RateLimiter<T> {
      * @param item an item
      * @return number of failures that the item has had
      */
-    int numRequeues(@NonNull T item);
+    int numRequeues(T item);
 
     /**
      * Resets the rate limiter.

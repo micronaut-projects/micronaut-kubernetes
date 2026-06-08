@@ -23,6 +23,7 @@ import io.micronaut.kubernetes.client.openapi.config.model.Cluster;
 import io.micronaut.kubernetes.client.openapi.config.model.Context;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecConfig;
 import io.micronaut.kubernetes.client.openapi.config.model.ExecEnvVar;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -40,6 +41,7 @@ import java.util.Optional;
 /**
  * Holder for data loaded from the kube config file.
  */
+@SuppressWarnings("unchecked")
 public final class KubeConfig {
     static final String REQUIRED_FIELD_ERROR_MSG = "'%s' not found in the kube config file";
     private static final String CONTEXTS_FIELD = "contexts";
@@ -47,45 +49,56 @@ public final class KubeConfig {
     private static final String CLUSTER_FIELD = "cluster";
     private static final String USERS_FIELD = "users";
 
-    private final Path kubeConfigParentPath;
+    private final @Nullable Path kubeConfigParentPath;
+
     private final String currentContextName;
     private final Map<String, Context> contexts = new HashMap<>();
     private final Map<String, Cluster> clusters = new HashMap<>();
     private final Map<String, AuthInfo> users = new HashMap<>();
 
+    /**
+     * Creates a kube config from the supplied config map.
+     *
+     * @param configMap the kube config map
+     * @throws IllegalArgumentException if required kube config fields are missing
+     */
     public KubeConfig(Map<String, Object> configMap) {
         this(null, configMap);
     }
 
-    public KubeConfig(String kubeConfigPath, Map<String, Object> configMap) {
+    /**
+     * Creates a kube config from the supplied config map and source path.
+     *
+     * @param kubeConfigPath the kube config path
+     * @param configMap the kube config map
+     * @throws IllegalArgumentException if required kube config fields are missing
+     */
+    public KubeConfig(@Nullable String kubeConfigPath, Map<String, Object> configMap) {
         kubeConfigParentPath = kubeConfigPath == null ? null : kubeConfigPath.startsWith("file:")
             ? Path.of(kubeConfigPath.substring(5)).getParent()
             : Path.of(kubeConfigPath).getParent();
 
-        String currentContext = (String) configMap.get("current-context");
-        validateRequiredField(currentContext, "current-context", null);
-        currentContextName = currentContext;
+        currentContextName = requireField((String) configMap.get("current-context"), "current-context", null);
 
-        List<Object> contextList = (List<Object>) configMap.get(CONTEXTS_FIELD);
-        validateRequiredField(contextList, CONTEXTS_FIELD, null);
+        List<Object> contextList = requireField((List<Object>) configMap.get(CONTEXTS_FIELD), CONTEXTS_FIELD, null);
         contextList.forEach(obj -> {
             Map<String, Object> map = (Map<String, Object>) obj;
-            contexts.put(getName(map, CONTEXTS_FIELD), getContext(map));
+            contexts.put(getName(map, CONTEXTS_FIELD), parseContext(map));
         });
 
-        List<Object> clusterList = (List<Object>) configMap.get(CLUSTERS_FIELD);
-        validateRequiredField(clusterList, CLUSTERS_FIELD, null);
+        List<Object> clusterList = requireField((List<Object>) configMap.get(CLUSTERS_FIELD), CLUSTERS_FIELD, null);
         clusterList.forEach(obj -> {
             Map<String, Object> map = (Map<String, Object>) obj;
-            clusters.put(getName(map, CLUSTERS_FIELD), getCluster(map));
+            clusters.put(getName(map, CLUSTERS_FIELD), parseCluster(map));
         });
 
-        List<Object> userList = (List<Object>) configMap.get(USERS_FIELD);
-        validateRequiredField(userList, USERS_FIELD, null);
+        List<Object> userList = requireField((List<Object>) configMap.get(USERS_FIELD), USERS_FIELD, null);
         userList.forEach(obj -> {
             Map<String, Object> map = (Map<String, Object>) obj;
-            users.put(getName(map, USERS_FIELD), getUser(map));
+            users.put(getName(map, USERS_FIELD), parseUser(map));
         });
+
+        validateCurrentContextReferences();
     }
 
     /**
@@ -94,8 +107,12 @@ public final class KubeConfig {
      * @return {@link Cluster} instance
      */
     public Cluster getCluster() {
-        Context currentContext = contexts.get(currentContextName);
-        return clusters.get(currentContext.cluster());
+        String clusterName = getCurrentContext().cluster();
+        Cluster cluster = clusters.get(clusterName);
+        if (cluster == null) {
+            throw new IllegalArgumentException("Missing required cluster: " + clusterName);
+        }
+        return cluster;
     }
 
     /**
@@ -104,8 +121,20 @@ public final class KubeConfig {
      * @return {@link AuthInfo} instance
      */
     public AuthInfo getUser() {
+        String userName = getCurrentContext().user();
+        AuthInfo user = users.get(userName);
+        if (user == null) {
+            throw new IllegalArgumentException("Missing required user: " + userName);
+        }
+        return user;
+    }
+
+    private Context getCurrentContext() {
         Context currentContext = contexts.get(currentContextName);
-        return users.get(currentContext.user());
+        if (currentContext == null) {
+            throw new IllegalArgumentException("Missing required context: " + currentContextName);
+        }
+        return currentContext;
     }
 
     /**
@@ -127,27 +156,32 @@ public final class KubeConfig {
     }
 
     private String getName(Map<String, Object> map, String parentFieldName) {
-        String name = (String) map.get("name");
-        validateRequiredField(name, "name", parentFieldName);
-        return name;
+        return requireField((String) map.get("name"), "name", parentFieldName);
     }
 
-    private Context getContext(Map<String, Object> map) {
-        Map<String, Object> contextMap = (Map<String, Object>) map.get("context");
-        validateRequiredField(contextMap, "context", CONTEXTS_FIELD);
-        String cluster = (String) contextMap.get(CLUSTER_FIELD);
-        validateRequiredField(cluster, CLUSTER_FIELD, "contexts.context");
-        String user = (String) contextMap.get("user");
-        validateRequiredField(user, "user", "contexts.context");
+    private void validateCurrentContextReferences() {
+        Context currentContext = getCurrentContext();
+        String clusterName = currentContext.cluster();
+        if (!clusters.containsKey(clusterName)) {
+            throw new IllegalArgumentException("Missing required cluster: " + clusterName);
+        }
+        String userName = currentContext.user();
+        if (!users.containsKey(userName)) {
+            throw new IllegalArgumentException("Missing required user: " + userName);
+        }
+    }
+
+    private Context parseContext(Map<String, Object> map) {
+        Map<String, Object> contextMap = requireField((Map<String, Object>) map.get("context"), "context", CONTEXTS_FIELD);
+        String cluster = requireField((String) contextMap.get(CLUSTER_FIELD), CLUSTER_FIELD, "contexts.context");
+        String user = requireField((String) contextMap.get("user"), "user", "contexts.context");
         String namespace = (String) contextMap.get("namespace");
         return new Context(cluster, user, namespace);
     }
 
-    private Cluster getCluster(Map<String, Object> map) {
-        Map<String, Object> clusterMap = (Map<String, Object>) map.get(CLUSTER_FIELD);
-        validateRequiredField(clusterMap, CLUSTER_FIELD, CLUSTERS_FIELD);
-        String server = (String) clusterMap.get("server");
-        validateRequiredField(server, "server", "clusters.cluster");
+    private Cluster parseCluster(Map<String, Object> map) {
+        Map<String, Object> clusterMap = requireField((Map<String, Object>) map.get(CLUSTER_FIELD), CLUSTER_FIELD, CLUSTERS_FIELD);
+        String server = requireField((String) clusterMap.get("server"), "server", "clusters.cluster");
         byte[] certificateAuthorityData = getDataBytes(
             (String) clusterMap.get("certificate-authority-data"),
             (String) clusterMap.get("certificate-authority"));
@@ -155,9 +189,8 @@ public final class KubeConfig {
         return new Cluster(server, certificateAuthorityData, insecureSkipTlsVerify);
     }
 
-    private AuthInfo getUser(Map<String, Object> map) {
-        Map<String, Object> userMap = (Map<String, Object>) map.get("user");
-        validateRequiredField(userMap, "user", USERS_FIELD);
+    private AuthInfo parseUser(Map<String, Object> map) {
+        Map<String, Object> userMap = requireField((Map<String, Object>) map.get("user"), "user", USERS_FIELD);
         byte[] clientCertificateData = getDataBytes(
             (String) userMap.get("client-certificate-data"),
             (String) userMap.get("client-certificate"));
@@ -173,52 +206,49 @@ public final class KubeConfig {
         return new AuthInfo(clientCertificateData, clientKeyData, token, username, password, exec);
     }
 
-    private ExecConfig getExecConfig(Map<String, Object> map) {
+    private @Nullable ExecConfig getExecConfig(Map<String, Object> map) {
         Map<String, Object> execMap = (Map<String, Object>) map.get("exec");
         if (CollectionUtils.isEmpty(execMap)) {
             return null;
         }
-        String apiVersion = (String) execMap.get("apiVersion");
-        validateRequiredField(execMap, "apiVersion", "users.user.exec");
+        String apiVersion = requireField((String) execMap.get("apiVersion"), "apiVersion", "users.user.exec");
         if (!"client.authentication.k8s.io/v1beta1".equals(apiVersion)
             && !"client.authentication.k8s.io/v1alpha1".equals(apiVersion)) {
             throw new IllegalArgumentException("Unrecognized users.user.exec.apiVersion: " + apiVersion);
         }
-        String command = (String) execMap.get("command");
-        validateRequiredField(command, "command", "users.user.exec");
+        String command = requireField((String) execMap.get("command"), "command", "users.user.exec");
         List<String> args = (List<String>) execMap.get("args");
         List<ExecEnvVar> env = getExecEnvVars(execMap);
         return new ExecConfig(apiVersion, command, args, env);
     }
 
-    private List<ExecEnvVar> getExecEnvVars(Map<String, Object> map) {
+    private @Nullable List<ExecEnvVar> getExecEnvVars(Map<String, Object> map) {
         List<Map<String, Object>> envVars = (List<Map<String, Object>>) map.get("env");
         if (CollectionUtils.isEmpty(envVars)) {
             return null;
         }
         List<ExecEnvVar> envVarResult = new ArrayList<>(envVars.size());
         envVars.forEach(envVarMap -> {
-            String name = (String) envVarMap.get("name");
-            validateRequiredField(name, "name", "users.user.exec.env");
-            String value = (String) envVarMap.get("value");
-            validateRequiredField(name, "value", "users.user.exec.env");
+            String name = requireField((String) envVarMap.get("name"), "name", "users.user.exec.env");
+            String value = requireField((String) envVarMap.get("value"), "value", "users.user.exec.env");
             envVarResult.add(new ExecEnvVar(name, value));
         });
         return envVarResult;
     }
 
-    private void validateRequiredField(Object field, String fieldName, String parentFieldName) {
+    private <T> T requireField(@Nullable T field, String fieldName, @Nullable String parentFieldName) {
         if (field == null
-            || field instanceof String fieldString && fieldString.isBlank()
-            || field instanceof Collection fieldCollection && fieldCollection.isEmpty()
-            || field instanceof Map fieldMap && fieldMap.isEmpty()
+            || (field instanceof String fieldString && fieldString.isBlank())
+            || (field instanceof Collection fieldCollection && fieldCollection.isEmpty())
+            || (field instanceof Map fieldMap && fieldMap.isEmpty())
         ) {
             String errorField = StringUtils.isEmpty(parentFieldName) ? fieldName : parentFieldName + "." + fieldName;
             throw new IllegalArgumentException(REQUIRED_FIELD_ERROR_MSG.formatted(errorField));
         }
+        return field;
     }
 
-    private byte[] getDataBytes(String configData, String dataRelativePath) {
+    private byte @Nullable [] getDataBytes(@Nullable String configData, @Nullable String dataRelativePath) {
         if (StringUtils.isNotEmpty(configData)) {
             return Base64.getDecoder().decode(configData);
         } else if (StringUtils.isNotEmpty(dataRelativePath)) {
@@ -236,7 +266,7 @@ public final class KubeConfig {
         return null;
     }
 
-    private String getToken(String token, String tokenFile) {
+    private @Nullable String getToken(@Nullable String token, @Nullable String tokenFile) {
         if (StringUtils.isNotEmpty(token)) {
             return token;
         } else if (StringUtils.isNotEmpty(tokenFile)) {

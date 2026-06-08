@@ -23,6 +23,7 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElec
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LockIdentityProvider;
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import io.micronaut.runtime.ApplicationConfiguration;
+import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -72,6 +73,7 @@ abstract sealed class AbstractLock implements Lock permits ConfigMapLock, Endpoi
         return namespace + "/" + name;
     }
 
+    @Nullable
     LeaderElectionRecord getLeaderElectionRecord(V1ObjectMeta objectMeta) throws IOException {
         String recordString = objectMeta.getAnnotations() == null ? null : objectMeta.getAnnotations().get(LEADER_ANNOTATION_KEY);
         return StringUtils.isEmpty(recordString)

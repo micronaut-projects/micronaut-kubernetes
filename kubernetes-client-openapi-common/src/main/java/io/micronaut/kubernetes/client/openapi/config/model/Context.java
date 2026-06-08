@@ -15,8 +15,9 @@
  */
 package io.micronaut.kubernetes.client.openapi.config.model;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * Context is a tuple of references to a cluster, a user and a namespace.
@@ -26,8 +27,12 @@ import org.jspecify.annotations.Nullable;
  * @param namespace the default namespace to use on unspecified requests
  */
 public record Context(
-    @NonNull String cluster,
-    @NonNull String user,
+    String cluster,
+    String user,
     @Nullable String namespace
 ) {
+    public Context {
+        Objects.requireNonNull(cluster, "cluster");
+        Objects.requireNonNull(user, "user");
+    }
 }

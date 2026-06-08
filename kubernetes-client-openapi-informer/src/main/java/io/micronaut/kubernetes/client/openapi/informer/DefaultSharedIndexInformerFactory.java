@@ -21,7 +21,6 @@ import io.micronaut.kubernetes.client.openapi.informer.cache.Cache;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,23 +68,23 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
-        String namespace) {
+        @Nullable String namespace) {
         return sharedIndexInformerFor(apiTypeClass, namespace, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector) {
+        @Nullable String namespace,
+        @Nullable String labelSelector) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, DEFAULT_WAIT_FOR_INITIAL_SYNC);
     }
 
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector,
+        @Nullable String namespace,
+        @Nullable String labelSelector,
         boolean waitForInitialSync) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, DEFAULT_RESYNC_PERIOD);
     }
@@ -93,8 +92,8 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector,
+        @Nullable String namespace,
+        @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis) {
         return sharedIndexInformerFor(apiTypeClass, namespace, labelSelector, waitForInitialSync, resyncPeriodMillis, null, null);
@@ -104,7 +103,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     public <ApiType extends KubernetesObject> List<SharedIndexInformer<ApiType>> sharedIndexInformersFor(
         Class<ApiType> apiTypeClass,
         List<String> namespaces,
-        String labelSelector,
+        @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis) {
 
@@ -126,12 +125,12 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     @Override
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> sharedIndexInformerFor(
         Class<ApiType> apiTypeClass,
-        String namespace,
-        String labelSelector,
+        @Nullable String namespace,
+        @Nullable String labelSelector,
         boolean waitForInitialSync,
         long resyncPeriodMillis,
-        Function<ApiType, String> cacheKeyFunction,
-        Map<String, Function<ApiType, List<String>>> cacheIndexFunctions) {
+        @Nullable Function<ApiType, String> cacheKeyFunction,
+        @Nullable Map<String, Function<ApiType, List<String>>> cacheIndexFunctions) {
 
         if (apiTypeClass == null) {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
@@ -162,9 +161,10 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     }
 
     @Override
+    @Nullable
     public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
         Class<ApiType> apiTypeClass,
-        String namespace) {
+        @Nullable String namespace) {
 
         if (apiTypeClass == null) {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
@@ -228,7 +228,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     }
 
     record InformerKey<ApiType extends KubernetesObject>(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace
     ) {
     }

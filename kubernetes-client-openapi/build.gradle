@@ -31,6 +31,11 @@ micronaut {
 
 generateClientOpenApiModels.enabled = false
 
+// don't validate javadoc from generated classes
+tasks.named("javadoc", Javadoc) {
+    options.addBooleanOption("Xdoclint/package:-io.micronaut.kubernetes.client.openapi.api,-io.micronaut.kubernetes.info", true)
+}
+
 tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
     packageExcludes = ["io.micronaut.kubernetes.client.openapi.api"]
 }

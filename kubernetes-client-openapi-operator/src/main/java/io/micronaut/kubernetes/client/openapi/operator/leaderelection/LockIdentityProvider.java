@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection;
 
 import io.micronaut.context.annotation.DefaultImplementation;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Provides the lock identity which is used to uniquely identifies the application for the leader
@@ -30,5 +29,5 @@ public interface LockIdentityProvider {
      *
      * @return the lock identity.
      */
-    @NonNull String getIdentity();
+    String getIdentity();
 }

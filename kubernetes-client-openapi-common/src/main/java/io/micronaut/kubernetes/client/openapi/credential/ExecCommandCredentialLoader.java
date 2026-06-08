@@ -59,11 +59,11 @@ final class ExecCommandCredentialLoader implements ReactiveKubernetesTokenLoader
 
     private static final Duration BUFFER = Duration.ofSeconds(60);
 
-    private final KubeConfig kubeConfig;
+    private final @Nullable KubeConfig kubeConfig;
     private final JsonMapper jsonMapper;
-    private final Scheduler scheduler;
+    private final @Nullable Scheduler scheduler;
 
-    private volatile ExecCredential execCredential;
+    private volatile @Nullable ExecCredential execCredential;
 
     ExecCommandCredentialLoader(KubeConfigLoader kubeConfigLoader,
                                 JsonMapper jsonMapper,
@@ -79,21 +79,23 @@ final class ExecCommandCredentialLoader implements ReactiveKubernetesTokenLoader
     }
 
     @Override
+    @SuppressWarnings("NullAway")
     public Publisher<String> getToken() {
         if (kubeConfig == null || !kubeConfig.isExecCommandProvided()) {
             return Mono.empty();
         }
         if (!shouldLoadCredential()) {
             return Mono.just(execCredential.status().token())
-                .doOnNext(token -> LOG.trace("Token loaded"));
+                .doOnNext(ignored -> LOG.trace("Cached token loaded"));
         }
         Mono<String> publisher = Mono.fromCallable(this::getTokenFromReloadedCredential);
         if (scheduler != null) {
             publisher = publisher.subscribeOn(scheduler);
         }
-        return publisher.doOnNext(token -> LOG.trace("Token loaded"));
+        return publisher.doOnNext(ignored -> LOG.trace("Token loaded"));
     }
 
+    @Nullable
     private String getTokenFromReloadedCredential() {
         if (shouldLoadCredential()) {
             synchronized (this) {
@@ -122,6 +124,7 @@ final class ExecCommandCredentialLoader implements ReactiveKubernetesTokenLoader
         return expiration.isBefore(now.plusSeconds(BUFFER.toSeconds()));
     }
 
+    @SuppressWarnings("NullAway")
     private ExecCredential loadCredential() throws Exception {
         LOG.debug("Loading credential using exec command from kube config file");
         List<String> processArgs = new ArrayList<>();
@@ -158,7 +161,7 @@ final class ExecCommandCredentialLoader implements ReactiveKubernetesTokenLoader
         try (InputStream inputStream = process.getInputStream()) {
             execCredentialResult = jsonMapper.readValue(inputStream, ExecCredential.class);
         }
-        if (execCredentialResult.status() == null || execCredentialResult.status().token() == null) {
+        if (execCredentialResult == null) {
             throw new RuntimeException("Command '" + command + "' didn't provide token");
         }
         int exitCode = process.waitFor();

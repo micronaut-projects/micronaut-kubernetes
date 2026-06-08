@@ -26,7 +26,6 @@ import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.ConnectionString;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,9 +96,9 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         "io.micronaut.oraclecloud.oke.kubernetes.client"
     );
 
+    @Nullable
     private ApplicationContext applicationContext;
 
-    @NonNull
     @Override
     public String getProvider() {
         return PROVIDER;
@@ -111,9 +110,8 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param connectionString The parsed import connection string
      * @return The normalized import declaration
      */
-    @NonNull
     @Override
-    public ImportDeclaration newImportDeclaration(@NonNull ConnectionString connectionString) {
+    public ImportDeclaration newImportDeclaration(ConnectionString connectionString) {
         String type = getType(connectionString.getPath());
         Map<String, String> options = connectionString.getOptions();
         validateSupportedOptions(options.keySet());
@@ -133,9 +131,8 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param values The raw declaration values
      * @return The normalized import declaration
      */
-    @NonNull
     @Override
-    public ImportDeclaration newImportDeclaration(@NonNull ConvertibleValues<Object> values) {
+    public ImportDeclaration newImportDeclaration(ConvertibleValues<Object> values) {
         validateSupportedOptions(values.asMap().keySet());
         String type = getType(values.get(TYPE_OPTION, String.class).orElse(null));
         String name = values.get(NAME_OPTION, String.class).orElse(null);
@@ -154,9 +151,8 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param context The import context containing the declaration to process
      * @return The imported property source when one can be resolved
      */
-    @NonNull
     @Override
-    public Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
+    public Optional<PropertySource> importPropertySource(ImportContext<ImportDeclaration> context) {
         ImportDeclaration declaration = context.importDeclaration();
         if (CONFIG_MAP_TYPE.equals(declaration.type())) {
             KubernetesLegacyImportMode.registerConfigMapImport();
@@ -165,6 +161,10 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
 
         setApplicationContext(context);
+
+        if (applicationContext == null) {
+            throw new ConfigurationException("Unable to create application context");
+        }
 
         KubernetesObjectImportSupport importSupport = CONFIG_MAP_TYPE.equals(declaration.type())
             ? applicationContext.findBean(KubernetesConfigMapImportSupport.class).orElse(null)
@@ -187,7 +187,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
-    private String getType(String type) {
+    private String getType(@Nullable String type) {
         if (StringUtils.isEmpty(type)) {
             throw new ConfigurationException("Config import provider [" + PROVIDER + "] requires 'config-map' or 'secret' type");
         }
@@ -197,7 +197,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         return type.toLowerCase();
     }
 
-    private void validateSelectors(String name, Map<String, String> labels, List<String> podLabels) {
+    private void validateSelectors(@Nullable String name, @Nullable Map<String, String> labels, @Nullable List<String> podLabels) {
         boolean hasName = StringUtils.isNotEmpty(name);
         boolean hasLabels = CollectionUtils.isNotEmpty(labels);
         boolean hasPodLabels = CollectionUtils.isNotEmpty(podLabels);
@@ -222,7 +222,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     }
 
     @Nullable
-    private List<String> parseList(String listOption) {
+    private List<String> parseList(@Nullable String listOption) {
         if (StringUtils.isEmpty(listOption)) {
             return null;
         }
@@ -243,7 +243,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
-    private void setApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
+    private void setApplicationContext(ImportContext<ImportDeclaration> importContext) {
         if (applicationContext == null) {
             LOG.debug("Creating ApplicationContext for config import");
             Environment environment = importContext.environment();

@@ -25,7 +25,6 @@ import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHand
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +67,11 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @Override
-    public void onAdd(@NonNull T object) {
+    public void onAdd(T object) {
+        if (object.getMetadata() == null) {
+            LOG.warn("Skipped processing of added kubernetes object since there is no metadata: {}", object);
+            return;
+        }
         LOG.trace("Started processing of added kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
@@ -86,7 +89,11 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @Override
-    public void onUpdate(@NonNull T oldObject, @NonNull T newObject) {
+    public void onUpdate(T oldObject, T newObject) {
+        if (newObject.getMetadata() == null) {
+            LOG.warn("Skipped processing of modified kubernetes object since there is no metadata: {}", newObject);
+            return;
+        }
         LOG.trace("Started processing of modified kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             newObject.getMetadata().getName(),
             newObject.getClass().getSimpleName(),
@@ -95,7 +102,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
             LOG.trace("Resource version of modified kubernetes object has not been changed");
         } else {
             if (updateRefreshCountIfWatched(oldObject) || updateRefreshCountIfWatched(newObject)) {
-                refreshEnv(oldObject.getMetadata().getName());
+                refreshEnv(newObject.getMetadata().getName());
             } else {
                 LOG.trace("Modified kubernetes object not used in configuration import or not watchable");
             }
@@ -104,7 +111,11 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @Override
-    public void onDelete(@NonNull T object, boolean deletedFinalStateUnknown) {
+    public void onDelete(T object, boolean deletedFinalStateUnknown) {
+        if (object.getMetadata() == null) {
+            LOG.warn("Skipped processing of deleted kubernetes object since there is no metadata: {}", object);
+            return;
+        }
         LOG.trace("Started processing of deleted kubernetes object, objectName={}, objectType={}, resourceVersion={}, deletedFinalStateUnknown={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
@@ -127,6 +138,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
      */
     abstract boolean updateRefreshCountIfWatched(T object);
 
+    @SuppressWarnings("NullAway")
     private boolean checkResourceVersionChanged(T object) {
         String resourceVersion = object.getMetadata().getResourceVersion();
         String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);

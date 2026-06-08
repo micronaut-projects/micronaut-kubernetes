@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.openapi.informer.handler;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Set;
 
@@ -35,6 +34,5 @@ public interface InformerNamespaceResolver {
      * @param annotationValue the informer annotation value
      * @return set of namespaces
      */
-    @NonNull
-    Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> annotationValue);
+    Set<String> resolveInformerNamespaces(AnnotationValue<Informer> annotationValue);
 }

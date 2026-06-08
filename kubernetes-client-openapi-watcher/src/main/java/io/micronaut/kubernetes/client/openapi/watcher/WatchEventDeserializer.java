@@ -22,8 +22,6 @@ import io.micronaut.serde.Decoder;
 import io.micronaut.serde.Deserializer;
 import io.micronaut.serde.exceptions.SerdeException;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -42,7 +40,7 @@ import java.util.Optional;
 final class WatchEventDeserializer implements Deserializer<WatchEvent<?>> {
 
     @Override
-    public @Nullable WatchEvent<?> deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super WatchEvent<?>> type) throws IOException {
+    public WatchEvent<?> deserialize(Decoder decoder, DecoderContext context, Argument<? super WatchEvent<?>> type) throws IOException {
         Decoder objectDecoder = decoder.decodeObject();
         String typePropertyName = objectDecoder.decodeKey();
         if (!"type".equalsIgnoreCase(typePropertyName)) {

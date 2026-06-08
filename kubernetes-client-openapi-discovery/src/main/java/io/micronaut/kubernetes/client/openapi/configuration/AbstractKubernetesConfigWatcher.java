@@ -78,6 +78,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     @Override
     public void onAdd(T object) {
+        if (object.getMetadata() == null) {
+            LOG.warn("Skipped processing of added kubernetes object since there is no metadata: {}", object);
+            return;
+        }
         LOG.trace("Started processing of added kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
@@ -91,6 +95,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     @Override
     public void onUpdate(T oldObject, T newObject) {
+        if (newObject.getMetadata() == null) {
+            LOG.warn("Skipped processing of modified kubernetes object since there is no metadata: {}", newObject);
+            return;
+        }
         LOG.trace("Started processing of modified kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             newObject.getMetadata().getName(),
             newObject.getClass().getSimpleName(),
@@ -104,6 +112,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     @Override
     public void onDelete(T object, boolean deletedFinalStateUnknown) {
+        if (object.getMetadata() == null) {
+            LOG.warn("Skipped processing of deleted kubernetes object since there is no metadata: {}", object);
+            return;
+        }
         LOG.trace("Started processing of deleted kubernetes object, objectName={}, objectType={}, resourceVersion={}, deletedFinalStateUnknown={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
@@ -118,6 +130,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     abstract PropertySource readAsPropertySource(T object);
 
+    @SuppressWarnings("NullAway")
     private Optional<PropertySource> getPropertySource(T object, boolean checkResourceVersion) {
         if (checkResourceVersion) {
             String resourceVersion = object.getMetadata().getResourceVersion();

@@ -15,7 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -35,7 +34,7 @@ public interface WorkQueue<T> {
      *
      * @param item item to add
      */
-    void add(@NonNull T item);
+    void add(T item);
 
     /**
      * Returns the current queue length, for informational purposes only.
@@ -57,7 +56,7 @@ public interface WorkQueue<T> {
      *
      * @param item specific item
      */
-    void done(@NonNull T item);
+    void done(T item);
 
     /**
      * Starts the work queue. Can be called after shutdown to enable queue usage.

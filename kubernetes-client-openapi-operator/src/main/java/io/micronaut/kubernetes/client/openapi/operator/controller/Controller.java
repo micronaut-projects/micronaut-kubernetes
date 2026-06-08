@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller;
 
-import org.jspecify.annotations.NonNull;
-
 /**
  * The interface for operating a controller.
  *
@@ -32,7 +30,7 @@ public interface Controller extends Runnable {
      *
      * @return controller name
      */
-    @NonNull String getName();
+    String getName();
 
     /**
      * Shutdown the controller.

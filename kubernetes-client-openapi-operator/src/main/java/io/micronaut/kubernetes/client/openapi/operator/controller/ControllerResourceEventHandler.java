@@ -17,10 +17,12 @@ package io.micronaut.kubernetes.client.openapi.operator.controller;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
+import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.WorkQueue;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiPredicate;
@@ -34,13 +36,18 @@ import java.util.function.Predicate;
  */
 final class ControllerResourceEventHandler<ApiType extends KubernetesObject> implements ResourceEventHandler<ApiType> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ControllerResourceEventHandler.class);
+
     private final WorkQueue<Request> workQueue;
+    @Nullable
     private final Predicate<ApiType> onAddFilterPredicate;
+    @Nullable
     private final BiPredicate<ApiType, ApiType> onUpdateFilterPredicate;
+    @Nullable
     private final BiPredicate<ApiType, Boolean> onDeleteFilterPredicate;
     private final AtomicBoolean enabled = new AtomicBoolean(false);
 
-    ControllerResourceEventHandler(@NonNull WorkQueue<Request> workQueue,
+    ControllerResourceEventHandler(WorkQueue<Request> workQueue,
                                    @Nullable Predicate<ApiType> onAddFilterPredicate,
                                    @Nullable BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
                                    @Nullable BiPredicate<ApiType, Boolean> onDeleteFilterPredicate) {
@@ -80,6 +87,11 @@ final class ControllerResourceEventHandler<ApiType extends KubernetesObject> imp
     }
 
     private void add(ApiType object) {
-        workQueue.add(new Request(object.getMetadata().getName(), object.getMetadata().getNamespace()));
+        V1ObjectMeta metadata = object.getMetadata();
+        if (metadata == null) {
+            LOG.warn("Skipped processing of kubernetes object since there is no metadata: {}", object);
+        } else {
+            workQueue.add(new Request(metadata.getName(), metadata.getNamespace()));
+        }
     }
 }

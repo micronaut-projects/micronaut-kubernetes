@@ -27,7 +27,6 @@ import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.model.V1SecretList;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,10 +60,9 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
      * @param propertySourceLoaders Unused for raw Secret values but part of the common support contract
      * @return The imported property source if the Secret exists
      */
-    @NonNull
     @Override
-    Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
-                                                                @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
+    Optional<PropertySource> importPropertySourceByNameSelector(ImportDeclaration declaration,
+                                                                Collection<PropertySourceLoader> propertySourceLoaders) {
         String name = declaration.name();
         if (StringUtils.isEmpty(name)) {
             throw new ConfigurationException("Secret import by name expects 'name' to be present in declaration: " + declaration);
@@ -91,12 +89,14 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
      * @param propertySourceLoaders Unused for raw Secret values but part of the common support contract
      * @return The imported property source if any matching Secrets exist
      */
-    @NonNull
     @Override
-    Optional<PropertySource> importPropertySourceByLabelsSelector(@NonNull ImportDeclaration declaration,
-                                                                  @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
+    Optional<PropertySource> importPropertySourceByLabelsSelector(ImportDeclaration declaration,
+                                                                  Collection<PropertySourceLoader> propertySourceLoaders) {
         String namespace = configuration.getNamespace();
         Map<String, String> labels = KubernetesConfigUtils.computePodLabels(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+        if (CollectionUtils.isEmpty(labels)) {
+            throw new ConfigurationException("Secret import by labels expects 'labels' to be present in declaration: " + declaration);
+        }
 
         if (declaration.watch()) {
             ImportDeclarationWatchIndex.addSecretLabelsDeclaration(labels, declaration);

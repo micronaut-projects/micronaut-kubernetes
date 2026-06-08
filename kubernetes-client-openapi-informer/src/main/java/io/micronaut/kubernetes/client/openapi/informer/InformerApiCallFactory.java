@@ -20,7 +20,6 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.inject.ExecutableMethod;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +57,9 @@ final class InformerApiCallFactory {
      *                     api calls should be restricted to given namespace
      * @param <ApiType>    kubernetes api type
      * @return an instance of {@link InformerApiCall}
-     */
+    */
     <ApiType extends KubernetesObject> InformerApiCall<ApiType> createInformerApiCall(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace,
         @Nullable String labelSelector) {
 
@@ -85,12 +84,21 @@ final class InformerApiCallFactory {
             throw new IllegalArgumentException(apiTypeClassName + " is not supported");
         }
         Class<?> listBeanType = apiReactorExecMethodProcessor.getBeanTypes().get(apiTypeClassName);
+        if (listBeanType == null) {
+            throw new IllegalArgumentException(apiTypeClassName + " list bean is not supported");
+        }
         Object listBean = applicationContext.getBean(listBeanType);
 
         ExecutableMethod watchExecMethod = useNamespace
             ? apiWatcherExecMethodProcessor.getNamespaceExecMethods().get(apiTypeClassName)
             : apiWatcherExecMethodProcessor.getGlobalExecMethods().get(apiTypeClassName);
+        if (watchExecMethod == null) {
+            throw new IllegalArgumentException(apiTypeClassName + " watch is not supported");
+        }
         Class<?> watchBeanType = apiWatcherExecMethodProcessor.getBeanTypes().get(apiTypeClassName);
+        if (watchBeanType == null) {
+            throw new IllegalArgumentException(apiTypeClassName + " watch bean is not supported");
+        }
         Object watchBean = applicationContext.getBean(watchBeanType);
 
         return new InformerApiCall<ApiType>(listExecMethod, listBean, watchExecMethod, watchBean, namespace, labelSelector);

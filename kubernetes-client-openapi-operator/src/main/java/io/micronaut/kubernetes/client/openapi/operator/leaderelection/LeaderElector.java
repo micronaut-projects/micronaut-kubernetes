@@ -24,6 +24,7 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.Leas
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcelock.Lock;
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,11 +65,13 @@ final class LeaderElector {
     private final ScheduledExecutorService scheduledWorkers;
     private final ExecutorService leaseWorkers;
 
+    @Nullable
     private LeaderElectionRecord observedRecord;
     private long observedTimeMilliSeconds;
 
     // used to implement OnNewLeader(), may lag slightly from the
     // value observedRecord.HolderIdentity if the transition has not yet been reported.
+    @Nullable
     private String reportedLeader;
 
     private final AtomicBoolean active = new AtomicBoolean(false);
@@ -123,6 +126,9 @@ final class LeaderElector {
                     return;
                 }
                 LOG.info("Successfully acquired lease, became leader");
+                if (observedRecord == null) {
+                    throw new IllegalStateException("Unexpected state - leader election record not found");
+                }
                 leaseAcquiredEventPublisher.publishEventAsync(new LeaseAcquiredEvent(observedRecord));
                 renewLoop();
                 LOG.info("Failed to renew lease, lose leadership");
@@ -340,11 +346,11 @@ final class LeaderElector {
     }
 
     private boolean isLeader() {
-        return lock.getIdentity().equals(observedRecord.holderIdentity());
+        return observedRecord != null && lock.getIdentity().equals(observedRecord.holderIdentity());
     }
 
     private void maybeReportTransition() {
-        if (observedRecord == null) {
+        if (observedRecord == null || observedRecord.holderIdentity() == null) {
             return;
         }
         if (observedRecord.holderIdentity().equals(reportedLeader)) {

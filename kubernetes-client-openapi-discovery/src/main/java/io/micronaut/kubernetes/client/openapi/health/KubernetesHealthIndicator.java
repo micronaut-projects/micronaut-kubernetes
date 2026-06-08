@@ -129,6 +129,9 @@ final class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<String
             V1Pod pod = client.readNamespacedPod(podName, podNamespace, null)
                 .doOnError(throwable -> LOG.error("Failed to read Pod [{}] from namespace [{}]", podName, podNamespace, throwable))
                 .block();
+            if (pod == null) {
+                return Collections.emptyMap();
+            }
             return processPod(pod);
         } catch (Exception e) {
             return processError(e);

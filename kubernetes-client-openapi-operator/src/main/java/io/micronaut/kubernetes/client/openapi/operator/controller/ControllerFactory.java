@@ -19,7 +19,6 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQueue;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Set;
@@ -42,10 +41,10 @@ public interface ControllerFactory {
      * @param <ApiType>          the kubernetes api type
      * @return the created controller
      */
-    @NonNull <ApiType extends KubernetesObject> Controller createController(
-        @NonNull Class<ApiType> apiTypeClass,
+    <ApiType extends KubernetesObject> Controller createController(
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler);
+        ResourceReconciler<ApiType> resourceReconciler);
 
     /**
      * Creates a controller that will process events published by {@link io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer}s
@@ -59,11 +58,11 @@ public interface ControllerFactory {
      * @param <ApiType>          the kubernetes api type
      * @return the created controller
      */
-    @NonNull <ApiType extends KubernetesObject> Controller createController(
+    <ApiType extends KubernetesObject> Controller createController(
         @Nullable String name,
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler);
+        ResourceReconciler<ApiType> resourceReconciler);
 
     /**
      * Creates a controller that will process events published by {@link io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer}s
@@ -79,11 +78,11 @@ public interface ControllerFactory {
      * @param <ApiType>          the kubernetes api type
      * @return the created controller
      */
-    @NonNull <ApiType extends KubernetesObject> Controller createController(
+    <ApiType extends KubernetesObject> Controller createController(
         @Nullable String name,
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler,
+        ResourceReconciler<ApiType> resourceReconciler,
         @Nullable RateLimitingQueue<Request> workQueue);
 
     /**
@@ -103,11 +102,11 @@ public interface ControllerFactory {
      * @param <ApiType>               the kubernetes api type
      * @return the created controller
      */
-    @NonNull <ApiType extends KubernetesObject> Controller createController(
+    <ApiType extends KubernetesObject> Controller createController(
         @Nullable String name,
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler,
+        ResourceReconciler<ApiType> resourceReconciler,
         @Nullable RateLimitingQueue<Request> workQueue,
         @Nullable Predicate<ApiType> onAddFilterPredicate,
         @Nullable BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,

@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.common;
 
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Common accessors for kubernetes object.
@@ -35,7 +36,7 @@ public interface KubernetesObject extends KubernetesType {
      * <p>ObjectMeta is metadata that all persisted resources must have, which includes all objects
      * users must create.
      *
-     * @return the metadata
+     * @return the metadata, or null if it is not available
      */
-    V1ObjectMeta getMetadata();
+    @Nullable V1ObjectMeta getMetadata();
 }

@@ -15,7 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.controller.reconciler;
 
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -25,7 +24,7 @@ import org.jspecify.annotations.Nullable;
  * @param namespace the namespace
  */
 public record Request(
-    @NonNull String name,
+    String name,
     @Nullable String namespace
 ) {
 }

@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -247,7 +248,7 @@ final class DeltaFifo {
     }
 
     // If given deltas represent the same event, return the delta that ought to be kept.
-    private AbstractMap.SimpleEntry<DeltaType, KubernetesObject> dedupDeltas(
+    private AbstractMap.@Nullable SimpleEntry<DeltaType, KubernetesObject> dedupDeltas(
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d1,
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d2) {
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> deletionDelta = dedupDeletionDeltas(d1, d2);
@@ -259,6 +260,8 @@ final class DeltaFifo {
         // Squashing deltas w/ the same resource version, note that is a temporary fix that eases memory intensity.
         if (d1.getKey() != DeltaType.DELETED
             && d2.getKey() != DeltaType.DELETED
+            && d1.getValue().getMetadata() != null
+            && d2.getValue().getMetadata() != null
             && Objects.equals(d1.getValue().getMetadata().getResourceVersion(), d2.getValue().getMetadata().getResourceVersion())) {
             return d1;
         }
@@ -266,7 +269,7 @@ final class DeltaFifo {
     }
 
     // Compare given deltas and if both are deletions, choose the one with more information.
-    private AbstractMap.SimpleEntry<DeltaType, KubernetesObject> dedupDeletionDeltas(
+    private AbstractMap.@Nullable SimpleEntry<DeltaType, KubernetesObject> dedupDeletionDeltas(
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d1,
         AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d2) {
         if (!d1.getKey().equals(DeltaType.DELETED) || !d2.getKey().equals(DeltaType.DELETED)) {

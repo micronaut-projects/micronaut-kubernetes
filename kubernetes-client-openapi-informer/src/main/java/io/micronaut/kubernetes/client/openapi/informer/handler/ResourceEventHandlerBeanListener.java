@@ -62,8 +62,8 @@ final class ResourceEventHandlerBeanListener<ApiType extends KubernetesObject> i
     public ResourceEventHandler<ApiType> onCreated(BeanCreatedEvent<ResourceEventHandler<ApiType>> event) {
         BeanDefinition<ResourceEventHandler<ApiType>> beanDefinition = event.getBeanDefinition();
         ResourceEventHandler eventHandler = event.getBean();
-        if (beanDefinition.hasAnnotation(Informer.class)) {
-            AnnotationValue<Informer> annotationValue = beanDefinition.getAnnotation(Informer.class);
+        AnnotationValue<Informer> annotationValue = beanDefinition.getAnnotation(Informer.class);
+        if (annotationValue != null) {
             Class<? extends KubernetesObject> apiType = annotationValue.classValue("apiType", KubernetesObject.class)
                 .orElseThrow(() -> new NullPointerException("The apiType parameter of @Informer is required."));
             Set<String> namespaces = informerNamespaceResolver.resolveInformerNamespaces(annotationValue);

@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.type;
 
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -31,50 +32,77 @@ import java.util.Objects;
 public final class IntOrString {
 
     private final boolean isInt;
-    private final String strValue;
-    private final Integer intValue;
+    private final @Nullable String strValue;
+    private final @Nullable Integer intValue;
 
+    /**
+     * Creates a string-backed value.
+     *
+     * @param value the string value
+     */
     public IntOrString(final String value) {
         this.isInt = false;
         this.strValue = value;
         this.intValue = null;
     }
 
+    /**
+     * Creates an integer-backed value.
+     *
+     * @param value the integer value
+     */
     public IntOrString(final int value) {
         this.isInt = true;
         this.intValue = value;
         this.strValue = null;
     }
 
+    /**
+     * Whether this value wraps an integer.
+     *
+     * @return true if this value wraps an integer
+     */
     public boolean isInteger() {
         return isInt;
     }
 
+    /**
+     * Gets the string value.
+     *
+     * @return the string value
+     * @throws IllegalStateException if this value wraps an integer
+     */
     public String getStrValue() {
         if (isInt) {
             throw new IllegalStateException("Not a string");
         }
-        return strValue;
+        return Objects.requireNonNull(strValue);
     }
 
+    /**
+     * Gets the integer value.
+     *
+     * @return the integer value
+     * @throws IllegalStateException if this value wraps a string
+     */
     public Integer getIntValue() {
         if (!isInt) {
             throw new IllegalStateException("Not an integer");
         }
-        return intValue;
+        return Objects.requireNonNull(intValue);
     }
 
     @Override
     public String toString() {
-        return (isInt ? String.valueOf(intValue) : strValue);
+        return isInt ? String.valueOf(getIntValue()) : getStrValue();
     }
 
     @Override
     public boolean equals(Object o) {
-        return this == o || (o instanceof IntOrString && equals((IntOrString) o));
+        return this == o || (o instanceof IntOrString intOrString && hasSameValue(intOrString));
     }
 
-    private boolean equals(IntOrString o) {
+    private boolean hasSameValue(IntOrString o) {
         if (isInt != o.isInt) {
             return false;
         }

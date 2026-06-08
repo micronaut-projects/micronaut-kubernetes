@@ -16,12 +16,11 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection.event;
 
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Event fired when a leader has changed.
  *
  * @param leaderElectionRecord the leader election record
  */
-public record LeaderChangedEvent(@NonNull LeaderElectionRecord leaderElectionRecord) {
+public record LeaderChangedEvent(LeaderElectionRecord leaderElectionRecord) {
 }

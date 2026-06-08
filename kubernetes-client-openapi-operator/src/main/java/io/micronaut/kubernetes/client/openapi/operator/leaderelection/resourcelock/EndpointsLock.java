@@ -28,6 +28,7 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LockIdenti
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import io.micronaut.runtime.ApplicationConfiguration;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,6 +64,7 @@ final class EndpointsLock extends AbstractLock {
     }
 
     @Override
+    @Nullable
     public LeaderElectionRecord get() throws IOException {
         V1Endpoints endpoints = coreV1Api.readNamespacedEndpoints(getName(), getNamespace(), null);
         if (endpoints == null) {
@@ -100,6 +102,9 @@ final class EndpointsLock extends AbstractLock {
     public boolean update(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1Endpoints endpoints = endpointsRefer.get();
+            if (endpoints == null) {
+                return false;
+            }
             addLeaderElectionRecord(endpoints.getMetadata(), leaderElectionRecord);
             V1Endpoints updatedEndpoints = coreV1Api.replaceNamespacedEndpoints(getName(), getNamespace(), endpoints, null, null, null, null);
             endpointsRefer.set(updatedEndpoints);

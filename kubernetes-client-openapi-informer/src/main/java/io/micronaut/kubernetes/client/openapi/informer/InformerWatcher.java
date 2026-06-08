@@ -62,7 +62,7 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
     private final InformerLogger informerLogger;
 
     private volatile boolean relistObjects;
-    private volatile String lastSyncResourceVersion;
+    private volatile String lastSyncResourceVersion = StringUtils.EMPTY_STRING;
     private volatile boolean isLastSyncResourceVersionUnavailable;
 
     InformerWatcher(Class<ApiType> apiTypeClass, InformerApiCall<ApiType> informerApiCall, DeltaFifo deltaFifo) {
@@ -206,7 +206,17 @@ final class InformerWatcher<ApiType extends KubernetesObject> {
         }
 
         ApiType object = watchEvent.object();
+        if (object == null) {
+            informerLogger.logError("Received event without object: {}", watchEvent);
+            return;
+        }
+
         V1ObjectMeta meta = object.getMetadata();
+        if (meta == null) {
+            informerLogger.logError("Received object without metadata: {}", watchEvent);
+            return;
+        }
+
         String newResourceVersion = meta.getResourceVersion();
         switch (eventType.get()) {
             case ADDED:

@@ -19,6 +19,7 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
+import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,8 @@ public class KubernetesUtils {
      */
     public static Predicate<V1Secret> getIncludeOpaqueSecretTypeFilter() {
         return secret -> {
-            String secretName = secret.getMetadata().getName();
+            V1ObjectMeta metadata = requireMetadata(secret, "opaque secret type");
+            String secretName = metadata.getName();
             boolean result = Objects.equals(secret.getType(), OPAQUE_SECRET_TYPE);
             LOG.trace("Include opaque secret type filter {}matched: {}", result ? StringUtils.EMPTY_STRING : "not ", secretName);
             return result;
@@ -60,7 +62,8 @@ public class KubernetesUtils {
         }
         LOG.trace("Includes filter: {}", includes);
         return kubernetesObject -> {
-            String objectName = kubernetesObject.getMetadata().getName();
+            V1ObjectMeta metadata = requireMetadata(kubernetesObject, "includes");
+            String objectName = metadata.getName();
             boolean result = includes.contains(objectName);
             LOG.trace("Includes filter {}matched: {}", result ? StringUtils.EMPTY_STRING : "not ", objectName);
             return result;
@@ -77,7 +80,8 @@ public class KubernetesUtils {
         }
         LOG.trace("Excludes filter: {}", excludes);
         return kubernetesObject -> {
-            String objectName = kubernetesObject.getMetadata().getName();
+            V1ObjectMeta metadata = requireMetadata(kubernetesObject, "excludes");
+            String objectName = metadata.getName();
             boolean result = !excludes.contains(objectName);
             LOG.trace("Excludes filter {}matched: {}", result ?  "not " : StringUtils.EMPTY_STRING, objectName);
             return result;
@@ -94,15 +98,25 @@ public class KubernetesUtils {
         }
         LOG.trace("Label include filter: {}", labels.keySet());
         return kubernetesObject -> {
-            Map<String, String> objectLabels = kubernetesObject.getMetadata().getLabels();
+            V1ObjectMeta metadata = requireMetadata(kubernetesObject, "labels");
+            Map<String, String> objectLabels = metadata.getLabels();
             if (CollectionUtils.isEmpty(objectLabels)) {
-                LOG.trace("Label includes filter not matched: {}", kubernetesObject.getMetadata().getName());
+                LOG.trace("Label includes filter not matched: {}", metadata.getName());
                 return false;
             }
             boolean result = labels.entrySet().stream().allMatch(
                 e -> objectLabels.containsKey(e.getKey()) && objectLabels.get(e.getKey()).equals(e.getValue()));
-            LOG.trace("Label includes filter {}matched: {}", result ? StringUtils.EMPTY_STRING : "not ", kubernetesObject.getMetadata().getName());
+            LOG.trace("Label includes filter {}matched: {}", result ? StringUtils.EMPTY_STRING : "not ", metadata.getName());
             return result;
         };
+    }
+
+    private static V1ObjectMeta requireMetadata(KubernetesObject kubernetesObject, String filterName) {
+        V1ObjectMeta metadata = kubernetesObject.getMetadata();
+        if (metadata == null) {
+            throw new IllegalArgumentException("Object metadata is required to apply " + filterName +
+                " filter for " + kubernetesObject.getClass().getSimpleName());
+        }
+        return metadata;
     }
 }

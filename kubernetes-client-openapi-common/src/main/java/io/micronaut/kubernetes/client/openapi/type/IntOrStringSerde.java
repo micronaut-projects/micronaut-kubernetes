@@ -21,8 +21,6 @@ import io.micronaut.serde.Encoder;
 import io.micronaut.serde.Serde;
 import io.micronaut.serde.exceptions.SerdeException;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -33,7 +31,7 @@ import java.io.IOException;
 public class IntOrStringSerde implements Serde<IntOrString> {
 
     @Override
-    public void serialize(@NonNull Encoder encoder, @NonNull EncoderContext context, @NonNull Argument<? extends IntOrString> type, @NonNull IntOrString value) throws IOException {
+    public void serialize(Encoder encoder, EncoderContext context, Argument<? extends IntOrString> type, IntOrString value) throws IOException {
         if (value.isInteger()) {
             encoder.encodeInt(value.getIntValue());
         } else {
@@ -42,7 +40,7 @@ public class IntOrStringSerde implements Serde<IntOrString> {
     }
 
     @Override
-    public @Nullable IntOrString deserialize(@NonNull Decoder decoder, @NonNull DecoderContext context, @NonNull Argument<? super IntOrString> type) throws IOException {
+    public IntOrString deserialize(Decoder decoder, DecoderContext context, Argument<? super IntOrString> type) throws IOException {
         Object value = decoder.decodeArbitrary();
         if (value instanceof String stringValue) {
             return new IntOrString(stringValue);
