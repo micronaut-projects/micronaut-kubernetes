@@ -21,6 +21,7 @@ import io.micronaut.context.annotation.Parameter;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import jakarta.inject.Inject;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -34,9 +35,13 @@ public class KubernetesServiceConfiguration {
     static final String PREFIX = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + ".services";
 
     private final String serviceId;
+    @Nullable
     private String name;
+    @Nullable
     private String namespace;
+    @Nullable
     private String mode;
+    @Nullable
     private String port;
     private final boolean manual;
 
@@ -69,7 +74,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param name the service name
      */
-    public void setName(String name) {
+    public void setName(@Nullable String name) {
         this.name = name;
     }
 
@@ -87,7 +92,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param namespace the namespace
      */
-    public void setNamespace(String namespace) {
+    public void setNamespace(@Nullable String namespace) {
         this.namespace = namespace;
     }
 
@@ -103,7 +108,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param mode mode
      */
-    public void setMode(String mode) {
+    public void setMode(@Nullable String mode) {
         this.mode = mode;
     }
 
@@ -121,7 +126,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param port port number
      */
-    public void setPort(String port) {
+    public void setPort(@Nullable String port) {
         this.port = port;
     }
 

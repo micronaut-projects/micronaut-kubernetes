@@ -119,6 +119,10 @@ final class KubernetesDiscoveryClient implements DiscoveryClient {
     public Publisher<List<String>> getServiceIds() {
         final String namespace = configuration.getNamespace();
         final KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
+        if (instanceProvider == null) {
+            LOG.error("Unrecognized kubernetes discovery mode: [{}], out of supported ones: {}", discoveryConfiguration.getMode(), instanceProviders.keySet());
+            return Publishers.just(Collections.emptyList());
+        }
 
         return Flux.merge(
                         Flux.fromIterable(serviceConfigurations.keySet()),

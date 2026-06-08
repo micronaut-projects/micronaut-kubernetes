@@ -93,7 +93,7 @@ public final class KubernetesConfigUtils {
      */
     public static String createResVersionPropertyName(KubernetesObject kubernetesObject) {
         if (kubernetesObject.getMetadata() == null) {
-            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject);
+            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject.getClass().getSimpleName());
         }
         String objectType = kubernetesObject.getClass().getSimpleName();
         String objectName = kubernetesObject.getMetadata().getName();
@@ -108,7 +108,7 @@ public final class KubernetesConfigUtils {
      */
     public static String createPropertySourceName(KubernetesObject kubernetesObject) {
         if (kubernetesObject.getMetadata() == null) {
-            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject);
+            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject.getClass().getSimpleName());
         }
         String objectName = kubernetesObject.getMetadata().getName();
         String objectType = kubernetesObject.getClass().getSimpleName();

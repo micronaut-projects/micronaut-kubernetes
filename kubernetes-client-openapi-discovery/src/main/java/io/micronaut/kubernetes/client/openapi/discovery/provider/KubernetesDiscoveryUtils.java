@@ -22,6 +22,7 @@ import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.discovery.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.util.KubernetesUtils;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +75,11 @@ final class KubernetesDiscoveryUtils {
      * @param metadata   the metadata
      * @return service instance
      */
-    static ServiceInstance buildServiceInstance(String serviceId, String portName, Integer portNumber, String address, V1ObjectMeta metadata) {
+    static ServiceInstance buildServiceInstance(String serviceId,
+                                                @Nullable String portName,
+                                                @Nullable Integer portNumber,
+                                                String address,
+                                                V1ObjectMeta metadata) {
         String scheme = isPortSecure(portName, portNumber) || isMetadataSecure(metadata) ? "https://" : "http://";
         URI uri = portNumber == null ? URI.create(scheme + address) : URI.create(scheme + address + ":" + portNumber);
         LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}] with metadata [{}]", serviceId, uri, metadata);
@@ -92,7 +97,7 @@ final class KubernetesDiscoveryUtils {
      * @param portNumber the port number
      * @return Whether the port is considered secure
      */
-    private static boolean isPortSecure(String portName, Integer portNumber) {
+    private static boolean isPortSecure(@Nullable String portName, @Nullable Integer portNumber) {
         return (portNumber != null && String.valueOf(portNumber).endsWith("443")) || "https".equals(portName);
     }
 
