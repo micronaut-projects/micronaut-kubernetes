@@ -68,15 +68,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
                 } else if (notification instanceof AddNotification<?> addNotification) {
                     handler.onAdd((ApiType) addNotification.object);
                 } else if (notification instanceof DeleteNotification<?> deleteNotification) {
-                    Object deletedObject = deleteNotification.object;
-                    if (deletedObject instanceof DeletedFinalStateUnknown<?> deletedObjectUnknown) {
-                        ApiType object = (ApiType) deletedObjectUnknown.object();
-                        if (object != null) {
-                            handler.onDelete(object, true);
-                        }
-                    } else {
-                        handler.onDelete((ApiType) deletedObject, false);
-                    }
+                    onDelete(deleteNotification.object);
                 } else {
                     LOG.error("Unrecognized notification: {}", notification);
                 }
@@ -90,6 +82,17 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
             }
         }
         LOG.debug("Stopping processor listener");
+    }
+
+    private void onDelete(Object deletedObject) {
+        if (deletedObject instanceof DeletedFinalStateUnknown<?> deletedObjectUnknown) {
+            ApiType object = (ApiType) deletedObjectUnknown.object();
+            if (object != null) {
+                handler.onDelete(object, true);
+            }
+        } else {
+            handler.onDelete((ApiType) deletedObject, false);
+        }
     }
 
     void stop() {

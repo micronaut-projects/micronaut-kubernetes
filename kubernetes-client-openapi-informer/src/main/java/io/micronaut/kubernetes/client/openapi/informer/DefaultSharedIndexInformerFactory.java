@@ -161,8 +161,7 @@ final class DefaultSharedIndexInformerFactory implements SharedIndexInformerFact
     }
 
     @Override
-    @Nullable
-    public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
+    public <ApiType extends KubernetesObject> @Nullable SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
         Class<ApiType> apiTypeClass,
         @Nullable String namespace) {
 
