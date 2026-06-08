@@ -148,7 +148,8 @@ public interface SharedIndexInformerFactory {
      * @param <ApiType>    api type
      * @return instance of {@link SharedIndexInformer}
      */
-    <ApiType extends KubernetesObject> @Nullable SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
+    @Nullable
+    <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
         Class<ApiType> apiTypeClass,
         @Nullable String namespace);
 
