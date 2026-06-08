@@ -92,6 +92,9 @@ public final class KubernetesConfigUtils {
      * @return property name
      */
     public static String createResVersionPropertyName(KubernetesObject kubernetesObject) {
+        if (kubernetesObject.getMetadata() == null) {
+            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject);
+        }
         String objectType = kubernetesObject.getClass().getSimpleName();
         String objectName = kubernetesObject.getMetadata().getName();
         return OBJECT_RES_VERSION_PROP_NAME_TEMPLATE.formatted(objectType.toLowerCase(), objectName);
@@ -104,6 +107,9 @@ public final class KubernetesConfigUtils {
      * @return property source name
      */
     public static String createPropertySourceName(KubernetesObject kubernetesObject) {
+        if (kubernetesObject.getMetadata() == null) {
+            throw new IllegalArgumentException("Kubernetes object must have metadata, object: " + kubernetesObject);
+        }
         String objectName = kubernetesObject.getMetadata().getName();
         String objectType = kubernetesObject.getClass().getSimpleName();
         return PROPERTY_SOURCE_NAME_TEMPLATE.formatted(objectName, objectType);
@@ -258,9 +264,11 @@ public final class KubernetesConfigUtils {
      * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
      * @return the label selector filter
      */
-    public static Mono<String> computePodLabelSelector(CoreV1ApiReactor client, List<String> podLabelKeys,
-                                                 String namespace, Map<String, String> labels,
-                                                 boolean exceptionOnPodLabelsMissing) {
+    public static Mono<String> computePodLabelSelector(CoreV1ApiReactor client,
+                                                       @Nullable List<String> podLabelKeys,
+                                                       String namespace,
+                                                       @Nullable Map<String, String> labels,
+                                                       boolean exceptionOnPodLabelsMissing) {
         return computePodLabels(client, podLabelKeys, namespace, labels, exceptionOnPodLabelsMissing)
             .map(KubernetesConfigUtils::computeLabelSelector);
     }
@@ -276,8 +284,10 @@ public final class KubernetesConfigUtils {
      * @return the computed labels
      */
     @NonNull
-    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactor client, List<String> podLabelKeys,
-                                                             String namespace, Map<String, String> labels,
+    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactor client,
+                                                             @Nullable List<String> podLabelKeys,
+                                                             String namespace,
+                                                             @Nullable Map<String, String> labels,
                                                              boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
@@ -322,7 +332,7 @@ public final class KubernetesConfigUtils {
     }
 
     @Nullable
-    public static Map<String, String> parseLabels(String labelsValue, String provider) {
+    public static Map<String, String> parseLabels(@Nullable String labelsValue, String provider) {
         if (StringUtils.isEmpty(labelsValue)) {
             return null;
         }
@@ -355,7 +365,7 @@ public final class KubernetesConfigUtils {
      * @param labels the map of labels
      * @return the label selector filter
      */
-    public static String computeLabelSelector(Map<String, String> labels) {
+    public static String computeLabelSelector(@Nullable Map<String, String> labels) {
         if (CollectionUtils.isEmpty(labels)) {
             return StringUtils.EMPTY_STRING;
         }

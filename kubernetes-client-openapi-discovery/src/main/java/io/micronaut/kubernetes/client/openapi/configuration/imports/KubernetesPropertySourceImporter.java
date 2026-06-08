@@ -97,6 +97,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         "io.micronaut.oraclecloud.oke.kubernetes.client"
     );
 
+    @Nullable
     private ApplicationContext applicationContext;
 
     @NonNull
@@ -166,6 +167,10 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
 
         setApplicationContext(context);
 
+        if (applicationContext == null) {
+            throw new ConfigurationException("Unable to create application context");
+        }
+
         KubernetesObjectImportSupport importSupport = CONFIG_MAP_TYPE.equals(declaration.type())
             ? applicationContext.findBean(KubernetesConfigMapImportSupport.class).orElse(null)
             : applicationContext.findBean(KubernetesSecretImportSupport.class).orElse(null);
@@ -187,7 +192,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
-    private String getType(String type) {
+    private String getType(@Nullable String type) {
         if (StringUtils.isEmpty(type)) {
             throw new ConfigurationException("Config import provider [" + PROVIDER + "] requires 'config-map' or 'secret' type");
         }
@@ -197,7 +202,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         return type.toLowerCase();
     }
 
-    private void validateSelectors(String name, Map<String, String> labels, List<String> podLabels) {
+    private void validateSelectors(@Nullable String name, @Nullable Map<String, String> labels, @Nullable List<String> podLabels) {
         boolean hasName = StringUtils.isNotEmpty(name);
         boolean hasLabels = CollectionUtils.isNotEmpty(labels);
         boolean hasPodLabels = CollectionUtils.isNotEmpty(podLabels);
@@ -222,7 +227,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     }
 
     @Nullable
-    private List<String> parseList(String listOption) {
+    private List<String> parseList(@Nullable String listOption) {
         if (StringUtils.isEmpty(listOption)) {
             return null;
         }

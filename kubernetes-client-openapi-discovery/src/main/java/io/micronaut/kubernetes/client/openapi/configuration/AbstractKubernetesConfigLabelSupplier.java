@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.configuration;
 
 import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +47,7 @@ abstract sealed class AbstractKubernetesConfigLabelSupplier implements Supplier<
         this.configConfiguration = configConfiguration;
     }
 
+    @Nullable
     @Override
     public String get() {
         String labelSelector = KubernetesConfigUtils.computePodLabelSelector(coreV1ApiReactor,

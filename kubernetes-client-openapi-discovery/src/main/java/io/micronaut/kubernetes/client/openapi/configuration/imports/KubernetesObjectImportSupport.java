@@ -63,7 +63,7 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
                 if (declaration.watch()) {
                     LOG.debug("Found cached property source created from watched declaration={}. Checking whether it requires refresh", declaration);
                     AtomicInteger refreshCount = ImportDeclarationWatchIndex.getRefreshCount(declaration);
-                    if (refreshCount.getAndSet(0) == 0) {
+                    if (refreshCount != null && refreshCount.getAndSet(0) == 0) {
                         return Optional.of(cachedPropertySource);
                     }
                     LOG.debug("Refresh required for cached property source created from watched declaration={}", declaration);
@@ -128,13 +128,17 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
         Map<String, Object> propertySourceData = new HashMap<>();
 
         objects.forEach(object -> {
-            resourceNames.add(object.getMetadata().getName());
-            String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
-            String resVersionPropertyValue = object.getMetadata().getResourceVersion();
-            propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
-            Map<String, Object> data = dataExtractor.apply(object);
-            if (CollectionUtils.isNotEmpty(data)) {
-                propertySourceData.putAll(data);
+            if (object.getMetadata() == null) {
+                LOG.warn("Skipped importing of kubernetes object since there is no metadata: {}", object);
+            } else {
+                resourceNames.add(object.getMetadata().getName());
+                String resVersionPropertyName = KubernetesConfigUtils.createResVersionPropertyName(object);
+                String resVersionPropertyValue = object.getMetadata().getResourceVersion();
+                propertySourceData.put(resVersionPropertyName, resVersionPropertyValue);
+                Map<String, Object> data = dataExtractor.apply(object);
+                if (CollectionUtils.isNotEmpty(data)) {
+                    propertySourceData.putAll(data);
+                }
             }
         });
 

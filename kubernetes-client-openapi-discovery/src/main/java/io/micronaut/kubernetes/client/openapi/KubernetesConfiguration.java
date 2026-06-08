@@ -23,6 +23,7 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -166,7 +167,9 @@ public class KubernetesConfiguration {
 
         private Collection<String> includes = new HashSet<>();
         private Collection<String> excludes = new HashSet<>();
+        @Nullable
         private Map<String, String> labels;
+        @Nullable
         private List<String> podLabels;
         private boolean exceptionOnPodLabelsMissing = DEFAULT_EXCEPTION_ON_POD_LABELS_MISSING;
 
@@ -211,7 +214,7 @@ public class KubernetesConfiguration {
         /**
          * @param labels labels to match
          */
-        public void setLabels(Map<String, String> labels) {
+        public void setLabels(@Nullable Map<String, String> labels) {
             this.labels = labels;
         }
 
@@ -228,7 +231,7 @@ public class KubernetesConfiguration {
         /**
          * @param podLabels labels to match
          */
-        public void setPodLabels(List<String> podLabels) {
+        public void setPodLabels(@Nullable List<String> podLabels) {
             this.podLabels = podLabels;
         }
 
@@ -257,6 +260,7 @@ public class KubernetesConfiguration {
     public abstract static class AbstractConfigConfiguration extends AbstractKubernetesConfiguration {
         private static final Boolean DEFAULT_TERMINATE_STARTUP_ON_EXCEPTION = false;
 
+        @Nullable
         private Collection<String> paths;
         private boolean useApi;
         private boolean watch;
@@ -279,7 +283,7 @@ public class KubernetesConfiguration {
         /**
          * @param paths where secrets are mounted
          */
-        public void setPaths(Collection<String> paths) {
+        public void setPaths(@Nullable Collection<String> paths) {
             this.paths = paths;
         }
 

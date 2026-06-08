@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.configuration.imports;
 
 import io.micronaut.context.env.PropertySource;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,6 +46,7 @@ final class PropertySourceCache {
      * @param importDeclaration The import declaration
      * @return The cached property source, or {@code null} if none exists
      */
+    @Nullable
     static PropertySource get(ImportDeclaration importDeclaration) {
         return PROPERTY_SOURCES.get(importDeclaration);
     }
