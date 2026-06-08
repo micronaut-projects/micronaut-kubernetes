@@ -35,8 +35,11 @@ import java.util.function.Predicate;
 final class ControllerResourceEventHandler<ApiType extends KubernetesObject> implements ResourceEventHandler<ApiType> {
 
     private final WorkQueue<Request> workQueue;
+    @Nullable
     private final Predicate<ApiType> onAddFilterPredicate;
+    @Nullable
     private final BiPredicate<ApiType, ApiType> onUpdateFilterPredicate;
+    @Nullable
     private final BiPredicate<ApiType, Boolean> onDeleteFilterPredicate;
     private final AtomicBoolean enabled = new AtomicBoolean(false);
 

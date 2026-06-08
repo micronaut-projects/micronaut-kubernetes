@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +53,7 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
     private final Supplier<Long> timeSource = () -> System.nanoTime() / 1000000;
     private final ExecutorService waitingWorker;
 
+    @Nullable
     private Future<?> waitingFuture;
 
     public DefaultDelayingQueue(ExecutorService waitingWorker) {
@@ -68,7 +70,9 @@ public class DefaultDelayingQueue<T> extends DefaultWorkQueue<T> implements Dela
     @Override
     public synchronized void shutdown() {
         super.shutdown();
-        waitingFuture.cancel(true);
+        if (waitingFuture != null) {
+            waitingFuture.cancel(true);
+        }
         clearDelayingQueues();
     }
 

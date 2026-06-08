@@ -77,41 +77,41 @@ final class DefaultControllerFactory implements ControllerFactory {
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
-        Class<ApiType> apiTypeClass,
-        Set<String> namespaces,
-        ResourceReconciler<ApiType> resourceReconciler) {
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable Set<String> namespaces,
+        @NonNull ResourceReconciler<ApiType> resourceReconciler) {
         return createController(null, apiTypeClass, namespaces, resourceReconciler);
     }
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
-        String name,
-        Class<ApiType> apiTypeClass,
-        Set<String> namespaces,
-        ResourceReconciler<ApiType> resourceReconciler) {
+        @Nullable String name,
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable Set<String> namespaces,
+        @NonNull ResourceReconciler<ApiType> resourceReconciler) {
         return createController(name, apiTypeClass, namespaces, resourceReconciler, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
-        String name,
-        Class<ApiType> apiTypeClass,
-        Set<String> namespaces,
-        ResourceReconciler<ApiType> resourceReconciler,
-        RateLimitingQueue<Request> workQueue) {
+        @Nullable String name,
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable Set<String> namespaces,
+        @NonNull ResourceReconciler<ApiType> resourceReconciler,
+        @Nullable RateLimitingQueue<Request> workQueue) {
         return createController(name, apiTypeClass, namespaces, resourceReconciler, workQueue, null, null, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
-        String name,
-        Class<ApiType> apiTypeClass,
-        Set<String> namespaces,
-        ResourceReconciler<ApiType> resourceReconciler,
-        RateLimitingQueue<Request> workQueue,
-        Predicate<ApiType> onAddFilterPredicate,
-        BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
-        BiPredicate<ApiType, Boolean> onDeleteFilterPredicate) {
+        @Nullable String name,
+        @NonNull Class<ApiType> apiTypeClass,
+        @Nullable Set<String> namespaces,
+        @NonNull ResourceReconciler<ApiType> resourceReconciler,
+        @Nullable RateLimitingQueue<Request> workQueue,
+        @Nullable Predicate<ApiType> onAddFilterPredicate,
+        @Nullable BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
+        @Nullable BiPredicate<ApiType, Boolean> onDeleteFilterPredicate) {
 
         if (apiTypeClass == null) {
             throw new IllegalArgumentException("The apiTypeClass must be provided");
@@ -203,9 +203,9 @@ final class DefaultControllerFactory implements ControllerFactory {
     private <ApiType extends KubernetesObject> ControllerResourceEventHandler<ApiType> createHandler(
         InformerKey<ApiType> informerKey,
         RateLimitingQueue<Request> workQueue,
-        Predicate<ApiType> onAddFilterPredicate,
-        BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
-        BiPredicate<ApiType, Boolean> onDeleteFilterPredicate) {
+        @Nullable Predicate<ApiType> onAddFilterPredicate,
+        @Nullable BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
+        @Nullable BiPredicate<ApiType, Boolean> onDeleteFilterPredicate) {
 
         SharedIndexInformer<ApiType> informer = getInformer(informerKey);
         if (informer == null) {
@@ -248,7 +248,10 @@ final class DefaultControllerFactory implements ControllerFactory {
         controllerHolder.controller.run();
         for (InformerKey<ApiType> informerKey : resourceEventHandlers.keySet()) {
             resourceEventHandlers.get(informerKey).enable();
-            getInformer(informerKey).resyncListeners();
+            SharedIndexInformer<ApiType> informer = getInformer(informerKey);
+            if (informer != null) {
+                informer.resyncListeners();
+            }
         }
     }
 
@@ -265,6 +268,7 @@ final class DefaultControllerFactory implements ControllerFactory {
         return notSyncedInformers;
     }
 
+    @Nullable
     private <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getInformer(InformerKey<ApiType> informerKey) {
         return sharedIndexInformerFactory.getExistingSharedIndexInformer(informerKey.apiTypeClass, informerKey.namespace);
     }

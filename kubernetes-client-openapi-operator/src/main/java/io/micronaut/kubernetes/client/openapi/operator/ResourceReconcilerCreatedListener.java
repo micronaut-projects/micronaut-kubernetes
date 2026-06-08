@@ -33,6 +33,7 @@ import io.micronaut.kubernetes.client.openapi.informer.handler.InformerNamespace
 import io.micronaut.kubernetes.client.openapi.operator.configuration.OperatorConfiguration;
 import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFactory;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,6 +90,9 @@ final class ResourceReconcilerCreatedListener<ApiType extends KubernetesObject> 
         LOG.debug("Found @Operator annotation on {}", resourceReconciler);
 
         AnnotationValue<Operator> operatorAnnotationValue = beanDefinition.getAnnotationMetadata().getAnnotation(Operator.class);
+        if (operatorAnnotationValue == null) {
+            return resourceReconciler;
+        }
 
         AnnotationValue<Informer> informerAnnotationValue = operatorAnnotationValue.getAnnotation("informer", Informer.class)
             .orElseThrow(() -> new NullPointerException("The informer parameter of @Operator is required."));
@@ -119,6 +123,7 @@ final class ResourceReconcilerCreatedListener<ApiType extends KubernetesObject> 
         return resourceReconciler;
     }
 
+    @Nullable
     private Predicate getOnAddFilterPredicate(AnnotationValue<Operator> annotationValue) {
         Optional<Class<? extends Predicate>> onAddFilterOpt = annotationValue.classValue("onAddFilter", Predicate.class);
         if (onAddFilterOpt.isPresent()) {
@@ -131,6 +136,7 @@ final class ResourceReconcilerCreatedListener<ApiType extends KubernetesObject> 
         return null;
     }
 
+    @Nullable
     private BiPredicate getOnUpdateFilterPredicate(AnnotationValue<Operator> annotationValue) {
         Optional<Class<? extends BiPredicate>> onUpdateFilterOpt = annotationValue.classValue("onUpdateFilter", BiPredicate.class);
         if (onUpdateFilterOpt.isPresent()) {
@@ -143,6 +149,7 @@ final class ResourceReconcilerCreatedListener<ApiType extends KubernetesObject> 
         return null;
     }
 
+    @Nullable
     private BiPredicate getOnDeleteFilterPredicate(AnnotationValue<Operator> annotationValue) {
         Optional<Class<? extends BiPredicate>> onDeleteFilterOpt = annotationValue.classValue("onDeleteFilter", BiPredicate.class);
         if (onDeleteFilterOpt.isPresent()) {

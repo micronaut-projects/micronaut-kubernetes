@@ -29,6 +29,7 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LockIdenti
 import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver;
 import io.micronaut.runtime.ApplicationConfiguration;
 import jakarta.inject.Singleton;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +68,7 @@ final class LeaseLock extends AbstractLock {
     }
 
     @Override
+    @Nullable
     public LeaderElectionRecord get() {
         V1Lease lease = coordinationV1Api.readNamespacedLease(getName(), getNamespace(), null);
         if (lease == null) {
@@ -104,6 +106,9 @@ final class LeaseLock extends AbstractLock {
     public boolean update(LeaderElectionRecord leaderElectionRecord) {
         try {
             V1Lease latest = leaseRefer.get();
+            if (latest == null) {
+                return false;
+            }
             latest.setSpec(getLeaseSpecFromRecord(leaderElectionRecord));
             V1Lease updatedLease = coordinationV1Api.replaceNamespacedLease(getName(), getNamespace(), latest, null, null, null, null);
             leaseRefer.set(updatedLease);
@@ -129,7 +134,10 @@ final class LeaseLock extends AbstractLock {
 
     private V1LeaseSpec getLeaseSpecFromRecord(LeaderElectionRecord record) {
         V1LeaseSpec spec = new V1LeaseSpec();
-        spec.setHolderIdentity(record.holderIdentity());
+        String holderIdentity = record.holderIdentity();
+        if (holderIdentity != null) {
+            spec.setHolderIdentity(holderIdentity);
+        }
         spec.setLeaseDurationSeconds(record.leaseDurationSeconds());
         spec.setLeaseTransitions(record.leaderTransitions());
         if (record.acquireTime() != null) {

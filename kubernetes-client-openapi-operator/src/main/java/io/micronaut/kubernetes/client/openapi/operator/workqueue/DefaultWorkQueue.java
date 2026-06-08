@@ -16,6 +16,7 @@
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
 import io.micronaut.core.util.CollectionUtils;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -73,6 +74,7 @@ public class DefaultWorkQueue<T> implements WorkQueue<T> {
     }
 
     @Override
+    @Nullable
     public synchronized T get() throws InterruptedException {
         while (CollectionUtils.isEmpty(queue) && !shutdown) {
             wait();

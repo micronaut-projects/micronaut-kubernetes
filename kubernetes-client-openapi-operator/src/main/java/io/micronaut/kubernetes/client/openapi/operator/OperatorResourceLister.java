@@ -57,6 +57,9 @@ public final class OperatorResourceLister<ApiType extends KubernetesObject> {
         SharedIndexInformer<ApiType> informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
             apiTypeClass,
             allNamespaces ? null : namespace);
+        if (informer == null) {
+            return Optional.empty();
+        }
         String key = StringUtils.isEmpty(namespace) ? name : namespace + "/" + name;
         return Optional.ofNullable(informer.getIndexer().getByKey(key));
     }
