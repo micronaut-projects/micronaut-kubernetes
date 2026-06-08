@@ -30,7 +30,6 @@ import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQue
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,27 +76,27 @@ final class DefaultControllerFactory implements ControllerFactory {
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler) {
+        ResourceReconciler<ApiType> resourceReconciler) {
         return createController(null, apiTypeClass, namespaces, resourceReconciler);
     }
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
         @Nullable String name,
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler) {
+        ResourceReconciler<ApiType> resourceReconciler) {
         return createController(name, apiTypeClass, namespaces, resourceReconciler, null);
     }
 
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
         @Nullable String name,
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler,
+        ResourceReconciler<ApiType> resourceReconciler,
         @Nullable RateLimitingQueue<Request> workQueue) {
         return createController(name, apiTypeClass, namespaces, resourceReconciler, workQueue, null, null, null);
     }
@@ -105,9 +104,9 @@ final class DefaultControllerFactory implements ControllerFactory {
     @Override
     public <ApiType extends KubernetesObject> Controller createController(
         @Nullable String name,
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable Set<String> namespaces,
-        @NonNull ResourceReconciler<ApiType> resourceReconciler,
+        ResourceReconciler<ApiType> resourceReconciler,
         @Nullable RateLimitingQueue<Request> workQueue,
         @Nullable Predicate<ApiType> onAddFilterPredicate,
         @Nullable BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
@@ -274,13 +273,13 @@ final class DefaultControllerFactory implements ControllerFactory {
     }
 
     private record ControllerHolder<ApiType extends KubernetesObject>(
-        @NonNull Controller controller,
-        @NonNull Map<InformerKey<ApiType>, ControllerResourceEventHandler<ApiType>> resourceEventHandlers
+        Controller controller,
+        Map<InformerKey<ApiType>, ControllerResourceEventHandler<ApiType>> resourceEventHandlers
     ) {
     }
 
     private record InformerKey<ApiType extends KubernetesObject>(
-        @NonNull Class<ApiType> apiTypeClass,
+        Class<ApiType> apiTypeClass,
         @Nullable String namespace
     ) {
     }

@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.operator.workqueue;
 
-import org.jspecify.annotations.NonNull;
-
 /**
  * Defines a queue that rate limits items being added to the queue.
  *
@@ -34,7 +32,7 @@ public interface RateLimitingQueue<T> extends DelayingQueue<T> {
      *
      * @param item item to add
      */
-    void addRateLimited(@NonNull T item);
+    void addRateLimited(T item);
 
     /**
      * Indicates that an item is finished being retried. Doesn't matter whether it is for perm
@@ -43,7 +41,7 @@ public interface RateLimitingQueue<T> extends DelayingQueue<T> {
      *
      * @param item item which is finished being retried
      */
-    void forget(@NonNull T item);
+    void forget(T item);
 
     /**
      * Returns back how many times the item was requeued.
@@ -51,5 +49,5 @@ public interface RateLimitingQueue<T> extends DelayingQueue<T> {
      * @param item specific item
      * @return number of times the item was requeued
      */
-    int numRequeues(@NonNull T item);
+    int numRequeues(T item);
 }

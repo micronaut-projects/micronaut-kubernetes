@@ -16,12 +16,11 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection.event;
 
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElectionRecord;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Event fired when this service instance has become a leader.
  *
  * @param leaderElectionRecord the leader election record
  */
-public record LeaseAcquiredEvent(@NonNull LeaderElectionRecord leaderElectionRecord) {
+public record LeaseAcquiredEvent(LeaderElectionRecord leaderElectionRecord) {
 }

@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.openapi.operator.controller.reconciler;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.operator.Operator;
 import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister;
-import org.jspecify.annotations.NonNull;
 
 /**
  * The ResourceReconciler defines an interface for reconciling the resource. In general a reconciler works by comparing
@@ -34,7 +33,7 @@ import org.jspecify.annotations.NonNull;
  * &#064;Operator(informer = @Informer(apiType = V1ConfigMap.class)))
  * public class MyReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; {
  *   &#064;Override
- *   public Result reconcile(&#064;NonNull Request request, &#064;NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
+ *   public Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
  *      Optional&lt;V1ConfigMap&gt; resource = lister.get(request);
  *      // reconcile
  *      return new Result(false);
@@ -62,5 +61,5 @@ public interface ResourceReconciler<ApiType extends KubernetesObject> {
      * @param lister the lister for given operator's reconciler
      * @return the reconciliation result
      */
-    @NonNull Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<ApiType> lister);
+    Result reconcile(Request request, OperatorResourceLister<ApiType> lister);
 }

@@ -19,7 +19,6 @@ import io.micronaut.context.annotation.ConfigurationProperties;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.bind.annotation.Bindable;
 import io.micronaut.core.util.Toggleable;
-import org.jspecify.annotations.NonNull;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -66,7 +65,6 @@ public interface LeaderElectionConfiguration extends Toggleable {
      *
      * @return the lock resource name
      */
-    @NonNull
     Optional<String> getResourceName();
 
     /**
@@ -74,6 +72,5 @@ public interface LeaderElectionConfiguration extends Toggleable {
      *
      * @return the lock resource namespace
      */
-    @NonNull
     Optional<String> getResourceNamespace();
 }

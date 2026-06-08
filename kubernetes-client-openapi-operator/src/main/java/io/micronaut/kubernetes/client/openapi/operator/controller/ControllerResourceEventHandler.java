@@ -20,7 +20,6 @@ import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHand
 import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.WorkQueue;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +47,7 @@ final class ControllerResourceEventHandler<ApiType extends KubernetesObject> imp
     private final BiPredicate<ApiType, Boolean> onDeleteFilterPredicate;
     private final AtomicBoolean enabled = new AtomicBoolean(false);
 
-    ControllerResourceEventHandler(@NonNull WorkQueue<Request> workQueue,
+    ControllerResourceEventHandler(WorkQueue<Request> workQueue,
                                    @Nullable Predicate<ApiType> onAddFilterPredicate,
                                    @Nullable BiPredicate<ApiType, ApiType> onUpdateFilterPredicate,
                                    @Nullable BiPredicate<ApiType, Boolean> onDeleteFilterPredicate) {
