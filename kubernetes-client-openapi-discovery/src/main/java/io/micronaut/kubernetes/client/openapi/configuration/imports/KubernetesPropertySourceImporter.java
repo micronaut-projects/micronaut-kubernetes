@@ -26,7 +26,6 @@ import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.ConnectionString;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.openapi.configuration.KubernetesConfigUtils;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +99,6 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
     @Nullable
     private ApplicationContext applicationContext;
 
-    @NonNull
     @Override
     public String getProvider() {
         return PROVIDER;
@@ -112,9 +110,8 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param connectionString The parsed import connection string
      * @return The normalized import declaration
      */
-    @NonNull
     @Override
-    public ImportDeclaration newImportDeclaration(@NonNull ConnectionString connectionString) {
+    public ImportDeclaration newImportDeclaration(ConnectionString connectionString) {
         String type = getType(connectionString.getPath());
         Map<String, String> options = connectionString.getOptions();
         validateSupportedOptions(options.keySet());
@@ -134,9 +131,8 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param values The raw declaration values
      * @return The normalized import declaration
      */
-    @NonNull
     @Override
-    public ImportDeclaration newImportDeclaration(@NonNull ConvertibleValues<Object> values) {
+    public ImportDeclaration newImportDeclaration(ConvertibleValues<Object> values) {
         validateSupportedOptions(values.asMap().keySet());
         String type = getType(values.get(TYPE_OPTION, String.class).orElse(null));
         String name = values.get(NAME_OPTION, String.class).orElse(null);
@@ -155,9 +151,8 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
      * @param context The import context containing the declaration to process
      * @return The imported property source when one can be resolved
      */
-    @NonNull
     @Override
-    public Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
+    public Optional<PropertySource> importPropertySource(ImportContext<ImportDeclaration> context) {
         ImportDeclaration declaration = context.importDeclaration();
         if (CONFIG_MAP_TYPE.equals(declaration.type())) {
             KubernetesLegacyImportMode.registerConfigMapImport();
@@ -248,7 +243,7 @@ public final class KubernetesPropertySourceImporter implements PropertySourceImp
         }
     }
 
-    private void setApplicationContext(@NonNull ImportContext<ImportDeclaration> importContext) {
+    private void setApplicationContext(ImportContext<ImportDeclaration> importContext) {
         if (applicationContext == null) {
             LOG.debug("Creating ApplicationContext for config import");
             Environment environment = importContext.environment();
