@@ -17,10 +17,13 @@ package io.micronaut.kubernetes.client.openapi.operator.controller;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
+import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request;
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.WorkQueue;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiPredicate;
@@ -33,6 +36,8 @@ import java.util.function.Predicate;
  * @param <ApiType> kubernetes api type
  */
 final class ControllerResourceEventHandler<ApiType extends KubernetesObject> implements ResourceEventHandler<ApiType> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ControllerResourceEventHandler.class);
 
     private final WorkQueue<Request> workQueue;
     @Nullable
@@ -83,6 +88,11 @@ final class ControllerResourceEventHandler<ApiType extends KubernetesObject> imp
     }
 
     private void add(ApiType object) {
-        workQueue.add(new Request(object.getMetadata().getName(), object.getMetadata().getNamespace()));
+        V1ObjectMeta metadata = object.getMetadata();
+        if (metadata == null) {
+            LOG.warn("Skipped processing of kubernetes object since there is no metadata: {}", object);
+        } else {
+            workQueue.add(new Request(metadata.getName(), metadata.getNamespace()));
+        }
     }
 }

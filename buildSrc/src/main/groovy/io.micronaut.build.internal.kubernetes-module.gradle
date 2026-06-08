@@ -12,7 +12,6 @@ configurations {
 
 def nullAwayDisabledProjects = [
     "micronaut-kubernetes-client",
-    "micronaut-kubernetes-client-openapi-operator",
     "micronaut-kubernetes-client-processor",
     "micronaut-kubernetes-client-reactor",
     "micronaut-kubernetes-client-rxjava3",
