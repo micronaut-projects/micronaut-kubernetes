@@ -21,7 +21,6 @@ import io.kubernetes.client.informer.SharedIndexInformer;
 import io.kubernetes.client.util.Strings;
 import io.micronaut.kubernetes.client.informer.SharedIndexInformerFactory;
 import org.apache.commons.collections4.map.HashedMap;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -40,8 +39,8 @@ public class OperatorResourceLister<ApiType extends KubernetesObject> {
     private final ControllerConfiguration controllerConfiguration;
     private final Map<String, SharedIndexInformer<ApiType>> informerMap;
 
-    public OperatorResourceLister(@NonNull ControllerConfiguration controllerConfiguration,
-                                  @NonNull SharedIndexInformerFactory sharedIndexInformerFactory) {
+    public OperatorResourceLister(ControllerConfiguration controllerConfiguration,
+                                  SharedIndexInformerFactory sharedIndexInformerFactory) {
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
         this.controllerConfiguration = controllerConfiguration;
         this.informerMap = new HashedMap<>(controllerConfiguration.getNamespaces().size());
@@ -56,8 +55,7 @@ public class OperatorResourceLister<ApiType extends KubernetesObject> {
      * @return optional resource in local cache
      */
     @SuppressWarnings("unchecked")
-    @NonNull
-    public Optional<ApiType> get(@NonNull Request request) {
+    public Optional<ApiType> get(Request request) {
         final SharedIndexInformer<ApiType> sharedIndexInformer = informerMap.computeIfAbsent(request.getNamespace(), namespace -> {
             Class<? extends KubernetesObject> apiType = controllerConfiguration.getApiType();
             return (SharedIndexInformer<ApiType>) sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, apiType);

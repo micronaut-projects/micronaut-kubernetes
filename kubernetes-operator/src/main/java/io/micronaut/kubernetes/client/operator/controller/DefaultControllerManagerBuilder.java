@@ -22,7 +22,6 @@ import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import jakarta.inject.Singleton;
 import org.jetbrains.annotations.NotNull;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;
 
@@ -44,7 +43,7 @@ public class DefaultControllerManagerBuilder implements ControllerManagerBuilder
 
     @NotNull
     @Override
-    public ControllerManager build(@NonNull ControllerConfiguration operator, @NonNull Collection<Controller> controllers) {
+    public ControllerManager build(ControllerConfiguration operator, Collection<Controller> controllers) {
         return new ControllerManager(informerFactory, controllers.toArray(new Controller[0]));
     }
 }

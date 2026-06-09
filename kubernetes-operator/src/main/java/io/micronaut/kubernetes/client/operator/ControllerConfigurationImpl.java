@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.operator;
 import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.core.annotation.Internal;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Objects;
@@ -63,7 +62,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return the operator controller name
      */
     @Override
-    @NonNull
     public String getName() {
         return Objects.requireNonNull(name);
     }
@@ -73,7 +71,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return api resource type
      */
     @Override
-    @NonNull
     public Class<? extends KubernetesObject> getApiType() {
         return Objects.requireNonNull(apiType);
     }
@@ -83,7 +80,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return api resource list type
      */
     @Override
-    @NonNull
     public Class<? extends KubernetesListObject> getApiListType() {
         return Objects.requireNonNull(apiListType);
     }
@@ -93,7 +89,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return resource plural
      */
     @Override
-    @NonNull
     public String getResourcePlural() {
         return Objects.requireNonNull(resourcePlural);
     }
@@ -103,7 +98,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return api group
      */
     @Override
-    @NonNull
     public String getApiGroup() {
         return Objects.requireNonNull(apiGroup);
     }
@@ -113,7 +107,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return namespaces
      */
     @Override
-    @NonNull
     public Set<String> getNamespaces() {
         return Objects.requireNonNull(namespaces);
     }
@@ -123,7 +116,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return label selector
      */
     @Override
-    @NonNull
     public String getLabelSelector() {
         if (labelSelector == null) {
             return "";
@@ -136,7 +128,6 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return resync check period
      */
     @Override
-    @NonNull
     public Long getResyncCheckPeriod() {
         if (resyncCheckPeriod == null) {
             return 0L;

@@ -30,7 +30,6 @@ import io.micronaut.scheduling.TaskExecutors;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.apache.commons.compress.utils.Sets;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,10 +54,10 @@ public class ControllerFactory {
     private final LeaderElectingControllerBuilder leaderElectingControllerBuilder;
     private final ExecutorService executorService;
 
-    public ControllerFactory(@NonNull BeanContext beanContext,
-                             @NonNull ControllerBuilder controllerBuilder,
-                             @NonNull ControllerManagerBuilder controllerManagerBuilder,
-                             @NonNull LeaderElectingControllerBuilder leaderElectingControllerBuilder,
+    public ControllerFactory(BeanContext beanContext,
+                             ControllerBuilder controllerBuilder,
+                             ControllerManagerBuilder controllerManagerBuilder,
+                             LeaderElectingControllerBuilder leaderElectingControllerBuilder,
                              @Named(TaskExecutors.IO) ExecutorService executorService) {
         this.beanContext = beanContext;
         this.controllerBuilder = controllerBuilder;
@@ -73,7 +72,7 @@ public class ControllerFactory {
      * @param reconciler              the resource reconciler
      * @param controllerConfiguration the controller configuration
      */
-    public void createControllers(@NonNull ResourceReconciler<?> reconciler, @NonNull ControllerConfiguration controllerConfiguration) {
+    public void createControllers(ResourceReconciler<?> reconciler, ControllerConfiguration controllerConfiguration) {
 
         final String controllerName = controllerConfiguration.getName();
         if (LOG.isTraceEnabled()) {

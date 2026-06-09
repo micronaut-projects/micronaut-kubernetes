@@ -27,7 +27,6 @@ import io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolve
 import io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import javax.naming.ConfigurationException;
@@ -51,11 +50,11 @@ public class ControllerConfigurationFactory {
     private final InformerNamespaceResolver namespaceResolver;
     private final InformerLabelSelectorResolver labelSelectorResolver;
 
-    public ControllerConfigurationFactory(@NonNull BeanContext beanContext,
-                                          @NonNull InformerApiGroupResolver apiGroupResolver,
-                                          @NonNull InformerResourcePluralResolver resourcePluralResolver,
-                                          @NonNull InformerNamespaceResolver namespaceResolver,
-                                          @NonNull InformerLabelSelectorResolver labelSelectorResolver) {
+    public ControllerConfigurationFactory(BeanContext beanContext,
+                                          InformerApiGroupResolver apiGroupResolver,
+                                          InformerResourcePluralResolver resourcePluralResolver,
+                                          InformerNamespaceResolver namespaceResolver,
+                                          InformerLabelSelectorResolver labelSelectorResolver) {
         this.beanContext = beanContext;
         this.apiGroupResolver = apiGroupResolver;
         this.resourcePluralResolver = resourcePluralResolver;

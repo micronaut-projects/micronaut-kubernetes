@@ -16,7 +16,6 @@
 package io.micronaut.kubernetes.client.operator.configuration;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
@@ -53,7 +52,6 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * @return lock lease duration
      */
     @Override
-    @NonNull
     public Duration getLeaseDuration() {
         return leaseDuration;
     }
@@ -62,7 +60,7 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * Sets the lock lease duration.
      * @param leaseDuration lock lease duration.
      */
-    public void setLeaseDuration(@NonNull Duration leaseDuration) {
+    public void setLeaseDuration(Duration leaseDuration) {
         this.leaseDuration = leaseDuration;
     }
 
@@ -73,7 +71,6 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * @return renew deadline
      */
     @Override
-    @NonNull
     public Duration getRenewDeadline() {
         return renewDeadline;
     }
@@ -84,7 +81,7 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      *
      * @param renewDeadline lock renew deadline.
      */
-    public void setRenewDeadline(@NonNull Duration renewDeadline) {
+    public void setRenewDeadline(Duration renewDeadline) {
         this.renewDeadline = renewDeadline;
     }
 
@@ -95,7 +92,6 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * @return lock acquire retry period.
      */
     @Override
-    @NonNull
     public Duration getRetryPeriod() {
         return retryPeriod;
     }
@@ -104,7 +100,7 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * Sets the lock acquire retry period.
      * @param retryPeriod lock acquire retry period
      */
-    public void setRetryPeriod(@NonNull Duration retryPeriod) {
+    public void setRetryPeriod(Duration retryPeriod) {
         this.retryPeriod = retryPeriod;
     }
 
@@ -114,7 +110,6 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * @return the lock resource name
      */
     @Override
-    @NonNull
     public Optional<String> getResourceName() {
         return Optional.ofNullable(resourceName);
     }
@@ -134,7 +129,6 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      * @return the lock resource namespace
      */
     @Override
-    @NonNull
     public Optional<String> getResourceNamespace() {
         return Optional.ofNullable(resourceNamespace);
     }

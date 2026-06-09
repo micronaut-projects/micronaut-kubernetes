@@ -25,9 +25,6 @@ import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.kubernetes.client.operator.event.LeaseAcquiredEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
-//tag::reconciler[]
-import org.jspecify.annotations.NonNull;
-//end::reconciler[]
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,8 +45,7 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
 
     //tag::reconciler[]
     @Override
-    @NonNull
-    public Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister<V1ConfigMap> lister) {
+    public Result reconcile(Request request, OperatorResourceLister<V1ConfigMap> lister) {
         // .. reconcile
         //end::reconciler[]
         requestList.add(request.getName());

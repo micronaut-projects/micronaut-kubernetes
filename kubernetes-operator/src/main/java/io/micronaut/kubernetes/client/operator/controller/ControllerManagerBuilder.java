@@ -19,7 +19,6 @@ import io.kubernetes.client.extended.controller.Controller;
 import io.kubernetes.client.extended.controller.ControllerManager;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
-import org.jspecify.annotations.NonNull;
 
 import java.util.Collection;
 
@@ -39,6 +38,5 @@ public interface ControllerManagerBuilder {
      * @param controllers the controllers to manager in scope of this manager
      * @return the controller manager
      */
-    @NonNull
-    ControllerManager build(@NonNull ControllerConfiguration controllerConfiguration, @NonNull Collection<Controller> controllers);
+    ControllerManager build(ControllerConfiguration controllerConfiguration, Collection<Controller> controllers);
 }

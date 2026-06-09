@@ -32,7 +32,6 @@ import io.micronaut.kubernetes.client.operator.OperatorResourceLister;
 import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.operator.configuration.OperatorConfigurationProperties;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,20 +57,19 @@ public class DefaultControllerBuilder implements ControllerBuilder {
     private final OperatorConfigurationProperties operatorConfiguration;
 
     public DefaultControllerBuilder(
-            @NonNull BeanContext beanContext,
-            @NonNull ControllerWatchBuilder controllerWatchBuilder,
-            @NonNull SharedIndexInformerFactory sharedIndexInformerFactory,
-            @NonNull OperatorConfigurationProperties operatorConfiguration) {
+            BeanContext beanContext,
+            ControllerWatchBuilder controllerWatchBuilder,
+            SharedIndexInformerFactory sharedIndexInformerFactory,
+            OperatorConfigurationProperties operatorConfiguration) {
         this.beanContext = beanContext;
         this.controllerWatchBuilder = controllerWatchBuilder;
         this.sharedIndexInformerFactory = sharedIndexInformerFactory;
         this.operatorConfiguration = operatorConfiguration;
     }
 
-    @NonNull
     @Override
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public DefaultController build(@NonNull ControllerConfiguration controllerConfiguration, @NonNull ResourceReconciler<?> resourceReconciler) {
+    public DefaultController build(ControllerConfiguration controllerConfiguration, ResourceReconciler<?> resourceReconciler) {
         final Set<String> namespaces = controllerConfiguration.getNamespaces();
         final String name = controllerConfiguration.getName();
 

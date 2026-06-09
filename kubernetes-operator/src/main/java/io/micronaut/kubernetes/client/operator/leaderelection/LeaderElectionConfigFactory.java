@@ -22,7 +22,6 @@ import io.micronaut.context.annotation.Factory;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.kubernetes.client.operator.configuration.LeaderElectionConfiguration;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -45,8 +44,8 @@ public class LeaderElectionConfigFactory {
      */
     @Singleton
     public LeaderElectionConfig leaderElectionConfig(
-            @NonNull Lock lock,
-            @NonNull LeaderElectionConfiguration electionConfigProperties,
+            Lock lock,
+            LeaderElectionConfiguration electionConfigProperties,
             @Nullable V1OwnerReference ownerReference) {
         return new LeaderElectionConfig(
                 lock,

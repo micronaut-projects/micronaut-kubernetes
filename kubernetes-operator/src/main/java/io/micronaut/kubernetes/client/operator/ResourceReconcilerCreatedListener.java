@@ -25,7 +25,6 @@ import io.micronaut.context.event.BeanCreatedEventListener;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.inject.BeanDefinition;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +48,7 @@ public class ResourceReconcilerCreatedListener<ApiType extends KubernetesObject>
     private final BeanContext beanContext;
     private final ControllerFactory controllerFactory;
 
-    public ResourceReconcilerCreatedListener(BeanContext beanContext, @NonNull ControllerFactory controllerFactory) {
+    public ResourceReconcilerCreatedListener(BeanContext beanContext, ControllerFactory controllerFactory) {
         this.beanContext = beanContext;
         this.controllerFactory = controllerFactory;
     }
