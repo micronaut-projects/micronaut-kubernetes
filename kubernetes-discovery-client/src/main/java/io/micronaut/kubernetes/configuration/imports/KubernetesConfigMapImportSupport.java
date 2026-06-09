@@ -98,6 +98,9 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
                                                                   @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
         String namespace = configuration.getNamespace();
         Map<String, String> labels = KubernetesUtils.computePodLabels(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
+        if (CollectionUtils.isEmpty(labels)) {
+            throw new ConfigurationException("ConfigMap import by labels expects 'labels' to be present in declaration: " + declaration);
+        }
 
         if (declaration.watch()) {
             ImportDeclarationWatchIndex.addConfigMapLabelsDeclaration(labels, declaration);

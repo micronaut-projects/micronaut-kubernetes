@@ -22,6 +22,7 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider;
 import io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,7 @@ public abstract class AbstractV1ServiceProvider extends AbstractKubernetesServic
                 .filter(Objects::nonNull);
     }
 
+    @Nullable
     private static ServiceInstance buildServiceInstance(KubernetesServiceConfiguration serviceConfiguration, V1Service service) {
         final String clusterIp = Objects.requireNonNull(service.getSpec()).getClusterIP();
         if (clusterIp != null && !Objects.equals(clusterIp, "None")) {

@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.configuration.imports;
 
 import io.micronaut.core.util.CollectionUtils;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.Map;
@@ -90,6 +91,7 @@ final class ImportDeclarationWatchIndex {
         SECRET_WATCHER_ENABLED.compareAndSet(false, true);
     }
 
+    @Nullable
     static AtomicInteger getRefreshCount(ImportDeclaration importDeclaration) {
         return REFRESH_COUNT.get(importDeclaration);
     }
@@ -129,8 +131,11 @@ final class ImportDeclarationWatchIndex {
                 && CollectionUtils.isNotEmpty(objectLabels)
                 && objectLabels.entrySet().containsAll(labels.entrySet());
             if (matchesName || matchesLabels) {
-                REFRESH_COUNT.get(entry.getValue()).incrementAndGet();
-                return true;
+                AtomicInteger refreshCount = REFRESH_COUNT.get(entry.getValue());
+                if (refreshCount != null) {
+                    refreshCount.incrementAndGet();
+                    return true;
+                }
             }
             return false;
         });

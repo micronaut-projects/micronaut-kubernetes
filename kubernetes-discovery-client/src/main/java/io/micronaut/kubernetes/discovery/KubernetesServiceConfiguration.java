@@ -20,6 +20,7 @@ import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import jakarta.inject.Inject;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -35,9 +36,13 @@ public class KubernetesServiceConfiguration {
     public static final String PREFIX = KubernetesConfiguration.KubernetesDiscoveryConfiguration.PREFIX + "." + NAME;
 
     private String serviceId;
+    @Nullable
     private String name;
+    @Nullable
     private String namespace;
+    @Nullable
     private String mode;
+    @Nullable
     private String port;
     private final boolean manual;
 
@@ -50,11 +55,16 @@ public class KubernetesServiceConfiguration {
         this(serviceId, null, null, null, null, manual);
     }
 
-    public KubernetesServiceConfiguration(String serviceId, String name, String namespace) {
+    public KubernetesServiceConfiguration(String serviceId, @Nullable String name, @Nullable String namespace) {
         this(serviceId, name, namespace, null, null, false);
     }
 
-    public KubernetesServiceConfiguration(String serviceId, String name, String namespace, String mode, String port, boolean manual) {
+    public KubernetesServiceConfiguration(String serviceId,
+                                          @Nullable String name,
+                                          @Nullable String namespace,
+                                          @Nullable String mode,
+                                          @Nullable String port,
+                                          boolean manual) {
         this.serviceId = serviceId;
         this.name = name;
         this.namespace = namespace;
@@ -91,7 +101,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param name the service name
      */
-    public void setName(String name) {
+    public void setName(@Nullable String name) {
         this.name = name;
     }
 
@@ -109,7 +119,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param namespace the namespace
      */
-    public void setNamespace(String namespace) {
+    public void setNamespace(@Nullable String namespace) {
         this.namespace = namespace;
     }
 
@@ -125,7 +135,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param mode mode
      */
-    public void setMode(String mode) {
+    public void setMode(@Nullable String mode) {
         this.mode = mode;
     }
 
@@ -143,7 +153,7 @@ public class KubernetesServiceConfiguration {
      *
      * @param port port number
      */
-    public void setPort(String port) {
+    public void setPort(@Nullable String port) {
         this.port = port;
     }
 

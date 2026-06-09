@@ -69,6 +69,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     @Override
     public void onAdd(@NonNull T object) {
+        if (object.getMetadata() == null) {
+            LOG.warn("Skipped processing of added kubernetes object since there is no metadata: {}", object);
+            return;
+        }
         LOG.trace("Started processing of added kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),
@@ -87,6 +91,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     @Override
     public void onUpdate(@NonNull T oldObject, @NonNull T newObject) {
+        if (newObject.getMetadata() == null) {
+            LOG.warn("Skipped processing of modified kubernetes object since there is no metadata: {}", newObject);
+            return;
+        }
         LOG.trace("Started processing of modified kubernetes object, objectName={}, objectType={}, resourceVersion={}",
             newObject.getMetadata().getName(),
             newObject.getClass().getSimpleName(),
@@ -95,7 +103,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
             LOG.trace("Resource version of modified kubernetes object has not been changed");
         } else {
             if (updateRefreshCountIfWatched(oldObject) || updateRefreshCountIfWatched(newObject)) {
-                refreshEnv(oldObject.getMetadata().getName());
+                refreshEnv(newObject.getMetadata().getName());
             } else {
                 LOG.trace("Modified kubernetes object not used in configuration import or not watchable");
             }
@@ -105,6 +113,10 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
 
     @Override
     public void onDelete(@NonNull T object, boolean deletedFinalStateUnknown) {
+        if (object.getMetadata() == null) {
+            LOG.warn("Skipped processing of deleted kubernetes object since there is no metadata: {}", object);
+            return;
+        }
         LOG.trace("Started processing of deleted kubernetes object, objectName={}, objectType={}, resourceVersion={}, deletedFinalStateUnknown={}",
             object.getMetadata().getName(),
             object.getClass().getSimpleName(),

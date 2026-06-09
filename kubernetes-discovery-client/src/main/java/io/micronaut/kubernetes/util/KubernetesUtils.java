@@ -286,9 +286,9 @@ public class KubernetesUtils {
      * @param labels the labels to include
      * @return a {@link Predicate} based on labels the kubernetes objects has to match to return true
      */
-    public static Predicate<KubernetesObject> getLabelsFilter(Map<String, String> labels) {
+    public static Predicate<KubernetesObject> getLabelsFilter(@Nullable Map<String, String> labels) {
         Predicate<KubernetesObject> labelsFilter = s -> true;
-        if (!labels.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(labels)) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Filter labels: {}", labels.keySet());
             }
@@ -317,6 +317,7 @@ public class KubernetesUtils {
         return labelsFilter;
     }
 
+    @Nullable
     public static String objectNameOrNull(KubernetesObject kubernetesObject) {
         if (kubernetesObject.getMetadata() != null) {
             return kubernetesObject.getMetadata().getName();
@@ -334,8 +335,8 @@ public class KubernetesUtils {
      * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
      * @return the label selector filter
      */
-    public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, List<String> podLabelKeys,
-                                                       String namespace, Map<String, String> labels,
+    public static Mono<String> computePodLabelSelector(CoreV1ApiReactorClient client, @Nullable List<String> podLabelKeys,
+                                                       String namespace, @Nullable Map<String, String> labels,
                                                        boolean exceptionOnPodLabelsMissing) {
         return computePodLabels(client, podLabelKeys, namespace, labels, exceptionOnPodLabelsMissing)
             .map(KubernetesUtils::computeLabelSelector);
@@ -352,8 +353,8 @@ public class KubernetesUtils {
      * @return the computed labels
      */
     @NonNull
-    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactorClient client, List<String> podLabelKeys,
-                                                             String namespace, Map<String, String> labels,
+    public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactorClient client, @Nullable List<String> podLabelKeys,
+                                                             String namespace, @Nullable Map<String, String> labels,
                                                              boolean exceptionOnPodLabelsMissing) {
         // determine if we are running inside a pod. This environment variable is always been set.
         String host = System.getenv(ENV_KUBERNETES_SERVICE_HOST);
@@ -380,7 +381,11 @@ public class KubernetesUtils {
                                                             List<String> podLabelKeys,
                                                             boolean exceptionOnPodLabelsMissing) {
         Map<String, String> result = new HashMap<>();
-        Map<String, String> podLabels = pod.getMetadata().getLabels();
+        V1ObjectMeta metadata = pod.getMetadata();
+        Map<String, String> podLabels = metadata == null ? Collections.emptyMap() : metadata.getLabels();
+        if (podLabels == null) {
+            podLabels = Collections.emptyMap();
+        }
         for (String key : podLabelKeys) {
             String value = podLabels.get(key);
             if (value != null) {
@@ -399,7 +404,7 @@ public class KubernetesUtils {
     }
 
     @Nullable
-    public static Map<String, String> parseLabels(String labelsValue, String provider) {
+    public static Map<String, String> parseLabels(@Nullable String labelsValue, String provider) {
         if (StringUtils.isEmpty(labelsValue)) {
             return null;
         }
@@ -432,7 +437,7 @@ public class KubernetesUtils {
      * @param labels the map of labels
      * @return the label selector filter
      */
-    public static String computeLabelSelector(Map<String, String> labels) {
+    public static String computeLabelSelector(@Nullable Map<String, String> labels) {
         if (CollectionUtils.isEmpty(labels)) {
             return StringUtils.EMPTY_STRING;
         }
