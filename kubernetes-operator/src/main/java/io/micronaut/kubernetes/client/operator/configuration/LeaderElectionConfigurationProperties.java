@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.operator.configuration;
 
 import io.micronaut.context.annotation.ConfigurationProperties;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -39,7 +40,9 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
     private Duration leaseDuration = Duration.ofSeconds(DEFAULT_LEASE_DURATION_IN_SECONDS);
     private Duration renewDeadline = Duration.ofSeconds(DEFAULT_RENEW_DEADLINE_IN_SECONDS);
     private Duration retryPeriod = Duration.ofSeconds(DEFAULT_RETRY_PERIOD_IN_SECONDS);
+    @Nullable
     private String resourceName;
+    @Nullable
     private String resourceNamespace;
 
 
@@ -121,7 +124,7 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      *
      * @param resourceName lock resource name
      */
-    public void setResourceName(@NonNull String resourceName) {
+    public void setResourceName(@Nullable String resourceName) {
         this.resourceName = resourceName;
     }
 
@@ -141,7 +144,7 @@ public class LeaderElectionConfigurationProperties implements LeaderElectionConf
      *
      * @param resourceNamespace the lock resource namespace
      */
-    public void setResourceNamespace(@NonNull String resourceNamespace) {
+    public void setResourceNamespace(@Nullable String resourceNamespace) {
         this.resourceNamespace = resourceNamespace;
     }
 }

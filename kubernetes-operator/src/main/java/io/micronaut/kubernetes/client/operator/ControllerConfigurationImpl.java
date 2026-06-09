@@ -19,7 +19,9 @@ import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
 import io.micronaut.core.annotation.Internal;
 import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -33,16 +35,27 @@ import java.util.function.Predicate;
 @Internal
 public class ControllerConfigurationImpl implements ControllerConfiguration {
 
+    @Nullable
     private String name;
+    @Nullable
     private Class<? extends KubernetesObject> apiType;
+    @Nullable
     private Class<? extends KubernetesListObject> apiListType;
+    @Nullable
     private String resourcePlural;
+    @Nullable
     private String apiGroup;
+    @Nullable
     private Set<String> namespaces;
+    @Nullable
     private String labelSelector;
+    @Nullable
     private Long resyncCheckPeriod;
+    @Nullable
     private Predicate<? extends KubernetesObject> onAddFilter;
+    @Nullable
     private BiPredicate<? extends KubernetesObject, ? extends KubernetesObject> onUpdateFilter;
+    @Nullable
     private BiPredicate<? extends KubernetesObject, Boolean> onDeleteFilter;
 
 
@@ -52,7 +65,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
     @Override
     @NonNull
     public String getName() {
-        return name;
+        return Objects.requireNonNull(name);
     }
 
     /**
@@ -62,7 +75,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
     @Override
     @NonNull
     public Class<? extends KubernetesObject> getApiType() {
-        return apiType;
+        return Objects.requireNonNull(apiType);
     }
 
     /**
@@ -72,7 +85,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
     @Override
     @NonNull
     public Class<? extends KubernetesListObject> getApiListType() {
-        return apiListType;
+        return Objects.requireNonNull(apiListType);
     }
 
     /**
@@ -82,7 +95,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
     @Override
     @NonNull
     public String getResourcePlural() {
-        return resourcePlural;
+        return Objects.requireNonNull(resourcePlural);
     }
 
     /**
@@ -92,7 +105,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
     @Override
     @NonNull
     public String getApiGroup() {
-        return apiGroup;
+        return Objects.requireNonNull(apiGroup);
     }
 
     /**
@@ -102,7 +115,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
     @Override
     @NonNull
     public Set<String> getNamespaces() {
-        return namespaces;
+        return Objects.requireNonNull(namespaces);
     }
 
     /**
@@ -136,6 +149,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return add filter predicate
      */
     @Override
+    @Nullable
     public Predicate<? extends KubernetesObject> getOnAddFilter() {
         return onAddFilter;
     }
@@ -146,6 +160,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return update filter predicate
      */
     @Override
+    @Nullable
     public BiPredicate<? extends KubernetesObject, ? extends KubernetesObject> getOnUpdateFilter() {
         return onUpdateFilter;
     }
@@ -155,6 +170,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
      * @return delete filter predicate
      */
     @Override
+    @Nullable
     public BiPredicate<? extends KubernetesObject, Boolean> getOnDeleteFilter() {
         return onDeleteFilter;
     }
@@ -252,7 +268,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
          * @param labelSelector label selector
          * @return builder
          */
-        public ControllerConfigurationBuilder withLabelSelector(String labelSelector) {
+        public ControllerConfigurationBuilder withLabelSelector(@Nullable String labelSelector) {
             this.controllerConfiguration.labelSelector = labelSelector;
             return this;
         }
@@ -262,7 +278,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
          * @param onAddFilter on add predicate
          * @return builder
          */
-        public ControllerConfigurationBuilder withOnAddFilter(Predicate<? extends KubernetesObject> onAddFilter) {
+        public ControllerConfigurationBuilder withOnAddFilter(@Nullable Predicate<? extends KubernetesObject> onAddFilter) {
             this.controllerConfiguration.onAddFilter = onAddFilter;
             return this;
         }
@@ -272,7 +288,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
          * @param onUpdateFilter on update predicate
          * @return builder
          */
-        public ControllerConfigurationBuilder withOnUpdateFilter(BiPredicate<? extends KubernetesObject, ? extends KubernetesObject> onUpdateFilter) {
+        public ControllerConfigurationBuilder withOnUpdateFilter(@Nullable BiPredicate<? extends KubernetesObject, ? extends KubernetesObject> onUpdateFilter) {
             this.controllerConfiguration.onUpdateFilter = onUpdateFilter;
             return this;
         }
@@ -282,7 +298,7 @@ public class ControllerConfigurationImpl implements ControllerConfiguration {
          * @param onDeleteFilter on delete predicate
          * @return builder
          */
-        public ControllerConfigurationBuilder withOnDeleteFilter(BiPredicate<? extends KubernetesObject, Boolean> onDeleteFilter) {
+        public ControllerConfigurationBuilder withOnDeleteFilter(@Nullable BiPredicate<? extends KubernetesObject, Boolean> onDeleteFilter) {
             this.controllerConfiguration.onDeleteFilter = onDeleteFilter;
             return this;
         }
