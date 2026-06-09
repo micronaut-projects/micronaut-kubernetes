@@ -27,7 +27,7 @@ import io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolve
 import io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver;
 import io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver;
-import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import javax.naming.ConfigurationException;
 import java.util.Optional;
@@ -50,11 +50,11 @@ public class ControllerConfigurationFactory {
     private final InformerNamespaceResolver namespaceResolver;
     private final InformerLabelSelectorResolver labelSelectorResolver;
 
-    public ControllerConfigurationFactory(@NonNull BeanContext beanContext,
-                                          @NonNull InformerApiGroupResolver apiGroupResolver,
-                                          @NonNull InformerResourcePluralResolver resourcePluralResolver,
-                                          @NonNull InformerNamespaceResolver namespaceResolver,
-                                          @NonNull InformerLabelSelectorResolver labelSelectorResolver) {
+    public ControllerConfigurationFactory(BeanContext beanContext,
+                                          InformerApiGroupResolver apiGroupResolver,
+                                          InformerResourcePluralResolver resourcePluralResolver,
+                                          InformerNamespaceResolver namespaceResolver,
+                                          InformerLabelSelectorResolver labelSelectorResolver) {
         this.beanContext = beanContext;
         this.apiGroupResolver = apiGroupResolver;
         this.resourcePluralResolver = resourcePluralResolver;
@@ -102,6 +102,7 @@ public class ControllerConfigurationFactory {
      * @param operator annotation value
      * @return the on add filter predicate
      */
+    @Nullable
     protected Predicate<? extends KubernetesObject> getOnAddFilter(AnnotationValue<Operator> operator) {
         Optional<Class<? extends Predicate>> onAddFilter = operator.classValue("onAddFilter", Predicate.class);
         return onAddFilter.map(beanContext::getBean).orElse(null);
@@ -113,6 +114,7 @@ public class ControllerConfigurationFactory {
      * @param operator annotation value
      * @return the on update filter bi predicate
      */
+    @Nullable
     protected BiPredicate<? extends KubernetesObject, ? extends KubernetesObject> getOnUpdateFilter(AnnotationValue<Operator> operator) {
         Optional<Class<? extends BiPredicate>> onUpdateFilter = operator.classValue("onUpdateFilter", BiPredicate.class);
         return onUpdateFilter.map(beanContext::getBean).orElse(null);
@@ -124,6 +126,7 @@ public class ControllerConfigurationFactory {
      * @param operator annotation value
      * @return the on delete filter bi predicate
      */
+    @Nullable
     protected BiPredicate<? extends KubernetesObject, Boolean> getOnDeleteFilter(AnnotationValue<Operator> operator) {
         Optional<Class<? extends BiPredicate>> onDeleteFilter = operator.classValue("onDeleteFilter", BiPredicate.class);
         return onDeleteFilter.map(beanContext::getBean).orElse(null);

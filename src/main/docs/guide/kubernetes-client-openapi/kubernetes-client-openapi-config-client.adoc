@@ -1,6 +1,6 @@
 [IMPORTANT]
 ====
-The Kubernetes configuration client support is deprecated and has been replaced by xref:../config-import.adoc[Configuration Import].
+The Kubernetes configuration client support is deprecated and has been replaced by xref:config-import[Configuration Import].
 
 If you are adding new configuration loading from Kubernetes `ConfigMap` or `Secret` resources, use the
 configuration import approach.

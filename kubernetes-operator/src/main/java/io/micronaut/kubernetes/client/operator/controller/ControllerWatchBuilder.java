@@ -21,7 +21,6 @@ import io.kubernetes.client.extended.controller.reconciler.Request;
 import io.kubernetes.client.extended.workqueue.WorkQueue;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
-import org.jspecify.annotations.NonNull;
 
 /**
  * The {@link ControllerWatch} builder.
@@ -39,6 +38,5 @@ public interface ControllerWatchBuilder {
       * @param workQueue the work queue
       * @return the controller watch
       */
-     @NonNull
-     ControllerWatch<? extends KubernetesObject> buildControllerWatch(@NonNull ControllerConfiguration operator, @NonNull WorkQueue<Request> workQueue);
+     ControllerWatch<? extends KubernetesObject> buildControllerWatch(ControllerConfiguration operator, WorkQueue<Request> workQueue);
 }

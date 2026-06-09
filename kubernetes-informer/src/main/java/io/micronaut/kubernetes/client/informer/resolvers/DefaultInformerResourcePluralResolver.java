@@ -22,7 +22,6 @@ import io.micronaut.kubernetes.client.DiscoveryCache;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +38,7 @@ import java.util.Optional;
 public class DefaultInformerResourcePluralResolver implements InformerResourcePluralResolver {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultInformerResourcePluralResolver.class);
 
+    @Nullable
     private final DiscoveryCache discoveryCache;
 
     public DefaultInformerResourcePluralResolver(@Nullable DiscoveryCache discoveryCache) {
@@ -46,8 +46,7 @@ public class DefaultInformerResourcePluralResolver implements InformerResourcePl
     }
 
     @Override
-    @NonNull
-    public String resolveInformerResourcePlural(@NonNull AnnotationValue<Informer> informer) {
+    public String resolveInformerResourcePlural(AnnotationValue<Informer> informer) {
         Optional<String> resourcePluralOptional = informer.get("resourcePlural", String.class);
 
         String resourcePlural = null;

@@ -139,6 +139,9 @@ public class KubernetesHealthIndicator extends AbstractHealthIndicator<Map<Strin
                         .execute()
                         .doOnError(ApiException.class, throwable -> LOG.error("Failed to read Pod [" + podName + "] from namespace [" + podNamespace + "]: " + throwable.getResponseBody(), throwable))
                         .block();
+                if (pod == null) {
+                    return Collections.emptyMap();
+                }
                 return processPod(pod);
             }
             return Collections.emptyMap();

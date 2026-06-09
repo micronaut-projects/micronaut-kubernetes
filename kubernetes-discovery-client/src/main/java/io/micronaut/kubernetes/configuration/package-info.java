@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 original authors
+ * Copyright 2017-2026 original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,9 @@
  * limitations under the License.
  */
 /**
- * Contains classes specific to Kubernetes informer.
- *
- * @author Nemanja Mikic
- * @since 3.4.1
+ * Kubernetes configuration client support.
  */
 @NullMarked
-@Configuration
-@Requires(env = Environment.KUBERNETES)
-package io.micronaut.kubernetes.client.informer;
+package io.micronaut.kubernetes.configuration;
 
-import io.micronaut.context.annotation.Configuration;
-import io.micronaut.context.annotation.Requires;
-import io.micronaut.context.env.Environment;
 import org.jspecify.annotations.NullMarked;

@@ -20,7 +20,6 @@ import io.kubernetes.client.extended.controller.LeaderElectingController;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import io.micronaut.kubernetes.client.operator.ResourceReconciler;
-import org.jspecify.annotations.NonNull;
 
 /**
  * The {@link LeaderElectingController} builder.
@@ -39,7 +38,6 @@ public interface LeaderElectingControllerBuilder {
      * @param controllerManager  the controller manager
      * @return leader electing controller
      */
-    @NonNull
-    LeaderElectingController build(@NonNull ControllerConfiguration operator, @NonNull ResourceReconciler<?> resourceReconciler, @NonNull ControllerManager controllerManager);
+    LeaderElectingController build(ControllerConfiguration operator, ResourceReconciler<?> resourceReconciler, ControllerManager controllerManager);
 
 }

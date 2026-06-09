@@ -27,6 +27,7 @@ import io.micronaut.kubernetes.client.openapi.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesListObject;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta;
 import io.micronaut.kubernetes.client.openapi.model.V1Pod;
 import io.micronaut.kubernetes.client.openapi.model.V1Secret;
 import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor;
@@ -310,7 +311,11 @@ public final class KubernetesConfigUtils {
                                                             List<String> podLabelKeys,
                                                             boolean exceptionOnPodLabelsMissing) {
         Map<String, String> result = new HashMap<>();
-        Map<String, String> podLabels = pod.getMetadata().getLabels();
+        V1ObjectMeta metadata = pod.getMetadata();
+        Map<String, String> podLabels = metadata == null ? Collections.emptyMap() : metadata.getLabels();
+        if (podLabels == null) {
+            podLabels = Collections.emptyMap();
+        }
         for (String key : podLabelKeys) {
             String value = podLabels.get(key);
             if (value != null) {

@@ -15,8 +15,6 @@
  */
 package io.micronaut.kubernetes.client.operator.configuration;
 
-import org.jspecify.annotations.NonNull;
-
 import java.time.Duration;
 import java.util.Optional;
 
@@ -33,7 +31,6 @@ public interface LeaderElectionConfiguration {
          *
          * @return lease duration
          */
-        @NonNull
         Duration getLeaseDuration();
 
         /**
@@ -42,7 +39,6 @@ public interface LeaderElectionConfiguration {
          *
          * @return renew deadline
          */
-        @NonNull
         Duration getRenewDeadline();
 
         /**
@@ -50,7 +46,6 @@ public interface LeaderElectionConfiguration {
          *
          * @return lock acquire retry period.
          */
-        @NonNull
         Duration getRetryPeriod();
 
         /**
@@ -58,7 +53,6 @@ public interface LeaderElectionConfiguration {
          *
          * @return the lock resource name
          */
-        @NonNull
         Optional<String> getResourceName();
 
         /**
@@ -66,6 +60,5 @@ public interface LeaderElectionConfiguration {
          *
          * @return the lock resource namespace
          */
-        @NonNull
         Optional<String> getResourceNamespace();
 }

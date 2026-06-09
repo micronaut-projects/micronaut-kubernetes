@@ -34,7 +34,6 @@ import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.configuration.imports.KubernetesLegacyImportMode;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,8 +126,7 @@ public class KubernetesConfigurationClient implements ConfigurationClient {
      * @return The description
      */
     @Override
-    public @NonNull
-    String getDescription() {
+    public String getDescription() {
         return "kubernetes";
     }
 

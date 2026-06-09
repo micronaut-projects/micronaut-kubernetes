@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.informer.resolvers;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.kubernetes.client.informer.Informer;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Resolves the k8s resource plural.
@@ -29,6 +28,5 @@ import org.jspecify.annotations.NonNull;
 @DefaultImplementation(DefaultInformerResourcePluralResolver.class)
 public interface InformerResourcePluralResolver {
 
-    @NonNull
-    String resolveInformerResourcePlural(@NonNull AnnotationValue<Informer> informer);
+    String resolveInformerResourcePlural(AnnotationValue<Informer> informer);
 }

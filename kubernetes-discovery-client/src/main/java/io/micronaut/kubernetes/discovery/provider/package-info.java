@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 /**
- * Kubernetes OpenAPI discovery client support.
+ * Kubernetes service instance provider implementations.
  */
 @NullMarked
-package io.micronaut.kubernetes.client.openapi;
+package io.micronaut.kubernetes.discovery.provider;
 
 import org.jspecify.annotations.NullMarked;

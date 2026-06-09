@@ -26,7 +26,6 @@ import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import io.micronaut.kubernetes.client.operator.event.LeaseAcquiredEvent;
 import io.micronaut.kubernetes.client.operator.event.LeaseLostEvent;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,10 +51,9 @@ public class DefaultLeaderElectingControllerBuilder implements LeaderElectingCon
     }
 
     @Override
-    @NonNull
-    public LeaderElectingController build(@NonNull ControllerConfiguration operator,
-                                          @NonNull ResourceReconciler<?> resourceReconciler,
-                                          @NonNull ControllerManager controllerManager) {
+    public LeaderElectingController build(ControllerConfiguration operator,
+                                          ResourceReconciler<?> resourceReconciler,
+                                          ControllerManager controllerManager) {
         final LeaderElector leaderElector = new LeaderElector(leaderElectionConfig);
         final ApplicationContextEventEmitterController eventEmitterController = new ApplicationContextEventEmitterController(
                 leaseLostEventApplicationEventPublisher,

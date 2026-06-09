@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 /**
- * Utility support for Kubernetes OpenAPI discovery clients.
+ * Resolver support for Kubernetes informer configuration.
  */
 @NullMarked
-package io.micronaut.kubernetes.client.openapi.util;
+package io.micronaut.kubernetes.client.informer.resolvers;
 
 import org.jspecify.annotations.NullMarked;

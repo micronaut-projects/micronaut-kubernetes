@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.operator.leaderelection;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.kubernetes.client.PodNameResolver;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 
 /**
  * Default implementation of {@link LockIdentityProvider} which resolves the unique lock identity from the {@code HOSTNAME}
@@ -32,7 +31,7 @@ public class DefaultLockIdentityProvider implements LockIdentityProvider {
 
     private final PodNameResolver podNameResolver;
 
-    public DefaultLockIdentityProvider(@NonNull PodNameResolver podNameResolver) {
+    public DefaultLockIdentityProvider(PodNameResolver podNameResolver) {
         this.podNameResolver = podNameResolver;
     }
 

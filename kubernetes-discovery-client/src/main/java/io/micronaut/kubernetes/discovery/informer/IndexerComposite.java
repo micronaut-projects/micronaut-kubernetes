@@ -19,7 +19,6 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.informer.cache.Indexer;
 import io.micronaut.core.annotation.Internal;
 import org.apache.commons.collections4.map.HashedMap;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
@@ -62,7 +61,7 @@ public class IndexerComposite<ApiType extends KubernetesObject> {
      * @param namespace resource namesapce
      * @return mono with the resource or empty mono
      */
-    public Mono<ApiType> getResource(@NonNull String name, @NonNull String namespace) {
+    public Mono<ApiType> getResource(String name, String namespace) {
         Indexer<ApiType> indexer = informerMap.getOrDefault(namespace, null);
         if (indexer == null) {
             if (LOG.isTraceEnabled()) {
@@ -86,7 +85,7 @@ public class IndexerComposite<ApiType extends KubernetesObject> {
      * @param namespace namespace name or null to get resources from all namespaces
      * @return mono with resources or empty mono
      */
-    public Flux<ApiType> getResources(@NonNull String namespace) {
+    public Flux<ApiType> getResources(String namespace) {
 
         Indexer<ApiType> indexed = informerMap.getOrDefault(namespace, null);
         if (indexed == null) {

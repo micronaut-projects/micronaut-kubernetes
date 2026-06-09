@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.operator;
 
 import io.kubernetes.client.common.KubernetesListObject;
 import io.kubernetes.client.common.KubernetesObject;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Set;
@@ -37,7 +36,6 @@ public interface ControllerConfiguration {
      *
      * @return name
      */
-    @NonNull
     String getName();
 
     /**
@@ -45,7 +43,6 @@ public interface ControllerConfiguration {
      *
      * @return api resource type
      */
-    @NonNull
     Class<? extends KubernetesObject> getApiType();
 
     /**
@@ -53,7 +50,6 @@ public interface ControllerConfiguration {
      *
      * @return api resource list type
      */
-    @NonNull
     Class<? extends KubernetesListObject> getApiListType();
 
     /**
@@ -61,7 +57,6 @@ public interface ControllerConfiguration {
      *
      * @return api resource plural
      */
-    @NonNull
     String getResourcePlural();
 
     /**
@@ -69,7 +64,6 @@ public interface ControllerConfiguration {
      *
      * @return api group
      */
-    @NonNull
     String getApiGroup();
 
     /**
@@ -77,7 +71,6 @@ public interface ControllerConfiguration {
      *
      * @return namespaces
      */
-    @NonNull
     Set<String> getNamespaces();
 
     /**
@@ -86,7 +79,6 @@ public interface ControllerConfiguration {
      * @return label selector
      * @see <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors">Label selectors</a>
      */
-    @NonNull
     String getLabelSelector();
 
     /**
@@ -95,7 +87,6 @@ public interface ControllerConfiguration {
      * @return resync check period, if 0L returned then default minimal resync interval is used
      * @see io.kubernetes.client.informer.impl.DefaultSharedIndexInformer
      */
-    @NonNull
     Long getResyncCheckPeriod();
 
     /**

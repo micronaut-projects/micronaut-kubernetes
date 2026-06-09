@@ -18,6 +18,7 @@ package io.micronaut.kubernetes.configuration;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,7 @@ abstract class AbstractKubernetesConfigLabelSupplier implements Supplier<String>
         this.configuration = configuration;
     }
 
+    @Nullable
     @Override
     public String get() {
         Map<String, String> labels = getConfig().getLabels();

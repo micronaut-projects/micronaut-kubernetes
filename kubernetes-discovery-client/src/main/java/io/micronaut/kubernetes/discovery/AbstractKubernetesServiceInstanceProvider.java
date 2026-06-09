@@ -23,10 +23,10 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.discovery.ServiceInstance;
 import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.util.KubernetesUtils;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nullable;
 import java.net.URI;
 import java.util.List;
 import java.util.function.Predicate;
@@ -164,10 +164,11 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * Utility class for transparent access to {@link CoreV1EndpointPort} and {@link V1ServicePort}.
      */
     public static class PortBinder {
+        @Nullable
         private final String name;
         private final int port;
 
-        public PortBinder(String name, int port) {
+        public PortBinder(@Nullable String name, int port) {
             this.name = name;
             this.port = port;
         }
@@ -175,6 +176,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
         /**
          * @return port name
          */
+        @Nullable
         public String getName() {
             return name;
         }
@@ -186,6 +188,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
             return port;
         }
 
+        @Nullable
         public static PortBinder fromServicePort(@Nullable V1ServicePort servicePort) {
             if (servicePort == null) {
                 return null;
@@ -193,6 +196,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
             return new PortBinder(servicePort.getName(), servicePort.getPort());
         }
 
+        @Nullable
         public static PortBinder fromEndpointPort(@Nullable CoreV1EndpointPort endpointPort) {
             if (endpointPort == null) {
                 return null;

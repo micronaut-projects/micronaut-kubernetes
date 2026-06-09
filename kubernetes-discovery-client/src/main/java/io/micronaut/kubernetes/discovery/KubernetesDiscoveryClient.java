@@ -25,7 +25,6 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -133,16 +132,17 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         final String namespace = configuration.getNamespace();
         final KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
 
-        return Flux.merge(
-                        Flux.fromIterable(serviceConfigurations.keySet()),
-                        instanceProvider.getServiceIds(namespace)
-                )
-                .distinct().collectList();
+        Publisher<String> providerServiceIds = instanceProvider == null
+            ? Flux.empty()
+            : instanceProvider.getServiceIds(namespace);
+
+        return Flux.merge(Flux.fromIterable(serviceConfigurations.keySet()), providerServiceIds)
+            .distinct()
+            .collectList();
     }
 
     @Override
-    public @NonNull
-    String getDescription() {
+    public String getDescription() {
         return SERVICE_ID;
     }
 

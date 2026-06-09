@@ -19,7 +19,6 @@ import io.kubernetes.client.extended.controller.DefaultController;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.kubernetes.client.operator.ControllerConfiguration;
 import io.micronaut.kubernetes.client.operator.ResourceReconciler;
-import org.jspecify.annotations.NonNull;
 
 /**
  * The {@link DefaultController} builder.
@@ -37,7 +36,6 @@ public interface ControllerBuilder {
      * @param resourceReconciler the operator's resource reconciler
      * @return the default controller
      */
-    @NonNull
-    DefaultController build(@NonNull ControllerConfiguration operator, @NonNull ResourceReconciler<?> resourceReconciler);
+    DefaultController build(ControllerConfiguration operator, ResourceReconciler<?> resourceReconciler);
 
 }
