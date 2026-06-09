@@ -28,7 +28,6 @@ import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -352,7 +351,6 @@ public class KubernetesUtils {
      * @param exceptionOnPodLabelsMissing should an exception be thrown if configured pod label key is not found in pod labels
      * @return the computed labels
      */
-    @NonNull
     public static Mono<Map<String, String>> computePodLabels(CoreV1ApiReactorClient client, @Nullable List<String> podLabelKeys,
                                                              String namespace, @Nullable Map<String, String> labels,
                                                              boolean exceptionOnPodLabelsMissing) {
@@ -376,7 +374,6 @@ public class KubernetesUtils {
             .doOnError(throwable -> LOG.error("Failed to compute the label selector {} from the Pod [{}]", podLabelKeys, podName, throwable));
     }
 
-    @NonNull
     private static Map<String, String> computeLabelsFromPod(V1Pod pod,
                                                             List<String> podLabelKeys,
                                                             boolean exceptionOnPodLabelsMissing) {

@@ -25,7 +25,6 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,8 +142,7 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
     }
 
     @Override
-    public @NonNull
-    String getDescription() {
+    public String getDescription() {
         return SERVICE_ID;
     }
 

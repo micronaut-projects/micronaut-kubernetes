@@ -25,7 +25,6 @@ import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.kubernetes.util.KubernetesUtils;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +53,7 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
      * @param context The import context containing the declaration and environment
      * @return The imported property source when one can be resolved
      */
-    @NonNull
-    Optional<PropertySource> importPropertySource(@NonNull ImportContext<ImportDeclaration> context) {
+    Optional<PropertySource> importPropertySource(ImportContext<ImportDeclaration> context) {
         ImportDeclaration declaration = context.importDeclaration();
         LOG.debug("Started property source import for declaration: {}", declaration);
         try {
@@ -96,15 +94,13 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
         }
     }
 
-    @NonNull
     abstract Optional<PropertySource> importPropertySourceByNameSelector(
-        @NonNull ImportDeclaration declaration,
-        @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
+        ImportDeclaration declaration,
+        Collection<PropertySourceLoader> propertySourceLoaders);
 
-    @NonNull
     abstract Optional<PropertySource> importPropertySourceByLabelsSelector(
-        @NonNull ImportDeclaration declaration,
-        @NonNull Collection<PropertySourceLoader> propertySourceLoaders);
+        ImportDeclaration declaration,
+        Collection<PropertySourceLoader> propertySourceLoaders);
 
     /**
      * Converts Kubernetes objects into a single Micronaut property source.
@@ -115,11 +111,10 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
      * @param <T>           The Kubernetes object type
      * @return The resulting property source when at least one object contributes data
      */
-    @NonNull
     <T extends KubernetesObject> Optional<PropertySource> toPropertySource(
         @Nullable List<T> objects,
-        @NonNull Class<T> objectType,
-        @NonNull Function<? super T, Map<String, Object>> dataExtractor) {
+        Class<T> objectType,
+        Function<? super T, Map<String, Object>> dataExtractor) {
 
         if (CollectionUtils.isEmpty(objects)) {
             return Optional.empty();
@@ -159,7 +154,7 @@ abstract sealed class KubernetesObjectImportSupport permits KubernetesConfigMapI
      * @return The read value, or {@code null} when the resource does not exist
      */
     @Nullable
-    <T> T readIfExists(@NonNull Supplier<T> readFn) {
+    <T> T readIfExists(Supplier<T> readFn) {
         try {
             return readFn.get();
         } catch (Exception e) {

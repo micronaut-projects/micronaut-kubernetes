@@ -21,7 +21,6 @@ import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.env.Environment;
 import io.micronaut.discovery.DiscoveryConfiguration;
 import io.micronaut.kubernetes.client.NamespaceResolver;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Collection;
@@ -62,7 +61,6 @@ public class KubernetesConfiguration {
     /**
      * @return The {@link DiscoveryConfiguration}.
      */
-    @NonNull
     public KubernetesDiscoveryConfiguration getDiscovery() {
         return this.discovery;
     }
@@ -77,7 +75,6 @@ public class KubernetesConfiguration {
     /**
      * @return the namespace
      */
-    @NonNull
     public String getNamespace() {
         return namespace;
     }
@@ -92,7 +89,6 @@ public class KubernetesConfiguration {
     /**
      * @return the {@link KubernetesSecretsConfiguration}.
      */
-    @NonNull
     public KubernetesSecretsConfiguration getSecrets() {
         return secrets;
     }
@@ -107,7 +103,6 @@ public class KubernetesConfiguration {
     /**
      * @return The config maps configuration properties
      */
-    @NonNull
     public KubernetesConfigMapsConfiguration getConfigMaps() {
         return configMaps;
     }

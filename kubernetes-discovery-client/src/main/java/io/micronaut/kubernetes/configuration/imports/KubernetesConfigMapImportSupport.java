@@ -27,7 +27,6 @@ import io.micronaut.kubernetes.KubernetesConfiguration;
 import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import io.micronaut.kubernetes.util.KubernetesUtils;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,10 +60,9 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
      * @param propertySourceLoaders The property source loaders used to decode structured content
      * @return The imported property source if the ConfigMap exists
      */
-    @NonNull
     @Override
-    Optional<PropertySource> importPropertySourceByNameSelector(@NonNull ImportDeclaration declaration,
-                                                                @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
+    Optional<PropertySource> importPropertySourceByNameSelector(ImportDeclaration declaration,
+                                                                Collection<PropertySourceLoader> propertySourceLoaders) {
         String name = declaration.name();
         if (StringUtils.isEmpty(name)) {
             throw new ConfigurationException("ConfigMap import by name expects 'name' to be present in declaration: " + declaration);
@@ -92,10 +90,9 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
      * @param propertySourceLoaders The property source loaders used to decode structured content
      * @return The imported property source if any matching ConfigMaps exist
      */
-    @NonNull
     @Override
-    Optional<PropertySource> importPropertySourceByLabelsSelector(@NonNull ImportDeclaration declaration,
-                                                                  @NonNull Collection<PropertySourceLoader> propertySourceLoaders) {
+    Optional<PropertySource> importPropertySourceByLabelsSelector(ImportDeclaration declaration,
+                                                                  Collection<PropertySourceLoader> propertySourceLoaders) {
         String namespace = configuration.getNamespace();
         Map<String, String> labels = KubernetesUtils.computePodLabels(client, declaration.podLabels(), namespace, declaration.labels(), declaration.exceptionOnPodLabelsMissing()).block();
         if (CollectionUtils.isEmpty(labels)) {

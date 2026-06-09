@@ -25,7 +25,6 @@ import io.micronaut.kubernetes.util.KubernetesUtils;
 import io.micronaut.runtime.context.scope.refresh.RefreshEvent;
 import io.micronaut.runtime.event.annotation.EventListener;
 import io.micronaut.runtime.server.event.ServerStartupEvent;
-import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +67,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @Override
-    public void onAdd(@NonNull T object) {
+    public void onAdd(T object) {
         if (object.getMetadata() == null) {
             LOG.warn("Skipped processing of added kubernetes object since there is no metadata: {}", object);
             return;
@@ -90,7 +89,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @Override
-    public void onUpdate(@NonNull T oldObject, @NonNull T newObject) {
+    public void onUpdate(T oldObject, T newObject) {
         if (newObject.getMetadata() == null) {
             LOG.warn("Skipped processing of modified kubernetes object since there is no metadata: {}", newObject);
             return;
@@ -112,7 +111,7 @@ abstract sealed class AbstractKubernetesConfigWatcher<T extends KubernetesObject
     }
 
     @Override
-    public void onDelete(@NonNull T object, boolean deletedFinalStateUnknown) {
+    public void onDelete(T object, boolean deletedFinalStateUnknown) {
         if (object.getMetadata() == null) {
             LOG.warn("Skipped processing of deleted kubernetes object since there is no metadata: {}", object);
             return;
