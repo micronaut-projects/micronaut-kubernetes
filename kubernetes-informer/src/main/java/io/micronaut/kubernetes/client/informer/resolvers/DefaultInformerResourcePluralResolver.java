@@ -39,6 +39,7 @@ import java.util.Optional;
 public class DefaultInformerResourcePluralResolver implements InformerResourcePluralResolver {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultInformerResourcePluralResolver.class);
 
+    @Nullable
     private final DiscoveryCache discoveryCache;
 
     public DefaultInformerResourcePluralResolver(@Nullable DiscoveryCache discoveryCache) {

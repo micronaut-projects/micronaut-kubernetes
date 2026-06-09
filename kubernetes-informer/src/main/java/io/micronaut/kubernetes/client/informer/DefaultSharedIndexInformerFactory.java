@@ -127,7 +127,7 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
             evaluatedResyncPeriod = informerConfiguration.getResyncPeriod().get().toMillis();
         }
 
-        SharedIndexInformer<ApiType> existingSharedIndexInformer = getExistingSharedIndexInformer(namespace, apiType);
+        SharedIndexInformer<ApiType> existingSharedIndexInformer = getExistingSharedIndexInformer(ns, apiType);
         if (existingSharedIndexInformer != null) {
             if (LOG.isInfoEnabled()) {
                 LOG.info("Informer for '{}' in namespace '{}' already exists, reusing", apiType, ns);
@@ -237,9 +237,13 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
 
     @SuppressWarnings("unchecked")
     @Override
-    public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(String namespace, Class<ApiType> apiTypeClass) {
-        Type type = new NamespaceResourceClassType(namespace, apiTypeClass);
-        return this.informers.getOrDefault(type, null);
+    @Nullable
+    public <ApiType extends KubernetesObject> SharedIndexInformer<ApiType> getExistingSharedIndexInformer(
+            @Nullable String namespace,
+            Class<ApiType> apiTypeClass) {
+        String ns = namespace == null ? Namespaces.NAMESPACE_ALL : namespace;
+        Type type = new NamespaceResourceClassType(ns, apiTypeClass);
+        return this.informers.get(type);
     }
 
     @SuppressWarnings("rawtypes")
@@ -266,7 +270,9 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
 
     private <ApiType extends KubernetesObject, ApiListType extends KubernetesListObject>
     ListerWatcher<ApiType, ApiListType> listerWatcherFor(
-            GenericKubernetesApi<ApiType, ApiListType> genericKubernetesApi, String labelSelector, String namespace) {
+            GenericKubernetesApi<ApiType, ApiListType> genericKubernetesApi,
+            @Nullable String labelSelector,
+            String namespace) {
 
         return new ListerWatcher<ApiType, ApiListType>() {
 
@@ -314,19 +320,24 @@ public class DefaultSharedIndexInformerFactory extends SharedInformerFactory imp
     }
 
     private ListOptions createListOptions(ExtendedCallGeneratorParams params) {
-        return new ListOptions() {
-            {
-                setResourceVersion(params.resourceVersion);
-                setTimeoutSeconds(params.timeoutSeconds);
-                setLabelSelector(params.labelSelector);
-            }
-        };
+        ListOptions listOptions = new ListOptions();
+        listOptions.setResourceVersion(params.resourceVersion);
+        listOptions.setTimeoutSeconds(params.timeoutSeconds);
+        String labelSelector = params.labelSelector;
+        if (labelSelector != null) {
+            listOptions.setLabelSelector(labelSelector);
+        }
+        return listOptions;
     }
 
     static class ExtendedCallGeneratorParams extends CallGeneratorParams {
+        @Nullable
         String labelSelector;
 
-        public ExtendedCallGeneratorParams(Boolean watch, String resourceVersion, Integer timeoutSeconds, String labelSelector) {
+        public ExtendedCallGeneratorParams(Boolean watch,
+                                           String resourceVersion,
+                                           Integer timeoutSeconds,
+                                           @Nullable String labelSelector) {
             super(watch, resourceVersion, timeoutSeconds);
             this.labelSelector = labelSelector;
         }

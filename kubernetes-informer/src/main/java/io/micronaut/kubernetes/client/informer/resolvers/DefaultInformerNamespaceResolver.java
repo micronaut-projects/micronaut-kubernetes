@@ -51,6 +51,7 @@ public class DefaultInformerNamespaceResolver implements InformerNamespaceResolv
 
     private final NamespaceResolver namespaceResolver;
     private final BeanContext beanContext;
+    @Nullable
     private final DiscoveryCache discoveryCache;
 
     public DefaultInformerNamespaceResolver(@NonNull NamespaceResolver namespaceResolver,

@@ -40,6 +40,7 @@ public class DefaultInformerApiGroupResolver implements InformerApiGroupResolver
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultInformerApiGroupResolver.class);
 
+    @Nullable
     private final DiscoveryCache discoveryCache;
 
     public DefaultInformerApiGroupResolver(@Nullable DiscoveryCache discoveryCache) {
