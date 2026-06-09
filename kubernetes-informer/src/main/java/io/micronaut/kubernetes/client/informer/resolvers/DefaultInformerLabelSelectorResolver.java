@@ -21,7 +21,6 @@ import io.micronaut.core.util.StringUtils;
 import io.micronaut.kubernetes.client.informer.EmptyLabelSupplier;
 import io.micronaut.kubernetes.client.informer.Informer;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,14 +41,14 @@ public class DefaultInformerLabelSelectorResolver implements InformerLabelSelect
 
     private final BeanContext beanContext;
 
-    public DefaultInformerLabelSelectorResolver(@NonNull BeanContext beanContext) {
+    public DefaultInformerLabelSelectorResolver(BeanContext beanContext) {
         this.beanContext = beanContext;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @Nullable
-    public String resolveInformerLabels(@NonNull AnnotationValue<Informer> informer) {
+    public String resolveInformerLabels(AnnotationValue<Informer> informer) {
         String labelSelector = null;
 
         Optional<String> labelSelectorOptional = informer.get("labelSelector", String.class);

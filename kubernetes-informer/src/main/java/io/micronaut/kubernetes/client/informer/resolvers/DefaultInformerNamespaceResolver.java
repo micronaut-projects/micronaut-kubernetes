@@ -26,7 +26,6 @@ import io.micronaut.kubernetes.client.informer.EmptyNamespacesSupplier;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +53,8 @@ public class DefaultInformerNamespaceResolver implements InformerNamespaceResolv
     @Nullable
     private final DiscoveryCache discoveryCache;
 
-    public DefaultInformerNamespaceResolver(@NonNull NamespaceResolver namespaceResolver,
-                                            @NonNull BeanContext beanContext,
+    public DefaultInformerNamespaceResolver(NamespaceResolver namespaceResolver,
+                                            BeanContext beanContext,
                                             @Nullable DiscoveryCache discoveryCache) {
         this.namespaceResolver = namespaceResolver;
         this.beanContext = beanContext;
@@ -64,8 +63,7 @@ public class DefaultInformerNamespaceResolver implements InformerNamespaceResolv
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    @NonNull
-    public Set<String> resolveInformerNamespaces(@NonNull AnnotationValue<Informer> informer) {
+    public Set<String> resolveInformerNamespaces(AnnotationValue<Informer> informer) {
         Set<String> namespaces = new HashSet<>();
 
         Optional<String[]> optionalNamespaces = informer.get("namespaces", String[].class);

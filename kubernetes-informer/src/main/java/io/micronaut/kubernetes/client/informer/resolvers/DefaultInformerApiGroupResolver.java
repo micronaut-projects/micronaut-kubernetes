@@ -22,7 +22,6 @@ import io.micronaut.kubernetes.client.DiscoveryCache;
 import io.micronaut.kubernetes.client.informer.Informer;
 import io.micronaut.kubernetes.client.informer.InformerAnnotationUtils;
 import jakarta.inject.Singleton;
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +47,7 @@ public class DefaultInformerApiGroupResolver implements InformerApiGroupResolver
     }
 
     @Override
-    @NonNull
-    public String resolveInformerApiGroup(@NonNull AnnotationValue<Informer> informer) {
+    public String resolveInformerApiGroup(AnnotationValue<Informer> informer) {
         String apiGroup = null;
 
         Optional<String> apiGroupOptional = informer.get("apiGroup", String.class);

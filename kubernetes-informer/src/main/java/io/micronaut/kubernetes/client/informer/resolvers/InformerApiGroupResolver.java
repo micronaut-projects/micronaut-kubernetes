@@ -18,7 +18,6 @@ package io.micronaut.kubernetes.client.informer.resolvers;
 import io.micronaut.context.annotation.DefaultImplementation;
 import io.micronaut.core.annotation.AnnotationValue;
 import io.micronaut.kubernetes.client.informer.Informer;
-import org.jspecify.annotations.NonNull;
 
 /**
  * The informer's resource api group.
@@ -35,6 +34,5 @@ public interface InformerApiGroupResolver {
      * @param informer the informer
      * @return resource api group
      */
-    @NonNull
-    String resolveInformerApiGroup(@NonNull AnnotationValue<Informer> informer);
+    String resolveInformerApiGroup(AnnotationValue<Informer> informer);
 }
