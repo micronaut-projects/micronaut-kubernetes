@@ -10,22 +10,6 @@ configurations {
     }
 }
 
-def nullAwayDisabledProjects = [
-    "micronaut-kubernetes-client",
-    "micronaut-kubernetes-client-processor",
-    "micronaut-kubernetes-client-reactor",
-    "micronaut-kubernetes-client-rxjava3",
-    "micronaut-kubernetes-discovery-client",
-    "micronaut-kubernetes-informer",
-    "micronaut-kubernetes-operator",
-] as Set
-
-if (project.name in nullAwayDisabledProjects) {
-    micronautNullAway {
-        disableOnProjectNameContains.add(project.name)
-    }
-}
-
 micronautBuild {
     descriptor {
         parentModuleId = "io.micronaut.kubernetes:micronaut-kubernetes-client"
