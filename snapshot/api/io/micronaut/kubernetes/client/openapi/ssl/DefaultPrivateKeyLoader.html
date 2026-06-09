@@ -171,11 +171,11 @@ implements <a href="KubernetesPrivateKeyLoader.html" title="interface in io.micr
 <dt>Parameters:</dt>
 <dd><code>clientKey</code> - the PEM-encoded private key data</dd>
 <dt>Returns:</dt>
-<dd><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/PrivateKey.html" title="class or interface in java.security" class="external-link"><code>PrivateKey</code></a> instance</dd>
+<dd>the loaded <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/PrivateKey.html" title="class or interface in java.security" class="external-link"><code>PrivateKey</code></a> instance</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/NoSuchAlgorithmException.html" title="class or interface in java.security" class="external-link">NoSuchAlgorithmException</a></code></dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/spec/InvalidKeySpecException.html" title="class or interface in java.security.spec" class="external-link">InvalidKeySpecException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - if the private key data cannot be read</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/NoSuchAlgorithmException.html" title="class or interface in java.security" class="external-link">NoSuchAlgorithmException</a></code> - if the private key algorithm is not available</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/spec/InvalidKeySpecException.html" title="class or interface in java.security.spec" class="external-link">InvalidKeySpecException</a></code> - if the private key data is invalid</dd>
 </dl>
 </div>
 </section>

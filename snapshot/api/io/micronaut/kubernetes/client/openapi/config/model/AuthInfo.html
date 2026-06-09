@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">AuthInfo</span>(@Nullable byte[]&nbsp;clientCertificateData, @Nullable byte[]&nbsp;clientKeyData, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;token, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password, @Nullable <a href="ExecConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecConfig</a>&nbsp;exec)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">AuthInfo</span>(byte @Nullable []&nbsp;clientCertificateData, byte @Nullable []&nbsp;clientKeyData, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;token, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password, @Nullable <a href="ExecConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config.model">ExecConfig</a>&nbsp;exec)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">AuthInfo contains information that describes identity information.</div>
 </div>
@@ -113,8 +113,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(byte%5B%5D,byte%5B%5D,java.lang.String,java.lang.String,java.lang.String,io.micronaut.kubernetes.client.openapi.config.model.ExecConfig)" class="member-name-link">AuthInfo</a><wbr>(@Nullable byte[]&nbsp;clientCertificateData,
- @Nullable byte[]&nbsp;clientKeyData,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(byte%5B%5D,byte%5B%5D,java.lang.String,java.lang.String,java.lang.String,io.micronaut.kubernetes.client.openapi.config.model.ExecConfig)" class="member-name-link">AuthInfo</a><wbr>(byte @Nullable []&nbsp;clientCertificateData,
+ byte @Nullable []&nbsp;clientKeyData,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;token,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password,
@@ -136,12 +136,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable byte[]</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte @Nullable []</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clientCertificateData()" class="member-name-link">clientCertificateData</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-clientCertificateData"><code>clientCertificateData</code></a> record component.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable byte[]</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte @Nullable []</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clientKeyData()" class="member-name-link">clientKeyData</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-clientKeyData"><code>clientKeyData</code></a> record component.</div>
@@ -202,8 +202,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(byte[],byte[],java.lang.String,java.lang.String,java.lang.String,io.micronaut.kubernetes.client.openapi.config.model.ExecConfig)">
 <h3>AuthInfo</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AuthInfo</span><wbr><span class="parameters">(@Nullable byte[]&nbsp;clientCertificateData,
- @Nullable byte[]&nbsp;clientKeyData,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AuthInfo</span><wbr><span class="parameters">(byte @Nullable []&nbsp;clientCertificateData,
+ byte @Nullable []&nbsp;clientKeyData,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;token,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;password,
@@ -280,7 +280,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="clientCertificateData()">
 <h3>clientCertificateData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable byte[]</span>&nbsp;<span class="element-name">clientCertificateData</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte @Nullable []</span>&nbsp;<span class="element-name">clientCertificateData</span>()</div>
 <div class="block">Returns the value of the <a href="#param-clientCertificateData"><code>clientCertificateData</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -293,7 +293,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="clientKeyData()">
 <h3>clientKeyData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable byte[]</span>&nbsp;<span class="element-name">clientKeyData</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte @Nullable []</span>&nbsp;<span class="element-name">clientKeyData</span>()</div>
 <div class="block">Returns the value of the <a href="#param-clientKeyData"><code>clientKeyData</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

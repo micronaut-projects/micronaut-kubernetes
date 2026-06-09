@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
  &#064;Operator(informer = @Informer(apiType = V1ConfigMap.class)))
  public class MyReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; {
    &#064;Override
-   public Result reconcile(&#064;NonNull Request request, &#064;NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
+   public Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
       Optional&lt;V1ConfigMap&gt; resource = lister.get(request);
       // reconcile
       return new Result(false);
@@ -114,9 +114,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>@NonNull <a href="Result.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Result</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#reconcile(io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request,io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister)" class="member-name-link">reconcile</a><wbr>(@NonNull <a href="Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Request</a>&nbsp;request,
- @NonNull <a href="../../OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.openapi.operator">OperatorResourceLister</a>&lt;<a href="#type-param-ApiType" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Result.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Result</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#reconcile(io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request,io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister)" class="member-name-link">reconcile</a><wbr>(<a href="Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Request</a>&nbsp;request,
+ <a href="../../OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.openapi.operator">OperatorResourceLister</a>&lt;<a href="#type-param-ApiType" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Reconcile the resource identified by the <a href="Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler"><code>Request</code></a>.</div>
 </div>
@@ -138,8 +138,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="reconcile(io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request,io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister)">
 <h3>reconcile</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">@NonNull <a href="Result.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Result</a></span>&nbsp;<span class="element-name">reconcile</span><wbr><span class="parameters">(@NonNull <a href="Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Request</a>&nbsp;request,
- @NonNull <a href="../../OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.openapi.operator">OperatorResourceLister</a>&lt;<a href="#type-param-ApiType" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</span></div>
+<div class="member-signature"><span class="return-type"><a href="Result.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Result</a></span>&nbsp;<span class="element-name">reconcile</span><wbr><span class="parameters">(<a href="Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler">Request</a>&nbsp;request,
+ <a href="../../OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.openapi.operator">OperatorResourceLister</a>&lt;<a href="#type-param-ApiType" title="type parameter in ResourceReconciler">ApiType</a>&gt;&nbsp;lister)</span></div>
 <div class="block">Reconcile the resource identified by the <a href="Request.html" title="class in io.micronaut.kubernetes.client.openapi.operator.controller.reconciler"><code>Request</code></a>. This operation is required to be idempotent.
 <p>
 The <a href="../../OperatorResourceLister.html" title="class in io.micronaut.kubernetes.client.openapi.operator"><code>OperatorResourceLister</code></a> <code>lister</code> is used to retrieve resource from the local

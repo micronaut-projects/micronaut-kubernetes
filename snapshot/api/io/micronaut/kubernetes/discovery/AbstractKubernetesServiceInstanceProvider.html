@@ -176,7 +176,7 @@ implements <a href="KubernetesServiceInstanceProvider.html" title="interface in 
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static io.micronaut.discovery.ServiceInstance</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#buildServiceInstance(java.lang.String,io.micronaut.kubernetes.discovery.AbstractKubernetesServiceInstanceProvider.PortBinder,java.lang.String,io.kubernetes.client.openapi.models.V1ObjectMeta)" class="member-name-link">buildServiceInstance</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceId,
- <a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&nbsp;servicePort,
+ @Nullable <a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&nbsp;servicePort,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;address,
  io.kubernetes.client.openapi.models.V1ObjectMeta&nbsp;metadata)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -193,7 +193,7 @@ implements <a href="KubernetesServiceInstanceProvider.html" title="interface in 
 <div class="block">Creates filter predicate for Kubernetes objects based on provided <a href="../KubernetesConfiguration.KubernetesDiscoveryConfiguration.html" title="class in io.micronaut.kubernetes"><code>KubernetesConfiguration.KubernetesDiscoveryConfiguration</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hasValidPortConfiguration(java.util.List,io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration)" class="member-name-link">hasValidPortConfiguration</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&gt;&nbsp;ports,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hasValidPortConfiguration(java.util.List,io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration)" class="member-name-link">hasValidPortConfiguration</a><wbr>(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&gt;&nbsp;ports,
  <a href="KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a>&nbsp;serviceConfiguration)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Validates the necessity of having port configuration based on number of declared <code>ports</code>.</div>
@@ -317,8 +317,7 @@ implements <a href="KubernetesServiceInstanceProvider.html" title="interface in 
 <h3>buildServiceInstance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">io.micronaut.discovery.ServiceInstance</span>&nbsp;<span class="element-name">buildServiceInstance</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;serviceId,
- @Nullable
- <a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&nbsp;servicePort,
+ @Nullable <a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&nbsp;servicePort,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;address,
  io.kubernetes.client.openapi.models.V1ObjectMeta&nbsp;metadata)</span></div>
 <div class="block">Builds service instance.</div>
@@ -369,8 +368,7 @@ false otherwise</dd>
 <section class="detail" id="hasValidPortConfiguration(java.util.List,io.micronaut.kubernetes.discovery.KubernetesServiceConfiguration)">
 <h3>hasValidPortConfiguration</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasValidPortConfiguration</span><wbr><span class="parameters">(@Nullable
- <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&gt;&nbsp;ports,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasValidPortConfiguration</span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="AbstractKubernetesServiceInstanceProvider.PortBinder.html" title="class in io.micronaut.kubernetes.discovery">AbstractKubernetesServiceInstanceProvider.PortBinder</a>&gt;&nbsp;ports,
  <a href="KubernetesServiceConfiguration.html" title="class in io.micronaut.kubernetes.discovery">KubernetesServiceConfiguration</a>&nbsp;serviceConfiguration)</span></div>
 <div class="block">Validates the necessity of having port configuration based on number of declared <code>ports</code>.</div>
 <dl class="notes">

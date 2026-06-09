@@ -115,10 +115,12 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.core.io.ResourceResolver,io.micronaut.kubernetes.client.openapi.config.KubeConfig,io.micronaut.kubernetes.client.openapi.ssl.KubernetesPrivateKeyLoader,io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration)" class="member-name-link">KubernetesClientSslBuilder</a><wbr>(io.micronaut.core.io.ResourceResolver&nbsp;resourceResolver,
- <a href="../config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubeConfig</a>&nbsp;kubeConfig,
+ @Nullable <a href="../config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubeConfig</a>&nbsp;kubeConfig,
  <a href="KubernetesPrivateKeyLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.ssl">KubernetesPrivateKeyLoader</a>&nbsp;kubernetesPrivateKeyLoader,
  <a href="../config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a>&nbsp;kubernetesClientConfiguration)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Creates a Kubernetes client SSL builder.</div>
+</div>
 </div>
 </section>
 </li>
@@ -167,9 +169,17 @@ loadScripts(document, 'script');</script>
 <h3>KubernetesClientSslBuilder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">KubernetesClientSslBuilder</span><wbr><span class="parameters">(io.micronaut.core.io.ResourceResolver&nbsp;resourceResolver,
- <a href="../config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubeConfig</a>&nbsp;kubeConfig,
+ @Nullable <a href="../config/KubeConfig.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubeConfig</a>&nbsp;kubeConfig,
  <a href="KubernetesPrivateKeyLoader.html" title="interface in io.micronaut.kubernetes.client.openapi.ssl">KubernetesPrivateKeyLoader</a>&nbsp;kubernetesPrivateKeyLoader,
  <a href="../config/KubernetesClientConfiguration.html" title="class in io.micronaut.kubernetes.client.openapi.config">KubernetesClientConfiguration</a>&nbsp;kubernetesClientConfiguration)</span></div>
+<div class="block">Creates a Kubernetes client SSL builder.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>resourceResolver</code> - the resource resolver</dd>
+<dd><code>kubeConfig</code> - the kube config</dd>
+<dd><code>kubernetesPrivateKeyLoader</code> - the Kubernetes private key loader</dd>
+<dd><code>kubernetesClientConfiguration</code> - the Kubernetes client configuration</dd>
+</dl>
 </div>
 </section>
 </li>

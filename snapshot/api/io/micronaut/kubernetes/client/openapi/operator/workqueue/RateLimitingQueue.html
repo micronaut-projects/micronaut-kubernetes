@@ -108,17 +108,17 @@ The code has been copied from the official client and modified:
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addRateLimited(T)" class="member-name-link">addRateLimited</a><wbr>(@NonNull <a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#addRateLimited(T)" class="member-name-link">addRateLimited</a><wbr>(<a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds an item to the work queue after the rate limiter says it is ok.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#forget(T)" class="member-name-link">forget</a><wbr>(@NonNull <a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#forget(T)" class="member-name-link">forget</a><wbr>(<a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Indicates that an item is finished being retried.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#numRequeues(T)" class="member-name-link">numRequeues</a><wbr>(@NonNull <a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#numRequeues(T)" class="member-name-link">numRequeues</a><wbr>(<a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns back how many times the item was requeued.</div>
 </div>
@@ -146,7 +146,7 @@ The code has been copied from the official client and modified:
 <section class="detail" id="addRateLimited(T)">
 <h3 id="addRateLimited(java.lang.Object)">addRateLimited</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addRateLimited</span><wbr><span class="parameters">(@NonNull <a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addRateLimited</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</span></div>
 <div class="block">Adds an item to the work queue after the rate limiter says it is ok.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -159,7 +159,7 @@ The code has been copied from the official client and modified:
 <section class="detail" id="forget(T)">
 <h3 id="forget(java.lang.Object)">forget</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">forget</span><wbr><span class="parameters">(@NonNull <a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">forget</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</span></div>
 <div class="block">Indicates that an item is finished being retried. Doesn't matter whether it is for perm
 failing or for success, we'll stop the rate limiter from tracking it. This only clears the
 `rateLimiter`, you still have to call `Done` on the queue.</div>
@@ -174,7 +174,7 @@ failing or for success, we'll stop the rate limiter from tracking it. This only 
 <section class="detail" id="numRequeues(T)">
 <h3 id="numRequeues(java.lang.Object)">numRequeues</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">numRequeues</span><wbr><span class="parameters">(@NonNull <a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">numRequeues</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in RateLimitingQueue">T</a>&nbsp;item)</span></div>
 <div class="block">Returns back how many times the item was requeued.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

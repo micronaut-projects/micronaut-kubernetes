@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">Cluster</span>(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;server, @Nullable byte[]&nbsp;certificateAuthorityData, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;insecureSkipTlsVerify)
+<div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">Cluster</span>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;server, byte @Nullable []&nbsp;certificateAuthorityData, @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;insecureSkipTlsVerify)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
 <div class="block">Cluster contains information about how to communicate with a kubernetes cluster.</div>
 </div>
@@ -107,8 +107,8 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,byte%5B%5D,java.lang.Boolean)" class="member-name-link">Cluster</a><wbr>(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;server,
- @Nullable byte[]&nbsp;certificateAuthorityData,
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(java.lang.String,byte%5B%5D,java.lang.Boolean)" class="member-name-link">Cluster</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;server,
+ byte @Nullable []&nbsp;certificateAuthorityData,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;insecureSkipTlsVerify)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an instance of a <code>Cluster</code> record class.</div>
@@ -127,7 +127,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable byte[]</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>byte @Nullable []</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#certificateAuthorityData()" class="member-name-link">certificateAuthorityData</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-certificateAuthorityData"><code>certificateAuthorityData</code></a> record component.</div>
@@ -147,7 +147,7 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-insecureSkipTlsVerify"><code>insecureSkipTlsVerify</code></a> record component.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#server()" class="member-name-link">server</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the value of the <a href="#param-server"><code>server</code></a> record component.</div>
@@ -178,8 +178,8 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(java.lang.String,byte[],java.lang.Boolean)">
 <h3>Cluster</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Cluster</span><wbr><span class="parameters">(@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;server,
- @Nullable byte[]&nbsp;certificateAuthorityData,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Cluster</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;server,
+ byte @Nullable []&nbsp;certificateAuthorityData,
  @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;insecureSkipTlsVerify)</span></div>
 <div class="block">Creates an instance of a <code>Cluster</code> record class.</div>
 <dl class="notes">
@@ -250,7 +250,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="server()">
 <h3>server</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@NonNull <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">server</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">server</span>()</div>
 <div class="block">Returns the value of the <a href="#param-server"><code>server</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -263,7 +263,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="certificateAuthorityData()">
 <h3>certificateAuthorityData</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">@Nullable byte[]</span>&nbsp;<span class="element-name">certificateAuthorityData</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte @Nullable []</span>&nbsp;<span class="element-name">certificateAuthorityData</span>()</div>
 <div class="block">Returns the value of the <a href="#param-certificateAuthorityData"><code>certificateAuthorityData</code></a> record component.</div>
 <dl class="notes">
 <dt>Returns:</dt>

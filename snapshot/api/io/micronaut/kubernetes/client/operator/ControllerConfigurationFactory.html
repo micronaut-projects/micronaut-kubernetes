@@ -104,11 +104,11 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.context.BeanContext,io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver)" class="member-name-link">ControllerConfigurationFactory</a><wbr>(@NonNull io.micronaut.context.BeanContext&nbsp;beanContext,
- @NonNull <a href="../informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerApiGroupResolver</a>&nbsp;apiGroupResolver,
- @NonNull <a href="../informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a>&nbsp;resourcePluralResolver,
- @NonNull <a href="../informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerNamespaceResolver</a>&nbsp;namespaceResolver,
- @NonNull <a href="../informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerLabelSelectorResolver</a>&nbsp;labelSelectorResolver)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(io.micronaut.context.BeanContext,io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver)" class="member-name-link">ControllerConfigurationFactory</a><wbr>(io.micronaut.context.BeanContext&nbsp;beanContext,
+ <a href="../informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerApiGroupResolver</a>&nbsp;apiGroupResolver,
+ <a href="../informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a>&nbsp;resourcePluralResolver,
+ <a href="../informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerNamespaceResolver</a>&nbsp;namespaceResolver,
+ <a href="../informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerLabelSelectorResolver</a>&nbsp;labelSelectorResolver)</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -124,17 +124,17 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a><wbr>&lt;? extends io.kubernetes.client.common.KubernetesObject&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a><wbr>&lt;? extends io.kubernetes.client.common.KubernetesObject&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOnAddFilter(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">getOnAddFilter</a><wbr>(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolve the onAddFilter from the annotation value.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a><wbr>&lt;? extends io.kubernetes.client.common.KubernetesObject, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a><wbr>&lt;? extends io.kubernetes.client.common.KubernetesObject, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOnDeleteFilter(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">getOnDeleteFilter</a><wbr>(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolve the onDeleteFilter from the annotation value.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a><wbr>&lt;? extends io.kubernetes.client.common.KubernetesObject, ? extends io.kubernetes.client.common.KubernetesObject&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected @Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a><wbr>&lt;? extends io.kubernetes.client.common.KubernetesObject, ? extends io.kubernetes.client.common.KubernetesObject&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getOnUpdateFilter(io.micronaut.core.annotation.AnnotationValue)" class="member-name-link">getOnUpdateFilter</a><wbr>(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Resolve the onUpdateFilter from the annotation value.</div>
@@ -165,11 +165,11 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(io.micronaut.context.BeanContext,io.micronaut.kubernetes.client.informer.resolvers.InformerApiGroupResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerResourcePluralResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerNamespaceResolver,io.micronaut.kubernetes.client.informer.resolvers.InformerLabelSelectorResolver)">
 <h3>ControllerConfigurationFactory</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ControllerConfigurationFactory</span><wbr><span class="parameters">(@NonNull io.micronaut.context.BeanContext&nbsp;beanContext,
- @NonNull <a href="../informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerApiGroupResolver</a>&nbsp;apiGroupResolver,
- @NonNull <a href="../informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a>&nbsp;resourcePluralResolver,
- @NonNull <a href="../informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerNamespaceResolver</a>&nbsp;namespaceResolver,
- @NonNull <a href="../informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerLabelSelectorResolver</a>&nbsp;labelSelectorResolver)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ControllerConfigurationFactory</span><wbr><span class="parameters">(io.micronaut.context.BeanContext&nbsp;beanContext,
+ <a href="../informer/resolvers/InformerApiGroupResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerApiGroupResolver</a>&nbsp;apiGroupResolver,
+ <a href="../informer/resolvers/InformerResourcePluralResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerResourcePluralResolver</a>&nbsp;resourcePluralResolver,
+ <a href="../informer/resolvers/InformerNamespaceResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerNamespaceResolver</a>&nbsp;namespaceResolver,
+ <a href="../informer/resolvers/InformerLabelSelectorResolver.html" title="interface in io.micronaut.kubernetes.client.informer.resolvers">InformerLabelSelectorResolver</a>&nbsp;labelSelectorResolver)</span></div>
 </div>
 </section>
 </li>
@@ -205,7 +205,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getOnAddFilter(io.micronaut.core.annotation.AnnotationValue)">
 <h3>getOnAddFilter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;? extends io.kubernetes.client.common.KubernetesObject&gt;</span>&nbsp;<span class="element-name">getOnAddFilter</span><wbr><span class="parameters">(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link">Predicate</a>&lt;? extends io.kubernetes.client.common.KubernetesObject&gt;</span>&nbsp;<span class="element-name">getOnAddFilter</span><wbr><span class="parameters">(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</span></div>
 <div class="block">Resolve the onAddFilter from the annotation value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -220,7 +220,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getOnUpdateFilter(io.micronaut.core.annotation.AnnotationValue)">
 <h3>getOnUpdateFilter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;? extends io.kubernetes.client.common.KubernetesObject, ? extends io.kubernetes.client.common.KubernetesObject&gt;</span>&nbsp;<span class="element-name">getOnUpdateFilter</span><wbr><span class="parameters">(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;? extends io.kubernetes.client.common.KubernetesObject, ? extends io.kubernetes.client.common.KubernetesObject&gt;</span>&nbsp;<span class="element-name">getOnUpdateFilter</span><wbr><span class="parameters">(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</span></div>
 <div class="block">Resolve the onUpdateFilter from the annotation value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -235,7 +235,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getOnDeleteFilter(io.micronaut.core.annotation.AnnotationValue)">
 <h3>getOnDeleteFilter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;? extends io.kubernetes.client.common.KubernetesObject, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">getOnDeleteFilter</span><wbr><span class="parameters">(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">@Nullable <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BiPredicate.html" title="class or interface in java.util.function" class="external-link">BiPredicate</a>&lt;? extends io.kubernetes.client.common.KubernetesObject, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&gt;</span>&nbsp;<span class="element-name">getOnDeleteFilter</span><wbr><span class="parameters">(io.micronaut.core.annotation.AnnotationValue&lt;<a href="Operator.html" title="annotation interface in io.micronaut.kubernetes.client.operator">Operator</a>&gt;&nbsp;operator)</span></div>
 <div class="block">Resolve the onDeleteFilter from the annotation value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
