@@ -225,10 +225,12 @@ public class KubernetesApisProcessor extends AbstractProcessor {
                     String reactiveRequestClassName = requestClassName + "Reactive";
 
                     ClassElement requestClass = classMap.get(simpleName + "$" + requestClassName);
+                    MethodElement baseMethod = methodMap.get(baseName);
+                    if (requestClass == null || baseMethod == null) {
+                        continue;
+                    }
                     Optional<TypeSpec> reactiveRequestClassOpt = createRequestClass(reactiveRequestClassName, requestClass, clientType);
                     if (reactiveRequestClassOpt.isPresent()) {
-                        MethodElement baseMethod = methodMap.get(baseName);
-
                         MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(baseName)
                             .addModifiers(Modifier.PUBLIC)
                             .returns(ClassName.get(StringUtils.EMPTY_STRING, reactiveRequestClassName));

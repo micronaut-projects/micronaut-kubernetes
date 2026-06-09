@@ -20,6 +20,7 @@ import io.kubernetes.client.common.KubernetesObject;
 import io.kubernetes.client.util.Strings;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +93,7 @@ public class ModelMapper {
         preBuiltApiVersions.add("V1");
     }
 
-    private Pair<String, String> getApiGroup(String name) {
+    private Pair<@Nullable String, String> getApiGroup(String name) {
         return preBuiltApiGroups.entrySet().stream()
                 .filter(e -> name.startsWith(e.getKey()))
                 .map(e -> new MutablePair<>(e.getValue(), name.substring(e.getKey().length())))
@@ -100,7 +101,7 @@ public class ModelMapper {
                 .orElse(new MutablePair<>(null, name));
     }
 
-    private Pair<String, String> getApiVersion(String name) {
+    private Pair<@Nullable String, String> getApiVersion(String name) {
         return preBuiltApiVersions.stream()
                 .filter(name::startsWith)
                 .map(v -> new MutablePair<>(v, extractKind(v, name)))
@@ -111,11 +112,11 @@ public class ModelMapper {
                 });
     }
 
-    private String extractKind(String version, String name) {
+    private String extractKind(@Nullable String version, String name) {
         return version == null ? name : name.substring(version.length());
     }
 
-    private String tryGuessCustomApiVersion(String name) {
+    private @Nullable String tryGuessCustomApiVersion(String name) {
         var patternMatcher = customVersionParser.matcher(name);
 
         if (patternMatcher.matches() && patternMatcher.groupCount() == 1) {
