@@ -83,7 +83,7 @@ public abstract class AbstractKubernetesServiceInstanceProvider implements Kuber
      * @param metadata    metadata
      * @return service instance
      */
-    public static ServiceInstance buildServiceInstance(String serviceId, @Nullable PortBinder servicePort, String address, @Nullable V1ObjectMeta metadata) {
+    public static ServiceInstance buildServiceInstance(String serviceId, @Nullable PortBinder servicePort, String address, V1ObjectMeta metadata) {
         boolean isSecure = (servicePort != null && isPortSecure(servicePort)) || isMetadataSecure(metadata);
         String scheme = isSecure ? "https://" : "http://";
         int portNumber = servicePort != null ? servicePort.getPort() : 80;

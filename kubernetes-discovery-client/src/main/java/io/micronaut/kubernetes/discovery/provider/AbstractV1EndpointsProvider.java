@@ -66,6 +66,7 @@ public abstract class AbstractV1EndpointsProvider extends AbstractKubernetesServ
                 .filter(Objects::nonNull);
     }
 
+    @SuppressWarnings("NullAway")
     @Override
     public Publisher<List<ServiceInstance>> getInstances(KubernetesServiceConfiguration serviceConfiguration) {
         String serviceName = serviceConfiguration.getName().orElseThrow(

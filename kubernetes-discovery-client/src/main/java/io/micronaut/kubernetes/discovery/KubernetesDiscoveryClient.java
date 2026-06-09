@@ -133,11 +133,13 @@ public class KubernetesDiscoveryClient implements DiscoveryClient {
         final String namespace = configuration.getNamespace();
         final KubernetesServiceInstanceProvider instanceProvider = instanceProviders.get(discoveryConfiguration.getMode());
 
-        return Flux.merge(
-                        Flux.fromIterable(serviceConfigurations.keySet()),
-                        instanceProvider.getServiceIds(namespace)
-                )
-                .distinct().collectList();
+        Publisher<String> providerServiceIds = instanceProvider == null
+            ? Flux.empty()
+            : instanceProvider.getServiceIds(namespace);
+
+        return Flux.merge(Flux.fromIterable(serviceConfigurations.keySet()), providerServiceIds)
+            .distinct()
+            .collectList();
     }
 
     @Override
