@@ -2,6 +2,7 @@ import io.micronaut.kubernetes.client.openapi.tasks.DownloadSpec
 
 plugins {
     id 'io.micronaut.build.internal.kubernetes-module'
+    id 'io.micronaut.build.internal.nullaway'
     id 'io.micronaut.openapi' version libs.versions.micronaut.gradle.plugin
     id 'io.micronaut.kubernetes.client.openapi'
 }
@@ -33,9 +34,11 @@ tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {
     packageExcludes = ["io.micronaut.kubernetes.client.openapi.model"]
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.errorprone.excludedPaths.set(".*/build/generated/.*")
-    options.errorprone.option("NullAway:ExcludedClassAnnotations", "jakarta.annotation.Generated")
+micronautNullAway {
+    options.put("NullAway:ExcludedClassAnnotations", "jakarta.annotation.Generated")
+    configure {
+        excludedPaths.set(".*/build/generated/.*")
+    }
 }
 
 dependencies {
