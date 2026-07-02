@@ -217,9 +217,7 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    namespace="other-namespace"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {namespace = "other-namespace"}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -761,12 +759,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [kubernetes.client.discovery.services]
-        [kubernetes.client.discovery.services.my-service]
-          port="http"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {services = {my-service = {port = "http"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -866,12 +859,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [kubernetes.client.discovery.services]
-        [kubernetes.client.discovery.services.my-service]
-          mode="endpoint"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {services = {my-service = {mode = "endpoint"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -966,12 +954,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [kubernetes.client.discovery.services]
-        [kubernetes.client.discovery.services.my-service]
-          mode="service"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {services = {my-service = {mode = "service"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1072,10 +1055,7 @@ Note that <code>endpoint</code> is the default global discovery mode. That can b
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      mode="service"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {mode = "service"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1287,13 +1267,7 @@ kubernetes.client.discovery.includes[1]=other-service</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      includes=[
-        "my-service",
-        "other-service"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {includes = ["my-service", "other-service"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1355,10 +1329,7 @@ kubernetes.client.discovery.includes[1]=other-service</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      excludes="not-this-service"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {excludes = "not-this-service"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1424,13 +1395,7 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [[kubernetes.client.discovery.labels]]
-        app="my-app"
-      [[kubernetes.client.discovery.labels]]
-        env="prod"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {labels = [{app = "my-app"}, {env = "prod"}]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1598,9 +1563,7 @@ following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.jso
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config-client]
-    enabled=true</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config-client = {enabled = true}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1683,13 +1646,7 @@ kubernetes.client.config-maps.includes[1]=other-config-map</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      includes=[
-        "my-config-map",
-        "other-config-map"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {includes = ["my-config-map", "other-config-map"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1751,10 +1708,7 @@ kubernetes.client.config-maps.includes[1]=other-config-map</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      excludes="not-this-config-map"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {excludes = "not-this-config-map"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1820,13 +1774,7 @@ kubernetes.client.config-maps.labels[1].env=prod</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      [[kubernetes.client.config-maps.labels]]
-        app="my-app"
-      [[kubernetes.client.config-maps.labels]]
-        env="prod"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {labels = [{app = "my-app"}, {env = "prod"}]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1903,12 +1851,7 @@ A good example would be <code>app.kubernetes.io/instance</code> which is a uniqu
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -1975,13 +1918,7 @@ kubernetes.client.config-maps.pod-labels[0]=app.kubernetes.io/instance</code></p
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      exception-on-pod-labels-missing=true
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {exception-on-pod-labels-missing = true, pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2105,12 +2042,7 @@ the following configuration:</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      paths=[
-        "/etc/configuration"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {paths = ["/etc/configuration"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2201,14 +2133,7 @@ kubernetes.client.config-maps.paths[0]=/etc/configuration</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      use-api=true
-      excludes="mounted-config"
-      paths=[
-        "/etc/configuration"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {use-api = true, excludes = "mounted-config", paths = ["/etc/configuration"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2361,10 +2286,7 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2429,11 +2351,7 @@ kubernetes.client.secrets.includes=this-secret</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      includes="this-secret"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, includes = "this-secret"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2500,11 +2418,7 @@ kubernetes.client.secrets.excludes=not-this-secret</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      excludes="not-this-secret"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, excludes = "not-this-secret"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2574,14 +2488,7 @@ kubernetes.client.secrets.labels[1].env=prod</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      [[kubernetes.client.secrets.labels]]
-        app="my-app"
-      [[kubernetes.client.secrets.labels]]
-        env="prod"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, labels = [{app = "my-app"}, {env = "prod"}]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2661,13 +2568,7 @@ kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2737,14 +2638,7 @@ kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      exception-on-pod-labels-missing=true
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, exception-on-pod-labels-missing = true, pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2877,13 +2771,7 @@ kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      paths=[
-        "/etc/foo"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, paths = ["/etc/foo"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -2966,15 +2854,7 @@ kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      use-api=true
-      excludes="mysecret"
-      paths=[
-        "/etc/foo"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, use-api = true, excludes = "mysecret", paths = ["/etc/foo"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3211,10 +3091,7 @@ information about how to configure it.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[endpoints]
-  [endpoints.health]
-    [endpoints.health.kubernetes]
-      enabled=false</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">endpoints = {health = {kubernetes = {enabled = false}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3692,14 +3569,7 @@ kubernetes.client.operator.leader-election.lock.retry-period=20s</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.operator]
-      [kubernetes.client.operator.leader-election]
-        [kubernetes.client.operator.leader-election.lock]
-          lease-duration="60s"
-          renew-deadline="50s"
-          retry-period="20s"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {operator = {leader-election = {lock = {lease-duration = "60s", renew-deadline = "50s", retry-period = "20s"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -3804,13 +3674,7 @@ kubernetes.client.operator.leader-election.lock.resource-namespace=custom-namesp
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.operator]
-      [kubernetes.client.operator.leader-election]
-        [kubernetes.client.operator.leader-election.lock]
-          resource-name="custom-name"
-          resource-namespace="custom-namespace"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {operator = {leader-election = {lock = {resource-name = "custom-name", resource-namespace = "custom-namespace"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4236,17 +4100,7 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    enabled=true
-    kube-config-path="file:/path/to/kubeconfig"
-    namespace="test-namespace"
-    [kubernetes.client.service-account]
-      enabled=true
-      certificate-authority-path="file:/path/to/certificate/authority/file"
-      token-path="file:/path/to/token/file"
-      namespace-path="file:/path/to/namespace/file"
-      token-reload-interval="2m"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {enabled = true, kube-config-path = "file:/path/to/kubeconfig", namespace = "test-namespace", service-account = {enabled = true, certificate-authority-path = "file:/path/to/certificate/authority/file", token-path = "file:/path/to/token/file", namespace-path = "file:/path/to/namespace/file", token-reload-interval = "2m"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4567,12 +4421,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [kubernetes.client.discovery.services]
-        [kubernetes.client.discovery.services.my-service]
-          port="http"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {services = {my-service = {port = "http"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4672,12 +4521,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [kubernetes.client.discovery.services]
-        [kubernetes.client.discovery.services.my-service]
-          mode="endpoint"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {services = {my-service = {mode = "endpoint"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4772,12 +4616,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [kubernetes.client.discovery.services]
-        [kubernetes.client.discovery.services.my-service]
-          mode="service"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {services = {my-service = {mode = "service"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -4878,10 +4717,7 @@ Note that <code>endpoint</code> is the default global discovery mode. That can b
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      mode="service"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {mode = "service"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5093,13 +4929,7 @@ kubernetes.client.discovery.includes[1]=other-service</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      includes=[
-        "my-service",
-        "other-service"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {includes = ["my-service", "other-service"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5161,10 +4991,7 @@ kubernetes.client.discovery.includes[1]=other-service</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      excludes="not-this-service"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {excludes = "not-this-service"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5230,13 +5057,7 @@ kubernetes.client.discovery.labels[1].env=prod</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.discovery]
-      [[kubernetes.client.discovery.labels]]
-        app="my-app"
-      [[kubernetes.client.discovery.labels]]
-        env="prod"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {discovery = {labels = [{app = "my-app"}, {env = "prod"}]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5380,9 +5201,7 @@ following in <code>bootstrap.yml</code> (or <code>.properties</code>, <code>.jso
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config-client]
-    enabled=true</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config-client = {enabled = true}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5465,13 +5284,7 @@ kubernetes.client.config-maps.includes[1]=other-config-map</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      includes=[
-        "my-config-map",
-        "other-config-map"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {includes = ["my-config-map", "other-config-map"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5533,10 +5346,7 @@ kubernetes.client.config-maps.includes[1]=other-config-map</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      excludes="not-this-config-map"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {excludes = "not-this-config-map"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5602,13 +5412,7 @@ kubernetes.client.config-maps.labels[1].env=prod</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      [[kubernetes.client.config-maps.labels]]
-        app="my-app"
-      [[kubernetes.client.config-maps.labels]]
-        env="prod"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {labels = [{app = "my-app"}, {env = "prod"}]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5685,12 +5489,7 @@ A good example would be <code>app.kubernetes.io/instance</code> which is a uniqu
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5757,13 +5556,7 @@ kubernetes.client.config-maps.pod-labels[0]=app.kubernetes.io/instance</code></p
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      exception-on-pod-labels-missing=true
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {exception-on-pod-labels-missing = true, pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5833,10 +5626,7 @@ exception by setting the <code>terminate-startup-on-exception</code> property to
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      terminate-startup-on-exception=true</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {terminate-startup-on-exception = true}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -5954,12 +5744,7 @@ the following configuration:</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      paths=[
-        "/etc/configuration"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {paths = ["/etc/configuration"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6050,14 +5835,7 @@ kubernetes.client.config-maps.paths[0]=/etc/configuration</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.config-maps]
-      use-api=true
-      excludes="mounted-config"
-      paths=[
-        "/etc/configuration"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {config-maps = {use-api = true, excludes = "mounted-config", paths = ["/etc/configuration"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6210,10 +5988,7 @@ Only <code>Opaque</code> secrets will be considered.
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6278,11 +6053,7 @@ kubernetes.client.secrets.includes=this-secret</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      includes="this-secret"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, includes = "this-secret"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6349,11 +6120,7 @@ kubernetes.client.secrets.excludes=not-this-secret</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      excludes="not-this-secret"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, excludes = "not-this-secret"}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6423,14 +6190,7 @@ kubernetes.client.secrets.labels[1].env=prod</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      [[kubernetes.client.secrets.labels]]
-        app="my-app"
-      [[kubernetes.client.secrets.labels]]
-        env="prod"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, labels = [{app = "my-app"}, {env = "prod"}]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6510,13 +6270,7 @@ kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6586,14 +6340,7 @@ kubernetes.client.secrets.pod-labels[0]=app.kubernetes.io/instance</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      exception-on-pod-labels-missing=true
-      pod-labels=[
-        "app.kubernetes.io/instance"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, exception-on-pod-labels-missing = true, pod-labels = ["app.kubernetes.io/instance"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6662,10 +6409,7 @@ because of any unexpected exception, you can set <code>terminate-startup-on-exce
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      terminate-startup-on-exception=true</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {terminate-startup-on-exception = true}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6792,13 +6536,7 @@ kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      paths=[
-        "/etc/foo"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, paths = ["/etc/foo"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -6881,15 +6619,7 @@ kubernetes.client.secrets.paths[0]=/etc/foo</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.secrets]
-      enabled=true
-      use-api=true
-      excludes="mysecret"
-      paths=[
-        "/etc/foo"
-      ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {secrets = {enabled = true, use-api = true, excludes = "mysecret", paths = ["/etc/foo"]}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -7126,10 +6856,7 @@ information about how to configure it.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[endpoints]
-  [endpoints.health]
-    [endpoints.health.kubernetes]
-      enabled=false</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">endpoints = {health = {kubernetes = {enabled = false}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8055,14 +7782,7 @@ kubernetes.client.operator.leader-election.lock.retry-period=20s</code></pre>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.operator]
-      [kubernetes.client.operator.leader-election]
-        [kubernetes.client.operator.leader-election.lock]
-          lease-duration="60s"
-          renew-deadline="50s"
-          retry-period="20s"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {operator = {leader-election = {lock = {lease-duration = "60s", renew-deadline = "50s", retry-period = "20s"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8195,13 +7915,7 @@ kubernetes.client.operator.leader-election.lock.resource-namespace=custom-namesp
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[kubernetes]
-  [kubernetes.client]
-    [kubernetes.client.operator]
-      [kubernetes.client.operator.leader-election]
-        [kubernetes.client.operator.leader-election.lock]
-          resource-name="custom-name"
-          resource-namespace="custom-namespace"</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">kubernetes = {client = {operator = {leader-election = {lock = {resource-name = "custom-name", resource-namespace = "custom-namespace"}}}}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8374,12 +8088,7 @@ micronaut.config.import[1]=optional:kubernetes://secret?name=my-secret</code></p
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?name=my-config-map",
-      "optional:kubernetes://secret?name=my-secret"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://secret?name=my-secret"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8497,11 +8206,7 @@ set of beans that are required just for config import processing.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?name=my-config-map"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?name=my-config-map"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8559,12 +8264,7 @@ micronaut.config.import[1]=optional:kubernetes://config-map?name=other-config-ma
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?name=my-config-map",
-      "optional:kubernetes://config-map?name=other-config-map"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?name=my-config-map", "optional:kubernetes://config-map?name=other-config-map"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8620,11 +8320,7 @@ micronaut.config.import[1]=optional:kubernetes://config-map?name=other-config-ma
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?labels=app=my-app,env=prod"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?labels=app=my-app,env=prod"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8682,11 +8378,7 @@ A good example would be <code>app.kubernetes.io/instance</code>, which is a uniq
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8744,11 +8436,7 @@ prevent a mistyped or misconfigured label selector from matching all config maps
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8806,11 +8494,7 @@ exception by setting the <code>terminateStartupOnException</code> query paramete
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?name=my-config-map&amp;terminateStartupOnException=true"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -8919,11 +8603,7 @@ spec:
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:file:///etc/configuration/mounted.yml"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:file:///etc/configuration/mounted.yml"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9017,11 +8697,7 @@ If the same property key is defined in multiple imports, normal Micronaut proper
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?name=my-config-map&amp;watch=true"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?name=my-config-map&amp;watch=true"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9084,11 +8760,7 @@ the Micronaut <code>Environment</code> and refresh it.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://config-map?name=my-config-map&amp;watch=false"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://config-map?name=my-config-map&amp;watch=false"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9181,11 +8853,7 @@ they can also be read with <code>@Value</code>, <code>@ConfigurationProperties</
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?name=my-secret"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?name=my-secret"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9243,12 +8911,7 @@ micronaut.config.import[1]=optional:kubernetes://secret?name=other-secret</code>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?name=this-secret",
-      "optional:kubernetes://secret?name=other-secret"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?name=this-secret", "optional:kubernetes://secret?name=other-secret"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9304,11 +8967,7 @@ micronaut.config.import[1]=optional:kubernetes://secret?name=other-secret</code>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?labels=app=my-app,env=prod"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?labels=app=my-app,env=prod"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9364,11 +9023,7 @@ micronaut.config.import[1]=optional:kubernetes://secret?name=other-secret</code>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?podLabels=app.kubernetes.io/instance"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9424,11 +9079,7 @@ micronaut.config.import[1]=optional:kubernetes://secret?name=other-secret</code>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?podLabels=app.kubernetes.io/instance&amp;exceptionOnPodLabelsMissing=true"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9485,11 +9136,7 @@ secrets because of any unexpected exception, you can set <code>terminateStartupO
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?name=my-secret&amp;terminateStartupOnException=true"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9606,11 +9253,7 @@ content that matches that file format so Micronaut can parse it correctly.</p>
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:file:///etc/foo/application.properties"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:file:///etc/foo/application.properties"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9694,11 +9337,7 @@ and the changes will be propagated to the <code>Environment</code> and refresh i
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?name=my-secret&amp;watch=true"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?name=my-secret&amp;watch=true"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
@@ -9754,11 +9393,7 @@ and the changes will be propagated to the <code>Environment</code> and refresh i
 </div>
 <div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">[micronaut]
-  [micronaut.config]
-    import=[
-      "optional:kubernetes://secret?name=my-secret&amp;watch=false"
-    ]</code></pre>
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="toml">micronaut = {config = {import = ["optional:kubernetes://secret?name=my-secret&amp;watch=false"]}}</code></pre>
 </div>
 </div>
 <div class="listingblock multi-language-sample">
