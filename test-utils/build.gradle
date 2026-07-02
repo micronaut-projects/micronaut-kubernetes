@@ -15,4 +15,10 @@ dependencies {
     api mnTest.micronaut.test.spock
     api mnLogging.logback.classic
     api libs.testcontainers.k3s
+
+    constraints {
+        api('com.fasterxml.jackson.core:jackson-databind:2.21.4') {
+            because 'Older versions have security vulnerabilities'
+        }
+    }
 }

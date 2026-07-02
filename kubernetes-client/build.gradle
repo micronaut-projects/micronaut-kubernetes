@@ -22,6 +22,9 @@ dependencies {
         api('org.bouncycastle:bcpkix-jdk18on:1.84') {
             because 'Older versions have security vulnerabilities'
         }
+        api('com.fasterxml.jackson.core:jackson-databind:2.21.4') {
+            because 'Older versions have security vulnerabilities'
+        }
     }
 }
 

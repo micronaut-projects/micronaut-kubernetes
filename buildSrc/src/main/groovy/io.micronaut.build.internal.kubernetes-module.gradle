@@ -11,6 +11,7 @@ configurations {
 }
 
 micronautBuild {
+    nullAway = true
     descriptor {
         parentModuleId = "io.micronaut.kubernetes:micronaut-kubernetes-client"
     }
