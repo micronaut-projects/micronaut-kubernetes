@@ -17,15 +17,6 @@ dependencies {
     testImplementation mnSerde.micronaut.serde.jackson
     testImplementation projects.testUtils
     testRuntimeOnly mn.snakeyaml
-
-    constraints {
-        api('org.bouncycastle:bcpkix-jdk18on:1.84') {
-            because 'Older versions have security vulnerabilities'
-        }
-        api('com.fasterxml.jackson.core:jackson-databind:2.21.4') {
-            because 'Older versions have security vulnerabilities'
-        }
-    }
 }
 
 tasks.withType(me.champeau.gradle.japicmp.JapicmpTask) {

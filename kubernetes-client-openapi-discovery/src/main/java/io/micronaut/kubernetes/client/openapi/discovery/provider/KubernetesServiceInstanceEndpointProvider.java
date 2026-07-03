@@ -56,7 +56,7 @@ final class KubernetesServiceInstanceEndpointProvider extends AbstractV1Endpoint
     public Flux<V1Endpoints> listEndpoints(String namespace) {
         LOG.trace("Using API to fetch all endpoints from namespace [{}]", namespace);
 
-        return client.listNamespacedEndpoints(namespace, null, null, null, null, null, null, null, null, null, null, null)
+        return client.listNamespacedEndpoints(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
                 .doOnError(throwable -> LOG.error("Failed to list Endpoints from namespace [{}]", namespace, throwable))
                 .flatMapIterable(V1EndpointsList::getItems);
     }

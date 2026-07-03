@@ -108,7 +108,7 @@ final class KubernetesSecretImportSupport extends KubernetesObjectImportSupport 
             return Optional.empty();
         }
 
-        V1SecretList secretList = client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
+        V1SecretList secretList = client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null, null).block();
         if (secretList == null || CollectionUtils.isEmpty(secretList.getItems())) {
             LOG.debug("Secret not found for declaration={}", declaration);
             return Optional.empty();
