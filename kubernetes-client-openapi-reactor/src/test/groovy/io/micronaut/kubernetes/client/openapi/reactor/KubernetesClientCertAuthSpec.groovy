@@ -36,6 +36,7 @@ class KubernetesClientCertAuthSpec extends K3sContainerSpec {
                 null,
                 null,
                 null,
+                null,
                 null)
                 .block()
 

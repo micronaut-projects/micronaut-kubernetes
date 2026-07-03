@@ -54,7 +54,7 @@ class KubernetesOperations {
     }
 
     static V1NamespaceList listNamespace(CoreV1Api api) {
-        api.listNamespace(null, null, null, null, null, null, null, null, null, null, null)
+        api.listNamespace(null, null, null, null, null, null, null, null, null, null, null, null)
     }
 
     static DeleteResponse<V1Namespace> deleteNamespace(CoreV1Api api, String name) {
@@ -114,11 +114,11 @@ class KubernetesOperations {
     }
 
     static V1PodList listPodForAllNamespaces(CoreV1Api api) {
-        api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null, null)
+        api.listPodForAllNamespaces(null, null, null, null, null, null, null, null, null, null, null, null)
     }
 
     static V1PodList listPod(CoreV1Api api, String namespace, String labelSelector = null) {
-        api.listNamespacedPod(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null)
+        api.listNamespacedPod(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null, null)
     }
 
     static V1Role createRole(RbacAuthorizationV1Api api, String namespace, V1Role role) {
