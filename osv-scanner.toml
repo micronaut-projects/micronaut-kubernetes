@@ -1,0 +1,3 @@
+[[IgnoredVulns]]
+id = "GHSA-5jmj-h7xm-6q6v"
+reason = "Found for com.fasterxml.jackson.core:jackson-databind:2.22.0 and will be fixed in 2.22.1"
