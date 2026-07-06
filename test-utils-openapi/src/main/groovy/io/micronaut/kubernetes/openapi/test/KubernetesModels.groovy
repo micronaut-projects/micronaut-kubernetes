@@ -68,7 +68,7 @@ class KubernetesModels {
     }
 
     static V1RoleRef getRoleRefModel(String name) {
-        return new V1RoleRef('rbac.authorization.k8s.io', 'Role', name)
+        return new V1RoleRef('Role', name).apiGroup('rbac.authorization.k8s.io')
     }
 
     static V1RoleBinding getRoleBindingModel(String name, V1RoleRef roleRef, List<RbacV1Subject> subjects) {
@@ -164,6 +164,6 @@ class KubernetesModels {
     }
 
     static ResourceV1ResourceClaim getResourceClaimModel(String name) {
-        return new ResourceV1ResourceClaim(new V1ResourceClaimSpec()).kind('ResourceClaim').metadata(getObjectMetaModel(name));
+        return new ResourceV1ResourceClaim(new V1ResourceClaimSpec()).kind('ResourceClaim').metadata(getObjectMetaModel(name))
     }
 }

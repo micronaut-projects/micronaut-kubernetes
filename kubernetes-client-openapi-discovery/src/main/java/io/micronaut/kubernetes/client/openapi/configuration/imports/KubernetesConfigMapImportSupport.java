@@ -109,7 +109,7 @@ final class KubernetesConfigMapImportSupport extends KubernetesObjectImportSuppo
             return Optional.empty();
         }
 
-        V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null).block();
+        V1ConfigMapList configMapList = client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null, null).block();
         if (configMapList == null || CollectionUtils.isEmpty(configMapList.getItems())) {
             LOG.debug("ConfigMap not found for declaration={}", declaration);
             return Optional.empty();

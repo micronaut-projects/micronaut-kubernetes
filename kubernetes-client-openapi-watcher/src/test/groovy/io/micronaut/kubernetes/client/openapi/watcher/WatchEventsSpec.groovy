@@ -48,7 +48,7 @@ class WatchEventsSpec extends K3sContainerSpec {
         Map<String, List<String>> events = new ConcurrentHashMap<>()
 
         Flux<WatchEvent<V1Secret>> flux = apiWatcher.listNamespacedSecret(namespaceName, null, null, null, null,
-                null, null, null, null, null, null, true)
+                null, null, null, null, null, null, null, true)
         Disposable disposable = flux.subscribe(event -> {events.computeIfAbsent(event.object.metadata.name, key -> []).add(event.type)})
 
         replaceSecret(api, namespaceName, getSecretModel(secretName, ["test-key":"new-test-value".bytes]))

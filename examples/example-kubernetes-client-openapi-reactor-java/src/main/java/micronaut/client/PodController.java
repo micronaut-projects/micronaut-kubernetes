@@ -24,7 +24,7 @@ public class PodController {
 
     @Get("/{namespace}")
     public Mono<Map<String, String>> getPods(final @NotNull String namespace) {
-        return coreV1ApiReactor.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null)
+        return coreV1ApiReactor.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
             .map(it -> it.getItems().stream()
                 .filter(p -> p.getStatus() != null)
                 .collect(Collectors.toMap(

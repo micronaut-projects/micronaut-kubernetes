@@ -55,7 +55,7 @@ final class KubernetesServiceInstanceServiceProvider extends AbstractV1ServicePr
     @Override
     public Flux<V1Service> listServices(String namespace) {
         LOG.trace("Using API to fetch all services from namespace [{}]", namespace);
-        return client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null, null)
+        return client.listNamespacedService(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
                 .doOnError(throwable -> LOG.error("Failed to list Services from namespace [{}]", namespace, throwable))
                 .flatMapIterable(V1ServiceList::getItems);
     }

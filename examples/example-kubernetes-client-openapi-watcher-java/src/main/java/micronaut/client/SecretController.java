@@ -17,7 +17,7 @@ public class SecretController {
 
     @Get("/{namespace}")
     public void startWatchingSecrets(final @NotNull String namespace) {
-        coreV1ApiWatcher.listNamespacedSecret(namespace, null, null, null, null, null, null, null, null, null, null, true)
+        coreV1ApiWatcher.listNamespacedSecret(namespace, null, null, null, null, null, null, null, null, null, null, null, true)
             .subscribe(event -> LOG.info(event.toString()));
     }
 }

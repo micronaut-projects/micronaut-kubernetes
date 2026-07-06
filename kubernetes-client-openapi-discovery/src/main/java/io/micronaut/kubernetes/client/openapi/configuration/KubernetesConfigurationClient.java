@@ -164,7 +164,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
 
         return KubernetesConfigUtils.computePodLabelSelector(client, podLabels, namespace, labels, exceptionOnPodLabelsMissing)
             .doOnNext(labelSelector -> LOG.trace("Going to list ConfigMaps from namespace [{}] with label selector [{}]", namespace, labelSelector))
-            .flatMap(labelSelector -> client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null))
+            .flatMap(labelSelector -> client.listNamespacedConfigMap(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null, null))
             .doOnError(throwable -> LOG.error("Failed to list ConfigMaps in the namespace [{}]", namespace, throwable))
             .onErrorResume(throwable -> terminateStartupOnException || (throwable instanceof ConfigurationException && exceptionOnPodLabelsMissing)
                 ? Mono.error(throwable)
@@ -232,7 +232,7 @@ final class KubernetesConfigurationClient implements ConfigurationClient {
 
         return KubernetesConfigUtils.computePodLabelSelector(client, podLabels, namespace, labels, exceptionOnPodLabelsMissing)
             .doOnNext(labelSelector -> LOG.trace("Going to list Secrets from namespace [{}] with label selector [{}]", namespace, labelSelector))
-            .flatMap(labelSelector -> client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null))
+            .flatMap(labelSelector -> client.listNamespacedSecret(namespace, null, null, null, null, labelSelector, null, null, null, null, null, null, null))
             .doOnError(throwable -> LOG.error("Failed to list Secrets in the namespace [{}]", namespace, throwable))
             .onErrorResume(throwable -> terminateStartupOnException || (throwable instanceof ConfigurationException && exceptionOnPodLabelsMissing)
                 ? Mono.error(throwable)
