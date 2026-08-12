@@ -71,7 +71,9 @@ mv ./kubectl "${HOME}/kubectl"
 
 #
 # Download and install kind
-curl -Lo ${HOME}/kind "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64" && chmod +x ${HOME}/kind
+curl --fail --location --silent --show-error --retry 3 \
+  -o "${HOME}/kind" "https://kind.sigs.k8s.io/dl/${KIND_VERSION}/kind-$(uname)-amd64"
+chmod +x "${HOME}/kind"
 
 export PATH="$PATH:${HOME}"
 
