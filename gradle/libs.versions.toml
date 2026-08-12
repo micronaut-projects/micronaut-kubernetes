@@ -3,7 +3,7 @@ micronaut-platform = "5.1.0"
 micronaut = "5.1.10"
 micronaut-gradle-plugin = "5.0.2"
 
-graal-svm = "25.0.3"
+graal-svm = "25.0.4"
 javapoet = '1.13.0'
 rxjava3 = '3.1.12'
 shadow = '9.6.1'
