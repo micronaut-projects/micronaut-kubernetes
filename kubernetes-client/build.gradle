@@ -19,7 +19,7 @@ dependencies {
     testRuntimeOnly mn.snakeyaml
 
     constraints {
-        api('com.fasterxml.jackson.core:jackson-databind:2.22.1') {
+        api('com.fasterxml.jackson.core:jackson-databind:2.22.2') {
             because 'Older versions have security vulnerabilities'
         }
         api('org.apache.httpcomponents.client5:httpclient5:5.6.3') {
