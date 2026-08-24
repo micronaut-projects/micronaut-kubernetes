@@ -22,6 +22,12 @@ dependencies {
         api('com.fasterxml.jackson.core:jackson-databind:2.22.1') {
             because 'Older versions have security vulnerabilities'
         }
+        api('org.apache.httpcomponents.client5:httpclient5:5.6.3') {
+            because 'Older versions have security vulnerabilities'
+        }
+        api('org.apache.httpcomponents.core5:httpcore5-h2:5.4.3') {
+            because 'Older versions have security vulnerabilities'
+        }
     }
 }
 
