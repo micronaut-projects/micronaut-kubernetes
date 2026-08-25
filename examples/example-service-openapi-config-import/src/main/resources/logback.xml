@@ -6,6 +6,8 @@
         </encoder>
     </appender>
 
+    <logger name="io.micronaut.kubernetes.client.openapi.configuration.imports" level="TRACE"/>
+
     <root level="INFO">
         <appender-ref ref="STDOUT" />
     </root>
