@@ -17,12 +17,15 @@ package io.micronaut.kubernetes.test
 
 import groovy.util.logging.Slf4j
 import io.kubernetes.client.openapi.ApiException
+import io.kubernetes.client.openapi.apis.CoreV1Api
 import io.kubernetes.client.openapi.models.V1Namespace
+import io.kubernetes.client.openapi.models.V1Pod
 import io.kubernetes.client.openapi.models.VersionInfo
 import io.micronaut.context.annotation.Value
 import io.micronaut.core.io.ResourceResolver
 import io.micronaut.core.io.scan.ClassPathResourceLoader
 import jakarta.inject.Inject
+import org.spockframework.runtime.extension.IMethodInterceptor
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -48,6 +51,8 @@ import static io.micronaut.kubernetes.test.KubernetesOperations.getVersionInfo
  */
 @Slf4j
 abstract class KubernetesSpecification extends Specification {
+
+    private static final int FAILURE_LOG_TAIL_LINES = 500
 
     public static final String EXAMPLE_SERVICE_DEPLOYMENT = "k8s/example-service-deployment.yml"
 
@@ -75,6 +80,7 @@ abstract class KubernetesSpecification extends Specification {
     }
 
     def setupSpec() {
+        addPodLogOnFailureInterceptor()
         VersionInfo versionInfo = getVersionInfo()
         log.info("Using Kubernetes version: ${versionInfo.major}.${versionInfo.minor}")
         if (reuseNamespace && getNamespaceOpt(namespace).isPresent()) {
@@ -102,6 +108,52 @@ abstract class KubernetesSpecification extends Specification {
         } else {
             log.info("Cleaning up namespace ${namespace}")
             deleteNamespace(namespace)
+        }
+    }
+
+    /**
+     * Logs the last lines from every container in the test namespace. This is invoked only after
+     * a feature fails, so it does not add noise to successful Kubernetes integration test output.
+     */
+    protected void logPodLogs() {
+        CoreV1Api coreV1Api = new CoreV1Api()
+        try {
+            coreV1Api.listNamespacedPod(namespace).execute().items.each { V1Pod pod ->
+                pod.spec?.containers?.each { container ->
+                    try {
+                        String podLogs = coreV1Api.readNamespacedPodLog(pod.metadata.name, namespace)
+                            .container(container.name)
+                            .tailLines(FAILURE_LOG_TAIL_LINES)
+                            .execute()
+                        log.error("***** Pod {}/{} Log Start *****\n{}***** Pod {}/{} Log End *****",
+                                pod.metadata.name,
+                                container.name,
+                                podLogs,
+                                pod.metadata.name,
+                                container.name)
+                    } catch (Exception e) {
+                        // Do not mask the original feature failure when diagnostic log retrieval fails.
+                        log.warn("Unable to retrieve logs for pod {}/{}", pod.metadata.name, container.name, e)
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Do not mask the original feature failure when listing pods fails.
+            log.warn("Unable to list pods in namespace {} for diagnostic logs", namespace, e)
+        }
+    }
+
+    private void addPodLogOnFailureInterceptor() {
+        IMethodInterceptor interceptor = { invocation ->
+            try {
+                invocation.proceed()
+            } catch (Throwable e) {
+                logPodLogs()
+                throw e
+            }
+        } as IMethodInterceptor
+        specificationContext.currentSpec.allFeatures.each { feature ->
+            feature.featureMethod.addInterceptor(interceptor)
         }
     }
 

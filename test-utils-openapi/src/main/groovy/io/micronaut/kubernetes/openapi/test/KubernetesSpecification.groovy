@@ -33,6 +33,7 @@ import io.micronaut.kubernetes.client.openapi.model.V1ContainerPort
 import io.micronaut.kubernetes.client.openapi.model.V1Deployment
 import io.micronaut.kubernetes.client.openapi.model.V1DeploymentSpec
 import io.micronaut.kubernetes.client.openapi.model.V1LabelSelector
+import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.model.V1PodSpec
 import io.micronaut.kubernetes.client.openapi.model.V1PodTemplateSpec
 import io.micronaut.kubernetes.client.openapi.model.V1PolicyRule
@@ -51,6 +52,7 @@ import io.micronaut.test.context.TestExecutionListener
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import org.awaitility.Awaitility
+import org.spockframework.runtime.extension.IMethodInterceptor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.lang.Shared
@@ -87,10 +89,12 @@ import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.deleteNa
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.getDeployment
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.getEndpoints
 import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.getVersionInfo
+import static io.micronaut.kubernetes.openapi.test.KubernetesOperations.listPod
 
 class KubernetesSpecification extends Specification {
 
     private static final Logger LOG = LoggerFactory.getLogger(KubernetesSpecification.class)
+    private static final int FAILURE_LOG_TAIL_LINES = 500
 
     @Inject
     @Shared
@@ -115,6 +119,7 @@ class KubernetesSpecification extends Specification {
 
     def setupSpec() {
         setupPrepare()
+        addPodLogOnFailureInterceptor()
         VersionInfo versionInfo = getVersionInfo(versionApi)
         LOG.info("Using Kubernetes version: {}.{}", versionInfo.major, versionInfo.minor)
         createNamespaceSafe()
@@ -155,6 +160,51 @@ class KubernetesSpecification extends Specification {
     }
 
     def createResources() {
+    }
+
+    /**
+     * Logs the last lines from every container in the test namespace. This is invoked only after
+     * a feature fails, so it does not add noise to successful Kubernetes integration test output.
+     */
+    protected void logPodLogs() {
+        try {
+            listPod(coreV1Api, namespace).items.each { V1Pod pod ->
+                pod.spec?.containers?.each { container ->
+                    try {
+                        String podLogs = coreV1Api.readNamespacedPodLog(
+                                pod.metadata.name, namespace, container.name,
+                                null, null, null, null, null, null, null,
+                                FAILURE_LOG_TAIL_LINES, null)
+                        LOG.error("***** Pod {}/{} Log Start *****\n{}***** Pod {}/{} Log End *****",
+                                pod.metadata.name,
+                                container.name,
+                                podLogs,
+                                pod.metadata.name,
+                                container.name)
+                    } catch (Exception e) {
+                        // Do not mask the original feature failure when diagnostic log retrieval fails.
+                        LOG.warn("Unable to retrieve logs for pod {}/{}", pod.metadata.name, container.name, e)
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Do not mask the original feature failure when listing pods fails.
+            LOG.warn("Unable to list pods in namespace {} for diagnostic logs", namespace, e)
+        }
+    }
+
+    private void addPodLogOnFailureInterceptor() {
+        IMethodInterceptor interceptor = { invocation ->
+            try {
+                invocation.proceed()
+            } catch (Throwable e) {
+                logPodLogs()
+                throw e
+            }
+        } as IMethodInterceptor
+        specificationContext.currentSpec.allFeatures.each { feature ->
+            feature.featureMethod.addInterceptor(interceptor)
+        }
     }
 
     def createTestConfigMap() {
