@@ -12,7 +12,7 @@ configurations {
 }
 
 dependencies {
-    groovyCompiler("org.apache.groovy:groovy:5.0.8")
+    groovyCompiler("org.apache.groovy:groovy:5.1.0")
     implementation("org.yaml:snakeyaml:2.6")
     testImplementation platform("io.micronaut.test:micronaut-test-bom:5.1.1")
     testImplementation("org.spockframework:spock-core")
