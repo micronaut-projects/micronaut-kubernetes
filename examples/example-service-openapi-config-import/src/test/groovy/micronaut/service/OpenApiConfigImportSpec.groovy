@@ -73,7 +73,7 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when config map imported by name"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
@@ -106,7 +106,7 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when secreted imported by name"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
@@ -139,7 +139,7 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when config maps imported by labels"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
@@ -216,13 +216,13 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
             testClient.config("cm-key-1") == "NOTHING"
             testClient.config("cm-key-2") == "NOTHING"
             testClient.config("cm-key-3") == "NOTHING"
-            testClient.config("cm-key-4") == "NOTHING"
+            testClient.config("cm-key-4") == "cm-value-4"
         }
     }
 
     void "test watchable when secrets imported by labels"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         TestClient testClient = context.getBean(TestClient.class)
 
         expect:
@@ -299,7 +299,7 @@ class OpenApiConfigImportSpec extends KubernetesSpecification {
             testClient.config("sec-key-1") == "NOTHING"
             testClient.config("sec-key-2") == "NOTHING"
             testClient.config("sec-key-3") == "NOTHING"
-            testClient.config("sec-key-4") == "NOTHING"
+            testClient.config("sec-key-4") == "sec-value-4"
         }
     }
 
