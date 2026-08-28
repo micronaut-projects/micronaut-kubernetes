@@ -76,7 +76,7 @@ class ConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when config map imported by name"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
@@ -113,7 +113,7 @@ class ConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when secreted imported by name"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
@@ -150,7 +150,7 @@ class ConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when config maps imported by labels"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
@@ -161,10 +161,10 @@ class ConfigImportSpec extends KubernetesSpecification {
         testClient.config("cm-key-4") == "NOTHING"
 
         when: "new config maps are created"
-        createConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1"], ["watchable": "true"]))
-        createConfigMap(namespace, getConfigMapModel("cm-2", ["cm-key-2": "cm-value-2"], ["watchable": "true"]))
-        createConfigMap(namespace, getConfigMapModel("cm-3", ["cm-key-3": "cm-value-3"], ["watchable": "true"]))
-        createConfigMap(namespace, getConfigMapModel("cm-4", ["cm-key-4": "cm-value-4"], ["watchable": "false"]))
+        createConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1"], ["config-set": "one"]))
+        createConfigMap(namespace, getConfigMapModel("cm-2", ["cm-key-2": "cm-value-2"], ["config-set": "one"]))
+        createConfigMap(namespace, getConfigMapModel("cm-3", ["cm-key-3": "cm-value-3"], ["config-set": "one"]))
+        createConfigMap(namespace, getConfigMapModel("cm-4", ["cm-key-4": "cm-value-4"], ["config-set": "two"]))
 
         then: "values from those config maps are loaded into micronaut properties"
         conditions.eventually {
@@ -197,7 +197,7 @@ class ConfigImportSpec extends KubernetesSpecification {
         }
 
         when: "content of watched config map is changed"
-        replaceConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1111"], ["watchable": "true"]))
+        replaceConfigMap(namespace, getConfigMapModel("cm-1", ["cm-key-1": "cm-value-1111"], ["config-set": "one"]))
 
         then: "values are changed in micronaut properties"
         conditions.eventually {
@@ -208,7 +208,7 @@ class ConfigImportSpec extends KubernetesSpecification {
         }
 
         when: "content of unwatched config map is changed"
-        replaceConfigMap(namespace, getConfigMapModel("cm-4", ["cm-key-4": "cm-value-4444"], ["watchable": "false"]))
+        replaceConfigMap(namespace, getConfigMapModel("cm-4", ["cm-key-4": "cm-value-4444"], ["config-set": "two"]))
 
         then: "values are not changed in micronaut properties"
         conditions.eventually {
@@ -228,7 +228,7 @@ class ConfigImportSpec extends KubernetesSpecification {
             testClient.config("cm-key-1") == "NOTHING"
             testClient.config("cm-key-2") == "NOTHING"
             testClient.config("cm-key-3") == "NOTHING"
-            testClient.config("cm-key-4") == "NOTHING"
+            testClient.config("cm-key-4") == "cm-value-4"
         }
 
         cleanup:
@@ -237,7 +237,7 @@ class ConfigImportSpec extends KubernetesSpecification {
 
     void "test watchable when secrets imported by labels"() {
         given:
-        PollingConditions conditions = new PollingConditions(timeout: 30, delay: 2)
+        PollingConditions conditions = new PollingConditions(timeout: 30, initialDelay: 2, delay: 2)
         ApplicationContext context = createContext()
         TestClient testClient = context.getBean(TestClient.class)
 
@@ -248,10 +248,10 @@ class ConfigImportSpec extends KubernetesSpecification {
         testClient.config("sec-key-4") == "NOTHING"
 
         when: "new secrets are created\""
-        createSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1".bytes], ["watchable": "true"]))
-        createSecret(namespace, getSecretModel("sec-2", ["sec-key-2": "sec-value-2".bytes], ["watchable": "true"]))
-        createSecret(namespace, getSecretModel("sec-3", ["sec-key-3": "sec-value-3".bytes], ["watchable": "true"]))
-        createSecret(namespace, getSecretModel("sec-4", ["sec-key-4": "sec-value-4".bytes], ["watchable": "false"]))
+        createSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1".bytes], ["config-set": "one"]))
+        createSecret(namespace, getSecretModel("sec-2", ["sec-key-2": "sec-value-2".bytes], ["config-set": "one"]))
+        createSecret(namespace, getSecretModel("sec-3", ["sec-key-3": "sec-value-3".bytes], ["config-set": "one"]))
+        createSecret(namespace, getSecretModel("sec-4", ["sec-key-4": "sec-value-4".bytes], ["config-set": "two"]))
 
         then: "values from those secrets are loaded into micronaut properties"
         conditions.eventually {
@@ -284,7 +284,7 @@ class ConfigImportSpec extends KubernetesSpecification {
         }
 
         when: "content of watched secret is changed"
-        replaceSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1111".bytes], ["watchable": "true"]))
+        replaceSecret(namespace, getSecretModel("sec-1", ["sec-key-1": "sec-value-1111".bytes], ["config-set": "one"]))
 
         then: "values are changed in micronaut properties"
         conditions.eventually {
@@ -295,7 +295,7 @@ class ConfigImportSpec extends KubernetesSpecification {
         }
 
         when: "content of unwatched config secret is changed"
-        replaceSecret(namespace, getSecretModel("sec-4", ["sec-key-4": "sec-value-4444".bytes], ["watchable": "false"]))
+        replaceSecret(namespace, getSecretModel("sec-4", ["sec-key-4": "sec-value-4444".bytes], ["config-set": "two"]))
 
         then: "values are not changed in micronaut properties"
         conditions.eventually {
@@ -315,7 +315,7 @@ class ConfigImportSpec extends KubernetesSpecification {
             testClient.config("sec-key-1") == "NOTHING"
             testClient.config("sec-key-2") == "NOTHING"
             testClient.config("sec-key-3") == "NOTHING"
-            testClient.config("sec-key-4") == "NOTHING"
+            testClient.config("sec-key-4") == "sec-value-4"
         }
 
         cleanup:

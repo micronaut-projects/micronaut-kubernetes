@@ -15,10 +15,10 @@ micronaut:
       - optional:kubernetes://config-map?name=cm-5&watch=true
       - optional:kubernetes://config-map?name=cm-6&watch=true
       - optional:kubernetes://secret?name=sec-5&watch=true
-      - optional:kubernetes://config-map?labels=watchable=true&watch=true
-      - optional:kubernetes://config-map?labels=watchable=false&watch=false
-      - optional:kubernetes://secret?labels=watchable=true&watch=true
-      - optional:kubernetes://secret?labels=watchable=false&watch=false
+      - optional:kubernetes://config-map?labels=config-set=one&watch=true
+      - optional:kubernetes://config-map?labels=config-set=two&watch=false
+      - optional:kubernetes://secret?labels=config-set=one&watch=true
+      - optional:kubernetes://secret?labels=config-set=two&watch=false
       - optional:file:///etc/example-service-config-import/configmap/mounted.yml
       - optional:file:///etc/example-service-config-import/secrets/mounted-secret.properties
 endpoints:
