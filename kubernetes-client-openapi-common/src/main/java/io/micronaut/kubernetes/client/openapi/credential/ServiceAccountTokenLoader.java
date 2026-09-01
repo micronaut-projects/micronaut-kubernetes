@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
@@ -79,7 +80,7 @@ final class ServiceAccountTokenLoader implements ReactiveKubernetesTokenLoader {
     @Override
     public Publisher<String> getToken() {
         if (!shouldLoadToken()) {
-            return Mono.just(token).doOnNext(ignored -> LOG.trace("Cached token loaded"));
+            return Mono.just(Objects.requireNonNull(token)).doOnNext(ignored -> LOG.trace("Cached token loaded"));
         }
         Mono<String> publisher = Mono.fromCallable(this::reloadedToken);
         if (scheduler != null) {
