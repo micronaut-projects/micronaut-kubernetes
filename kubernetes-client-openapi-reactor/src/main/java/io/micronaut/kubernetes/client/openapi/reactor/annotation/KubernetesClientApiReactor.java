@@ -15,6 +15,7 @@
  */
 package io.micronaut.kubernetes.client.openapi.reactor.annotation;
 
+import io.micronaut.context.annotation.Executable;
 import io.micronaut.core.annotation.Internal;
 
 import java.lang.annotation.ElementType;
@@ -27,6 +28,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * Internal annotation used for finding kubernetes client api reactor beans.
  */
 @Internal
+@Executable(processOnStartup = true)
 @Retention(RUNTIME)
 @Target(ElementType.TYPE)
 public @interface KubernetesClientApiReactor {
