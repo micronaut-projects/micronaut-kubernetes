@@ -1,0 +1,6 @@
+kubernetes:
+  client:
+    operator:
+      leader-election:
+        lock:
+          enabled: false

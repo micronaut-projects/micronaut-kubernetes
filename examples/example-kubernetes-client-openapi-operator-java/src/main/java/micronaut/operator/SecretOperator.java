@@ -1,3 +1,4 @@
+//tag::class[]
 package micronaut.operator;
 
 import io.micronaut.context.annotation.Context;
@@ -36,3 +37,4 @@ class SecretOperator {
         }
     }
 }
+//end::class[]
