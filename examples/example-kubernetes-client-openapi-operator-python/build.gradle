@@ -1,0 +1,8 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-python-examples'
+}
+
+dependencies {
+    implementation(projects.micronautKubernetesClientOpenapiOperator)
+    runtimeOnly(mnMicrometer.micronaut.micrometer.core)
+}
