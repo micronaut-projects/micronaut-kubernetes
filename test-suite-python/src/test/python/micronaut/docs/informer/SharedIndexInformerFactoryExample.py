@@ -1,11 +1,7 @@
 from micronaut.kubernetes.client.informer import SharedIndexInformerFactory
 
-try:
-    from io.kubernetes.client.informer import SharedIndexInformer
-    from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.informer import SharedIndexInformer
-    from kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
+from io.kubernetes.client.informer import SharedIndexInformer
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
 
 
 class SharedIndexInformerFactoryExample:

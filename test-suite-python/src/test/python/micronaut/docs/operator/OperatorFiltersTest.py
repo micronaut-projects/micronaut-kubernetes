@@ -6,10 +6,7 @@ from micronaut.docs.operator.OnAddFilter import OnAddFilter
 from micronaut.docs.operator.OnDeleteFilter import OnDeleteFilter
 from micronaut.docs.operator.OnUpdateFilter import OnUpdateFilter
 
-try:
-    from io.kubernetes.client.openapi.models import V1ConfigMap, V1ObjectMeta
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.openapi.models import V1ConfigMap, V1ObjectMeta
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ObjectMeta
 
 
 def config_map(annotations: dict[str, str] | None) -> V1ConfigMap:

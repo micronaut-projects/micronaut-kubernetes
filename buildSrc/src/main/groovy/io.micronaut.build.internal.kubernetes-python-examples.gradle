@@ -30,14 +30,3 @@ tasks.withType(Test).configureEach {
     useJUnitPlatform()
     systemProperty "micronaut.python.pool.enabled", "false"
 }
-
-// The Python compiler writes one GraalPy virtual file system per compilation and the generated
-// Python shims of the main and test compilations would shadow each other at runtime, so the main
-// Python sources (the documented types) are compiled together with the test sources into the test output.
-// TODO(python): remove once the main and test VFS roots no longer shadow each other
-tasks.named("compilePython") {
-    enabled = false
-}
-tasks.named("compileTestPython") {
-    source.from(sourceSets.main.extensions.getByName("python").sourceDirectories)
-}

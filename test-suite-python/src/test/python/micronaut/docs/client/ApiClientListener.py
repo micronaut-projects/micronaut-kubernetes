@@ -2,10 +2,7 @@ from java.util.concurrent import TimeUnit
 from jakarta.inject import Singleton
 from micronaut.context.event import BeanCreatedEvent, BeanCreatedEventListener
 
-try:
-    from io.kubernetes.client.openapi import ApiClient
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.openapi import ApiClient
+from io.kubernetes.client.openapi import ApiClient
 
 
 # tag::listener[]

@@ -3,10 +3,7 @@ from org.junit.jupiter.api import Test
 
 from micronaut.docs.informer.ConfigMapInformer import ConfigMapInformer
 
-try:
-    from io.kubernetes.client.openapi.models import V1ConfigMap, V1ObjectMeta
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.openapi.models import V1ConfigMap, V1ObjectMeta
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ObjectMeta
 
 
 def config_map(name: str) -> V1ConfigMap:

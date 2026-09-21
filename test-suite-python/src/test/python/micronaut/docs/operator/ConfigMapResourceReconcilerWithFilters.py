@@ -11,12 +11,8 @@ from micronaut.kubernetes.client.operator.event import LeaseAcquiredEvent
 from micronaut.runtime.event.annotation import EventListener
 # tag::reconciler[]
 
-try:
-    from io.kubernetes.client.extended.controller.reconciler import Request, Result
-    from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.extended.controller.reconciler import Request, Result
-    from kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
+from io.kubernetes.client.extended.controller.reconciler import Request, Result
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
 
 # end::reconciler[]
 

@@ -2,10 +2,7 @@
 from java.util.function import BiPredicate
 from jakarta.inject import Singleton
 
-try:
-    from io.kubernetes.client.openapi.models import V1ConfigMap
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.openapi.models import V1ConfigMap
+from io.kubernetes.client.openapi.models import V1ConfigMap
 
 
 @Singleton

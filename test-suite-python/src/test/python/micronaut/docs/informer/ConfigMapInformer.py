@@ -3,12 +3,8 @@ import logging
 from micronaut.context.annotation import Requires
 from micronaut.kubernetes.client.informer import Informer
 
-try:
-    from io.kubernetes.client.informer import ResourceEventHandler
-    from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.informer import ResourceEventHandler
-    from kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
+from io.kubernetes.client.informer import ResourceEventHandler
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
 
 LOG = logging.getLogger(__name__)
 

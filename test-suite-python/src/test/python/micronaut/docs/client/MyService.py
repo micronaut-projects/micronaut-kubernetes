@@ -1,10 +1,7 @@
 # tag::class[]
 from jakarta.inject import Singleton
 
-try:
-    from io.kubernetes.client.openapi.apis import CoreV1Api
-except ImportError:  # TODO(python): packages under `io.` other than `io.micronaut` cannot be imported at runtime
-    from kubernetes.client.openapi.apis import CoreV1Api
+from io.kubernetes.client.openapi.apis import CoreV1Api
 
 
 @Singleton
