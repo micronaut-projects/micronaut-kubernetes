@@ -1,3 +1,4 @@
+//tag::class[]
 package micronaut.client.configmap;
 
 import io.micronaut.context.annotation.Context;
@@ -48,3 +49,4 @@ public class ConfigMapInformer {
             });
     }
 }
+//end::class[]

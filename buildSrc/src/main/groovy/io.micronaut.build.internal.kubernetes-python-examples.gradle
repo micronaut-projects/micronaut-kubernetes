@@ -1,0 +1,32 @@
+plugins {
+    id "io.micronaut.build.internal.kubernetes-base"
+    id "java-library"
+    id "io.micronaut.build.internal.python"
+}
+
+dependencies {
+    implementation(platform(mn.micronaut.core.bom))
+    // The Python compiler takes the compile classpath as its annotation processor path,
+    // so the annotation processors are regular (not annotationProcessor) dependencies.
+    implementation(mnValidation.micronaut.validation.processor)
+    implementation(mnSerde.micronaut.serde.processor)
+    implementation(mn.micronaut.inject.python)
+    implementation(mn.micronaut.context.python)
+    implementation(mn.micronaut.runtime)
+    implementation(mn.micronaut.http.server.netty)
+    implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.management)
+    runtimeOnly(mn.snakeyaml)
+
+    testImplementation(mn.micronaut.inject.python.test)
+    testImplementation(mnTest.micronaut.test.junit5)
+    testRuntimeOnly(mnLogging.logback.classic)
+    testRuntimeOnly(mnTest.junit.jupiter.engine)
+    testRuntimeOnly(mnTest.junit.platform.launcher)
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    systemProperty "micronaut.python.pool.enabled", "false"
+}

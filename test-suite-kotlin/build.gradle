@@ -1,0 +1,10 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-test-suite'
+    id 'io.micronaut.build.internal.kotlin-ksp'
+}
+
+dependencies {
+    kspTest(mn.micronaut.inject.kotlin)
+    kspTest(mnSerde.micronaut.serde.processor)
+    testImplementation(mnTest.mockito.core)
+}
