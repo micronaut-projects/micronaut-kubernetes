@@ -1,6 +1,6 @@
 [versions]
 micronaut-platform = "5.1.5"
-micronaut = "5.2.2"
+micronaut = "5.2.4"
 micronaut-gradle-plugin = "5.0.2"
 
 graal-svm = "25.0.4.1"
@@ -15,9 +15,9 @@ bucket4j = '8.10.1'
 awaitility = '4.3.0'
 
 micronaut-discovery = "5.1.0"
-micronaut-reactor = "4.2.0"
-micronaut-serde = "3.1.1"
-micronaut-validation = "5.1.0"
+micronaut-reactor = "4.3.0"
+micronaut-serde = "3.2.0"
+micronaut-validation = "5.2.0"
 micronaut-openapi = "7.2.0"
 micronaut-micrometer = "6.0.2"
 
