@@ -16,7 +16,7 @@ awaitility = '4.3.0'
 
 micronaut-discovery = "5.1.0"
 micronaut-reactor = "4.3.0"
-micronaut-serde = "3.2.1"
+micronaut-serde = "3.2.2"
 micronaut-validation = "5.2.0"
 micronaut-openapi = "7.2.0"
 micronaut-micrometer = "6.0.2"
