@@ -384,6 +384,15 @@ provisioned at <code>/var/run/secrets/kubernetes.io/serviceaccount/namespace</co
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="paragraph">
@@ -500,6 +509,15 @@ specifically:</p>
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-rxjava3"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="paragraph">
@@ -548,6 +566,15 @@ public class MyService {
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-reactor&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-reactor"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -636,6 +663,15 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -1535,6 +1571,15 @@ instances in your application.</p>
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-discovery-client&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -3060,6 +3105,15 @@ communication with the Kubernetes API, and provides some information about the p
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut:micronaut-management"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="paragraph">
@@ -3164,6 +3218,15 @@ information about how to configure it.</p>
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-informer&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-informer"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -3413,6 +3476,15 @@ public class SharedInformerCache {
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-operator&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-operator"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -3955,6 +4027,15 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="paragraph">
@@ -4021,6 +4102,15 @@ public class PodController {
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-reactor&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-reactor"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -4298,6 +4388,15 @@ kubernetes.client.service-account.token-reload-interval=2m</code></pre>
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-discovery&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -5173,6 +5272,15 @@ instances in your application.</p>
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-discovery&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -6825,6 +6933,15 @@ communication with the Kubernetes API, and provides some information about the p
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut:micronaut-management"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="paragraph">
@@ -6929,6 +7046,15 @@ information about how to configure it.</p>
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-watcher&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-watcher"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -7043,6 +7169,15 @@ It is built on top of Micronaut Kubernetes Client OpenApi Watcher and provides a
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-informer&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-informer"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -7485,6 +7620,15 @@ It is built on top of Micronaut Kubernetes Client OpenApi Informer and allows yo
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-operator&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-operator"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
@@ -8038,6 +8182,15 @@ rules:
 &lt;/dependency&gt;</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-discovery-client"</span>,
+]</code></pre>
+</div>
+</div>
 </p>
 </div>
 <div class="ulist">
@@ -8060,6 +8213,15 @@ rules:
     &lt;groupId&gt;io.micronaut.kubernetes&lt;/groupId&gt;
     &lt;artifactId&gt;micronaut-kubernetes-client-openapi-discovery&lt;/artifactId&gt;
 &lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="title"></div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-toml hljs" data-lang="pyronaut">[tool.pyronaut.dependencies]
+runtime = [
+    <span class="hljs-string">"io.micronaut.kubernetes:micronaut-kubernetes-client-openapi-discovery"</span>,
+]</code></pre>
 </div>
 </div>
 </p>
