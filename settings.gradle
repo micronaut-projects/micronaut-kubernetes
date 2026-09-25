@@ -11,7 +11,7 @@ buildscript {
         resolutionStrategy {
             // micronaut-gradle-plugin 5.0.2 is compiled against native-build-tools 1.1.2 and lacks
             // NativeImageOptions.getLayerCreate() added later; shared.settings 8.0.2 brings 1.1.12
-            force 'org.graalvm.buildtools:native-gradle-plugin:1.1.2'
+            force 'org.graalvm.buildtools:native-gradle-plugin:1.1.14'
         }
     }
 }
