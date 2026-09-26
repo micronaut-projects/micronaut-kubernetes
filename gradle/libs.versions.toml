@@ -1,6 +1,6 @@
 [versions]
 micronaut-platform = "5.1.5"
-micronaut = "5.2.4"
+micronaut = "5.2.8"
 micronaut-gradle-plugin = "5.0.2"
 
 graal-svm = "25.0.4.1"
