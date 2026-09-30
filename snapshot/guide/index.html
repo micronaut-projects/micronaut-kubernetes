@@ -398,7 +398,7 @@ runtime = [
 <div class="paragraph">
 <p>Then you can simply use Micronaut injection to get configured apis object from package <code>io.kubernetes.client.openapi.apis</code> :</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
 import io.kubernetes.client.openapi.apis.CoreV1Api;
@@ -416,6 +416,61 @@ public class MyService {
 
     public void myMethod(String namespace) throws ApiException {
         V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace).execute();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from jakarta.inject import Singleton
+
+from io.kubernetes.client.openapi.apis import CoreV1Api
+
+
+@Singleton
+class MyService:
+
+    def __init__(self, core_v1_api: CoreV1Api):
+        self.core_v1_api = core_v1_api
+
+    def my_method(self, namespace: str) -&gt; None:
+        v1_pod_list = self.core_v1_api.listNamespacedPod(namespace).execute()</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.openapi.ApiException
+import io.kubernetes.client.openapi.apis.CoreV1Api
+import jakarta.inject.Singleton
+
+@Singleton
+class MyService(private val coreV1Api: CoreV1Api) {
+
+    @Throws(ApiException::class)
+    fun myMethod(namespace: String) {
+        val v1PodList = coreV1Api.listNamespacedPod(namespace).execute()
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.openapi.ApiException
+import io.kubernetes.client.openapi.apis.CoreV1Api
+import io.kubernetes.client.openapi.models.V1PodList
+import jakarta.inject.Singleton
+
+@Singleton
+class MyService {
+
+    private final CoreV1Api coreV1Api
+
+    MyService(CoreV1Api coreV1Api) {
+        this.coreV1Api = coreV1Api
+    }
+
+    void myMethod(String namespace) throws ApiException {
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace).execute()
     }
 }</code></pre>
 </div>
@@ -524,12 +579,11 @@ runtime = [
 <p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;RxClient</code>,
 for example the <code>CoreV1Api</code> class is injected as <code>CoreV1ApiRxClient</code>.</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.models.V1PodList;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.models.V1PodList;
 import io.micronaut.kubernetes.client.rxjava3.CoreV1ApiRxClient;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -543,6 +597,60 @@ public class MyService {
 
     public void myMethod(String namespace) {
         Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace).execute();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from jakarta.inject import Singleton
+from micronaut.kubernetes.client.rxjava3 import CoreV1ApiRxClient
+
+
+@Singleton
+class MyService:
+
+    def __init__(self, core_v1_api_rx_client: CoreV1ApiRxClient):
+        self.core_v1_api_rx_client = core_v1_api_rx_client
+
+    def my_method(self, namespace: str) -&gt; None:
+        v1_pod_list = self.core_v1_api_rx_client.listNamespacedPod(namespace).execute()</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.openapi.models.V1PodList
+import io.micronaut.kubernetes.client.rxjava3.CoreV1ApiRxClient
+import io.reactivex.rxjava3.core.Single
+import jakarta.inject.Singleton
+
+@Singleton
+class MyService(private val coreV1ApiRxClient: CoreV1ApiRxClient) {
+
+    fun myMethod(namespace: String) {
+        val v1PodList: Single&lt;V1PodList&gt; = coreV1ApiRxClient.listNamespacedPod(namespace).execute()
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.openapi.models.V1PodList
+import io.micronaut.kubernetes.client.rxjava3.CoreV1ApiRxClient
+import io.reactivex.rxjava3.core.Single
+import jakarta.inject.Singleton
+
+@Singleton
+class MyService {
+
+    private final CoreV1ApiRxClient coreV1ApiRxClient
+
+    MyService(CoreV1ApiRxClient coreV1ApiRxClient) {
+        this.coreV1ApiRxClient = coreV1ApiRxClient
+    }
+
+    void myMethod(String namespace) {
+        Single&lt;V1PodList&gt; v1PodList = coreV1ApiRxClient.listNamespacedPod(namespace).execute()
     }
 }</code></pre>
 </div>
@@ -580,28 +688,81 @@ runtime = [
 </p>
 </div>
 <div class="paragraph">
-<p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;ReactiveClient</code>,
-for example the <code>CoreV1Api</code> class is injected as <code>CoreV1ApiReactiveClient</code>.</p>
+<p>The module contains all official Kubernetes API beans in format <code>&lt;ApiClassName&gt;ReactorClient</code>,
+for example the <code>CoreV1Api</code> class is injected as <code>CoreV1ApiReactorClient</code>.</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.ApiException;
-import io.kubernetes.client.openapi.models.V1PodList;
-import io.micronaut.kubernetes.client.reactive.CoreV1ApiReactiveClient;
-import reactor.core.publisher.Mono;
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.kubernetes.client.openapi.models.V1PodList;
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient;
 import jakarta.inject.Singleton;
+import reactor.core.publisher.Mono;
 
 @Singleton
 public class MyService {
 
-    private final CoreV1ApiReactiveClient coreV1ApiReactiveClient;
+    private final CoreV1ApiReactorClient coreV1ApiReactorClient;
 
-    public MyService(CoreV1ApiReactiveClient coreV1ApiReactiveClient) {
-        this.coreV1ApiReactiveClient = coreV1ApiReactiveClient;
+    public MyService(CoreV1ApiReactorClient coreV1ApiReactorClient) {
+        this.coreV1ApiReactorClient = coreV1ApiReactorClient;
     }
 
     public void myMethod(String namespace) {
-        Mono&lt;V1PodList&gt; v1PodList = coreV1ApiReactiveClient.listNamespacedPod(namespace).execute();
+        Mono&lt;V1PodList&gt; v1PodList = coreV1ApiReactorClient.listNamespacedPod(namespace).execute();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from jakarta.inject import Singleton
+from micronaut.kubernetes.client.reactor import CoreV1ApiReactorClient
+
+
+@Singleton
+class MyService:
+
+    def __init__(self, core_v1_api_reactor_client: CoreV1ApiReactorClient):
+        self.core_v1_api_reactor_client = core_v1_api_reactor_client
+
+    def my_method(self, namespace: str) -&gt; None:
+        v1_pod_list = self.core_v1_api_reactor_client.listNamespacedPod(namespace).execute()</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.openapi.models.V1PodList
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient
+import jakarta.inject.Singleton
+import reactor.core.publisher.Mono
+
+@Singleton
+class MyService(private val coreV1ApiReactorClient: CoreV1ApiReactorClient) {
+
+    fun myMethod(namespace: String) {
+        val v1PodList: Mono&lt;V1PodList&gt; = coreV1ApiReactorClient.listNamespacedPod(namespace).execute()
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.openapi.models.V1PodList
+import io.micronaut.kubernetes.client.reactor.CoreV1ApiReactorClient
+import jakarta.inject.Singleton
+import reactor.core.publisher.Mono
+
+@Singleton
+class MyService {
+
+    private final CoreV1ApiReactorClient coreV1ApiReactorClient
+
+    MyService(CoreV1ApiReactorClient coreV1ApiReactorClient) {
+        this.coreV1ApiReactorClient = coreV1ApiReactorClient
+    }
+
+    void myMethod(String namespace) {
+        Mono&lt;V1PodList&gt; v1PodList = coreV1ApiReactorClient.listNamespacedPod(namespace).execute()
     }
 }</code></pre>
 </div>
@@ -628,6 +789,53 @@ public class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&
                 .build();
         apiClient.setHttpClient(okHttpClient);
         return apiClient;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Singleton
+class ApiClientListener(BeanCreatedEventListener[ApiClient]):
+
+    def onCreated(self, event: BeanCreatedEvent[ApiClient]) -&gt; ApiClient:
+        api_client = event.getBean()
+        ok_http_client = api_client.getHttpClient().newBuilder() \
+            .readTimeout(5345, TimeUnit.MILLISECONDS) \
+            .build()
+        api_client.setHttpClient(ok_http_client)
+        return api_client</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Singleton
+class ApiClientListener : BeanCreatedEventListener&lt;ApiClient&gt; {
+
+    override fun onCreated(event: BeanCreatedEvent&lt;ApiClient&gt;): ApiClient {
+        val apiClient = event.bean
+        val okHttpClient = apiClient.httpClient.newBuilder()
+            .readTimeout(5345, TimeUnit.MILLISECONDS)
+            .build()
+        apiClient.setHttpClient(okHttpClient)
+        return apiClient
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Singleton
+class ApiClientListener implements BeanCreatedEventListener&lt;ApiClient&gt; {
+
+    @Override
+    ApiClient onCreated(BeanCreatedEvent&lt;ApiClient&gt; event) {
+        ApiClient apiClient = event.bean
+        OkHttpClient okHttpClient = apiClient.httpClient.newBuilder()
+                .readTimeout(5345, TimeUnit.MILLISECONDS)
+                .build()
+        apiClient.httpClient = okHttpClient
+        return apiClient
     }
 }</code></pre>
 </div>
@@ -3256,6 +3464,56 @@ public class ConfigMapInformer implements ResourceEventHandler&lt;V1ConfigMap&gt
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Informer(apiType=V1ConfigMap, apiListType=V1ConfigMapList)  # <b class="conum">(1)</b>
+class ConfigMapInformer(ResourceEventHandler[V1ConfigMap]):  # <b class="conum">(2)</b>
+
+    def onAdd(self, obj: V1ConfigMap) -&gt; None:
+        ...
+
+    def onUpdate(self, old_obj: V1ConfigMap, new_obj: V1ConfigMap) -&gt; None:
+        ...
+
+    def onDelete(self, obj: V1ConfigMap, deleted_final_state_unknown: bool) -&gt; None:
+        ...</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Informer(apiType = V1ConfigMap::class, apiListType = V1ConfigMapList::class) // <b class="conum">(1)</b>
+class ConfigMapInformer : ResourceEventHandler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    override fun onAdd(obj: V1ConfigMap) {
+    }
+
+    override fun onUpdate(oldObj: V1ConfigMap, newObj: V1ConfigMap) {
+    }
+
+    override fun onDelete(obj: V1ConfigMap, deletedFinalStateUnknown: Boolean) {
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Informer(apiType = V1ConfigMap, apiListType = V1ConfigMapList) // <b class="conum">(1)</b>
+class ConfigMapInformer implements ResourceEventHandler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    @Override
+    void onAdd(V1ConfigMap obj) {
+    }
+
+    @Override
+    void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
+    }
+
+    @Override
+    void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
+    }
+}</code></pre>
+</div>
+</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -3362,6 +3620,48 @@ The concept of shared informer means that the <a href="https://javadoc.io/doc/io
         );</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">        shared_index_informer = self.factory.sharedIndexInformerFor(
+                V1ConfigMap,  # <b class="conum">(1)</b>
+                V1ConfigMapList,  # <b class="conum">(2)</b>
+                "configmaps",  # <b class="conum">(3)</b>
+                "",  # <b class="conum">(4)</b>
+                "default",  # <b class="conum">(5)</b>
+                None,
+                None,
+                True
+        )</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">        val sharedIndexInformer = factory.sharedIndexInformerFor(
+                V1ConfigMap::class.java, // <b class="conum">(1)</b>
+                V1ConfigMapList::class.java, // <b class="conum">(2)</b>
+                "configmaps", // <b class="conum">(3)</b>
+                "",  // <b class="conum">(4)</b>
+                "default",  // <b class="conum">(5)</b>
+                null,
+                null,
+                true
+        )</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = factory.sharedIndexInformerFor(
+                V1ConfigMap, // <b class="conum">(1)</b>
+                V1ConfigMapList, // <b class="conum">(2)</b>
+                "configmaps", // <b class="conum">(3)</b>
+                "",  // <b class="conum">(4)</b>
+                "default",  // <b class="conum">(5)</b>
+                null,
+                null,
+                true
+        )</code></pre>
+</div>
+</div>
 <div class="colist arabic">
 <table>
 <tr>
@@ -3394,6 +3694,27 @@ The concept of shared informer means that the <a href="https://javadoc.io/doc/io
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = factory.getExistingSharedIndexInformer(
                 "default", // <b class="conum">(1)</b>
                 V1ConfigMap.class); // <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">        shared_index_informer = self.factory.getExistingSharedIndexInformer(
+                "default",  # <b class="conum">(1)</b>
+                V1ConfigMap)  # <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">        val sharedIndexInformer = factory.getExistingSharedIndexInformer(
+                "default", // <b class="conum">(1)</b>
+                V1ConfigMap::class.java) // <b class="conum">(2)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = factory.getExistingSharedIndexInformer(
+                "default", // <b class="conum">(1)</b>
+                V1ConfigMap) // <b class="conum">(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -3440,6 +3761,70 @@ public class SharedInformerCache {
             return indexer.list();
         } else {
             return null;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Singleton
+class SharedInformerCache:
+
+    def __init__(self, shared_index_informer_factory: SharedIndexInformerFactory):
+        self.shared_index_informer_factory = shared_index_informer_factory
+
+    def get_config_maps(self, namespace: str) -&gt; list[V1ConfigMap] | None:
+        """Get all config maps from informer from namespace."""
+        shared_index_informer = self.shared_index_informer_factory.getExistingSharedIndexInformer(namespace, V1ConfigMap)
+        if shared_index_informer is not None:
+            indexer = shared_index_informer.getIndexer()
+            return indexer.list()
+        else:
+            return None</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Singleton
+class SharedInformerCache(private val sharedIndexInformerFactory: SharedIndexInformerFactory) {
+
+    /**
+     * Get all config maps from informer from namespace.
+     */
+    fun getConfigMaps(namespace: String): List&lt;V1ConfigMap&gt;? {
+        val sharedIndexInformer = sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, V1ConfigMap::class.java)
+        return if (sharedIndexInformer != null) {
+            val indexer = sharedIndexInformer.indexer
+            indexer.list()
+        } else {
+            null
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Singleton
+class SharedInformerCache {
+
+    private final SharedIndexInformerFactory sharedIndexInformerFactory
+
+    SharedInformerCache(SharedIndexInformerFactory sharedIndexInformerFactory) {
+        this.sharedIndexInformerFactory = sharedIndexInformerFactory
+    }
+
+    /**
+     * Get all config maps from informer from namespace.
+     */
+    List&lt;V1ConfigMap&gt; getConfigMaps(String namespace) {
+        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = sharedIndexInformerFactory.getExistingSharedIndexInformer(namespace, V1ConfigMap)
+        if (sharedIndexInformer != null) {
+            Indexer&lt;V1ConfigMap&gt; indexer = sharedIndexInformer.indexer
+            return indexer.list()
+        } else {
+            return null
         }
     }
 }</code></pre>
@@ -3502,6 +3887,9 @@ import io.kubernetes.client.extended.controller.reconciler.Result;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.micronaut.kubernetes.client.informer.Informer;
+import io.micronaut.kubernetes.client.operator.Operator;
+import io.micronaut.kubernetes.client.operator.OperatorResourceLister;
+import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 import java.util.Optional;
 
 @Operator(informer = @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class)) // <b class="conum">(1)</b>
@@ -3512,6 +3900,69 @@ public class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1Conf
         Optional&lt;V1ConfigMap&gt; resource = lister.get(request); // <b class="conum">(4)</b>
         // .. reconcile  <b class="conum">(5)</b>
         return new Result(false); // <b class="conum">(6)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util import Optional
+from micronaut.kubernetes.client.informer import Informer
+from micronaut.kubernetes.client.operator import Operator, OperatorResourceLister, ResourceReconciler
+
+from io.kubernetes.client.extended.controller.reconciler import Request, Result
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
+
+@Operator(informer=Informer(apiType=V1ConfigMap, apiListType=V1ConfigMapList))  # <b class="conum">(1)</b>
+class ConfigMapResourceReconciler(ResourceReconciler[V1ConfigMap]):  # <b class="conum">(2)</b>
+
+    def reconcile(self, request: Request, lister: OperatorResourceLister[V1ConfigMap]) -&gt; Result:  # <b class="conum">(3)</b>
+        resource: Optional[V1ConfigMap] = lister.get(request)  # <b class="conum">(4)</b>
+        # .. reconcile  <b class="conum">(5)</b>
+        return Result(False)  # <b class="conum">(6)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.extended.controller.reconciler.Request
+import io.kubernetes.client.extended.controller.reconciler.Result
+import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.kubernetes.client.openapi.models.V1ConfigMapList
+import io.micronaut.kubernetes.client.informer.Informer
+import io.micronaut.kubernetes.client.operator.Operator
+import io.micronaut.kubernetes.client.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.operator.ResourceReconciler
+
+@Operator(informer = Informer(apiType = V1ConfigMap::class, apiListType = V1ConfigMapList::class)) // <b class="conum">(1)</b>
+class ConfigMapResourceReconciler : ResourceReconciler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    override fun reconcile(request: Request, lister: OperatorResourceLister&lt;V1ConfigMap&gt;): Result { // <b class="conum">(3)</b>
+        val resource = lister.get(request) // <b class="conum">(4)</b>
+        // .. reconcile  <b class="conum">(5)</b>
+        return Result(false) // <b class="conum">(6)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.extended.controller.reconciler.Request
+import io.kubernetes.client.extended.controller.reconciler.Result
+import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.kubernetes.client.openapi.models.V1ConfigMapList
+import io.micronaut.kubernetes.client.informer.Informer
+import io.micronaut.kubernetes.client.operator.Operator
+import io.micronaut.kubernetes.client.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.operator.ResourceReconciler
+
+@Operator(informer = @Informer(apiType = V1ConfigMap, apiListType = V1ConfigMapList)) // <b class="conum">(1)</b>
+class ConfigMapResourceReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    @Override
+    Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) { // <b class="conum">(3)</b>
+        Optional&lt;V1ConfigMap&gt; resource = lister.get(request) // <b class="conum">(4)</b>
+        // .. reconcile  <b class="conum">(5)</b>
+        return new Result(false) // <b class="conum">(6)</b>
     }
 }</code></pre>
 </div>
@@ -3712,6 +4163,73 @@ kubernetes.client.operator.leader-election.lock.retry-period=20s</code></pre>
 <div class="paragraph">
 <p>To create custom lock identity, create a bean that implements the <a href="../api/io/micronaut/kubernetes/client/operator/leaderelection/LockIdentityProvider.html">LockIdentityProvider</a> interface:</p>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">import io.micronaut.context.annotation.Replaces;
+import io.micronaut.kubernetes.client.operator.leaderelection.LockIdentityProvider;
+import jakarta.inject.Singleton;
+
+@Singleton
+@Replaces(LockIdentityProvider.class)
+public class CustomLockIdentityProvider implements LockIdentityProvider {
+
+    @Override
+    public String getIdentity() {
+        // ...
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import random
+
+from jakarta.inject import Singleton
+from micronaut.context.annotation import Replaces
+from micronaut.kubernetes.client.operator.leaderelection import LockIdentityProvider
+
+@Singleton
+@Replaces(LockIdentityProvider)
+class CustomLockIdentityProvider(LockIdentityProvider):
+
+    def getIdentity(self) -&gt; str:
+        # ...
+        ...</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.micronaut.context.annotation.Replaces
+import io.micronaut.kubernetes.client.operator.leaderelection.LockIdentityProvider
+import jakarta.inject.Singleton
+
+@Singleton
+@Replaces(LockIdentityProvider::class)
+class CustomLockIdentityProvider : LockIdentityProvider {
+
+    override fun getIdentity(): String {
+        // ...
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.micronaut.context.annotation.Replaces
+import io.micronaut.kubernetes.client.operator.leaderelection.LockIdentityProvider
+import jakarta.inject.Singleton
+
+@Singleton
+@Replaces(LockIdentityProvider)
+class CustomLockIdentityProvider implements LockIdentityProvider {
+
+    @Override
+    String getIdentity() {
+        // ...
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_lock_resource_types">Lock resource types</h3>
@@ -3858,6 +4376,64 @@ public class OnAddFilter implements Predicate&lt;V1ConfigMap&gt; {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util.function import Predicate
+from jakarta.inject import Singleton
+
+from io.kubernetes.client.openapi.models import V1ConfigMap
+
+
+@Singleton
+class OnAddFilter(Predicate[V1ConfigMap]):
+
+    def test(self, v1_config_map: V1ConfigMap) -&gt; bool:
+        annotations = v1_config_map.getMetadata().getAnnotations()
+        if annotations is not None:
+            return "io.micronaut.operator" in annotations
+        return False</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.openapi.models.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.Predicate
+
+@Singleton
+class OnAddFilter : Predicate&lt;V1ConfigMap&gt; {
+
+    override fun test(v1ConfigMap: V1ConfigMap): Boolean {
+        val annotations = v1ConfigMap.metadata?.annotations
+        if (annotations != null) {
+            return annotations.containsKey("io.micronaut.operator")
+        }
+        return false
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.openapi.models.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.Predicate
+
+@Singleton
+class OnAddFilter implements Predicate&lt;V1ConfigMap&gt; {
+
+    @Override
+    boolean test(V1ConfigMap v1ConfigMap) {
+        if (v1ConfigMap.metadata.annotations != null) {
+            return v1ConfigMap.metadata.annotations.containsKey("io.micronaut.operator")
+        }
+        return false
+    }
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>The <code>onUpdateFilter</code> bi-predicate processes modified resources. Create a bean that implements <code>java.util.function.BiPredicate</code> with the same Kubernetes resource type like the operator is. Example below illustrates such filter for the <code>V1ConfigMap</code> resource:</p>
 </div>
@@ -3877,6 +4453,64 @@ public class OnUpdateFilter implements BiPredicate&lt;V1ConfigMap, V1ConfigMap&g
             return newObj.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
         }
         return false;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util.function import BiPredicate
+from jakarta.inject import Singleton
+
+from io.kubernetes.client.openapi.models import V1ConfigMap
+
+
+@Singleton
+class OnUpdateFilter(BiPredicate[V1ConfigMap, V1ConfigMap]):
+
+    def test(self, old_obj: V1ConfigMap, new_obj: V1ConfigMap) -&gt; bool:
+        annotations = new_obj.getMetadata().getAnnotations()
+        if annotations is not None:
+            return "io.micronaut.operator" in annotations
+        return False</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.openapi.models.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@Singleton
+class OnUpdateFilter : BiPredicate&lt;V1ConfigMap, V1ConfigMap&gt; {
+
+    override fun test(oldObj: V1ConfigMap, newObj: V1ConfigMap): Boolean {
+        val annotations = newObj.metadata?.annotations
+        if (annotations != null) {
+            return annotations.containsKey("io.micronaut.operator")
+        }
+        return false
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.openapi.models.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@Singleton
+class OnUpdateFilter implements BiPredicate&lt;V1ConfigMap, V1ConfigMap&gt; {
+
+    @Override
+    boolean test(V1ConfigMap oldObj, V1ConfigMap newObj) {
+        if (newObj.metadata.annotations != null) {
+            return newObj.metadata.annotations.containsKey("io.micronaut.operator")
+        }
+        return false
     }
 }</code></pre>
 </div>
@@ -3904,6 +4538,64 @@ public class OnDeleteFilter implements BiPredicate&lt;V1ConfigMap, Boolean&gt; {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util.function import BiPredicate
+from jakarta.inject import Singleton
+
+from io.kubernetes.client.openapi.models import V1ConfigMap
+
+
+@Singleton
+class OnDeleteFilter(BiPredicate[V1ConfigMap, bool]):
+
+    def test(self, v1_config_map: V1ConfigMap, deleted_final_state_unknown: bool) -&gt; bool:
+        annotations = v1_config_map.getMetadata().getAnnotations()
+        if annotations is not None:
+            return "io.micronaut.operator" in annotations
+        return False</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.openapi.models.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@Singleton
+class OnDeleteFilter : BiPredicate&lt;V1ConfigMap, Boolean&gt; {
+
+    override fun test(v1ConfigMap: V1ConfigMap, deletedFinalStateUnknown: Boolean): Boolean {
+        val annotations = v1ConfigMap.metadata?.annotations
+        if (annotations != null) {
+            return annotations.containsKey("io.micronaut.operator")
+        }
+        return false
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.openapi.models.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@Singleton
+class OnDeleteFilter implements BiPredicate&lt;V1ConfigMap, Boolean&gt; {
+
+    @Override
+    boolean test(V1ConfigMap v1ConfigMap, Boolean deletedFinalStateUnknown) {
+        if (v1ConfigMap.metadata.annotations != null) {
+            return v1ConfigMap.metadata.annotations.containsKey("io.micronaut.operator")
+        }
+        return false
+    }
+}</code></pre>
+</div>
+</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -3926,6 +4618,9 @@ import io.kubernetes.client.extended.controller.reconciler.Result;
 import io.kubernetes.client.openapi.models.V1ConfigMap;
 import io.kubernetes.client.openapi.models.V1ConfigMapList;
 import io.micronaut.kubernetes.client.informer.Informer;
+import io.micronaut.kubernetes.client.operator.Operator;
+import io.micronaut.kubernetes.client.operator.OperatorResourceLister;
+import io.micronaut.kubernetes.client.operator.ResourceReconciler;
 
 @Operator(informer = @Informer(apiType = V1ConfigMap.class, apiListType = V1ConfigMapList.class),
         onAddFilter = OnAddFilter.class, // <b class="conum">(1)</b>
@@ -3937,6 +4632,78 @@ public class ConfigMapResourceReconcilerWithFilters implements ResourceReconcile
     public Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
         // .. reconcile
         return new Result(false);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from micronaut.kubernetes.client.informer import Informer
+from micronaut.kubernetes.client.operator import Operator, OperatorResourceLister, ResourceReconciler
+
+from micronaut.docs.operator.OnAddFilter import OnAddFilter
+from micronaut.docs.operator.OnDeleteFilter import OnDeleteFilter
+from micronaut.docs.operator.OnUpdateFilter import OnUpdateFilter
+
+from io.kubernetes.client.extended.controller.reconciler import Request, Result
+from io.kubernetes.client.openapi.models import V1ConfigMap, V1ConfigMapList
+
+@Operator(informer=Informer(apiType=V1ConfigMap, apiListType=V1ConfigMapList),
+          onAddFilter=OnAddFilter,  # <b class="conum">(1)</b>
+          onUpdateFilter=OnUpdateFilter,  # <b class="conum">(2)</b>
+          onDeleteFilter=OnDeleteFilter)  # <b class="conum">(3)</b>
+class ConfigMapResourceReconcilerWithFilters(ResourceReconciler[V1ConfigMap]):
+
+    def reconcile(self, request: Request, lister: OperatorResourceLister[V1ConfigMap]) -&gt; Result:
+        # .. reconcile
+        return Result(False)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">import io.kubernetes.client.extended.controller.reconciler.Request
+import io.kubernetes.client.extended.controller.reconciler.Result
+import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.kubernetes.client.openapi.models.V1ConfigMapList
+import io.micronaut.kubernetes.client.informer.Informer
+import io.micronaut.kubernetes.client.operator.Operator
+import io.micronaut.kubernetes.client.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.operator.ResourceReconciler
+
+@Operator(informer = Informer(apiType = V1ConfigMap::class, apiListType = V1ConfigMapList::class),
+        onAddFilter = OnAddFilter::class, // <b class="conum">(1)</b>
+        onUpdateFilter = OnUpdateFilter::class, // <b class="conum">(2)</b>
+        onDeleteFilter = OnDeleteFilter::class) // <b class="conum">(3)</b>
+class ConfigMapResourceReconcilerWithFilters : ResourceReconciler&lt;V1ConfigMap&gt; {
+
+    override fun reconcile(request: Request, lister: OperatorResourceLister&lt;V1ConfigMap&gt;): Result {
+        // .. reconcile
+        return Result(false)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">import io.kubernetes.client.extended.controller.reconciler.Request
+import io.kubernetes.client.extended.controller.reconciler.Result
+import io.kubernetes.client.openapi.models.V1ConfigMap
+import io.kubernetes.client.openapi.models.V1ConfigMapList
+import io.micronaut.kubernetes.client.informer.Informer
+import io.micronaut.kubernetes.client.operator.Operator
+import io.micronaut.kubernetes.client.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.operator.ResourceReconciler
+
+@Operator(informer = @Informer(apiType = V1ConfigMap, apiListType = V1ConfigMapList),
+        onAddFilter = OnAddFilter, // <b class="conum">(1)</b>
+        onUpdateFilter = OnUpdateFilter, // <b class="conum">(2)</b>
+        onDeleteFilter = OnDeleteFilter) // <b class="conum">(3)</b>
+class ConfigMapResourceReconcilerWithFilters implements ResourceReconciler&lt;V1ConfigMap&gt; {
+
+    @Override
+    Result reconcile(Request request, OperatorResourceLister&lt;V1ConfigMap&gt; lister) {
+        // .. reconcile
+        return new Result(false)
     }
 }</code></pre>
 </div>
@@ -4083,6 +4850,113 @@ public class PodController {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from typing import Annotated
+
+from jakarta.inject import Inject
+from jakarta.validation.constraints import NotNull
+from micronaut.http.annotation import Controller, Get
+from micronaut.kubernetes.client.openapi.api import CoreV1Api
+from micronaut.scheduling import TaskExecutors
+from micronaut.scheduling.annotation import ExecuteOn
+
+
+@Controller("/pods")
+@ExecuteOn(TaskExecutors.BLOCKING)
+class PodController:
+
+    core_v1_api: Annotated[CoreV1Api, Inject]
+
+    @Get("/{namespace}/{name}")
+    def get_pod(self, namespace: Annotated[str, NotNull], name: Annotated[str, NotNull]) -&gt; str:
+        v1_pod = self.core_v1_api.readNamespacedPod(name, namespace, None)
+        return v1_pod.getStatus().getPhase()
+
+    @Get("/{namespace}")
+    def get_pods(self, namespace: Annotated[str, NotNull]) -&gt; dict[str, str]:
+        v1_pod_list = self.core_v1_api.listNamespacedPod(namespace, None, None, None, None, None, None, None, None, None, None, None, None)
+        return {
+            p.getMetadata().getName(): p.getStatus().getPhase()
+            for p in v1_pod_list.getItems()
+            if p.getStatus() is not None
+        }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.client
+
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
+import io.micronaut.scheduling.TaskExecutors
+import io.micronaut.scheduling.annotation.ExecuteOn
+import jakarta.inject.Inject
+import jakarta.validation.constraints.NotNull
+
+@Controller("/pods")
+@ExecuteOn(TaskExecutors.BLOCKING)
+open class PodController {
+
+    @Inject
+    lateinit var coreV1Api: CoreV1Api
+
+    @Get("/{namespace}/{name}")
+    open fun getPod(@NotNull namespace: String, @NotNull name: String): String {
+        val v1Pod = coreV1Api.readNamespacedPod(name, namespace, null)
+        return v1Pod.status!!.phase!!
+    }
+
+    @Get("/{namespace}")
+    open fun getPods(@NotNull namespace: String): Map&lt;String, String&gt; {
+        val v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
+        return v1PodList.items
+            .filter { it.status != null }
+            .associate { it.metadata!!.name!! to it.status!!.phase!! }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.client
+
+import groovy.transform.CompileStatic
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.kubernetes.client.openapi.api.CoreV1Api
+import io.micronaut.kubernetes.client.openapi.model.V1Pod
+import io.micronaut.kubernetes.client.openapi.model.V1PodList
+import io.micronaut.scheduling.TaskExecutors
+import io.micronaut.scheduling.annotation.ExecuteOn
+import jakarta.inject.Inject
+import jakarta.validation.constraints.NotNull
+
+@CompileStatic
+@Controller("/pods")
+@ExecuteOn(TaskExecutors.BLOCKING)
+class PodController {
+
+    @Inject
+    CoreV1Api coreV1Api
+
+    @Get("/{namespace}/{name}")
+    String getPod(@NotNull String namespace, @NotNull String name) {
+        V1Pod v1Pod = coreV1Api.readNamespacedPod(name, namespace, null)
+        return v1Pod.status.phase
+    }
+
+    @Get("/{namespace}")
+    Map&lt;String, String&gt; getPods(@NotNull String namespace) {
+        V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
+        return v1PodList.items
+            .findAll { V1Pod p -&gt; p.status != null }
+            .collectEntries { V1Pod p -&gt; [(p.metadata.name): p.status.phase] } as Map&lt;String, String&gt;
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_reactive_client">Reactive Client</h3>
@@ -4152,6 +5026,111 @@ public class PodController {
                 .collect(Collectors.toMap(
                     p -&gt; p.getMetadata().getName(),
                     p -&gt; p.getStatus().getPhase())));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from typing import Annotated
+
+from jakarta.inject import Inject
+from jakarta.validation.constraints import NotNull
+from micronaut.http.annotation import Controller, Get
+from micronaut.kubernetes.client.openapi.reactor.api import CoreV1ApiReactor
+from reactor.core.publisher import Mono
+
+
+@Controller("/pods")
+class PodController:
+
+    core_v1_api_reactor: Annotated[CoreV1ApiReactor, Inject]
+
+    @Get("/{namespace}/{name}")
+    def get_pod(self, namespace: Annotated[str, NotNull], name: Annotated[str, NotNull]) -&gt; Mono[str]:
+        return self.core_v1_api_reactor.readNamespacedPod(name, namespace, None) \
+            .map(lambda it: it.getStatus().getPhase())
+
+    @Get("/{namespace}")
+    def get_pods(self, namespace: Annotated[str, NotNull]) -&gt; Mono[dict[str, str]]:
+        return self.core_v1_api_reactor.listNamespacedPod(namespace, None, None, None, None, None, None, None, None, None, None, None, None) \
+            .map(lambda it: {
+                p.getMetadata().getName(): p.getStatus().getPhase()
+                for p in it.getItems()
+                if p.getStatus() is not None
+            })</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.client
+
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
+import jakarta.inject.Inject
+import jakarta.validation.constraints.NotNull
+import reactor.core.publisher.Mono
+
+@Controller("/pods")
+open class PodController {
+
+    @Inject
+    lateinit var coreV1ApiReactor: CoreV1ApiReactor
+
+    @Get("/{namespace}/{name}")
+    open fun getPod(@NotNull namespace: String, @NotNull name: String): Mono&lt;String&gt; {
+        return coreV1ApiReactor.readNamespacedPod(name, namespace, null)
+            .map { it.status!!.phase!! }
+    }
+
+    @Get("/{namespace}")
+    open fun getPods(@NotNull namespace: String): Mono&lt;Map&lt;String, String&gt;&gt; {
+        return coreV1ApiReactor.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
+            .map { list -&gt;
+                list.items
+                    .filter { it.status != null }
+                    .associate { it.metadata!!.name!! to it.status!!.phase!! }
+            }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.client
+
+import groovy.transform.CompileStatic
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.kubernetes.client.openapi.model.V1Pod
+import io.micronaut.kubernetes.client.openapi.model.V1PodList
+import io.micronaut.kubernetes.client.openapi.reactor.api.CoreV1ApiReactor
+import jakarta.inject.Inject
+import jakarta.validation.constraints.NotNull
+import reactor.core.publisher.Mono
+
+@CompileStatic
+@Controller("/pods")
+class PodController {
+
+    @Inject
+    CoreV1ApiReactor coreV1ApiReactor
+
+    @Get("/{namespace}/{name}")
+    Mono&lt;String&gt; getPod(@NotNull String namespace, @NotNull String name) {
+        return coreV1ApiReactor.readNamespacedPod(name, namespace, null)
+            .map { V1Pod it -&gt; it.status.phase }
+    }
+
+    @Get("/{namespace}")
+    Mono&lt;Map&lt;String, String&gt;&gt; getPods(@NotNull String namespace) {
+        return coreV1ApiReactor.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null, null, null)
+            .map { V1PodList it -&gt;
+                it.items
+                    .findAll { V1Pod p -&gt; p.status != null }
+                    .collectEntries { V1Pod p -&gt; [(p.metadata.name): p.status.phase] } as Map&lt;String, String&gt;
+            }
     }
 }</code></pre>
 </div>
@@ -7089,6 +8068,88 @@ public class SecretController {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import logging
+from typing import Annotated
+
+from jakarta.inject import Inject
+from jakarta.validation.constraints import NotNull
+from micronaut.http.annotation import Controller, Get
+from micronaut.kubernetes.client.openapi.watcher.api import CoreV1ApiWatcher
+
+LOG = logging.getLogger(__name__)
+
+
+@Controller("/secrets")
+class SecretController:
+
+    core_v1_api_watcher: Annotated[CoreV1ApiWatcher, Inject]
+
+    @Get("/{namespace}")
+    def start_watching_secrets(self, namespace: Annotated[str, NotNull]) -&gt; None:
+        self.core_v1_api_watcher.listNamespacedSecret(namespace, None, None, None, None, None, None, None, None, None, None, None, True) \
+            .subscribe(lambda event: LOG.info(str(event)))</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.client
+
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.kubernetes.client.openapi.watcher.api.CoreV1ApiWatcher
+import jakarta.inject.Inject
+import jakarta.validation.constraints.NotNull
+import org.slf4j.LoggerFactory
+
+@Controller("/secrets")
+open class SecretController {
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(SecretController::class.java)
+    }
+
+    @Inject
+    lateinit var coreV1ApiWatcher: CoreV1ApiWatcher
+
+    @Get("/{namespace}")
+    open fun startWatchingSecrets(@NotNull namespace: String) {
+        coreV1ApiWatcher.listNamespacedSecret(namespace, null, null, null, null, null, null, null, null, null, null, null, true)
+            .subscribe { event -&gt; LOG.info(event.toString()) }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.client
+
+import groovy.transform.CompileStatic
+import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
+import io.micronaut.kubernetes.client.openapi.watcher.api.CoreV1ApiWatcher
+import jakarta.inject.Inject
+import jakarta.validation.constraints.NotNull
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+@CompileStatic
+@Controller("/secrets")
+class SecretController {
+    private static final Logger LOG = LoggerFactory.getLogger(SecretController)
+
+    @Inject
+    CoreV1ApiWatcher coreV1ApiWatcher
+
+    @Get("/{namespace}")
+    void startWatchingSecrets(@NotNull String namespace) {
+        coreV1ApiWatcher.listNamespacedSecret(namespace, null, null, null, null, null, null, null, null, null, null, null, true)
+            .subscribe { event -&gt; LOG.info(event.toString()) }
+    }
+}</code></pre>
+</div>
+</div>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -7219,6 +8280,92 @@ class SecretResourceEventHandler implements ResourceEventHandler&lt;V1Secret&gt;
     @Override
     public void onDelete(V1Secret obj, boolean deletedFinalStateUnknown) {
         LOG.info("{} secret deleted!", obj.getMetadata().getName());
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import logging
+
+from micronaut.kubernetes.client.openapi.informer.handler import Informer, ResourceEventHandler
+from micronaut.kubernetes.client.openapi.model import V1Secret
+
+LOG = logging.getLogger(__name__)
+
+@Informer(apiType=V1Secret)  # <b class="conum">(1)</b>
+class SecretResourceEventHandler(ResourceEventHandler[V1Secret]):  # <b class="conum">(2)</b>
+
+    def onAdd(self, obj: V1Secret) -&gt; None:
+        LOG.info("%s secret added!", obj.getMetadata().getName())
+
+    def onUpdate(self, old_obj: V1Secret, new_obj: V1Secret) -&gt; None:
+        LOG.info("%s secret updated!", old_obj.getMetadata().getName())
+
+    def onDelete(self, obj: V1Secret, deleted_final_state_unknown: bool) -&gt; None:
+        LOG.info("%s secret deleted!", obj.getMetadata().getName())</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.client.secret
+
+import io.micronaut.kubernetes.client.openapi.informer.handler.Informer
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
+import org.slf4j.LoggerFactory
+
+@Informer(apiType = V1Secret::class) // <b class="conum">(1)</b>
+class SecretResourceEventHandler : ResourceEventHandler&lt;V1Secret&gt; { // <b class="conum">(2)</b>
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(SecretResourceEventHandler::class.java)
+    }
+
+    override fun onAdd(obj: V1Secret) {
+        LOG.info("{} secret added!", obj.metadata?.name)
+    }
+
+    override fun onUpdate(oldObj: V1Secret, newObj: V1Secret) {
+        LOG.info("{} secret updated!", oldObj.metadata?.name)
+    }
+
+    override fun onDelete(obj: V1Secret, deletedFinalStateUnknown: Boolean) {
+        LOG.info("{} secret deleted!", obj.metadata?.name)
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.client.secret
+
+import groovy.transform.CompileStatic
+import io.micronaut.kubernetes.client.openapi.informer.handler.Informer
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+@CompileStatic
+@Informer(apiType = V1Secret) // <b class="conum">(1)</b>
+class SecretResourceEventHandler implements ResourceEventHandler&lt;V1Secret&gt; { // <b class="conum">(2)</b>
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecretResourceEventHandler)
+
+    @Override
+    void onAdd(V1Secret obj) {
+        LOG.info("{} secret added!", obj.metadata.name)
+    }
+
+    @Override
+    void onUpdate(V1Secret oldObj, V1Secret newObj) {
+        LOG.info("{} secret updated!", oldObj.metadata.name)
+    }
+
+    @Override
+    void onDelete(V1Secret obj, boolean deletedFinalStateUnknown) {
+        LOG.info("{} secret deleted!", obj.metadata.name)
     }
 }</code></pre>
 </div>
@@ -7368,6 +8515,146 @@ public class ConfigMapInformer {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import logging
+
+from jakarta.annotation import PostConstruct
+from micronaut.context.annotation import Context
+from micronaut.kubernetes.client.openapi.informer import SharedIndexInformerFactory
+from micronaut.kubernetes.client.openapi.informer.handler import ResourceEventHandler
+from micronaut.kubernetes.client.openapi.model import V1ConfigMap
+from micronaut.kubernetes.client.openapi.resolver import NamespaceResolver
+
+LOG = logging.getLogger(__name__)
+
+@Context
+class ConfigMapInformer:
+
+    def __init__(self, shared_index_informer_factory: SharedIndexInformerFactory, namespace_resolver: NamespaceResolver):
+        self.shared_index_informer_factory = shared_index_informer_factory
+        self.namespace_resolver = namespace_resolver
+
+    @PostConstruct
+    def initialize(self) -&gt; None:
+        namespace = self.namespace_resolver.resolveNamespace()
+        shared_index_informer = self.shared_index_informer_factory.sharedIndexInformerFor(
+            V1ConfigMap, namespace)
+        shared_index_informer.addEventHandler(self.ConfigMapEventHandler())
+
+    class ConfigMapEventHandler(ResourceEventHandler[V1ConfigMap]):
+
+        def onAdd(self, obj: V1ConfigMap) -&gt; None:
+            LOG.info("%s config map added!", obj.getMetadata().getName())
+
+        def onUpdate(self, old_obj: V1ConfigMap, new_obj: V1ConfigMap) -&gt; None:
+            LOG.info("%s config map updated!", old_obj.getMetadata().getName())
+
+        def onDelete(self, obj: V1ConfigMap, deleted_final_state_unknown: bool) -&gt; None:
+            LOG.info("%s config map deleted!", obj.getMetadata().getName())</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.client.configmap
+
+import io.micronaut.context.annotation.Context
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver
+import jakarta.annotation.PostConstruct
+import org.slf4j.LoggerFactory
+
+@Context
+class ConfigMapInformer(
+    private val sharedIndexInformerFactory: SharedIndexInformerFactory,
+    private val namespaceResolver: NamespaceResolver
+) {
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(ConfigMapInformer::class.java)
+    }
+
+    @PostConstruct
+    fun initialize() {
+        val namespace = namespaceResolver.resolveNamespace()
+        val sharedIndexInformer = sharedIndexInformerFactory.sharedIndexInformerFor(
+            V1ConfigMap::class.java, namespace)
+        sharedIndexInformer.addEventHandler(
+            object : ResourceEventHandler&lt;V1ConfigMap&gt; {
+                override fun onAdd(obj: V1ConfigMap) {
+                    LOG.info("{} config map added!", obj.metadata?.name)
+                }
+
+                override fun onUpdate(oldObj: V1ConfigMap, newObj: V1ConfigMap) {
+                    LOG.info("{} config map updated!", oldObj.metadata?.name)
+                }
+
+                override fun onDelete(obj: V1ConfigMap, deletedFinalStateUnknown: Boolean) {
+                    LOG.info("{} config map deleted!", obj.metadata?.name)
+                }
+            })
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.client.configmap
+
+import groovy.transform.CompileStatic
+import io.micronaut.context.annotation.Context
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformer
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory
+import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver
+import jakarta.annotation.PostConstruct
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+@CompileStatic
+@Context
+class ConfigMapInformer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigMapInformer)
+
+    private final SharedIndexInformerFactory sharedIndexInformerFactory
+
+    private final NamespaceResolver namespaceResolver
+
+    ConfigMapInformer(SharedIndexInformerFactory sharedIndexInformerFactory, NamespaceResolver namespaceResolver) {
+        this.sharedIndexInformerFactory = sharedIndexInformerFactory
+        this.namespaceResolver = namespaceResolver
+    }
+
+    @PostConstruct
+    void initialize() {
+        String namespace = namespaceResolver.resolveNamespace()
+        SharedIndexInformer&lt;V1ConfigMap&gt; sharedIndexInformer = sharedIndexInformerFactory.sharedIndexInformerFor(
+            V1ConfigMap, namespace)
+        sharedIndexInformer.addEventHandler(
+            new ResourceEventHandler&lt;V1ConfigMap&gt;() {
+                @Override
+                void onAdd(V1ConfigMap obj) {
+                    LOG.info("{} config map added!", obj.metadata.name)
+                }
+
+                @Override
+                void onUpdate(V1ConfigMap oldObj, V1ConfigMap newObj) {
+                    LOG.info("{} config map updated!", oldObj.metadata.name)
+                }
+
+                @Override
+                void onDelete(V1ConfigMap obj, boolean deletedFinalStateUnknown) {
+                    LOG.info("{} config map deleted!", obj.metadata.name)
+                }
+            })
+    }
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>By using the <a href="../api/io/micronaut/kubernetes/client/openapi/informer/SharedIndexInformerFactory.html">SharedIndexInformerFactory</a> bean you can also get an existing informer:</p>
 </div>
@@ -7376,6 +8663,27 @@ public class ConfigMapInformer {
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">        SharedIndexInformer&lt;V1ConfigMap&gt; informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
             V1ConfigMap.class,
             namespace);</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">        informer = self.shared_index_informer_factory.getExistingSharedIndexInformer(
+            V1ConfigMap,
+            namespace)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">        val informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
+            V1ConfigMap::class.java,
+            namespace)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">        SharedIndexInformer&lt;V1ConfigMap&gt; informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
+            V1ConfigMap,
+            namespace)</code></pre>
 </div>
 </div>
 </div>
@@ -7399,6 +8707,41 @@ The local cache starts out empty, and gets populated and updated.</p>
             namespace);
         Indexer&lt;V1ConfigMap&gt; indexer = informer.getIndexer();
         return indexer.list();
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">    def all(self) -&gt; list[V1ConfigMap]:
+        namespace = self.namespace_resolver.resolveNamespace()
+        informer = self.shared_index_informer_factory.getExistingSharedIndexInformer(
+            V1ConfigMap,
+            namespace)
+        indexer = informer.getIndexer()
+        return indexer.list()</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">    fun all(): List&lt;V1ConfigMap&gt; {
+        val namespace = namespaceResolver.resolveNamespace()
+        val informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
+            V1ConfigMap::class.java,
+            namespace)
+        val indexer = informer!!.indexer
+        return indexer.list()
+    }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">    List&lt;V1ConfigMap&gt; all() {
+        String namespace = namespaceResolver.resolveNamespace()
+        SharedIndexInformer&lt;V1ConfigMap&gt; informer = sharedIndexInformerFactory.getExistingSharedIndexInformer(
+            V1ConfigMap,
+            namespace)
+        Indexer&lt;V1ConfigMap&gt; indexer = informer.indexer
+        return indexer.list()
     }</code></pre>
 </div>
 </div>
@@ -7434,6 +8777,51 @@ public class CustomObject implements KubernetesObject {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Serdeable
+@dataclass
+class CustomObject(KubernetesObject):
+    apiVersion: str | None = None
+    kind: str | None = None
+    metadata: V1ObjectMeta | None = None
+    value: str | None = None</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Serdeable
+class CustomObject : KubernetesObject {
+
+    private var apiVersion: String? = null
+
+    private var kind: String? = null
+
+    private var metadata: V1ObjectMeta? = null
+
+    var value: String? = null
+
+    // getters/setters omitted
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Serdeable
+class CustomObject implements KubernetesObject {
+
+    private String apiVersion
+
+    private String kind
+
+    private V1ObjectMeta metadata
+
+    private String value
+
+    // getters/setters omitted
+}</code></pre>
+</div>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -7453,6 +8841,51 @@ public class CustomObjectList implements KubernetesListObject {
     private V1ListMeta metadata;
 
     private List&lt;CustomObject&gt; items;
+
+    // getters/setters omitted
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Serdeable
+@dataclass
+class CustomObjectList(KubernetesListObject):
+    apiVersion: str | None = None
+    kind: str | None = None
+    metadata: V1ListMeta | None = None
+    items: list[CustomObject] = field(default_factory=list)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Serdeable
+class CustomObjectList : KubernetesListObject {
+
+    private var apiVersion: String? = null
+
+    private var kind: String? = null
+
+    private var metadata: V1ListMeta = V1ListMeta()
+
+    private var items: List&lt;CustomObject&gt; = emptyList()
+
+    // getters/setters omitted
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Serdeable
+class CustomObjectList implements KubernetesListObject {
+
+    private String apiVersion
+
+    private String kind
+
+    private V1ListMeta metadata
+
+    private List&lt;CustomObject&gt; items
 
     // getters/setters omitted
 }</code></pre>
@@ -7536,6 +8969,228 @@ public interface CustomObjectApiReactor {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@KubernetesClientApiReactor
+@BootstrapContextCompatible
+@Client("kubernetes")
+class CustomObjectApiReactor:
+
+    @Post("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    def create_namespaced_custom_object(
+        self,
+        namespace: Annotated[str, PathVariable("namespace")],
+        body: Annotated[CustomObject, Body],
+        pretty: Annotated[str | None, QueryValue("pretty")],
+        dry_run: Annotated[str | None, QueryValue("dryRun")],
+        field_manager: Annotated[str | None, QueryValue("fieldManager")],
+        field_validation: Annotated[str | None, QueryValue("fieldValidation")]
+    ) -&gt; Mono[CustomObject]:
+        ...
+
+    @Delete("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    def delete_namespaced_custom_object(
+        self,
+        name: Annotated[str, PathVariable("name")],
+        namespace: Annotated[str, PathVariable("namespace")],
+        pretty: Annotated[str | None, QueryValue("pretty")],
+        dry_run: Annotated[str | None, QueryValue("dryRun")],
+        grace_period_seconds: Annotated[int | None, QueryValue("gracePeriodSeconds")],
+        ignore_store_read_error_with_cluster_breaking_potential: Annotated[bool | None, QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential")],
+        orphan_dependents: Annotated[bool | None, QueryValue("orphanDependents")],
+        propagation_policy: Annotated[str | None, QueryValue("propagationPolicy")],
+        body: Annotated[V1DeleteOptions | None, Body]
+    ) -&gt; Mono[DeleteResponse[CustomObject]]:
+        ...
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq"])
+    def list_namespaced_custom_object(
+        self,
+        namespace: Annotated[str, PathVariable("namespace")],
+        pretty: Annotated[str | None, QueryValue("pretty")],
+        allow_watch_bookmarks: Annotated[bool | None, QueryValue("allowWatchBookmarks")],
+        continue_: Annotated[str | None, QueryValue("continue")],
+        field_selector: Annotated[str | None, QueryValue("fieldSelector")],
+        label_selector: Annotated[str | None, QueryValue("labelSelector")],
+        limit: Annotated[int | None, QueryValue("limit")],
+        resource_version: Annotated[str | None, QueryValue("resourceVersion")],
+        resource_version_match: Annotated[str | None, QueryValue("resourceVersionMatch")],
+        send_initial_events: Annotated[bool | None, QueryValue("sendInitialEvents")],
+        timeout_seconds: Annotated[int | None, QueryValue("timeoutSeconds")],
+        watch: Annotated[bool | None, QueryValue("watch")]
+    ) -&gt; Mono[CustomObjectList]:
+        ...
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    def read_namespaced_custom_object(
+        self,
+        name: Annotated[str, PathVariable("name")],
+        namespace: Annotated[str, PathVariable("namespace")],
+        pretty: Annotated[str | None, QueryValue("pretty")]
+    ) -&gt; Mono[CustomObject]:
+        ...
+
+    @Put("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    def replace_namespaced_custom_object(
+        self,
+        name: Annotated[str, PathVariable("name")],
+        namespace: Annotated[str, PathVariable("namespace")],
+        body: Annotated[CustomObject, Body],
+        pretty: Annotated[str | None, QueryValue("pretty")],
+        dry_run: Annotated[str | None, QueryValue("dryRun")],
+        field_manager: Annotated[str | None, QueryValue("fieldManager")],
+        field_validation: Annotated[str | None, QueryValue("fieldValidation")]
+    ) -&gt; Mono[CustomObject]:
+        ...</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@KubernetesClientApiReactor
+@BootstrapContextCompatible
+@Client("kubernetes")
+interface CustomObjectApiReactor {
+
+    @Post("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes("application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor")
+    fun createNamespacedCustomObject(
+        @PathVariable("namespace") namespace: String,
+        @Body body: CustomObject,
+        @QueryValue("pretty") @Nullable pretty: String?,
+        @QueryValue("dryRun") @Nullable dryRun: String?,
+        @QueryValue("fieldManager") @Nullable fieldManager: String?,
+        @QueryValue("fieldValidation") @Nullable fieldValidation: String?
+    ): Mono&lt;CustomObject&gt;
+
+    @Delete("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes("application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor")
+    fun deleteNamespacedCustomObject(
+        @PathVariable("name") name: String,
+        @PathVariable("namespace") namespace: String,
+        @QueryValue("pretty") @Nullable pretty: String?,
+        @QueryValue("dryRun") @Nullable dryRun: String?,
+        @QueryValue("gracePeriodSeconds") @Nullable gracePeriodSeconds: Int?,
+        @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable ignoreStoreReadErrorWithClusterBreakingPotential: Boolean?,
+        @QueryValue("orphanDependents") @Nullable orphanDependents: Boolean?,
+        @QueryValue("propagationPolicy") @Nullable propagationPolicy: String?,
+        @Body @Nullable body: V1DeleteOptions?
+    ): Mono&lt;DeleteResponse&lt;CustomObject&gt;&gt;
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes("application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq")
+    fun listNamespacedCustomObject(
+        @PathVariable("namespace") namespace: String,
+        @QueryValue("pretty") @Nullable pretty: String?,
+        @QueryValue("allowWatchBookmarks") @Nullable allowWatchBookmarks: Boolean?,
+        @QueryValue("continue") @Nullable _continue: String?,
+        @QueryValue("fieldSelector") @Nullable fieldSelector: String?,
+        @QueryValue("labelSelector") @Nullable labelSelector: String?,
+        @QueryValue("limit") @Nullable limit: Int?,
+        @QueryValue("resourceVersion") @Nullable resourceVersion: String?,
+        @QueryValue("resourceVersionMatch") @Nullable resourceVersionMatch: String?,
+        @QueryValue("sendInitialEvents") @Nullable sendInitialEvents: Boolean?,
+        @QueryValue("timeoutSeconds") @Nullable timeoutSeconds: Int?,
+        @QueryValue("watch") @Nullable watch: Boolean?
+    ): Mono&lt;CustomObjectList&gt;
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes("application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor")
+    fun readNamespacedCustomObject(
+        @PathVariable("name") name: String,
+        @PathVariable("namespace") namespace: String,
+        @QueryValue("pretty") @Nullable pretty: String?
+    ): Mono&lt;CustomObject&gt;
+
+    @Put("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes("application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor")
+    fun replaceNamespacedCustomObject(
+        @PathVariable("name") name: String,
+        @PathVariable("namespace") namespace: String,
+        @Body body: CustomObject,
+        @QueryValue("pretty") @Nullable pretty: String?,
+        @QueryValue("dryRun") @Nullable dryRun: String?,
+        @QueryValue("fieldManager") @Nullable fieldManager: String?,
+        @QueryValue("fieldValidation") @Nullable fieldValidation: String?
+    ): Mono&lt;CustomObject&gt;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@KubernetesClientApiReactor
+@BootstrapContextCompatible
+@Client("kubernetes")
+interface CustomObjectApiReactor {
+
+    @Post("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    Mono&lt;CustomObject&gt; createNamespacedCustomObject(
+        @PathVariable("namespace") String namespace,
+        @Body CustomObject body,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("dryRun") @Nullable String dryRun,
+        @QueryValue("fieldManager") @Nullable String fieldManager,
+        @QueryValue("fieldValidation") @Nullable String fieldValidation
+    )
+
+    @Delete("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    Mono&lt;DeleteResponse&lt;CustomObject&gt;&gt; deleteNamespacedCustomObject(
+        @PathVariable("name") String name,
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("dryRun") @Nullable String dryRun,
+        @QueryValue("gracePeriodSeconds") @Nullable Integer gracePeriodSeconds,
+        @QueryValue("ignoreStoreReadErrorWithClusterBreakingPotential") @Nullable Boolean ignoreStoreReadErrorWithClusterBreakingPotential,
+        @QueryValue("orphanDependents") @Nullable Boolean orphanDependents,
+        @QueryValue("propagationPolicy") @Nullable String propagationPolicy,
+        @Body @Nullable V1DeleteOptions body
+    )
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq"])
+    Mono&lt;CustomObjectList&gt; listNamespacedCustomObject(
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("allowWatchBookmarks") @Nullable Boolean allowWatchBookmarks,
+        @QueryValue("continue") @Nullable String _continue,
+        @QueryValue("fieldSelector") @Nullable String fieldSelector,
+        @QueryValue("labelSelector") @Nullable String labelSelector,
+        @QueryValue("limit") @Nullable Integer limit,
+        @QueryValue("resourceVersion") @Nullable String resourceVersion,
+        @QueryValue("resourceVersionMatch") @Nullable String resourceVersionMatch,
+        @QueryValue("sendInitialEvents") @Nullable Boolean sendInitialEvents,
+        @QueryValue("timeoutSeconds") @Nullable Integer timeoutSeconds,
+        @QueryValue("watch") @Nullable Boolean watch
+    )
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    Mono&lt;CustomObject&gt; readNamespacedCustomObject(
+        @PathVariable("name") String name,
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty
+    )
+
+    @Put("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects/{name}")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor"])
+    Mono&lt;CustomObject&gt; replaceNamespacedCustomObject(
+        @PathVariable("name") String name,
+        @PathVariable("namespace") String namespace,
+        @Body CustomObject body,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("dryRun") @Nullable String dryRun,
+        @QueryValue("fieldManager") @Nullable String fieldManager,
+        @QueryValue("fieldValidation") @Nullable String fieldValidation
+    )
+}</code></pre>
+</div>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -7568,6 +9223,82 @@ public interface CustomObjectApiWatcher {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@KubernetesClientApiWatcher
+@Client("kubernetes")
+class CustomObjectApiWatcher:
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq"])
+    def list_custom_object(
+        self,
+        namespace: Annotated[str, PathVariable("namespace")],
+        pretty: Annotated[str | None, QueryValue("pretty")],
+        allow_watch_bookmarks: Annotated[bool | None, QueryValue("allowWatchBookmarks")],
+        continue_: Annotated[str | None, QueryValue("continue")],
+        field_selector: Annotated[str | None, QueryValue("fieldSelector")],
+        label_selector: Annotated[str | None, QueryValue("labelSelector")],
+        limit: Annotated[int | None, QueryValue("limit")],
+        resource_version: Annotated[str | None, QueryValue("resourceVersion")],
+        resource_version_match: Annotated[str | None, QueryValue("resourceVersionMatch")],
+        send_initial_events: Annotated[bool | None, QueryValue("sendInitialEvents")],
+        timeout_seconds: Annotated[int | None, QueryValue("timeoutSeconds")],
+        watch: Annotated[bool | None, QueryValue("watch")]
+    ) -&gt; Flux[WatchEvent[CustomObject]]:
+        ...</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@KubernetesClientApiWatcher
+@Client("kubernetes")
+interface CustomObjectApiWatcher {
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes("application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq")
+    fun listCustomObject(
+        @PathVariable("namespace") namespace: String,
+        @QueryValue("pretty") @Nullable pretty: String?,
+        @QueryValue("allowWatchBookmarks") @Nullable allowWatchBookmarks: Boolean?,
+        @QueryValue("continue") @Nullable _continue: String?,
+        @QueryValue("fieldSelector") @Nullable fieldSelector: String?,
+        @QueryValue("labelSelector") @Nullable labelSelector: String?,
+        @QueryValue("limit") @Nullable limit: Int?,
+        @QueryValue("resourceVersion") @Nullable resourceVersion: String?,
+        @QueryValue("resourceVersionMatch") @Nullable resourceVersionMatch: String?,
+        @QueryValue("sendInitialEvents") @Nullable sendInitialEvents: Boolean?,
+        @QueryValue("timeoutSeconds") @Nullable timeoutSeconds: Int?,
+        @QueryValue("watch") @Nullable watch: Boolean?
+    ): Flux&lt;WatchEvent&lt;CustomObject&gt;&gt;
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@KubernetesClientApiWatcher
+@Client("kubernetes")
+interface CustomObjectApiWatcher {
+
+    @Get("/apis/custom.test.io/v1/namespaces/{namespace}/customobjects")
+    @Consumes(["application/json", "application/yaml", "application/vnd.kubernetes.protobuf", "application/cbor", "application/json;stream=watch", "application/vnd.kubernetes.protobuf;stream=watch", "application/cbor-seq"])
+    Flux&lt;WatchEvent&lt;CustomObject&gt;&gt; listCustomObject(
+        @PathVariable("namespace") String namespace,
+        @QueryValue("pretty") @Nullable String pretty,
+        @QueryValue("allowWatchBookmarks") @Nullable Boolean allowWatchBookmarks,
+        @QueryValue("continue") @Nullable String _continue,
+        @QueryValue("fieldSelector") @Nullable String fieldSelector,
+        @QueryValue("labelSelector") @Nullable String labelSelector,
+        @QueryValue("limit") @Nullable Integer limit,
+        @QueryValue("resourceVersion") @Nullable String resourceVersion,
+        @QueryValue("resourceVersionMatch") @Nullable String resourceVersionMatch,
+        @QueryValue("sendInitialEvents") @Nullable Boolean sendInitialEvents,
+        @QueryValue("timeoutSeconds") @Nullable Integer timeoutSeconds,
+        @QueryValue("watch") @Nullable Boolean watch
+    )
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p>In the OpenApi Spec of the official Java client library, names of list types are usually equal to names of list item types plus <code>List</code> suffix.
 For example: <code>V1SecretList</code> = <code>V1Secret</code> + <code>List</code>, <code>V1ConfigMapList</code> = <code>V1ConfigMap</code> + <code>List</code>, etc. If that is not case for your classes which
@@ -7582,8 +9313,43 @@ public class CustomTypeNameMapper implements TypeNameMapper {
     @Override
     public Map&lt;String, String&gt; getMappings() {
         Map&lt;String, String&gt; mappings = new HashMap&lt;&gt;();
-        mappings.put("io.micronaut.kubernetes.client.openapi.informer.example2.CustomObjectCollection", "io.micronaut.kubernetes.client.openapi.informer.example2.CustomObject");
+        mappings.put("io.micronaut.docs.openapi.informer.example2.CustomObjectCollection", "io.micronaut.docs.openapi.informer.example2.CustomObject");
         return mappings;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Singleton
+class CustomTypeNameMapper(TypeNameMapper):
+    def getMappings(self) -&gt; dict[str, str]:
+        return {
+            "micronaut.docs.openapi.informer.example2.CustomObjectCollection": "micronaut.docs.openapi.informer.example2.CustomObject"
+        }</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Singleton
+class CustomTypeNameMapper : TypeNameMapper {
+    override fun getMappings(): Map&lt;String, String&gt; {
+        val mappings = HashMap&lt;String, String&gt;()
+        mappings["io.micronaut.docs.openapi.informer.example2.CustomObjectCollection"] = "io.micronaut.docs.openapi.informer.example2.CustomObject"
+        return mappings
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Singleton
+class CustomTypeNameMapper implements TypeNameMapper {
+    @Override
+    Map&lt;String, String&gt; getMappings() {
+        Map&lt;String, String&gt; mappings = new HashMap&lt;&gt;()
+        mappings.put("io.micronaut.docs.openapi.informer.example2.CustomObjectCollection", "io.micronaut.docs.openapi.informer.example2.CustomObject")
+        return mappings
     }
 }</code></pre>
 </div>
@@ -7665,6 +9431,75 @@ class ConfigMapReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; { // 
         Optional&lt;V1ConfigMap&gt; configMapOpt = lister.get(request); // <b class="conum">(4)</b>
         // .. reconcile  <b class="conum">(5)</b>
         return new Result(false); // <b class="conum">(6)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import logging
+
+from java.util import Optional
+from micronaut.kubernetes.client.openapi.informer.handler import Informer
+from micronaut.kubernetes.client.openapi.model import V1ConfigMap
+from micronaut.kubernetes.client.openapi.operator import Operator, OperatorResourceLister
+from micronaut.kubernetes.client.openapi.operator.controller.reconciler import Request, ResourceReconciler, Result
+@Operator(informer=Informer(apiType=V1ConfigMap))  # <b class="conum">(1)</b>
+class ConfigMapReconciler(ResourceReconciler[V1ConfigMap]):  # <b class="conum">(2)</b>
+
+    def reconcile(self, request: Request, lister: OperatorResourceLister[V1ConfigMap]) -&gt; Result:  # <b class="conum">(3)</b>
+        config_map_opt: Optional[V1ConfigMap] = lister.get(request)  # <b class="conum">(4)</b>
+        # .. reconcile  <b class="conum">(5)</b>
+        return Result(False)  # <b class="conum">(6)</b></code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.operator
+
+import io.micronaut.kubernetes.client.openapi.informer.handler.Informer
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import io.micronaut.kubernetes.client.openapi.operator.Operator
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
+import java.util.Optional
+
+@Operator(informer = Informer(apiType = V1ConfigMap::class)) // <b class="conum">(1)</b>
+class ConfigMapReconciler(private val coreV1Api: CoreV1Api) : ResourceReconciler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    override fun reconcile(request: Request, lister: OperatorResourceLister&lt;V1ConfigMap&gt;): Result { // <b class="conum">(3)</b>
+        val configMapOpt: Optional&lt;V1ConfigMap&gt; = lister.get(request) // <b class="conum">(4)</b>
+        // .. reconcile  <b class="conum">(5)</b>
+        return Result(false) // <b class="conum">(6)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.operator
+
+import io.micronaut.kubernetes.client.openapi.informer.handler.Informer
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import io.micronaut.kubernetes.client.openapi.operator.Operator
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
+import org.jspecify.annotations.NonNull
+
+@CompileStatic
+@Operator(informer = @Informer(apiType = V1ConfigMap)) // <b class="conum">(1)</b>
+class ConfigMapReconciler implements ResourceReconciler&lt;V1ConfigMap&gt; { // <b class="conum">(2)</b>
+
+    @Override
+    @NonNull
+    Result reconcile(@NonNull Request request, @NonNull OperatorResourceLister&lt;V1ConfigMap&gt; lister) { // <b class="conum">(3)</b>
+        Optional&lt;V1ConfigMap&gt; configMapOpt = lister.get(request) // <b class="conum">(4)</b>
+        // .. reconcile  <b class="conum">(5)</b>
+        return new Result(false) // <b class="conum">(6)</b>
     }
 }</code></pre>
 </div>
@@ -7758,6 +9593,58 @@ public class OnAddFilter implements Predicate&lt;V1ConfigMap&gt; {
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util.function import Predicate
+from jakarta.inject import Singleton
+from micronaut.kubernetes.client.openapi.model import V1ConfigMap
+
+@Singleton
+class OnAddFilter(Predicate[V1ConfigMap]):
+    def test(self, config_map: V1ConfigMap) -&gt; bool:
+        annotations = config_map.getMetadata().getAnnotations()
+        return annotations is not None and "io.micronaut.operator" in annotations</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.operator
+
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.Predicate
+
+@Singleton
+class OnAddFilter : Predicate&lt;V1ConfigMap&gt; {
+    override fun test(configMap: V1ConfigMap): Boolean {
+        val annotations = configMap.metadata?.annotations
+        return annotations != null &amp;&amp; annotations.containsKey("io.micronaut.operator")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.operator
+
+import groovy.transform.CompileStatic
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.Predicate
+
+@CompileStatic
+@Singleton
+class OnAddFilter implements Predicate&lt;V1ConfigMap&gt; {
+    @Override
+    boolean test(V1ConfigMap configMap) {
+        return configMap.metadata.annotations != null
+            &amp;&amp; configMap.metadata.annotations.containsKey("io.micronaut.operator")
+    }
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p><code>onUpdateFilter</code></p>
 </div>
@@ -7780,8 +9667,131 @@ public class OnUpdateFilter implements BiPredicate&lt;V1ConfigMap, V1ConfigMap&g
 }</code></pre>
 </div>
 </div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util.function import BiPredicate
+from jakarta.inject import Singleton
+from micronaut.kubernetes.client.openapi.model import V1ConfigMap
+
+@Singleton
+class OnUpdateFilter(BiPredicate[V1ConfigMap, V1ConfigMap]):
+    def test(self, old_config_map: V1ConfigMap, new_config_map: V1ConfigMap) -&gt; bool:
+        annotations = new_config_map.getMetadata().getAnnotations()
+        return annotations is not None and "io.micronaut.operator" in annotations</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.operator
+
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@Singleton
+class OnUpdateFilter : BiPredicate&lt;V1ConfigMap, V1ConfigMap&gt; {
+    override fun test(oldConfigMap: V1ConfigMap, newConfigMap: V1ConfigMap): Boolean {
+        val annotations = newConfigMap.metadata?.annotations
+        return annotations != null &amp;&amp; annotations.containsKey("io.micronaut.operator")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.operator
+
+import groovy.transform.CompileStatic
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@CompileStatic
+@Singleton
+class OnUpdateFilter implements BiPredicate&lt;V1ConfigMap, V1ConfigMap&gt; {
+    @Override
+    boolean test(V1ConfigMap oldConfigMap, V1ConfigMap newConfigMap) {
+        return newConfigMap.metadata.annotations != null
+            &amp;&amp; newConfigMap.metadata.annotations.containsKey("io.micronaut.operator")
+    }
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p><code>onDeleteFilter</code></p>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">package micronaut.operator;
+
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
+import jakarta.inject.Singleton;
+
+import java.util.function.BiPredicate;
+
+@Singleton
+public class OnDeleteFilter implements BiPredicate&lt;V1ConfigMap, Boolean&gt; {
+    @Override
+    public boolean test(V1ConfigMap configMap, Boolean deletedFinalStateUnknown) {
+        return configMap.getMetadata().getAnnotations() != null
+            &amp;&amp; configMap.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">from java.util.function import BiPredicate
+from jakarta.inject import Singleton
+from micronaut.kubernetes.client.openapi.model import V1ConfigMap
+
+@Singleton
+class OnDeleteFilter(BiPredicate[V1ConfigMap, bool]):
+    def test(self, config_map: V1ConfigMap, deleted_final_state_unknown: bool) -&gt; bool:
+        annotations = config_map.getMetadata().getAnnotations()
+        return annotations is not None and "io.micronaut.operator" in annotations</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.operator
+
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@Singleton
+class OnDeleteFilter : BiPredicate&lt;V1ConfigMap, Boolean&gt; {
+    override fun test(configMap: V1ConfigMap, deletedFinalStateUnknown: Boolean): Boolean {
+        val annotations = configMap.metadata?.annotations
+        return annotations != null &amp;&amp; annotations.containsKey("io.micronaut.operator")
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.operator
+
+import groovy.transform.CompileStatic
+import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap
+import jakarta.inject.Singleton
+
+import java.util.function.BiPredicate
+
+@CompileStatic
+@Singleton
+class OnDeleteFilter implements BiPredicate&lt;V1ConfigMap, Boolean&gt; {
+    @Override
+    boolean test(V1ConfigMap configMap, Boolean deletedFinalStateUnknown) {
+        return configMap.metadata.annotations != null
+            &amp;&amp; configMap.metadata.annotations.containsKey("io.micronaut.operator")
+    }
+}</code></pre>
+</div>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -7798,12 +9808,44 @@ Note that in case of <code>onDeleteFilter</code> the predicate receives the reso
 <div class="paragraph">
 <p>and to set the filters in <a href="../api/io/micronaut/kubernetes/client/openapi/operator/Operator.html">@Operator</a> annotation:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock multi-language-sample">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Operator(informer = @Informer(apiType = V1ConfigMap.class),
         onAddFilter = OnAddFilter.class,
         onUpdateFilter = OnUpdateFilter.class,
-        onDeleteFilter = OnDeleteFilter.class)</code></pre>
+        onDeleteFilter = OnDeleteFilter.class)
+class ConfigMapReconcilerWithFilters implements ResourceReconciler&lt;V1ConfigMap&gt; {
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">@Operator(informer=Informer(apiType=V1ConfigMap),
+          onAddFilter=OnAddFilter,
+          onUpdateFilter=OnUpdateFilter,
+          onDeleteFilter=OnDeleteFilter)
+class ConfigMapReconcilerWithFilters(ResourceReconciler[V1ConfigMap]):
+    ...</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">@Operator(informer = Informer(apiType = V1ConfigMap::class),
+        onAddFilter = OnAddFilter::class,
+        onUpdateFilter = OnUpdateFilter::class,
+        onDeleteFilter = OnDeleteFilter::class)
+class ConfigMapReconcilerWithFilters : ResourceReconciler&lt;V1ConfigMap&gt; {
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">@Operator(informer = @Informer(apiType = V1ConfigMap),
+        onAddFilter = OnAddFilter,
+        onUpdateFilter = OnUpdateFilter,
+        onDeleteFilter = OnDeleteFilter)
+class ConfigMapReconcilerWithFilters implements ResourceReconciler&lt;V1ConfigMap&gt; {
+}</code></pre>
 </div>
 </div>
 <div class="sect1">
@@ -7851,6 +9893,116 @@ class SecretOperator {
             LOG.info("Reconciling secret: {}", request);
             // .. reconcile
             return new Result(false);
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-python hljs" data-lang="python">import logging
+
+from micronaut.context.annotation import Context
+from micronaut.kubernetes.client.openapi.informer import SharedIndexInformerFactory
+from micronaut.kubernetes.client.openapi.model import V1Secret
+from micronaut.kubernetes.client.openapi.operator import OperatorResourceLister
+from micronaut.kubernetes.client.openapi.operator.controller import ControllerFactory
+from micronaut.kubernetes.client.openapi.operator.controller.reconciler import Request, ResourceReconciler, Result
+from micronaut.kubernetes.client.openapi.resolver import NamespaceResolver
+
+LOG = logging.getLogger(__name__)
+
+@Context
+class SecretOperator:
+
+    def __init__(self, shared_index_informer_factory: SharedIndexInformerFactory, controller_factory: ControllerFactory, namespace_resolver: NamespaceResolver):
+        namespace = namespace_resolver.resolveNamespace()
+        shared_index_informer_factory.sharedIndexInformerFor(V1Secret, namespace)
+        controller_factory.createController(V1Secret, {namespace}, self.SecretReconciler())
+
+    class SecretReconciler(ResourceReconciler[V1Secret]):
+        def reconcile(self, request: Request, lister: OperatorResourceLister[V1Secret]) -&gt; Result:
+            secret_opt = lister.get(request)
+            LOG.info("Reconciling secret: %s", request)
+            # .. reconcile
+            return Result(False)</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-kotlin hljs" data-lang="kotlin">package micronaut.operator
+
+import io.micronaut.context.annotation.Context
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFactory
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver
+import org.slf4j.LoggerFactory
+
+@Context
+class SecretOperator(sharedIndexInformerFactory: SharedIndexInformerFactory, controllerFactory: ControllerFactory, namespaceResolver: NamespaceResolver) {
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(SecretOperator::class.java)
+    }
+
+    init {
+        val namespace = namespaceResolver.resolveNamespace()
+        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret::class.java, namespace)
+        controllerFactory.createController(V1Secret::class.java, setOf(namespace), SecretReconciler())
+    }
+
+    private inner class SecretReconciler : ResourceReconciler&lt;V1Secret&gt; {
+        override fun reconcile(request: Request, lister: OperatorResourceLister&lt;V1Secret&gt;): Result {
+            val secretOpt = lister.get(request)
+            LOG.info("Reconciling secret: {}", request)
+            // .. reconcile
+            return Result(false)
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock multi-language-sample">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-groovy hljs" data-lang="groovy">package micronaut.operator
+
+import groovy.transform.CompileStatic
+import io.micronaut.context.annotation.Context
+import io.micronaut.kubernetes.client.openapi.informer.SharedIndexInformerFactory
+import io.micronaut.kubernetes.client.openapi.model.V1Secret
+import io.micronaut.kubernetes.client.openapi.operator.OperatorResourceLister
+import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFactory
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
+import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
+import io.micronaut.kubernetes.client.openapi.resolver.NamespaceResolver
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+@CompileStatic
+@Context
+class SecretOperator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SecretOperator)
+
+    SecretOperator(SharedIndexInformerFactory sharedIndexInformerFactory, ControllerFactory controllerFactory, NamespaceResolver namespaceResolver) {
+        String namespace = namespaceResolver.resolveNamespace()
+        sharedIndexInformerFactory.sharedIndexInformerFor(V1Secret, namespace)
+        controllerFactory.createController(V1Secret, Collections.singleton(namespace), new SecretReconciler())
+    }
+
+    private class SecretReconciler implements ResourceReconciler&lt;V1Secret&gt; {
+        @Override
+        Result reconcile(Request request, OperatorResourceLister&lt;V1Secret&gt; lister) {
+            Optional&lt;V1Secret&gt; secretOpt = lister.get(request)
+            LOG.info("Reconciling secret: {}", request)
+            // .. reconcile
+            return new Result(false)
         }
     }
 }</code></pre>
