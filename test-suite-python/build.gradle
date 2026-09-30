@@ -1,0 +1,16 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-test-suite'
+    id 'io.micronaut.build.internal.python'
+}
+
+dependencies {
+    // Annotation processors MUST be testImplementation (not testAnnotationProcessor): the Python compiler
+    // compiler takes the (jar-resolved) compile classpath as its annotation processor path.
+    testImplementation(mnSerde.micronaut.serde.processor)
+    testImplementation(mn.micronaut.inject.python.test)
+    testImplementation(mn.micronaut.context.python)
+}
+
+tasks.withType(Test).configureEach {
+    systemProperty "micronaut.python.pool.enabled", "false"
+}

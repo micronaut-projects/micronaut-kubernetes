@@ -1,0 +1,30 @@
+/*
+ * Convention for the documentation test suites (test-suite, test-suite-groovy, test-suite-kotlin,
+ * test-suite-python). The user guide `snippet::` macros without a project attribute resolve their
+ * sources in these projects, so every example is compiled in all four languages.
+ */
+plugins {
+    id "io.micronaut.build.internal.common"
+    id "io.micronaut.build.internal.kubernetes-tests"
+}
+
+dependencies {
+    testImplementation(projects.micronautKubernetesClient)
+    testImplementation(projects.micronautKubernetesClientRxjava3)
+    testImplementation(libs.rxjava3)
+    testImplementation(projects.micronautKubernetesClientReactor)
+    testImplementation(projects.micronautKubernetesInformer)
+    testImplementation(projects.micronautKubernetesOperator)
+    testImplementation(projects.micronautKubernetesClientOpenapiInformer)
+    testImplementation(mn.micronaut.http.client)
+    testImplementation(mnSerde.micronaut.serde.jackson)
+    testImplementation(mnTest.micronaut.test.junit5)
+    testRuntimeOnly(mnTest.junit.jupiter.engine)
+    testRuntimeOnly(mnTest.junit.platform.launcher)
+    testRuntimeOnly(mnLogging.logback.classic)
+    testRuntimeOnly(mn.snakeyaml)
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}

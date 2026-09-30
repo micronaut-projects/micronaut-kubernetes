@@ -37,27 +37,21 @@ The filter examples for the `V1ConfigMap` resource:
 
 `onAddFilter`
 
-snippet::micronaut.operator.OnAddFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main"]
+snippet::micronaut.operator.OnAddFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main", tags="class"]
 
 `onUpdateFilter`
 
-snippet::micronaut.operator.OnUpdateFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main"]
+snippet::micronaut.operator.OnUpdateFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main", tags="class"]
 
 `onDeleteFilter`
 
-snippet::micronaut.operator.onDeleteFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main"]
+snippet::micronaut.operator.OnDeleteFilter[project-base="examples/example-kubernetes-client-openapi-operator", source="main", tags="class"]
 
 IMPORTANT: Note that in case of `onDeleteFilter` the predicate receives the resource for the `test` method, but when the ResouceReconciler's `reconcile` method is executed, the `lister` will return `Optional.empty` since the resource was already deleted. To properly reconcile the resource on it's removal, use https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/[finalizers].
 
 and to set the filters in ann:kubernetes.client.openapi.operator.Operator[] annotation:
 
-[source,java]
-----
-@Operator(informer = @Informer(apiType = V1ConfigMap.class),
-        onAddFilter = OnAddFilter.class,
-        onUpdateFilter = OnUpdateFilter.class,
-        onDeleteFilter = OnDeleteFilter.class)
-----
+snippet::micronaut.operator.ConfigMapReconcilerWithFilters[project-base="examples/example-kubernetes-client-openapi-operator", source="main", tags="operator"]
 
 == Programmatic creation of Controller
 
@@ -65,7 +59,7 @@ Use the bean api:kubernetes.client.openapi.operator.controller.ControllerFactory
 The api:kubernetes.client.openapi.operator.controller.ControllerFactory[]'s `createController` methods require already created
 api:kubernetes.client.openapi.informer.SharedIndexInformer[] instances for the same kubernetes resources in the same namespaces as provided to `createController` methods.
 
-snippet::micronaut.operator.SecretOperator[project-base="examples/example-kubernetes-client-openapi-operator" source="main"]
+snippet::micronaut.operator.SecretOperator[project-base="examples/example-kubernetes-client-openapi-operator", source="main", tags="class"]
 
 Note that informer and controller need to be created before the micronaut context has completed the startup process since those are started by
 api:kubernetes.client.openapi.informer.InformerFactoryLifecycleListener[] and api:kubernetes.client.openapi.operator.controller.ControllersLifecycleListener[].

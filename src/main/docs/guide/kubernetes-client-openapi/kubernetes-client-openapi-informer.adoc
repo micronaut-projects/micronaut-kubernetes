@@ -12,7 +12,7 @@ through which you provide the configuration for the api:kubernetes.client.openap
 The example below illustrates the declaration of the ann:kubernetes.client.openapi.informer.handler.Informer[] with the
 api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] for handling the changes of the Kubernetes `V1Secret` resource.
 
-snippet::micronaut.client.secret.SecretResourceEventHandler[project-base="examples/example-kubernetes-client-openapi-informer", source="main"]
+snippet::micronaut.client.secret.SecretResourceEventHandler[project-base="examples/example-kubernetes-client-openapi-informer", source="main", tags="class"]
 <1> The ann:kubernetes.client.openapi.informer.handler.Informer[] annotation defines the Kubernetes resource type and namespace
 <2> The api:kubernetes.client.openapi.informer.handler.ResourceEventHandler[] interface declares method handlers for added, updated and deleted resource
 
@@ -50,7 +50,7 @@ same Kubernetes resource type within the same namespace will result in throwing 
 
 Use the bean api:kubernetes.client.openapi.informer.SharedIndexInformerFactory[] to create the api:kubernetes.client.openapi.informer.SharedIndexInformer[] programmatically:
 
-snippet::micronaut.client.configmap.ConfigMapInformer[project-base="examples/example-kubernetes-client-openapi-informer", source="main"]
+snippet::micronaut.client.configmap.ConfigMapInformer[project-base="examples/example-kubernetes-client-openapi-informer", source="main", tags="class"]
 
 By using the api:kubernetes.client.openapi.informer.SharedIndexInformerFactory[] bean you can also get an existing informer:
 
@@ -71,19 +71,19 @@ To create an Informer for a kubernetes custom resource you need:
 
 * class which implements api:kubernetes.client.openapi.common.KubernetesObject[] interface:
 
-snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObject[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+snippet::io.micronaut.docs.openapi.informer.example1.CustomObject[tags="get"]
 
 * class which implements api:kubernetes.client.openapi.common.KubernetesListObject[] interface:
 
-snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObjectList[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+snippet::io.micronaut.docs.openapi.informer.example1.CustomObjectList[tags="get"]
 
 * non-blocking operations interface for the custom resource
 
-snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObjectApiReactor[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+snippet::io.micronaut.docs.openapi.informer.example1.CustomObjectApiReactor[tags="get"]
 
 * watcher interface for the custom resource
 
-snippet::io.micronaut.kubernetes.client.openapi.informer.example1.CustomObjectApiWatcher[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+snippet::io.micronaut.docs.openapi.informer.example1.CustomObjectApiWatcher[tags="get"]
 
 In the OpenApi Spec of the official Java client library, names of list types are usually equal to names of list item types plus `List` suffix.
 For example: `V1SecretList` = `V1Secret` + `List`, `V1ConfigMapList` = `V1ConfigMap` + `List`, etc. If that is not case for your classes which
@@ -91,4 +91,4 @@ implement api:kubernetes.client.openapi.common.KubernetesObject[] and api:kubern
 you need to provide a mapping. Lets say that you have `CustomObject` and `CustomObjectCollection` classes, then you need a class
 which maps the list type name to list item type name, like in this example:
 
-snippet::io.micronaut.kubernetes.client.openapi.informer.example2.CustomTypeNameMapper[project="kubernetes-client-openapi-informer", source="test", tags="get"]
+snippet::io.micronaut.docs.openapi.informer.example2.CustomTypeNameMapper[tags="get"]

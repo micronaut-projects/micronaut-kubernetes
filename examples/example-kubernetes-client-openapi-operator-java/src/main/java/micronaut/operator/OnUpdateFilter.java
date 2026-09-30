@@ -1,3 +1,4 @@
+//tag::class[]
 package micronaut.operator;
 
 import io.micronaut.kubernetes.client.openapi.model.V1ConfigMap;
@@ -13,3 +14,4 @@ public class OnUpdateFilter implements BiPredicate<V1ConfigMap, V1ConfigMap> {
             && newConfigMap.getMetadata().getAnnotations().containsKey("io.micronaut.operator");
     }
 }
+//end::class[]

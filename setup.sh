@@ -3,6 +3,15 @@ set -ex
 
 echo "Execute setup: $1"
 
+# The Python CI workflow only compiles the Python sources and runs the Python test suites, which are
+# plain @MicronautTest unit tests: they need neither a cluster nor any of the example images. Without
+# this the workflow would create a kind cluster and build all 11 example images it never uses, and
+# because of `set -ex` any failure there would fail Python CI.
+if [ "${GITHUB_WORKFLOW}" = "Python CI" ]; then
+  echo "Python CI needs no Kubernetes cluster and no example images; nothing to set up"
+  exit 0
+fi
+
 MODULE_NAME="${1%:nativeTest}"
 
 declare -A IMAGE_MAP

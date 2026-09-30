@@ -1,3 +1,4 @@
+//tag::class[]
 package micronaut.client.secret;
 
 import io.micronaut.kubernetes.client.openapi.informer.handler.Informer;
@@ -26,3 +27,4 @@ class SecretResourceEventHandler implements ResourceEventHandler<V1Secret> { // 
         LOG.info("{} secret deleted!", obj.getMetadata().getName());
     }
 }
+//end::class[]

@@ -1,0 +1,7 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-python-examples'
+}
+
+dependencies {
+    implementation(projects.micronautKubernetesClientOpenapiInformer)
+}

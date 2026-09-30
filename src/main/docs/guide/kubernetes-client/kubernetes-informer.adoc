@@ -8,7 +8,7 @@ Then create a bean that implements https://javadoc.io/doc/io.kubernetes/client-j
 
 The example below illustrates the declaration of the ann:kubernetes.client.informer.Informer[] with the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] for handling the changes of the Kubernetes `V1ConfigMap` resource.
 
-snippet::io.micronaut.kubernetes.client.informer.ConfigMapInformer[tags="handler", project="kubernetes-informer", source="test"]
+snippet::io.micronaut.docs.informer.ConfigMapInformer[tags="handler"]
 <1> The ann:kubernetes.client.informer.Informer[] annotation defines the Kubernetes resource type and resource list type
 <2> The https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/ResourceEventHandler.html[ResourceEventHandler] interface declares method handlers for added, updated and deleted resource
 
@@ -40,7 +40,7 @@ IMPORTANT: The concept of shared informer means that the https://javadoc.io/doc/
 
 Use the bean api:kubernetes.client.informer.SharedIndexInformerFactory[] to create the https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer] programmatically:
 
-snippet::io.micronaut.kubernetes.client.informer.SharedIndexInformerFactoryExample[tags="create", project="kubernetes-informer", source="test"]
+snippet::io.micronaut.docs.informer.SharedIndexInformerFactoryExample[tags="create"]
 <1> The resource api type that must extend from the `KubernetesObject`. For Kubernetes core resources the types can be found in `io.kubernetes.client.openapi.models` package. For example `io.kubernetes.client.openapi.models.V1ConfigMap`.
 <2> The resource api list type that must extend from the `KubernetesListObject`. For example `io.kubernetes.client.openapi.models.V1ConfigMapList`.
 <3> The resource plural that identifies the Api. For example for the resource `V1ConfigMap` it is `configmaps`.
@@ -50,7 +50,7 @@ snippet::io.micronaut.kubernetes.client.informer.SharedIndexInformerFactoryExamp
 
 By using the api:kubernetes.client.informer.SharedIndexInformerFactory[] bean you can also get existing informer:
 
-snippet::io.micronaut.kubernetes.client.informer.SharedIndexInformerFactoryExample[tags="get", project="kubernetes-informer", source="test"]
+snippet::io.micronaut.docs.informer.SharedIndexInformerFactoryExample[tags="get"]
 <1> The informer namespace.
 <2> The informer resource type.
 
@@ -60,4 +60,4 @@ The https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client
 
 The cache is exposed by https://javadoc.io/doc/io.kubernetes/client-java/latest/io/kubernetes/client/informer/SharedIndexInformer.html[SharedIndexInformer#getIndexer()] method:
 
-snippet::io.micronaut.kubernetes.client.informer.SharedInformerCache[tags="cache", project="kubernetes-informer", source="test"]
+snippet::io.micronaut.docs.informer.SharedInformerCache[tags="cache"]

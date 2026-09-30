@@ -1,0 +1,22 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-groovy-examples'
+}
+
+micronaut {
+    version libs.versions.micronaut.platform.get()
+    runtime("netty")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("micronaut.client.*")
+    }
+}
+
+dependencies {
+    implementation(projects.micronautKubernetesClientOpenapiReactor)
+    compileOnly(mn.micronaut.http.client)
+}
+
+application {
+    mainClass.set("micronaut.client.Application")
+}

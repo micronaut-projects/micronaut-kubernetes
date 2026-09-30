@@ -1,0 +1,22 @@
+plugins {
+    id 'io.micronaut.build.internal.kubernetes-kotlin-examples'
+}
+
+micronaut {
+    version libs.versions.micronaut.platform.get()
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("micronaut.client.*")
+    }
+}
+
+dependencies {
+    implementation(projects.micronautKubernetesClientOpenapi)
+    compileOnly(mn.micronaut.http.client)
+}
+
+application {
+    mainClass.set("micronaut.client.ApplicationKt")
+}

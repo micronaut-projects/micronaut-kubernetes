@@ -1,0 +1,15 @@
+plugins {
+    id "io.micronaut.build.internal.kubernetes-examples"
+    id "io.micronaut.build.internal.kotlin-ksp"
+}
+
+dependencies {
+    ksp(mnValidation.micronaut.validation.processor)
+    ksp(mnSerde.micronaut.serde.processor)
+    implementation(mnValidation.micronaut.validation)
+    implementation(mnSerde.micronaut.serde.jackson)
+    implementation(mn.micronaut.management)
+    runtimeOnly(mnLogging.logback.classic)
+    testImplementation(mnTest.micronaut.test.junit5)
+    testRuntimeOnly(mnTest.junit.jupiter.engine)
+}
