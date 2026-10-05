@@ -28,7 +28,7 @@ dependencies {
         api('org.apache.httpcomponents.core5:httpcore5-h2:5.4.4') {
             because 'Older versions have security vulnerabilities'
         }
-        api('org.bouncycastle:bcpkix-jdk18on:1.85') {
+        api('org.bouncycastle:bcpkix-jdk18on:1.86') {
             because 'Older versions have security vulnerabilities'
         }
     }
