@@ -1,6 +1,6 @@
 [versions]
-micronaut-platform = "5.2.1"
-micronaut = "5.2.13"
+micronaut-platform = "5.2.2"
+micronaut = "5.2.16"
 micronaut-gradle-plugin = "5.0.2"
 
 graal-svm = "25.0.4.1.1"
@@ -8,13 +8,13 @@ javapoet = '1.13.0'
 rxjava3 = '3.1.12'
 shadow = '9.6.1'
 system-lambda = '1.2.1'
-io-kubernetes-client-java = '27.0.0'
+io-kubernetes-client-java = '27.0.1'
 netty-incubator-codec-http3 = '0.0.30.Final'
 testcontainers-k3s = '1.21.4'
 bucket4j = '8.10.1'
 awaitility = '4.3.0'
 
-micronaut-discovery = "5.1.0"
+micronaut-discovery = "5.2.0"
 micronaut-reactor = "4.3.0"
 micronaut-serde = "3.2.4"
 micronaut-validation = "5.2.1"
