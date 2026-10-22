@@ -17,6 +17,7 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,6 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Runs in background and executes its event handler on notifications.
@@ -40,7 +40,9 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorListener.class);
 
-    private final AtomicBoolean active = new AtomicBoolean(false);
+    private volatile boolean stopped;
+    @Nullable
+    private Thread workerThread;
 
     private final BlockingQueue<Notification> queue = new LinkedBlockingQueue<>();
 
@@ -58,30 +60,55 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     @Override
     public void run() {
-        LOG.debug("Starting processor listener");
-        active.set(true);
-        while (active.get()) {
-            try {
-                Notification notification = queue.take();
-                if (notification instanceof UpdateNotification<?> updateNotification) {
-                    handler.onUpdate((ApiType) updateNotification.oldObject, (ApiType) updateNotification.newObject);
-                } else if (notification instanceof AddNotification<?> addNotification) {
-                    handler.onAdd((ApiType) addNotification.object);
-                } else if (notification instanceof DeleteNotification<?> deleteNotification) {
-                    onDelete(deleteNotification.object);
-                } else {
-                    LOG.error("Unrecognized notification: {}", notification);
-                }
-            } catch (InterruptedException e) {
-                LOG.warn("Processor listener thread has been interrupted", e);
-                active.set(false);
-                Thread.currentThread().interrupt();
-            } catch (Exception e) {
-                // Catch all exceptions here so that listeners won't quit unexpectedly
-                LOG.error("Failed invoking event handler", e);
+        synchronized (this) {
+            // Shutdown may arrive before the newly created thread enters run().
+            if (stopped || workerThread != null) {
+                return;
             }
+            workerThread = Thread.currentThread();
         }
-        LOG.debug("Stopping processor listener");
+        LOG.debug("Starting processor listener");
+        try {
+            while (!stopped) {
+                try {
+                    Notification notification = queue.take();
+                    if (notification instanceof UpdateNotification<?> updateNotification) {
+                        handler.onUpdate((ApiType) updateNotification.oldObject, (ApiType) updateNotification.newObject);
+                    } else if (notification instanceof AddNotification<?> addNotification) {
+                        handler.onAdd((ApiType) addNotification.object);
+                    } else if (notification instanceof DeleteNotification<?> deleteNotification) {
+                        onDelete(deleteNotification.object);
+                    } else {
+                        LOG.error("Unrecognized notification: {}", notification);
+                    }
+                } catch (InterruptedException e) {
+                    if (!stopped) {
+                        LOG.warn("Processor listener thread has been interrupted", e);
+                    }
+                    stopped = true;
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    // Catch all exceptions here so that listeners won't quit unexpectedly
+                    LOG.error("Failed invoking event handler", e);
+                }
+            }
+        } finally {
+            synchronized (this) {
+                stopped = true;
+                workerThread = null;
+            }
+            LOG.debug("Stopping processor listener");
+        }
+    }
+
+    /**
+     * Stops processing and wakes the worker if it is blocked waiting for an event.
+     */
+    synchronized void stop() {
+        stopped = true;
+        if (workerThread != null) {
+            workerThread.interrupt();
+        }
     }
 
     private void onDelete(Object deletedObject) {
@@ -93,10 +120,6 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
         } else {
             handler.onDelete((ApiType) deletedObject, false);
         }
-    }
-
-    void stop() {
-        active.set(false);
     }
 
     void add(Notification obj) {

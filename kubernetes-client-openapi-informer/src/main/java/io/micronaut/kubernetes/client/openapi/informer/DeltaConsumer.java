@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.AbstractMap;
 import java.util.Deque;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Consumes delta events from {@link DeltaFifo}. It blocks if there are no events in the queue.
@@ -34,7 +33,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(DeltaConsumer.class);
 
-    private final AtomicBoolean active = new AtomicBoolean(false);
+    private volatile boolean stopped;
+    @Nullable
+    private Thread workerThread;
     private final DeltaFifo deltaQueue;
     private final Indexer<ApiType> indexer;
     private final SharedProcessor<ApiType> processor;
@@ -53,24 +54,45 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
 
     @Override
     public void run() {
-        LOG.debug("Starting delta consumer");
-        active.set(true);
-        while (active.get()) {
-            try {
-                deltaQueue.pop(this::handleDeltas);
-            } catch (InterruptedException e) {
-                LOG.warn("Delta consumer thread has been interrupted", e);
-                active.set(false);
-                Thread.currentThread().interrupt();
-            } catch (Exception e) {
-                LOG.error("Delta consumer recovered from crashing {}", e.getMessage(), e);
+        synchronized (this) {
+            // Shutdown may arrive before the newly created thread enters run().
+            if (stopped || workerThread != null) {
+                return;
             }
+            workerThread = Thread.currentThread();
         }
-        LOG.debug("Stopping delta consumer");
+        LOG.debug("Starting delta consumer");
+        try {
+            while (!stopped) {
+                try {
+                    deltaQueue.pop(this::handleDeltas);
+                } catch (InterruptedException e) {
+                    if (!stopped) {
+                        LOG.warn("Delta consumer thread has been interrupted", e);
+                    }
+                    stopped = true;
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    LOG.error("Delta consumer recovered from crashing {}", e.getMessage(), e);
+                }
+            }
+        } finally {
+            synchronized (this) {
+                stopped = true;
+                workerThread = null;
+            }
+            LOG.debug("Stopping delta consumer");
+        }
     }
 
-    void stop() {
-        active.set(false);
+    /**
+     * Stops processing and wakes the worker if it is blocked waiting for an event.
+     */
+    synchronized void stop() {
+        stopped = true;
+        if (workerThread != null) {
+            workerThread.interrupt();
+        }
     }
 
     void handleDeltas(Deque<AbstractMap.SimpleEntry<DeltaFifo.DeltaType, KubernetesObject>> deltas) {
