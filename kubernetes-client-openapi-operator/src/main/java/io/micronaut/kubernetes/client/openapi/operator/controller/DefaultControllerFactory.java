@@ -42,7 +42,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -59,8 +58,8 @@ final class DefaultControllerFactory implements ControllerFactory {
     private final MeterRegistry meterRegistry;
     private final ExecutorService executorService;
 
-    private final AtomicBoolean starting = new AtomicBoolean(false);
-    private final AtomicBoolean stopping = new AtomicBoolean(false);
+    // A fresh identity prevents an old startup task from surviving a subsequent leadership acquisition.
+    private volatile @Nullable Object leadershipSession;
     private final Map<String, ControllerHolder<? extends KubernetesObject>> controllers = new ConcurrentHashMap<>();
 
     DefaultControllerFactory(SharedIndexInformerFactory sharedIndexInformerFactory,
@@ -152,12 +151,13 @@ final class DefaultControllerFactory implements ControllerFactory {
     }
 
     @Override
-    public void startControllers() {
-        if (starting.getAndSet(true)) {
+    public synchronized void startControllers() {
+        if (leadershipSession != null) {
             LOG.info("Controller startup already initiated");
             return;
         }
-        stopping.set(false);
+        Object session = new Object();
+        leadershipSession = session;
         LOG.info("Starting controllers");
         if (controllers.isEmpty()) {
             LOG.info("There are no registered controllers");
@@ -167,7 +167,7 @@ final class DefaultControllerFactory implements ControllerFactory {
             executorService.submit(() -> {
                 LOG.trace("Starting controller {}", name);
                 try {
-                    startController(controllerHolder);
+                    startController(controllerHolder, session);
                 } catch (Exception e) {
                     LOG.error("Failed to start controller {}", name, e);
                 }
@@ -176,12 +176,12 @@ final class DefaultControllerFactory implements ControllerFactory {
     }
 
     @Override
-    public void stopControllers() {
-        if (stopping.getAndSet(true)) {
+    public synchronized void stopControllers() {
+        if (leadershipSession == null) {
             LOG.info("Controller shutdown already initiated");
             return;
         }
-        starting.set(false);
+        leadershipSession = null;
         LOG.info("Stopping controllers");
         controllers.values().forEach(controllerHolder -> {
             controllerHolder.resourceEventHandlers.values().forEach(ControllerResourceEventHandler::disable);
@@ -190,7 +190,8 @@ final class DefaultControllerFactory implements ControllerFactory {
     }
 
     @PreDestroy
-    void destroy() {
+    synchronized void destroy() {
+        stopControllers();
         executorService.shutdownNow();
     }
 
@@ -215,13 +216,19 @@ final class DefaultControllerFactory implements ControllerFactory {
         return handler;
     }
 
-    private <ApiType extends KubernetesObject> void startController(ControllerHolder<ApiType> controllerHolder) {
+    private <ApiType extends KubernetesObject> void startController(ControllerHolder<ApiType> controllerHolder, Object session) {
+        if (leadershipSession != session) {
+            return;
+        }
         Map<InformerKey<ApiType>, ControllerResourceEventHandler<ApiType>> resourceEventHandlers = controllerHolder.resourceEventHandlers;
 
         // wait on informers to get synced before enabling resource handlers and starting controller
         List<InformerKey<ApiType>> notSyncedInformers = getNotSyncedInformers(resourceEventHandlers);
         long waitLimit = System.currentTimeMillis() + operatorConfiguration.getReadyTimeout().toMillis();
         while (!notSyncedInformers.isEmpty() && waitLimit > System.currentTimeMillis()) {
+            if (leadershipSession != session) {
+                return;
+            }
             try {
                 long checkInterval = operatorConfiguration.getReadyCheckInternal().toMillis();
                 LOG.trace("Waiting {}ms on informer to get synced", checkInterval);
@@ -231,7 +238,7 @@ final class DefaultControllerFactory implements ControllerFactory {
                     controllerHolder.controller.getName(),
                     e);
                 Thread.currentThread().interrupt();
-                break;
+                return;
             }
             notSyncedInformers = getNotSyncedInformers(resourceEventHandlers);
         }
@@ -243,13 +250,19 @@ final class DefaultControllerFactory implements ControllerFactory {
             return;
         }
 
-        // all informers are synced so start controller, enable event handlers and resend all events
-        controllerHolder.controller.run();
-        for (InformerKey<ApiType> informerKey : resourceEventHandlers.keySet()) {
-            resourceEventHandlers.get(informerKey).enable();
-            SharedIndexInformer<ApiType> informer = getInformer(informerKey);
-            if (informer != null) {
-                informer.resyncListeners();
+        // Activation and shutdown must be serialized so leadership cannot be lost between
+        // the session check and enabling the controller's event handlers.
+        synchronized (this) {
+            if (leadershipSession != session) {
+                return;
+            }
+            controllerHolder.controller.run();
+            for (InformerKey<ApiType> informerKey : resourceEventHandlers.keySet()) {
+                resourceEventHandlers.get(informerKey).enable();
+                SharedIndexInformer<ApiType> informer = getInformer(informerKey);
+                if (informer != null) {
+                    informer.resyncListeners();
+                }
             }
         }
     }
