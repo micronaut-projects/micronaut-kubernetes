@@ -223,15 +223,11 @@ final class DeltaFifo {
         deltas.add(new Delta(actionType, object));
 
         dedupDeltas(deltas);
-        if (deltas.size() > 0) {
-            if (!items.containsKey(id)) {
-                queue.add(id);
-            }
-            items.put(id, deltas);
-            notEmpty.signalAll();
-        } else {
-            items.remove(id);
+        if (!items.containsKey(id)) {
+            queue.add(id);
         }
+        items.put(id, deltas);
+        notEmpty.signalAll();
     }
 
     private String keyOf(KubernetesObject object) {
