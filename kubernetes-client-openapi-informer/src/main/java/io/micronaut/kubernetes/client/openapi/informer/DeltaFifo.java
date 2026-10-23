@@ -36,12 +36,20 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * DeltaFIFO is a java portable of k/client-go's DeltaFIFO.
+ * Buffers Kubernetes resource changes for processing by {@link DeltaConsumer}.
  *
- * <p>
- * The code has been copied from the official client and modified:
- * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/DeltaFIFO.java">DeltaFIFO</a>
- * </p>
+ * <p>Pending deltas are grouped by resource key. Keys are consumed in FIFO order,
+ * and each call to {@link #pop} passes all pending deltas for one resource to
+ * the consumer. FIFO ordering applies to resource keys, not to individual events
+ * across resources.
+ *
+ * <p>Relisting reconciles both queued and cached resources with the latest
+ * resource list, while resynchronization queues changes from the existing cache.
+ * The queue also tracks completion of the initial synchronization.
+ *
+ * <p>Adapted from the Kubernetes Java client's
+ * <a href="https://github.com/kubernetes-client/java/blob/v21.0.2/util/src/main/java/io/kubernetes/client/informer/cache/DeltaFIFO.java">DeltaFIFO</a>,
+ * a Java port of client-go's DeltaFIFO.
  */
 final class DeltaFifo {
 
