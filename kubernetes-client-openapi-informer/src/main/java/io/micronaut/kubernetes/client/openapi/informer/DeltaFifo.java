@@ -222,12 +222,12 @@ final class DeltaFifo {
         }
         deltas.add(new Delta(actionType, object));
 
-        Deque<Delta> dedupDeltas = dedupDeltas(deltas);
-        if (dedupDeltas.size() > 0) {
+        dedupDeltas(deltas);
+        if (deltas.size() > 0) {
             if (!items.containsKey(id)) {
                 queue.add(id);
             }
-            items.put(id, dedupDeltas);
+            items.put(id, deltas);
             notEmpty.signalAll();
         } else {
             items.remove(id);
@@ -243,9 +243,9 @@ final class DeltaFifo {
 
     // re-listing and watching can deliver the same update multiple times in any
     // order. This will combine the most recent two deltas if they are the same.
-    private Deque<Delta> dedupDeltas(Deque<Delta> deltas) {
+    private void dedupDeltas(Deque<Delta> deltas) {
         if (deltas.size() < 2) {
-            return deltas;
+            return;
         }
         Delta d1 = deltas.pollLast();
         Delta d2 = deltas.pollLast();
@@ -256,7 +256,6 @@ final class DeltaFifo {
             deltas.add(d2);
             deltas.add(d1);
         }
-        return deltas;
     }
 
     // If given deltas represent the same event, return the delta that ought to be kept.
