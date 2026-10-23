@@ -117,10 +117,23 @@ final class DeltaFifo {
                 queueActionLocked(DeltaType.SYNC, object);
             }
 
+            // Pending deltas may contain objects that have not reached the store yet.
+            // Use their latest state when a relist shows that they have disappeared.
+            for (var entry : List.copyOf(items.entrySet())) {
+                String queuedKey = entry.getKey();
+                if (keys.contains(queuedKey)) {
+                    continue;
+                }
+                AbstractMap.SimpleEntry<DeltaType, KubernetesObject> latest = entry.getValue().getLast();
+                if (latest.getKey() != DeltaType.DELETED) {
+                    queueActionLocked(DeltaType.DELETED, new DeletedFinalStateUnknown<>(queuedKey, latest.getValue()));
+                }
+            }
+
             List<String> storedKeys = store.listKeys();
             int queueDeletion = 0;
             for (String storedKey : storedKeys) {
-                if (keys.contains(storedKey)) {
+                if (keys.contains(storedKey) || items.containsKey(storedKey)) {
                     continue;
                 }
                 KubernetesObject deletedObject = store.getByKey(storedKey);
