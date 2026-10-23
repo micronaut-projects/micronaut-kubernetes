@@ -34,10 +34,10 @@ class DeltaFifoSpec extends Specification {
         }
 
         then:
-        result*.key == [DeltaFifo.DeltaType.ADDED, DeltaFifo.DeltaType.UPDATED, DeltaFifo.DeltaType.DELETED]
-        result.last().value instanceof DeletedFinalStateUnknown
-        result.last().value.key() == 'default/pod'
-        result.last().value.object().is(newPod)
+        result*.type() == [DeltaFifo.DeltaType.ADDED, DeltaFifo.DeltaType.UPDATED, DeltaFifo.DeltaType.DELETED]
+        result.last().object() instanceof DeletedFinalStateUnknown
+        result.last().object().key() == 'default/pod'
+        result.last().object().object().is(newPod)
         cache.list().empty
 
         where:
@@ -57,8 +57,8 @@ class DeltaFifoSpec extends Specification {
         fifo.pop { result.addAll(it) }
 
         then:
-        result*.key == [DeltaFifo.DeltaType.ADDED, DeltaFifo.DeltaType.DELETED]
-        result.last().value.is(pod)
+        result*.type() == [DeltaFifo.DeltaType.ADDED, DeltaFifo.DeltaType.DELETED]
+        result.last().object().is(pod)
     }
 
     def 'relist retains queued objects still present in the new list'() {
@@ -73,8 +73,8 @@ class DeltaFifoSpec extends Specification {
         fifo.pop { result.addAll(it) }
 
         then:
-        result*.key == [DeltaFifo.DeltaType.SYNC]
-        result.last().value.is(pod)
+        result*.type() == [DeltaFifo.DeltaType.SYNC]
+        result.last().object().is(pod)
     }
 
     def 'initial relist waits for cached deletions as well as listed objects to be consumed'() {
@@ -92,15 +92,15 @@ class DeltaFifoSpec extends Specification {
 
         then:
         !fifo.hasSynced()
-        result*.key == [DeltaFifo.DeltaType.SYNC]
+        result*.type() == [DeltaFifo.DeltaType.SYNC]
 
         when:
         fifo.pop { result.addAll(it) }
 
         then:
         fifo.hasSynced()
-        result.last().key == DeltaFifo.DeltaType.DELETED
-        result.last().value.object().is(deletedPod)
+        result.last().type() == DeltaFifo.DeltaType.DELETED
+        result.last().object().object().is(deletedPod)
     }
 
     def 'test pod added delta'() {
@@ -115,8 +115,8 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.ADDED
-        deltasResult.get(0).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.ADDED
+        deltasResult.get(0).object() == pod
     }
 
     def 'test pod updated delta'() {
@@ -131,8 +131,8 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.UPDATED
-        deltasResult.get(0).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.UPDATED
+        deltasResult.get(0).object() == pod
     }
 
     def 'test pod deleted delta'() {
@@ -149,8 +149,8 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.DELETED
-        deltasResult.get(0).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.DELETED
+        deltasResult.get(0).object() == pod
     }
 
     def 'test pod replaced delta'() {
@@ -165,8 +165,8 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.SYNC
-        deltasResult.get(0).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.SYNC
+        deltasResult.get(0).object() == pod
     }
 
     def 'test pod deleted delta dedup'() {
@@ -190,10 +190,10 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 2
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.ADDED
-        deltasResult.get(0).getValue() == pod
-        deltasResult.get(1).getKey() == DeltaFifo.DeltaType.DELETED
-        deltasResult.get(1).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.ADDED
+        deltasResult.get(0).object() == pod
+        deltasResult.get(1).type() == DeltaFifo.DeltaType.DELETED
+        deltasResult.get(1).object() == pod
 
         when:
         deltasResult.clear()
@@ -211,10 +211,10 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 2
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.ADDED
-        deltasResult.get(0).getValue() == pod
-        deltasResult.get(1).getKey() == DeltaFifo.DeltaType.DELETED
-        deltasResult.get(1).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.ADDED
+        deltasResult.get(0).object() == pod
+        deltasResult.get(1).type() == DeltaFifo.DeltaType.DELETED
+        deltasResult.get(1).object() == pod
     }
 
     def 'test resync'() {
@@ -231,7 +231,7 @@ class DeltaFifoSpec extends Specification {
 
         then:
         deltasResult.size() == 1
-        deltasResult.get(0).getKey() == DeltaFifo.DeltaType.SYNC
-        deltasResult.get(0).getValue() == pod
+        deltasResult.get(0).type() == DeltaFifo.DeltaType.SYNC
+        deltasResult.get(0).object() == pod
     }
 }

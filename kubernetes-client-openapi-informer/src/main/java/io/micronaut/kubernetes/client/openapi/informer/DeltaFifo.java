@@ -22,7 +22,6 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.AbstractMap;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,7 +50,7 @@ final class DeltaFifo {
 
     private final Function<KubernetesObject, String> keyFunc;
 
-    private final Map<String, Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>>> items = new HashMap<>();
+    private final Map<String, Deque<Delta>> items = new HashMap<>();
 
     // `queue` maintains FIFO order of keys for consumption in Pop().
     // We maintain the property that keys in the `items` and `queue` are
@@ -124,9 +123,9 @@ final class DeltaFifo {
                 if (keys.contains(queuedKey)) {
                     continue;
                 }
-                AbstractMap.SimpleEntry<DeltaType, KubernetesObject> latest = entry.getValue().getLast();
-                if (latest.getKey() != DeltaType.DELETED) {
-                    queueActionLocked(DeltaType.DELETED, new DeletedFinalStateUnknown<>(queuedKey, latest.getValue()));
+                Delta latest = entry.getValue().getLast();
+                if (latest.type() != DeltaType.DELETED) {
+                    queueActionLocked(DeltaType.DELETED, new DeletedFinalStateUnknown<>(queuedKey, latest.object()));
                 }
             }
 
@@ -182,7 +181,7 @@ final class DeltaFifo {
      * @param func the consumer function
      * @throws InterruptedException the exception
      */
-    void pop(Consumer<Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>>> func) throws InterruptedException {
+    void pop(Consumer<Deque<Delta>> func) throws InterruptedException {
         lock.writeLock().lock();
         try {
             while (queue.isEmpty()) {
@@ -216,13 +215,13 @@ final class DeltaFifo {
     private void queueActionLocked(DeltaType actionType, KubernetesObject object) {
         String id = keyOf(object);
 
-        Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>> deltas = items.get(id);
+        Deque<Delta> deltas = items.get(id);
         if (deltas == null) {
             deltas = new LinkedList<>();
         }
-        deltas.add(new AbstractMap.SimpleEntry<>(actionType, object));
+        deltas.add(new Delta(actionType, object));
 
-        Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>> dedupDeltas = dedupDeltas(deltas);
+        Deque<Delta> dedupDeltas = dedupDeltas(deltas);
         if (dedupDeltas.size() > 0) {
             if (!items.containsKey(id)) {
                 queue.add(id);
@@ -243,14 +242,13 @@ final class DeltaFifo {
 
     // re-listing and watching can deliver the same update multiple times in any
     // order. This will combine the most recent two deltas if they are the same.
-    private Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>> dedupDeltas(
-        Deque<AbstractMap.SimpleEntry<DeltaType, KubernetesObject>> deltas) {
+    private Deque<Delta> dedupDeltas(Deque<Delta> deltas) {
         if (deltas.size() < 2) {
             return deltas;
         }
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d1 = deltas.pollLast();
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d2 = deltas.pollLast();
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> out = dedupDeltas(d1, d2);
+        Delta d1 = deltas.pollLast();
+        Delta d2 = deltas.pollLast();
+        Delta out = dedupDeltas(d1, d2);
         if (out != null) {
             deltas.add(out);
         } else {
@@ -261,34 +259,30 @@ final class DeltaFifo {
     }
 
     // If given deltas represent the same event, return the delta that ought to be kept.
-    private AbstractMap.@Nullable SimpleEntry<DeltaType, KubernetesObject> dedupDeltas(
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d1,
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d2) {
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> deletionDelta = dedupDeletionDeltas(d1, d2);
+    private @Nullable Delta dedupDeltas(Delta d1, Delta d2) {
+        Delta deletionDelta = dedupDeletionDeltas(d1, d2);
         if (deletionDelta != null) {
             return deletionDelta;
         }
 
         // TODO: remove this after the cause of memory leakage is confirmed
         // Squashing deltas w/ the same resource version, note that is a temporary fix that eases memory intensity.
-        if (d1.getKey() != DeltaType.DELETED
-            && d2.getKey() != DeltaType.DELETED
-            && d1.getValue().getMetadata() != null
-            && d2.getValue().getMetadata() != null
-            && Objects.equals(d1.getValue().getMetadata().getResourceVersion(), d2.getValue().getMetadata().getResourceVersion())) {
+        if (d1.type() != DeltaType.DELETED
+            && d2.type() != DeltaType.DELETED
+            && d1.object().getMetadata() != null
+            && d2.object().getMetadata() != null
+            && Objects.equals(d1.object().getMetadata().getResourceVersion(), d2.object().getMetadata().getResourceVersion())) {
             return d1;
         }
         return null;
     }
 
     // Compare given deltas and if both are deletions, choose the one with more information.
-    private AbstractMap.@Nullable SimpleEntry<DeltaType, KubernetesObject> dedupDeletionDeltas(
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d1,
-        AbstractMap.SimpleEntry<DeltaType, KubernetesObject> d2) {
-        if (!d1.getKey().equals(DeltaType.DELETED) || !d2.getKey().equals(DeltaType.DELETED)) {
+    private @Nullable Delta dedupDeletionDeltas(Delta d1, Delta d2) {
+        if (!d1.type().equals(DeltaType.DELETED) || !d2.type().equals(DeltaType.DELETED)) {
             return null;
         }
-        return d2.getValue() instanceof DeletedFinalStateUnknown<?> ? d1 : d2;
+        return d2.object() instanceof DeletedFinalStateUnknown<?> ? d1 : d2;
     }
 
     enum DeltaType {

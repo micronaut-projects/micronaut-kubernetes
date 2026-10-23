@@ -22,7 +22,6 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.AbstractMap;
 import java.util.Deque;
 
 /**
@@ -95,14 +94,14 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
         }
     }
 
-    void handleDeltas(Deque<AbstractMap.SimpleEntry<DeltaFifo.DeltaType, KubernetesObject>> deltas) {
+    void handleDeltas(Deque<Delta> deltas) {
         if (CollectionUtils.isEmpty(deltas)) {
             return;
         }
 
         deltas.forEach(delta -> {
-            DeltaFifo.DeltaType deltaType = delta.getKey();
-            KubernetesObject object = delta.getValue();
+            DeltaFifo.DeltaType deltaType = delta.type();
+            KubernetesObject object = delta.object();
             ApiType transformedObject = transformFunc == null ? (ApiType) object : (ApiType) transformFunc.transform(object);
             switch (deltaType) {
                 case SYNC:
