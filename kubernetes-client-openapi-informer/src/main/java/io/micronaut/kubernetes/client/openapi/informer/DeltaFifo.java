@@ -50,14 +50,15 @@ final class DeltaFifo {
 
     private final Function<KubernetesObject, String> keyFunc;
 
+    // Groups pending deltas by resource key, preserving their order within each resource.
+    // Each key appears once in queue; pop() removes the key and passes all its deltas to the consumer.
     private final Map<String, Deque<Delta>> items = new HashMap<>();
 
-    // `queue` maintains FIFO order of keys for consumption in Pop().
-    // We maintain the property that keys in the `items` and `queue` are
-    // strictly 1:1 mapping, and that all Deltas in `items` should have
-    // at least one Delta.
+    // Maintains resource keys in FIFO order for pop().
+    // Each key appears exactly once and has a corresponding non-empty deque in items.
     private final Deque<String> queue = new LinkedList<>();
 
+    // Holds cached resources maintained by the consumer.
     private final Indexer<? extends KubernetesObject> store;
 
     // populated is set to true if the first batch of items inserted by Replace() has
