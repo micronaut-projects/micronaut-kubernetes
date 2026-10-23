@@ -15,7 +15,6 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
-import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.cache.Indexer;
 import org.jspecify.annotations.Nullable;
@@ -161,7 +160,7 @@ final class DeltaFifo {
         try {
             List<String> keys = store.listKeys();
             for (String key : keys) {
-                if (CollectionUtils.isNotEmpty(items.get(key))) {
+                if (items.containsKey(key)) {
                     continue;
                 }
                 KubernetesObject object = store.getByKey(key);
@@ -243,42 +242,42 @@ final class DeltaFifo {
         if (deltas.size() < 2) {
             return;
         }
-        Delta d1 = deltas.pollLast();
-        Delta d2 = deltas.pollLast();
-        Delta out = dedupDeltas(d1, d2);
-        if (out != null) {
-            deltas.add(out);
+        Delta newest = deltas.removeLast();
+        Delta previous = deltas.removeLast();
+        Delta merged = dedupDeltas(newest, previous);
+        if (merged != null) {
+            deltas.add(merged);
         } else {
-            deltas.add(d2);
-            deltas.add(d1);
+            deltas.add(previous);
+            deltas.add(newest);
         }
     }
 
     // If given deltas represent the same event, return the delta that ought to be kept.
-    private @Nullable Delta dedupDeltas(Delta d1, Delta d2) {
-        Delta deletionDelta = dedupDeletionDeltas(d1, d2);
+    private @Nullable Delta dedupDeltas(Delta newest, Delta previous) {
+        Delta deletionDelta = dedupDeletionDeltas(newest, previous);
         if (deletionDelta != null) {
             return deletionDelta;
         }
 
         // TODO: remove this after the cause of memory leakage is confirmed
         // Squashing deltas w/ the same resource version, note that is a temporary fix that eases memory intensity.
-        if (d1.type() != DeltaType.DELETED
-            && d2.type() != DeltaType.DELETED
-            && d1.object().getMetadata() != null
-            && d2.object().getMetadata() != null
-            && Objects.equals(d1.object().getMetadata().getResourceVersion(), d2.object().getMetadata().getResourceVersion())) {
-            return d1;
+        if (newest.type() != DeltaType.DELETED
+            && previous.type() != DeltaType.DELETED
+            && newest.object().getMetadata() != null
+            && previous.object().getMetadata() != null
+            && Objects.equals(newest.object().getMetadata().getResourceVersion(), previous.object().getMetadata().getResourceVersion())) {
+            return newest;
         }
         return null;
     }
 
     // Compare given deltas and if both are deletions, choose the one with more information.
-    private @Nullable Delta dedupDeletionDeltas(Delta d1, Delta d2) {
-        if (!d1.type().equals(DeltaType.DELETED) || !d2.type().equals(DeltaType.DELETED)) {
+    private @Nullable Delta dedupDeletionDeltas(Delta newest, Delta previous) {
+        if (!newest.type().equals(DeltaType.DELETED) || !previous.type().equals(DeltaType.DELETED)) {
             return null;
         }
-        return d2.object() instanceof DeletedFinalStateUnknown<?> ? d1 : d2;
+        return previous.object() instanceof DeletedFinalStateUnknown<?> ? newest : previous;
     }
 
     enum DeltaType {
