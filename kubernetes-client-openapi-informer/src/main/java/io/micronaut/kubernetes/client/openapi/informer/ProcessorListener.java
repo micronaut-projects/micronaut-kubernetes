@@ -17,7 +17,6 @@ package io.micronaut.kubernetes.client.openapi.informer;
 
 import io.micronaut.kubernetes.client.openapi.common.KubernetesObject;
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler;
-import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,9 +39,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorListener.class);
 
-    private volatile boolean stopped;
-    @Nullable
-    private Thread workerThread;
+    private final WorkerThreadLifecycle lifecycle = new WorkerThreadLifecycle();
 
     private final BlockingQueue<Notification> queue = new LinkedBlockingQueue<>();
 
@@ -60,16 +57,12 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     @Override
     public void run() {
-        synchronized (this) {
-            // Shutdown may arrive before the newly created thread enters run().
-            if (stopped || workerThread != null) {
-                return;
-            }
-            workerThread = Thread.currentThread();
+        if (!lifecycle.registerCurrentThread()) {
+            return;
         }
         LOG.debug("Starting processor listener");
         try {
-            while (!stopped) {
+            while (!lifecycle.isStopped()) {
                 try {
                     Notification notification = queue.take();
                     if (notification instanceof UpdateNotification<?> updateNotification) {
@@ -82,10 +75,10 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
                         LOG.error("Unrecognized notification: {}", notification);
                     }
                 } catch (InterruptedException e) {
-                    if (!stopped) {
+                    if (!lifecycle.isStopped()) {
                         LOG.warn("Processor listener thread has been interrupted", e);
                     }
-                    stopped = true;
+                    lifecycle.stop();
                     Thread.currentThread().interrupt();
                 } catch (Exception e) {
                     // Catch all exceptions here so that listeners won't quit unexpectedly
@@ -93,10 +86,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
                 }
             }
         } finally {
-            synchronized (this) {
-                stopped = true;
-                workerThread = null;
-            }
+            lifecycle.finish();
             LOG.debug("Stopping processor listener");
         }
     }
@@ -104,11 +94,8 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
     /**
      * Stops processing and wakes the worker if it is blocked waiting for an event.
      */
-    synchronized void stop() {
-        stopped = true;
-        if (workerThread != null) {
-            workerThread.interrupt();
-        }
+    void stop() {
+        lifecycle.stop();
     }
 
     private void onDelete(Object deletedObject) {

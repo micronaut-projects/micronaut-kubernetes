@@ -42,6 +42,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
@@ -59,7 +60,7 @@ final class DefaultControllerFactory implements ControllerFactory {
     private final ExecutorService executorService;
 
     // A fresh identity prevents an old startup task from surviving a subsequent leadership acquisition.
-    private volatile @Nullable Object leadershipSession;
+    private final AtomicReference<@Nullable Object> leadershipSession = new AtomicReference<>();
     private final Map<String, ControllerHolder<? extends KubernetesObject>> controllers = new ConcurrentHashMap<>();
 
     DefaultControllerFactory(SharedIndexInformerFactory sharedIndexInformerFactory,
@@ -152,12 +153,12 @@ final class DefaultControllerFactory implements ControllerFactory {
 
     @Override
     public synchronized void startControllers() {
-        if (leadershipSession != null) {
+        if (leadershipSession.get() != null) {
             LOG.info("Controller startup already initiated");
             return;
         }
         Object session = new Object();
-        leadershipSession = session;
+        leadershipSession.set(session);
         LOG.info("Starting controllers");
         if (controllers.isEmpty()) {
             LOG.info("There are no registered controllers");
@@ -177,11 +178,11 @@ final class DefaultControllerFactory implements ControllerFactory {
 
     @Override
     public synchronized void stopControllers() {
-        if (leadershipSession == null) {
+        if (leadershipSession.get() == null) {
             LOG.info("Controller shutdown already initiated");
             return;
         }
-        leadershipSession = null;
+        leadershipSession.set(null);
         LOG.info("Stopping controllers");
         controllers.values().forEach(controllerHolder -> {
             controllerHolder.resourceEventHandlers.values().forEach(ControllerResourceEventHandler::disable);
@@ -217,7 +218,7 @@ final class DefaultControllerFactory implements ControllerFactory {
     }
 
     private <ApiType extends KubernetesObject> void startController(ControllerHolder<ApiType> controllerHolder, Object session) {
-        if (leadershipSession != session) {
+        if (leadershipSession.get() != session) {
             return;
         }
         Map<InformerKey<ApiType>, ControllerResourceEventHandler<ApiType>> resourceEventHandlers = controllerHolder.resourceEventHandlers;
@@ -226,7 +227,7 @@ final class DefaultControllerFactory implements ControllerFactory {
         List<InformerKey<ApiType>> notSyncedInformers = getNotSyncedInformers(resourceEventHandlers);
         long waitLimit = System.currentTimeMillis() + operatorConfiguration.getReadyTimeout().toMillis();
         while (!notSyncedInformers.isEmpty() && waitLimit > System.currentTimeMillis()) {
-            if (leadershipSession != session) {
+            if (leadershipSession.get() != session) {
                 return;
             }
             try {
@@ -253,7 +254,7 @@ final class DefaultControllerFactory implements ControllerFactory {
         // Activation and shutdown must be serialized so leadership cannot be lost between
         // the session check and enabling the controller's event handlers.
         synchronized (this) {
-            if (leadershipSession != session) {
+            if (leadershipSession.get() != session) {
                 return;
             }
             controllerHolder.controller.run();

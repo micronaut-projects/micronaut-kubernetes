@@ -54,6 +54,40 @@ class InformerShutdownSpec extends Specification {
         false    | true
     }
 
+    def 'interrupted workers terminate and cannot be restarted'() {
+        given:
+        def cache = new Cache<V1Pod>()
+        def worker = listener
+            ? new ProcessorListener<V1Pod>(Stub(ResourceEventHandler), 0)
+            : new DeltaConsumer<V1Pod>(new DeltaFifo(cache), cache,
+                new SharedProcessor<V1Pod>(Executors.defaultThreadFactory()), null)
+        def thread = new Thread(worker)
+        def restart = new Thread(worker)
+
+        when:
+        thread.start()
+        new PollingConditions(timeout: 5).eventually {
+            assert thread.state == Thread.State.WAITING
+        }
+        thread.interrupt()
+        thread.join(5000)
+        restart.start()
+        restart.join(5000)
+
+        then:
+        !thread.alive
+        thread.interrupted
+        !restart.alive
+
+        cleanup:
+        worker.stop()
+        [thread, restart].each { it.interrupt() }
+        [thread, restart].each { it.join(5000) }
+
+        where:
+        listener << [true, false]
+    }
+
     def 'informer shutdown terminates its listener and delta consumer threads'() {
         given:
         def threads = new CopyOnWriteArrayList<Thread>()

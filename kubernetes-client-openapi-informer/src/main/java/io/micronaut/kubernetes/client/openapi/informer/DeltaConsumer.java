@@ -32,9 +32,7 @@ import java.util.Deque;
 final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(DeltaConsumer.class);
 
-    private volatile boolean stopped;
-    @Nullable
-    private Thread workerThread;
+    private final WorkerThreadLifecycle lifecycle = new WorkerThreadLifecycle();
     private final DeltaFifo deltaQueue;
     private final Indexer<ApiType> indexer;
     private final SharedProcessor<ApiType> processor;
@@ -53,33 +51,26 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
 
     @Override
     public void run() {
-        synchronized (this) {
-            // Shutdown may arrive before the newly created thread enters run().
-            if (stopped || workerThread != null) {
-                return;
-            }
-            workerThread = Thread.currentThread();
+        if (!lifecycle.registerCurrentThread()) {
+            return;
         }
         LOG.debug("Starting delta consumer");
         try {
-            while (!stopped) {
+            while (!lifecycle.isStopped()) {
                 try {
                     deltaQueue.pop(this::handleDeltas);
                 } catch (InterruptedException e) {
-                    if (!stopped) {
+                    if (!lifecycle.isStopped()) {
                         LOG.warn("Delta consumer thread has been interrupted", e);
                     }
-                    stopped = true;
+                    lifecycle.stop();
                     Thread.currentThread().interrupt();
                 } catch (Exception e) {
                     LOG.error("Delta consumer recovered from crashing {}", e.getMessage(), e);
                 }
             }
         } finally {
-            synchronized (this) {
-                stopped = true;
-                workerThread = null;
-            }
+            lifecycle.finish();
             LOG.debug("Stopping delta consumer");
         }
     }
@@ -87,11 +78,8 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
     /**
      * Stops processing and wakes the worker if it is blocked waiting for an event.
      */
-    synchronized void stop() {
-        stopped = true;
-        if (workerThread != null) {
-            workerThread.interrupt();
-        }
+    void stop() {
+        lifecycle.stop();
     }
 
     void handleDeltas(Deque<Delta> deltas) {
