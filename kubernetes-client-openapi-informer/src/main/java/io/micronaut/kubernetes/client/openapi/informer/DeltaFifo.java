@@ -260,13 +260,18 @@ final class DeltaFifo {
             return deletionDelta;
         }
 
+        if (newest.type() == DeltaType.DELETED || previous.type() == DeltaType.DELETED) {
+            return null;
+        }
+
+        var newestMetadata = newest.object().getMetadata();
+        var previousMetadata = previous.object().getMetadata();
+
         // TODO: remove this after the cause of memory leakage is confirmed
         // Squashing deltas w/ the same resource version, note that is a temporary fix that eases memory intensity.
-        if (newest.type() != DeltaType.DELETED
-            && previous.type() != DeltaType.DELETED
-            && newest.object().getMetadata() != null
-            && previous.object().getMetadata() != null
-            && Objects.equals(newest.object().getMetadata().getResourceVersion(), previous.object().getMetadata().getResourceVersion())) {
+        if (newestMetadata != null
+            && previousMetadata != null
+            && Objects.equals(newestMetadata.getResourceVersion(), previousMetadata.getResourceVersion())) {
             return newest;
         }
         return null;
@@ -274,7 +279,7 @@ final class DeltaFifo {
 
     // Compare given deltas and if both are deletions, choose the one with more information.
     private @Nullable Delta dedupDeletionDeltas(Delta newest, Delta previous) {
-        if (!newest.type().equals(DeltaType.DELETED) || !previous.type().equals(DeltaType.DELETED)) {
+        if (newest.type() != DeltaType.DELETED || previous.type() != DeltaType.DELETED) {
             return null;
         }
         return previous.object() instanceof DeletedFinalStateUnknown<?> ? newest : previous;
