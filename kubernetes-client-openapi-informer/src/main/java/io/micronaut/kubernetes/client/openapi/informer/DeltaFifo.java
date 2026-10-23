@@ -96,7 +96,7 @@ final class DeltaFifo {
                     return;
                 }
             }
-            queueActionLocked(deltaType, object);
+            enqueueDelta(deltaType, object);
         } finally {
             lock.writeLock().unlock();
         }
@@ -113,7 +113,7 @@ final class DeltaFifo {
             Set<String> keys = new HashSet<>();
             for (KubernetesObject object : objects) {
                 keys.add(keyOf(object));
-                queueActionLocked(DeltaType.SYNC, object);
+                enqueueDelta(DeltaType.SYNC, object);
             }
 
             // Pending deltas may contain objects that have not reached the store yet.
@@ -125,7 +125,7 @@ final class DeltaFifo {
                 }
                 Delta latest = entry.getValue().getLast();
                 if (latest.type() != DeltaType.DELETED) {
-                    queueActionLocked(DeltaType.DELETED, new DeletedFinalStateUnknown<>(queuedKey, latest.object()));
+                    enqueueDelta(DeltaType.DELETED, new DeletedFinalStateUnknown<>(queuedKey, latest.object()));
                 }
             }
 
@@ -140,7 +140,7 @@ final class DeltaFifo {
                     LOG.warn("Key {} does not exist in known objects store, placing DeleteFinalStateUnknown marker without object", storedKey);
                 }
                 queueDeletion++;
-                queueActionLocked(DeltaType.DELETED, new DeletedFinalStateUnknown<>(storedKey, deletedObject));
+                enqueueDelta(DeltaType.DELETED, new DeletedFinalStateUnknown<>(storedKey, deletedObject));
             }
 
             if (!populated) {
@@ -167,7 +167,7 @@ final class DeltaFifo {
                 if (object == null) {
                     continue;
                 }
-                queueActionLocked(DeltaType.SYNC, object);
+                enqueueDelta(DeltaType.SYNC, object);
             }
         } finally {
             lock.writeLock().unlock();
@@ -211,8 +211,11 @@ final class DeltaFifo {
         }
     }
 
-    /** queueActionLocked appends to the delta list for the object. Caller must hold the lock. */
-    private void queueActionLocked(DeltaType actionType, KubernetesObject object) {
+    /**
+     * Appends and deduplicates a delta for the resource.
+     * The caller must hold the write lock.
+     */
+    private void enqueueDelta(DeltaType actionType, KubernetesObject object) {
         String id = keyOf(object);
 
         Deque<Delta> deltas = items.get(id);
@@ -221,7 +224,7 @@ final class DeltaFifo {
         }
         deltas.add(new Delta(actionType, object));
 
-        dedupDeltas(deltas);
+        deduplicateLastTwoDeltas(deltas);
         if (!items.containsKey(id)) {
             queue.add(id);
         }
@@ -238,13 +241,13 @@ final class DeltaFifo {
 
     // re-listing and watching can deliver the same update multiple times in any
     // order. This will combine the most recent two deltas if they are the same.
-    private void dedupDeltas(Deque<Delta> deltas) {
+    private void deduplicateLastTwoDeltas(Deque<Delta> deltas) {
         if (deltas.size() < 2) {
             return;
         }
         Delta newest = deltas.removeLast();
         Delta previous = deltas.removeLast();
-        Delta merged = dedupDeltas(newest, previous);
+        Delta merged = selectDeltaToKeep(newest, previous);
         if (merged != null) {
             deltas.add(merged);
         } else {
@@ -254,8 +257,8 @@ final class DeltaFifo {
     }
 
     // If given deltas represent the same event, return the delta that ought to be kept.
-    private @Nullable Delta dedupDeltas(Delta newest, Delta previous) {
-        Delta deletionDelta = dedupDeletionDeltas(newest, previous);
+    private @Nullable Delta selectDeltaToKeep(Delta newest, Delta previous) {
+        Delta deletionDelta = selectDeletionDeltaToKeep(newest, previous);
         if (deletionDelta != null) {
             return deletionDelta;
         }
@@ -278,7 +281,7 @@ final class DeltaFifo {
     }
 
     // Compare given deltas and if both are deletions, choose the one with more information.
-    private @Nullable Delta dedupDeletionDeltas(Delta newest, Delta previous) {
+    private @Nullable Delta selectDeletionDeltaToKeep(Delta newest, Delta previous) {
         if (newest.type() != DeltaType.DELETED || previous.type() != DeltaType.DELETED) {
             return null;
         }
