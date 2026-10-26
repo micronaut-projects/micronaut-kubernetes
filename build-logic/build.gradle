@@ -8,11 +8,13 @@ repositories {
 }
 
 configurations {
-    groovyCompiler
+    groovyCompiler {
+        shouldResolveConsistentlyWith(configurations.testCompileClasspath)
+    }
 }
 
 dependencies {
-    groovyCompiler("org.apache.groovy:groovy:6.0.0")
+    groovyCompiler("org.apache.groovy:groovy")
     implementation("org.yaml:snakeyaml:2.7")
     testImplementation platform("io.micronaut.test:micronaut-test-bom:5.2.0")
     testImplementation("org.spockframework:spock-core")
@@ -29,7 +31,7 @@ gradlePlugin {
 }
 
 tasks.withType(GroovyCompile).configureEach {
-    // Use Groovy 5 to compile Groovy sources (Spock 2.4 requires Groovy 5)
+    // Use the Groovy version resolved with Spock on the test classpath.
     groovyClasspath = files(configurations.groovyCompiler)
 }
 

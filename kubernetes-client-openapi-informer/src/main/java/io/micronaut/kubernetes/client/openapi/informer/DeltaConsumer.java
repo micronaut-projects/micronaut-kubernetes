@@ -22,9 +22,7 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.AbstractMap;
 import java.util.Deque;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Consumes delta events from {@link DeltaFifo}. It blocks if there are no events in the queue.
@@ -34,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable {
     private static final Logger LOG = LoggerFactory.getLogger(DeltaConsumer.class);
 
-    private final AtomicBoolean active = new AtomicBoolean(false);
+    private final WorkerThreadLifecycle lifecycle = new WorkerThreadLifecycle();
     private final DeltaFifo deltaQueue;
     private final Indexer<ApiType> indexer;
     private final SharedProcessor<ApiType> processor;
@@ -53,34 +51,45 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
 
     @Override
     public void run() {
-        LOG.debug("Starting delta consumer");
-        active.set(true);
-        while (active.get()) {
-            try {
-                deltaQueue.pop(this::handleDeltas);
-            } catch (InterruptedException e) {
-                LOG.warn("Delta consumer thread has been interrupted", e);
-                active.set(false);
-                Thread.currentThread().interrupt();
-            } catch (Exception e) {
-                LOG.error("Delta consumer recovered from crashing {}", e.getMessage(), e);
-            }
+        if (!lifecycle.registerCurrentThread()) {
+            return;
         }
-        LOG.debug("Stopping delta consumer");
+        LOG.debug("Starting delta consumer");
+        try {
+            while (!lifecycle.isStopped()) {
+                try {
+                    deltaQueue.pop(this::handleDeltas);
+                } catch (InterruptedException e) {
+                    if (!lifecycle.isStopped()) {
+                        LOG.warn("Delta consumer thread has been interrupted", e);
+                    }
+                    lifecycle.stop();
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    LOG.error("Delta consumer recovered from crashing {}", e.getMessage(), e);
+                }
+            }
+        } finally {
+            lifecycle.finish();
+            LOG.debug("Stopping delta consumer");
+        }
     }
 
+    /**
+     * Stops processing and wakes the worker if it is blocked waiting for an event.
+     */
     void stop() {
-        active.set(false);
+        lifecycle.stop();
     }
 
-    void handleDeltas(Deque<AbstractMap.SimpleEntry<DeltaFifo.DeltaType, KubernetesObject>> deltas) {
+    void handleDeltas(Deque<Delta> deltas) {
         if (CollectionUtils.isEmpty(deltas)) {
             return;
         }
 
         deltas.forEach(delta -> {
-            DeltaFifo.DeltaType deltaType = delta.getKey();
-            KubernetesObject object = delta.getValue();
+            DeltaFifo.DeltaType deltaType = delta.type();
+            KubernetesObject object = delta.object();
             ApiType transformedObject = transformFunc == null ? (ApiType) object : (ApiType) transformFunc.transform(object);
             switch (deltaType) {
                 case SYNC:
