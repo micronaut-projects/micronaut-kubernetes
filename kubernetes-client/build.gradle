@@ -31,6 +31,9 @@ dependencies {
         api('org.bouncycastle:bcpkix-jdk18on:1.86') {
             because 'Older versions have security vulnerabilities'
         }
+        api('com.google.guava:guava:33.7.2-jre') {
+            because 'GHSA-xxph-c9ww-hj94'
+        }
     }
 }
 
