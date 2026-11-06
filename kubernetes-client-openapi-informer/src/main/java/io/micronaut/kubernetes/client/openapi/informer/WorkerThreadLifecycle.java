@@ -15,48 +15,55 @@
  */
 package io.micronaut.kubernetes.client.openapi.informer;
 
-import org.jspecify.annotations.Nullable;
-
 /**
- * Coordinates registration and interruption of an informer worker thread.
- * A stop request is permanent, including when it arrives before registration.
+ * Tracks the thread-safe lifecycle state of an informer worker that can start only once.
+ * Shutdown is permanent, even when requested before startup. The caller is responsible
+ * for waking blocked processing; this class does not start or interrupt threads.
  */
 final class WorkerThreadLifecycle {
     private volatile boolean stopped;
-    private @Nullable Thread workerThread;
+    private boolean started;
 
     /**
-     * Registers the current thread unless shutdown was requested or another worker is registered.
+     * Claims permission to begin processing unless the worker has already started or stopped.
      *
-     * @return whether the current thread may begin processing
+     * @return whether the worker may begin processing
      */
-    synchronized boolean registerCurrentThread() {
-        if (stopped || workerThread != null) {
+    synchronized boolean tryStart() {
+        if (stopped || started) {
             return false;
         }
-        workerThread = Thread.currentThread();
+        started = true;
         return true;
     }
 
+    /**
+     * Reports whether shutdown has been requested or processing has finished.
+     *
+     * @return whether the worker should stop processing
+     */
     boolean isStopped() {
         return stopped;
     }
 
     /**
-     * Requests permanent shutdown and wakes the registered worker if it is blocked.
+     * Records a permanent shutdown request. Work in progress is allowed to finish;
+     * the caller must wake any blocked processing separately.
+     *
+     * @return whether this call requested shutdown for the first time
      */
-    synchronized void stop() {
-        stopped = true;
-        if (workerThread != null) {
-            workerThread.interrupt();
+    synchronized boolean stop() {
+        if (stopped) {
+            return false;
         }
+        stopped = true;
+        return true;
     }
 
     /**
-     * Marks the registered worker as terminated and releases its thread reference.
+     * Records that processing has finished and prevents subsequent startup.
      */
     synchronized void finish() {
         stopped = true;
-        workerThread = null;
     }
 }

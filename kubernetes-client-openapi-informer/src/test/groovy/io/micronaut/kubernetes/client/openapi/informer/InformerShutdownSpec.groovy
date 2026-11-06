@@ -4,12 +4,16 @@ import io.micronaut.core.type.Argument
 import io.micronaut.inject.ExecutableMethod
 import io.micronaut.kubernetes.client.openapi.informer.cache.Cache
 import io.micronaut.kubernetes.client.openapi.informer.handler.ResourceEventHandler
+import io.micronaut.kubernetes.client.openapi.model.V1ObjectMeta
 import io.micronaut.kubernetes.client.openapi.model.V1Pod
 import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil
 import reactor.core.publisher.Mono
 import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.Executors
 import java.util.concurrent.ThreadFactory
@@ -86,6 +90,96 @@ class InformerShutdownSpec extends Specification {
 
         where:
         listener << [true, false]
+    }
+
+    def 'listener shutdown lets an in-flight #event handler finish without interruption'() {
+        given:
+        def entered = new CountDownLatch(1)
+        def release = new CountDownLatch(1)
+        def completed = new AtomicBoolean()
+        def handle = {
+            entered.countDown()
+            assert release.await(5, TimeUnit.SECONDS)
+            completed.set(true)
+        }
+        def handler = Mock(ResourceEventHandler)
+        def listener = new ProcessorListener<V1Pod>(handler, 0)
+        def pod = new V1Pod()
+        def notification = event == 'add'
+            ? new ProcessorListener.AddNotification<>(pod)
+            : new ProcessorListener.UpdateNotification<>(pod, pod)
+        listener.add(notification)
+        def thread = new Thread(listener)
+
+        when:
+        thread.start()
+        assert entered.await(5, TimeUnit.SECONDS)
+        listener.add(notification)
+        listener.stop()
+        listener.stop()
+        release.countDown()
+        thread.join(5000)
+
+        then:
+        (event == 'add' ? 1 : 0) * handler.onAdd(_) >> { handle.call() }
+        (event == 'update' ? 1 : 0) * handler.onUpdate(_, _) >> { handle.call() }
+        completed.get()
+        !thread.alive
+        !thread.isInterrupted()
+
+        cleanup:
+        release.countDown()
+        listener.stop()
+        thread.interrupt()
+        thread.join(5000)
+
+        where:
+        event << ['add', 'update']
+    }
+
+    def 'delta consumer shutdown lets an in-flight transform finish without interruption'() {
+        given:
+        def entered = new CountDownLatch(1)
+        def release = new CountDownLatch(1)
+        def completed = new AtomicBoolean()
+        def cache = new Cache<V1Pod>()
+        def fifo = new DeltaFifo(cache)
+        def pod = new V1Pod().metadata(new V1ObjectMeta().name('pod'))
+        def transform = { object ->
+            entered.countDown()
+            assert release.await(5, TimeUnit.SECONDS)
+            completed.set(true)
+            object
+        } as TransformFunc
+        def consumer = new DeltaConsumer<V1Pod>(fifo, cache,
+            new SharedProcessor<V1Pod>(Executors.defaultThreadFactory()), transform)
+        fifo.add(DeltaFifo.DeltaType.ADDED, pod)
+        def thread = new Thread(consumer)
+        def shutdown = new Thread({ consumer.stop() })
+
+        when:
+        thread.start()
+        assert entered.await(5, TimeUnit.SECONDS)
+        shutdown.start()
+        new PollingConditions(timeout: 5).eventually {
+            assert shutdown.state == Thread.State.WAITING
+        }
+        release.countDown()
+        thread.join(5000)
+        shutdown.join(5000)
+
+        then:
+        completed.get()
+        cache.getByKey('pod').is(pod)
+        !thread.alive
+        !thread.isInterrupted()
+        !shutdown.alive
+
+        cleanup:
+        release.countDown()
+        thread.interrupt()
+        thread.join(5000)
+        shutdown.join(5000)
     }
 
     def 'informer shutdown terminates its listener and delta consumer threads'() {

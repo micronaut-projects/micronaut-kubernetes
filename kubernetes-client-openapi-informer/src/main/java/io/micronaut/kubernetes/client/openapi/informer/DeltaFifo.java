@@ -80,6 +80,8 @@ final class DeltaFifo {
 
     private final Condition notEmpty;
 
+    private boolean closed;
+
     DeltaFifo(Indexer<? extends KubernetesObject> store) {
         keyFunc = (Function<KubernetesObject, String>) store.getKeyFunction();
         this.store = store;
@@ -184,7 +186,8 @@ final class DeltaFifo {
 
     /**
      * Pops and passes deltas to the consumer function. If there is no items in the
-     * queue, the thread blocks until an item is added to the queue.
+     * queue, the thread blocks until an item is added or the queue is closed.
+     * Returns without invoking the consumer when closed.
      *
      * @param func the consumer function
      * @throws InterruptedException the exception
@@ -192,14 +195,31 @@ final class DeltaFifo {
     void pop(Consumer<Deque<Delta>> func) throws InterruptedException {
         lock.writeLock().lock();
         try {
-            while (queue.isEmpty()) {
+            while (queue.isEmpty() && !closed) {
                 notEmpty.await();
+            }
+            if (closed) {
+                return;
             }
             String id = queue.removeFirst();
             func.accept(items.remove(id));
             if (initialPopulationCount > 0) {
                 initialPopulationCount--;
             }
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * Wakes a waiting consumer and prevents subsequent pops from processing pending deltas.
+     * Any batch already being processed completes before this method returns.
+     */
+    void close() {
+        lock.writeLock().lock();
+        try {
+            closed = true;
+            notEmpty.signalAll();
         } finally {
             lock.writeLock().unlock();
         }

@@ -57,7 +57,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     @Override
     public void run() {
-        if (!lifecycle.registerCurrentThread()) {
+        if (!lifecycle.tryStart()) {
             return;
         }
         LOG.debug("Starting processor listener");
@@ -65,6 +65,9 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
             while (!lifecycle.isStopped()) {
                 try {
                     Notification notification = queue.take();
+                    if (lifecycle.isStopped()) {
+                        break;
+                    }
                     if (notification instanceof UpdateNotification<?> updateNotification) {
                         handler.onUpdate((ApiType) updateNotification.oldObject, (ApiType) updateNotification.newObject);
                     } else if (notification instanceof AddNotification<?> addNotification) {
@@ -95,7 +98,9 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
      * Stops processing and wakes the worker if it is blocked waiting for an event.
      */
     void stop() {
-        lifecycle.stop();
+        if (lifecycle.stop()) {
+            queue.offer(StopNotification.INSTANCE);
+        }
     }
 
     private void onDelete(Object deletedObject) {
@@ -130,6 +135,10 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
     }
 
     interface Notification {
+    }
+
+    private enum StopNotification implements Notification {
+        INSTANCE
     }
 
     record UpdateNotification<ApiType extends KubernetesObject>(

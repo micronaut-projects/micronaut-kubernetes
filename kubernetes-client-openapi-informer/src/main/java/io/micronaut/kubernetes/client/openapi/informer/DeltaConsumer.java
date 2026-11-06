@@ -51,7 +51,7 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
 
     @Override
     public void run() {
-        if (!lifecycle.registerCurrentThread()) {
+        if (!lifecycle.tryStart()) {
             return;
         }
         LOG.debug("Starting delta consumer");
@@ -80,6 +80,7 @@ final class DeltaConsumer<ApiType extends KubernetesObject> implements Runnable 
      */
     void stop() {
         lifecycle.stop();
+        deltaQueue.close();
     }
 
     void handleDeltas(Deque<Delta> deltas) {
