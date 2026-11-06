@@ -235,13 +235,22 @@ final class DefaultControllerFactory implements ControllerFactory {
                 LOG.trace("Waiting {}ms on informer to get synced", checkInterval);
                 Thread.sleep(checkInterval);
             } catch (InterruptedException e) {
-                LOG.error("The thread waiting on informers to be synced has been interrupted. Controller '{}' has not been started",
-                    controllerHolder.controller.getName(),
-                    e);
+                if (leadershipSession.get() != session) {
+                    LOG.debug("Controller '{}' startup cancelled after leadership was lost",
+                        controllerHolder.controller.getName(), e);
+                } else {
+                    LOG.error("The thread waiting on informers to be synced has been interrupted. Controller '{}' has not been started",
+                        controllerHolder.controller.getName(), e);
+                }
                 Thread.currentThread().interrupt();
                 return;
             }
             notSyncedInformers = getNotSyncedInformers(resourceEventHandlers);
+        }
+
+        if (leadershipSession.get() != session) {
+            LOG.debug("Controller '{}' startup cancelled after leadership was lost", controllerHolder.controller.getName());
+            return;
         }
 
         if (!notSyncedInformers.isEmpty()) {
