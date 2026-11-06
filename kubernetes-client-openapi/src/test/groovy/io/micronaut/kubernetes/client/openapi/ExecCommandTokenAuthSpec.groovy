@@ -35,10 +35,11 @@ users:
   - name: test-user
     user:
       exec:
-        apiVersion: client.authentication.k8s.io/v1beta1
+        apiVersion: client.authentication.k8s.io/%s
+        interactiveMode: Never
         command: curl
         args:
-          - %s/credential
+          - %s/credential/%s
         env:
           - name: test-env-name
             value: test-env-value
@@ -71,9 +72,9 @@ current-context: test-context
         }
     }
 
-    def 'list pods when token authentication is used'() {
+    def 'list pods using exec credential #version'() {
         given:
-        kubeConfigFile.toFile().text = KUBE_CONFIG.formatted(server.URL, server.URL)
+        kubeConfigFile.toFile().text = KUBE_CONFIG.formatted(server.URL, version, server.URL, version)
         ApplicationContext clientContext = ApplicationContext.run([
                 'kubernetes.client.kube-config-path': "file:" + kubeConfigFile.toString()
         ])
@@ -87,6 +88,9 @@ current-context: test-context
 
         cleanup:
         clientContext.close()
+
+        where:
+        version << ['v1', 'v1beta1']
     }
 
     @Controller
@@ -100,11 +104,11 @@ current-context: test-context
 
         }
 
-        @Get("/credential")
-        ExecCredential execCredential() {
+        @Get("/credential/{version}")
+        ExecCredential execCredential(String version) {
             ZonedDateTime expirationTimestamp = ZonedDateTime.now(ZoneId.of("UTC")).plusMinutes(5)
             ExecCredentialStatus status = new ExecCredentialStatus("test-token", null, null, expirationTimestamp)
-            return new ExecCredential("client.authentication.k8s.io/v1beta1", "ExecCredential", status)
+            return new ExecCredential("client.authentication.k8s.io/" + version, "ExecCredential", status)
         }
     }
 }

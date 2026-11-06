@@ -24,7 +24,6 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Runs in background and executes its event handler on notifications.
@@ -40,7 +39,7 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     private static final Logger LOG = LoggerFactory.getLogger(ProcessorListener.class);
 
-    private final AtomicBoolean active = new AtomicBoolean(false);
+    private final WorkerThreadLifecycle lifecycle = new WorkerThreadLifecycle();
 
     private final BlockingQueue<Notification> queue = new LinkedBlockingQueue<>();
 
@@ -58,30 +57,50 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
 
     @Override
     public void run() {
-        LOG.debug("Starting processor listener");
-        active.set(true);
-        while (active.get()) {
-            try {
-                Notification notification = queue.take();
-                if (notification instanceof UpdateNotification<?> updateNotification) {
-                    handler.onUpdate((ApiType) updateNotification.oldObject, (ApiType) updateNotification.newObject);
-                } else if (notification instanceof AddNotification<?> addNotification) {
-                    handler.onAdd((ApiType) addNotification.object);
-                } else if (notification instanceof DeleteNotification<?> deleteNotification) {
-                    onDelete(deleteNotification.object);
-                } else {
-                    LOG.error("Unrecognized notification: {}", notification);
-                }
-            } catch (InterruptedException e) {
-                LOG.warn("Processor listener thread has been interrupted", e);
-                active.set(false);
-                Thread.currentThread().interrupt();
-            } catch (Exception e) {
-                // Catch all exceptions here so that listeners won't quit unexpectedly
-                LOG.error("Failed invoking event handler", e);
-            }
+        if (!lifecycle.tryStart()) {
+            return;
         }
-        LOG.debug("Stopping processor listener");
+        LOG.debug("Starting processor listener");
+        try {
+            while (!lifecycle.isStopped()) {
+                try {
+                    Notification notification = queue.take();
+                    if (lifecycle.isStopped()) {
+                        break;
+                    }
+                    if (notification instanceof UpdateNotification<?> updateNotification) {
+                        handler.onUpdate((ApiType) updateNotification.oldObject, (ApiType) updateNotification.newObject);
+                    } else if (notification instanceof AddNotification<?> addNotification) {
+                        handler.onAdd((ApiType) addNotification.object);
+                    } else if (notification instanceof DeleteNotification<?> deleteNotification) {
+                        onDelete(deleteNotification.object);
+                    } else {
+                        LOG.error("Unrecognized notification: {}", notification);
+                    }
+                } catch (InterruptedException e) {
+                    if (!lifecycle.isStopped()) {
+                        LOG.warn("Processor listener thread has been interrupted", e);
+                    }
+                    lifecycle.stop();
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    // Catch all exceptions here so that listeners won't quit unexpectedly
+                    LOG.error("Failed invoking event handler", e);
+                }
+            }
+        } finally {
+            lifecycle.finish();
+            LOG.debug("Stopping processor listener");
+        }
+    }
+
+    /**
+     * Stops processing and wakes the worker if it is blocked waiting for an event.
+     */
+    void stop() {
+        if (lifecycle.stop()) {
+            queue.offer(StopNotification.INSTANCE);
+        }
     }
 
     private void onDelete(Object deletedObject) {
@@ -93,10 +112,6 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
         } else {
             handler.onDelete((ApiType) deletedObject, false);
         }
-    }
-
-    void stop() {
-        active.set(false);
     }
 
     void add(Notification obj) {
@@ -120,6 +135,10 @@ final class ProcessorListener<ApiType extends KubernetesObject> implements Runna
     }
 
     interface Notification {
+    }
+
+    private enum StopNotification implements Notification {
+        INSTANCE
     }
 
     record UpdateNotification<ApiType extends KubernetesObject>(

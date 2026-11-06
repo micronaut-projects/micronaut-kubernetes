@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -80,8 +81,13 @@ final class KubernetesDiscoveryUtils {
                                                 @Nullable Integer portNumber,
                                                 String address,
                                                 V1ObjectMeta metadata) {
-        String scheme = isPortSecure(portName, portNumber) || isMetadataSecure(metadata) ? "https://" : "http://";
-        URI uri = portNumber == null ? URI.create(scheme + address) : URI.create(scheme + address + ":" + portNumber);
+        String scheme = isPortSecure(portName, portNumber) || isMetadataSecure(metadata) ? "https" : "http";
+        URI uri;
+        try {
+            uri = new URI(scheme, null, address, portNumber == null ? -1 : portNumber, null, null, null);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid discovery address: " + address, e);
+        }
         LOG.trace("Building ServiceInstance for serviceId [{}] and URI [{}] with metadata [{}]", serviceId, uri, metadata);
         return ServiceInstance
             .builder(serviceId, uri)

@@ -96,7 +96,7 @@ final class ImportDeclarationWatchIndex {
     }
 
     /**
-     * Increments the refresh count when the given ConfigMap matches a watched import declaration.
+     * Increments the refresh count for every watched import declaration matching the given ConfigMap.
      *
      * @param objectName The ConfigMap name
      * @param objectLabels The ConfigMap labels
@@ -108,7 +108,7 @@ final class ImportDeclarationWatchIndex {
     }
 
     /**
-     * Increments the refresh count when the given Secret matches a watched import declaration.
+     * Increments the refresh count for every watched import declaration matching the given Secret.
      *
      * @param objectName The Secret name
      * @param objectLabels The Secret labels
@@ -122,7 +122,8 @@ final class ImportDeclarationWatchIndex {
     private static boolean updateRefreshCountIfWatched(Map<SelectorKey, ImportDeclaration> index,
                                                        String objectName,
                                                        Map<String, String> objectLabels) {
-        return index.entrySet().stream().anyMatch(entry -> {
+        boolean updated = false;
+        for (var entry : index.entrySet()) {
             SelectorKey key = entry.getKey();
             boolean matchesName = key instanceof SelectorKey.NameKey(String name)
                 && Objects.equals(objectName, name);
@@ -133,11 +134,11 @@ final class ImportDeclarationWatchIndex {
                 AtomicInteger refreshCount = REFRESH_COUNT.get(entry.getValue());
                 if (refreshCount != null) {
                     refreshCount.incrementAndGet();
-                    return true;
+                    updated = true;
                 }
             }
-            return false;
-        });
+        }
+        return updated;
     }
 
     /**

@@ -73,6 +73,7 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
     private TransformFunc transformFunc;
 
     private volatile boolean started = false;
+    private boolean stopped;
 
     DefaultSharedIndexInformer(Class<ApiType> apiTypeClass,
                                @Nullable String namespace,
@@ -98,8 +99,8 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
     }
 
     @Override
-    public void run() {
-        if (started) {
+    public synchronized void run() {
+        if (started || stopped) {
             return;
         }
         started = true;
@@ -120,7 +121,8 @@ final class DefaultSharedIndexInformer<ApiType extends KubernetesObject> impleme
     }
 
     @Override
-    public void stop() {
+    public synchronized void stop() {
+        stopped = true;
         if (!started) {
             return;
         }
