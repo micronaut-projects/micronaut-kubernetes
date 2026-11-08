@@ -1,9 +1,9 @@
 [versions]
-micronaut-platform = "5.2.2"
-micronaut = "5.2.16"
+micronaut-platform = "5.2.5"
+micronaut = "5.2.22"
 micronaut-gradle-plugin = "5.0.2"
 
-graal-svm = "25.0.4.1.1"
+graal-svm = "25.0.5"
 javapoet = '1.13.0'
 rxjava3 = '3.1.12'
 shadow = '9.6.1'
@@ -16,17 +16,17 @@ awaitility = '4.3.0'
 
 micronaut-discovery = "5.2.0"
 micronaut-reactor = "4.3.0"
-micronaut-serde = "3.2.4"
+micronaut-serde = "3.2.6"
 micronaut-validation = "5.2.1"
 micronaut-openapi = "7.3.0"
-micronaut-micrometer = "6.1.0"
+micronaut-micrometer = "6.1.2"
 
 [libraries]
 # Core
 micronaut-core = { module = 'io.micronaut:micronaut-core-bom', version.ref = 'micronaut' }
-micronaut-platform = { module = 'io.micronaut.platform:micronaut-platform', version.ref = 'micronaut-platform' }
+micronaut-platform = "5.2.5"
 
-graal-svm = { module = "org.graalvm.nativeimage:svm", version.ref = "graal-svm" }
+graal-svm = "25.0.5"
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet"  }
 rxjava3 = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava3" }
 system-lambda = { module = "com.github.stefanbirkner:system-lambda", version.ref = "system-lambda" }
@@ -39,10 +39,10 @@ bucket4j = { module = "com.bucket4j:bucket4j-core", version.ref = "bucket4j" }
 awaitility = { module = "org.awaitility:awaitility", version.ref = "awaitility" }
 
 micronaut-reactor = { module = 'io.micronaut.reactor:micronaut-reactor-bom', version.ref = "micronaut-reactor" }
-micronaut-serde = { module = 'io.micronaut.serde:micronaut-serde-bom', version.ref = 'micronaut-serde'}
+micronaut-serde = "3.2.6"
 micronaut-validation = { module = 'io.micronaut.validation:micronaut-validation-bom', version.ref = 'micronaut-validation'}
 micronaut-openapi = { module = 'io.micronaut.openapi:micronaut-openapi-bom', version.ref = 'micronaut-openapi'}
-micronaut-micrometer = { module = "io.micronaut.micrometer:micronaut-micrometer-bom", version.ref = "micronaut-micrometer" }
+micronaut-micrometer = "6.1.2"
 
 micronaut-discovery-client = { module = "io.micronaut.discovery:micronaut-discovery-client", version.ref = "micronaut-discovery" }
 
