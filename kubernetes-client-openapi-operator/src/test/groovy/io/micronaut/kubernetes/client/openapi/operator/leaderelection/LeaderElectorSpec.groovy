@@ -1,6 +1,10 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.context.event.ApplicationEventPublisher
+import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration
+import io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcelock.Lock
+import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil
 import io.micronaut.context.ApplicationContextBuilder
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Primary
@@ -28,6 +32,12 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.util.concurrent.PollingConditions
 
+import java.time.Duration
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BiPredicate
@@ -47,6 +57,71 @@ class LeaderElectorSpec extends K3sContainerSpec {
     @Override
     Logger getLogger() {
         return LOG
+    }
+
+    def 'lease acquisition is delivered before a subsequent renewal failure'() {
+        given:
+        def context = ApplicationContext.run([
+            'kubernetes.client.kube-config-path': 'file:' + kubeConfigFile,
+            'kubernetes.client.operator.leader-election.lock.enabled': false,
+            'spec.name': 'LeaderElectorSpec',
+            'spec.part': 'context1',
+            'kubernetes.client.operator.leader-election.lock.resource-name': 'event-order-lock',
+            'kubernetes.client.operator.leader-election.lock.resource-kind': 'lease',
+            'kubernetes.client.operator.leader-election.lock.resource-namespace': 'default'
+        ], Environment.KUBERNETES)
+        def lock = context.getBean(Lock)
+        def configuration = Stub(LeaderElectionConfiguration) {
+            getLeaseDuration() >> Duration.ofSeconds(3)
+            getRenewDeadline() >> Duration.ofMillis(300)
+            getRetryPeriod() >> Duration.ofMillis(50)
+        }
+        def events = new CopyOnWriteArrayList<String>()
+        def deferredAcquisitions = new CopyOnWriteArrayList<Object>()
+        def lost = new CountDownLatch(1)
+        def acquiredPublisher = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> { event ->
+                events.add('acquired')
+            }
+            publishEventAsync(_) >> { event ->
+                deferredAcquisitions.add(event)
+                CompletableFuture.completedFuture(null)
+            }
+        }
+        def lostPublisher = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> {
+                events.add('lost')
+                lost.countDown()
+                // End the next acquisition attempt after observing one full session.
+                Thread.currentThread().interrupt()
+            }
+        }
+        // Transfer the lock to an unexpired contender before the renewal worker runs.
+        def transitions = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> { event ->
+                def now = new Date()
+                assert lock.update(new LeaderElectionRecord('other-instance', 3, now, now, 1))
+            }
+        }
+        def elector = new LeaderElector(configuration, lock, acquiredPublisher, lostPublisher,
+            transitions, new ThreadFactoryUtil(Executors.defaultThreadFactory()))
+        def thread = new Thread(elector::run)
+
+        when:
+        thread.start()
+        assert lost.await(5, TimeUnit.SECONDS)
+        thread.join(5000)
+
+        then:
+        events == ['acquired', 'lost']
+        deferredAcquisitions.empty
+        !thread.alive
+
+        cleanup:
+        thread?.interrupt()
+        thread?.join(5000)
+        elector?.stop()
+        context?.close()
     }
 
     def 'test leader election when lease lock is used'() {
