@@ -1,6 +1,7 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.core.annotation.Order
 import io.micronaut.context.event.ApplicationEventPublisher
 import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcelock.Lock
@@ -22,6 +23,7 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFact
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
+import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseLostEvent
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaderChangedEvent
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQueue
@@ -186,6 +188,40 @@ class LeaderElectorSpec extends K3sContainerSpec {
         thread?.join(5000)
         elector?.stop()
         context?.close()
+    }
+
+    def 'controller lifecycle handles #eventType before a failing user listener'() {
+        given:
+        def context = ApplicationContext.run([
+            'kubernetes.client.kube-config-path': 'file:' + kubeConfigFile,
+            'kubernetes.client.operator.leader-election.lock.enabled': false,
+            'spec.name': 'LeaderElectorSpec',
+            'spec.part': 'context1',
+            'spec.throw-lease-listener': true,
+            'kubernetes.client.operator.leader-election.lock.resource-name': 'listener-order-lock',
+            'kubernetes.client.operator.leader-election.lock.resource-namespace': 'default'
+        ], Environment.KUBERNETES)
+        def factory = getFactory(context)
+        def controller = factory.createController('listener-order-controller')
+        def record = new LeaderElectionRecord()
+        def event = eventType == 'acquisition' ? new LeaseAcquiredEvent(record) : new LeaseLostEvent(record)
+        if (eventType == 'loss') {
+            factory.startControllers()
+        }
+
+        when:
+        context.publishEvent(event)
+
+        then:
+        def error = thrown(IllegalStateException)
+        error.message == 'User lease listener failed'
+        controller.isRunning() == (eventType == 'acquisition')
+
+        cleanup:
+        context?.close()
+
+        where:
+        eventType << ['acquisition', 'loss']
     }
 
     def 'test leader election when lease lock is used'() {
@@ -504,6 +540,23 @@ class LeaderElectorSpec extends K3sContainerSpec {
 
         @Override
         void stopAllRegisteredInformers() {}
+    }
+
+    @Singleton
+    @Requires(property = 'spec.throw-lease-listener', value = 'true')
+    // Runs before default-order listeners, but after the controller lifecycle handlers.
+    private static class ThrowingLeaseListener {
+        @EventListener
+        @Order(-1)
+        void acquired(LeaseAcquiredEvent event) {
+            throw new IllegalStateException('User lease listener failed')
+        }
+
+        @EventListener
+        @Order(-1)
+        void lost(LeaseLostEvent event) {
+            throw new IllegalStateException('User lease listener failed')
+        }
     }
 
     @Singleton

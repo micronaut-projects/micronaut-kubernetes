@@ -16,6 +16,8 @@
 package io.micronaut.kubernetes.client.openapi.operator.controller;
 
 import io.micronaut.context.annotation.Requires;
+import io.micronaut.core.annotation.Order;
+import io.micronaut.core.order.Ordered;
 import io.micronaut.kubernetes.client.openapi.config.KubernetesClientConfiguration;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent;
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseLostEvent;
@@ -26,6 +28,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Manages lifecycle of registered controllers using leader elector implementation.
+ * Handles lease events at highest precedence so failures in lower-priority user
+ * listeners cannot prevent controller startup or shutdown.
  */
 @Singleton
 @Requires(beans = KubernetesClientConfiguration.class)
@@ -39,12 +43,14 @@ final class ControllersLifecycleListener {
     }
 
     @EventListener
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     void startControllers(LeaseAcquiredEvent leaseAcquiredEvent) {
         LOG.info("Lease acquired, starting controllers");
         controllerFactory.startControllers();
     }
 
     @EventListener
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     void stopControllers(LeaseLostEvent leaseLostEvent) {
         LOG.info("Lease lost, stopping controllers");
         controllerFactory.stopControllers();
