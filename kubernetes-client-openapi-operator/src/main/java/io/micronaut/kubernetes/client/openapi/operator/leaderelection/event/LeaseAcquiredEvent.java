@@ -20,6 +20,12 @@ import io.micronaut.kubernetes.client.openapi.operator.leaderelection.LeaderElec
 /**
  * Event fired when this service instance has become a leader.
  *
+ * <p>Listeners are invoked synchronously on the leader-election thread before lease
+ * renewal begins. They must return quickly and delegate long-running work to another
+ * executor to avoid delaying renewal beyond the lease duration. Deferred work that
+ * requires leadership must be cancelled when {@link LeaseLostEvent} is received.
+ * Listener exceptions are logged without ending the lease renewal cycle.
+ *
  * @param leaderElectionRecord the leader election record
  */
 public record LeaseAcquiredEvent(LeaderElectionRecord leaderElectionRecord) {
