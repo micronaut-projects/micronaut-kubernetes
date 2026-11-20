@@ -90,7 +90,13 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="modifiers">public record </span><span class="element-name type-name-label">LeaseAcquiredEvent</span>(<a href="../LeaderElectionRecord.html" title="class in io.micronaut.kubernetes.client.openapi.operator.leaderelection">LeaderElectionRecord</a>&nbsp;leaderElectionRecord)
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Record.html" title="class or interface in java.lang" class="external-link">Record</a></span></div>
-<div class="block">Event fired when this service instance has become a leader.</div>
+<div class="block">Event fired when this service instance has become a leader.
+
+<p>Listeners are invoked synchronously on the leader-election thread before lease
+renewal begins. They must return quickly and delegate long-running work to another
+executor to avoid delaying renewal beyond the lease duration. Deferred work that
+requires leadership must be cancelled when <a href="LeaseLostEvent.html" title="class in io.micronaut.kubernetes.client.openapi.operator.leaderelection.event"><code>LeaseLostEvent</code></a> is received.
+Listener exceptions are logged without ending the lease renewal cycle.</div>
 </div>
 </section>
 <section class="summary">
