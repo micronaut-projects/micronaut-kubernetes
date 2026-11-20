@@ -74,6 +74,41 @@ class KubeConfigSpec extends Specification {
         kubeConfig.getUser().token() == "test-token"
     }
 
+    def 'accepts exec credential API version #version'() {
+        given:
+        def exec = [apiVersion: "client.authentication.k8s.io/$version".toString(),
+                    command: 'test-command', interactiveMode: 'Never',
+                    args: ['test-arg'], env: [[name: 'TEST_ENV', value: 'test-value']]]
+        def map = CLUSTER_MAP + [users: [[name: 'test-user', user: [exec: exec]]]]
+
+        when:
+        def kubeConfig = new KubeConfig('', map)
+
+        then:
+        kubeConfig.isExecCommandProvided()
+        kubeConfig.user.exec().apiVersion() == exec.apiVersion
+        kubeConfig.user.exec().command() == 'test-command'
+        kubeConfig.user.exec().args() == ['test-arg']
+        kubeConfig.user.exec().env().first().name() == 'TEST_ENV'
+        kubeConfig.user.exec().env().first().value() == 'test-value'
+
+        where:
+        version << ['v1', 'v1beta1', 'v1alpha1']
+    }
+
+    def 'rejects unsupported exec credential API versions'() {
+        given:
+        def exec = [apiVersion: 'client.authentication.k8s.io/v2', command: 'test-command']
+        def map = CLUSTER_MAP + [users: [[name: 'test-user', user: [exec: exec]]]]
+
+        when:
+        new KubeConfig('', map)
+
+        then:
+        def error = thrown(IllegalArgumentException)
+        error.message == 'Unrecognized users.user.exec.apiVersion: client.authentication.k8s.io/v2'
+    }
+
     def 'validate invalid contexts section in kube config'() {
         when:
         new KubeConfig("", map)

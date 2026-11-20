@@ -212,7 +212,8 @@ public final class KubeConfig {
             return null;
         }
         String apiVersion = requireField((String) execMap.get("apiVersion"), "apiVersion", "users.user.exec");
-        if (!"client.authentication.k8s.io/v1beta1".equals(apiVersion)
+        if (!"client.authentication.k8s.io/v1".equals(apiVersion)
+            && !"client.authentication.k8s.io/v1beta1".equals(apiVersion)
             && !"client.authentication.k8s.io/v1alpha1".equals(apiVersion)) {
             throw new IllegalArgumentException("Unrecognized users.user.exec.apiVersion: " + apiVersion);
         }

@@ -1,6 +1,11 @@
 package io.micronaut.kubernetes.client.openapi.operator.leaderelection
 
 import io.micronaut.context.ApplicationContext
+import io.micronaut.core.annotation.Order
+import io.micronaut.context.event.ApplicationEventPublisher
+import io.micronaut.kubernetes.client.openapi.operator.configuration.LeaderElectionConfiguration
+import io.micronaut.kubernetes.client.openapi.operator.leaderelection.resourcelock.Lock
+import io.micronaut.kubernetes.client.openapi.util.ThreadFactoryUtil
 import io.micronaut.context.ApplicationContextBuilder
 import io.micronaut.context.annotation.Context
 import io.micronaut.context.annotation.Primary
@@ -18,6 +23,8 @@ import io.micronaut.kubernetes.client.openapi.operator.controller.ControllerFact
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Request
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.ResourceReconciler
 import io.micronaut.kubernetes.client.openapi.operator.controller.reconciler.Result
+import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseLostEvent
+import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaseAcquiredEvent
 import io.micronaut.kubernetes.client.openapi.operator.leaderelection.event.LeaderChangedEvent
 import io.micronaut.kubernetes.client.openapi.operator.workqueue.RateLimitingQueue
 import io.micronaut.kubernetes.client.openapi.resolver.PodNameResolver
@@ -28,7 +35,15 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import spock.util.concurrent.PollingConditions
 
+import java.time.Duration
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.CopyOnWriteArrayList
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicReference
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BiPredicate
 import java.util.function.Function
@@ -47,6 +62,166 @@ class LeaderElectorSpec extends K3sContainerSpec {
     @Override
     Logger getLogger() {
         return LOG
+    }
+
+    def 'lease acquisition is delivered before a subsequent renewal failure'() {
+        given:
+        def context = ApplicationContext.run([
+            'kubernetes.client.kube-config-path': 'file:' + kubeConfigFile,
+            'kubernetes.client.operator.leader-election.lock.enabled': false,
+            'spec.name': 'LeaderElectorSpec',
+            'spec.part': 'context1',
+            'kubernetes.client.operator.leader-election.lock.resource-name': 'event-order-lock',
+            'kubernetes.client.operator.leader-election.lock.resource-kind': 'lease',
+            'kubernetes.client.operator.leader-election.lock.resource-namespace': 'default'
+        ], Environment.KUBERNETES)
+        def lock = context.getBean(Lock)
+        def configuration = Stub(LeaderElectionConfiguration) {
+            getLeaseDuration() >> Duration.ofSeconds(3)
+            getRenewDeadline() >> Duration.ofMillis(300)
+            getRetryPeriod() >> Duration.ofMillis(50)
+        }
+        def events = new CopyOnWriteArrayList<String>()
+        def deferredAcquisitions = new CopyOnWriteArrayList<Object>()
+        def lost = new CountDownLatch(1)
+        def acquiredPublisher = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> { event ->
+                events.add('acquired')
+            }
+            publishEventAsync(_) >> { event ->
+                deferredAcquisitions.add(event)
+                CompletableFuture.completedFuture(null)
+            }
+        }
+        def lostPublisher = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> {
+                events.add('lost')
+                lost.countDown()
+                // End the next acquisition attempt after observing one full session.
+                Thread.currentThread().interrupt()
+            }
+        }
+        // Transfer the lock to an unexpired contender before the renewal worker runs.
+        def transitions = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> { event ->
+                def now = new Date()
+                assert lock.update(new LeaderElectionRecord('other-instance', 3, now, now, 1))
+            }
+        }
+        def elector = new LeaderElector(configuration, lock, acquiredPublisher, lostPublisher,
+            transitions, new ThreadFactoryUtil(Executors.defaultThreadFactory()))
+        def thread = new Thread(elector::run)
+
+        when:
+        thread.start()
+        assert lost.await(5, TimeUnit.SECONDS)
+        thread.join(5000)
+
+        then:
+        events == ['acquired', 'lost']
+        deferredAcquisitions.empty
+        !thread.alive
+
+        cleanup:
+        thread?.interrupt()
+        thread?.join(5000)
+        elector?.stop()
+        context?.close()
+    }
+
+    def 'a failing acquisition listener does not prevent lease renewal or report lease loss'() {
+        given:
+        def context = ApplicationContext.run([
+            'kubernetes.client.kube-config-path': 'file:' + kubeConfigFile,
+            'kubernetes.client.operator.leader-election.lock.enabled': false,
+            'spec.name': 'LeaderElectorSpec',
+            'spec.part': 'context1',
+            'kubernetes.client.operator.leader-election.lock.resource-name': 'listener-failure-lock',
+            'kubernetes.client.operator.leader-election.lock.resource-kind': 'lease',
+            'kubernetes.client.operator.leader-election.lock.resource-namespace': 'default'
+        ], Environment.KUBERNETES)
+        def lock = context.getBean(Lock)
+        def renewalStarted = new CountDownLatch(1)
+        def electionThread = new AtomicReference<Thread>()
+        def configuration = Stub(LeaderElectionConfiguration) {
+            getLeaseDuration() >> Duration.ofSeconds(3)
+            getRenewDeadline() >> {
+                if (Thread.currentThread().is(electionThread.get())) {
+                    renewalStarted.countDown()
+                }
+                Duration.ofMillis(300)
+            }
+            getRetryPeriod() >> Duration.ofMillis(50)
+        }
+        def acquisitions = new AtomicInteger()
+        def losses = new AtomicInteger()
+        def acquiredRecord = new AtomicReference<LeaderElectionRecord>()
+        def acquiredPublisher = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> { LeaseAcquiredEvent event ->
+                acquisitions.incrementAndGet()
+                acquiredRecord.set(event.leaderElectionRecord())
+                throw new IllegalStateException('Acquisition listener failed')
+            }
+        }
+        def lostPublisher = Stub(ApplicationEventPublisher) {
+            publishEvent(_) >> { losses.incrementAndGet() }
+        }
+        def elector = new LeaderElector(configuration, lock, acquiredPublisher, lostPublisher,
+            Stub(ApplicationEventPublisher), new ThreadFactoryUtil(Executors.defaultThreadFactory()))
+        def thread = new Thread(elector::run)
+        electionThread.set(thread)
+
+        when:
+        thread.start()
+
+        then:
+        assert renewalStarted.await(5, TimeUnit.SECONDS)
+        new PollingConditions(timeout: 5).eventually {
+            assert lock.get().renewTime().after(acquiredRecord.get().renewTime())
+        }
+        acquisitions.get() == 1
+        losses.get() == 0
+        thread.alive
+
+        cleanup:
+        thread?.interrupt()
+        thread?.join(5000)
+        elector?.stop()
+        context?.close()
+    }
+
+    def 'controller lifecycle handles #eventType before a failing user listener'() {
+        given:
+        def context = ApplicationContext.run([
+            'kubernetes.client.kube-config-path': 'file:' + kubeConfigFile,
+            'kubernetes.client.operator.leader-election.lock.enabled': false,
+            'spec.name': 'LeaderElectorSpec',
+            'spec.part': 'context1',
+            'spec.throw-lease-listener': true,
+            'kubernetes.client.operator.leader-election.lock.resource-name': 'listener-order-lock',
+            'kubernetes.client.operator.leader-election.lock.resource-namespace': 'default'
+        ], Environment.KUBERNETES)
+        def factory = getFactory(context)
+        def controller = factory.createController('listener-order-controller')
+        def record = new LeaderElectionRecord()
+        def event = eventType == 'acquisition' ? new LeaseAcquiredEvent(record) : new LeaseLostEvent(record)
+        if (eventType == 'loss') {
+            factory.startControllers()
+        }
+
+        when:
+        context.publishEvent(event)
+
+        then:
+        def error = thrown(IllegalStateException)
+        error.message == 'User lease listener failed'
+        controller.isRunning() == (eventType == 'acquisition')
+
+        cleanup:
+        context?.close()
+
+        where:
+        eventType << ['acquisition', 'loss']
     }
 
     def 'test leader election when lease lock is used'() {
@@ -365,6 +540,23 @@ class LeaderElectorSpec extends K3sContainerSpec {
 
         @Override
         void stopAllRegisteredInformers() {}
+    }
+
+    @Singleton
+    @Requires(property = 'spec.throw-lease-listener', value = 'true')
+    // Runs before default-order listeners, but after the controller lifecycle handlers.
+    private static class ThrowingLeaseListener {
+        @EventListener
+        @Order(-1)
+        void acquired(LeaseAcquiredEvent event) {
+            throw new IllegalStateException('User lease listener failed')
+        }
+
+        @EventListener
+        @Order(-1)
+        void lost(LeaseLostEvent event) {
+            throw new IllegalStateException('User lease listener failed')
+        }
     }
 
     @Singleton

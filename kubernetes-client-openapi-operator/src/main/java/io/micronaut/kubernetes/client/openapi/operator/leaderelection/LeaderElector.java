@@ -129,7 +129,12 @@ final class LeaderElector {
                 if (observedRecord == null) {
                     throw new IllegalStateException("Unexpected state - leader election record not found");
                 }
-                leaseAcquiredEventPublisher.publishEventAsync(new LeaseAcquiredEvent(observedRecord));
+                // Deliver acquisition before renewal can fail and publish a lease-lost event.
+                try {
+                    leaseAcquiredEventPublisher.publishEvent(new LeaseAcquiredEvent(observedRecord));
+                } catch (Exception e) {
+                    LOG.error("Failed to notify lease acquisition listeners; lease renewal will continue", e);
+                }
                 renewLoop();
                 LOG.info("Failed to renew lease, lose leadership");
             } catch (Exception e) {

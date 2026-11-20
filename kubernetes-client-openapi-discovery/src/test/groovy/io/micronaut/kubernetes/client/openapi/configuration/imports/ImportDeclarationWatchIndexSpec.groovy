@@ -58,6 +58,40 @@ class ImportDeclarationWatchIndexSpec extends Specification {
         ImportDeclarationWatchIndex.getRefreshCount(labelsDeclaration).get() == 1
     }
 
+    void "refreshes every overlapping import for #type"() {
+        given:
+        def nameDeclaration = new ImportDeclaration(type, 'orders', null, null, true, false, false)
+        def labelsDeclaration = new ImportDeclaration(type, null, [app: 'demo'], null, true, false, false)
+        def specificLabelsDeclaration = new ImportDeclaration(type, null, [app: 'demo', env: 'test'], null, true, false, false)
+        def unrelatedDeclaration = new ImportDeclaration(type, null, [app: 'other'], null, true, false, false)
+        if (type == 'config-map') {
+            ImportDeclarationWatchIndex.addConfigMapNameDeclaration('orders', nameDeclaration)
+            [labelsDeclaration, specificLabelsDeclaration, unrelatedDeclaration].each {
+                ImportDeclarationWatchIndex.addConfigMapLabelsDeclaration(it.labels(), it)
+            }
+        } else {
+            ImportDeclarationWatchIndex.addSecretNameDeclaration('orders', nameDeclaration)
+            [labelsDeclaration, specificLabelsDeclaration, unrelatedDeclaration].each {
+                ImportDeclarationWatchIndex.addSecretLabelsDeclaration(it.labels(), it)
+            }
+        }
+
+        when:
+        def watched = type == 'config-map'
+            ? ImportDeclarationWatchIndex.updateRefreshCountIfConfigMapWatched('orders', [app: 'demo', env: 'test'])
+            : ImportDeclarationWatchIndex.updateRefreshCountIfSecretWatched('orders', [app: 'demo', env: 'test'])
+
+        then:
+        watched
+        ImportDeclarationWatchIndex.getRefreshCount(nameDeclaration).get() == 1
+        ImportDeclarationWatchIndex.getRefreshCount(labelsDeclaration).get() == 1
+        ImportDeclarationWatchIndex.getRefreshCount(specificLabelsDeclaration).get() == 1
+        ImportDeclarationWatchIndex.getRefreshCount(unrelatedDeclaration).get() == 0
+
+        where:
+        type << ['config-map', 'secret']
+    }
+
     void "does not increment refresh count when resource is not watched"() {
         given:
         def declaration = new ImportDeclaration('config-map', 'orders', null, null, true, false, false)
